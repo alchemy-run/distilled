@@ -1,0 +1,40 @@
+{
+  "description": "Type the not-initialized state of an organization's webhooks: before initializeWebhooks runs, getWebhookControllerInitializationStatus answers HTTP 404 \"Webhook initialization status not found\" (observed live 2026-11-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.webhooks#WebhooksNotInitialized",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Webhooks have not been initialized for this organization (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "initialization status not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.webhooks#WebhookControllerGetInitializationStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.webhooks#WebhooksNotInitialized"
+        }
+      ]
+    }
+  ]
+}

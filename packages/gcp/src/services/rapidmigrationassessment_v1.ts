@@ -103,66 +103,61 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type AnnotationTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_LEGACY_EXPORT_CONSENT" | "TYPE_QWIKLAB";
 export type StringMap = { [key: string]: string | undefined };
+export type AnnotationTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_LEGACY_EXPORT_CONSENT" | "TYPE_QWIKLAB";
 /** Message describing an Annotation */
 export interface Annotation {
-  /** Output only. Create time stamp. */
-  createTime?: string;
-  /** Output only. Update time stamp. */
-  updateTime?: string;
-  /** Type of an annotation. */
-  type?: AnnotationTypeEnum | (string & {});
-  /** Labels as key value pairs. */
-  labels?: StringMap;
   /** name of resource. */
-  name?: string;
+  name?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Type of an annotation. */
+  type?: AnnotationTypeEnum | (string & {}) | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAnnotationsRequest {
   /** Required. Name of the parent (project+location). */
   parent: string;
   /** Optional. An optional request ID to identify requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Annotation;
+  body?: Annotation | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-}
-/** Message describing a MC Source of type Guest OS Scan. */
-export interface GuestOsScan {
-  /** reference to the corresponding Guest OS Scan in MC Source. */
-  coreSource?: string;
+  done?: boolean | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 /** Message describing a MC Source of type VSphere Scan. */
 export interface VSphereScan {
   /** reference to the corresponding VSphere Scan in MC Source. */
-  coreSource?: string;
+  coreSource?: string | undefined;
 }
 export type CollectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -174,54 +169,59 @@ export type CollectorStateEnum =
   | "STATE_DELETING"
   | "STATE_DECOMMISSIONED"
   | "STATE_ERROR";
+/** Message describing a MC Source of type Guest OS Scan. */
+export interface GuestOsScan {
+  /** reference to the corresponding Guest OS Scan in MC Source. */
+  coreSource?: string | undefined;
+}
 /** Message describing Collector object. */
 export interface Collector {
-  /** Output only. Reference to MC Source Guest Os Scan. */
-  guestOsScan?: GuestOsScan;
   /** Output only. Reference to MC Source vsphere_scan. */
-  vsphereScan?: VSphereScan;
-  /** Output only. Store cloud storage bucket name (which is a guid) created with this Collector. */
-  bucket?: string;
-  /** User specified expected asset count. */
-  expectedAssetCount?: string;
-  /** name of resource. */
-  name?: string;
-  /** Output only. Client version. */
-  clientVersion?: string;
-  /** Output only. Create time stamp. */
-  createTime?: string;
-  /** Output only. Update time stamp. */
-  updateTime?: string;
-  /** Service Account email used to ingest data to this Collector. */
-  serviceAccount?: string;
-  /** User specified name of the Collector. */
-  displayName?: string;
-  /** Labels as key value pairs. */
-  labels?: StringMap;
+  vsphereScan?: VSphereScan | undefined;
   /** How many days to collect data. */
-  collectionDays?: number;
-  /** Output only. State of the Collector. */
-  state?: CollectorStateEnum | (string & {});
-  /** Uri for EULA (End User License Agreement) from customer. */
-  eulaUri?: string;
+  collectionDays?: number | undefined;
   /** User specified description of the Collector. */
-  description?: string;
+  description?: string | undefined;
+  /** User specified expected asset count. */
+  expectedAssetCount?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Uri for EULA (End User License Agreement) from customer. */
+  eulaUri?: string | undefined;
+  /** Service Account email used to ingest data to this Collector. */
+  serviceAccount?: string | undefined;
+  /** User specified name of the Collector. */
+  displayName?: string | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Output only. Client version. */
+  clientVersion?: string | undefined;
+  /** Output only. State of the Collector. */
+  state?: CollectorStateEnum | (string & {}) | undefined;
+  /** name of resource. */
+  name?: string | undefined;
+  /** Output only. Store cloud storage bucket name (which is a guid) created with this Collector. */
+  bucket?: string | undefined;
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
+  /** Output only. Reference to MC Source Guest Os Scan. */
+  guestOsScan?: GuestOsScan | undefined;
 }
 export interface CreateProjectsLocationsCollectorsRequest {
   /** Optional. An optional request ID to identify requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Id of the requesting object. */
-  collectorId?: string;
+  collectorId?: string | undefined;
   /** Required. Name of the parent (project+location). */
   parent: string;
   /** Request body */
-  body?: Collector;
+  body?: Collector | undefined;
 }
 export interface DeleteProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -233,16 +233,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsAnnotationsRequest {
   /** Required. Name of the resource. */
@@ -258,85 +258,85 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export type StringList = Array<string>;
 export interface ListProjectsLocationsRequest {
-  /** Optional. A list of extra location types that should be used as conditions for controlling the visibility of the locations. */
-  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. A list of extra location types that should be used as conditions for controlling the visibility of the locations. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectorsRequest {
-  /** Hint for how to order the results. */
-  orderBy?: string;
-  /** Filtering results. */
-  filter?: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Hint for how to order the results. */
+  orderBy?: string | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value for ListCollectorsRequest. */
   parent: string;
+  /** Filtering results. */
+  filter?: string | undefined;
 }
 export type CollectorList = Array<Collector>;
 /** Message for response to listing Collectors. */
 export interface ListCollectorsResponse {
-  /** The list of Collectors. */
-  collectors?: CollectorList;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
+  /** The list of Collectors. */
+  collectors?: CollectorList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsCollectorsRequest {
   /** name of resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Collector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Request body */
-  body?: Collector;
+  body?: Collector | undefined;
 }
 /** Message for pausing a Collector. */
 export interface PauseCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface PauseProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Request body */
-  body?: PauseCollectorRequest;
+  body?: PauseCollectorRequest | undefined;
 }
 /** Message for registering a Collector. */
 export type RegisterCollectorRequest = PauseCollectorRequest;
@@ -344,7 +344,7 @@ export interface RegisterProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Request body */
-  body?: PauseCollectorRequest;
+  body?: PauseCollectorRequest | undefined;
 }
 /** Message for resuming a Collector. */
 export type ResumeCollectorRequest = PauseCollectorRequest;
@@ -352,7 +352,7 @@ export interface ResumeProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Request body */
-  body?: PauseCollectorRequest;
+  body?: PauseCollectorRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -728,10 +728,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           labels: S.optional(__S(72, __c18, 0)),
-          locationId: S.optional(S.String),
+          name: S.optional(S.String),
           metadata: S.optional(__S(76, __c19, 0)),
+          locationId: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -790,11 +790,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(24, __c6, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(24, __c6, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -808,8 +808,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(21, __c5, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -825,11 +825,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -843,8 +843,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          collectors: S.optional(__S(29, __c7, 1)),
           unreachable: S.optional(__S(24, __c6, 0)),
+          collectors: S.optional(__S(29, __c7, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCollectorsResponse" });
@@ -855,10 +855,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -872,8 +872,8 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(33, __c8, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(33, __c8, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -884,8 +884,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(89, __c22, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -1004,11 +1004,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          labels: S.optional(__S(72, __c18, 0)),
+          type: S.optional(S.String),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          labels: S.optional(__S(72, __c18, 0)),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Annotation" });
   }
@@ -1032,19 +1032,19 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           details: S.optional(__S(80, __c20, 0)),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           metadata: S.optional(__S(76, __c19, 0)),
+          done: S.optional(S.Boolean),
           response: S.optional(__S(76, __c19, 0)),
           error: S.optional(__S(81, __c20, 1)),
-          done: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1075,25 +1075,25 @@ function __c22(j: number): any {
         S.Struct({
           coreSource: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GuestOsScan" });
+      ).annotate({ identifier: "VSphereScan" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          guestOsScan: S.optional(__S(88, __c22, 0)),
           vsphereScan: S.optional(__S(88, __c22, 0)),
-          bucket: S.optional(S.String),
+          collectionDays: S.optional(S.Number),
+          description: S.optional(S.String),
           expectedAssetCount: S.optional(S.String),
-          name: S.optional(S.String),
-          clientVersion: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          labels: S.optional(__S(72, __c18, 0)),
+          eulaUri: S.optional(S.String),
           serviceAccount: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(72, __c18, 0)),
-          collectionDays: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          clientVersion: S.optional(S.String),
           state: S.optional(S.String),
-          eulaUri: S.optional(S.String),
-          description: S.optional(S.String),
+          name: S.optional(S.String),
+          bucket: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          guestOsScan: S.optional(__S(88, __c22, 0)),
         }),
       ).annotate({ identifier: "Collector" });
   }

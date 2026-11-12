@@ -76,30 +76,30 @@ export interface CreateWidgetRequest {
   /** Identifier */
   accountId: string;
   /** Direction to order widgets. */
-  direction?: WidgetsCreateRequestDirection | (string & {});
+  direction?: WidgetsCreateRequestDirection | (string & {}) | undefined;
   /** Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value` */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to order widgets by. */
-  order?: WidgetsCreateRequestOrder | (string & {});
+  order?: WidgetsCreateRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   domains: WidgetsCreateRequestDomainsList;
   /** Widget Mode */
   mode: WidgetsCreateRequestMode | (string & {});
   /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
-  botFightMode?: boolean;
+  botFightMode?: boolean | undefined;
   /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
-  clearanceLevel?: WidgetsCreateRequestClearanceLevel | (string & {});
+  clearanceLevel?: WidgetsCreateRequestClearanceLevel | (string & {}) | undefined;
   /** Return the Ephemeral ID in /siteverify (ENT only). */
-  ephemeralId?: boolean;
+  ephemeralId?: boolean | undefined;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
-  offlabel?: boolean;
+  offlabel?: boolean | undefined;
   /** Region where this widget can be used. This cannot be changed after creation. */
-  region?: WidgetsCreateRequestRegion | (string & {});
+  region?: WidgetsCreateRequestRegion | (string & {}) | undefined;
 }
 export type WidgetsCreateResponseClearanceLevel =
   | "no_clearance"
@@ -147,9 +147,9 @@ export interface CreateWidgetResponse {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsCreateResponseDeployedVia | null;
+  deployedVia?: WidgetsCreateResponseDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsCreateResponseLastModifiedVia | null;
+  lastModifiedVia?: WidgetsCreateResponseLastModifiedVia | null | undefined;
 }
 export interface DeleteWidgetRequest {
   /** Identifier */
@@ -203,9 +203,9 @@ export interface DeleteWidgetResponse {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsDeleteResponseDeployedVia | null;
+  deployedVia?: WidgetsDeleteResponseDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsDeleteResponseLastModifiedVia | null;
+  lastModifiedVia?: WidgetsDeleteResponseLastModifiedVia | null | undefined;
 }
 export interface GetWidgetRequest {
   /** Identifier */
@@ -254,9 +254,9 @@ export interface GetWidgetResponse {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsGetResponseDeployedVia | null;
+  deployedVia?: WidgetsGetResponseDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsGetResponseLastModifiedVia | null;
+  lastModifiedVia?: WidgetsGetResponseLastModifiedVia | null | undefined;
 }
 export type WidgetsListRequestDirection = "asc" | "desc";
 export type WidgetsListRequestOrder = "id" | "sitekey" | "name" | "created_on" | "modified_on";
@@ -264,15 +264,15 @@ export interface ListWidgetsRequest {
   /** Identifier */
   accountId: string;
   /** Direction to order widgets. */
-  direction?: WidgetsListRequestDirection | (string & {});
+  direction?: WidgetsListRequestDirection | (string & {}) | undefined;
   /** Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value` */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to order widgets by. */
-  order?: WidgetsListRequestOrder | (string & {});
+  order?: WidgetsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type WidgetsListResultItemClearanceLevel =
   | "no_clearance"
@@ -317,16 +317,16 @@ export interface WidgetsListResultItem {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsListResultItemDeployedVia | null;
+  deployedVia?: WidgetsListResultItemDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsListResultItemLastModifiedVia | null;
+  lastModifiedVia?: WidgetsListResultItemLastModifiedVia | null | undefined;
 }
 export type WidgetsListResultList = Array<WidgetsListResultItem>;
 export interface ListWidgetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: WidgetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RotateSecretWidgetRequest {
   /** Identifier */
@@ -334,7 +334,7 @@ export interface RotateSecretWidgetRequest {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** If `invalidate_immediately` is set to `false`, the previous secret will remain valid for two hours. Otherwise, the secret is immediately invalidated, and requests using it will be rejected. */
-  invalidateImmediately?: boolean;
+  invalidateImmediately?: boolean | undefined;
 }
 export type WidgetsRotateSecretResponseClearanceLevel =
   | "no_clearance"
@@ -382,9 +382,9 @@ export interface RotateSecretWidgetResponse {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsRotateSecretResponseDeployedVia | null;
+  deployedVia?: WidgetsRotateSecretResponseDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsRotateSecretResponseLastModifiedVia | null;
+  lastModifiedVia?: WidgetsRotateSecretResponseLastModifiedVia | null | undefined;
 }
 export type WidgetsUpdateRequestDomainsList = Array<string>;
 export type WidgetsUpdateRequestMode = "non-interactive" | "invisible" | "managed";
@@ -405,15 +405,15 @@ export interface UpdateWidgetRequest {
   /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
-  botFightMode?: boolean;
+  botFightMode?: boolean | undefined;
   /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
-  clearanceLevel?: WidgetsUpdateRequestClearanceLevel | (string & {});
+  clearanceLevel?: WidgetsUpdateRequestClearanceLevel | (string & {}) | undefined;
   /** Return the Ephemeral ID in /siteverify (ENT only). */
-  ephemeralId?: boolean;
+  ephemeralId?: boolean | undefined;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
-  offlabel?: boolean;
+  offlabel?: boolean | undefined;
   /** Region where this widget can be used. This cannot be changed after creation. */
-  region?: WidgetsUpdateRequestRegion | (string & {});
+  region?: WidgetsUpdateRequestRegion | (string & {}) | undefined;
 }
 export type WidgetsUpdateResponseClearanceLevel =
   | "no_clearance"
@@ -461,9 +461,9 @@ export interface UpdateWidgetResponse {
   /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
-  deployedVia?: WidgetsUpdateResponseDeployedVia | null;
+  deployedVia?: WidgetsUpdateResponseDeployedVia | null | undefined;
   /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
-  lastModifiedVia?: WidgetsUpdateResponseLastModifiedVia | null;
+  lastModifiedVia?: WidgetsUpdateResponseLastModifiedVia | null | undefined;
 }
 export type CreateWidgetError = CloudflareOpError;
 /** Creates a Turnstile widget for an account. */

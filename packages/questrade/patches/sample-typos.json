@@ -1,0 +1,31 @@
+{
+  "description": "Keys that exist only as typos in a sample response, next to the documented key the property table gives: Execution `timestam` (table: `timestamp`), option quote `highPricehighPrice` (table and sample `highPrice` elsewhere), and Position `closedPnL`/`openPnL` from the table next to the `closedPnl`/`openPnl` the sample and the live-tested clients use.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.questrade.api#Execution/members/timestam"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.questrade.api#PostV1MarketsQuotesOptionsResponseOptionQuotesItem/members/highPricehighPrice"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.questrade.api#Position/members/closedPnL/traits",
+      "path": "/shapes/com.questrade.api#Position/members/closedPnl/traits"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.questrade.api#Position/members/openPnL/traits",
+      "path": "/shapes/com.questrade.api#Position/members/openPnl/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.questrade.api#Position/members/closedPnL"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.questrade.api#Position/members/openPnL"
+    }
+  ]
+}

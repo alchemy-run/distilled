@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -187,9 +188,9 @@ export type CognitoIdentityProviderName = string;
 export type CognitoIdentityProviderClientId = string;
 export type CognitoIdentityProviderTokenCheck = boolean;
 export interface CognitoIdentityProvider {
-  ProviderName?: string;
-  ClientId?: string;
-  ServerSideTokenCheck?: boolean;
+  ProviderName?: string | undefined;
+  ClientId?: string | undefined;
+  ServerSideTokenCheck?: boolean | undefined;
 }
 export type CognitoIdentityProviderList = CognitoIdentityProvider[];
 export type SAMLProviderList = string[];
@@ -199,26 +200,26 @@ export type IdentityPoolTagsType = { [key: string]: string | undefined };
 export interface CreateIdentityPoolInput {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
-  AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string | undefined };
-  DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: string[];
-  CognitoIdentityProviders?: CognitoIdentityProvider[];
-  SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string | undefined };
+  AllowClassicFlow?: boolean | undefined;
+  SupportedLoginProviders?: { [key: string]: string | undefined } | undefined;
+  DeveloperProviderName?: string | undefined;
+  OpenIdConnectProviderARNs?: string[] | undefined;
+  CognitoIdentityProviders?: CognitoIdentityProvider[] | undefined;
+  SamlProviderARNs?: string[] | undefined;
+  IdentityPoolTags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdentityPoolId = string;
 export interface IdentityPool {
   IdentityPoolId: string;
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
-  AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string | undefined };
-  DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: string[];
-  CognitoIdentityProviders?: CognitoIdentityProvider[];
-  SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string | undefined };
+  AllowClassicFlow?: boolean | undefined;
+  SupportedLoginProviders?: { [key: string]: string | undefined } | undefined;
+  DeveloperProviderName?: string | undefined;
+  OpenIdConnectProviderARNs?: string[] | undefined;
+  CognitoIdentityProviders?: CognitoIdentityProvider[] | undefined;
+  SamlProviderARNs?: string[] | undefined;
+  IdentityPoolTags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdentityId = string;
 export type IdentityIdList = string[];
@@ -227,12 +228,12 @@ export interface DeleteIdentitiesInput {
 }
 export type ErrorCode = "AccessDenied" | "InternalServerError" | (string & {});
 export interface UnprocessedIdentityId {
-  IdentityId?: string;
-  ErrorCode?: ErrorCode;
+  IdentityId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
 }
 export type UnprocessedIdentityIdList = UnprocessedIdentityId[];
 export interface DeleteIdentitiesResponse {
-  UnprocessedIdentityIds?: UnprocessedIdentityId[];
+  UnprocessedIdentityIds?: UnprocessedIdentityId[] | undefined;
 }
 export interface DeleteIdentityPoolInput {
   IdentityPoolId: string;
@@ -243,10 +244,10 @@ export interface DescribeIdentityInput {
 }
 export type LoginsList = string[];
 export interface IdentityDescription {
-  IdentityId?: string;
-  Logins?: string[];
-  CreationDate?: Date;
-  LastModifiedDate?: Date;
+  IdentityId?: string | undefined;
+  Logins?: string[] | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface DescribeIdentityPoolInput {
   IdentityPoolId: string;
@@ -255,30 +256,30 @@ export type IdentityProviderToken = string | redacted.Redacted<string>;
 export type LoginsMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface GetCredentialsForIdentityInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  CustomRoleArn?: string;
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  CustomRoleArn?: string | undefined;
 }
 export type AccessKeyString = string;
 export type SecretKeyString = string | redacted.Redacted<string>;
 export type SessionTokenString = string;
 export interface Credentials {
-  AccessKeyId?: string;
-  SecretKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetCredentialsForIdentityResponse {
-  IdentityId?: string;
-  Credentials?: Credentials;
+  IdentityId?: string | undefined;
+  Credentials?: Credentials | undefined;
 }
 export type AccountId = string;
 export interface GetIdInput {
-  AccountId?: string;
+  AccountId?: string | undefined;
   IdentityPoolId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface GetIdResponse {
-  IdentityId?: string;
+  IdentityId?: string | undefined;
 }
 export interface GetIdentityPoolRolesInput {
   IdentityPoolId: string;
@@ -307,23 +308,23 @@ export interface RulesConfigurationType {
 }
 export interface RoleMapping {
   Type: RoleMappingType;
-  AmbiguousRoleResolution?: AmbiguousRoleResolutionType;
-  RulesConfiguration?: RulesConfigurationType;
+  AmbiguousRoleResolution?: AmbiguousRoleResolutionType | undefined;
+  RulesConfiguration?: RulesConfigurationType | undefined;
 }
 export type RoleMappingMap = { [key: string]: RoleMapping | undefined };
 export interface GetIdentityPoolRolesResponse {
-  IdentityPoolId?: string;
-  Roles?: { [key: string]: string | undefined };
-  RoleMappings?: { [key: string]: RoleMapping | undefined };
+  IdentityPoolId?: string | undefined;
+  Roles?: { [key: string]: string | undefined } | undefined;
+  RoleMappings?: { [key: string]: RoleMapping | undefined } | undefined;
 }
 export interface GetOpenIdTokenInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type OIDCToken = string | redacted.Redacted<string>;
 export interface GetOpenIdTokenResponse {
-  IdentityId?: string;
-  Token?: string | redacted.Redacted<string>;
+  IdentityId?: string | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
 export type PrincipalTagID = string;
 export type PrincipalTagValue = string;
@@ -331,14 +332,14 @@ export type PrincipalTags = { [key: string]: string | undefined };
 export type TokenDuration = number;
 export interface GetOpenIdTokenForDeveloperIdentityInput {
   IdentityPoolId: string;
-  IdentityId?: string;
+  IdentityId?: string | undefined;
   Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
-  PrincipalTags?: { [key: string]: string | undefined };
-  TokenDuration?: number;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
+  TokenDuration?: number | undefined;
 }
 export interface GetOpenIdTokenForDeveloperIdentityResponse {
-  IdentityId?: string;
-  Token?: string | redacted.Redacted<string>;
+  IdentityId?: string | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
@@ -346,10 +347,10 @@ export interface GetPrincipalTagAttributeMapInput {
 }
 export type UseDefaults = boolean;
 export interface GetPrincipalTagAttributeMapResponse {
-  IdentityPoolId?: string;
-  IdentityProviderName?: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  IdentityPoolId?: string | undefined;
+  IdentityProviderName?: string | undefined;
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export type QueryLimit = number;
 export type PaginationKey = string;
@@ -357,47 +358,47 @@ export type HideDisabled = boolean;
 export interface ListIdentitiesInput {
   IdentityPoolId: string;
   MaxResults: number;
-  NextToken?: string;
-  HideDisabled?: boolean;
+  NextToken?: string | undefined;
+  HideDisabled?: boolean | undefined;
 }
 export type IdentitiesList = IdentityDescription[];
 export interface ListIdentitiesResponse {
-  IdentityPoolId?: string;
-  Identities?: IdentityDescription[];
-  NextToken?: string;
+  IdentityPoolId?: string | undefined;
+  Identities?: IdentityDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityPoolsInput {
   MaxResults: number;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface IdentityPoolShortDescription {
-  IdentityPoolId?: string;
-  IdentityPoolName?: string;
+  IdentityPoolId?: string | undefined;
+  IdentityPoolName?: string | undefined;
 }
 export type IdentityPoolsList = IdentityPoolShortDescription[];
 export interface ListIdentityPoolsResponse {
-  IdentityPools?: IdentityPoolShortDescription[];
-  NextToken?: string;
+  IdentityPools?: IdentityPoolShortDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeveloperUserIdentifier = string;
 export interface LookupDeveloperIdentityInput {
   IdentityPoolId: string;
-  IdentityId?: string;
-  DeveloperUserIdentifier?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  IdentityId?: string | undefined;
+  DeveloperUserIdentifier?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeveloperUserIdentifierList = string[];
 export interface LookupDeveloperIdentityResponse {
-  IdentityId?: string;
-  DeveloperUserIdentifierList?: string[];
-  NextToken?: string;
+  IdentityId?: string | undefined;
+  DeveloperUserIdentifierList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface MergeDeveloperIdentitiesInput {
   SourceUserIdentifier: string;
@@ -406,25 +407,25 @@ export interface MergeDeveloperIdentitiesInput {
   IdentityPoolId: string;
 }
 export interface MergeDeveloperIdentitiesResponse {
-  IdentityId?: string;
+  IdentityId?: string | undefined;
 }
 export interface SetIdentityPoolRolesInput {
   IdentityPoolId: string;
   Roles: { [key: string]: string | undefined };
-  RoleMappings?: { [key: string]: RoleMapping | undefined };
+  RoleMappings?: { [key: string]: RoleMapping | undefined } | undefined;
 }
 export interface SetIdentityPoolRolesResponse {}
 export interface SetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
   IdentityProviderName: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SetPrincipalTagAttributeMapResponse {
-  IdentityPoolId?: string;
-  IdentityProviderName?: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  IdentityPoolId?: string | undefined;
+  IdentityProviderName?: string | undefined;
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -481,7 +482,7 @@ export type CreateIdentityPoolError =
  * operation.
  */
 export const createIdentityPool: API.OperationMethod<
-  CreateIdentityPoolInput,
+  CreateIdentityPoolInput & RegionInput,
   IdentityPool,
   CreateIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -516,7 +517,7 @@ export type DeleteIdentitiesError =
  * operation.
  */
 export const deleteIdentities: API.OperationMethod<
-  DeleteIdentitiesInput,
+  DeleteIdentitiesInput & RegionInput,
   DeleteIdentitiesResponse,
   DeleteIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -546,7 +547,7 @@ export type DeleteIdentityPoolError =
  * operation.
  */
 export const deleteIdentityPool: API.OperationMethod<
-  DeleteIdentityPoolInput,
+  DeleteIdentityPoolInput & RegionInput,
   DeleteIdentityPoolResponse,
   DeleteIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -582,7 +583,7 @@ export type DescribeIdentityError =
  * operation.
  */
 export const describeIdentity: API.OperationMethod<
-  DescribeIdentityInput,
+  DescribeIdentityInput & RegionInput,
   IdentityDescription,
   DescribeIdentityError,
   Creds | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type DescribeIdentityPoolError =
  * operation.
  */
 export const describeIdentityPool: API.OperationMethod<
-  DescribeIdentityPoolInput,
+  DescribeIdentityPoolInput & RegionInput,
   IdentityPool,
   DescribeIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -657,7 +658,7 @@ export type GetCredentialsForIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getCredentialsForIdentity: API.OperationMethod<
-  GetCredentialsForIdentityInput,
+  GetCredentialsForIdentityInput & RegionInput,
   GetCredentialsForIdentityResponse,
   GetCredentialsForIdentityError,
   Creds | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type GetIdError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getId: API.OperationMethod<
-  GetIdInput,
+  GetIdInput & RegionInput,
   GetIdResponse,
   GetIdError,
   Creds | HttpClient.HttpClient
@@ -737,7 +738,7 @@ export type GetIdentityPoolRolesError =
  * operation.
  */
 export const getIdentityPoolRoles: API.OperationMethod<
-  GetIdentityPoolRolesInput,
+  GetIdentityPoolRolesInput & RegionInput,
   GetIdentityPoolRolesResponse,
   GetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -778,7 +779,7 @@ export type GetOpenIdTokenError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getOpenIdToken: API.OperationMethod<
-  GetOpenIdTokenInput,
+  GetOpenIdTokenInput & RegionInput,
   GetOpenIdTokenResponse,
   GetOpenIdTokenError,
   Creds | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type GetOpenIdTokenForDeveloperIdentityError =
  * operation.
  */
 export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
-  GetOpenIdTokenForDeveloperIdentityInput,
+  GetOpenIdTokenForDeveloperIdentityInput & RegionInput,
   GetOpenIdTokenForDeveloperIdentityResponse,
   GetOpenIdTokenForDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -864,7 +865,7 @@ export type GetPrincipalTagAttributeMapError =
  * `PrincipalTags` and user attributes.
  */
 export const getPrincipalTagAttributeMap: API.OperationMethod<
-  GetPrincipalTagAttributeMapInput,
+  GetPrincipalTagAttributeMapInput & RegionInput,
   GetPrincipalTagAttributeMapResponse,
   GetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -899,7 +900,7 @@ export type ListIdentitiesError =
  * operation.
  */
 export const listIdentities: API.OperationMethod<
-  ListIdentitiesInput,
+  ListIdentitiesInput & RegionInput,
   ListIdentitiesResponse,
   ListIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -934,7 +935,7 @@ export type ListIdentityPoolsError =
  * operation.
  */
 export const listIdentityPools: API.PaginatedOperationMethod<
-  ListIdentityPoolsInput,
+  ListIdentityPoolsInput & RegionInput,
   ListIdentityPoolsResponse,
   ListIdentityPoolsError,
   Creds | HttpClient.HttpClient,
@@ -978,7 +979,7 @@ export type ListTagsForResourceError =
  * You can use this action up to 10 times per second, per account.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -1029,7 +1030,7 @@ export type LookupDeveloperIdentityError =
  * operation.
  */
 export const lookupDeveloperIdentity: API.OperationMethod<
-  LookupDeveloperIdentityInput,
+  LookupDeveloperIdentityInput & RegionInput,
   LookupDeveloperIdentityResponse,
   LookupDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type MergeDeveloperIdentitiesError =
  * operation.
  */
 export const mergeDeveloperIdentities: API.OperationMethod<
-  MergeDeveloperIdentitiesInput,
+  MergeDeveloperIdentitiesInput & RegionInput,
   MergeDeveloperIdentitiesResponse,
   MergeDeveloperIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -1116,7 +1117,7 @@ export type SetIdentityPoolRolesError =
  * operation.
  */
 export const setIdentityPoolRoles: API.OperationMethod<
-  SetIdentityPoolRolesInput,
+  SetIdentityPoolRolesInput & RegionInput,
   SetIdentityPoolRolesResponse,
   SetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type SetPrincipalTagAttributeMapError =
  * attribute mappings.
  */
 export const setPrincipalTagAttributeMap: API.OperationMethod<
-  SetPrincipalTagAttributeMapInput,
+  SetPrincipalTagAttributeMapInput & RegionInput,
   SetPrincipalTagAttributeMapResponse,
   SetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -1200,7 +1201,7 @@ export type TagResourceError =
  * as many as 50 tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type UnlinkDeveloperIdentityError =
  * operation.
  */
 export const unlinkDeveloperIdentity: API.OperationMethod<
-  UnlinkDeveloperIdentityInput,
+  UnlinkDeveloperIdentityInput & RegionInput,
   UnlinkDeveloperIdentityResponse,
   UnlinkDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1278,7 +1279,7 @@ export type UnlinkIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const unlinkIdentity: API.OperationMethod<
-  UnlinkIdentityInput,
+  UnlinkIdentityInput & RegionInput,
   UnlinkIdentityResponse,
   UnlinkIdentityError,
   Creds | HttpClient.HttpClient
@@ -1313,7 +1314,7 @@ export type UntagResourceError =
  * this action up to 5 times per second, per account
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type UpdateIdentityPoolError =
  * operation.
  */
 export const updateIdentityPool: API.OperationMethod<
-  IdentityPool,
+  IdentityPool & RegionInput,
   IdentityPool,
   UpdateIdentityPoolError,
   Creds | HttpClient.HttpClient

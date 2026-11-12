@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -186,17 +187,17 @@ export type EventPattern = string;
 export type Namespace = string;
 export interface MetricDefinitionRequest {
   Name: string;
-  ValueKey?: string;
-  UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string | undefined };
-  EventPattern?: string;
-  Namespace?: string;
+  ValueKey?: string | undefined;
+  UnitLabel?: string | undefined;
+  DimensionKeys?: { [key: string]: string | undefined } | undefined;
+  EventPattern?: string | undefined;
+  Namespace?: string | undefined;
 }
 export type MetricDefinitionsRequest = MetricDefinitionRequest[];
 export interface BatchCreateRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
   MetricDefinitions: MetricDefinitionRequest[];
 }
 export interface BatchCreateRumMetricDefinitionsError_ {
@@ -209,22 +210,22 @@ export type MetricDefinitionId = string;
 export interface MetricDefinition {
   MetricDefinitionId: string;
   Name: string;
-  ValueKey?: string;
-  UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string | undefined };
-  EventPattern?: string;
-  Namespace?: string;
+  ValueKey?: string | undefined;
+  UnitLabel?: string | undefined;
+  DimensionKeys?: { [key: string]: string | undefined } | undefined;
+  EventPattern?: string | undefined;
+  Namespace?: string | undefined;
 }
 export type MetricDefinitions = MetricDefinition[];
 export interface BatchCreateRumMetricDefinitionsResponse {
   Errors: BatchCreateRumMetricDefinitionsError_[];
-  MetricDefinitions?: MetricDefinition[];
+  MetricDefinitions?: MetricDefinition[] | undefined;
 }
 export type MetricDefinitionIds = string[];
 export interface BatchDeleteRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
   MetricDefinitionIds: string[];
 }
 export interface BatchDeleteRumMetricDefinitionsError_ {
@@ -235,19 +236,19 @@ export interface BatchDeleteRumMetricDefinitionsError_ {
 export type BatchDeleteRumMetricDefinitionsErrors = BatchDeleteRumMetricDefinitionsError_[];
 export interface BatchDeleteRumMetricDefinitionsResponse {
   Errors: BatchDeleteRumMetricDefinitionsError_[];
-  MetricDefinitionIds?: string[];
+  MetricDefinitionIds?: string[] | undefined;
 }
 export type MaxResultsInteger = number;
 export interface BatchGetRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DestinationArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchGetRumMetricDefinitionsResponse {
-  MetricDefinitions?: MetricDefinition[];
-  NextToken?: string;
+  MetricDefinitions?: MetricDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AppMonitorDomain = string;
 export type AppMonitorDomainList = string[];
@@ -263,44 +264,44 @@ export type Arn = string;
 export type Telemetry = string;
 export type Telemetries = string[];
 export interface AppMonitorConfiguration {
-  IdentityPoolId?: string;
-  ExcludedPages?: string[];
-  IncludedPages?: string[];
-  FavoritePages?: string[];
-  SessionSampleRate?: number;
-  GuestRoleArn?: string;
-  AllowCookies?: boolean;
-  Telemetries?: string[];
-  EnableXRay?: boolean;
+  IdentityPoolId?: string | undefined;
+  ExcludedPages?: string[] | undefined;
+  IncludedPages?: string[] | undefined;
+  FavoritePages?: string[] | undefined;
+  SessionSampleRate?: number | undefined;
+  GuestRoleArn?: string | undefined;
+  AllowCookies?: boolean | undefined;
+  Telemetries?: string[] | undefined;
+  EnableXRay?: boolean | undefined;
 }
 export type CustomEventsStatus = string;
 export interface CustomEvents {
-  Status?: string;
+  Status?: string | undefined;
 }
 export type DeobfuscationStatus = string;
 export type DeobfuscationS3Uri = string;
 export interface JavaScriptSourceMaps {
   Status: string;
-  S3Uri?: string;
+  S3Uri?: string | undefined;
 }
 export interface DeobfuscationConfiguration {
-  JavaScriptSourceMaps?: JavaScriptSourceMaps;
+  JavaScriptSourceMaps?: JavaScriptSourceMaps | undefined;
 }
 export type AppMonitorPlatform = string;
 export interface CreateAppMonitorRequest {
   Name: string;
-  Domain?: string;
-  DomainList?: string[];
-  Tags?: { [key: string]: string | undefined };
-  AppMonitorConfiguration?: AppMonitorConfiguration;
-  CwLogEnabled?: boolean;
-  CustomEvents?: CustomEvents;
-  DeobfuscationConfiguration?: DeobfuscationConfiguration;
-  Platform?: string;
+  Domain?: string | undefined;
+  DomainList?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AppMonitorConfiguration?: AppMonitorConfiguration | undefined;
+  CwLogEnabled?: boolean | undefined;
+  CustomEvents?: CustomEvents | undefined;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration | undefined;
+  Platform?: string | undefined;
 }
 export type AppMonitorId = string;
 export interface CreateAppMonitorResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface DeleteAppMonitorRequest {
   Name: string;
@@ -309,15 +310,15 @@ export interface DeleteAppMonitorResponse {}
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   Name: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DeleteRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
 }
 export interface DeleteRumMetricsDestinationResponse {}
 export interface GetAppMonitorRequest {
@@ -326,41 +327,41 @@ export interface GetAppMonitorRequest {
 export type ISOTimestampString = string;
 export type StateEnum = string;
 export interface CwLog {
-  CwLogEnabled?: boolean;
-  CwLogGroup?: string;
+  CwLogEnabled?: boolean | undefined;
+  CwLogGroup?: string | undefined;
 }
 export interface DataStorage {
-  CwLog?: CwLog;
+  CwLog?: CwLog | undefined;
 }
 export interface AppMonitor {
-  Name?: string;
-  Domain?: string;
-  DomainList?: string[];
-  Id?: string;
-  Created?: string;
-  LastModified?: string;
-  Tags?: { [key: string]: string | undefined };
-  State?: string;
-  AppMonitorConfiguration?: AppMonitorConfiguration;
-  DataStorage?: DataStorage;
-  CustomEvents?: CustomEvents;
-  DeobfuscationConfiguration?: DeobfuscationConfiguration;
-  Platform?: string;
+  Name?: string | undefined;
+  Domain?: string | undefined;
+  DomainList?: string[] | undefined;
+  Id?: string | undefined;
+  Created?: string | undefined;
+  LastModified?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  State?: string | undefined;
+  AppMonitorConfiguration?: AppMonitorConfiguration | undefined;
+  DataStorage?: DataStorage | undefined;
+  CustomEvents?: CustomEvents | undefined;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration | undefined;
+  Platform?: string | undefined;
 }
 export interface GetAppMonitorResponse {
-  AppMonitor?: AppMonitor;
+  AppMonitor?: AppMonitor | undefined;
 }
 export type QueryTimestamp = number;
 export interface TimeRange {
   After: number;
-  Before?: number;
+  Before?: number | undefined;
 }
 export type QueryFilterKey = string;
 export type QueryFilterValue = string;
 export type QueryFilterValueList = string[];
 export interface QueryFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type QueryFilters = QueryFilter[];
 export type MaxQueryResults = number;
@@ -368,55 +369,55 @@ export type Token = string;
 export interface GetAppMonitorDataRequest {
   Name: string;
   TimeRange: TimeRange;
-  Filters?: QueryFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: QueryFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventData = string;
 export type EventDataList = string[];
 export interface GetAppMonitorDataResponse {
-  Events?: string[];
-  NextToken?: string;
+  Events?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
   Name: string;
 }
 export interface GetResourcePolicyResponse {
-  PolicyDocument?: string;
-  PolicyRevisionId?: string;
+  PolicyDocument?: string | undefined;
+  PolicyRevisionId?: string | undefined;
 }
 export interface ListAppMonitorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AppMonitorSummary {
-  Name?: string;
-  Id?: string;
-  Created?: string;
-  LastModified?: string;
-  State?: string;
-  Platform?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Created?: string | undefined;
+  LastModified?: string | undefined;
+  State?: string | undefined;
+  Platform?: string | undefined;
 }
 export type AppMonitorSummaryList = AppMonitorSummary[];
 export interface ListAppMonitorsResponse {
-  NextToken?: string;
-  AppMonitorSummaries?: AppMonitorSummary[];
+  NextToken?: string | undefined;
+  AppMonitorSummaries?: AppMonitorSummary[] | undefined;
 }
 export interface ListRumMetricsDestinationsRequest {
   AppMonitorName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IamRoleArn = string;
 export interface MetricDestinationSummary {
-  Destination?: string;
-  DestinationArn?: string;
-  IamRoleArn?: string;
+  Destination?: string | undefined;
+  DestinationArn?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type MetricDestinationSummaryList = MetricDestinationSummary[];
 export interface ListRumMetricsDestinationsResponse {
-  Destinations?: MetricDestinationSummary[];
-  NextToken?: string;
+  Destinations?: MetricDestinationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -428,27 +429,27 @@ export interface ListTagsForResourceResponse {
 export interface PutResourcePolicyRequest {
   Name: string;
   PolicyDocument: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  PolicyDocument?: string;
-  PolicyRevisionId?: string;
+  PolicyDocument?: string | undefined;
+  PolicyRevisionId?: string | undefined;
 }
 export interface AppMonitorDetails {
-  name?: string;
-  id?: string;
-  version?: string;
+  name?: string | undefined;
+  id?: string | undefined;
+  version?: string | undefined;
 }
 export interface UserDetails {
-  userId?: string;
-  sessionId?: string;
+  userId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export type JsonValue = string;
 export interface RumEvent {
   id: string;
   timestamp: Date;
   type: string;
-  metadata?: string;
+  metadata?: string | undefined;
   details: string;
 }
 export type RumEventList = RumEvent[];
@@ -459,14 +460,14 @@ export interface PutRumEventsRequest {
   AppMonitorDetails: AppMonitorDetails;
   UserDetails: UserDetails;
   RumEvents: RumEvent[];
-  Alias?: string;
+  Alias?: string | undefined;
 }
 export interface PutRumEventsResponse {}
 export interface PutRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
-  IamRoleArn?: string;
+  DestinationArn?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export interface PutRumMetricsDestinationResponse {}
 export interface TagResourceRequest {
@@ -482,18 +483,18 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAppMonitorRequest {
   Name: string;
-  Domain?: string;
-  DomainList?: string[];
-  AppMonitorConfiguration?: AppMonitorConfiguration;
-  CwLogEnabled?: boolean;
-  CustomEvents?: CustomEvents;
-  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+  Domain?: string | undefined;
+  DomainList?: string[] | undefined;
+  AppMonitorConfiguration?: AppMonitorConfiguration | undefined;
+  CwLogEnabled?: boolean | undefined;
+  CustomEvents?: CustomEvents | undefined;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration | undefined;
 }
 export interface UpdateAppMonitorResponse {}
 export interface UpdateRumMetricDefinitionRequest {
   AppMonitorName: string;
   Destination: string;
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
   MetricDefinition: MetricDefinitionRequest;
   MetricDefinitionId: string;
 }
@@ -531,7 +532,7 @@ export type BatchCreateRumMetricDefinitionsError =
  * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
  */
 export const batchCreateRumMetricDefinitions: API.OperationMethod<
-  BatchCreateRumMetricDefinitionsRequest,
+  BatchCreateRumMetricDefinitionsRequest & RegionInput,
   BatchCreateRumMetricDefinitionsResponse,
   BatchCreateRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -570,7 +571,7 @@ export type BatchDeleteRumMetricDefinitionsError =
  * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
  */
 export const batchDeleteRumMetricDefinitions: API.OperationMethod<
-  BatchDeleteRumMetricDefinitionsRequest,
+  BatchDeleteRumMetricDefinitionsRequest & RegionInput,
   BatchDeleteRumMetricDefinitionsResponse,
   BatchDeleteRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type BatchGetRumMetricDefinitionsError =
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
 export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
-  BatchGetRumMetricDefinitionsRequest,
+  BatchGetRumMetricDefinitionsRequest & RegionInput,
   BatchGetRumMetricDefinitionsResponse,
   BatchGetRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -646,7 +647,7 @@ export type CreateAppMonitorError =
  * After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const createAppMonitor: API.OperationMethod<
-  CreateAppMonitorRequest,
+  CreateAppMonitorRequest & RegionInput,
   CreateAppMonitorResponse,
   CreateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -681,7 +682,7 @@ export type DeleteAppMonitorError =
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
 export const deleteAppMonitor: API.OperationMethod<
-  DeleteAppMonitorRequest,
+  DeleteAppMonitorRequest & RegionInput,
   DeleteAppMonitorResponse,
   DeleteAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -717,7 +718,7 @@ export type DeleteResourcePolicyError =
  * Removes the association of a resource-based policy from an app monitor.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -753,7 +754,7 @@ export type DeleteRumMetricsDestinationError =
  * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
 export const deleteRumMetricsDestination: API.OperationMethod<
-  DeleteRumMetricsDestinationRequest,
+  DeleteRumMetricsDestinationRequest & RegionInput,
   DeleteRumMetricsDestinationResponse,
   DeleteRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -786,7 +787,7 @@ export type GetAppMonitorError =
  * Retrieves the complete configuration information for one app monitor.
  */
 export const getAppMonitor: API.OperationMethod<
-  GetAppMonitorRequest,
+  GetAppMonitorRequest & RegionInput,
   GetAppMonitorResponse,
   GetAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type GetAppMonitorDataError =
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
 export const getAppMonitorData: API.PaginatedOperationMethod<
-  GetAppMonitorDataRequest,
+  GetAppMonitorDataRequest & RegionInput,
   GetAppMonitorDataResponse,
   GetAppMonitorDataError,
   Credentials | HttpClient.HttpClient,
@@ -859,7 +860,7 @@ export type GetResourcePolicyError =
  * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type ListAppMonitorsError =
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
 export const listAppMonitors: API.PaginatedOperationMethod<
-  ListAppMonitorsRequest,
+  ListAppMonitorsRequest & RegionInput,
   ListAppMonitorsResponse,
   ListAppMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -931,7 +932,7 @@ export type ListRumMetricsDestinationsError =
  * For more information about extended metrics, see AddRumMetrics.
  */
 export const listRumMetricsDestinations: API.PaginatedOperationMethod<
-  ListRumMetricsDestinationsRequest,
+  ListRumMetricsDestinationsRequest & RegionInput,
   ListRumMetricsDestinationsResponse,
   ListRumMetricsDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -967,7 +968,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch RUM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -997,7 +998,7 @@ export type PutResourcePolicyError =
  * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type PutRumEventsError =
  * Each `PutRumEvents` operation can send a batch of events from one user session.
  */
 export const putRumEvents: API.OperationMethod<
-  PutRumEventsRequest,
+  PutRumEventsRequest & RegionInput,
   PutRumEventsResponse,
   PutRumEventsError,
   Credentials | HttpClient.HttpClient
@@ -1071,7 +1072,7 @@ export type PutRumMetricsDestinationError =
  * For more information about extended metrics, see BatchCreateRumMetricDefinitions.
  */
 export const putRumMetricsDestination: API.OperationMethod<
-  PutRumMetricsDestinationRequest,
+  PutRumMetricsDestinationRequest & RegionInput,
   PutRumMetricsDestinationResponse,
   PutRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1112,7 +1113,7 @@ export type TagResourceError =
  * For more information, see Tagging Amazon Web Services resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1136,7 +1137,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type UpdateAppMonitorError =
  * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
 export const updateAppMonitor: API.OperationMethod<
-  UpdateAppMonitorRequest,
+  UpdateAppMonitorRequest & RegionInput,
   UpdateAppMonitorResponse,
   UpdateAppMonitorError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type UpdateRumMetricDefinitionError =
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
 export const updateRumMetricDefinition: API.OperationMethod<
-  UpdateRumMetricDefinitionRequest,
+  UpdateRumMetricDefinitionRequest & RegionInput,
   UpdateRumMetricDefinitionResponse,
   UpdateRumMetricDefinitionError,
   Credentials | HttpClient.HttpClient

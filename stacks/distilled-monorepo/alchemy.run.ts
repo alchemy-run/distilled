@@ -248,13 +248,10 @@ export default Alchemy.Stack(
     const patOverride = yield* ReposPat;
     const reposPat = Option.isSome(patOverride)
       ? patOverride.value
-      : // The deploying profile's own signed-in GitHub token. The cast erases
-        // the `GitHubCredentials` requirement: it is provided at runtime by
-        // `GitHub.providers()`, but `Stack` constrains its requirement union
-        // to provider services and this is not one.
-        (yield* yield* GitHub.GitHubCredentials as unknown as Effect.Effect<
-          Effect.Effect<{ readonly token: Redacted.Redacted<string> }>
-        >).token;
+      : // The deploying profile's own signed-in GitHub token, provided at
+        // runtime by `GitHub.providers()`. Its distilled `ConfigError` is not
+        // one `Stack` accepts, and a missing profile token is not recoverable.
+        (yield* Effect.orDie(yield* GitHub.Credentials)).token;
 
     yield* GitHub.Secret("repos-pat", {
       owner: OWNER,

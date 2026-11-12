@@ -55,7 +55,7 @@ export class UnprocessableEntity
 
 export interface CreateApplePaySessionRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** This is the name that your shoppers will see in the Apple Pay interface. The value returned as `configuration.merchantName` field from the [`/paymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods) response. */
   displayName: string;
   /** The domain name you provided when you added Apple Pay in your Customer Area. This must match the `window.location.hostname` of the web shop. */
@@ -67,61 +67,123 @@ export interface ApplePaySessionResponse {
   /** Base64 encoded data you need to [complete the Apple Pay merchant validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation). */
   data: string;
 }
+export type CalculationType = "LRS_TCS";
+export type RemittancePurpose = "TOUR_PROGRAMME" | "TRAVEL_NON_TOUR" | "EDUCATION" | "DIGITAL";
+export type SublimitStatus = "EXCEEDED" | "NOT_EXCEEDED";
+export interface LrsContext {
+  /** The remittance category, for example TOUR_PROGRAMME or EDUCATION. */
+  remittancePurpose: RemittancePurpose | (string & {});
+  /** The status of the INR 1 million LRS sublimit, for example EXCEEDED. */
+  sublimitStatus: SublimitStatus | (string & {});
+}
+export interface TaxCalculationContext {
+  /** The type of calculation requested. Initially only LRS_TCS is supported. */
+  calculationType: CalculationType | (string & {});
+  /** India-specific LRS declarations. */
+  lrs: LrsContext;
+  /** The country governing tax processing. Initially only IN is supported. */
+  taxCountryCode: string;
+}
+export interface TaxableAmount {
+  /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). */
+  currency: string;
+  /** The amount in [minor units](https://docs.adyen.com/development-resources/currency-codes). */
+  value: number;
+}
+export interface CreateCalculateTaxRequest {
+  /** The merchant account identifier requesting the tax calculation. */
+  merchantAccount: string;
+  /** The context used to calculate the tax. */
+  taxCalculationContext: TaxCalculationContext;
+  /** The amount on which Adyen calculates the tax. */
+  taxableAmount: TaxableAmount;
+}
+export type TaxAmount = TaxableAmount;
+export interface TaxCalculationComponent {
+  /** The calculated tax amount of this component. */
+  taxAmount?: TaxableAmount | undefined;
+  /** The type of the calculated tax component, for example LRS_TCS. */
+  type?: CalculationType | undefined;
+}
+/** The individual tax components calculated by Adyen. */
+export type TaxCalculationTaxCalculationsList = Array<TaxCalculationComponent>;
+export interface TaxCalculation {
+  /** The merchant account for which the calculation was made. */
+  merchantAccount?: string | undefined;
+  /** The tax country, calculation type, and LRS declarations accepted by Adyen. */
+  taxCalculationContext?: TaxCalculationContext | undefined;
+  /** The individual tax components calculated by Adyen. */
+  taxCalculations?: TaxCalculationTaxCalculationsList | undefined;
+  /** The taxable amount accepted by Adyen. */
+  taxableAmount?: TaxableAmount | undefined;
+  /** The taxable amount plus the calculated tax. Use this amount in /payments.amount. */
+  totalAmount?: TaxableAmount | undefined;
+  /** The total tax amount calculated by Adyen. */
+  totalTaxAmount?: TaxableAmount | undefined;
+}
+export interface CalculateTaxResponse {
+  /** The canonical calculation accepted and produced by Adyen. Informational in the initial release. */
+  taxCalculation?: TaxCalculation | undefined;
+  /** The unique reference for this calculation attempt. */
+  taxCalculationReference?: string | undefined;
+  /** The opaque, encrypted, and signed token that represents the complete canonical calculation. Required in /payments. */
+  taxCalculationToken?: string | undefined;
+}
 export interface CommonField {
   /** Name of the field. For example, Name of External Platform. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the field. For example, Version of External Platform. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface ExternalPlatform {
   /** External platform integrator. */
-  integrator?: string;
+  integrator?: string | undefined;
   /** Name of the field. For example, Name of External Platform. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the field. For example, Version of External Platform. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface MerchantDevice {
   /** Operating system running on the merchant device. */
-  os?: string;
+  os?: string | undefined;
   /** Version of the operating system on the merchant device. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Merchant device reference. */
-  reference?: string;
+  reference?: string | undefined;
 }
 export interface ShopperInteractionDevice {
   /** Locale on the shopper interaction device. */
-  locale?: string;
+  locale?: string | undefined;
   /** Operating system running on the shopper interaction device. */
-  os?: string;
+  os?: string | undefined;
   /** Version of the operating system on the shopper interaction device. */
-  osVersion?: string;
+  osVersion?: string | undefined;
 }
 export interface ApplicationInfo {
   /** Adyen-developed software, such as libraries and plugins, used to interact with the Adyen API. For example, Magento plugin, Java API library, etc. */
-  adyenLibrary?: CommonField;
+  adyenLibrary?: CommonField | undefined;
   /** Adyen-developed software to get payment details. For example, Checkout SDK, Secured Fields SDK, etc. */
-  adyenPaymentSource?: CommonField;
+  adyenPaymentSource?: CommonField | undefined;
   /** Third-party developed platform used to initiate payment requests. For example, Magento, Zuora, etc. */
-  externalPlatform?: ExternalPlatform;
+  externalPlatform?: ExternalPlatform | undefined;
   /** Merchant developed software, such as cashier application, used to interact with the Adyen API. */
-  merchantApplication?: CommonField;
+  merchantApplication?: CommonField | undefined;
   /** Merchant device information. */
-  merchantDevice?: MerchantDevice;
+  merchantDevice?: MerchantDevice | undefined;
   /** Shopper interaction device, such as terminal, mobile device or web browser, to initiate payment requests. */
-  shopperInteractionDevice?: ShopperInteractionDevice;
+  shopperInteractionDevice?: ShopperInteractionDevice | undefined;
 }
 export interface CreateCancelRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** The [`reference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__reqParam_reference) of the payment that you want to cancel. */
   paymentReference: string;
   /** Your reference for the cancel request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
 }
 /** The status of your request. This will always have the value **received**. */
 export type StandalonePaymentCancelResponseStatus = "received";
@@ -133,7 +195,7 @@ export interface StandalonePaymentCancelResponse {
   /** Adyen's 16-character reference associated with the cancel request. */
   pspReference: string;
   /** Your reference for the cancel request. */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of your request. This will always have the value **received**. */
   status: StandalonePaymentCancelResponseStatus;
 }
@@ -141,37 +203,37 @@ export interface StandalonePaymentCancelResponse {
 export type CreateCardDetailRequestSupportedBrandsList = Array<string>;
 export interface CreateCardDetailRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** A minimum of the first six digits of the card number. The full card number gives the best result. You must be [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide) to collect raw card data. Alternatively, you can use the `encryptedCardNumber` field. */
-  cardNumber?: string;
+  cardNumber?: string | undefined;
   /** The shopper country code. Format: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) Example: NL or DE */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The encrypted card number. */
-  encryptedCardNumber?: string;
+  encryptedCardNumber?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** The card brands you support. This is the [`brands`](https://docs.adyen.com/api-explorer/Checkout/latest/post/paymentMethods#responses-200-paymentMethods-brands) array from your [`/paymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods) response. If not included, our API uses the ones configured for your merchant account and, if provided, the country code. */
-  supportedBrands?: CreateCardDetailRequestSupportedBrandsList;
+  supportedBrands?: CreateCardDetailRequestSupportedBrandsList | undefined;
 }
 export interface CardBrandDetails {
   /** Indicates if the card supports FSA/HSA healthcare payments. */
-  healthcare?: boolean;
+  healthcare?: boolean | undefined;
   /** Indicates if you support the card brand. */
-  supported?: boolean;
+  supported?: boolean | undefined;
   /** The name of the card brand. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of brands identified for the card. */
 export type CardDetailsResponseBrandsList = Array<CardBrandDetails>;
 export interface CardDetailsResponse {
   /** The list of brands identified for the card. */
-  brands?: CardDetailsResponseBrandsList;
+  brands?: CardDetailsResponseBrandsList | undefined;
   /** The funding source of the card, for example **DEBIT**, **CREDIT**, or **PREPAID**. */
-  fundingSource?: string;
+  fundingSource?: string | undefined;
   /** Indicates if this is a commercial card or a consumer card. If **true**, it is a commercial card. If **false**, it is a consumer card. */
-  isCardCommercial?: boolean;
+  isCardCommercial?: boolean | undefined;
   /** The two-letter country code of the country where the card was issued. */
-  issuingCountryCode?: string;
+  issuingCountryCode?: string | undefined;
 }
 /** Indicator for the length of time since this shopper account was created in the merchant's environment. Allowed values: * notApplicable * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
 export type AccountInfoAccountAgeIndicator =
@@ -210,43 +272,46 @@ export type AccountInfoPaymentAccountIndicator =
   | "moreThan60Days";
 export interface AccountInfo {
   /** Indicator for the length of time since this shopper account was created in the merchant's environment. Allowed values: * notApplicable * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
-  accountAgeIndicator?: AccountInfoAccountAgeIndicator | (string & {});
+  accountAgeIndicator?: AccountInfoAccountAgeIndicator | (string & {}) | undefined;
   /** Date when the shopper's account was last changed. */
-  accountChangeDate?: string;
+  accountChangeDate?: string | undefined;
   /** Indicator for the length of time since the shopper's account was last updated. Allowed values: * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
-  accountChangeIndicator?: AccountInfoAccountChangeIndicator | (string & {});
+  accountChangeIndicator?: AccountInfoAccountChangeIndicator | (string & {}) | undefined;
   /** Date when the shopper's account was created. */
-  accountCreationDate?: string;
+  accountCreationDate?: string | undefined;
   /** Indicates the type of account. For example, for a multi-account card product. Allowed values: * notApplicable * credit * debit */
-  accountType?: AccountInfoAccountType | (string & {});
+  accountType?: AccountInfoAccountType | (string & {}) | undefined;
   /** Number of attempts the shopper tried to add a card to their account in the last day. */
-  addCardAttemptsDay?: number;
+  addCardAttemptsDay?: number | undefined;
   /** Date the selected delivery address was first used. */
-  deliveryAddressUsageDate?: string;
+  deliveryAddressUsageDate?: string | undefined;
   /** Indicator for the length of time since this delivery address was first used. Allowed values: * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
-  deliveryAddressUsageIndicator?: AccountInfoDeliveryAddressUsageIndicator | (string & {});
+  deliveryAddressUsageIndicator?:
+    | AccountInfoDeliveryAddressUsageIndicator
+    | (string & {})
+    | undefined;
   /** Shopper's home phone number (including the country code). */
-  homePhone?: string;
+  homePhone?: string | undefined;
   /** Shopper's mobile phone number (including the country code). */
-  mobilePhone?: string;
+  mobilePhone?: string | undefined;
   /** Date when the shopper last changed their password. */
-  passwordChangeDate?: string | Redacted.Redacted<string>;
+  passwordChangeDate?: string | Redacted.Redacted<string> | undefined;
   /** Indicator when the shopper has changed their password. Allowed values: * notApplicable * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
-  passwordChangeIndicator?: AccountInfoPasswordChangeIndicator | (string & {});
+  passwordChangeIndicator?: AccountInfoPasswordChangeIndicator | (string & {}) | undefined;
   /** Number of all transactions (successful and abandoned) from this shopper in the past 24 hours. */
-  pastTransactionsDay?: number;
+  pastTransactionsDay?: number | undefined;
   /** Number of all transactions (successful and abandoned) from this shopper in the past year. */
-  pastTransactionsYear?: number;
+  pastTransactionsYear?: number | undefined;
   /** Date this payment method was added to the shopper's account. */
-  paymentAccountAge?: string;
+  paymentAccountAge?: string | undefined;
   /** Indicator for the length of time since this payment method was added to this shopper's account. Allowed values: * notApplicable * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
-  paymentAccountIndicator?: AccountInfoPaymentAccountIndicator | (string & {});
+  paymentAccountIndicator?: AccountInfoPaymentAccountIndicator | (string & {}) | undefined;
   /** Number of successful purchases in the last six months. */
-  purchasesLast6Months?: number;
+  purchasesLast6Months?: number | undefined;
   /** Whether suspicious activity was recorded on this account. */
-  suspiciousActivity?: boolean;
+  suspiciousActivity?: boolean | undefined;
   /** Shopper's work phone number (including the country code). */
-  workPhone?: string;
+  workPhone?: string | undefined;
 }
 export interface Amount {
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes#currency-codes) of the amount. */
@@ -266,21 +331,21 @@ export type ThreeDSRequestDataNativeThreeDS = "preferred" | "disabled";
 export type ThreeDSRequestDataThreeDSVersion = "2.1.0" | "2.2.0";
 export interface ThreeDSRequestData {
   /** Dimensions of the 3DS2 challenge window to be displayed to the cardholder. Possible values: * **01** - size of 250x400 * **02** - size of 390x400 * **03** - size of 500x600 * **04** - size of 600x400 * **05** - Fullscreen */
-  challengeWindowSize?: ThreeDSRequestDataChallengeWindowSize | (string & {});
+  challengeWindowSize?: ThreeDSRequestDataChallengeWindowSize | (string & {}) | undefined;
   /** Required to trigger the [data-only flow](https://docs.adyen.com/online-payments/3d-secure/data-only/). When set to **true**, forces the 3D Secure 2 data-only flow for all transactions where it is possible. */
-  dataOnly?: ThreeDSRequestDataDataOnly | (string & {});
+  dataOnly?: ThreeDSRequestDataDataOnly | (string & {}) | undefined;
   /** Indicates if [native 3D Secure authentication](https://docs.adyen.com/online-payments/3d-secure/native-3ds2) should be triggered when available. Adyen can still select to fallback to the redirect flow to optimize authorization rates and improve the shopper's experience. Possible values: * **preferred**: Use native 3D Secure authentication when available. * **disabled**: Use the redirect 3D Secure authentication flow. */
-  nativeThreeDS?: ThreeDSRequestDataNativeThreeDS | (string & {});
+  nativeThreeDS?: ThreeDSRequestDataNativeThreeDS | (string & {}) | undefined;
   /** The version of 3D Secure to use. Possible values: * **2.1.0** * **2.2.0** */
-  threeDSVersion?: ThreeDSRequestDataThreeDSVersion | (string & {});
+  threeDSVersion?: ThreeDSRequestDataThreeDSVersion | (string & {}) | undefined;
 }
 export interface AuthenticationData {
   /** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
-  attemptAuthentication?: AuthenticationDataAttemptAuthentication | (string & {});
+  attemptAuthentication?: AuthenticationDataAttemptAuthentication | (string & {}) | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
-  authenticationOnly?: boolean;
+  authenticationOnly?: boolean | undefined;
   /** Object with additional parameters for the 3D Secure authentication flow. */
-  threeDSRequestData?: ThreeDSRequestData;
+  threeDSRequestData?: ThreeDSRequestData | undefined;
 }
 export interface BillingAddress {
   /** The name of the city. Maximum length: 3000 characters. */
@@ -292,7 +357,7 @@ export interface BillingAddress {
   /** A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries. */
   postalCode: string;
   /** The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada. > Required for the US and Canada. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The name of the street. Maximum length: 3000 characters. > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`. */
   street: string;
 }
@@ -304,7 +369,7 @@ export interface BrowserInfo {
   /** Boolean value indicating if the shopper's browser is able to execute Java. */
   javaEnabled: boolean;
   /** Boolean value indicating if the shopper's browser is able to execute JavaScript. A default 'true' value is assumed if the field is not present. */
-  javaScriptEnabled?: boolean;
+  javaScriptEnabled?: boolean | undefined;
   /** The `navigator.language` value of the shopper's browser (as defined in IETF BCP 47). */
   language: string;
   /** The total height of the shopper's device screen in pixels. */
@@ -323,70 +388,70 @@ export interface DeliveryAddress {
   city: string;
   /** The two-character ISO-3166-1 alpha-2 country code. For example, **US**. > If you don't know the country or are not collecting the country from the shopper, provide `country` as `ZZ`. */
   country: string;
-  firstName?: string;
+  firstName?: string | undefined;
   /** The number or name of the house. Maximum length: 3000 characters. */
   houseNumberOrName: string;
-  lastName?: string;
+  lastName?: string | undefined;
   /** A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries. */
   postalCode: string;
   /** The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada. > Required for the US and Canada. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** The name of the street. Maximum length: 3000 characters. > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`. */
   street: string;
 }
 export interface LineItem {
   /** Item amount excluding the tax, in [minor units](https://docs.adyen.com/development-resources/currency-codes/#minor-units). */
-  amountExcludingTax?: number;
+  amountExcludingTax?: number | undefined;
   /** Item amount including the tax, in [minor units](https://docs.adyen.com/development-resources/currency-codes/#minor-units). */
-  amountIncludingTax?: number;
+  amountIncludingTax?: number | undefined;
   /** Brand of the item. */
-  brand?: string;
+  brand?: string | undefined;
   /** Color of the item. */
-  color?: string;
+  color?: string | undefined;
   /** Description of the line item. */
-  description?: string;
+  description?: string | undefined;
   /** ID of the line item. */
-  id?: string;
+  id?: string | undefined;
   /** Link to the picture of the purchased item. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Item category, used by the payment methods PayPal and Ratepay. */
-  itemCategory?: string;
+  itemCategory?: string | undefined;
   /** Manufacturer of the item. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Marketplace seller id. */
-  marketplaceSellerId?: string;
+  marketplaceSellerId?: string | undefined;
   /** Link to the purchased item. */
-  productUrl?: string;
+  productUrl?: string | undefined;
   /** Number of items. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Email associated with the given product in the basket (usually in electronic gift cards). */
-  receiverEmail?: string;
+  receiverEmail?: string | undefined;
   /** Shipping company handling the return of the item. */
-  returnShippingCompany?: string;
+  returnShippingCompany?: string | undefined;
   /** Tracking number for the return of the item. */
-  returnTrackingNumber?: string;
+  returnTrackingNumber?: string | undefined;
   /** Tracking URI for the return of the item. */
-  returnTrackingUri?: string;
+  returnTrackingUri?: string | undefined;
   /** An optional, free-text category for the item to be used in the risk evaluation. When provided, Protect uses this value to evaluate custom risk rules. */
-  riskCategory?: string;
+  riskCategory?: string | undefined;
   /** Shipping company handling the delivery of the item. */
-  shippingCompany?: string;
+  shippingCompany?: string | undefined;
   /** Shipping method used to deliver the item. */
-  shippingMethod?: string;
+  shippingMethod?: string | undefined;
   /** Size of the item. */
-  size?: string;
+  size?: string | undefined;
   /** Stock keeping unit. */
-  sku?: string;
+  sku?: string | undefined;
   /** Tax amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes/#minor-units). */
-  taxAmount?: number;
+  taxAmount?: number | undefined;
   /** Tax percentage, represented as a [basis point](https://en.wikipedia.org/wiki/Basis_point) integer. For example: - **530** for 5.3% (five point three percent) - **2100** for 21% (twenty-one percent) */
-  taxPercentage?: number;
+  taxPercentage?: number | undefined;
   /** Tracking number for the delivery of the item. */
-  trackingNumber?: string;
+  trackingNumber?: string | undefined;
   /** Tracking URI for the delivery of the item. */
-  trackingUri?: string;
+  trackingUri?: string | undefined;
   /** Universal Product Code. */
-  upc?: string;
+  upc?: string | undefined;
 }
 /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
 export type CreateDonationRequestLineItemsList = Array<LineItem>;
@@ -407,33 +472,36 @@ export type MerchantRiskIndicatorDeliveryTimeframe =
   | "twoOrMoreDaysShipping";
 export interface MerchantRiskIndicator {
   /** Whether the chosen delivery address is identical to the billing address. */
-  addressMatch?: boolean;
+  addressMatch?: boolean | undefined;
   /** Indicator regarding the delivery address. Allowed values: * `shipToBillingAddress` * `shipToVerifiedAddress` * `shipToNewAddress` * `shipToStore` * `digitalGoods` * `goodsNotShipped` * `other` */
-  deliveryAddressIndicator?: MerchantRiskIndicatorDeliveryAddressIndicator | (string & {});
+  deliveryAddressIndicator?:
+    | MerchantRiskIndicatorDeliveryAddressIndicator
+    | (string & {})
+    | undefined;
   /** The delivery email address (for digital goods). */
-  deliveryEmail?: string;
+  deliveryEmail?: string | undefined;
   /** For Electronic delivery, the email address to which the merchandise was delivered. Maximum length: 254 characters. */
-  deliveryEmailAddress?: string;
+  deliveryEmailAddress?: string | undefined;
   /** The estimated delivery time for the shopper to receive the goods. Allowed values: * `electronicDelivery` * `sameDayShipping` * `overnightShipping` * `twoOrMoreDaysShipping` */
-  deliveryTimeframe?: MerchantRiskIndicatorDeliveryTimeframe | (string & {});
+  deliveryTimeframe?: MerchantRiskIndicatorDeliveryTimeframe | (string & {}) | undefined;
   /** For prepaid or gift card purchase, the purchase amount total of prepaid or gift card(s). */
-  giftCardAmount?: Amount;
+  giftCardAmount?: Amount | undefined;
   /** For prepaid or gift card purchase, total count of individual prepaid or gift cards/codes purchased. */
-  giftCardCount?: number;
+  giftCardCount?: number | undefined;
   /** For prepaid or gift card purchase, [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) three-digit currency code of the gift card, other than those listed in Table A.5 of the EMVCo 3D Secure Protocol and Core Functions Specification. */
-  giftCardCurr?: string;
+  giftCardCurr?: string | undefined;
   /** For pre-order purchases, the expected date this product will be available to the shopper. */
-  preOrderDate?: string;
+  preOrderDate?: string | undefined;
   /** Indicator for whether this transaction is for pre-ordering a product. */
-  preOrderPurchase?: boolean;
+  preOrderPurchase?: boolean | undefined;
   /** Indicates whether Cardholder is placing an order for merchandise with a future availability or release date. */
-  preOrderPurchaseInd?: string;
+  preOrderPurchaseInd?: string | undefined;
   /** Indicator for whether the shopper has already purchased the same items in the past. */
-  reorderItems?: boolean;
+  reorderItems?: boolean | undefined;
   /** Indicates whether the cardholder is reordering previously purchased merchandise. */
-  reorderItemsInd?: string;
+  reorderItemsInd?: string | undefined;
   /** Indicates shipping method chosen for the transaction. */
-  shipIndicator?: string;
+  shipIndicator?: string | undefined;
 }
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
 export type CreateDonationRequestMetadataMap = { [key: string]: string | undefined };
@@ -445,29 +513,29 @@ export type ThreeDSecureDataChallengeCancel = "01" | "02" | "03" | "04" | "05" |
 export type ThreeDSecureDataDirectoryResponse = "A" | "C" | "D" | "I" | "N" | "R" | "U" | "Y";
 export interface ThreeDSecureData {
   /** In 3D Secure 2, this is the `transStatus` from the challenge result. If the transaction was frictionless, omit this parameter. */
-  authenticationResponse?: ThreeDSecureDataAuthenticationResponse | (string & {});
+  authenticationResponse?: ThreeDSecureDataAuthenticationResponse | (string & {}) | undefined;
   /** The cardholder authentication value (base64 encoded, 20 bytes in a decoded form). */
-  cavv?: string;
+  cavv?: string | undefined;
   /** The CAVV algorithm used. Include this only for 3D Secure 1. */
-  cavvAlgorithm?: string;
+  cavvAlgorithm?: string | undefined;
   /** Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata). */
-  challengeCancel?: ThreeDSecureDataChallengeCancel | (string & {});
+  challengeCancel?: ThreeDSecureDataChallengeCancel | (string & {}) | undefined;
   /** In 3D Secure 2, this is the `transStatus` from the `ARes`. */
-  directoryResponse?: ThreeDSecureDataDirectoryResponse | (string & {});
+  directoryResponse?: ThreeDSecureDataDirectoryResponse | (string & {}) | undefined;
   /** Supported for 3D Secure 2. The unique transaction identifier assigned by the Directory Server (DS) to identify a single transaction. */
-  dsTransID?: string;
+  dsTransID?: string | undefined;
   /** The electronic commerce indicator. */
-  eci?: string;
+  eci?: string | undefined;
   /** Risk score calculated by Directory Server (DS). Required for Cartes Bancaires integrations. */
-  riskScore?: string;
+  riskScore?: string | undefined;
   /** The version of the 3D Secure protocol. */
-  threeDSVersion?: string;
+  threeDSVersion?: string | undefined;
   /** Network token authentication verification value (TAVV). The network token cryptogram. */
-  tokenAuthenticationVerificationValue?: string;
+  tokenAuthenticationVerificationValue?: string | undefined;
   /** Provides information on why the `transStatus` field has the specified value. For possible values, refer to [our docs](https://docs.adyen.com/online-payments/3d-secure/api-reference#possible-transstatusreason-values). */
-  transStatusReason?: string;
+  transStatusReason?: string | undefined;
   /** Supported for 3D Secure 1. The transaction identifier (Base64-encoded, 20 bytes in a decoded form). */
-  xid?: string;
+  xid?: string | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type ApplePayDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -477,17 +545,17 @@ export interface ApplePayDonations {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
   applePayToken: string;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: ApplePayDonationsFundingSource | (string & {});
+  fundingSource?: ApplePayDonationsFundingSource | (string & {}) | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **applepay** */
-  type?: ApplePayDonationsType | (string & {});
+  type?: ApplePayDonationsType | (string & {}) | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type CardDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -501,60 +569,60 @@ export type CardDonationsType =
   | "clicktopay";
 export interface CardDonations {
   /** The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper. */
-  billingSequenceNumber?: string;
+  billingSequenceNumber?: string | undefined;
   /** Secondary brand of the card. For example: **plastix**, **hmclub**. */
-  brand?: string;
+  brand?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
-  cupsecureplus_smscode?: string;
+  checkoutAttemptId?: string | undefined;
+  cupsecureplus_smscode?: string | undefined;
   /** The card verification code. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  cvc?: string;
+  cvc?: string | undefined;
   /** Only include this for JSON Web Encryption (JWE) implementations. The JWE-encrypted card details. */
-  encryptedCard?: string;
+  encryptedCard?: string | undefined;
   /** The encrypted card number. */
-  encryptedCardNumber?: string;
+  encryptedCardNumber?: string | undefined;
   /** The encrypted card expiry month. */
-  encryptedExpiryMonth?: string;
+  encryptedExpiryMonth?: string | undefined;
   /** The encrypted card expiry year. */
-  encryptedExpiryYear?: string;
+  encryptedExpiryYear?: string | undefined;
   /** This field contains an encrypted, one-time password or an authentication code provided by the cardholder. */
-  encryptedPassword?: string | Redacted.Redacted<string>;
+  encryptedPassword?: string | Redacted.Redacted<string> | undefined;
   /** The encrypted card verification code. */
-  encryptedSecurityCode?: string;
+  encryptedSecurityCode?: string | undefined;
   /** The card expiry month. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The card expiry year. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The encoded fastlane data blob */
-  fastlaneData?: string;
+  fastlaneData?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: CardDonationsFundingSource | (string & {});
+  fundingSource?: CardDonationsFundingSource | (string & {}) | undefined;
   /** The name of the card holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The transaction identifier from card schemes. This is the [`networkTxReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-additionalData-ResponseAdditionalDataCommon-networkTxReference) from the response to the first payment. */
-  networkPaymentReference?: string;
+  networkPaymentReference?: string | undefined;
   /** The card number. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  number?: string;
+  number?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used only for recurring payments in India. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** An identifier used for the Click to Pay transaction. */
-  srcCorrelationId?: string;
+  srcCorrelationId?: string | undefined;
   /** The SRC reference for the Click to Pay token. */
-  srcDigitalCardId?: string;
+  srcDigitalCardId?: string | undefined;
   /** The scheme that is being used for Click to Pay. */
-  srcScheme?: string;
+  srcScheme?: string | undefined;
   /** The reference for the Click to Pay token. */
-  srcTokenReference?: string;
+  srcTokenReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** Default payment method details. Common for scheme payment methods, and for simple payment method details. */
-  type?: CardDonationsType | (string & {});
+  type?: CardDonationsType | (string & {}) | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type GooglePayDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -562,39 +630,39 @@ export type GooglePayDonationsFundingSource = "credit" | "debit" | "prepaid";
 export type GooglePayDonationsType = "googlepay";
 export interface GooglePayDonations {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: GooglePayDonationsFundingSource | (string & {});
+  fundingSource?: GooglePayDonationsFundingSource | (string & {}) | undefined;
   /** The selected payment card network. */
-  googlePayCardNetwork?: string;
+  googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
   googlePayToken: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** **googlepay**, **paywithgoogle** */
-  type?: GooglePayDonationsType | (string & {});
+  type?: GooglePayDonationsType | (string & {}) | undefined;
 }
 /** **ideal** */
 export type IdealDonationsType = "ideal";
 export interface IdealDonations {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The iDEAL issuer value of the shopper's selected bank. Set this to an **id** of an iDEAL issuer to preselect it. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **ideal** */
-  type?: IdealDonationsType | (string & {});
+  type?: IdealDonationsType | (string & {}) | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type PayWithGoogleDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -602,35 +670,35 @@ export type PayWithGoogleDonationsFundingSource = "credit" | "debit" | "prepaid"
 export type PayWithGoogleDonationsType = "paywithgoogle";
 export interface PayWithGoogleDonations {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: PayWithGoogleDonationsFundingSource | (string & {});
+  fundingSource?: PayWithGoogleDonationsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
   googlePayToken: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** **paywithgoogle** */
-  type?: PayWithGoogleDonationsType | (string & {});
+  type?: PayWithGoogleDonationsType | (string & {}) | undefined;
 }
 /** **sepadirectdebit** */
 export type SepaDirectDebitDonationsType = "sepadirectdebit";
 export interface SepaDirectDebitDonations {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **sepadirectdebit** */
-  type?: SepaDirectDebitDonationsType | (string & {});
+  type?: SepaDirectDebitDonationsType | (string & {}) | undefined;
 }
 /** The type and required details of a payment method to use. When `donationToken` is provided, the payment method is derived from the token and this field becomes optional. If you are [PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide), and make donations using raw card details, you must explicitly provide the payment method details. */
 export type CreateDonationRequestPaymentMethod =
@@ -669,37 +737,37 @@ export type AcctInfoShipNameIndicator = "01" | "02";
 export type AcctInfoSuspiciousAccActivity = "01" | "02";
 export interface AcctInfo {
   /** Length of time that the cardholder has had the account with the 3DS Requestor. Allowed values: * **01** -- No account * **02** -- Created during this transaction * **03** -- Less than 30 days * **04** -- 30-60 days * **05** -- More than 60 days */
-  chAccAgeInd?: AcctInfoChAccAgeInd | (string & {});
+  chAccAgeInd?: AcctInfoChAccAgeInd | (string & {}) | undefined;
   /** Date that the cardholder's account with the 3DS Requestor was last changed, including Billing or Shipping address, new payment account, or new user(s) added. Format: **YYYYMMDD** */
-  chAccChange?: string;
+  chAccChange?: string | undefined;
   /** Length of time since the cardholder's account information with the 3DS Requestor was last changed, including Billing or Shipping address, new payment account, or new user(s) added. Allowed values: * **01** -- Changed during this transaction * **02** -- Less than 30 days * **03** -- 30-60 days * **04** -- More than 60 days */
-  chAccChangeInd?: AcctInfoChAccChangeInd | (string & {});
+  chAccChangeInd?: AcctInfoChAccChangeInd | (string & {}) | undefined;
   /** Date that cardholder's account with the 3DS Requestor had a password change or account reset. Format: **YYYYMMDD** */
-  chAccPwChange?: string;
+  chAccPwChange?: string | undefined;
   /** Indicates the length of time since the cardholder's account with the 3DS Requestor had a password change or account reset. Allowed values: * **01** -- No change * **02** -- Changed during this transaction * **03** -- Less than 30 days * **04** -- 30-60 days * **05** -- More than 60 days */
-  chAccPwChangeInd?: AcctInfoChAccPwChangeInd | (string & {});
+  chAccPwChangeInd?: AcctInfoChAccPwChangeInd | (string & {}) | undefined;
   /** Date that the cardholder opened the account with the 3DS Requestor. Format: **YYYYMMDD** */
-  chAccString?: string;
+  chAccString?: string | undefined;
   /** Number of purchases with this cardholder account during the previous six months. Max length: 4 characters. */
-  nbPurchaseAccount?: string;
+  nbPurchaseAccount?: string | undefined;
   /** String that the payment account was enrolled in the cardholder's account with the 3DS Requestor. Format: **YYYYMMDD** */
-  paymentAccAge?: string;
+  paymentAccAge?: string | undefined;
   /** Indicates the length of time that the payment account was enrolled in the cardholder's account with the 3DS Requestor. Allowed values: * **01** -- No account (guest checkout) * **02** -- During this transaction * **03** -- Less than 30 days * **04** -- 30-60 days * **05** -- More than 60 days */
-  paymentAccInd?: AcctInfoPaymentAccInd | (string & {});
+  paymentAccInd?: AcctInfoPaymentAccInd | (string & {}) | undefined;
   /** Number of Add Card attempts in the last 24 hours. Max length: 3 characters. */
-  provisionAttemptsDay?: string;
+  provisionAttemptsDay?: string | undefined;
   /** String when the shipping address used for this transaction was first used with the 3DS Requestor. Format: **YYYYMMDD** */
-  shipAddressUsage?: string;
+  shipAddressUsage?: string | undefined;
   /** Indicates when the shipping address used for this transaction was first used with the 3DS Requestor. Allowed values: * **01** -- This transaction * **02** -- Less than 30 days * **03** -- 30-60 days * **04** -- More than 60 days */
-  shipAddressUsageInd?: AcctInfoShipAddressUsageInd | (string & {});
+  shipAddressUsageInd?: AcctInfoShipAddressUsageInd | (string & {}) | undefined;
   /** Indicates if the Cardholder Name on the account is identical to the shipping Name used for this transaction. Allowed values: * **01** -- Account Name identical to shipping Name * **02** -- Account Name different to shipping Name */
-  shipNameIndicator?: AcctInfoShipNameIndicator | (string & {});
+  shipNameIndicator?: AcctInfoShipNameIndicator | (string & {}) | undefined;
   /** Indicates whether the 3DS Requestor has experienced suspicious activity (including previous fraud) on the cardholder account. Allowed values: * **01** -- No suspicious activity has been observed * **02** -- Suspicious activity has been observed */
-  suspiciousAccActivity?: AcctInfoSuspiciousAccActivity | (string & {});
+  suspiciousAccActivity?: AcctInfoSuspiciousAccActivity | (string & {}) | undefined;
   /** Number of transactions (successful and abandoned) for this cardholder account with the 3DS Requestor across all payment accounts in the previous 24 hours. Max length: 3 characters. */
-  txnActivityDay?: string;
+  txnActivityDay?: string | undefined;
   /** Number of transactions (successful and abandoned) for this cardholder account with the 3DS Requestor across all payment accounts in the previous year. Max length: 3 characters. */
-  txnActivityYear?: string;
+  txnActivityYear?: string | undefined;
 }
 /** Indicates the type of account. For example, for a multi-account card product. Length: 2 characters. Allowed values: * **01** -- Not applicable * **02** -- Credit * **03** -- Debit */
 export type ThreeDS2RequestFieldsAcctType = "01" | "02" | "03";
@@ -725,25 +793,25 @@ export type DeviceRenderOptionsSdkUiTypeList = Array<
 >;
 export interface DeviceRenderOptions {
   /** Supported SDK interface types. Allowed values: * native * html * both */
-  sdkInterface?: DeviceRenderOptionsSdkInterface | (string & {});
+  sdkInterface?: DeviceRenderOptionsSdkInterface | (string & {}) | undefined;
   /** UI types supported for displaying specific challenges. Allowed values: * text * singleSelect * outOfBand * otherHtml * multiSelect */
-  sdkUiType?: DeviceRenderOptionsSdkUiTypeList;
+  sdkUiType?: DeviceRenderOptionsSdkUiTypeList | undefined;
 }
 export interface Phone {
   /** Country code. Length: 1-3 digits. */
-  cc?: string;
+  cc?: string | undefined;
   /** Subscriber number. Length: 4-15 digits. */
-  subscriber?: string;
+  subscriber?: string | undefined;
 }
 export interface SDKEphemPubKey {
   /** The `crv` value as received from the 3D Secure 2 SDK. */
-  crv?: string;
+  crv?: string | undefined;
   /** The `kty` value as received from the 3D Secure 2 SDK. */
-  kty?: string;
+  kty?: string | undefined;
   /** The `x` value as received from the 3D Secure 2 SDK. */
-  x?: string;
+  x?: string | undefined;
   /** The `y` value as received from the 3D Secure 2 SDK. */
-  y?: string;
+  y?: string | undefined;
 }
 /** Mechanism used by the Cardholder to authenticate to the 3DS Requestor. Allowed values: * **01** -- No 3DS Requestor authentication occurred (for example, cardholder "logged in" as guest). * **02** -- Login to the cardholder account at the 3DS Requestor system using 3DS Requestor's own credentials. * **03** -- Login to the cardholder account at the 3DS Requestor system using federated ID. * **04** -- Login to the cardholder account at the 3DS Requestor system using issuer credentials. * **05** -- Login to the cardholder account at the 3DS Requestor system using third-party authentication. * **06** -- Login to the cardholder account at the 3DS Requestor system using FIDO Authenticator. */
 export type ThreeDSRequestorAuthenticationInfoThreeDSReqAuthMethod =
@@ -755,11 +823,14 @@ export type ThreeDSRequestorAuthenticationInfoThreeDSReqAuthMethod =
   | "06";
 export interface ThreeDSRequestorAuthenticationInfo {
   /** Data that documents and supports a specific authentication process. Maximum length: 2048 bytes. */
-  threeDSReqAuthData?: string;
+  threeDSReqAuthData?: string | undefined;
   /** Mechanism used by the Cardholder to authenticate to the 3DS Requestor. Allowed values: * **01** -- No 3DS Requestor authentication occurred (for example, cardholder "logged in" as guest). * **02** -- Login to the cardholder account at the 3DS Requestor system using 3DS Requestor's own credentials. * **03** -- Login to the cardholder account at the 3DS Requestor system using federated ID. * **04** -- Login to the cardholder account at the 3DS Requestor system using issuer credentials. * **05** -- Login to the cardholder account at the 3DS Requestor system using third-party authentication. * **06** -- Login to the cardholder account at the 3DS Requestor system using FIDO Authenticator. */
-  threeDSReqAuthMethod?: ThreeDSRequestorAuthenticationInfoThreeDSReqAuthMethod | (string & {});
+  threeDSReqAuthMethod?:
+    | ThreeDSRequestorAuthenticationInfoThreeDSReqAuthMethod
+    | (string & {})
+    | undefined;
   /** Date and time in UTC of the cardholder authentication. Format: YYYYMMDDHHMM */
-  threeDSReqAuthTimestamp?: string;
+  threeDSReqAuthTimestamp?: string | undefined;
 }
 /** Indicates whether a challenge is requested for this transaction. Possible values: * **01** -- No preference * **02** -- No challenge requested * **03** -- Challenge requested (3DS Requestor preference) * **04** -- Challenge requested (Mandate) * **05** -- No challenge (transactional risk analysis is already performed) * **06** -- Data Only */
 export type ThreeDS2RequestFieldsThreeDSRequestorChallengeInd =
@@ -777,15 +848,16 @@ export type ThreeDSRequestorPriorAuthenticationInfoThreeDSReqPriorAuthMethod =
   | "04";
 export interface ThreeDSRequestorPriorAuthenticationInfo {
   /** Data that documents and supports a specific authentication process. Maximum length: 2048 bytes. */
-  threeDSReqPriorAuthData?: string;
+  threeDSReqPriorAuthData?: string | undefined;
   /** Mechanism used by the Cardholder to previously authenticate to the 3DS Requestor. Allowed values: * **01** -- Frictionless authentication occurred by ACS. * **02** -- Cardholder challenge occurred by ACS. * **03** -- AVS verified. * **04** -- Other issuer methods. */
   threeDSReqPriorAuthMethod?:
     | ThreeDSRequestorPriorAuthenticationInfoThreeDSReqPriorAuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Date and time in UTC of the prior cardholder authentication. Format: YYYYMMDDHHMM */
-  threeDSReqPriorAuthTimestamp?: string;
+  threeDSReqPriorAuthTimestamp?: string | undefined;
   /** This data element provides additional information to the ACS to determine the best approach for handing a request. This data element contains an ACS Transaction ID for a prior authenticated transaction. For example, the first recurring transaction that was authenticated with the cardholder. Length: 30 characters. */
-  threeDSReqPriorRef?: string;
+  threeDSReqPriorRef?: string | undefined;
 }
 /** Identifies the type of transaction being authenticated. Length: 2 characters. Allowed values: * **01** -- Goods/Service Purchase * **03** -- Check Acceptance * **10** -- Account Funding * **11** -- Quasi-Cash Transaction * **28** -- Prepaid Activation and Load */
 export type ThreeDS2RequestFieldsTransType = "01" | "03" | "10" | "11" | "28";
@@ -798,221 +870,227 @@ export type ThreeDS2RequestFieldsTransactionType =
   | "prepaidActivationAndLoad";
 export interface ThreeDS2RequestFields {
   /** Additional information about the cardholder's account provided by the 3DS Requestor. */
-  acctInfo?: AcctInfo;
+  acctInfo?: AcctInfo | undefined;
   /** Indicates the type of account. For example, for a multi-account card product. Length: 2 characters. Allowed values: * **01** -- Not applicable * **02** -- Credit * **03** -- Debit */
-  acctType?: ThreeDS2RequestFieldsAcctType | (string & {});
+  acctType?: ThreeDS2RequestFieldsAcctType | (string & {}) | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The acquiring BIN enrolled for 3D Secure 2. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform. */
-  acquirerBIN?: string;
+  acquirerBIN?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchantId that is enrolled for 3D Secure 2 by the merchant's acquirer. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform. */
-  acquirerMerchantID?: string;
+  acquirerMerchantID?: string | undefined;
   /** Indicates whether the cardholder shipping Address and cardholder billing address are the same. Allowed values: * **Y** -- Shipping Address matches Billing Address. * **N** -- Shipping Address does not match Billing Address. */
-  addrMatch?: ThreeDS2RequestFieldsAddrMatch | (string & {});
+  addrMatch?: ThreeDS2RequestFieldsAddrMatch | (string & {}) | undefined;
   /** If set to true, you will only perform the [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only), and not the payment authorisation. */
-  authenticationOnly?: boolean;
+  authenticationOnly?: boolean | undefined;
   /** Possibility to specify a preference for receiving a challenge from the issuer. Allowed values: * `noPreference` * `requestNoChallenge` * `requestChallenge` * `requestChallengeAsMandate` */
-  challengeIndicator?: ThreeDS2RequestFieldsChallengeIndicator | (string & {});
+  challengeIndicator?: ThreeDS2RequestFieldsChallengeIndicator | (string & {}) | undefined;
   /** Display options for the 3D Secure 2 SDK. Optional and only for `deviceChannel` **app**. */
-  deviceRenderOptions?: DeviceRenderOptions;
+  deviceRenderOptions?: DeviceRenderOptions | undefined;
   /** The home phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  homePhone?: Phone;
+  homePhone?: Phone | undefined;
   /** Required for merchants that have been enrolled for 3D Secure 2 by another party than Adyen, mostly [authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The `mcc` is a four-digit code with which the previously given `acquirerMerchantID` is registered at the scheme. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchant name that the issuer presents to the shopper if they get a challenge. We recommend to use the same value that you will use in the authorization. Maximum length is 40 characters. > Optional for a [full 3D Secure 2 integration](https://docs.adyen.com/online-payments/3d-secure/native-3ds2/api-integration). Use this field if you are enrolled for 3D Secure 2 with us and want to override the merchant name already configured on your account. */
-  merchantName?: string;
+  merchantName?: string | undefined;
   /** The `messageVersion` value indicating the 3D Secure 2 protocol version. */
-  messageVersion?: string;
+  messageVersion?: string | undefined;
   /** The mobile phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  mobilePhone?: Phone;
+  mobilePhone?: Phone | undefined;
   /** URL to where the issuer should send the `CRes`. Required if you are not using components for `channel` **Web** or if you are using classic integration `deviceChannel` **browser**. */
-  notificationURL?: string;
+  notificationURL?: string | undefined;
   /** Value **true** indicates that the transaction was de-tokenised prior to being received by the ACS. */
-  payTokenInd?: boolean;
+  payTokenInd?: boolean | undefined;
   /** Indicates the type of payment for which an authentication is requested (message extension) */
-  paymentAuthenticationUseCase?: string;
+  paymentAuthenticationUseCase?: string | undefined;
   /** Indicates the maximum number of authorisations permitted for instalment payments. Length: 1-3 characters. */
-  purchaseInstalData?: string;
+  purchaseInstalData?: string | undefined;
   /** Date after which no further authorisations shall be performed. Format: YYYYMMDD */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Indicates the minimum number of days between authorisations. Maximum length: 4 characters. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** The `sdkAppID` value as received from the 3D Secure 2 SDK. */
-  sdkAppID?: string;
+  sdkAppID?: string | undefined;
   /** The `sdkEphemPubKey` value as received from the 3D Secure 2 SDK. */
-  sdkEphemPubKey?: SDKEphemPubKey;
+  sdkEphemPubKey?: SDKEphemPubKey | undefined;
   /** The maximum amount of time in minutes for the 3D Secure 2 authentication process. Optional and only for `deviceChannel` set to **app**. Defaults to **60** minutes. */
-  sdkMaxTimeout?: number;
+  sdkMaxTimeout?: number | undefined;
   /** The `sdkReferenceNumber` value as received from the 3D Secure 2 SDK. */
-  sdkReferenceNumber?: string;
+  sdkReferenceNumber?: string | undefined;
   /** The `sdkTransID` value as received from the 3D Secure 2 SDK. */
-  sdkTransID?: string;
+  sdkTransID?: string | undefined;
   /** Completion indicator for the device fingerprinting. */
-  threeDSCompInd?: string;
+  threeDSCompInd?: string | undefined;
   /** Indicates the type of Authentication request. */
-  threeDSRequestorAuthenticationInd?: string;
+  threeDSRequestorAuthenticationInd?: string | undefined;
   /** Information about how the 3DS Requestor authenticated the cardholder before or during the transaction */
-  threeDSRequestorAuthenticationInfo?: ThreeDSRequestorAuthenticationInfo;
+  threeDSRequestorAuthenticationInfo?: ThreeDSRequestorAuthenticationInfo | undefined;
   /** Indicates whether a challenge is requested for this transaction. Possible values: * **01** -- No preference * **02** -- No challenge requested * **03** -- Challenge requested (3DS Requestor preference) * **04** -- Challenge requested (Mandate) * **05** -- No challenge (transactional risk analysis is already performed) * **06** -- Data Only */
-  threeDSRequestorChallengeInd?: ThreeDS2RequestFieldsThreeDSRequestorChallengeInd | (string & {});
+  threeDSRequestorChallengeInd?:
+    | ThreeDS2RequestFieldsThreeDSRequestorChallengeInd
+    | (string & {})
+    | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor identifier assigned by the Directory Server when you enrol for 3D Secure 2. */
-  threeDSRequestorID?: string;
+  threeDSRequestorID?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor name assigned by the Directory Server when you enrol for 3D Secure 2. */
-  threeDSRequestorName?: string;
+  threeDSRequestorName?: string | undefined;
   /** Information about how the 3DS Requestor authenticated the cardholder as part of a previous 3DS transaction. */
-  threeDSRequestorPriorAuthenticationInfo?: ThreeDSRequestorPriorAuthenticationInfo;
+  threeDSRequestorPriorAuthenticationInfo?: ThreeDSRequestorPriorAuthenticationInfo | undefined;
   /** URL of the (customer service) website that will be shown to the shopper in case of technical errors during the 3D Secure 2 process. */
-  threeDSRequestorURL?: string;
+  threeDSRequestorURL?: string | undefined;
   /** Identifies the type of transaction being authenticated. Length: 2 characters. Allowed values: * **01** -- Goods/Service Purchase * **03** -- Check Acceptance * **10** -- Account Funding * **11** -- Quasi-Cash Transaction * **28** -- Prepaid Activation and Load */
-  transType?: ThreeDS2RequestFieldsTransType | (string & {});
+  transType?: ThreeDS2RequestFieldsTransType | (string & {}) | undefined;
   /** Identify the type of the transaction being authenticated. */
-  transactionType?: ThreeDS2RequestFieldsTransactionType | (string & {});
+  transactionType?: ThreeDS2RequestFieldsTransactionType | (string & {}) | undefined;
   /** The `whiteListStatus` value returned from a previous 3D Secure 2 transaction, only applicable for 3D Secure 2 protocol version 2.2.0. */
-  whiteListStatus?: string;
+  whiteListStatus?: string | undefined;
   /** The work phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  workPhone?: Phone;
+  workPhone?: Phone | undefined;
 }
 export interface CreateDonationRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  accountInfo?: AccountInfo;
+  accountInfo?: AccountInfo | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Data for 3DS authentication. */
-  authenticationData?: AuthenticationData;
+  authenticationData?: AuthenticationData | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
-  browserInfo?: BrowserInfo;
+  browserInfo?: BrowserInfo | undefined;
   /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * iOS * Android * Web */
-  channel?: CreateDonationRequestChannel | (string & {});
+  channel?: CreateDonationRequestChannel | (string & {}) | undefined;
   /** Checkout attempt ID that corresponds to the Id generated by the client SDK for tracking user payment journey. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The shopper country code. Format: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) Example: NL or DE */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: DeliveryAddress | undefined;
   /** A string containing the shopper's device fingerprint. For more information, refer to [Device fingerprinting](https://docs.adyen.com/risk-management/device-fingerprinting). */
-  deviceFingerprint?: string;
+  deviceFingerprint?: string | undefined;
   /** Donation account to which the transaction is credited. */
-  donationAccount?: string;
+  donationAccount?: string | undefined;
   /** The donation campaign ID received in the `/donationCampaigns` call. */
-  donationCampaignId?: string;
+  donationCampaignId?: string | undefined;
   /** PSP reference of the transaction from which the donation token is generated. Required when `donationToken` is provided. */
-  donationOriginalPspReference?: string;
+  donationOriginalPspReference?: string | undefined;
   /** Donation token received in the `/payments` call. */
-  donationToken?: string;
+  donationToken?: string | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: CreateDonationRequestLineItemsList;
+  lineItems?: CreateDonationRequestLineItemsList | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** Additional risk fields for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  merchantRiskIndicator?: MerchantRiskIndicator;
+  merchantRiskIndicator?: MerchantRiskIndicator | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-  metadata?: CreateDonationRequestMetadataMap;
+  metadata?: CreateDonationRequestMetadataMap | undefined;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
-  mpiData?: ThreeDSecureData;
+  mpiData?: ThreeDSecureData | undefined;
   /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions.Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. */
-  origin?: string;
+  origin?: string | undefined;
   /** The type and required details of a payment method to use. When `donationToken` is provided, the payment method is derived from the token and this field becomes optional. If you are [PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide), and make donations using raw card details, you must explicitly provide the payment method details. */
-  paymentMethod?: CreateDonationRequestPaymentMethod;
+  paymentMethod?: CreateDonationRequestPaymentMethod | undefined;
   /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: CreateDonationRequestRecurringProcessingModel | (string & {});
+  recurringProcessingModel?:
+    | CreateDonationRequestRecurringProcessingModel
+    | (string & {})
+    | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting back from the issuer. */
-  redirectFromIssuerMethod?: string;
+  redirectFromIssuerMethod?: string | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting to the issuer. */
-  redirectToIssuerMethod?: string;
+  redirectToIssuerMethod?: string | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
   reference: string;
   /** The URL to return to in case of a redirection. The format depends on the channel. * For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number. Example: `https://your-company.example.com/checkout?shopperOrder=12xy` * For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Example: `my-app://` * For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters). Example: `my-app://your.package.name` If the URL to return to includes non-ASCII characters, like spaces or special letters, URL encode the value. > The URL must not include personally identifiable information (PII), for example name or email address. */
   returnUrl: string;
   /** The date and time until when the session remains valid, in [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format. For example: 2020-07-18T15:42:40.428+01:00 */
-  sessionValidity?: string;
+  sessionValidity?: string | undefined;
   /** The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorization rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorization (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
-  shopperInteraction?: CreateDonationRequestShopperInteraction | (string & {});
+  shopperInteraction?: CreateDonationRequestShopperInteraction | (string & {}) | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Required for recurring payments. Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters. > Your reference must not include personally identifiable information (PII), for example name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments) or [Classic integration](https://docs.adyen.com/classic-integration) documentation. */
-  threeDS2RequestData?: ThreeDS2RequestFields;
+  threeDS2RequestData?: ThreeDS2RequestFields | undefined;
 }
 /** **await** */
 export type CheckoutAwaitActionType = "await";
 export interface CheckoutAwaitAction {
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** **await** */
   type: CheckoutAwaitActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The type of the action. */
 export type CheckoutBankTransferActionType = "bankTransfer";
 export interface CheckoutBankTransferAction {
   /** The account number of the bank transfer. */
-  accountNumber?: string;
+  accountNumber?: string | undefined;
   /** The bank code of the bank transfer. */
-  bankCode?: string;
+  bankCode?: string | undefined;
   /** The name of the account holder. */
-  beneficiary?: string;
+  beneficiary?: string | undefined;
   /** The BIC of the IBAN. */
-  bic?: string;
+  bic?: string | undefined;
   /** The branch code of the bank transfer. */
-  branchCode?: string;
+  branchCode?: string | undefined;
   /** The url to download payment details with. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** The IBAN of the bank transfer. */
-  iban?: string;
+  iban?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** The transfer reference. */
-  reference?: string;
+  reference?: string | undefined;
   /** The routing number of the bank transfer. */
-  routingNumber?: string;
+  routingNumber?: string | undefined;
   /** The e-mail of the shopper, included if an e-mail was sent to the shopper. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The sort code of the bank transfer. */
-  sortCode?: string;
+  sortCode?: string | undefined;
   /** The amount of the bank transfer. */
-  totalAmount?: Amount;
+  totalAmount?: Amount | undefined;
   /** The type of the action. */
   type: CheckoutBankTransferActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** **delegatedAuthentication** */
 export type CheckoutDelegatedAuthenticationActionType = "delegatedAuthentication";
 export interface CheckoutDelegatedAuthenticationAction {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string;
+  authorisationToken?: string | undefined;
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** A token to pass to the delegatedAuthentication component. */
-  token?: string;
+  token?: string | undefined;
   /** **delegatedAuthentication** */
   type: CheckoutDelegatedAuthenticationActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
 export type CheckoutNativeRedirectActionDataMap = { [key: string]: string | undefined };
@@ -1020,33 +1098,33 @@ export type CheckoutNativeRedirectActionDataMap = { [key: string]: string | unde
 export type CheckoutNativeRedirectActionType = "nativeRedirect";
 export interface CheckoutNativeRedirectAction {
   /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
-  data?: CheckoutNativeRedirectActionDataMap;
+  data?: CheckoutNativeRedirectActionDataMap | undefined;
   /** Specifies the HTTP method, for example GET or POST. */
-  method?: string;
+  method?: string | undefined;
   /** Native SDK's redirect data containing the direct issuer link and state data that must be submitted to the /v1/nativeRedirect/redirectResult. */
-  nativeRedirectData?: string;
+  nativeRedirectData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** **nativeRedirect** */
   type: CheckoutNativeRedirectActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** **qrCode** */
 export type CheckoutQrCodeActionType = "qrCode";
 export interface CheckoutQrCodeAction {
   /** Expiry time of the QR code. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** The contents of the QR code as a UTF8 string. */
-  qrCodeData?: string;
+  qrCodeData?: string | undefined;
   /** **qrCode** */
   type: CheckoutQrCodeActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
 export type CheckoutRedirectActionDataMap = { [key: string]: string | undefined };
@@ -1054,15 +1132,15 @@ export type CheckoutRedirectActionDataMap = { [key: string]: string | undefined 
 export type CheckoutRedirectActionType = "redirect";
 export interface CheckoutRedirectAction {
   /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
-  data?: CheckoutRedirectActionDataMap;
+  data?: CheckoutRedirectActionDataMap | undefined;
   /** Specifies the HTTP method, for example GET or POST. */
-  method?: string;
+  method?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** **redirect** */
   type: CheckoutRedirectActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The data to pass to the SDK. */
 export type CheckoutSDKActionSdkDataMap = { [key: string]: string | undefined };
@@ -1070,79 +1148,79 @@ export type CheckoutSDKActionSdkDataMap = { [key: string]: string | undefined };
 export type CheckoutSDKActionType = "sdk" | "wechatpaySDK";
 export interface CheckoutSDKAction {
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** The data to pass to the SDK. */
-  sdkData?: CheckoutSDKActionSdkDataMap;
+  sdkData?: CheckoutSDKActionSdkDataMap | undefined;
   /** The type of the action. */
   type: CheckoutSDKActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** **threeDS2** */
 export type CheckoutThreeDS2ActionType = "threeDS2";
 export interface CheckoutThreeDS2Action {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string;
+  authorisationToken?: string | undefined;
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** A subtype of the token. */
-  subtype?: string;
+  subtype?: string | undefined;
   /** A token to pass to the 3DS2 Component to get the fingerprint. */
-  token?: string;
+  token?: string | undefined;
   /** **threeDS2** */
   type: CheckoutThreeDS2ActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** **voucher** */
 export type CheckoutVoucherActionType = "voucher";
 export interface CheckoutVoucherAction {
   /** The voucher alternative reference code. */
-  alternativeReference?: string;
+  alternativeReference?: string | undefined;
   /** A collection institution number (store number) for Econtext Pay-Easy ATM. */
-  collectionInstitutionNumber?: string;
+  collectionInstitutionNumber?: string | undefined;
   /** The URL to download the voucher. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** An entity number of Multibanco. */
-  entity?: string;
+  entity?: string | undefined;
   /** The date time of the voucher expiry. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The initial amount. */
-  initialAmount?: Amount;
+  initialAmount?: Amount | undefined;
   /** The URL to the detailed instructions to make payment using the voucher. */
-  instructionsUrl?: string;
+  instructionsUrl?: string | undefined;
   /** The issuer of the voucher. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The shopper telephone number (partially masked). */
-  maskedTelephoneNumber?: string;
+  maskedTelephoneNumber?: string | undefined;
   /** The merchant name. */
-  merchantName?: string;
+  merchantName?: string | undefined;
   /** The merchant reference. */
-  merchantReference?: string;
+  merchantReference?: string | undefined;
   /** A Base64-encoded token containing all properties of the voucher. For iOS, you can use this to pass a voucher to Apple Wallet. */
-  passCreationToken?: string;
+  passCreationToken?: string | undefined;
   /** Encoded payment data. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Specifies the payment method. */
-  paymentMethodType?: string;
+  paymentMethodType?: string | undefined;
   /** The voucher reference code. */
-  reference?: string;
+  reference?: string | undefined;
   /** The shopper email. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper name. */
-  shopperName?: string;
+  shopperName?: string | undefined;
   /** The surcharge amount. */
-  surcharge?: Amount;
+  surcharge?: Amount | undefined;
   /** The total amount (initial plus surcharge amount). */
-  totalAmount?: Amount;
+  totalAmount?: Amount | undefined;
   /** **voucher** */
   type: CheckoutVoucherActionType;
   /** Specifies the URL to redirect to. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Action to be taken for completing the payment. */
 export type PaymentResponseAction =
@@ -1171,69 +1249,69 @@ export interface FraudResult {
   /** The total fraud score generated by the risk checks. */
   accountScore: number;
   /** The result of the individual risk checks. */
-  results?: FraudResultResultsList;
+  results?: FraudResultResultsList | undefined;
 }
 export interface OpiResponse {
   /** The OPI issuer id. */
-  issuerId?: string;
+  issuerId?: string | undefined;
   /** The OPI transaction token. */
-  transToken?: string;
+  transToken?: string | undefined;
 }
 export interface CheckoutOrderResponse {
   /** The initial amount of the order. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The expiry date for the order. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The encrypted order data. */
-  orderData?: string;
+  orderData?: string | undefined;
   /** The `pspReference` that belongs to the order. */
   pspReference: string;
   /** The merchant reference for the order. */
-  reference?: string;
+  reference?: string | undefined;
   /** The updated remaining amount. */
-  remainingAmount?: Amount;
+  remainingAmount?: Amount | undefined;
 }
 export interface ResponsePaymentMethod {
   /** The card brand that the shopper used to pay. Only returned if `paymentMethod.type` is **scheme**. */
-  brand?: string;
+  brand?: string | undefined;
   /** The `paymentMethod.type` value used in the request. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface PaymentValidationsNameResultRawResponse {
   /** The raw first name validation result that Adyen received from the scheme. First name validation result is only returned for Visa. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The raw full name validation result that Adyen received from the scheme. Full name is the only field that is validated for Mastercard */
-  fullName?: string;
+  fullName?: string | undefined;
   /** The raw last name validation result that Adyen received from the scheme. Last name validation result is only returned for Visa. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The raw middle name validation result that Adyen received from the scheme. Middle name validation result is only returned for Visa. */
-  middleName?: string;
+  middleName?: string | undefined;
   /** The raw name validation status value that Adyen received from the scheme. Only returned for Visa. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface PaymentValidationsNameResultResponse {
   /** Informs you if the first name your shopper provided matches the cardholder first name on file at the issuing bank. The first name is only validated for Visa. Possible values: **match**, **partialMatch**, **noMatch** */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Informs you if the full name your shopper provided matches the cardholder name on file at the issuing bank. The full name is the only field that is validated for Mastercard. Possible values: **match**, **partialMatch**, **noMatch** */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Informs you if the last name your shopper provided matches the cardholder last name on file at the issuing bank. The last name is only validated for Visa. Possible values: **match**, **partialMatch**, **noMatch** */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Informs you if the middle name your shopper provided matches the cardholder middle name on file at the issuing bank. The middle name is only validated for Visa. Possible values: **match**, **partialMatch**, **noMatch** */
-  middleName?: string;
+  middleName?: string | undefined;
 }
 /** Informs you if the name validation was performed. Possible values: **performed**, **notPerformed**, **notSupported** */
 export type PaymentValidationsNameResponseStatus = "notPerformed" | "notSupported" | "performed";
 export interface PaymentValidationsNameResponse {
   /** Contains the raw response(s) returned by the scheme for the name validation. */
-  rawResponse?: PaymentValidationsNameResultRawResponse;
+  rawResponse?: PaymentValidationsNameResultRawResponse | undefined;
   /** Contains the scheme-agnostic match values returned by Adyen. */
-  result?: PaymentValidationsNameResultResponse;
+  result?: PaymentValidationsNameResultResponse | undefined;
   /** Informs you if the name validation was performed. Possible values: **performed**, **notPerformed**, **notSupported** */
-  status?: PaymentValidationsNameResponseStatus;
+  status?: PaymentValidationsNameResponseStatus | undefined;
 }
 export interface PaymentValidationsResponse {
   /** Object that contains the status and outcomes of the [name validation](https://docs.adyen.com/payment-methods/cards/name-validation). */
-  name?: PaymentValidationsNameResponse;
+  name?: PaymentValidationsNameResponse | undefined;
 }
 /** The result of the payment. For more information, see [Result codes](https://docs.adyen.com/online-payments/payment-result-codes). Possible values: * **AuthenticationFinished** - The payment has been successfully authenticated with 3D Secure 2. Returned for 3D Secure 2 authentication-only transactions. * **AuthenticationNotRequired** - The transaction does not require 3D Secure authentication. Returned for [standalone authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). * **Authorised** - The payment was successfully authorised. This state serves as an indicator to proceed with the delivery of goods and services. This is a final state. * **Cancelled** - Indicates the payment has been cancelled (either by the shopper or the merchant) before processing was completed. This is a final state. * **ChallengeShopper** - The issuer requires further shopper interaction before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **Error** - There was an error when the payment was being processed. The reason is given in the `refusalReason` field. This is a final state. * **IdentifyShopper** - The issuer requires the shopper's device fingerprint before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **PartiallyAuthorised** - The payment has been authorised for a partial amount. This happens for card payments when the merchant supports Partial Authorisations and the cardholder has insufficient funds. * **Pending** - Indicates that it is not possible to obtain the final status of the payment. This can happen if the systems providing final status information for the payment are unavailable, or if the shopper needs to take further action to complete the payment. * **PresentToShopper** - Indicates that the response contains additional information that you need to present to a shopper, so that they can use it to complete a payment. * **Received** - Indicates the payment has successfully been received by Adyen, and will be processed. This is the initial state for all payments. * **RedirectShopper** - Indicates the shopper should be redirected to an external web page or app to complete the authorisation. * **Refused** - Indicates the payment was refused. The reason is given in the `refusalReason` field. This is a final state. */
 export type PaymentResponseResultCode =
@@ -1252,25 +1330,25 @@ export type PaymentResponseResultCode =
   | "Refused"
   | "Success";
 export interface ThreeDS2ResponseData {
-  acsChallengeMandated?: string;
-  acsOperatorID?: string;
-  acsReferenceNumber?: string;
-  acsSignedContent?: string;
-  acsTransID?: string;
-  acsURL?: string;
-  authenticationType?: string;
-  cardHolderInfo?: string;
-  cavvAlgorithm?: string;
-  challengeIndicator?: string;
-  dsReferenceNumber?: string;
-  dsTransID?: string;
-  exemptionIndicator?: string;
-  messageVersion?: string;
-  riskScore?: string;
-  sdkEphemPubKey?: string;
-  threeDSServerTransID?: string;
-  transStatus?: string;
-  transStatusReason?: string;
+  acsChallengeMandated?: string | undefined;
+  acsOperatorID?: string | undefined;
+  acsReferenceNumber?: string | undefined;
+  acsSignedContent?: string | undefined;
+  acsTransID?: string | undefined;
+  acsURL?: string | undefined;
+  authenticationType?: string | undefined;
+  cardHolderInfo?: string | undefined;
+  cavvAlgorithm?: string | undefined;
+  challengeIndicator?: string | undefined;
+  dsReferenceNumber?: string | undefined;
+  dsTransID?: string | undefined;
+  exemptionIndicator?: string | undefined;
+  messageVersion?: string | undefined;
+  riskScore?: string | undefined;
+  sdkEphemPubKey?: string | undefined;
+  threeDSServerTransID?: string | undefined;
+  transStatus?: string | undefined;
+  transStatusReason?: string | undefined;
 }
 /** Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata). */
 export type ThreeDS2ResultChallengeCancel = "01" | "02" | "03" | "04" | "05" | "06" | "07";
@@ -1284,101 +1362,101 @@ export type ThreeDS2ResultExemptionIndicator =
 export type ThreeDS2ResultThreeDSRequestorChallengeInd = "01" | "02" | "03" | "04" | "05" | "06";
 export interface ThreeDS2Result {
   /** The `authenticationValue` value as defined in the 3D Secure 2 specification. */
-  authenticationValue?: string;
+  authenticationValue?: string | undefined;
   /** The algorithm used by the ACS to calculate the authentication value, only for Cartes Bancaires integrations. */
-  cavvAlgorithm?: string;
+  cavvAlgorithm?: string | undefined;
   /** Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata). */
-  challengeCancel?: ThreeDS2ResultChallengeCancel;
+  challengeCancel?: ThreeDS2ResultChallengeCancel | undefined;
   /** The `dsTransID` value as defined in the 3D Secure 2 specification. */
-  dsTransID?: string;
+  dsTransID?: string | undefined;
   /** The `eci` value as defined in the 3D Secure 2 specification. */
-  eci?: string;
+  eci?: string | undefined;
   /** Indicates the exemption type that was applied by the issuer to the authentication, if exemption applied. Allowed values: * `lowValue` * `secureCorporate` * `trustedBeneficiary` * `transactionRiskAnalysis` */
-  exemptionIndicator?: ThreeDS2ResultExemptionIndicator;
+  exemptionIndicator?: ThreeDS2ResultExemptionIndicator | undefined;
   /** The `messageVersion` value as defined in the 3D Secure 2 specification. */
-  messageVersion?: string;
+  messageVersion?: string | undefined;
   /** Risk score calculated by Cartes Bancaires Directory Server (DS). */
-  riskScore?: string;
+  riskScore?: string | undefined;
   /** Indicates whether a challenge is requested for this transaction. Possible values: * **01** -- No preference * **02** -- No challenge requested * **03** -- Challenge requested (3DS Requestor preference) * **04** -- Challenge requested (Mandate) * **05** -- No challenge (transactional risk analysis is already performed) * **06** -- Data Only */
-  threeDSRequestorChallengeInd?: ThreeDS2ResultThreeDSRequestorChallengeInd;
+  threeDSRequestorChallengeInd?: ThreeDS2ResultThreeDSRequestorChallengeInd | undefined;
   /** The `threeDSServerTransID` value as defined in the 3D Secure 2 specification. */
-  threeDSServerTransID?: string;
+  threeDSServerTransID?: string | undefined;
   /** The `timestamp` value of the 3D Secure 2 authentication. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The `transStatus` value as defined in the 3D Secure 2 specification. */
-  transStatus?: string;
+  transStatus?: string | undefined;
   /** Provides information on why the `transStatus` field has the specified value. For possible values, refer to [our docs](https://docs.adyen.com/online-payments/3d-secure/api-reference#possible-transstatusreason-values). */
-  transStatusReason?: string;
+  transStatusReason?: string | undefined;
   /** The `whiteListStatus` value as defined in the 3D Secure 2 specification. */
-  whiteListStatus?: string;
+  whiteListStatus?: string | undefined;
 }
 export interface PaymentResponse {
   /** Action to be taken for completing the payment. */
-  action?: PaymentResponseAction;
+  action?: PaymentResponseAction | undefined;
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-  additionalData?: PaymentResponseAdditionalDataMap;
+  additionalData?: PaymentResponseAdditionalDataMap | undefined;
   /** Authorised amount in the transaction. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string;
+  donationToken?: string | undefined;
   /** The fraud result properties of the payment. */
-  fraudResult?: FraudResult;
+  fraudResult?: FraudResult | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
-  merchantReference?: string;
+  merchantReference?: string | undefined;
   /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
-  opi?: OpiResponse;
+  opi?: OpiResponse | undefined;
   /** Contains updated information regarding the order in case order information was provided in the request. */
-  order?: CheckoutOrderResponse;
+  order?: CheckoutOrderResponse | undefined;
   /** Details about the payment method used in the transaction. Only returned if `resultCode` is **Authorised**. */
-  paymentMethod?: ResponsePaymentMethod;
+  paymentMethod?: ResponsePaymentMethod | undefined;
   /** The object that contains the validation outcomes. Only returned if `resultCode` is **Authorised** and if you have requested a payment validation in the request. */
-  paymentValidations?: PaymentValidationsResponse;
+  paymentValidations?: PaymentValidationsResponse | undefined;
   /** Adyen's 16-character string reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request. > For payment methods that require a redirect or additional action, you will get this value in the `/payments/details` response. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values. For more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReason?: string;
+  refusalReason?: string | undefined;
   /** Code that specifies the refusal reason. For more information, see [Authorisation refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReasonCode?: string;
+  refusalReasonCode?: string | undefined;
   /** The result of the payment. For more information, see [Result codes](https://docs.adyen.com/online-payments/payment-result-codes). Possible values: * **AuthenticationFinished** - The payment has been successfully authenticated with 3D Secure 2. Returned for 3D Secure 2 authentication-only transactions. * **AuthenticationNotRequired** - The transaction does not require 3D Secure authentication. Returned for [standalone authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). * **Authorised** - The payment was successfully authorised. This state serves as an indicator to proceed with the delivery of goods and services. This is a final state. * **Cancelled** - Indicates the payment has been cancelled (either by the shopper or the merchant) before processing was completed. This is a final state. * **ChallengeShopper** - The issuer requires further shopper interaction before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **Error** - There was an error when the payment was being processed. The reason is given in the `refusalReason` field. This is a final state. * **IdentifyShopper** - The issuer requires the shopper's device fingerprint before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **PartiallyAuthorised** - The payment has been authorised for a partial amount. This happens for card payments when the merchant supports Partial Authorisations and the cardholder has insufficient funds. * **Pending** - Indicates that it is not possible to obtain the final status of the payment. This can happen if the systems providing final status information for the payment are unavailable, or if the shopper needs to take further action to complete the payment. * **PresentToShopper** - Indicates that the response contains additional information that you need to present to a shopper, so that they can use it to complete a payment. * **Received** - Indicates the payment has successfully been received by Adyen, and will be processed. This is the initial state for all payments. * **RedirectShopper** - Indicates the shopper should be redirected to an external web page or app to complete the authorisation. * **Refused** - Indicates the payment was refused. The reason is given in the `refusalReason` field. This is a final state. */
-  resultCode?: PaymentResponseResultCode;
+  resultCode?: PaymentResponseResultCode | undefined;
   /** Response of the 3D Secure 2 authentication. */
-  threeDS2ResponseData?: ThreeDS2ResponseData;
+  threeDS2ResponseData?: ThreeDS2ResponseData | undefined;
   /** Result of the 3D Secure 2 authentication. */
-  threeDS2Result?: ThreeDS2Result;
+  threeDS2Result?: ThreeDS2Result | undefined;
   /** When non-empty, contains a value that you must submit to the `/payments/details` endpoint as `paymentData`. */
-  threeDSPaymentData?: string;
+  threeDSPaymentData?: string | undefined;
 }
 /** The status of the donation transaction. Possible values: * **completed** * **pending** * **refused** */
 export type DonationPaymentResponseStatus = "completed" | "pending" | "refused";
 export interface DonationPaymentResponse {
   /** Authorised amount in the transaction. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The Adyen account name of your charity. We will provide you with this account name once your chosen charity has been [onboarded](https://docs.adyen.com/online-payments/donations#onboarding). */
-  donationAccount?: string;
+  donationAccount?: string | undefined;
   /** Your unique resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
-  merchantAccount?: string;
+  merchantAccount?: string | undefined;
   /** Action to be taken for completing the payment. */
-  payment?: PaymentResponse;
+  payment?: PaymentResponse | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of the donation transaction. Possible values: * **completed** * **pending** * **refused** */
-  status?: DonationPaymentResponseStatus;
+  status?: DonationPaymentResponseStatus | undefined;
 }
 export interface CreateDonationCampaignRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes/). */
   currency: string;
   /** The label that is assigned to the donation campaign. */
-  label?: string;
+  label?: string | undefined;
   /** Locale on the shopper interaction device. */
-  locale?: string;
+  locale?: string | undefined;
   /** Your merchant account identifier. */
   merchantAccount: string;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
 }
 /** The amounts of the donation (in [minor units](https://docs.adyen.com/development-resources/currency-codes/)). */
 export type AmountsValuesList = Array<number>;
@@ -1394,49 +1472,49 @@ export interface Donation {
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes/). */
   currency: string;
   /** The [type of donation](https://docs.adyen.com/online-payments/donations/#donation-types). Possible values: * **roundup**: a donation where the original transaction amount is rounded up as a donation. * **fixedAmounts**: a donation where you show fixed donations amounts that the shopper can select from. */
-  donationType?: string;
+  donationType?: string | undefined;
   /** The maximum amount a transaction can be rounded up to make a donation. This field is only present when `donationType` is **roundup**. */
-  maxRoundupAmount?: number;
+  maxRoundupAmount?: number | undefined;
   /** The [type of donation](https://docs.adyen.com/online-payments/donations/#donation-types). Possible values: * **roundup**: a donation where the original transaction amount is rounded up as a donation. * **fixedAmounts**: a donation where you show fixed donation amounts that the shopper can select from. */
   type: string;
   /** The fixed donation amounts in [minor units](https://docs.adyen.com/development-resources/currency-codes//#minor-units). This field is only present when `donationType` is **fixedAmounts**. */
-  values?: DonationValuesList;
+  values?: DonationValuesList | undefined;
 }
 export interface DonationCampaign {
   /** The object that contains the fixed donation amounts that the shopper can select from. */
-  amounts?: Amounts;
+  amounts?: Amounts | undefined;
   /** The URL for the banner of the nonprofit or campaign. */
-  bannerUrl?: string;
+  bannerUrl?: string | undefined;
   /** The name of the donation campaign.. */
-  campaignName?: string;
+  campaignName?: string | undefined;
   /** The cause of the nonprofit. */
-  causeName?: string;
+  causeName?: string | undefined;
   /** The object that contains the details of the donation. */
-  donation?: Donation;
+  donation?: Donation | undefined;
   /** The unique campaign ID of the donation campaign. */
-  id?: string;
+  id?: string | undefined;
   /** The URL for the logo of the nonprofit. */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** The description of the nonprofit. */
-  nonprofitDescription?: string;
+  nonprofitDescription?: string | undefined;
   /** The name of the nonprofit organization that receives the donation. */
-  nonprofitName?: string;
+  nonprofitName?: string | undefined;
   /** The website URL of the nonprofit. */
-  nonprofitUrl?: string;
+  nonprofitUrl?: string | undefined;
   /** The URL of the terms and conditions page of the nonprofit and the campaign. */
-  termsAndConditionsUrl?: string;
+  termsAndConditionsUrl?: string | undefined;
 }
 /** List of active donation campaigns for your merchant account. */
 export type DonationCampaignsResponseDonationCampaignsList = Array<DonationCampaign>;
 export interface DonationCampaignsResponse {
   /** List of active donation campaigns for your merchant account. */
-  donationCampaigns?: DonationCampaignsResponseDonationCampaignsList;
+  donationCampaigns?: DonationCampaignsResponseDonationCampaignsList | undefined;
 }
 export interface CheckoutNetworkTokenOption {
   /** Set to **true** to enable forwarding network token cryptograms. */
-  includeCryptogram?: boolean;
+  includeCryptogram?: boolean | undefined;
   /** Set to **true** to forward the network token for a card. */
-  useNetworkToken?: boolean;
+  useNetworkToken?: boolean | undefined;
 }
 /** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response. */
 export type CheckoutForwardRequestOptionsNetworkTxReferencePathsList = Array<string>;
@@ -1444,41 +1522,41 @@ export type CheckoutForwardRequestOptionsNetworkTxReferencePathsList = Array<str
 export type CheckoutForwardRequestOptionsTransactionLinkIdPathsList = Array<string>;
 export interface CheckoutForwardRequestOptions {
   /** Set to **true** to check if the account tied to the card has been updated. */
-  accountUpdate?: boolean;
+  accountUpdate?: boolean | undefined;
   /** Set to **true** to receive a copy of the request Adyen is making to the third party in the response. Any sensitive information will be masked in the response you receive. This functionality is only available in the test environment. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** The object that contains the details for forwarding a network token. */
-  networkToken?: CheckoutNetworkTokenOption;
+  networkToken?: CheckoutNetworkTokenOption | undefined;
   /** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response. */
-  networkTxReferencePaths?: CheckoutForwardRequestOptionsNetworkTxReferencePathsList;
+  networkTxReferencePaths?: CheckoutForwardRequestOptionsNetworkTxReferencePathsList | undefined;
   /** Set to **true** to [tokenize](https://docs.adyen.com/online-payments/tokenization) the payment details. */
-  tokenize?: boolean;
+  tokenize?: boolean | undefined;
   /** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `transactionLinkId` that will be returned in the third party response. */
-  transactionLinkIdPaths?: CheckoutForwardRequestOptionsTransactionLinkIdPathsList;
+  transactionLinkIdPaths?: CheckoutForwardRequestOptionsTransactionLinkIdPathsList | undefined;
 }
 /** Default payment method details. Common for scheme payment methods, and for simple payment method details. */
 export type CheckoutForwardRequestCardType = "scheme";
 export interface CheckoutForwardRequestCard {
   /** The [card verification code](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid) (1-20 characters). Depending on the card brand, it is also known as: * CVV2/CVC2 - length: 3 digits * CID - length: 4 digits */
-  cvc?: string;
+  cvc?: string | undefined;
   /** The encrypted card number. */
-  encryptedCardNumber?: string;
+  encryptedCardNumber?: string | undefined;
   /** The encrypted expiryMonth */
-  encryptedExpiryMonth?: string;
+  encryptedExpiryMonth?: string | undefined;
   /** The encrypted card expiry year. */
-  encryptedExpiryYear?: string;
+  encryptedExpiryYear?: string | undefined;
   /** The encrypted security code. */
-  encryptedSecurityCode?: string;
+  encryptedSecurityCode?: string | undefined;
   /** The card expiry month. Format: 2 digits, zero-padded for single digits. For example: * 03 = March * 11 = November */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The card expiry year. */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The name of the cardholder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The card number. Only collect raw card data if you are fully [PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). Format: Do not use separators. */
-  number?: string;
+  number?: string | undefined;
   /** Default payment method details. Common for scheme payment methods, and for simple payment method details. */
-  type?: CheckoutForwardRequestCardType | (string & {});
+  type?: CheckoutForwardRequestCardType | (string & {}) | undefined;
 }
 /** The request headers that will be included in the request Adyen makes to the third party on your behalf. Supports the `{{credentials}}` [placeholder](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders). */
 export type CheckoutOutgoingForwardRequestHeadersMap = { [key: string]: string | undefined };
@@ -1488,35 +1566,35 @@ export interface CheckoutOutgoingForwardRequest {
   /** The request body that you want Adyen to forward to the third party on your behalf, in string format. Include key value pairs to specify the payment details, and use [placeholders](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders) for the values. Adyen replaces the placeholders with the payment details when making the request to the third party. When forwarding a network token, include a [condition](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#conditional-placeholders) that checks if the network token exists, and informs Adyen of which fields to send depending on the outcome. */
   body: string;
   /** Your credentials that are needed to authenticate with the third party. */
-  credentials?: string;
+  credentials?: string | undefined;
   /** The request headers that will be included in the request Adyen makes to the third party on your behalf. Supports the `{{credentials}}` [placeholder](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders). */
-  headers?: CheckoutOutgoingForwardRequestHeadersMap;
+  headers?: CheckoutOutgoingForwardRequestHeadersMap | undefined;
   /** The HTTP method to use for the request Adyen makes on your behalf to the third party. */
   httpMethod: CheckoutOutgoingForwardRequestHttpMethod | (string & {});
   /** The suffix that Adyen needs to append to the `baseUrl` to construct the destination URL that belongs to the third party. This is usually the endpoint name for the request, for example, **\/payments**. */
-  urlSuffix?: string;
+  urlSuffix?: string | undefined;
 }
 export interface CreateForwardRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The amount of the forwarded payment. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The base URL of the third party API, where Adyen will send the request to forward the payment details. */
   baseUrl: string;
   /** Your merchant account. */
   merchantAccount: string;
   /** Merchant defined payment reference. */
-  merchantReference?: string;
+  merchantReference?: string | undefined;
   /** The customizations that can be applied when making a forward request. */
-  options?: CheckoutForwardRequestOptions;
+  options?: CheckoutForwardRequestOptions | undefined;
   /** The card details. */
-  paymentMethod?: CheckoutForwardRequestCard;
+  paymentMethod?: CheckoutForwardRequestCard | undefined;
   /** The [details of the request](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#request-to-adyen-card) that you want to forward to the third-party. */
   request: CheckoutOutgoingForwardRequest;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
   shopperReference: string;
   /** The unique identifier of the token that you want to forward to the third party. This is the `storedPaymentMethodId` you received in the webhook after you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
 }
 /** The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Possible values: * NoChange * CardChanged * CardExpiryChanged * CloseAccount * ContactCardAccountHolder * Error */
 export type CheckoutForwardAccountUpdateResultResult =
@@ -1528,43 +1606,43 @@ export type CheckoutForwardAccountUpdateResultResult =
   | "NoChange";
 export interface CheckoutForwardAccountUpdateResult {
   /** The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Possible values: * NoChange * CardChanged * CardExpiryChanged * CloseAccount * ContactCardAccountHolder * Error */
-  result?: CheckoutForwardAccountUpdateResultResult;
+  result?: CheckoutForwardAccountUpdateResultResult | undefined;
 }
 export interface CheckoutForwardNetworkTokenResult {
   /** Indicates whether a network token was used in the forwarded request. When `true`, the Primary Account Number (PAN) was successfully swapped for a network token. When `false`, the request fell back to the PAN. */
-  swapped?: boolean;
+  swapped?: boolean | undefined;
 }
 /** The HTTP headers of the response Adyen received from the third party. */
 export type CheckoutForwardResponseFromUrlHeadersMap = { [key: string]: string | undefined };
 export interface CheckoutForwardResponseFromUrl {
   /** The body of the response Adyen received from the third party, in string format. */
-  body?: string;
+  body?: string | undefined;
   /** The HTTP headers of the response Adyen received from the third party. */
-  headers?: CheckoutForwardResponseFromUrlHeadersMap;
+  headers?: CheckoutForwardResponseFromUrlHeadersMap | undefined;
   /** The HTTP status of the response Adyen received from the third party. */
-  status?: number;
+  status?: number | undefined;
 }
 export interface CheckoutForwardResponse {
   /** Account update details for the forwarded request, including the result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Returning the result of the Real Time Account Updater is in [pilot phase](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#handle-the-result), and not yet widely available. */
-  accountUpdate?: CheckoutForwardAccountUpdateResult;
+  accountUpdate?: CheckoutForwardAccountUpdateResult | undefined;
   /** Merchant defined payment reference. */
-  merchantReference?: string;
+  merchantReference?: string | undefined;
   /** Network token details for the forwarded request, including whether the Primary Account Number (PAN) was successfully swapped for a network token. */
-  networkToken?: CheckoutForwardNetworkTokenResult;
+  networkToken?: CheckoutForwardNetworkTokenResult | undefined;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique. Use this reference when you communicate with us about this request. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** The details of the response Adyen received from the third party. */
   response: CheckoutForwardResponseFromUrl;
   /** The unique identifier of the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
 }
 export interface CreateOrderRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The total amount of the order. */
   amount: Amount;
   /** The date when the order should expire. If not provided, the default expiry duration is 1 day. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The merchant account identifier, with which you want to process the order. */
   merchantAccount: string;
   /** A custom reference identifying the order. */
@@ -1576,21 +1654,21 @@ export type CreateOrderResponseAdditionalDataMap = { [key: string]: string | und
 export type CreateOrderResponseResultCode = "Success";
 export interface CreateOrderResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-  additionalData?: CreateOrderResponseAdditionalDataMap;
+  additionalData?: CreateOrderResponseAdditionalDataMap | undefined;
   /** The initial amount of the order. */
   amount: Amount;
   /** The date that the order will expire. */
   expiresAt: string;
   /** The fraud result properties of the payment. */
-  fraudResult?: FraudResult;
+  fraudResult?: FraudResult | undefined;
   /** The encrypted data that will be used by merchant for adding payments to the order. */
   orderData: string;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** The reference provided by merchant for creating the order. */
-  reference?: string;
+  reference?: string | undefined;
   /** If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values. For more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReason?: string;
+  refusalReason?: string | undefined;
   /** The remaining amount in the order. */
   remainingAmount: Amount;
   /** The result of the order creation request. The value is always **Success**. */
@@ -1604,7 +1682,7 @@ export interface EncryptedOrderData {
 }
 export interface CreateOrdersCancelRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The merchant account identifier that orderData belongs to. */
   merchantAccount: string;
   /** The order request object that contains a pspReference that represents the order and the matching encrypted order data. */
@@ -1631,333 +1709,333 @@ export type CheckoutBankAccountAccountType =
   | "savings";
 export interface CheckoutBankAccount {
   /** The type of the bank account. */
-  accountType?: CheckoutBankAccountAccountType | (string & {});
+  accountType?: CheckoutBankAccountAccountType | (string & {}) | undefined;
   /** The bank account number (without separators). */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The bank city. */
-  bankCity?: string;
+  bankCity?: string | undefined;
   /** The location id of the bank. The field value is `nil` in most cases. */
-  bankLocationId?: string;
+  bankLocationId?: string | undefined;
   /** The name of the bank. */
-  bankName?: string;
+  bankName?: string | undefined;
   /** The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases. */
-  bic?: string;
+  bic?: string | undefined;
   /** Country code where the bank is located. A valid value is an ISO two-character country code (e.g. 'NL'). */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN). */
-  iban?: string;
+  iban?: string | undefined;
   /** The name of the bank account holder. If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example: * U+03C712 is converted to ch12. * üA is converted to euA. * Peter Møller is converted to Peter Mller, because banks don't accept 'ø'. After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example: * John17 - allowed. * J17 - allowed. * 171 - not allowed. * John-7 - allowed. > If provided details don't match the required format, the response returns the error message: 203 'Invalid bank account holder name'. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** The bank account holder's tax ID. */
-  taxId?: string;
+  taxId?: string | undefined;
 }
 /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * iOS * Android * Web */
 export type CreatePaymentRequestChannel = "iOS" | "Android" | "Web";
 export interface Company {
   /** The company website's home page. */
-  homepage?: string;
+  homepage?: string | undefined;
   /** The company name. */
-  name?: string;
+  name?: string | undefined;
   /** Registration number of the company. */
-  registrationNumber?: string;
+  registrationNumber?: string | undefined;
   /** Registry location of the company. */
-  registryLocation?: string;
+  registryLocation?: string | undefined;
   /** Tax ID of the company. */
-  taxId?: string;
+  taxId?: string | undefined;
   /** The company type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ForexQuote {
   /** The account name. */
-  account?: string;
+  account?: string | undefined;
   /** The account type. */
-  accountType?: string;
+  accountType?: string | undefined;
   /** The base amount. */
-  baseAmount?: Amount;
+  baseAmount?: Amount | undefined;
   /** The base points. */
   basePoints: number;
   /** The buy rate. */
-  buy?: Amount;
+  buy?: Amount | undefined;
   /** The interbank amount. */
-  interbank?: Amount;
+  interbank?: Amount | undefined;
   /** The reference assigned to the forex quote request. */
-  reference?: string;
+  reference?: string | undefined;
   /** The sell rate. */
-  sell?: Amount;
+  sell?: Amount | undefined;
   /** The signature to validate the integrity. */
-  signature?: string;
+  signature?: string | undefined;
   /** The source of the forex quote. */
-  source?: string;
+  source?: string | undefined;
   /** The type of forex. */
-  type?: string;
+  type?: string | undefined;
   /** The date until which the forex quote is valid. */
   validTill: string;
 }
 export interface Agency {
   /** The reference number for the invoice, issued by the agency. * Encoding: ASCII * minLength: 1 character * maxLength: 6 characters * **additionalData key:** `airline.agency_invoice_number` */
-  invoiceNumber?: string;
+  invoiceNumber?: string | undefined;
   /** The two-letter agency plan identifier. * Encoding: ASCII * minLength: 2 characters * maxLength: 2 characters * **additionalData key:** `airline.agency_plan_name` */
-  planName?: string;
+  planName?: string | undefined;
 }
 export interface Leg {
   /** The [IATA](https://www.iata.org/services/pages/codes.aspx) 2-letter accounting code (PAX) that identifies the carrier. This field is required if the airline data includes leg details. * Example: KLM = KL * minLength: 2 characters * maxLength: 2 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].carrier_code` */
-  carrierCode?: string;
+  carrierCode?: string | undefined;
   /** A one-letter travel class identifier. The following are common: * F: first class * J: business class * Y: economy class * W: premium economy * Encoding: ASCII * minLength: 1 character * maxLength: 1 character * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].class_of_travel` */
-  classOfTravel?: string;
+  classOfTravel?: string | undefined;
   /** Date and time of travel in format `yyyy-MM-ddTHH:mm`. * Use local time of departure airport. * minLength: 16 characters * maxLength: 16 characters * **additionalData key:** `airline.leg[N].date_of_travel` */
-  dateOfTravel?: string;
+  dateOfTravel?: string | undefined;
   /** The [IATA](https://www.iata.org/services/pages/codes.aspx) three-letter airport code of the departure airport. This field is required if the airline data includes leg details. * Encoding: ASCII * Example: Amsterdam = AMS * minLength: 3 characters * maxLength: 3 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].depart_airport` */
-  departureAirportCode?: string;
+  departureAirportCode?: string | undefined;
   /** The amount of [departure tax](https://en.wikipedia.org/wiki/Departure_tax) charged, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * Encoding: Numeric * minLength: 1 * maxLength: 11 * Must not be all zeros. * **additionalData key:** `airline.leg[N].depart_tax` */
-  departureTax?: number;
+  departureTax?: number | undefined;
   /** The [IATA](https://www.iata.org/services/pages/codes.aspx) 3-letter airport code of the destination airport. This field is required if the airline data includes leg details. * Example: Amsterdam = AMS * Encoding: ASCII * minLength: 3 characters * maxLength: 3 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].destination_code` */
-  destinationAirportCode?: string;
+  destinationAirportCode?: string | undefined;
   /** The [fare basis code](https://en.wikipedia.org/wiki/Fare_basis_code), alphanumeric. * minLength: 1 character * maxLength: 15 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].fare_base_code` */
-  fareBasisCode?: string;
+  fareBasisCode?: string | undefined;
   /** The flight identifier. * minLength: 1 character * maxLength: 5 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.leg[N].flight_number` */
-  flightNumber?: string;
+  flightNumber?: string | undefined;
   /** A one-letter code that indicates whether the passenger is entitled to make a stopover. Can be a space, O if the passenger is entitled to make a stopover, or X if they are not. * Encoding: ASCII * minLength: 1 character * maxLength: 1 character * **additionalData key:** `airline.leg[N].stop_over_code` */
-  stopOverCode?: string;
+  stopOverCode?: string | undefined;
 }
 export type AirlineLegsList = Array<Leg>;
 export interface Passenger {
   /** The passenger's date of birth. * Format `yyyy-MM-dd` * minLength: 10 * maxLength: 10 * **additionalData key:** `airline.passenger[N].date_of_birth` */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The passenger's first name. > This field is required if the airline data includes passenger details or leg details. * Encoding: ASCII * **additionalData key:** `airline.passenger[N].first_name` */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The passenger's last name. > This field is required if the airline data includes passenger details or leg details. * Encoding: ASCII * **additionalData key:** `airline.passenger[N].last_name` */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The passenger's phone number, including country code. This is an alphanumeric field that can include the '+' and '-' signs. * Encoding: ASCII * minLength: 3 characters * maxLength: 30 characters * **additionalData key:** `airline.passenger[N].phone_number` */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** The IATA passenger type code (PTC). * Encoding: ASCII * minLength: 3 characters * maxLength: 6 characters * **additionalData key:** `airline.passenger[N].traveller_type` */
-  travellerType?: string;
+  travellerType?: string | undefined;
 }
 export type AirlinePassengersList = Array<Passenger>;
 export interface Ticket {
   /** The address of the organization that issued the ticket. * minLength: 0 characters * maxLength: 16 characters * **additionalData key:** `airline.ticket_issue_address` */
-  issueAddress?: string;
+  issueAddress?: string | undefined;
   /** The date that the ticket was issued to the passenger. * minLength: 10 characters * maxLength: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `airline.issue_date` */
-  issueDate?: string;
+  issueDate?: string | undefined;
   /** The ticket's unique identifier. * minLength: 1 character * maxLength: 15 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.ticket_number` */
-  number?: string;
+  number?: string | undefined;
 }
 export interface TravelAgency {
   /** The unique identifier from IATA or ARC for the travel agency that issues the ticket. * Encoding: ASCII * minLength: 1 character * maxLength: 8 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.travel_agency_code` */
-  code?: string;
+  code?: string | undefined;
   /** The name of the travel agency. * Encoding: ASCII * minLength: 1 character * maxLength: 25 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.travel_agency_name` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface Airline {
-  agency?: Agency;
+  agency?: Agency | undefined;
   /** The amount charged for boarding the plane, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * Encoding: Numeric * minLength: 1 character * maxLength: 11 characters * **additionalData key:** `airline.boarding_fee` */
-  boardingFee?: number;
+  boardingFee?: number | undefined;
   /** The [IATA](https://www.iata.org/services/pages/codes.aspx) 3-digit accounting code (PAX) that identifies the carrier. * Format: IATA 3-digit accounting code (PAX) * Example: KLM = 074 * minLength: 3 characters * maxLength: 3 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.airline_code` */
-  code?: string;
+  code?: string | undefined;
   /** The [CRS](https://en.wikipedia.org/wiki/Computer_reservation_system) used to make the reservation and purchase the ticket. * Encoding: ASCII * minLength: 4 characters * maxLength: 4 characters * **additionalData key:** `airline.computerized_reservation_system` */
-  computerizedReservationSystem?: string;
+  computerizedReservationSystem?: string | undefined;
   /** The alphanumeric customer reference number. * Encoding: ASCII * maxLength: 20 characters * If you send more than 20 characters, the customer reference number is truncated * Must not start with a space or be all spaces. * **additionalData key:** `airline.customer_reference_number` */
-  customerReferenceNumber?: string;
+  customerReferenceNumber?: string | undefined;
   /** The [IATA](https://www.iata.org/services/pages/codes.aspx) 2-letter accounting code (PAX) that identifies the carrier. * Encoding: ASCII * Example: KLM = KL * minLength: 2 characters * maxLength: 2 characters * Must not start with a space or be all spaces. * **additionalData key:** `airline.airline_designator_code` */
-  designatorCode?: string;
+  designatorCode?: string | undefined;
   /** A code that identifies the type of item bought. The description of the code can appear on credit card statements. * Encoding: ASCII * Example: Passenger ticket = 01 * minLength: 2 characters * maxLength: 2 characters * **additionalData key:** `airline.document_type` */
-  documentType?: string;
+  documentType?: string | undefined;
   /** The flight departure date. Time is optional. * Format for date only: `yyyy-MM-dd` * Format for date and time: `yyyy-MM-ddTHH:mm` * Use local time of departure airport. * minLength: 10 characters * maxLength: 16 characters * **additionalData key:** `airline.flight_date` */
-  flightDate?: string;
-  legs?: AirlineLegsList;
+  flightDate?: string | undefined;
+  legs?: AirlineLegsList | undefined;
   /** The passenger's name, initials, and title. * Format: last name + first name or initials + title * Example: *FLYER / MARY MS* * minLength: 1 character * maxLength: 20 characters * If you send more than 20 characters, the name is truncated * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `airline.passenger_name` */
   passengerName: string;
-  passengers?: AirlinePassengersList;
-  ticket?: Ticket;
-  travelAgency?: TravelAgency;
+  passengers?: AirlinePassengersList | undefined;
+  ticket?: Ticket | undefined;
+  travelAgency?: TravelAgency | undefined;
 }
 export interface PickupInfo {
   /** The city where the car is rented. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.locationCity` */
-  city?: string;
+  city?: string | undefined;
   /** The country where the car is rented, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. * maxLength: 2 characters * **additionalData key:** `carRental.locationCountry` */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The pick-up date. * minLength: 10 characters * maxLength: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `carRental.checkOutDate` */
-  date?: string;
+  date?: string | undefined;
   /** The state or province where the car is rented. * maxLength: 3 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.locationStateProvince` */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
 }
 /** Indicates whether the rental rate is daily or weekly. * **additionalData key:** `carRental.rateIndicator` */
 export type CarRentalRateType = "daily" | "weekly";
 export interface RentalSurcharges {
   /** The fuel charges associated with the rental, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `carRental.fuelCharges` */
-  fuel?: number;
+  fuel?: number | undefined;
   /** Any insurance charges associated with the rental, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `carRental.insuranceCharges` */
-  insurance?: number;
+  insurance?: number | undefined;
   /** The charge for not returning a car to the original rental location, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `carRental.oneWayDropOffCharges` */
-  oneWayDropOff?: number;
+  oneWayDropOff?: number | undefined;
 }
 export interface ReturnInfo {
   /** The city where the car must be returned. * Format: ASCII * maxLength: 18 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.returnCity` */
-  city?: string;
+  city?: string | undefined;
   /** The country where the car must be returned, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. * maxLength: 2 characters * **additionalData key:** `carRental.returnCountry` */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The date by which the car must be returned. * minLength: 10 characters * maxLength: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `carRental.returnDate` */
-  date?: string;
+  date?: string | undefined;
   /** The agency code, phone number, or address abbreviation. * Format: ASCII * maxLength: 10 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.returnLocationId` */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The state or province where the car must be returned. * Format: ASCII * maxLength: 3 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.returnStateProvince` */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
 }
 export interface CarRental {
   /** The customer service phone number of the car rental company. * Format: Alphanumeric * maxLength: 17 * For US and CA numbers must be 10 characters in length * Must not contain any special characters such as + or - * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.customerServiceTollFreeNumber` */
-  customerServicePhoneNumber?: string;
+  customerServicePhoneNumber?: string | undefined;
   /** Indicates if the customer didn't pick up their rental car. * **additionalData key:** `carRental.noShowIndicator` */
-  noShow?: boolean;
-  pickupInfo?: PickupInfo;
+  noShow?: boolean | undefined;
+  pickupInfo?: PickupInfo | undefined;
   /** Indicates whether the rental rate is daily or weekly. * **additionalData key:** `carRental.rateIndicator` */
-  rateType?: CarRentalRateType | (string & {});
+  rateType?: CarRentalRateType | (string & {}) | undefined;
   /** The rental agreement number for the car rental. * Format: ASCII * maxLength: 9 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.rentalAgreementNumber` */
-  rentalAgreementNumber?: string;
+  rentalAgreementNumber?: string | undefined;
   /** The classification of the rental car. * Format: Alphanumeric * maxLength: 4 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.rentalClassId` */
-  rentalClassId?: string;
+  rentalClassId?: string | undefined;
   /** The number of days the car is rented for. * Format: Numeric * Max value: 9999 * **additionalData key:** `carRental.daysRented` */
-  rentalDays?: number;
+  rentalDays?: number | undefined;
   /** Rental rate, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * Frequency of the rental rate is specified in the rateType field. * **additionalData key:** `carRental.rate` */
-  rentalRate?: number;
-  rentalSurcharges?: RentalSurcharges;
+  rentalRate?: number | undefined;
+  rentalSurcharges?: RentalSurcharges | undefined;
   /** The name of the person renting the car. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.renterName` */
   renterName: string;
-  returnInfo?: ReturnInfo;
+  returnInfo?: ReturnInfo | undefined;
   /** Indicates if the goods or services were tax-exempt, or if tax was not collected. * **additionalData key:** `carRental.taxExemptIndicator` */
-  taxExempt?: boolean;
+  taxExempt?: boolean | undefined;
 }
 export interface Healthcare {
   /** The dental amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 */
-  dentalValue?: number;
+  dentalValue?: number | undefined;
   /** The other medical amount not covered by the specific categories, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 */
-  otherMedicalValue?: number;
+  otherMedicalValue?: number | undefined;
   /** The prescription/Rx amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 */
-  prescriptionValue?: number;
+  prescriptionValue?: number | undefined;
   /** The total healthcare amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 */
   totalHealthcareValue: number;
   /** The vision/optical prescription amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 */
-  visionPrescriptionValue?: number;
+  visionPrescriptionValue?: number | undefined;
 }
 export interface Destination {
   /** The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or three-letter [ISO 3166-1 alpha-3 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) for the destination address. * Encoding: ASCII * Min length: 2 characters * Max length: 3 characters * **additionalData key:** `enhancedSchemeData.destinationCountryCode` */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The postal code of the destination address. * Encoding: ASCII * Max length: 10 characters * Must not start with a space. * For the US, it must be in five or nine digits format. For example, 10001 or 10001-0000. * For Canada, it must be in 6 digits format. For example, M4B 1G5. * **additionalData key:** `enhancedSchemeData.destinationPostalCode` */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The state or province code of the destination address. * Encoding: ASCII * Max length: 3 characters * Must not start with a space. * **additionalData key:** `enhancedSchemeData.destinationStateProvinceCode` */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
 }
 export interface ItemDetailLine {
   /** The code that identifies the item in a standardized commodity coding scheme. There are different commodity coding schemes: * [UNSPSC commodity codes](https://www.ungm.org/public/unspsc) * [HS commodity codes](https://www.wcoomd.org/en/topics/nomenclature/overview.aspx) * [NAICS commodity codes](https://www.census.gov/naics/) * [NAPCS commodity codes](https://www.census.gov/naics/napcs/) * Encoding: ASCII * Max length: 12 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].commodityCode` */
-  commodityCode?: string;
+  commodityCode?: string | undefined;
   /** A description of the item, that provides details about the purchase. For Visa transactions with level 3 ESD, the description must not be the same or very similar to your merchant name, or, consist only of common words like "product", or "service". * Encoding: ASCII * Max length: 26 characters * Must not be a single character. * Must not be blank. * Must not be all special characters. * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].description` */
-  description?: string;
+  description?: string | undefined;
   /** The discount amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].discountAmount` */
-  discountAmount?: number;
+  discountAmount?: number | undefined;
   /** The product code. Must be a unique product code associated with the item or service. This can be your unique code for the item, or the manufacturer's product code. * Encoding: ASCII. * Max length: 12 characters * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].productCode` */
-  productCode?: string;
+  productCode?: string | undefined;
   /** The number of items. Must be an integer greater than zero. * Encoding: Numeric * Max value: 9999 * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].quantity` */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The total amount for the line item, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 See [Amount requirements for level 2/3 ESD](https://docs.adyen.com//payment-methods/cards/enhanced-scheme-data/l2-l3#amount-requirements) to learn more about how to calculate the line item total. * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].totalAmount` */
-  totalAmount?: number;
+  totalAmount?: number | undefined;
   /** The unit of measurement for an item. * Encoding: ASCII * Max length: 3 characters * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].unitOfMeasure` */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
   /** The unit price, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `enhancedSchemeData.itemDetailLine[N].unitPrice` */
-  unitPrice?: number;
+  unitPrice?: number | undefined;
 }
 /** The list of item detail lines. */
 export type LevelTwoThreeItemDetailLinesList = Array<ItemDetailLine>;
 export interface LevelTwoThree {
   /** The reference number to identify the customer and their order. * Format: ASCII * Max length: 25 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.customerReference` */
-  customerReferenceNumber?: string;
+  customerReferenceNumber?: string | undefined;
   /** The destination address information. */
-  destination?: Destination;
+  destination?: Destination | undefined;
   /** The duty tax amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `enhancedSchemeData.dutyAmount` */
-  dutyAmount?: number;
+  dutyAmount?: number | undefined;
   /** The shipping amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `enhancedSchemeData.freightAmount` */
-  freightAmount?: number;
+  freightAmount?: number | undefined;
   /** The list of item detail lines. */
-  itemDetailLines?: LevelTwoThreeItemDetailLinesList;
+  itemDetailLines?: LevelTwoThreeItemDetailLinesList | undefined;
   /** The date of the order. * Min Length: 10 characters * Max Length: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `enhancedSchemeData.orderDate` */
-  orderDate?: string;
+  orderDate?: string | undefined;
   /** The postal code of the address where the item is shipped from. * Encoding: ASCII * Max length: 10 characters * For the US, it must be in five or nine digits format. For example, 10001 or 10001-0000. * For Canada, it must be in 6 digits format. For example, M4B 1G5. * **additionalData key:** `enhancedSchemeData.shipFromPostalCode` */
-  shipFromPostalCode?: string;
+  shipFromPostalCode?: string | undefined;
   /** The amount of state or provincial [tax included in the total transaction amount](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/l2-l3#requirements-to-send-level-2-3-esd), in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * For L2 data: must not be all zeroes. * For L3 data: can be zero. * **additionalData key:** `enhancedSchemeData.totalTaxAmount` */
-  totalTaxAmount?: number;
+  totalTaxAmount?: number | undefined;
 }
 export interface Folio {
   /** The folio cash advances, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.folioCashAdvances` */
-  cashAdvances?: number;
+  cashAdvances?: number | undefined;
   /** The card acceptor's internal invoice or billing ID reference number. * Format: Alphanumeric * Must not start with a space * Must not contain any special characters * Must not be all zeros. * **additionalData key:** `lodging.folioNumber` */
-  number?: string;
+  number?: string | undefined;
 }
 /** The category of lodging charges for the payment. * **additionalData key:** `lodging.specialProgramCode` */
 export type LodgingLodgingChargeType = "advanceDeposit" | "noShow" | "stay";
 export interface Room {
   /** The total number of nights the room is booked for. * Format: Numeric * Must be a number between 1 and 99 * **additionalData key:** `lodging.room[N].numberOfNights` */
-  numberOfNights?: number;
+  numberOfNights?: number | undefined;
   /** Room rate per night, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.room[N].rate` */
-  rate?: number;
+  rate?: number | undefined;
 }
 /** The list of rooms booked. */
 export type LodgingRoomsList = Array<Room>;
 export interface Lodging {
   /** The check-in date. * Min Length: 10 characters * Max Length: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `lodging.checkInDate` */
-  checkInDate?: string;
+  checkInDate?: string | undefined;
   /** The check-out date. * Min Length: 10 characters * Max Length: 10 characters * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `lodging.checkOutDate` */
-  checkOutDate?: string;
+  checkOutDate?: string | undefined;
   /** The toll-free phone number for the lodging customer service. * Format: Alphanumeric * For US and CA numbers must be 10 characters in length * Must not start with a space * Must not contain any special characters such as + or - * Must not be all zeros. * **additionalData key:** `lodging.customerServiceTollFreeNumber` */
-  customerServicePhoneNumber?: string;
+  customerServicePhoneNumber?: string | undefined;
   /** Indicates that the facility complies with the Hotel and Motel Fire Safety Act of 1990. * **additionalData key:** `lodging.fireSafetyActIndicator` */
-  fireSafetyCompliance?: boolean;
+  fireSafetyCompliance?: boolean | undefined;
   /** The folio information for the booking. */
-  folio?: Folio;
+  folio?: Folio | undefined;
   /** Any charges for food and beverages associated with the booking, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.foodBeverageCharges` */
-  foodBeverageCharges?: number;
+  foodBeverageCharges?: number | undefined;
   /** The category of lodging charges for the payment. * **additionalData key:** `lodging.specialProgramCode` */
-  lodgingChargeType?: LodgingLodgingChargeType | (string & {});
+  lodgingChargeType?: LodgingLodgingChargeType | (string & {}) | undefined;
   /** Indicates if the customer didn't check in for their booking. * **additionalData key:** `lodging.noShowIndicator` */
-  noShow?: boolean;
+  noShow?: boolean | undefined;
   /** The prepaid expenses for the booking, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.prepaidExpenses` */
-  prepaidExpenses?: number;
+  prepaidExpenses?: number | undefined;
   /** The lodging property location's phone number. * Format: Alphanumeric * Min length: 10 characters * For US and CA numbers must be 10 characters in length * Must not start with a space * Must not contain any special characters such as + or - * Must not be all zeros. * **additionalData key:** `lodging.propertyPhoneNumber` */
-  propertyPhoneNumber?: string;
+  propertyPhoneNumber?: string | undefined;
   /** The name of the person renting the room. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `lodging.renterName` */
-  renterName?: string;
+  renterName?: string | undefined;
   /** The list of rooms booked. */
-  rooms?: LodgingRoomsList;
+  rooms?: LodgingRoomsList | undefined;
   /** The total room tax amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.totalRoomTax` */
-  totalRoomTax?: number;
+  totalRoomTax?: number | undefined;
   /** The total tax amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `lodging.totalTax` */
-  totalTax?: number;
+  totalTax?: number | undefined;
 }
 export interface TemporaryServices {
   /** The name or ID of the person working in a temporary capacity. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.employeeName` */
-  employeeName?: string;
+  employeeName?: string | undefined;
   /** The billing period end date. * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `enhancedSchemeData.tempWeekEnding` */
-  endDate?: string;
+  endDate?: string | undefined;
   /** The hourly rate for the temporary services, in [minor units](https://docs.adyen.com/development-resources/currency-codes). * For example, 2000 means USD 20.00. * Encoding: Numeric * Max value: 10000000000 * **additionalData key:** `enhancedSchemeData.regularHoursRate` */
-  hourRate?: number;
+  hourRate?: number | undefined;
   /** The number of hours worked during the billing period. * Format: Numeric * **additionalData key:** `enhancedSchemeData.regularHoursWorked` */
-  hoursWorked?: number;
+  hoursWorked?: number | undefined;
   /** The job description of the person working in a temporary capacity. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.jobDescription` */
-  jobDescription?: string;
+  jobDescription?: string | undefined;
   /** The name of the person requesting the temporary services. * Format: ASCII * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `enhancedSchemeData.requestName` */
-  serviceRequestor?: string;
+  serviceRequestor?: string | undefined;
   /** The billing period start date. * Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): yyyy-MM-dd * **additionalData key:** `enhancedSchemeData.tempStartDate` */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface EnhancedSchemeData {
   /** [Airline enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/airline/) that may be required for processing the transaction and/or for interchange savings. */
-  airline?: Airline;
+  airline?: Airline | undefined;
   /** [Car rental enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/car-rental/) that may be required for processing the transaction and/or for interchange savings. */
-  carRental?: CarRental;
+  carRental?: CarRental | undefined;
   /** Healthcare auto-substantiation amounts for FSA/HSA card transactions. The amounts are used to qualify for reduced interchange rates on healthcare-eligible cards. */
-  healthcare?: Healthcare;
+  healthcare?: Healthcare | undefined;
   /** [Level 2 and Level 3 enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/l2-l3/) that may be required for processing the transaction and/or for interchange savings. */
-  levelTwoThree?: LevelTwoThree;
+  levelTwoThree?: LevelTwoThree | undefined;
   /** [Lodging enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/lodging/) that may be required for processing the transaction and/or for interchange savings. */
-  lodging?: Lodging;
+  lodging?: Lodging | undefined;
   /** [Temporary services enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/temporary-services/) that may be required for processing the transaction and/or for interchange savings. */
-  temporaryServices?: TemporaryServices;
+  temporaryServices?: TemporaryServices | undefined;
 }
 /** The type of the entity the payment is processed for. */
 export type CreatePaymentRequestEntityType = "NaturalPerson" | "CompanyName";
@@ -1965,15 +2043,15 @@ export type Address = BillingAddress;
 export type Name = ShopperName;
 export interface FundOrigin {
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The email address of the person funding the money. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The name of the person funding the money. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** The phone number of the person funding the money. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** The unique identifier of the wallet where the funds are coming from. */
-  walletIdentifier?: string;
+  walletIdentifier?: string | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type CardDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -1987,72 +2065,72 @@ export type CardDetailsType =
   | "clicktopay";
 export interface CardDetails {
   /** The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper. */
-  billingSequenceNumber?: string;
+  billingSequenceNumber?: string | undefined;
   /** Secondary brand of the card. For example: **plastix**, **hmclub**. */
-  brand?: string;
+  brand?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
-  cupsecureplus_smscode?: string;
+  checkoutAttemptId?: string | undefined;
+  cupsecureplus_smscode?: string | undefined;
   /** The card verification code. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  cvc?: string;
+  cvc?: string | undefined;
   /** Only include this for JSON Web Encryption (JWE) implementations. The JWE-encrypted card details. */
-  encryptedCard?: string;
+  encryptedCard?: string | undefined;
   /** The encrypted card number. */
-  encryptedCardNumber?: string;
+  encryptedCardNumber?: string | undefined;
   /** The encrypted card expiry month. */
-  encryptedExpiryMonth?: string;
+  encryptedExpiryMonth?: string | undefined;
   /** The encrypted card expiry year. */
-  encryptedExpiryYear?: string;
+  encryptedExpiryYear?: string | undefined;
   /** This field contains an encrypted, one-time password or an authentication code provided by the cardholder. */
-  encryptedPassword?: string | Redacted.Redacted<string>;
+  encryptedPassword?: string | Redacted.Redacted<string> | undefined;
   /** The encrypted card verification code. */
-  encryptedSecurityCode?: string;
+  encryptedSecurityCode?: string | undefined;
   /** The card expiry month. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The card expiry year. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The encoded fastlane data blob */
-  fastlaneData?: string;
+  fastlaneData?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: CardDetailsFundingSource | (string & {});
+  fundingSource?: CardDetailsFundingSource | (string & {}) | undefined;
   /** The name of the card holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The transaction identifier from card schemes. This is the [`networkTxReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-additionalData-ResponseAdditionalDataCommon-networkTxReference) from the response to the first payment. */
-  networkPaymentReference?: string;
+  networkPaymentReference?: string | undefined;
   /** The card number. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  number?: string;
+  number?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used only for recurring payments in India. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** An identifier used for the Click to Pay transaction. */
-  srcCorrelationId?: string;
+  srcCorrelationId?: string | undefined;
   /** The SRC reference for the Click to Pay token. */
-  srcDigitalCardId?: string;
+  srcDigitalCardId?: string | undefined;
   /** The scheme that is being used for Click to Pay. */
-  srcScheme?: string;
+  srcScheme?: string | undefined;
   /** The reference for the Click to Pay token. */
-  srcTokenReference?: string;
+  srcTokenReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** Default payment method details. Common for scheme payment methods, and for simple payment method details. */
-  type?: CardDetailsType | (string & {});
+  type?: CardDetailsType | (string & {}) | undefined;
 }
 export interface SubMerchant {
   /** The city of the sub-merchant's address. * Format: Alphanumeric * Maximum length: 13 characters */
-  city?: string;
+  city?: string | undefined;
   /** The three-letter country code of the sub-merchant's address. For example, **BRA** for Brazil. * Format: [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) * Fixed length: 3 characters */
-  country?: string;
+  country?: string | undefined;
   /** The sub-merchant's 4-digit Merchant Category Code (MCC). * Format: Numeric * Fixed length: 4 digits */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The name of the sub-merchant. Based on scheme specifications, this value will overwrite the shopper statement that will appear in the card statement. * Format: Alphanumeric * Maximum length: 22 characters */
-  name?: string;
+  name?: string | undefined;
   /** The tax ID of the sub-merchant. * Format: Numeric * Fixed length: 11 digits for the CPF or 14 digits for the CNPJ */
-  taxId?: string;
+  taxId?: string | undefined;
 }
 /** The purpose of a digital wallet transaction. */
 export type FundRecipientWalletPurpose =
@@ -2063,29 +2141,29 @@ export type FundRecipientWalletPurpose =
   | "unidentifiedBoleto";
 export interface FundRecipient {
   /** The IBAN of the bank account where the funds are being transferred to. */
-  IBAN?: string;
+  IBAN?: string | undefined;
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The payment method used by the shopper. */
-  paymentMethod?: CardDetails;
+  paymentMethod?: CardDetails | undefined;
   /** The email address of the shopper. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The name of the shopper. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Required for recurring payments. Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for back-to-back/purchase-driven-load transactions, where the funds are taken from the shopper's stored card when the wallet balance is insufficient. The final merchant who will receive the money, also known as a [sub-merchant](https://docs.adyen.com/get-started-with-adyen/payment-glossary/#submerchant). */
-  subMerchant?: SubMerchant;
+  subMerchant?: SubMerchant | undefined;
   /** The telephone number of the shopper. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** The unique identifier for the wallet the funds are being transferred to. You can use the shopper reference or any other identifier. */
-  walletIdentifier?: string;
+  walletIdentifier?: string | undefined;
   /** The tax identifier of the person receiving the funds. */
-  walletOwnerTaxId?: string;
+  walletOwnerTaxId?: string | undefined;
   /** The purpose of a digital wallet transaction. */
-  walletPurpose?: FundRecipientWalletPurpose | (string & {});
+  walletPurpose?: FundRecipientWalletPurpose | (string & {}) | undefined;
 }
 /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
 export type CreatePaymentRequestIndustryUsage = "delayedCharge" | "installment" | "noShow";
@@ -2103,9 +2181,9 @@ export type InstallmentsPlan =
   | "with_interest";
 export interface Installments {
   /** Defines the bonus percentage, refund percentage or if the transaction is Buy now Pay later. Used for [card installments in Mexico](https://docs.adyen.com/payment-methods/cards/credit-card-installments/#getting-paid-mexico) */
-  extra?: number;
+  extra?: number | undefined;
   /** The installment plan, used for [card installments in Japan](https://docs.adyen.com/payment-methods/cards/credit-card-installments#make-a-payment-japan). and [Mexico](https://docs.adyen.com/payment-methods/cards/credit-card-installments/#getting-paid-mexico). By default, this is set to **regular**. */
-  plan?: InstallmentsPlan | (string & {});
+  plan?: InstallmentsPlan | (string & {}) | undefined;
   /** Defines the number of installments. Usually, the maximum allowed number of installments is capped. For example, it may not be possible to split a payment in more than 24 installments. The acquirer sets this upper limit, so its value may vary. This value can be zero for Installments processed in Mexico. */
   value: number;
 }
@@ -2133,29 +2211,29 @@ export interface Mandate {
   /** The billing amount (in minor units) of the recurring transactions. */
   amount: string;
   /** The limitation rule of the billing amount. Possible values: * **max**: The transaction amount can not exceed the `amount`. * **exact**: The transaction amount should be the same as the `amount`. */
-  amountRule?: MandateAmountRule | (string & {});
+  amountRule?: MandateAmountRule | (string & {}) | undefined;
   /** The rule to specify the period, within which the recurring debit can happen, relative to the mandate recurring date. Possible values: * **on**: On a specific date. * **before**: Before and on a specific date. * **after**: On and after a specific date. */
-  billingAttemptsRule?: MandateBillingAttemptsRule | (string & {});
+  billingAttemptsRule?: MandateBillingAttemptsRule | (string & {}) | undefined;
   /** The number of the day, on which the recurring debit can happen. Should be within the same calendar month as the mandate recurring date. Possible values: 1-31 based on the `frequency`. */
-  billingDay?: string;
+  billingDay?: string | undefined;
   /** The number of transactions that can be performed within the given frequency. */
-  count?: string;
+  count?: string | undefined;
   /** End date of the billing plan, in YYYY-MM-DD format. */
   endsAt: string;
   /** The frequency with which a shopper should be charged. Possible values: **adhoc**, **daily**, **weekly**, **biWeekly**, **monthly**, **quarterly**, **halfYearly**, **yearly**. */
   frequency: MandateFrequency | (string & {});
   /** The message shown by UPI to the shopper on the approval screen. */
-  remarks?: string;
+  remarks?: string | undefined;
   /** Start date of the billing plan, in YYYY-MM-DD format. By default, the transaction date. */
-  startsAt?: string;
+  startsAt?: string | undefined;
 }
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
 export type CreatePaymentRequestMetadataMap = { [key: string]: string | undefined };
 export interface OpiRequest {
   /** When set to true, includes the OPI issuer ID in the response. */
-  includeIssuerId?: boolean;
+  includeIssuerId?: boolean | undefined;
   /** When set to true, includes an OPI transaction token in the response when the payment creates a stored payment method. */
-  includeTransToken?: boolean;
+  includeTransToken?: boolean | undefined;
 }
 /** The account holder type (personal or business). */
 export type AchDetailsAccountHolderType = "business" | "personal";
@@ -2172,65 +2250,66 @@ export type AchDetailsBankAccountType =
 export type AchDetailsType = "ach" | "ach_plaid";
 export interface AchDetails {
   /** The account holder type (personal or business). */
-  accountHolderType?: AchDetailsAccountHolderType | (string & {});
+  accountHolderType?: AchDetailsAccountHolderType | (string & {}) | undefined;
   /** The bank account number (without separators). */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The bank account type (checking, savings...). */
-  bankAccountType?: AchDetailsBankAccountType | (string & {});
+  bankAccountType?: AchDetailsBankAccountType | (string & {}) | undefined;
   /** The bank routing number of the account. The field value is `nil` in most cases. */
-  bankLocationId?: string;
+  bankLocationId?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Encrypted bank account number. The bank account number (without separators). */
-  encryptedBankAccountNumber?: string;
+  encryptedBankAccountNumber?: string | undefined;
   /** Encrypted location id. The bank routing number of the account. The field value is `nil` in most cases. */
-  encryptedBankLocationId?: string;
+  encryptedBankLocationId?: string | undefined;
   /** The name of the bank account holder. If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example: * U+03C712 is converted to ch12. * üA is converted to euA. * Peter Møller is converted to Peter Mller, because banks don't accept 'ø'. After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example: * John17 - allowed. * J17 - allowed. * 171 - not allowed. * John-7 - allowed. > If provided details don't match the required format, the response returns the error message: 203 'Invalid bank account holder name'. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The unique identifier of your user's verified transfer instrument, which you can use to top up their balance accounts. */
-  transferInstrumentId?: string;
+  transferInstrumentId?: string | undefined;
   /** **ach** */
-  type?: AchDetailsType | (string & {});
+  type?: AchDetailsType | (string & {}) | undefined;
 }
 /** **affirm** */
 export type AffirmDetailsType = "affirm";
 export interface AffirmDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The Affirm financing program to apply to this transaction. */
-  financingProgram?: string;
+  financingProgram?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **affirm** */
-  type?: AffirmDetailsType | (string & {});
+  type?: AffirmDetailsType | (string & {}) | undefined;
 }
 /** **afterpay_default** */
 export type AfterpayDetailsType =
   | "afterpay_default"
   | "afterpaytouch"
+  | "afterpaytouch_US"
   | "afterpay_b2b"
   | "clearpay";
 export interface AfterpayDetails {
   /** The address where to send the invoice. */
-  billingAddress?: string;
+  billingAddress?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The address where the goods should be delivered. */
-  deliveryAddress?: string;
+  deliveryAddress?: string | undefined;
   /** Shopper name, date of birth, phone number, and email address. */
-  personalDetails?: string;
+  personalDetails?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **afterpay_default** */
   type: AfterpayDetailsType | (string & {});
 }
@@ -2240,53 +2319,53 @@ export type AlmaDetailsFeeType = "merchantPays" | "shopperPays";
 export type AlmaDetailsType = "alma";
 export interface AlmaDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** **Alma payment request fee type** */
-  feeType?: AlmaDetailsFeeType | (string & {});
+  feeType?: AlmaDetailsFeeType | (string & {}) | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The payment method type. */
-  type?: AlmaDetailsType | (string & {});
+  type?: AlmaDetailsType | (string & {}) | undefined;
 }
 /** **amazonpay** */
 export type AmazonPayDetailsType = "amazonpay";
 export interface AmazonPayDetails {
   /** This is the `amazonPayToken` that you obtained from the [Get Checkout Session](https://amazon-pay-acquirer-guide.s3-eu-west-1.amazonaws.com/v1/amazon-pay-api-v2/checkout-session.html#get-checkout-session) response. This token is used for API only integration specifically. */
-  amazonPayToken?: string;
+  amazonPayToken?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The `checkoutSessionId` is used to identify the checkout session at the Amazon Pay side. This field is required only for drop-in and components integration, where it replaces the amazonPayToken. */
-  checkoutSessionId?: string;
+  checkoutSessionId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **amazonpay** */
-  type?: AmazonPayDetailsType | (string & {});
+  type?: AmazonPayDetailsType | (string & {}) | undefined;
 }
 /** **ancv** */
 export type AncvDetailsType = "ancv";
 export interface AncvDetails {
   /** ANCV account identification (email or account number) */
-  beneficiaryId?: string;
+  beneficiaryId?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **ancv** */
-  type?: AncvDetailsType | (string & {});
+  type?: AncvDetailsType | (string & {}) | undefined;
 }
 /** **androidpay** */
 export type AndroidPayDetailsType = "androidpay";
 export interface AndroidPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **androidpay** */
-  type?: AndroidPayDetailsType | (string & {});
+  type?: AndroidPayDetailsType | (string & {}) | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type ApplePayDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -2296,63 +2375,63 @@ export interface ApplePayDetails {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
   applePayToken: string;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: ApplePayDetailsFundingSource | (string & {});
+  fundingSource?: ApplePayDetailsFundingSource | (string & {}) | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **applepay** */
-  type?: ApplePayDetailsType | (string & {});
+  type?: ApplePayDetailsType | (string & {}) | undefined;
 }
 /** **aupay** */
 export type AuPayDetailsType = "aupay";
 export interface AuPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **aupay** */
-  type?: AuPayDetailsType | (string & {});
+  type?: AuPayDetailsType | (string & {}) | undefined;
 }
 /** **directdebit_GB** */
 export type BacsDirectDebitDetailsType = "directdebit_GB";
 export interface BacsDirectDebitDetails {
   /** The bank account number (without separators). */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The bank routing number of the account. */
-  bankLocationId?: string;
+  bankLocationId?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The name of the bank account holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The unique identifier of your user's verified transfer instrument, which you can use to top up their balance accounts. */
-  transferInstrumentId?: string;
+  transferInstrumentId?: string | undefined;
   /** **directdebit_GB** */
-  type?: BacsDirectDebitDetailsType | (string & {});
+  type?: BacsDirectDebitDetailsType | (string & {}) | undefined;
 }
 /** **billdesk** */
 export type BillDeskDetailsType = "billdesk_online" | "billdesk_wallet";
 export interface BillDeskDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The issuer id of the shopper's selected bank. */
   issuer: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **billdesk** */
   type: BillDeskDetailsType | (string & {});
 }
@@ -2360,89 +2439,89 @@ export interface BillDeskDetails {
 export type BlikDetailsType = "blik";
 export interface BlikDetails {
   /** BLIK code consisting of 6 digits. */
-  blikCode?: string;
+  blikCode?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **blik** */
-  type?: BlikDetailsType | (string & {});
+  type?: BlikDetailsType | (string & {}) | undefined;
 }
 /** cashapp */
 export type CashAppDetailsType = "cashapp";
 export interface CashAppDetails {
   /** Cash App issued cashtag for recurring payment */
-  cashtag?: string;
+  cashtag?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Cash App issued customerId for recurring payment */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Cash App issued grantId for one time payment */
-  grantId?: string;
+  grantId?: string | undefined;
   /** Cash App issued onFileGrantId for recurring payment */
-  onFileGrantId?: string;
+  onFileGrantId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Cash App request id */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The payment method subtype. */
-  subtype?: string;
+  subtype?: string | undefined;
   /** cashapp */
-  type?: CashAppDetailsType | (string & {});
+  type?: CashAppDetailsType | (string & {}) | undefined;
 }
 /** **Cellulant** */
 export type CellulantDetailsType = "cellulant";
 export interface CellulantDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The Cellulant issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **Cellulant** */
-  type?: CellulantDetailsType | (string & {});
+  type?: CellulantDetailsType | (string & {}) | undefined;
 }
 /** **dbarai** */
 export type DBaraiDetailsType = "dbarai";
 export interface DBaraiDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **dbarai** */
-  type?: DBaraiDetailsType | (string & {});
+  type?: DBaraiDetailsType | (string & {}) | undefined;
 }
 /** **directdebit_AU** */
 export type DirectDebitAuDetailsType = "directdebit_AU";
 export interface DirectDebitAuDetails {
   /** The shopper's banking account number used to complete payment. */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The shopper's BSB (their bank's branch code) number used to complete payment. */
-  bankBranchCode?: string;
+  bankBranchCode?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The name of the bank account holder. */
   holderName: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **directdebit_AU** */
-  type?: DirectDebitAuDetailsType | (string & {});
+  type?: DirectDebitAuDetailsType | (string & {}) | undefined;
 }
 /** **doku** */
 export type DokuDetailsType =
@@ -2459,13 +2538,13 @@ export type DokuDetailsType =
   | "doku_ovo";
 export interface DokuDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The shopper's first name. */
   firstName: string;
   /** The shopper's last name. */
   lastName: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The shopper's email. */
   shopperEmail: string;
   /** **doku** */
@@ -2479,13 +2558,13 @@ export type DragonpayDetailsType =
   | "dragonpay_otc_philippines";
 export interface DragonpayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The Dragonpay issuer value of the shopper's selected bank. Set this to an **id** of a Dragonpay issuer to preselect it. */
   issuer: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** **dragonpay** */
   type: DragonpayDetailsType | (string & {});
 }
@@ -2493,11 +2572,11 @@ export interface DragonpayDetails {
 export type EBankingFinlandDetailsType = "ebanking_FI";
 export interface EBankingFinlandDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The Ebanking Finland issuer value of the shopper's selected bank. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **ebanking_FI** */
   type: EBankingFinlandDetailsType;
 }
@@ -2510,13 +2589,13 @@ export type EcontextVoucherDetailsType =
   | "econtext_atm";
 export interface EcontextVoucherDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The shopper's first name. */
   firstName: string;
   /** The shopper's last name. */
   lastName: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The shopper's email. */
   shopperEmail: string;
   /** The shopper's contact number. It must have an international number format, for example **+31 20 779 1846**. Formats like **+31 (0)20 779 1846** or **0031 20 779 1846** are not accepted. */
@@ -2528,23 +2607,23 @@ export interface EcontextVoucherDetails {
 export type EftDetailsType = "eft_directdebit_CA";
 export interface EftDetails {
   /** The bank account number (without separators). */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The financial institution code. */
-  bankCode?: string;
+  bankCode?: string | undefined;
   /** The bank routing number of the account. */
-  bankLocationId?: string;
+  bankLocationId?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The name of the bank account holder. If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example: * U+03C712 is converted to ch12. * üA is converted to euA. * Peter Møller is converted to Peter Mller, because banks don't accept 'ø'. After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example: * John17 - allowed. * J17 - allowed. * 171 - not allowed. * John-7 - allowed. > If provided details don't match the required format, the response returns the error message: 203 'Invalid bank account holder name'. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **eft** */
-  type?: EftDetailsType | (string & {});
+  type?: EftDetailsType | (string & {}) | undefined;
 }
 /** The external service from which to fetch the token. Supported only for specific companies. Contact Adyen if you want to use this feature. */
 export type ExternalTokenDetailsSubtype = "hilton";
@@ -2552,15 +2631,15 @@ export type ExternalTokenDetailsSubtype = "hilton";
 export type ExternalTokenDetailsType = "externalToken";
 export interface ExternalTokenDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The card expiry month. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The card expiry year. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The name of the card holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The card number. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  number?: string;
+  number?: string | undefined;
   /** Identifier used to fetch the token from the external service */
   storedPaymentMethodId: string;
   /** The external service from which to fetch the token. Supported only for specific companies. Contact Adyen if you want to use this feature. */
@@ -2572,15 +2651,15 @@ export interface ExternalTokenDetails {
 export type FastlaneDetailsType = "fastlane";
 export interface FastlaneDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The encoded fastlane data blob */
   fastlaneData: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **fastlane** */
   type: FastlaneDetailsType;
 }
@@ -2593,15 +2672,15 @@ export type GenericIssuerPaymentMethodDetailsType =
   | "onlinebanking_IN";
 export interface GenericIssuerPaymentMethodDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The issuer id of the shopper's selected bank. */
   issuer: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **genericissuer** */
   type: GenericIssuerPaymentMethodDetailsType | (string & {});
 }
@@ -2611,39 +2690,39 @@ export type GooglePayDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type GooglePayDetailsType = "googlepay";
 export interface GooglePayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: GooglePayDetailsFundingSource | (string & {});
+  fundingSource?: GooglePayDetailsFundingSource | (string & {}) | undefined;
   /** The selected payment card network. */
-  googlePayCardNetwork?: string;
+  googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
   googlePayToken: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** **googlepay**, **paywithgoogle** */
-  type?: GooglePayDetailsType | (string & {});
+  type?: GooglePayDetailsType | (string & {}) | undefined;
 }
 /** **ideal** */
 export type IdealDetailsType = "ideal";
 export interface IdealDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The iDEAL issuer value of the shopper's selected bank. Set this to an **id** of an iDEAL issuer to preselect it. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **ideal** */
-  type?: IdealDetailsType | (string & {});
+  type?: IdealDetailsType | (string & {}) | undefined;
 }
 /** **klarna** */
 export type KlarnaDetailsType =
@@ -2656,43 +2735,47 @@ export type KlarnaDetailsType =
   | "klarna_b2b";
 export interface KlarnaDetails {
   /** The address where to send the invoice. */
-  billingAddress?: string;
+  billingAddress?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The address where the goods should be delivered. */
-  deliveryAddress?: string;
+  deliveryAddress?: string | undefined;
   /** Base64-encoded merchant metadata (Extra Merchant Data) forwarded to Klarna at authorization. */
-  merchantData?: string;
+  merchantData?: string | undefined;
   /** Shopper name, date of birth, phone number, and email address. */
-  personalDetails?: string;
+  personalDetails?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The type of flow to initiate. */
-  subtype?: string;
+  subtype?: string | undefined;
   /** **klarna** */
   type: KlarnaDetailsType | (string & {});
 }
+/** The type of flow to initiate. Defaults to redirect when omitted. */
+export type KlarnaNetworkDetailsSubtype = "redirect" | "sdk";
 /** **klarna_network** */
 export type KlarnaNetworkDetailsType = "klarna_network";
 export interface KlarnaNetworkDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** A string containing a structured JSON object. This is a passthrough field used to enable custom features or data exchange with Klarna. */
-  klarnaNetworkData?: string;
+  klarnaNetworkData?: string | undefined;
   /** The Klarna Network Payment Account identifier to use for the transaction. Required when `klarnaNetworkSessionToken` is provided. */
-  klarnaNetworkPaymentAccountId?: string;
+  klarnaNetworkPaymentAccountId?: string | undefined;
   /** The token obtained from the Klarna SDK during an Express Checkout flow. */
-  klarnaNetworkSessionToken?: string;
+  klarnaNetworkSessionToken?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
+  /** The type of flow to initiate. Defaults to redirect when omitted. */
+  subtype?: KlarnaNetworkDetailsSubtype | (string & {}) | undefined;
   /** **klarna_network** */
   type: KlarnaNetworkDetailsType;
 }
@@ -2702,47 +2785,47 @@ export type MasterpassDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type MasterpassDetailsType = "masterpass";
 export interface MasterpassDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: MasterpassDetailsFundingSource | (string & {});
+  fundingSource?: MasterpassDetailsFundingSource | (string & {}) | undefined;
   /** The Masterpass transaction ID. */
   masterpassTransactionId: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **masterpass** */
-  type?: MasterpassDetailsType | (string & {});
+  type?: MasterpassDetailsType | (string & {}) | undefined;
 }
 /** **mbway** */
 export type MbwayDetailsType = "mbway";
 export interface MbwayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   shopperEmail: string;
   telephoneNumber: string;
   /** **mbway** */
-  type?: MbwayDetailsType | (string & {});
+  type?: MbwayDetailsType | (string & {}) | undefined;
 }
 /** **mobilepay** */
 export type MobilePayDetailsType = "mobilepay";
 export interface MobilePayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **mobilepay** */
-  type?: MobilePayDetailsType | (string & {});
+  type?: MobilePayDetailsType | (string & {}) | undefined;
 }
 /** **molpay** */
 export type MolPayDetailsType = "molpay_ebanking_fpx_MY" | "molpay_ebanking_TH";
 export interface MolPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The shopper's bank. Specify this with the issuer value that corresponds to this bank. */
   issuer: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **molpay** */
   type: MolPayDetailsType | (string & {});
 }
@@ -2750,33 +2833,33 @@ export interface MolPayDetails {
 export type OpenInvoiceDetailsType = "openinvoice" | "afterpay_directdebit" | "atome_pos";
 export interface OpenInvoiceDetails {
   /** The address where to send the invoice. */
-  billingAddress?: string;
+  billingAddress?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The address where the goods should be delivered. */
-  deliveryAddress?: string;
+  deliveryAddress?: string | undefined;
   /** Shopper name, date of birth, phone number, and email address. */
-  personalDetails?: string;
+  personalDetails?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **openinvoice** */
-  type?: OpenInvoiceDetailsType | (string & {});
+  type?: OpenInvoiceDetailsType | (string & {}) | undefined;
 }
 /** **paybybank_AIS_DD** */
 export type PayByBankAISDirectDebitDetailsType = "paybybank_AIS_DD";
 export interface PayByBankAISDirectDebitDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **paybybank_AIS_DD** */
   type: PayByBankAISDirectDebitDetailsType;
 }
@@ -2784,13 +2867,13 @@ export interface PayByBankAISDirectDebitDetails {
 export type PayByBankCADirectDebitDetailsType = "paybybank_ca";
 export interface PayByBankCADirectDebitDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The type of payment method */
   type: PayByBankCADirectDebitDetailsType;
 }
@@ -2798,11 +2881,11 @@ export interface PayByBankCADirectDebitDetails {
 export type PayByBankDetailsType = "paybybank";
 export interface PayByBankDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The PayByBank issuer value of the shopper's selected bank. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **paybybank** */
   type: PayByBankDetailsType;
 }
@@ -2812,23 +2895,23 @@ export type PayPalDetailsSubtype = "express" | "redirect" | "sdk";
 export type PayPalDetailsType = "paypal";
 export interface PayPalDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The unique ID associated with the order. */
-  orderID?: string;
+  orderID?: string | undefined;
   /** IMMEDIATE_PAYMENT_REQUIRED or UNRESTRICTED */
-  payeePreferred?: string;
+  payeePreferred?: string | undefined;
   /** The unique ID associated with the payer. */
-  payerID?: string;
+  payerID?: string | undefined;
   /** PAYPAL or PAYPAL_CREDIT */
-  payerSelected?: string;
+  payerSelected?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The type of flow to initiate. */
-  subtype?: PayPalDetailsSubtype | (string & {});
+  subtype?: PayPalDetailsSubtype | (string & {}) | undefined;
   /** **paypal** */
   type: PayPalDetailsType;
 }
@@ -2836,49 +2919,49 @@ export interface PayPalDetails {
 export type PayPayDetailsType = "paypay";
 export interface PayPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **paypay** */
-  type?: PayPayDetailsType | (string & {});
+  type?: PayPayDetailsType | (string & {}) | undefined;
 }
 /** **payto** */
 export type PayToDetailsType = "payto";
 export interface PayToDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The shopper's banking details or payId reference, used to complete payment. */
-  shopperAccountIdentifier?: string;
+  shopperAccountIdentifier?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **payto** */
-  type?: PayToDetailsType | (string & {});
+  type?: PayToDetailsType | (string & {}) | undefined;
 }
 /** **payu_IN_upi** */
 export type PayUUpiDetailsType = "payu_IN_upi";
 export interface PayUUpiDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **payu_IN_upi** */
   type: PayUUpiDetailsType;
   /** The virtual payment address for UPI. */
-  virtualPaymentAddress?: string;
+  virtualPaymentAddress?: string | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type PayWithGoogleDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -2886,21 +2969,21 @@ export type PayWithGoogleDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type PayWithGoogleDetailsType = "paywithgoogle";
 export interface PayWithGoogleDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: PayWithGoogleDetailsFundingSource | (string & {});
+  fundingSource?: PayWithGoogleDetailsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
   googlePayToken: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
-  threeDS2SdkVersion?: string;
+  threeDS2SdkVersion?: string | undefined;
   /** **paywithgoogle** */
-  type?: PayWithGoogleDetailsType | (string & {});
+  type?: PayWithGoogleDetailsType | (string & {}) | undefined;
 }
 /** The payment method type. */
 export type PaymentDetailsType =
@@ -2992,86 +3075,86 @@ export type PaymentDetailsType =
   | "balanceplatform";
 export interface PaymentDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The payment method type. */
-  type?: PaymentDetailsType | (string & {});
+  type?: PaymentDetailsType | (string & {}) | undefined;
 }
 /** The frequency at which the shopper will be charged. */
 export type PixRecurringFrequency = "weekly" | "monthly" | "quarterly" | "half-yearly" | "yearly";
 export interface PixRecurring {
   /** The date on which the shopper's payment method will be charged, in YYYY-MM-DD format. */
-  billingDate?: string;
+  billingDate?: string | undefined;
   /** Flag used to define whether liquidation can happen only on business days */
-  businessDayOnly?: boolean;
+  businessDayOnly?: boolean | undefined;
   /** End date of the billing plan, in YYYY-MM-DD format. The end date must align with the frequency and the start date of the billing plan. If left blank, the subscription will continue indefinitely unless it is cancelled by the shopper. */
-  endsAt?: string;
+  endsAt?: string | undefined;
   /** The frequency at which the shopper will be charged. */
-  frequency?: PixRecurringFrequency | (string & {});
+  frequency?: PixRecurringFrequency | (string & {}) | undefined;
   /** For a billing plan where the payment amounts are variable, the minimum amount to charge the shopper for each recurring payment. When a shopper approves the billing plan, they can also specify a maximum amount in their banking app. */
-  minAmount?: Amount;
+  minAmount?: Amount | undefined;
   /** The pspReference for the failed recurring payment. Find this in AUTHORISATION webhook you received after the billing date. */
-  originalPspReference?: string;
+  originalPspReference?: string | undefined;
   /** For a billing plan where the payment amount is fixed, the amount the shopper will be charged for each recurring payment. */
-  recurringAmount?: Amount;
+  recurringAmount?: Amount | undefined;
   /** The text that that will be shown on the shopper's bank statement for the recurring payments. We recommend to add a descriptive text about the subscription to let your shoppers recognize your recurring payments. Maximum length: 35 characters. */
-  recurringStatement?: string;
+  recurringStatement?: string | undefined;
   /** When set to true, you can retry for failed recurring payments. The default value is true. */
-  retryPolicy?: boolean;
+  retryPolicy?: boolean | undefined;
   /** Start date of the billing plan, in YYYY-MM-DD format. The default value is the transaction date. */
-  startsAt?: string;
+  startsAt?: string | undefined;
 }
 /** The payment method type. */
 export type PixDetailsType = "pix";
 export interface PixDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
-  pixRecurring?: PixRecurring;
+  checkoutAttemptId?: string | undefined;
+  pixRecurring?: PixRecurring | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The payment method type. */
-  type?: PixDetailsType | (string & {});
+  type?: PixDetailsType | (string & {}) | undefined;
 }
 export type ConfidenceScoreErrorsList = Array<string>;
 export interface ConfidenceScore {
-  errors?: ConfidenceScoreErrorsList;
-  score?: number;
+  errors?: ConfidenceScoreErrorsList | undefined;
+  score?: number | undefined;
 }
 export interface ScreenDimensions {
-  height?: number;
-  width?: number;
+  height?: number | undefined;
+  width?: number | undefined;
 }
 export interface PixPayByBankRiskSignals {
-  confidenceScore?: ConfidenceScore;
-  elapsedTimeSinceBoot?: number;
-  isRootedDevice?: boolean;
-  language?: string;
-  osVersion?: string;
-  screenBrightness?: number;
-  screenDimensions?: ScreenDimensions;
-  userTimeZoneOffset?: number;
+  confidenceScore?: ConfidenceScore | undefined;
+  elapsedTimeSinceBoot?: number | undefined;
+  isRootedDevice?: boolean | undefined;
+  language?: string | undefined;
+  osVersion?: string | undefined;
+  screenBrightness?: number | undefined;
+  screenDimensions?: ScreenDimensions | undefined;
+  userTimeZoneOffset?: number | undefined;
 }
 /** **paybybank_pix** */
 export type PixPayByBankDetailsType = "paybybank_pix";
 export interface PixPayByBankDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
-  deviceId?: string;
-  issuer?: string;
+  checkoutAttemptId?: string | undefined;
+  deviceId?: string | undefined;
+  issuer?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
-  riskSignals?: PixPayByBankRiskSignals;
+  recurringDetailReference?: string | undefined;
+  riskSignals?: PixPayByBankRiskSignals | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **paybybank_pix** */
-  type?: PixPayByBankDetailsType | (string & {});
+  type?: PixPayByBankDetailsType | (string & {}) | undefined;
 }
 /** The payment method type. */
 export type PseDetailsType = "pse_payulatam";
@@ -3079,7 +3162,7 @@ export interface PseDetails {
   /** The shopper's bank. */
   bank: string;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The client type. */
   clientType: string;
   /** The identification code. */
@@ -3087,41 +3170,41 @@ export interface PseDetails {
   /** The identification type. */
   identificationType: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The payment method type. */
-  type?: PseDetailsType | (string & {});
+  type?: PseDetailsType | (string & {}) | undefined;
 }
 /** **rakutenpay** */
 export type RakutenPayDetailsType = "rakutenpay";
 export interface RakutenPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **rakutenpay** */
-  type?: RakutenPayDetailsType | (string & {});
+  type?: RakutenPayDetailsType | (string & {}) | undefined;
 }
 /** **ratepay** */
 export type RatepayDetailsType = "ratepay" | "ratepay_directdebit";
 export interface RatepayDetails {
   /** The address where to send the invoice. */
-  billingAddress?: string;
+  billingAddress?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The address where the goods should be delivered. */
-  deliveryAddress?: string;
+  deliveryAddress?: string | undefined;
   /** Shopper name, date of birth, phone number, and email address. */
-  personalDetails?: string;
+  personalDetails?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **ratepay** */
   type: RatepayDetailsType | (string & {});
 }
@@ -3133,27 +3216,27 @@ export type RivertyDetailsType =
   | "sepadirectdebit_riverty";
 export interface RivertyDetails {
   /** The address where to send the invoice. */
-  billingAddress?: string;
+  billingAddress?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The address where the goods should be delivered. */
-  deliveryAddress?: string;
+  deliveryAddress?: string | undefined;
   /** A string containing the shopper's device fingerprint. For more information, refer to [Device fingerprinting](https://docs.adyen.com/risk-management/device-fingerprinting). */
-  deviceFingerprint?: string;
+  deviceFingerprint?: string | undefined;
   /** The iban number of the customer */
-  iban?: string;
+  iban?: string | undefined;
   /** Base64-encoded merchant metadata (Extra Merchant Data) forwarded to Riverty at authorization. */
-  merchantData?: string;
+  merchantData?: string | undefined;
   /** Shopper name, date of birth, phone number, and email address. */
-  personalDetails?: string;
+  personalDetails?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The payment method subtype. */
-  subtype?: string;
+  subtype?: string | undefined;
   /** **riverty** */
   type: RivertyDetailsType | (string & {});
 }
@@ -3163,41 +3246,41 @@ export type SamsungPayDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type SamsungPayDetailsType = "samsungpay";
 export interface SamsungPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: SamsungPayDetailsFundingSource | (string & {});
+  fundingSource?: SamsungPayDetailsFundingSource | (string & {}) | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** The payload you received from the Samsung Pay SDK response. */
   samsungPayToken: string;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **samsungpay** */
-  type?: SamsungPayDetailsType | (string & {});
+  type?: SamsungPayDetailsType | (string & {}) | undefined;
 }
 /** **sepadirectdebit** */
 export type SepaDirectDebitDetailsType = "sepadirectdebit" | "sepadirectdebit_amazonpay";
 export interface SepaDirectDebitDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The date that the the shopper's bank account is charged. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** The International Bank Account Number (IBAN). */
-  iban?: string;
+  iban?: string | undefined;
   /** The name of the bank account holder. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The unique identifier of your user's verified transfer instrument, which you can use to top up their balance accounts. */
-  transferInstrumentId?: string;
+  transferInstrumentId?: string | undefined;
   /** **sepadirectdebit** */
-  type?: SepaDirectDebitDetailsType | (string & {});
+  type?: SepaDirectDebitDetailsType | (string & {}) | undefined;
 }
 /** The payment method type. */
 export type StoredPaymentMethodDetailsType =
@@ -3218,6 +3301,7 @@ export type StoredPaymentMethodDetailsType =
   | "bcmc_mobile_app"
   | "momo_wallet"
   | "momo_wallet_app"
+  | "revolutpay"
   | "paymaya_wallet"
   | "grabpay_SG"
   | "grabpay_MY"
@@ -3234,69 +3318,69 @@ export type StoredPaymentMethodDetailsType =
   | "gopay_wallet";
 export interface StoredPaymentMethodDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The payment method type. */
-  type?: StoredPaymentMethodDetailsType | (string & {});
+  type?: StoredPaymentMethodDetailsType | (string & {}) | undefined;
 }
 /** The payment method type. */
 export type TwintDetailsType = "twint";
 export interface TwintDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** The type of flow to initiate. */
-  subtype?: string;
+  subtype?: string | undefined;
   /** The payment method type. */
-  type?: TwintDetailsType | (string & {});
+  type?: TwintDetailsType | (string & {}) | undefined;
 }
 /** **upi_collect** */
 export type UpiCollectDetailsType = "upi_collect";
 export interface UpiCollectDetails {
   /** The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper. */
-  billingSequenceNumber?: string;
+  billingSequenceNumber?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **upi_collect** */
   type: UpiCollectDetailsType;
   /** The virtual payment address for UPI. */
-  virtualPaymentAddress?: string;
+  virtualPaymentAddress?: string | undefined;
 }
 /** **upi_intent** */
 export type UpiIntentDetailsType = "upi_intent";
 export interface UpiIntentDetails {
   /** TPAP (Third Party Application) Id that is being used to make the UPI payment */
-  appId?: string;
+  appId?: string | undefined;
   /** The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper. */
-  billingSequenceNumber?: string;
+  billingSequenceNumber?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **upi_intent** */
   type: UpiIntentDetailsType;
 }
@@ -3304,17 +3388,17 @@ export interface UpiIntentDetails {
 export type UpiQrDetailsType = "upi_qr";
 export interface UpiQrDetails {
   /** The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper. */
-  billingSequenceNumber?: string;
+  billingSequenceNumber?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only. */
-  shopperNotificationReference?: string;
+  shopperNotificationReference?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **upi_qr** */
   type: UpiQrDetailsType;
 }
@@ -3322,16 +3406,16 @@ export interface UpiQrDetails {
 export type VippsDetailsType = "vipps";
 export interface VippsDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   telephoneNumber: string;
   /** **vipps** */
-  type?: VippsDetailsType | (string & {});
+  type?: VippsDetailsType | (string & {}) | undefined;
 }
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type VisaCheckoutDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -3339,13 +3423,13 @@ export type VisaCheckoutDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type VisaCheckoutDetailsType = "visacheckout";
 export interface VisaCheckoutDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
-  fundingSource?: VisaCheckoutDetailsFundingSource | (string & {});
+  fundingSource?: VisaCheckoutDetailsFundingSource | (string & {}) | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **visacheckout** */
-  type?: VisaCheckoutDetailsType | (string & {});
+  type?: VisaCheckoutDetailsType | (string & {}) | undefined;
   /** The Visa Click to Pay Call ID value. When your shopper selects a payment and/or a shipping address from Visa Click to Pay, you will receive a Visa Click to Pay Call ID. */
   visaCheckoutCallId: string;
 }
@@ -3353,43 +3437,43 @@ export interface VisaCheckoutDetails {
 export type WeChatPayDetailsType = "wechatpay" | "wechatpay_pos";
 export interface WeChatPayDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** **wechatpay** */
-  type?: WeChatPayDetailsType | (string & {});
+  type?: WeChatPayDetailsType | (string & {}) | undefined;
 }
 /** **wechatpayMiniProgram** */
 export type WeChatPayMiniProgramDetailsType = "wechatpayMiniProgram";
 export interface WeChatPayMiniProgramDetails {
-  appId?: string;
+  appId?: string | undefined;
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
-  openid?: string;
+  checkoutAttemptId?: string | undefined;
+  openid?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **wechatpayMiniProgram** */
-  type?: WeChatPayMiniProgramDetailsType | (string & {});
+  type?: WeChatPayMiniProgramDetailsType | (string & {}) | undefined;
 }
 /** **zip** */
 export type ZipDetailsType = "zip" | "zip_pos";
 export interface ZipDetails {
   /** The checkout attempt identifier. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Set this to **true** if the shopper would like to pick up and collect their order, instead of having the goods delivered to them. */
-  clickAndCollect?: string;
+  clickAndCollect?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  recurringDetailReference?: string;
+  recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
-  sdkData?: string;
+  sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
-  storedPaymentMethodId?: string;
+  storedPaymentMethodId?: string | undefined;
   /** **zip** */
-  type?: ZipDetailsType | (string & {});
+  type?: ZipDetailsType | (string & {}) | undefined;
 }
 /** The type and required details of a payment method to use. */
 export type CreatePaymentRequestPaymentMethod =
@@ -3459,7 +3543,7 @@ export interface PaymentValidationsNameRequest {
   status: string;
 }
 export interface PaymentValidations {
-  name?: PaymentValidationsNameRequest;
+  name?: PaymentValidationsNameRequest | undefined;
 }
 /** The method of handling the chargeback. Possible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**. */
 export type PlatformChargebackLogicBehavior =
@@ -3468,11 +3552,11 @@ export type PlatformChargebackLogicBehavior =
   | "deductFromLiableAccount";
 export interface PlatformChargebackLogic {
   /** The method of handling the chargeback. Possible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**. */
-  behavior?: PlatformChargebackLogicBehavior | (string & {});
+  behavior?: PlatformChargebackLogicBehavior | (string & {}) | undefined;
   /** The unique identifier of the balance account to which the chargeback fees are booked. By default, the chargeback fees are booked to your liable balance account. */
-  costAllocationAccount?: string;
+  costAllocationAccount?: string | undefined;
   /** The unique identifier of the balance account against which the disputed amount is booked. Required if `behavior` is **deductFromOneBalanceAccount**. */
-  targetAccount?: string;
+  targetAccount?: string | undefined;
 }
 /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
 export type CreatePaymentRequestRecurringProcessingModel =
@@ -3483,13 +3567,13 @@ export type CreatePaymentRequestRecurringProcessingModel =
 export type RiskDataCustomFieldsMap = { [key: string]: string | undefined };
 export interface RiskData {
   /** Contains client-side data, like the device fingerprint, cookies, and specific browser settings. */
-  clientData?: string;
+  clientData?: string | undefined;
   /** Any custom fields used as part of the input to configured risk rules. */
-  customFields?: RiskDataCustomFieldsMap;
+  customFields?: RiskDataCustomFieldsMap | undefined;
   /** An integer value that is added to the normal fraud score. The value can be either positive or negative. */
-  fraudOffset?: number;
+  fraudOffset?: number | undefined;
   /** The risk profile to assign to this payment. When left empty, the merchant-level account's default risk profile will be applied. */
-  profileReference?: string;
+  profileReference?: string | undefined;
 }
 /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
 export type CreatePaymentRequestShopperInteraction = "Ecommerce" | "ContAuth" | "Moto" | "POS";
@@ -3501,7 +3585,7 @@ export interface ShopperTaxInfo {
 }
 export interface SplitAmount {
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). By default, this is the original payment currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** The value of the split amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes). */
   value: number;
 }
@@ -3525,13 +3609,13 @@ export type SplitType =
   | "VAT";
 export interface Split {
   /** The unique identifier of the account to which the split amount is booked. Required if `type` is **MarketPlace** or **BalanceAccount**. * [Classic Platforms integration](https://docs.adyen.com/classic-platforms): The [`accountCode`](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccount#request-accountCode) of the account to which the split amount is booked. * [Balance Platform](https://docs.adyen.com/adyen-for-platforms-model): The [`balanceAccountId`](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/balanceAccounts/_id_#path-id) of the account to which the split amount is booked. */
-  account?: string;
+  account?: string | undefined;
   /** The amount of the split item. * Required for all split types in the [Classic Platforms integration](https://docs.adyen.com/classic-platforms). * Required if `type` is **BalanceAccount**, **Commission**, **Surcharge**, **Default**, or **VAT** in your [Balance Platform](https://docs.adyen.com/adyen-for-platforms-model) integration. */
-  amount?: SplitAmount;
+  amount?: SplitAmount | undefined;
   /** Your description for the split item. */
-  description?: string;
+  description?: string | undefined;
   /** Your unique reference for the part of the payment booked to the specified `account`. This is required if `type` is **MarketPlace** ([Classic Platforms integration](https://docs.adyen.com/classic-platforms)) or **BalanceAccount** ([Balance Platform](https://docs.adyen.com/adyen-for-platforms-model)). For the other types, we also recommend providing a **unique** reference so you can reconcile the split and the associated payment in the transaction overview and in the reports. */
-  reference?: string;
+  reference?: string | undefined;
   /** The part of the payment you want to book to the specified `account`. Possible values for the [Balance Platform](https://docs.adyen.com/adyen-for-platforms-model): * **BalanceAccount**: Books part of the payment (specified in `amount`) to the specified `account`. * Transaction fees types that you can book to the specified `account`: * **AcquiringFees**: The aggregated amount of the interchange and scheme fees. * **PaymentFee**: The aggregated amount of all transaction fees. * **AdyenFees**: The aggregated amount of Adyen's commission and markup fees. * **AdyenCommission**: The transaction fees due to Adyen under [blended rates](https://www.adyen.com/knowledge-hub/interchange-fees-explained). * **AdyenMarkup**: The transaction fees due to Adyen under [Interchange ++ pricing](https://www.adyen.com/knowledge-hub/interchange-fees-explained). * **Interchange**: The fees paid to the issuer for each payment made with the card network. * **SchemeFee**: The fees paid to the card scheme for using their network. * **Commission**: Your platform's commission on the payment (specified in `amount`), booked to your liable balance account. * **Remainder**: The amount left over after a currency conversion, booked to the specified `account`. * **Surcharge**: The payment acceptance fee imposed by the card scheme or debit network provider, paid by your user's customer. * **TopUp**: Allows you and your users to top up balance accounts using direct debit, card payments, or other payment methods. * **VAT**: The value-added tax charged on the payment, booked to your platforms liable balance account. * **Default**: In very specific use cases, allows you to book the specified `amount` to the specified `account`. For more information, contact Adyen support. Possible values for the [Classic Platforms integration](https://docs.adyen.com/classic-platforms): **Commission**, **Default**, **MarketPlace**, **PaymentFee**, **VAT**. */
   type: SplitType | (string & {});
 }
@@ -3539,24 +3623,24 @@ export interface Split {
 export type CreatePaymentRequestSplitsList = Array<Split>;
 export interface SubMerchantInfo {
   /** Required for transactions performed by registered payment facilitators. The sub-merchant's address. */
-  address?: BillingAddress;
+  address?: BillingAddress | undefined;
   /** Required for transactions performed by registered payment facilitators. The amount of the payment corresponding to each sub-merchant. This value will be different than the request amount if shopper is purchasing items at different sub-merchants' shops. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** Required for transactions performed by registered payment facilitators. The email associated with the sub-merchant's account. */
-  email?: string;
+  email?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. A unique identifier that you create for the sub-merchant, used by schemes to identify the sub-merchant. * Format: Alphanumeric * Maximum length: 15 characters */
-  id?: string;
+  id?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. The sub-merchant's 4-digit Merchant Category Code (MCC). * Format: Numeric * Fixed length: 4 digits */
-  mcc?: string;
+  mcc?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. The name of the sub-merchant. Based on scheme specifications, this value will overwrite the shopper statement that will appear in the card statement. Exception: for acquirers in Brazil, this value does not overwrite the shopper statement. * Format: Alphanumeric * Maximum length: 22 characters */
-  name?: string;
+  name?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. The phone number associated with the sub-merchant's account. */
-  phoneNumber?: string;
-  registeredSince?: string;
+  phoneNumber?: string | undefined;
+  registeredSince?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. The tax ID of the sub-merchant. * Format: Numeric * Fixed length: 11 digits for the CPF or 14 digits for the CNPJ */
-  taxId?: string;
+  taxId?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. The sub-merchant's URL on the platform, i.e. the sub-merchant's shop. */
-  url?: string;
+  url?: string | undefined;
 }
 /** This field contains additional information on the submerchant, who is onboarded to an acquirer through a payment facilitator or aggregator */
 export type CreatePaymentRequestSubMerchantsList = Array<SubMerchantInfo>;
@@ -3570,163 +3654,166 @@ export type ThirdPartyTokenRedundancyInfoRequestParametersMap = {
 };
 export interface ThirdPartyTokenRedundancyInfo {
   /** Request-specific parameter values to populate the template placeholders. Each key must match a placeholder defined in the template referenced by `requestTemplateCode`. */
-  requestParameters?: ThirdPartyTokenRedundancyInfoRequestParametersMap;
+  requestParameters?: ThirdPartyTokenRedundancyInfoRequestParametersMap | undefined;
   /** Identifier for the third-party token request template configured in your Adyen account. This template defines the structure and endpoint for token requests. */
   requestTemplateCode: string;
 }
 export interface CreatePaymentRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  accountInfo?: AccountInfo;
+  accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount;
+  additionalAmount?: Amount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-  additionalData?: CreatePaymentRequestAdditionalDataMap;
+  additionalData?: CreatePaymentRequestAdditionalDataMap | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Data for 3DS authentication. */
-  authenticationData?: AuthenticationData;
+  authenticationData?: AuthenticationData | undefined;
   /** The details of the bank account, from which the payment should be made. > Either `bankAccount` or `card` field must be provided in a payment request. */
-  bankAccount?: CheckoutBankAccount;
+  bankAccount?: CheckoutBankAccount | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
-  browserInfo?: BrowserInfo;
+  browserInfo?: BrowserInfo | undefined;
   /** The [delay between the authorization and automatic capture](https://docs.adyen.com/online-payments/capture?tab=delayed-individual_2#delayed-automatic-capture) of the payment, specified in hours. Maximum value: **672** (28 days). */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * iOS * Android * Web */
-  channel?: CreatePaymentRequestChannel | (string & {});
+  channel?: CreatePaymentRequestChannel | (string & {}) | undefined;
   /** Checkout attempt ID that corresponds to the Id generated by the client SDK for tracking user payment journey. */
-  checkoutAttemptId?: string;
+  checkoutAttemptId?: string | undefined;
   /** Information regarding the company. */
-  company?: Company;
+  company?: Company | undefined;
   /** The shopper country code. Format: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) Example: NL or DE */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The forex quote as returned in the response of the forex service. */
-  dccQuote?: ForexQuote;
+  dccQuote?: ForexQuote | undefined;
   /** The date and time the purchased goods should be delivered. Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD Example: 2017-07-17T13:42:40.428+01:00 */
-  deliverAt?: string;
+  deliverAt?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: DeliveryAddress | undefined;
   /** The date and time the purchased goods should be delivered. Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD Example: 2017-07-17T13:42:40.428+01:00 */
-  deliveryDate?: string;
+  deliveryDate?: string | undefined;
   /** A string containing the shopper's device fingerprint. For more information, refer to [Device fingerprinting](https://docs.adyen.com/risk-management/device-fingerprinting). */
-  deviceFingerprint?: string;
+  deviceFingerprint?: string | undefined;
   /** When true and `shopperReference` is provided, the shopper will be asked if the payment details should be stored for future [one-click payments](https://docs.adyen.com/get-started-with-adyen/payment-glossary/#one-click-payments-definition). */
-  enableOneClick?: boolean;
+  enableOneClick?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be tokenized for payouts. */
-  enablePayOut?: boolean;
+  enablePayOut?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types) where the shopper is not present, such as subscription or automatic top-up payments. */
-  enableRecurring?: boolean;
+  enableRecurring?: boolean | undefined;
   /** [Enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/) that may be required for processing the payment and/or interchange savings can apply. */
-  enhancedSchemeData?: EnhancedSchemeData;
+  enhancedSchemeData?: EnhancedSchemeData | undefined;
   /** The type of the entity the payment is processed for. */
-  entityType?: CreatePaymentRequestEntityType | (string & {});
+  entityType?: CreatePaymentRequestEntityType | (string & {}) | undefined;
   /** An integer value that is added to the normal fraud score. The value can be either positive or negative. */
-  fraudOffset?: number;
+  fraudOffset?: number | undefined;
   /** The person or entity funding the money. */
-  fundOrigin?: FundOrigin;
+  fundOrigin?: FundOrigin | undefined;
   /** the person or entity receiving the money */
-  fundRecipient?: FundRecipient;
+  fundRecipient?: FundRecipient | undefined;
   /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
-  industryUsage?: CreatePaymentRequestIndustryUsage | (string & {});
+  industryUsage?: CreatePaymentRequestIndustryUsage | (string & {}) | undefined;
   /** Contains installment settings. For more information, refer to [Installments](https://docs.adyen.com/payment-methods/cards/credit-card-installments). */
-  installments?: Installments;
+  installments?: Installments | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: CreatePaymentRequestLineItemsList;
+  lineItems?: CreatePaymentRequestLineItemsList | undefined;
   /** The `localizedShopperStatement` field lets you use dynamic values for your shopper statement in a local character set. If this parameter is left empty, not provided, or not applicable (in case of cross-border transactions), then **shopperStatement** is used. Currently, `localizedShopperStatement` is only supported for payments with Visa, Mastercard, JCB, Diners, and Discover. **Supported characters**: Hiragana, Katakana, Kanji, and alphanumeric. */
-  localizedShopperStatement?: CreatePaymentRequestLocalizedShopperStatementMap;
+  localizedShopperStatement?: CreatePaymentRequestLocalizedShopperStatementMap | undefined;
   /** The mandate details to initiate recurring transaction. */
-  mandate?: Mandate;
+  mandate?: Mandate | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** You can use this reference to link multiple transactions to one another (for example, to track order authorization rate). For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. We strongly recommend that you: * Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. * Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry) */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Additional risk fields for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  merchantRiskIndicator?: MerchantRiskIndicator;
+  merchantRiskIndicator?: MerchantRiskIndicator | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-  metadata?: CreatePaymentRequestMetadataMap;
+  metadata?: CreatePaymentRequestMetadataMap | undefined;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
-  mpiData?: ThreeDSecureData;
+  mpiData?: ThreeDSecureData | undefined;
   /** Configuration for Oracle Payment Interface (OPI) integrations. */
-  opi?: OpiRequest;
+  opi?: OpiRequest | undefined;
   /** The order information required for partial payments. */
-  order?: EncryptedOrderData;
+  order?: EncryptedOrderData | undefined;
   /** When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead. */
-  orderReference?: string;
+  orderReference?: string | undefined;
   /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions.Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. */
-  origin?: string;
+  origin?: string | undefined;
   /** The type and required details of a payment method to use. */
   paymentMethod: CreatePaymentRequestPaymentMethod;
   /** The object that you can use to enable payment validations for a transaction. */
-  paymentValidations?: PaymentValidations;
+  paymentValidations?: PaymentValidations | undefined;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Minimum number of days between authorisations. Only for 3D Secure 2. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: CreatePaymentRequestRecurringProcessingModel | (string & {});
+  recurringProcessingModel?:
+    | CreatePaymentRequestRecurringProcessingModel
+    | (string & {})
+    | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting back from the issuer. */
-  redirectFromIssuerMethod?: string;
+  redirectFromIssuerMethod?: string | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting to the issuer. */
-  redirectToIssuerMethod?: string;
+  redirectToIssuerMethod?: string | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character. We strongly recommend that you use a unique value for each transaction. Maximum length: 80 characters. */
   reference: string;
   /** The URL to return to in case of a redirection. The format depends on the channel. * For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number. Example: `https://your-company.example.com/checkout?shopperOrder=12xy` * For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Example: `my-app://` * For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters). Example: `my-app://your.package.name` If the URL to return to includes non-ASCII characters, like spaces or special letters, URL encode the value. > The URL must not include personally identifiable information (PII), for example name or email address. */
   returnUrl: string;
   /** Contains risk data, such as client-side data, used to identify risk for a transaction. */
-  riskData?: RiskData;
+  riskData?: RiskData | undefined;
   /** The date and time until when the session remains valid, in [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format. For example: 2020-07-18T15:42:40.428+01:00 */
-  sessionValidity?: string;
+  sessionValidity?: string | undefined;
   /** A unique ID to [connect the shopper to a single checkout session](https://docs.adyen.com/online-payments/checkout-settings#checkout-shopper-conversion-id) that uses multiple API requests. You can use this to get insights into conversion rates. */
-  shopperConversionId?: string;
+  shopperConversionId?: string | undefined;
   /** The shopper's email address, in valid [RFC-5322](https://www.rfc-editor.org/rfc/rfc5322) format. We recommend that you provide this data, because it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
-  shopperInteraction?: CreatePaymentRequestShopperInteraction | (string & {});
+  shopperInteraction?: CreatePaymentRequestShopperInteraction | (string & {}) | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Required for recurring payments. Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters. > Your reference must not include personally identifiable information (PII), for example name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** The tax info of the shopper */
-  shopperTaxInfo?: ShopperTaxInfo;
+  shopperTaxInfo?: ShopperTaxInfo | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/platforms/process-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/classic-platforms/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split). */
-  splits?: CreatePaymentRequestSplitsList;
+  splits?: CreatePaymentRequestSplitsList | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for future [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types). */
-  storePaymentMethod?: boolean;
+  storePaymentMethod?: boolean | undefined;
   /** This field contains additional information on the submerchant, who is onboarded to an acquirer through a payment facilitator or aggregator */
-  subMerchants?: CreatePaymentRequestSubMerchantsList;
+  subMerchants?: CreatePaymentRequestSubMerchantsList | undefined;
   /** The [surcharge](https://docs.adyen.com/online-payments/surcharge/) amount to apply to the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes). When you apply surcharge, include the surcharge in the `amount.value` field. Review our [Surcharge compliance guide](https://docs.adyen.com/development-resources/surcharge-compliance/) to learn about how to comply with regulatory requirements when applying surcharge. */
-  surcharge?: Surcharge;
+  surcharge?: Surcharge | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** Configuration for creating redundant payment tokens with third-party token vaults using the Adyen Forward API. This feature requires Forward API webhook integration and pre-configured templates in your Adyen account. Contact your Adyen account manager for setup and availability. */
-  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo;
+  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments) or [Classic integration](https://docs.adyen.com/classic-integration) documentation. */
-  threeDS2RequestData?: ThreeDS2RequestFields;
+  threeDS2RequestData?: ThreeDS2RequestFields | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorisation.Default: **false**. */
-  threeDSAuthenticationOnly?: boolean;
+  threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
-  trustedShopper?: boolean;
+  trustedShopper?: boolean | undefined;
 }
 /** The type of adjustment. Possible values: * **cardholderInitiatedTransaction** * **merchantInitiatedTransaction** */
 export type CreatePaymentAmountUpdateRequestAdjustAuthType =
@@ -3745,27 +3832,27 @@ export interface CreatePaymentAmountUpdateRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment. */
   paymentPspReference: string;
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The type of adjustment. Possible values: * **cardholderInitiatedTransaction** * **merchantInitiatedTransaction** */
-  adjustAuthType?: CreatePaymentAmountUpdateRequestAdjustAuthType | (string & {});
+  adjustAuthType?: CreatePaymentAmountUpdateRequestAdjustAuthType | (string & {}) | undefined;
   /** The required data to make a [synchronous authorization adjustment](https://docs.adyen.com/online-payments/adjust-authorisation). Pass the corresponding value from the `/payments` response or webhook message. */
-  adjustAuthorisationData?: string;
+  adjustAuthorisationData?: string | undefined;
   /** The updated amount. The `currency` must match the currency used in authorisation. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
-  industryUsage?: CreatePaymentAmountUpdateRequestIndustryUsage | (string & {});
+  industryUsage?: CreatePaymentAmountUpdateRequestIndustryUsage | (string & {}) | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: CreatePaymentAmountUpdateRequestLineItemsList;
+  lineItems?: CreatePaymentAmountUpdateRequestLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** Authentication data from a [merchant plug-in (MPI)](https://en.wikipedia.org/wiki/Merchant_plug-in) like Mastercard SecureCode, Visa Secure, or Cartes Bancaires. Required for cardholder-initiated transaction (CIT) adjustments. */
-  mpiData?: ThreeDSecureData;
+  mpiData?: ThreeDSecureData | undefined;
   /** Your reference for the amount update request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/process-payments) or [platforms](https://docs.adyen.com/platforms/process-payments). */
-  splits?: CreatePaymentAmountUpdateRequestSplitsList;
+  splits?: CreatePaymentAmountUpdateRequestSplitsList | undefined;
 }
 /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
 export type PaymentAmountUpdateResponseIndustryUsage = "delayedCharge" | "installment" | "noShow";
@@ -3777,13 +3864,13 @@ export type PaymentAmountUpdateResponseSplitsList = Array<Split>;
 export type PaymentAmountUpdateResponseStatus = "authorised" | "received" | "refused";
 export interface PaymentAmountUpdateResponse {
   /** The data blob for subsequent synchronous adjust authorisation calls. Returned when the synchronous flow is used. */
-  adjustAuthorisationData?: string;
+  adjustAuthorisationData?: string | undefined;
   /** The updated amount. */
   amount: Amount;
   /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
-  industryUsage?: PaymentAmountUpdateResponseIndustryUsage;
+  industryUsage?: PaymentAmountUpdateResponseIndustryUsage | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: PaymentAmountUpdateResponseLineItemsList;
+  lineItems?: PaymentAmountUpdateResponseLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment to update. */
@@ -3793,7 +3880,7 @@ export interface PaymentAmountUpdateResponse {
   /** Your reference for the amount update request. Maximum length: 80 characters. */
   reference: string;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/process-payments) or [platforms](https://docs.adyen.com/platforms/process-payments). */
-  splits?: PaymentAmountUpdateResponseSplitsList;
+  splits?: PaymentAmountUpdateResponseSplitsList | undefined;
   /** The status of your request. If you included `adjustAuthorisationData` in your request, possible values are the following: * **authorised** * **refused** Otherwise, the value is **received**. */
   status: PaymentAmountUpdateResponseStatus;
 }
@@ -3801,13 +3888,13 @@ export interface CreatePaymentCancelRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment that you want to cancel. */
   paymentPspReference: string;
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** Your reference for the cancel request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
 }
 /** The status of your request. This will always have the value **received**. */
 export type PaymentCancelResponseStatus = "received";
@@ -3819,7 +3906,7 @@ export interface PaymentCancelResponse {
   /** Adyen's 16-character reference associated with the cancel request. */
   pspReference: string;
   /** Your reference for the cancel request. */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of your request. This will always have the value **received**. */
   status: PaymentCancelResponseStatus;
 }
@@ -3833,25 +3920,25 @@ export interface CreatePaymentCaptureRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment that you want to capture. */
   paymentPspReference: string;
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The amount that you want to capture. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Enhanced scheme data that may be required for processing the payment. For example, airline information. */
-  enhancedSchemeData?: EnhancedSchemeData;
+  enhancedSchemeData?: EnhancedSchemeData | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: CreatePaymentCaptureRequestLineItemsList;
+  lineItems?: CreatePaymentCaptureRequestLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Your reference for the capture request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/split-payments) or [platforms](https://docs.adyen.com/platforms/online-payments/split-payments/). */
-  splits?: CreatePaymentCaptureRequestSplitsList;
+  splits?: CreatePaymentCaptureRequestSplitsList | undefined;
   /** A List of sub-merchants. */
-  subMerchants?: CreatePaymentCaptureRequestSubMerchantsList;
+  subMerchants?: CreatePaymentCaptureRequestSubMerchantsList | undefined;
 }
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type PaymentCaptureResponseLineItemsList = Array<LineItem>;
@@ -3865,23 +3952,23 @@ export interface PaymentCaptureResponse {
   /** The captured amount. */
   amount: Amount;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: PaymentCaptureResponseLineItemsList;
+  lineItems?: PaymentCaptureResponseLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment to capture. */
   paymentPspReference: string;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Adyen's 16-character reference associated with the capture request. */
   pspReference: string;
   /** Your reference for the capture request. */
-  reference?: string;
+  reference?: string | undefined;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/split-payments) or [platforms](https://docs.adyen.com/platforms/online-payments/split-payments/). */
-  splits?: PaymentCaptureResponseSplitsList;
+  splits?: PaymentCaptureResponseSplitsList | undefined;
   /** The status of your request. This will always have the value **received**. */
   status: PaymentCaptureResponseStatus;
   /** List of sub-merchants. */
-  subMerchants?: PaymentCaptureResponseSubMerchantsList;
+  subMerchants?: PaymentCaptureResponseSubMerchantsList | undefined;
 }
 /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
 export type CreatePaymentLinkRequestAllowedPaymentMethodsList = Array<string>;
@@ -3904,13 +3991,13 @@ export type InstallmentOptionPlansList = Array<InstallmentOptionPlansItem | (str
 export type InstallmentOptionValuesList = Array<number>;
 export interface InstallmentOption {
   /** The maximum number of installments offered for this payment method. */
-  maxValue?: number;
+  maxValue?: number | undefined;
   /** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** */
-  plans?: InstallmentOptionPlansList;
+  plans?: InstallmentOptionPlansList | undefined;
   /** Preselected number of installments offered for this payment method. */
-  preselectedValue?: number;
+  preselectedValue?: number | undefined;
   /** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`. */
-  values?: InstallmentOptionValuesList;
+  values?: InstallmentOptionValuesList | undefined;
 }
 /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
 export type CreatePaymentLinkRequestInstallmentOptionsMap = {
@@ -3952,103 +4039,110 @@ export type CheckoutSessionThreeDS2RequestDataThreeDSRequestorChallengeInd =
   | "06";
 export interface CheckoutSessionThreeDS2RequestData {
   /** The home phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  homePhone?: Phone;
+  homePhone?: Phone | undefined;
   /** The mobile phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  mobilePhone?: Phone;
+  mobilePhone?: Phone | undefined;
   /** Indicates whether a challenge is requested for this transaction. Possible values: * **01** -- No preference * **02** -- No challenge requested * **03** -- Challenge requested (3DS Requestor preference) * **04** -- Challenge requested (Mandate) * **05** -- No challenge (transactional risk analysis is already performed) * **06** -- Data Only */
   threeDSRequestorChallengeInd?:
     | CheckoutSessionThreeDS2RequestDataThreeDSRequestorChallengeInd
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The work phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  workPhone?: Phone;
+  workPhone?: Phone | undefined;
 }
 export interface CreatePaymentLinkRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
-  allowedPaymentMethods?: CreatePaymentLinkRequestAllowedPaymentMethodsList;
+  allowedPaymentMethods?: CreatePaymentLinkRequestAllowedPaymentMethodsList | undefined;
   /** The payment amount and currency. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
-  blockedPaymentMethods?: CreatePaymentLinkRequestBlockedPaymentMethodsList;
+  blockedPaymentMethods?: CreatePaymentLinkRequestBlockedPaymentMethodsList | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The shopper's two-letter country code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The date and time when the purchased goods should be delivered. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  deliverAt?: string;
+  deliverAt?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: BillingAddress;
+  deliveryAddress?: BillingAddress | undefined;
   /** A short description visible on the payment page. Maximum length: 280 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The date when the payment link expires. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format with time zone offset: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. The maximum expiry date is 70 days after the payment link is created. If not provided, the payment link expires 24 hours after it was created. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The person or entity funding the money. */
-  fundOrigin?: FundOrigin;
+  fundOrigin?: FundOrigin | undefined;
   /** the person or entity receiving the money */
-  fundRecipient?: FundRecipient;
+  fundRecipient?: FundRecipient | undefined;
   /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
-  installmentOptions?: CreatePaymentLinkRequestInstallmentOptionsMap;
+  installmentOptions?: CreatePaymentLinkRequestInstallmentOptionsMap | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: CreatePaymentLinkRequestLineItemsList;
+  lineItems?: CreatePaymentLinkRequestLineItemsList | undefined;
   /** Indicates if the payment must be [captured manually](https://docs.adyen.com/online-payments/capture). */
-  manualCapture?: boolean;
+  manualCapture?: boolean | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier for which the payment link is created. */
   merchantAccount: string;
   /** This reference allows linking multiple transactions to each other for reporting purposes (for example, order auth-rate). The reference should be unique per billing cycle. */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limitations: * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit" * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit" * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID. */
-  metadata?: CreatePaymentLinkRequestMetadataMap;
+  metadata?: CreatePaymentLinkRequestMetadataMap | undefined;
   /** Dictates the behavior of how a potential chargeback should be booked when using Adyen Platforms. */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Defines a recurring payment type. Required when `storePaymentMethodMode` is set to **askForConsent** or **enabled**. Possible values: * **Subscription** - A transaction for a fixed or variable amount, which follows a fixed schedule. * **CardOnFile** - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * **UnscheduledCardOnFile** - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or has variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: CreatePaymentLinkRequestRecurringProcessingModel | (string & {});
+  recurringProcessingModel?:
+    | CreatePaymentLinkRequestRecurringProcessingModel
+    | (string & {})
+    | undefined;
   /** A reference that is used to uniquely identify the payment in future communications about the payment status. */
   reference: string;
   /** List of fields that the shopper has to provide on the payment page before completing the payment. For more information, refer to [Provide shopper information](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#shopper-information). Possible values: * **billingAddress** - The address where to send the invoice. * **deliveryAddress** - The address where the purchased goods should be delivered. * **shopperEmail** - The shopper's email address. * **shopperName** - The shopper's full name. * **telephoneNumber** - The shopper's phone number. */
-  requiredShopperFields?: CreatePaymentLinkRequestRequiredShopperFieldsList;
+  requiredShopperFields?: CreatePaymentLinkRequestRequiredShopperFieldsList | undefined;
   /** Website URL used for redirection after payment is completed. If provided, a **Continue** button will be shown on the payment page. If shoppers select the button, they are redirected to the specified URL. */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
   /** Indicates whether the payment link can be reused for multiple payments. If not provided, this defaults to **false** which means the link can be used for one successful payment only. */
-  reusable?: boolean;
+  reusable?: boolean | undefined;
   /** Any risk-related settings to apply to the payment. */
-  riskData?: RiskData;
+  riskData?: RiskData | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The language to be used in the payment page, specified by a combination of a language and country code. For example, `en-US`. For a list of shopper locales that Pay by Link supports, refer to [Language and localization](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#language). */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** Set to **false** to hide the button that lets the shopper remove a stored payment method. */
-  showRemovePaymentMethodButton?: boolean;
+  showRemovePaymentMethodButton?: boolean | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** Boolean value indicating whether the card payment method should be split into separate debit and credit options. */
-  splitCardFundingSources?: boolean;
+  splitCardFundingSources?: boolean | undefined;
   /** An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/platforms/process-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/classic-platforms/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split). */
-  splits?: CreatePaymentLinkRequestSplitsList;
+  splits?: CreatePaymentLinkRequestSplitsList | undefined;
   /** The physical store, for which this payment is processed. */
-  store?: string;
+  store?: string | undefined;
   /** Indicates if the details of the payment method will be stored for the shopper. Possible values: * **disabled** - No details will be stored (default). * **askForConsent** - If the `shopperReference` is provided, the Drop-in/Component shows a checkbox where the shopper can select to store their payment details for card payments. * **enabled** - If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. When set to **askForConsent** or **enabled**, you must also include the `recurringProcessingModel` parameter. */
-  storePaymentMethodMode?: CreatePaymentLinkRequestStorePaymentMethodMode | (string & {});
+  storePaymentMethodMode?:
+    | CreatePaymentLinkRequestStorePaymentMethodMode
+    | (string & {})
+    | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** A [theme](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#themes) to customize the appearance of the payment page. If not specified, the payment page is rendered according to the theme set as default in your Customer Area. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** The cardholder phone number need to be part of the authentication message for payment data. It is a requirement for Visa Secure Authentication Data Field Mandate effective August 2024. */
-  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData;
+  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
 }
 /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
 export type PaymentLinkResponseAllowedPaymentMethodsList = Array<string>;
@@ -4089,95 +4183,95 @@ export type PaymentLinkResponseStatus =
 export type PaymentLinkResponseStorePaymentMethodMode = "askForConsent" | "disabled" | "enabled";
 export interface PaymentLinkResponse {
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
-  allowedPaymentMethods?: PaymentLinkResponseAllowedPaymentMethodsList;
+  allowedPaymentMethods?: PaymentLinkResponseAllowedPaymentMethodsList | undefined;
   /** The payment amount and currency. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
-  blockedPaymentMethods?: PaymentLinkResponseBlockedPaymentMethodsList;
+  blockedPaymentMethods?: PaymentLinkResponseBlockedPaymentMethodsList | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The shopper's two-letter country code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The date and time when the purchased goods should be delivered. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  deliverAt?: string;
+  deliverAt?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: BillingAddress;
+  deliveryAddress?: BillingAddress | undefined;
   /** A short description visible on the payment page. Maximum length: 280 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The date when the payment link expires. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format with time zone offset: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. The maximum expiry date is 70 days after the payment link is created. If not provided, the payment link expires 24 hours after it was created. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The person or entity funding the money. */
-  fundOrigin?: FundOrigin;
+  fundOrigin?: FundOrigin | undefined;
   /** the person or entity receiving the money */
-  fundRecipient?: FundRecipient;
+  fundRecipient?: FundRecipient | undefined;
   /** A unique identifier of the payment link. */
   id: string;
   /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
-  installmentOptions?: PaymentLinkResponseInstallmentOptionsMap;
+  installmentOptions?: PaymentLinkResponseInstallmentOptionsMap | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: PaymentLinkResponseLineItemsList;
+  lineItems?: PaymentLinkResponseLineItemsList | undefined;
   /** Indicates if the payment must be [captured manually](https://docs.adyen.com/online-payments/capture). */
-  manualCapture?: boolean;
+  manualCapture?: boolean | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier for which the payment link is created. */
   merchantAccount: string;
   /** This reference allows linking multiple transactions to each other for reporting purposes (for example, order auth-rate). The reference should be unique per billing cycle. */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limitations: * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit" * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit" * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID. */
-  metadata?: PaymentLinkResponseMetadataMap;
+  metadata?: PaymentLinkResponseMetadataMap | undefined;
   /** Dictates the behavior of how a potential chargeback should be booked when using Adyen Platforms. */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Defines a recurring payment type. Required when `storePaymentMethodMode` is set to **askForConsent** or **enabled**. Possible values: * **Subscription** - A transaction for a fixed or variable amount, which follows a fixed schedule. * **CardOnFile** - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * **UnscheduledCardOnFile** - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or has variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: PaymentLinkResponseRecurringProcessingModel;
+  recurringProcessingModel?: PaymentLinkResponseRecurringProcessingModel | undefined;
   /** A reference that is used to uniquely identify the payment in future communications about the payment status. */
   reference: string;
   /** List of fields that the shopper has to provide on the payment page before completing the payment. For more information, refer to [Provide shopper information](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#shopper-information). Possible values: * **billingAddress** - The address where to send the invoice. * **deliveryAddress** - The address where the purchased goods should be delivered. * **shopperEmail** - The shopper's email address. * **shopperName** - The shopper's full name. * **telephoneNumber** - The shopper's phone number. */
-  requiredShopperFields?: PaymentLinkResponseRequiredShopperFieldsList;
+  requiredShopperFields?: PaymentLinkResponseRequiredShopperFieldsList | undefined;
   /** Website URL used for redirection after payment is completed. If provided, a **Continue** button will be shown on the payment page. If shoppers select the button, they are redirected to the specified URL. */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
   /** Indicates whether the payment link can be reused for multiple payments. If not provided, this defaults to **false** which means the link can be used for one successful payment only. */
-  reusable?: boolean;
+  reusable?: boolean | undefined;
   /** Any risk-related settings to apply to the payment. */
-  riskData?: RiskData;
+  riskData?: RiskData | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The language to be used in the payment page, specified by a combination of a language and country code. For example, `en-US`. For a list of shopper locales that Pay by Link supports, refer to [Language and localization](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#language). */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** Set to **false** to hide the button that lets the shopper remove a stored payment method. */
-  showRemovePaymentMethodButton?: boolean;
+  showRemovePaymentMethodButton?: boolean | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** Boolean value indicating whether the card payment method should be split into separate debit and credit options. */
-  splitCardFundingSources?: boolean;
+  splitCardFundingSources?: boolean | undefined;
   /** An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/platforms/process-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/classic-platforms/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split). */
-  splits?: PaymentLinkResponseSplitsList;
+  splits?: PaymentLinkResponseSplitsList | undefined;
   /** Status of the payment link. Possible values: * **active**: The link can be used to make payments. * **expired**: The expiry date for the payment link has passed. Shoppers can no longer use the link to make payments. * **completed**: The shopper completed the payment. * **paymentPending**: The shopper is in the process of making the payment. Applies to payment methods with an asynchronous flow. */
   status: PaymentLinkResponseStatus;
   /** The physical store, for which this payment is processed. */
-  store?: string;
+  store?: string | undefined;
   /** Indicates if the details of the payment method will be stored for the shopper. Possible values: * **disabled** - No details will be stored (default). * **askForConsent** - If the `shopperReference` is provided, the Drop-in/Component shows a checkbox where the shopper can select to store their payment details for card payments. * **enabled** - If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. When set to **askForConsent** or **enabled**, you must also include the `recurringProcessingModel` parameter. */
-  storePaymentMethodMode?: PaymentLinkResponseStorePaymentMethodMode;
+  storePaymentMethodMode?: PaymentLinkResponseStorePaymentMethodMode | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** A [theme](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#themes) to customize the appearance of the payment page. If not specified, the payment page is rendered according to the theme set as default in your Customer Area. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** The cardholder phone number need to be part of the authentication message for payment data. It is a requirement for Visa Secure Authentication Data Field Mandate effective August 2024. */
-  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData;
+  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
   /** The date when the payment link status was updated. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The URL at which the shopper can complete the payment. */
   url: string;
 }
@@ -4196,53 +4290,53 @@ export type CreatePaymentMethodRequestStoreFiltrationMode =
   | "skipFilter";
 export interface CreatePaymentMethodRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-  additionalData?: CreatePaymentMethodRequestAdditionalDataMap;
+  additionalData?: CreatePaymentMethodRequestAdditionalDataMap | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
-  allowedPaymentMethods?: CreatePaymentMethodRequestAllowedPaymentMethodsList;
+  allowedPaymentMethods?: CreatePaymentMethodRequestAllowedPaymentMethodsList | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
-  blockedPaymentMethods?: CreatePaymentMethodRequestBlockedPaymentMethodsList;
+  blockedPaymentMethods?: CreatePaymentMethodRequestBlockedPaymentMethodsList | undefined;
   /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
-  browserInfo?: BrowserInfo;
+  browserInfo?: BrowserInfo | undefined;
   /** The platform where a payment transaction takes place. This field can be used for filtering out payment methods that are only available on specific platforms. Possible values: * iOS * Android * Web */
-  channel?: CreatePaymentMethodRequestChannel | (string & {});
+  channel?: CreatePaymentMethodRequestChannel | (string & {}) | undefined;
   /** The shopper country code. Format: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) Example: NL or DE */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** The order information required for partial payments. */
-  order?: EncryptedOrderData;
+  order?: EncryptedOrderData | undefined;
   /** A unique ID to [connect the shopper to a single checkout session](https://docs.adyen.com/online-payments/checkout-settings#checkout-shopper-conversion-id) that uses multiple API requests. You can use this to get insights into conversion rates. */
-  shopperConversionId?: string;
+  shopperConversionId?: string | undefined;
   /** The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** Required for recurring payments. Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** Boolean value indicating whether the card payment method should be split into separate debit and credit options. */
-  splitCardFundingSources?: boolean;
+  splitCardFundingSources?: boolean | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** Specifies how payment methods should be filtered based on the `store` parameter: - **exclusive**: Only payment methods belonging to the specified `store` are returned. - **inclusive**: Payment methods from the `store` and those not associated with any other store are returned. */
-  storeFiltrationMode?: CreatePaymentMethodRequestStoreFiltrationMode | (string & {});
+  storeFiltrationMode?: CreatePaymentMethodRequestStoreFiltrationMode | (string & {}) | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
 }
 export interface AppIdentifierInfo {
   /** The Android package identifier for this app. */
-  androidPackageId?: string;
+  androidPackageId?: string | undefined;
   /** The iOS URL scheme for this app. */
-  iosScheme?: string;
+  iosScheme?: string | undefined;
 }
 export interface PaymentMethodUPIApps {
   /** The app identifier information containing iOS scheme and Android package ID. */
-  appIdentifierInfo?: AppIdentifierInfo;
+  appIdentifierInfo?: AppIdentifierInfo | undefined;
   /** The unique identifier of this app, to submit in requests to /payments. */
   id: string;
   /** A localized name of the app. */
@@ -4258,11 +4352,11 @@ export type PaymentMethodConfigurationMap = { [key: string]: string | undefined 
 export type PaymentMethodFundingSource = "credit" | "debit" | "prepaid";
 export interface PaymentMethodGroup {
   /** The name of the group. */
-  name?: string;
+  name?: string | undefined;
   /** Echo data to be used if the payment method is displayed as part of this group. */
-  paymentMethodData?: string;
+  paymentMethodData?: string | undefined;
   /** The unique code of the group. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Configuration parameters for the required input. */
 export type InputDetailConfigurationMap = { [key: string]: string | undefined };
@@ -4270,25 +4364,25 @@ export type InputDetailConfigurationMap = { [key: string]: string | undefined };
 export type SubInputDetailConfigurationMap = { [key: string]: string | undefined };
 export interface Item {
   /** The value to provide in the result. */
-  id?: string;
+  id?: string | undefined;
   /** The display name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** In case of a select, the items to choose from. */
 export type SubInputDetailItemsList = Array<Item>;
 export interface SubInputDetail {
   /** Configuration parameters for the required input. */
-  configuration?: SubInputDetailConfigurationMap;
+  configuration?: SubInputDetailConfigurationMap | undefined;
   /** In case of a select, the items to choose from. */
-  items?: SubInputDetailItemsList;
+  items?: SubInputDetailItemsList | undefined;
   /** The value to provide in the result. */
-  key?: string;
+  key?: string | undefined;
   /** True if this input is optional to provide. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The type of the required input. */
-  type?: string;
+  type?: string | undefined;
   /** The value can be pre-filled, if available. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Input details can also be provided recursively. */
 export type InputDetailDetailsList = Array<SubInputDetail>;
@@ -4298,29 +4392,29 @@ export type InputDetailInputDetailsList = Array<SubInputDetail>;
 export type InputDetailItemsList = Array<Item>;
 export interface InputDetail {
   /** Configuration parameters for the required input. */
-  configuration?: InputDetailConfigurationMap;
+  configuration?: InputDetailConfigurationMap | undefined;
   /** Input details can also be provided recursively. */
-  details?: InputDetailDetailsList;
+  details?: InputDetailDetailsList | undefined;
   /** Input details can also be provided recursively (deprecated). */
-  inputDetails?: InputDetailInputDetailsList;
+  inputDetails?: InputDetailInputDetailsList | undefined;
   /** In case of a select, the URL from which to query the items. */
-  itemSearchUrl?: string;
+  itemSearchUrl?: string | undefined;
   /** In case of a select, the items to choose from. */
-  items?: InputDetailItemsList;
+  items?: InputDetailItemsList | undefined;
   /** The value to provide in the result. */
-  key?: string;
+  key?: string | undefined;
   /** True if this input value is optional. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The type of the required input. */
-  type?: string;
+  type?: string | undefined;
   /** The value can be pre-filled, if available. */
-  value?: string;
+  value?: string | undefined;
 }
 /** All input details to be provided to complete the payment with this payment method. */
 export type PaymentMethodInputDetailsList = Array<InputDetail>;
 export interface PaymentMethodIssuer {
   /** A boolean value indicating whether this issuer is unavailable. Can be `true` whenever the issuer is offline. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The unique identifier of this issuer, to submit in requests to /payments. */
   id: string;
   /** A localized name of the issuer. */
@@ -4330,27 +4424,27 @@ export interface PaymentMethodIssuer {
 export type PaymentMethodIssuersList = Array<PaymentMethodIssuer>;
 export interface PaymentMethod {
   /** A list of apps for this payment method. */
-  apps?: PaymentMethodAppsList;
+  apps?: PaymentMethodAppsList | undefined;
   /** Brand for the selected gift card. For example: plastix, hmclub. */
-  brand?: string;
+  brand?: string | undefined;
   /** List of possible brands. For example: visa, mc. */
-  brands?: PaymentMethodBrandsList;
+  brands?: PaymentMethodBrandsList | undefined;
   /** The configuration of the payment method. */
-  configuration?: PaymentMethodConfigurationMap;
+  configuration?: PaymentMethodConfigurationMap | undefined;
   /** The funding source of the payment method. */
-  fundingSource?: PaymentMethodFundingSource;
+  fundingSource?: PaymentMethodFundingSource | undefined;
   /** The group where this payment method belongs to. */
-  group?: PaymentMethodGroup;
+  group?: PaymentMethodGroup | undefined;
   /** All input details to be provided to complete the payment with this payment method. */
-  inputDetails?: PaymentMethodInputDetailsList;
+  inputDetails?: PaymentMethodInputDetailsList | undefined;
   /** A list of issuers for this payment method. */
-  issuers?: PaymentMethodIssuersList;
+  issuers?: PaymentMethodIssuersList | undefined;
   /** The displayable name of this payment method. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this payment method should be promoted or not. */
-  promoted?: boolean;
+  promoted?: boolean | undefined;
   /** The unique payment method code. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Detailed list of payment methods required to generate payment forms. */
 export type PaymentMethodsResponsePaymentMethodsList = Array<PaymentMethod>;
@@ -4360,51 +4454,53 @@ export type StoredPaymentMethodSupportedRecurringProcessingModelsList = Array<st
 export type StoredPaymentMethodSupportedShopperInteractionsList = Array<string>;
 export interface StoredPaymentMethod {
   /** The bank account number (without separators). */
-  bankAccountNumber?: string;
+  bankAccountNumber?: string | undefined;
   /** The location id of the bank. The field value is `nil` in most cases. */
-  bankLocationId?: string;
+  bankLocationId?: string | undefined;
   /** The brand of the card. */
-  brand?: string;
+  brand?: string | undefined;
   /** The shopper's Cash App Pay Cashtag. */
-  cashtag?: string;
+  cashtag?: string | undefined;
   /** The two-digit month when the card expires */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The last two digits of the year the card expires. For example, **22** for the year 2022. */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The token issued by an external tokenization service representing the shopper's payment method */
-  externalToken?: string;
+  externalToken?: string | undefined;
   /** The name of the payment method holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The IBAN of the bank account. */
-  iban?: string;
+  iban?: string | undefined;
   /** A unique identifier of this stored payment method. */
-  id?: string;
+  id?: string | undefined;
   /** The shopper's issuer account label */
-  label?: string;
+  label?: string | undefined;
   /** The last four digits of the PAN. */
-  lastFour?: string;
+  lastFour?: string | undefined;
   /** The display name of the stored payment method. */
-  name?: string;
+  name?: string | undefined;
   /** Returned in the response if you are not tokenizing with Adyen and are using the Merchant-initiated transactions (MIT) framework from Mastercard or Visa. This contains either the Mastercard Trace ID or the Visa Transaction ID. */
-  networkTxReference?: string;
+  networkTxReference?: string | undefined;
   /** The name of the bank account holder. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The supported recurring processing models for this stored payment method. */
-  supportedRecurringProcessingModels?: StoredPaymentMethodSupportedRecurringProcessingModelsList;
+  supportedRecurringProcessingModels?:
+    | StoredPaymentMethodSupportedRecurringProcessingModelsList
+    | undefined;
   /** The supported shopper interactions for this stored payment method. */
-  supportedShopperInteractions?: StoredPaymentMethodSupportedShopperInteractionsList;
+  supportedShopperInteractions?: StoredPaymentMethodSupportedShopperInteractionsList | undefined;
   /** The type of payment method. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of all stored payment methods. */
 export type PaymentMethodsResponseStoredPaymentMethodsList = Array<StoredPaymentMethod>;
 export interface PaymentMethodsResponse {
   /** Detailed list of payment methods required to generate payment forms. */
-  paymentMethods?: PaymentMethodsResponsePaymentMethodsList;
+  paymentMethods?: PaymentMethodsResponsePaymentMethodsList | undefined;
   /** List of all stored payment methods. */
-  storedPaymentMethods?: PaymentMethodsResponseStoredPaymentMethodsList;
+  storedPaymentMethods?: PaymentMethodsResponseStoredPaymentMethodsList | undefined;
 }
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
 export type CreatePaymentMethodsBalanceRequestAdditionalDataMap = {
@@ -4435,15 +4531,15 @@ export type RecurringTokenService =
   | "TOKEN_SHARING";
 export interface Recurring {
   /** The type of recurring contract to be used. Possible values: * `ONECLICK` - Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid). * `RECURRING` - Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp). * `ONECLICK,RECURRING` - Payment details can be used regardless of whether the shopper is on your site or not. * `PAYOUT` - Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts). * `EXTERNAL` - Use this when you store payment details and send the raw card number or network token directly in your API request. */
-  contract?: RecurringContract | (string & {});
+  contract?: RecurringContract | (string & {}) | undefined;
   /** A descriptive name for this detail. */
-  recurringDetailName?: string;
+  recurringDetailName?: string | undefined;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Minimum number of days between authorisations. Only for 3D Secure 2. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** The name of the token service. */
-  tokenService?: RecurringTokenService | (string & {});
+  tokenService?: RecurringTokenService | (string & {}) | undefined;
 }
 /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
 export type CreatePaymentMethodsBalanceRequestRecurringProcessingModel =
@@ -4487,177 +4583,186 @@ export type ThreeDS2RequestDataTransactionType =
   | "prepaidActivationAndLoad";
 export interface ThreeDS2RequestData {
   /** Additional information about the cardholder's account provided by the 3DS Requestor. */
-  acctInfo?: AcctInfo;
+  acctInfo?: AcctInfo | undefined;
   /** Indicates the type of account. For example, for a multi-account card product. Length: 2 characters. Allowed values: * **01** -- Not applicable * **02** -- Credit * **03** -- Debit */
-  acctType?: ThreeDS2RequestDataAcctType | (string & {});
+  acctType?: ThreeDS2RequestDataAcctType | (string & {}) | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The acquiring BIN enrolled for 3D Secure 2. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform. */
-  acquirerBIN?: string;
+  acquirerBIN?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchantId that is enrolled for 3D Secure 2 by the merchant's acquirer. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform. */
-  acquirerMerchantID?: string;
+  acquirerMerchantID?: string | undefined;
   /** Indicates whether the cardholder shipping address and cardholder billing address are the same. Allowed values: * **Y** -- Shipping address matches billing address. * **N** -- Shipping address does not match billing address. */
-  addrMatch?: ThreeDS2RequestDataAddrMatch | (string & {});
+  addrMatch?: ThreeDS2RequestDataAddrMatch | (string & {}) | undefined;
   /** If set to true, you will only perform the [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only), and not the payment authorisation. */
-  authenticationOnly?: boolean;
+  authenticationOnly?: boolean | undefined;
   /** Possibility to specify a preference for receiving a challenge from the issuer. Allowed values: * `noPreference` * `requestNoChallenge` * `requestChallenge` * `requestChallengeAsMandate` */
-  challengeIndicator?: ThreeDS2RequestDataChallengeIndicator | (string & {});
+  challengeIndicator?: ThreeDS2RequestDataChallengeIndicator | (string & {}) | undefined;
   /** The environment of the shopper. Allowed values: * `app` * `browser` */
   deviceChannel: string;
   /** Display options for the 3D Secure 2 SDK. Optional and only for `deviceChannel` **app**. */
-  deviceRenderOptions?: DeviceRenderOptions;
+  deviceRenderOptions?: DeviceRenderOptions | undefined;
   /** The home phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  homePhone?: Phone;
+  homePhone?: Phone | undefined;
   /** Required for merchants that have been enrolled for 3D Secure 2 by another party than Adyen, mostly [authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The `mcc` is a four-digit code with which the previously given `acquirerMerchantID` is registered at the scheme. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchant name that the issuer presents to the shopper if they get a challenge. We recommend to use the same value that you will use in the authorization. Maximum length is 40 characters. > Optional for a [full 3D Secure 2 integration](https://docs.adyen.com/online-payments/3d-secure/native-3ds2/api-integration). Use this field if you are enrolled for 3D Secure 2 with us and want to override the merchant name already configured on your account. */
-  merchantName?: string;
+  merchantName?: string | undefined;
   /** The `messageVersion` value indicating the 3D Secure 2 protocol version. */
-  messageVersion?: string;
+  messageVersion?: string | undefined;
   /** The mobile phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  mobilePhone?: Phone;
+  mobilePhone?: Phone | undefined;
   /** URL to where the issuer should send the `CRes`. Required if you are not using components for `channel` **Web** or if you are using classic integration `deviceChannel` **browser**. */
-  notificationURL?: string;
+  notificationURL?: string | undefined;
   /** Value **true** indicates that the transaction was de-tokenised prior to being received by the ACS. */
-  payTokenInd?: boolean;
+  payTokenInd?: boolean | undefined;
   /** Indicates the type of payment for which an authentication is requested (message extension) */
-  paymentAuthenticationUseCase?: string;
+  paymentAuthenticationUseCase?: string | undefined;
   /** Indicates the maximum number of authorisations permitted for instalment payments. Length: 1-3 characters. */
-  purchaseInstalData?: string;
+  purchaseInstalData?: string | undefined;
   /** Date after which no further authorisations shall be performed. Format: YYYYMMDD */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Indicates the minimum number of days between authorisations. Maximum length: 4 characters. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** The `sdkAppID` value as received from the 3D Secure 2 SDK. Required for `deviceChannel` set to **app**. */
-  sdkAppID?: string;
+  sdkAppID?: string | undefined;
   /** The `sdkEncData` value as received from the 3D Secure 2 SDK. Required for `deviceChannel` set to **app**. */
-  sdkEncData?: string;
+  sdkEncData?: string | undefined;
   /** The `sdkEphemPubKey` value as received from the 3D Secure 2 SDK. Required for `deviceChannel` set to **app**. */
-  sdkEphemPubKey?: SDKEphemPubKey;
+  sdkEphemPubKey?: SDKEphemPubKey | undefined;
   /** The maximum amount of time in minutes for the 3D Secure 2 authentication process. Optional and only for `deviceChannel` set to **app**. Defaults to **60** minutes. */
-  sdkMaxTimeout?: number;
+  sdkMaxTimeout?: number | undefined;
   /** The `sdkReferenceNumber` value as received from the 3D Secure 2 SDK. Only for `deviceChannel` set to **app**. */
-  sdkReferenceNumber?: string;
+  sdkReferenceNumber?: string | undefined;
   /** The `sdkTransID` value as received from the 3D Secure 2 SDK. Only for `deviceChannel` set to **app**. */
-  sdkTransID?: string;
+  sdkTransID?: string | undefined;
   /** Version of the 3D Secure 2 mobile SDK. Only for `deviceChannel` set to **app**. */
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
   /** Completion indicator for the device fingerprinting. */
-  threeDSCompInd?: string;
+  threeDSCompInd?: string | undefined;
   /** Indicates the type of Authentication request. */
-  threeDSRequestorAuthenticationInd?: string;
+  threeDSRequestorAuthenticationInd?: string | undefined;
   /** Information about how the 3DS Requestor authenticated the cardholder before or during the transaction */
-  threeDSRequestorAuthenticationInfo?: ThreeDSRequestorAuthenticationInfo;
+  threeDSRequestorAuthenticationInfo?: ThreeDSRequestorAuthenticationInfo | undefined;
   /** Indicates whether a challenge is requested for this transaction. Possible values: * **01** -- No preference * **02** -- No challenge requested * **03** -- Challenge requested (3DS Requestor preference) * **04** -- Challenge requested (Mandate) * **05** -- No challenge (transactional risk analysis is already performed) * **06** -- Data Only */
-  threeDSRequestorChallengeInd?: ThreeDS2RequestDataThreeDSRequestorChallengeInd | (string & {});
+  threeDSRequestorChallengeInd?:
+    | ThreeDS2RequestDataThreeDSRequestorChallengeInd
+    | (string & {})
+    | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor identifier assigned by the Directory Server when you enrol for 3D Secure 2. */
-  threeDSRequestorID?: string;
+  threeDSRequestorID?: string | undefined;
   /** Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor name assigned by the Directory Server when you enrol for 3D Secure 2. */
-  threeDSRequestorName?: string;
+  threeDSRequestorName?: string | undefined;
   /** Information about how the 3DS Requestor authenticated the cardholder as part of a previous 3DS transaction. */
-  threeDSRequestorPriorAuthenticationInfo?: ThreeDSRequestorPriorAuthenticationInfo;
+  threeDSRequestorPriorAuthenticationInfo?: ThreeDSRequestorPriorAuthenticationInfo | undefined;
   /** URL of the (customer service) website that will be shown to the shopper in case of technical errors during the 3D Secure 2 process. */
-  threeDSRequestorURL?: string;
+  threeDSRequestorURL?: string | undefined;
   /** Identifies the type of transaction being authenticated. Length: 2 characters. Allowed values: * **01** -- Goods/Service Purchase * **03** -- Check Acceptance * **10** -- Account Funding * **11** -- Quasi-Cash Transaction * **28** -- Prepaid Activation and Load */
-  transType?: ThreeDS2RequestDataTransType | (string & {});
+  transType?: ThreeDS2RequestDataTransType | (string & {}) | undefined;
   /** Identify the type of the transaction being authenticated. */
-  transactionType?: ThreeDS2RequestDataTransactionType | (string & {});
+  transactionType?: ThreeDS2RequestDataTransactionType | (string & {}) | undefined;
   /** The `whiteListStatus` value returned from a previous 3D Secure 2 transaction, only applicable for 3D Secure 2 protocol version 2.2.0. */
-  whiteListStatus?: string;
+  whiteListStatus?: string | undefined;
   /** The work phone number provided by the cardholder. The phone number must consist of a country code, followed by the number. If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`, and did not send the shopper's phone number in `telephoneNumber`. */
-  workPhone?: Phone;
+  workPhone?: Phone | undefined;
 }
 export interface CreatePaymentMethodsBalanceRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  accountInfo?: AccountInfo;
+  accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount;
+  additionalAmount?: Amount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-  additionalData?: CreatePaymentMethodsBalanceRequestAdditionalDataMap;
+  additionalData?: CreatePaymentMethodsBalanceRequestAdditionalDataMap | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
-  browserInfo?: BrowserInfo;
+  browserInfo?: BrowserInfo | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The forex quote as returned in the response of the forex service. */
-  dccQuote?: ForexQuote;
+  dccQuote?: ForexQuote | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: BillingAddress;
+  deliveryAddress?: BillingAddress | undefined;
   /** The date and time the purchased goods should be delivered. Format [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD Example: 2017-07-17T13:42:40.428+01:00 */
-  deliveryDate?: string;
+  deliveryDate?: string | undefined;
   /** A string containing the shopper's device fingerprint. For more information, refer to [Device fingerprinting](https://docs.adyen.com/risk-management/device-fingerprinting). */
-  deviceFingerprint?: string;
+  deviceFingerprint?: string | undefined;
   /** An integer value that is added to the normal fraud score. The value can be either positive or negative. */
-  fraudOffset?: number;
+  fraudOffset?: number | undefined;
   /** Contains installment settings. For more information, refer to [Installments](https://docs.adyen.com/payment-methods/cards/credit-card-installments). */
-  installments?: Installments;
+  installments?: Installments | undefined;
   /** The `localizedShopperStatement` field lets you use dynamic values for your shopper statement in a local character set. If this parameter is left empty, not provided, or not applicable (in case of cross-border transactions), then **shopperStatement** is used. Currently, `localizedShopperStatement` is only supported for payments with Visa, Mastercard, JCB, Diners, and Discover. **Supported characters**: Hiragana, Katakana, Kanji, and alphanumeric. */
-  localizedShopperStatement?: CreatePaymentMethodsBalanceRequestLocalizedShopperStatementMap;
+  localizedShopperStatement?:
+    | CreatePaymentMethodsBalanceRequestLocalizedShopperStatementMap
+    | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle. The same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations. > We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`. */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Additional risk fields for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  merchantRiskIndicator?: MerchantRiskIndicator;
+  merchantRiskIndicator?: MerchantRiskIndicator | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-  metadata?: CreatePaymentMethodsBalanceRequestMetadataMap;
+  metadata?: CreatePaymentMethodsBalanceRequestMetadataMap | undefined;
   /** When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead. */
-  orderReference?: string;
+  orderReference?: string | undefined;
   /** The collection that contains the type of the payment method and its specific information. */
   paymentMethod: CreatePaymentMethodsBalanceRequestPaymentMethodMap;
   /** The recurring settings for the payment. Use this property when you want to enable [recurring payments](https://docs.adyen.com/classic-integration/recurring-payments). */
-  recurring?: Recurring;
+  recurring?: Recurring | undefined;
   /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
   recurringProcessingModel?:
     | CreatePaymentMethodsBalanceRequestRecurringProcessingModel
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
   /** Some payment methods require defining a value for this field to specify how to process the transaction. For the Bancontact payment method, it can be set to: * `maestro` (default), to be processed like a Maestro card, or * `bcmc`, to be processed like a Bancontact card. */
-  selectedBrand?: string;
+  selectedBrand?: string | undefined;
   /** The `recurringDetailReference` you want to use for this payment. The value `LATEST` can be used to select the most recently stored recurring detail. */
-  selectedRecurringDetailReference?: string;
+  selectedRecurringDetailReference?: string | undefined;
   /** A session ID used to identify a payment session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
-  shopperInteraction?: CreatePaymentMethodsBalanceRequestShopperInteraction | (string & {});
+  shopperInteraction?:
+    | CreatePaymentMethodsBalanceRequestShopperInteraction
+    | (string & {})
+    | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Required for recurring payments. Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** An array of objects specifying how the payment should be split when using either Adyen for Platforms for [marketplaces](https://docs.adyen.com/marketplaces/split-payments) or [platforms](https://docs.adyen.com/platforms/split-payments), or standalone [Issuing](https://docs.adyen.com/issuing/add-manage-funds#split). */
-  splits?: CreatePaymentMethodsBalanceRequestSplitsList;
+  splits?: CreatePaymentMethodsBalanceRequestSplitsList | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments) or [Classic integration](https://docs.adyen.com/classic-integration) documentation. */
-  threeDS2RequestData?: ThreeDS2RequestData;
+  threeDS2RequestData?: ThreeDS2RequestData | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
-  threeDSAuthenticationOnly?: boolean;
+  threeDSAuthenticationOnly?: boolean | undefined;
   /** The reference value to aggregate sales totals in reporting. When not specified, the store field is used (if available). */
-  totalsGroup?: string;
+  totalsGroup?: string | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
-  trustedShopper?: boolean;
+  trustedShopper?: boolean | undefined;
 }
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
 export type BalanceCheckResponseAdditionalDataMap = { [key: string]: string | undefined };
@@ -4665,19 +4770,19 @@ export type BalanceCheckResponseAdditionalDataMap = { [key: string]: string | un
 export type BalanceCheckResponseResultCode = "Success" | "NotEnoughBalance" | "Failed";
 export interface BalanceCheckResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-  additionalData?: BalanceCheckResponseAdditionalDataMap;
+  additionalData?: BalanceCheckResponseAdditionalDataMap | undefined;
   /** The balance for the payment method. */
   balance: Amount;
   /** The fraud result properties of the payment. */
-  fraudResult?: FraudResult;
+  fraudResult?: FraudResult | undefined;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values. For more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReason?: string;
+  refusalReason?: string | undefined;
   /** The result of the cancellation request. Possible values: * **Success** - Indicates that the balance check was successful. * **NotEnoughBalance** - Commonly indicates that the card did not have enough balance to pay the amount in the request, or that the currency of the balance on the card did not match the currency of the requested amount. * **Failed** - Indicates that the balance check failed. */
   resultCode: BalanceCheckResponseResultCode;
   /** The maximum spendable balance for a single transaction. Applicable to some gift cards. */
-  transactionLimit?: Amount;
+  transactionLimit?: Amount | undefined;
 }
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type CreatePaymentRefundRequestLineItemsList = Array<LineItem>;
@@ -4694,27 +4799,31 @@ export interface CreatePaymentRefundRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment that you want to refund. */
   paymentPspReference: string;
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The amount that you want to refund. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** This is only available for PayPal refunds. The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the specific capture to refund. */
-  capturePspReference?: string;
+  capturePspReference?: string | undefined;
   /** Enhanced scheme data that may be required for processing the payment. For example, airline information. */
-  enhancedSchemeData?: EnhancedSchemeData;
+  enhancedSchemeData?: EnhancedSchemeData | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: CreatePaymentRefundRequestLineItemsList;
+  lineItems?: CreatePaymentRefundRequestLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** The reason for the refund request. Possible values: * **FRAUD** * **CUSTOMER REQUEST** * **RETURN** * **DUPLICATE** * **OTHER** */
-  merchantRefundReason?: CreatePaymentRefundRequestMerchantRefundReason | (string & {}) | null;
+  merchantRefundReason?:
+    | CreatePaymentRefundRequestMerchantRefundReason
+    | (string & {})
+    | null
+    | undefined;
   /** Your reference for the refund request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/split-payments) or [platforms](https://docs.adyen.com/platforms/online-payments/split-payments/). */
-  splits?: CreatePaymentRefundRequestSplitsList;
+  splits?: CreatePaymentRefundRequestSplitsList | undefined;
   /** The online store or [physical store](https://docs.adyen.com/point-of-sale/design-your-integration/determine-account-structure/#create-stores) that is processing the refund. This must be the same as the store name configured in your Customer Area. Otherwise, you get an error and the refund fails. */
-  store?: string;
+  store?: string | undefined;
 }
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type PaymentRefundResponseLineItemsList = Array<LineItem>;
@@ -4733,37 +4842,37 @@ export interface PaymentRefundResponse {
   /** The refund amount. */
   amount: Amount;
   /** This is only available for PayPal refunds. The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the specific capture to refund. */
-  capturePspReference?: string;
+  capturePspReference?: string | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
-  lineItems?: PaymentRefundResponseLineItemsList;
+  lineItems?: PaymentRefundResponseLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** Your reason for the refund request. */
-  merchantRefundReason?: PaymentRefundResponseMerchantRefundReason | null;
+  merchantRefundReason?: PaymentRefundResponseMerchantRefundReason | null | undefined;
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment to refund. */
   paymentPspReference: string;
   /** Adyen's 16-character reference associated with the refund request. */
   pspReference: string;
   /** Your reference for the refund request. */
-  reference?: string;
+  reference?: string | undefined;
   /** An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For more information, see how to process payments for [marketplaces](https://docs.adyen.com/marketplaces/split-payments) or [platforms](https://docs.adyen.com/platforms/online-payments/split-payments/). */
-  splits?: PaymentRefundResponseSplitsList;
+  splits?: PaymentRefundResponseSplitsList | undefined;
   /** The status of your request. This will always have the value **received**. */
   status: PaymentRefundResponseStatus;
   /** The online store or [physical store](https://docs.adyen.com/point-of-sale/design-your-integration/determine-account-structure/#create-stores) that is processing the refund. This must be the same as the store name configured in your Customer Area. Otherwise, you get an error and the refund fails. */
-  store?: string;
+  store?: string | undefined;
 }
 export interface CreatePaymentReversalRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment that you want to reverse. */
   paymentPspReference: string;
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** The merchant account that is used to process the payment. */
   merchantAccount: string;
   /** Your reference for the reversal request. Maximum length: 80 characters. */
-  reference?: string;
+  reference?: string | undefined;
 }
 /** The status of your request. This will always have the value **received**. */
 export type PaymentReversalResponseStatus = "received";
@@ -4775,66 +4884,66 @@ export interface PaymentReversalResponse {
   /** Adyen's 16-character reference associated with the reversal request. */
   pspReference: string;
   /** Your reference for the reversal request. */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of your request. This will always have the value **received**. */
   status: PaymentReversalResponseStatus;
 }
 export interface DetailsRequestAuthenticationData {
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
-  authenticationOnly?: boolean;
+  authenticationOnly?: boolean | undefined;
 }
 export interface PaymentCompletionDetails {
   /** A payment session identifier returned by the card issuer. */
-  MD?: string;
+  MD?: string | undefined;
   /** (3D) Payment Authentication Request data for the card issuer. */
-  PaReq?: string;
+  PaReq?: string | undefined;
   /** (3D) Payment Authentication Response data by the card issuer. */
-  PaRes?: string;
-  authorization_token?: string;
+  PaRes?: string | undefined;
+  authorization_token?: string | undefined;
   /** PayPal-generated token for recurring payments. */
-  billingToken?: string;
+  billingToken?: string | undefined;
   /** The SMS verification code collected from the shopper. */
-  cupsecureplus_smscode?: string;
+  cupsecureplus_smscode?: string | undefined;
   /** PayPal-generated third party access token. */
-  facilitatorAccessToken?: string;
+  facilitatorAccessToken?: string | undefined;
   /** A random number sent to the mobile phone number of the shopper to verify the payment. */
-  oneTimePasscode?: string;
+  oneTimePasscode?: string | undefined;
   /** PayPal-assigned ID for the order. */
-  orderID?: string;
+  orderID?: string | undefined;
   /** PayPal-assigned ID for the payer (shopper). */
-  payerID?: string;
+  payerID?: string | undefined;
   /** Payload appended to the `returnURL` as a result of the redirect. */
-  payload?: string;
+  payload?: string | undefined;
   /** PayPal-generated ID for the payment. */
-  paymentID?: string;
+  paymentID?: string | undefined;
   /** Value passed from the WeChat MiniProgram `wx.requestPayment` **complete** callback. Possible values: any value starting with `requestPayment:`. */
-  paymentStatus?: string;
+  paymentStatus?: string | undefined;
   /** The result of the redirect as appended to the `returnURL`. */
-  redirectResult?: string;
+  redirectResult?: string | undefined;
   /** Value you received from the WeChat Pay SDK. */
-  resultCode?: string;
+  resultCode?: string | undefined;
   /** The query string as appended to the `returnURL` when using direct issuer links . */
-  returnUrlQueryString?: string;
+  returnUrlQueryString?: string | undefined;
   /** Base64-encoded string returned by the Component after the challenge flow. It contains the following parameters: `transStatus`, `authorisationToken`. */
-  threeDSResult?: string;
+  threeDSResult?: string | undefined;
   /** Base64-encoded string returned by the Component after the challenge flow. It contains the following parameter: `transStatus`. */
-  threeds2_challengeResult?: string;
+  threeds2_challengeResult?: string | undefined;
   /** Base64-encoded string returned by the Component after the challenge flow. It contains the following parameter: `threeDSCompInd`. */
-  threeds2_fingerprint?: string;
+  threeds2_fingerprint?: string | undefined;
   /** PayPalv2-generated token for recurring payments. */
-  vaultToken?: string;
+  vaultToken?: string | undefined;
 }
 export interface CreatePaymentsDetailRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Data for 3DS authentication. */
-  authenticationData?: DetailsRequestAuthenticationData;
+  authenticationData?: DetailsRequestAuthenticationData | undefined;
   /** Use this collection to submit the details that were returned as a result of the `/payments` call. */
   details: PaymentCompletionDetails;
   /** Encoded payment data. For [authorizing a payment after using 3D Secure 2 Authentication-only](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only/#authorise-the-payment-with-adyen): If you received `resultCode`: **AuthenticationNotRequired** in the `/payments` response, use the `threeDSPaymentData` from the same response. If you received `resultCode`: **AuthenticationFinished** in the `/payments` response, use the `action.paymentData` from the same response. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** Change the `authenticationOnly` indicator originally set in the `/payments` request. Only needs to be set if you want to modify the value set previously. */
-  threeDSAuthenticationOnly?: boolean;
+  threeDSAuthenticationOnly?: boolean | undefined;
 }
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
 export type PaymentDetailsResponseAdditionalDataMap = { [key: string]: string | undefined };
@@ -4856,82 +4965,82 @@ export type PaymentDetailsResponseResultCode =
   | "Success";
 export interface PaymentDetailsResponse {
   /** Action to be taken for completing the payment. When returned, only the 3D Secure action is needed in most cases. */
-  action?: CheckoutThreeDS2Action;
+  action?: CheckoutThreeDS2Action | undefined;
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-  additionalData?: PaymentDetailsResponseAdditionalDataMap;
+  additionalData?: PaymentDetailsResponseAdditionalDataMap | undefined;
   /** Authorised amount in the transaction. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string;
+  donationToken?: string | undefined;
   /** The fraud result properties of the payment. */
-  fraudResult?: FraudResult;
+  fraudResult?: FraudResult | undefined;
   /** The reference used during the /payments request. */
-  merchantReference?: string;
+  merchantReference?: string | undefined;
   /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
-  opi?: OpiResponse;
+  opi?: OpiResponse | undefined;
   /** Contains updated information regarding the order in case order information was provided in the request. */
-  order?: CheckoutOrderResponse;
+  order?: CheckoutOrderResponse | undefined;
   /** Details about the payment method used in the transaction. Only returned if `resultCode` is **Authorised**. */
-  paymentMethod?: ResponsePaymentMethod;
+  paymentMethod?: ResponsePaymentMethod | undefined;
   /** The object that contains the validation outcomes. Only returned if `resultCode` is **Authorised** and if you have requested a payment validation in the request. */
-  paymentValidations?: PaymentValidationsResponse;
+  paymentValidations?: PaymentValidationsResponse | undefined;
   /** Adyen's 16-character string reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values. For more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReason?: string;
+  refusalReason?: string | undefined;
   /** Code that specifies the refusal reason. For more information, see [Authorisation refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
-  refusalReasonCode?: string;
+  refusalReasonCode?: string | undefined;
   /** The result of the payment. For more information, see [Result codes](https://docs.adyen.com/online-payments/payment-result-codes). Possible values: * **AuthenticationFinished** - The payment has been successfully authenticated with 3D Secure 2. Returned for 3D Secure 2 authentication-only transactions. * **AuthenticationNotRequired** - The transaction does not require 3D Secure authentication. Returned for [standalone authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). * **Authorised** - The payment was successfully authorised. This state serves as an indicator to proceed with the delivery of goods and services. This is a final state. * **Cancelled** - Indicates the payment has been cancelled (either by the shopper or the merchant) before processing was completed. This is a final state. * **ChallengeShopper** - The issuer requires further shopper interaction before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **Error** - There was an error when the payment was being processed. The reason is given in the `refusalReason` field. This is a final state. * **IdentifyShopper** - The issuer requires the shopper's device fingerprint before the payment can be authenticated. Returned for 3D Secure 2 transactions. * **PartiallyAuthorised** - The payment has been authorised for a partial amount. This happens for card payments when the merchant supports Partial Authorisations and the cardholder has insufficient funds. * **Pending** - Indicates that it is not possible to obtain the final status of the payment. This can happen if the systems providing final status information for the payment are unavailable, or if the shopper needs to take further action to complete the payment. * **PresentToShopper** - Indicates that the response contains additional information that you need to present to a shopper, so that they can use it to complete a payment. * **Received** - Indicates the payment has successfully been received by Adyen, and will be processed. This is the initial state for all payments. * **RedirectShopper** - Indicates the shopper should be redirected to an external web page or app to complete the authorisation. * **Refused** - Indicates the payment was refused. The reason is given in the `refusalReason` field. This is a final state. */
-  resultCode?: PaymentDetailsResponseResultCode;
+  resultCode?: PaymentDetailsResponseResultCode | undefined;
   /** The shopperLocale. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** Response of the 3D Secure 2 authentication. */
-  threeDS2ResponseData?: ThreeDS2ResponseData;
+  threeDS2ResponseData?: ThreeDS2ResponseData | undefined;
   /** Result of the 3D Secure 2 authentication. */
-  threeDS2Result?: ThreeDS2Result;
+  threeDS2Result?: ThreeDS2Result | undefined;
   /** When non-empty, contains a value that you must submit to the `/payments/details` endpoint as `paymentData`. */
-  threeDSPaymentData?: string;
+  threeDSPaymentData?: string | undefined;
 }
 /** The type of the delivery method. */
 export type DeliveryMethodType = "Shipping";
 export interface DeliveryMethod {
   /** The cost of this delivery method. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The name of the delivery method as shown to the shopper. */
-  description?: string;
+  description?: string | undefined;
   /** The reference of the delivery method. */
-  reference?: string;
+  reference?: string | undefined;
   /** If you display the PayPal lightbox with delivery methods, set to **true** for the delivery method that is selected. Only one delivery method can be selected at a time. */
-  selected?: boolean;
+  selected?: boolean | undefined;
   /** The type of the delivery method. */
-  type?: DeliveryMethodType | (string & {});
+  type?: DeliveryMethodType | (string & {}) | undefined;
 }
 /** The list of new delivery methods and the cost of each. */
 export type CreatePaypalUpdateOrderRequestDeliveryMethodsList = Array<DeliveryMethod>;
 export interface TaxTotal {
-  amount?: Amount;
+  amount?: Amount | undefined;
 }
 export interface CreatePaypalUpdateOrderRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The updated final payment amount. This amount is the item total plus the shipping costs of the selected `deliveryMethod`. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** The delivery address for this order. */
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: DeliveryAddress | undefined;
   /** The list of new delivery methods and the cost of each. */
-  deliveryMethods?: CreatePaypalUpdateOrderRequestDeliveryMethodsList;
+  deliveryMethods?: CreatePaypalUpdateOrderRequestDeliveryMethodsList | undefined;
   /** The discount amount for this order. */
-  discountAmount?: Amount;
+  discountAmount?: Amount | undefined;
   /** The `paymentData` from the client side. This value changes every time you make a `/paypal/updateOrder` request. */
-  paymentData?: string;
+  paymentData?: string | undefined;
   /** The original `pspReference` from the `/payments` response. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** The original `sessionId` from the `/sessions` response. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The shipping amount for this order. */
-  shippingAmount?: Amount;
+  shippingAmount?: Amount | undefined;
   /** Total tax amount from the order. */
-  taxTotal?: TaxTotal;
+  taxTotal?: TaxTotal | undefined;
 }
 /** The status of the request. This indicates whether the order was successfully updated with PayPal. */
 export type PaypalUpdateOrderResponseStatus = "error" | "success";
@@ -4968,11 +5077,11 @@ export type CheckoutSessionInstallmentOptionPlansList = Array<
 export type CheckoutSessionInstallmentOptionValuesList = Array<number>;
 export interface CheckoutSessionInstallmentOption {
   /** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** * **bonus** */
-  plans?: CheckoutSessionInstallmentOptionPlansList;
+  plans?: CheckoutSessionInstallmentOptionPlansList | undefined;
   /** Preselected number of installments offered for this payment method. */
-  preselectedValue?: number;
+  preselectedValue?: number | undefined;
   /** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. */
-  values?: CheckoutSessionInstallmentOptionValuesList;
+  values?: CheckoutSessionInstallmentOptionValuesList | undefined;
 }
 /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
 export type CreateSessionRequestInstallmentOptionsMap = {
@@ -4999,135 +5108,140 @@ export type CreateSessionRequestStoreFiltrationMode = "exclusive" | "inclusive" 
 export type CreateSessionRequestStorePaymentMethodMode = "askForConsent" | "disabled" | "enabled";
 export interface CreateSessionRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  accountInfo?: AccountInfo;
+  accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount;
+  additionalAmount?: Amount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-  additionalData?: CreateSessionRequestAdditionalDataMap;
+  additionalData?: CreateSessionRequestAdditionalDataMap | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
-  allowedPaymentMethods?: CreateSessionRequestAllowedPaymentMethodsList;
+  allowedPaymentMethods?: CreateSessionRequestAllowedPaymentMethodsList | undefined;
   /** The amount of the payment. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Configuration data for 3DS payments. */
-  authenticationData?: AuthenticationData;
+  authenticationData?: AuthenticationData | undefined;
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
-  blockedPaymentMethods?: CreateSessionRequestBlockedPaymentMethodsList;
+  blockedPaymentMethods?: CreateSessionRequestBlockedPaymentMethodsList | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * **iOS** * **Android** * **Web** */
-  channel?: CreateSessionRequestChannel | (string & {});
+  channel?: CreateSessionRequestChannel | (string & {}) | undefined;
   /** Information regarding the company. */
-  company?: Company;
+  company?: Company | undefined;
   /** The shopper's two-letter country code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth. Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The date and time when the purchased goods should be delivered. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  deliverAt?: string;
+  deliverAt?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: DeliveryAddress | undefined;
   /** When true and `shopperReference` is provided, the shopper will be asked if the payment details should be stored for future [one-click payments](https://docs.adyen.com/get-started-with-adyen/payment-glossary/#one-click-payments-definition). */
-  enableOneClick?: boolean;
+  enableOneClick?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be tokenized for payouts. */
-  enablePayOut?: boolean;
+  enablePayOut?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types) where the shopper is not present, such as subscription or automatic top-up payments. */
-  enableRecurring?: boolean;
+  enableRecurring?: boolean | undefined;
+  /** [Enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/) that may be required for processing the payment and/or interchange savings can apply. */
+  enhancedSchemeData?: EnhancedSchemeData | undefined;
   /** The date the session expires in [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. When not specified, the expiry date is set to 1 hour after session creation. You cannot set the session expiry to more than 24 hours after session creation. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The person or entity funding the money. */
-  fundOrigin?: FundOrigin;
+  fundOrigin?: FundOrigin | undefined;
   /** the person or entity receiving the money */
-  fundRecipient?: FundRecipient;
+  fundRecipient?: FundRecipient | undefined;
   /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
-  installmentOptions?: CreateSessionRequestInstallmentOptionsMap;
+  installmentOptions?: CreateSessionRequestInstallmentOptionsMap | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: CreateSessionRequestLineItemsList;
+  lineItems?: CreateSessionRequestLineItemsList | undefined;
   /** The mandate details to initiate recurring transaction. */
-  mandate?: Mandate;
+  mandate?: Mandate | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle. The same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations. > We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`. */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. * Maximum 20 characters per key. * Maximum 80 characters per value. */
-  metadata?: CreateSessionRequestMetadataMap;
+  metadata?: CreateSessionRequestMetadataMap | undefined;
   /** Indicates the type of front end integration. Possible values: * **embedded** (default): Drop-in or Components integration * **hosted**: Hosted Checkout integration */
-  mode?: CreateSessionRequestMode | (string & {});
+  mode?: CreateSessionRequestMode | (string & {}) | undefined;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
-  mpiData?: ThreeDSecureData;
+  mpiData?: ThreeDSecureData | undefined;
   /** Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session. If you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment. If not specified, this defaults to **true**. */
-  payable?: boolean;
+  payable?: boolean | undefined;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Minimum number of days between authorisations. Only for 3D Secure 2. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: CreateSessionRequestRecurringProcessingModel | (string & {});
+  recurringProcessingModel?:
+    | CreateSessionRequestRecurringProcessingModel
+    | (string & {})
+    | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting back from the issuer. */
-  redirectFromIssuerMethod?: string;
+  redirectFromIssuerMethod?: string | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting to the issuer. */
-  redirectToIssuerMethod?: string;
+  redirectToIssuerMethod?: string | undefined;
   /** The reference to uniquely identify a payment. */
   reference: string;
   /** The URL to return to in case of a redirection. The format depends on the channel. * For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number. Example: `https://your-company.example.com/checkout?shopperOrder=12xy` * For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Example: `my-app://` * For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters). Example: `my-app://your.package.name` If the URL to return to includes non-ASCII characters, like spaces or special letters, URL encode the value. > The URL must not include personally identifiable information (PII), for example name or email address. */
   returnUrl: string;
   /** Any risk-related settings to apply to the payment. */
-  riskData?: RiskData;
+  riskData?: RiskData | undefined;
   /** Use this if you made a `/paymentMethods` request to get the payment methods for the shopper's checkout session. A unique ID to [connect the shopper to a single checkout session](https://docs.adyen.com/online-payments/checkout-settings#checkout-shopper-conversion-id) that uses multiple API requests. You can use this to get insights into conversion rates. */
-  shopperConversionId?: string;
+  shopperConversionId?: string | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
-  shopperInteraction?: CreateSessionRequestShopperInteraction | (string & {});
+  shopperInteraction?: CreateSessionRequestShopperInteraction | (string & {}) | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** Set to true to show the payment amount per installment. */
-  showInstallmentAmount?: boolean;
+  showInstallmentAmount?: boolean | undefined;
   /** Set to **true** to show a button that lets the shopper remove a stored payment method. */
-  showRemovePaymentMethodButton?: boolean;
+  showRemovePaymentMethodButton?: boolean | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** Boolean value indicating whether the card payment method should be split into separate debit and credit options. */
-  splitCardFundingSources?: boolean;
+  splitCardFundingSources?: boolean | undefined;
   /** An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/platforms/process-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/classic-platforms/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split). */
-  splits?: CreateSessionRequestSplitsList;
+  splits?: CreateSessionRequestSplitsList | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** Specifies how payment methods should be filtered based on the 'store' parameter: - 'exclusive': Only payment methods belonging to the specified 'store' are returned. - 'inclusive': Payment methods from the 'store' and those not associated with any other store are returned. */
-  storeFiltrationMode?: CreateSessionRequestStoreFiltrationMode | (string & {});
+  storeFiltrationMode?: CreateSessionRequestStoreFiltrationMode | (string & {}) | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for future [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types). */
-  storePaymentMethod?: boolean;
+  storePaymentMethod?: boolean | undefined;
   /** Indicates if the details of the payment method will be stored for the shopper. Possible values: * **disabled** - No details will be stored (default). * **askForConsent** - If the `shopperReference` is provided, the Drop-in/Component shows a checkbox where the shopper can select to store their payment details for card payments. * **enabled** - If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. */
-  storePaymentMethodMode?: CreateSessionRequestStorePaymentMethodMode | (string & {});
+  storePaymentMethodMode?: CreateSessionRequestStorePaymentMethodMode | (string & {}) | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** Sets a custom theme for [Hosted Checkout](https://docs.adyen.com/online-payments/build-your-integration/?platform=Web&integration=Hosted+Checkout). The value can be any of the **Theme ID** values from your Customer Area. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** Configuration for creating redundant payment tokens with third-party token vaults using the Adyen Forward API. This feature requires Forward API webhook integration and pre-configured templates in your Adyen account. Contact your Adyen account manager for setup and availability. */
-  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo;
+  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments). */
-  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData;
+  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
-  threeDSAuthenticationOnly?: boolean;
+  threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
-  trustedShopper?: boolean;
+  trustedShopper?: boolean | undefined;
 }
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
 export type CreateCheckoutSessionResponseAdditionalDataMap = { [key: string]: string | undefined };
@@ -5172,163 +5286,165 @@ export type CreateCheckoutSessionResponseStorePaymentMethodMode =
   | "enabled";
 export interface CreateCheckoutSessionResponse {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
-  accountInfo?: AccountInfo;
+  accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount;
+  additionalAmount?: Amount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-  additionalData?: CreateCheckoutSessionResponseAdditionalDataMap;
+  additionalData?: CreateCheckoutSessionResponseAdditionalDataMap | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
-  allowedPaymentMethods?: CreateCheckoutSessionResponseAllowedPaymentMethodsList;
+  allowedPaymentMethods?: CreateCheckoutSessionResponseAllowedPaymentMethodsList | undefined;
   /** The amount of the payment. */
   amount: Amount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
-  applicationInfo?: ApplicationInfo;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Configuration data for 3DS payments. */
-  authenticationData?: AuthenticationData;
+  authenticationData?: AuthenticationData | undefined;
   /** The address where to send the invoice. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
-  blockedPaymentMethods?: CreateCheckoutSessionResponseBlockedPaymentMethodsList;
+  blockedPaymentMethods?: CreateCheckoutSessionResponseBlockedPaymentMethodsList | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
-  captureDelayHours?: number;
+  captureDelayHours?: number | undefined;
   /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * **iOS** * **Android** * **Web** */
-  channel?: CreateCheckoutSessionResponseChannel;
+  channel?: CreateCheckoutSessionResponseChannel | undefined;
   /** Information regarding the company. */
-  company?: Company;
+  company?: Company | undefined;
   /** The shopper's two-letter country code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The shopper's date of birth in [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. */
-  dateOfBirth?: string;
+  dateOfBirth?: string | undefined;
   /** The date and time when the purchased goods should be delivered. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
-  deliverAt?: string;
+  deliverAt?: string | undefined;
   /** The address where the purchased goods should be delivered. */
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: DeliveryAddress | undefined;
   /** When true and `shopperReference` is provided, the shopper will be asked if the payment details should be stored for future [one-click payments](https://docs.adyen.com/get-started-with-adyen/payment-glossary/#one-click-payments-definition). */
-  enableOneClick?: boolean;
+  enableOneClick?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be tokenized for payouts. */
-  enablePayOut?: boolean;
+  enablePayOut?: boolean | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types) where the shopper is not present, such as subscription or automatic top-up payments. */
-  enableRecurring?: boolean;
+  enableRecurring?: boolean | undefined;
+  /** [Enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/) that may be required for processing the payment and/or interchange savings can apply. */
+  enhancedSchemeData?: EnhancedSchemeData | undefined;
   /** The date the session expires in [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. When not specified, the expiry date is set to 1 hour after session creation. You cannot set the session expiry to more than 24 hours after session creation. */
   expiresAt: string;
   /** The person or entity funding the money. */
-  fundOrigin?: FundOrigin;
+  fundOrigin?: FundOrigin | undefined;
   /** the person or entity receiving the money */
-  fundRecipient?: FundRecipient;
+  fundRecipient?: FundRecipient | undefined;
   /** A unique identifier of the session. */
   id: string;
   /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
-  installmentOptions?: CreateCheckoutSessionResponseInstallmentOptionsMap;
+  installmentOptions?: CreateCheckoutSessionResponseInstallmentOptionsMap | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
-  lineItems?: CreateCheckoutSessionResponseLineItemsList;
+  lineItems?: CreateCheckoutSessionResponseLineItemsList | undefined;
   /** The mandate details to initiate recurring transaction. */
-  mandate?: Mandate;
+  mandate?: Mandate | undefined;
   /** The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle. The same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations. > We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`. */
-  merchantOrderReference?: string;
+  merchantOrderReference?: string | undefined;
   /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. * Maximum 20 characters per key. * Maximum 80 characters per value. */
-  metadata?: CreateCheckoutSessionResponseMetadataMap;
+  metadata?: CreateCheckoutSessionResponseMetadataMap | undefined;
   /** Indicates the type of front end integration. Possible values: * **embedded** (default): Drop-in or Components integration * **hosted**: Hosted Checkout integration */
-  mode?: CreateCheckoutSessionResponseMode;
+  mode?: CreateCheckoutSessionResponseMode | undefined;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
-  mpiData?: ThreeDSecureData;
+  mpiData?: ThreeDSecureData | undefined;
   /** Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session. If you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment. If not specified, this defaults to **true**. */
-  payable?: boolean;
+  payable?: boolean | undefined;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
-  platformChargebackLogic?: PlatformChargebackLogic;
+  platformChargebackLogic?: PlatformChargebackLogic | undefined;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
-  recurringExpiry?: string;
+  recurringExpiry?: string | undefined;
   /** Minimum number of days between authorisations. Only for 3D Secure 2. */
-  recurringFrequency?: string;
+  recurringFrequency?: string | undefined;
   /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  recurringProcessingModel?: CreateCheckoutSessionResponseRecurringProcessingModel;
+  recurringProcessingModel?: CreateCheckoutSessionResponseRecurringProcessingModel | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting back from the issuer. */
-  redirectFromIssuerMethod?: string;
+  redirectFromIssuerMethod?: string | undefined;
   /** Specifies the redirect method (GET or POST) when redirecting to the issuer. */
-  redirectToIssuerMethod?: string;
+  redirectToIssuerMethod?: string | undefined;
   /** The reference to uniquely identify a payment. */
   reference: string;
   /** The URL to return to in case of a redirection. The format depends on the channel. * For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number. Example: `https://your-company.example.com/checkout?shopperOrder=12xy` * For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Example: `my-app://` * For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters). Example: `my-app://your.package.name` If the URL to return to includes non-ASCII characters, like spaces or special letters, URL encode the value. > The URL must not include personally identifiable information (PII), for example name or email address. */
   returnUrl: string;
   /** Any risk-related settings to apply to the payment. */
-  riskData?: RiskData;
+  riskData?: RiskData | undefined;
   /** The payment session data you need to pass to your front end. */
-  sessionData?: string;
+  sessionData?: string | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks). > Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new). */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
-  shopperInteraction?: CreateCheckoutSessionResponseShopperInteraction;
+  shopperInteraction?: CreateCheckoutSessionResponseShopperInteraction | undefined;
   /** The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**. When using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`. */
-  shopperLocale?: string;
+  shopperLocale?: string | undefined;
   /** The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program. */
-  shopperName?: ShopperName;
+  shopperName?: ShopperName | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
-  shopperStatement?: string;
+  shopperStatement?: string | undefined;
   /** Set to true to show the payment amount per installment. */
-  showInstallmentAmount?: boolean;
+  showInstallmentAmount?: boolean | undefined;
   /** Set to **true** to show a button that lets the shopper remove a stored payment method. */
-  showRemovePaymentMethodButton?: boolean;
+  showRemovePaymentMethodButton?: boolean | undefined;
   /** The shopper's social security number. */
-  socialSecurityNumber?: string;
+  socialSecurityNumber?: string | undefined;
   /** Boolean value indicating whether the card payment method should be split into separate debit and credit options. */
-  splitCardFundingSources?: boolean;
+  splitCardFundingSources?: boolean | undefined;
   /** An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/platforms/process-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/classic-platforms/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split). */
-  splits?: CreateCheckoutSessionResponseSplitsList;
+  splits?: CreateCheckoutSessionResponseSplitsList | undefined;
   /** Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment. */
-  store?: string;
+  store?: string | undefined;
   /** Specifies how payment methods should be filtered based on the 'store' parameter: - 'exclusive': Only payment methods belonging to the specified 'store' are returned. - 'inclusive': Payment methods from the 'store' and those not associated with any other store are returned. */
-  storeFiltrationMode?: CreateCheckoutSessionResponseStoreFiltrationMode;
+  storeFiltrationMode?: CreateCheckoutSessionResponseStoreFiltrationMode | undefined;
   /** When true and `shopperReference` is provided, the payment details will be stored for future [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types). */
-  storePaymentMethod?: boolean;
+  storePaymentMethod?: boolean | undefined;
   /** Indicates if the details of the payment method will be stored for the shopper. Possible values: * **disabled** - No details will be stored (default). * **askForConsent** - If the `shopperReference` is provided, the Drop-in/Component shows a checkbox where the shopper can select to store their payment details for card payments. * **enabled** - If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. */
-  storePaymentMethodMode?: CreateCheckoutSessionResponseStorePaymentMethodMode;
+  storePaymentMethodMode?: CreateCheckoutSessionResponseStorePaymentMethodMode | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
-  telephoneNumber?: string;
+  telephoneNumber?: string | undefined;
   /** Sets a custom theme for [Hosted Checkout](https://docs.adyen.com/online-payments/build-your-integration/?platform=Web&integration=Hosted+Checkout). The value can be any of the **Theme ID** values from your Customer Area. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** Configuration for creating redundant payment tokens with third-party token vaults using the Adyen Forward API. This feature requires Forward API webhook integration and pre-configured templates in your Adyen account. Contact your Adyen account manager for setup and availability. */
-  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo;
+  thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments). */
-  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData;
+  threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
-  threeDSAuthenticationOnly?: boolean;
+  threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
-  trustedShopper?: boolean;
+  trustedShopper?: boolean | undefined;
   /** The URL for the Hosted Checkout page. Redirect the shopper to this URL so they can make the payment. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface PaymentMethodToStore {
   /** Secondary brand of the card. For example: **plastix**, **hmclub**. */
-  brand?: string;
+  brand?: string | undefined;
   /** The card verification code. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  cvc?: string;
+  cvc?: string | undefined;
   /** The encrypted card. */
-  encryptedCard?: string;
+  encryptedCard?: string | undefined;
   /** The encrypted card number. */
-  encryptedCardNumber?: string;
+  encryptedCardNumber?: string | undefined;
   /** The encrypted card expiry month. */
-  encryptedExpiryMonth?: string;
+  encryptedExpiryMonth?: string | undefined;
   /** The encrypted card expiry year. */
-  encryptedExpiryYear?: string;
+  encryptedExpiryYear?: string | undefined;
   /** The encrypted card verification code. */
-  encryptedSecurityCode?: string;
+  encryptedSecurityCode?: string | undefined;
   /** The card expiry month. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The card expiry year. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The name of the card holder. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The card number. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
-  number?: string;
+  number?: string | undefined;
   /** Set to **scheme**. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
 export type CreateStoredPaymentMethodRequestRecurringProcessingModel =
@@ -5337,11 +5453,11 @@ export type CreateStoredPaymentMethodRequestRecurringProcessingModel =
   | "UnscheduledCardOnFile";
 export interface CreateStoredPaymentMethodRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** Configuration for Oracle Payment Interface (OPI) integrations. */
-  opi?: OpiRequest;
+  opi?: OpiRequest | undefined;
   /** Contains the information required to store a payment method. */
   paymentMethod: PaymentMethodToStore;
   /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
@@ -5349,9 +5465,9 @@ export interface CreateStoredPaymentMethodRequest {
     | CreateStoredPaymentMethodRequestRecurringProcessingModel
     | (string & {});
   /** The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** The IP address of a shopper. */
-  shopperIP?: string;
+  shopperIP?: string | undefined;
   /** A unique identifier for the shopper (for example, user ID or account ID). */
   shopperReference: string;
 }
@@ -5373,17 +5489,17 @@ export type TokenMandateFrequency =
 export type TokenMandateRetryPolicy = "true" | "false";
 export interface TokenMandate {
   /** The type of account identifier for the masked account number. */
-  accountIdType?: string;
+  accountIdType?: string | undefined;
   /** The billing amount (in minor units) of the recurring transactions. */
   amount: string;
   /** The limitation rule of the billing amount. Possible values: * **max**: The transaction amount can not exceed the `amount`. * **exact**: The transaction amount should be the same as the `amount`. */
-  amountRule?: TokenMandateAmountRule;
+  amountRule?: TokenMandateAmountRule | undefined;
   /** The rule to specify the period, within which the recurring debit can happen, relative to the mandate recurring date. Possible values: * **on**: On a specific date. * **before**: Before and on a specific date. * **after**: On and after a specific date. */
-  billingAttemptsRule?: TokenMandateBillingAttemptsRule;
+  billingAttemptsRule?: TokenMandateBillingAttemptsRule | undefined;
   /** The number of the day, on which the recurring debit can happen. Should be within the same calendar month as the mandate recurring date. Possible values: 1-31 based on the `frequency`. */
-  billingDay?: string;
+  billingDay?: string | undefined;
   /** The number of transactions that can be performed within the given frequency. */
-  count?: string;
+  count?: string | undefined;
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). */
   currency: string;
   /** End date of the billing plan, in YYYY-MM-DD format. */
@@ -5393,21 +5509,25 @@ export interface TokenMandate {
   /** The unique identifier of the mandate. */
   mandateId: string;
   /** The masked account number associated with the mandate. */
-  maskedAccountId?: string;
+  maskedAccountId?: string | undefined;
   /** For a billing plan where the payment amounts are variable, the minimum amount to charge the shopper for each recurring payment. When a shopper approves the billing plan, they can also specify a maximum amount in their banking app. */
-  minAmount?: string;
+  minAmount?: string | undefined;
+  /** The previous value of the `mandateId`, if the scheme has replaced it. For UPI mandates, the `mandateId` is the Unique Mandate Number (UMN), which the scheme replaces when the mandate moves to another payment provider. In that case, this field holds the UMN the mandate was registered with before the move. */
+  previousMandateId?: string | undefined;
   /** The provider-specific identifier for this mandate. */
   providerId: string;
+  /** The purpose code the mandate is registered with at the scheme. Possible values for UPI mandates: * **14**: The mandate can only be debited by the payment provider that registered it. * **AZ**: The mandate can be debited by any payment provider. */
+  purposeCode?: string | undefined;
   /** For a billing plan where the payment amount is fixed, the amount the shopper will be charged for each recurring payment. */
-  recurringAmount?: string;
+  recurringAmount?: string | undefined;
   /** The text that will be shown on the shopper's bank statement for the recurring payments. We recommend to add a descriptive text about the subscription to let your shoppers recognize your recurring payments. Maximum length: 35 characters. */
-  recurringStatement?: string;
+  recurringStatement?: string | undefined;
   /** Additional remarks or notes about the mandate. */
-  remarks?: string;
+  remarks?: string | undefined;
   /** When set to true, you can retry for failed recurring payments. The default value is true. */
-  retryPolicy?: TokenMandateRetryPolicy;
+  retryPolicy?: TokenMandateRetryPolicy | undefined;
   /** Start date of the billing plan, in YYYY-MM-DD format. By default, the transaction date. */
-  startsAt?: string;
+  startsAt?: string | undefined;
   /** The status of the mandate. Examples : active, revoked, completed, expired */
   status: string;
   /** The transaction variant used for this mandate. */
@@ -5417,55 +5537,57 @@ export interface TokenMandate {
 export type StoredPaymentMethodResourceSupportedRecurringProcessingModelsList = Array<string>;
 export interface StoredPaymentMethodResource {
   /** The alias of the credit card number. Applies only to recurring contracts storing credit card details */
-  alias?: string;
+  alias?: string | undefined;
   /** The alias type of the credit card number. Applies only to recurring contracts storing credit card details. */
-  aliasType?: string;
+  aliasType?: string | undefined;
   /** The billing address associated with the stored payment method. */
-  billingAddress?: BillingAddress;
+  billingAddress?: BillingAddress | undefined;
   /** The brand of the card. */
-  brand?: string;
+  brand?: string | undefined;
   /** The bank identification number (BIN) of the card. */
-  cardBin?: string;
+  cardBin?: string | undefined;
   /** The date when the recurring details were created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The month the card expires. */
-  expiryMonth?: string;
+  expiryMonth?: string | undefined;
   /** The last two digits of the year the card expires. For example, **22** for the year 2022. */
-  expiryYear?: string;
+  expiryYear?: string | undefined;
   /** The response code returned by an external system (for example after a provisioning operation). */
-  externalResponseCode?: string;
+  externalResponseCode?: string | undefined;
   /** The token reference of a linked token in an external system (for example a network token reference). */
-  externalTokenReference?: string;
+  externalTokenReference?: string | undefined;
   /** The PSP reference of the first payment that created this recurring detail. */
-  firstPspReference?: string;
+  firstPspReference?: string | undefined;
   /** The unique payment method code. */
-  holderName?: string;
+  holderName?: string | undefined;
   /** The IBAN of the bank account. */
-  iban?: string;
+  iban?: string | undefined;
   /** A unique identifier of this stored payment method. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the issuer of token or card. */
-  issuerName?: string;
+  issuerName?: string | undefined;
   /** The last four digits of the PAN. */
-  lastFour?: string;
+  lastFour?: string | undefined;
   /** Mandate details for the stored payment method. */
-  mandate?: TokenMandate;
+  mandate?: TokenMandate | undefined;
   /** The display name of the stored payment method. */
-  name?: string;
+  name?: string | undefined;
   /** Returned in the response if you are not tokenizing with Adyen and are using the Merchant-initiated transactions (MIT) framework from Mastercard or Visa. This contains either the Mastercard Trace ID or the Visa Transaction ID. */
-  networkTxReference?: string;
+  networkTxReference?: string | undefined;
   /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
-  opi?: OpiResponse;
+  opi?: OpiResponse | undefined;
   /** The name of the bank account holder. */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** The shopper's email address. */
-  shopperEmail?: string;
+  shopperEmail?: string | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** Defines a recurring payment type. Allowed values: * `Subscription` - A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` - With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` - An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
-  supportedRecurringProcessingModels?: StoredPaymentMethodResourceSupportedRecurringProcessingModelsList;
+  supportedRecurringProcessingModels?:
+    | StoredPaymentMethodResourceSupportedRecurringProcessingModelsList
+    | undefined;
   /** The type of payment method. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ShopperIdPaymentMethod {
   type: string;
@@ -5475,16 +5597,55 @@ export interface CreateValidateShopperIdRequest {
   merchantAccount: string;
   /** paymentMethod */
   paymentMethod: ShopperIdPaymentMethod;
-  shopperEmail?: string;
-  shopperIP?: string;
-  shopperReference?: string;
+  shopperEmail?: string | undefined;
+  shopperIP?: string | undefined;
+  shopperReference?: string | undefined;
 }
 export type Result = "VALID" | "INVALID" | "UNKNOWN" | "NOT_REQUIRED";
 export interface ValidateShopperIdResponse {
   /** Reason for the result. */
-  reason?: string;
+  reason?: string | undefined;
   /** Result of the validation. Ex: valid, invalid, unknown */
-  result?: Result;
+  result?: Result | undefined;
+}
+export type TaxIdentificationType = "PAN";
+export interface ShopperTaxIdentification {
+  /** The country governing the shopper's tax processing. Initially only IN is supported. */
+  taxCountryCode: string;
+  /** The tax identification number submitted for verification. */
+  taxIdentificationNumber: string;
+  /** The type of the tax identification. Initially only PAN is supported. */
+  taxIdentificationType: TaxIdentificationType | (string & {});
+}
+export interface CreateVerifyShopperTaxIdentificationRequest {
+  /** The merchant account identifier requesting the tax verification. */
+  merchantAccount: string;
+  /** Your reference to uniquely identify this shopper, for example user ID or account ID. Used to bind the verification to the shopper context. > Your reference must not include personally identifiable information (PII), for example name or email address. */
+  shopperReference: string;
+  /** The shopper tax identification to verify. */
+  shopperTaxIdentification: ShopperTaxIdentification;
+}
+export interface VerifiedShopperTaxIdentification {
+  /** The masked name of the tax identification holder. */
+  maskedName?: string | undefined;
+  /** The country governing the shopper's tax processing. */
+  taxCountryCode?: string | undefined;
+  /** The type of the verified tax identification. */
+  taxIdentificationType?: TaxIdentificationType | undefined;
+}
+export interface VerifyShopperTaxIdentificationResponse {
+  /** The human-readable reason for the unsuccessful result. */
+  reason?: string | undefined;
+  /** The reason code for the unsuccessful result, when available. */
+  reasonCode?: string | undefined;
+  /** The verification result, for example valid or invalid. */
+  result?: Result | undefined;
+  /** The unique reference for the verification attempt. */
+  taxVerificationReference?: string | undefined;
+  /** The masked representation of the verified tax identification. */
+  verifiedShopperTaxIdentification?: VerifiedShopperTaxIdentification | undefined;
+  /** The opaque, encrypted, and signed token representing the successful verification. Required in /payments. */
+  verifiedShopperTaxIdentificationToken?: string | undefined;
 }
 export interface DeleteStoredPaymentMethodRequest {
   /** The unique identifier of the token. */
@@ -5511,13 +5672,13 @@ export type SessionResultResponseAdditionalDataMap = { [key: string]: string | u
 export type PaymentResultCode = "Authorised" | "Received" | "Pending";
 export interface Payment {
   /** Authorised amount in the transaction. */
-  amount?: Amount;
+  amount?: Amount | undefined;
   /** Only returned for `resultCode`: **Authorised**. Details about the payment method used in the transaction. */
-  paymentMethod?: ResponsePaymentMethod;
+  paymentMethod?: ResponsePaymentMethod | undefined;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique. Use this reference when you communicate with us about this request. */
-  pspReference?: string;
+  pspReference?: string | undefined;
   /** The result of the payment. For more information, see [Result codes](https://docs.adyen.com/online-payments/payment-result-codes). Possible values: * **Authorised** - The payment was successfully authorised. This state serves as an indicator to proceed with the delivery of goods and services. This is a final state. * **Received** - Indicates the payment request was successfully received by Adyen, and will be processed. This is the initial state for all payments. * **Pending** - The payment order was successfully received but the final status of the payment is not available yet. This is common for payment methods with an asynchronous flow. */
-  resultCode?: PaymentResultCode;
+  resultCode?: PaymentResultCode | undefined;
 }
 /** A list of all authorised payments done for this session. */
 export type SessionResultResponsePaymentsList = Array<Payment>;
@@ -5531,32 +5692,32 @@ export type SessionResultResponseStatus =
   | "refused";
 export interface SessionResultResponse {
   /** Contains additional information about the payment. Some fields are included only if you enable them. To enable these fields in your Customer Area, go to **Developers** > **Additional data**. */
-  additionalData?: SessionResultResponseAdditionalDataMap;
+  additionalData?: SessionResultResponseAdditionalDataMap | undefined;
   /** A unique identifier of the session. */
-  id?: string;
+  id?: string | undefined;
   /** A list of all authorised payments done for this session. */
-  payments?: SessionResultResponsePaymentsList;
+  payments?: SessionResultResponsePaymentsList | undefined;
   /** The unique reference that you provided in the original `/sessions` request. This identifies the payment and is used in all communication with you about the payment status. */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of the session. The status included in the response doesn't get updated. Don't make the request again to check for payment status updates. Possible values: * **completed**: the shopper completed the payment, and the payment was authorized. * **paymentPending**: the shopper is in the process of making the payment. This applies to payment methods with an asynchronous flow, like voucher payments where the shopper completes the payment in a physical shop. * **refused**: the session has been refused, because of too many refused payment attempts. The shopper can no longer complete the payment with this session. * **canceled**: the shopper canceled the payment. * **expired**: the session expired. The shopper can no longer complete the payment with this session. By default, the session expires one hour after it is created. */
-  status?: SessionResultResponseStatus;
+  status?: SessionResultResponseStatus | undefined;
 }
 export interface GetStoredPaymentMethodsRequest {
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters. > Your reference must not include personally identifiable information (PII), for example name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** Your merchant account. */
-  merchantAccount?: string;
+  merchantAccount?: string | undefined;
 }
 /** List of all stored payment methods. */
 export type ListStoredPaymentMethodsResponseStoredPaymentMethodsList =
   Array<StoredPaymentMethodResource>;
 export interface ListStoredPaymentMethodsResponse {
   /** Your merchant account. */
-  merchantAccount?: string;
+  merchantAccount?: string | undefined;
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters. > Your reference must not include personally identifiable information (PII), for example name or email address. */
-  shopperReference?: string;
+  shopperReference?: string | undefined;
   /** List of all stored payment methods. */
-  storedPaymentMethods?: ListStoredPaymentMethodsResponseStoredPaymentMethodsList;
+  storedPaymentMethods?: ListStoredPaymentMethodsResponseStoredPaymentMethodsList | undefined;
 }
 /** Status of the payment link. Possible values: * **expired** */
 export type UpdatePaymentLinkRequestStatus = "expired";
@@ -5577,12 +5738,12 @@ export interface UpdateSessionRequest {
   /** The amount to update for the payment session. */
   amount: SessionAmountUpdate;
   /** Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session. If you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment. */
-  payable?: boolean;
+  payable?: boolean | undefined;
   /** The encoded payment session data from the `beforeSubmit` callback from [Drop-in](https://docs.adyen.com/online-payments/build-your-integration/sessions-flow?platform=Web&integration=Drop-in#update-the-session-amount) or [the Component](https://docs.adyen.com/online-payments/build-your-integration/sessions-flow?platform=Web&integration=Components#update-the-session-amount). */
   sessionData: string;
 }
 export interface CheckoutSessionPatchSessionResponse {
-  sessionData?: string;
+  sessionData?: string | undefined;
 }
 export type CreateApplePaySessionError = AdyenOpError;
 /** Get an Apple Pay session You need to use this endpoint if you have an API-only integration with Apple Pay which uses Adyen's Apple Pay certificate. The endpoint returns the Apple Pay session data which you need to complete the [Apple Pay session validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation). */
@@ -5601,6 +5762,23 @@ export const createApplePaySession: API.OperationMethod<
   span: "CreateApplePaySession",
 }));
 
+export type CreateCalculateTaxError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
+/** Calculate the tax for a transaction. Calculates the applicable tax, for example the India Liberalised Remittance Scheme Tax Collected at Source, based on the taxable amount and the tax calculation context. The response returns the canonical calculation and an opaque token that you submit in /payments. Use taxCalculation.totalAmount as the amount in /payments. */
+export const createCalculateTax: API.OperationMethod<
+  CreateCalculateTaxRequest,
+  CalculateTaxResponse,
+  CreateCalculateTaxError,
+  AdyenOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1186, __c37, 2) as any as S.Schema<CreateCalculateTaxRequest>,
+  output: __S(1190, __c37, 6) as any as S.Schema<CalculateTaxResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  protocol: AdyenProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCalculateTax",
+}));
+
 export type CreateCancelError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
 /** Cancel an authorised payment Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**TECHNICAL_CANCEL** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook). If you want to cancel a payment using the [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference), use the [`/payments/{paymentPspReference}/cancels`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/cancels) endpoint instead. If you want to cancel a payment but are not sure whether it has been captured, use the [`/payments/{paymentPspReference}/reversals`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/reversals) endpoint instead. For more information, refer to [Cancel](https://docs.adyen.com/online-payments/cancel). */
 export const createCancel: API.OperationMethod<
@@ -5609,8 +5787,8 @@ export const createCancel: API.OperationMethod<
   CreateCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateCancelRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateCancelRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5626,8 +5804,8 @@ export const createCardDetail: API.OperationMethod<
   CreateCardDetailError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateCardDetailRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<CardDetailsResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateCardDetailRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<CardDetailsResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5643,8 +5821,8 @@ export const createDonation: API.OperationMethod<
   CreateDonationError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateDonationRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<DonationPaymentResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateDonationRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<DonationPaymentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5664,8 +5842,8 @@ export const createDonationCampaign: API.OperationMethod<
   CreateDonationCampaignError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateDonationCampaignRequest>,
-  output: __S(1797, __c56, 5) as any as S.Schema<DonationCampaignsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<CreateDonationCampaignRequest>,
+  output: __S(1893, __c59, 5) as any as S.Schema<DonationCampaignsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5681,8 +5859,8 @@ export const createForward: API.OperationMethod<
   CreateForwardError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1860, __c58, 4) as any as S.Schema<CreateForwardRequest>,
-  output: __S(1864, __c58, 8) as any as S.Schema<CheckoutForwardResponse>,
+  input: __S(1956, __c61, 4) as any as S.Schema<CreateForwardRequest>,
+  output: __S(1960, __c61, 8) as any as S.Schema<CheckoutForwardResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5698,8 +5876,8 @@ export const createOrder: API.OperationMethod<
   CreateOrderError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateOrderRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<CreateOrderResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateOrderRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5715,8 +5893,8 @@ export const createOrdersCancel: API.OperationMethod<
   CreateOrdersCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateOrdersCancelRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CancelOrderResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateOrdersCancelRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<CancelOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5732,8 +5910,8 @@ export const createPayment: API.OperationMethod<
   CreatePaymentError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(69, __c2, 5) as any as S.Schema<CreatePaymentRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<PaymentResponse>,
+  input: __S(101, __c3, 5) as any as S.Schema<CreatePaymentRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<PaymentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5753,8 +5931,8 @@ export const createPaymentAmountUpdate: API.OperationMethod<
   CreatePaymentAmountUpdateError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5770,8 +5948,8 @@ export const createPaymentCancel: API.OperationMethod<
   CreatePaymentCancelError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreatePaymentCancelRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<PaymentCancelResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreatePaymentCancelRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<PaymentCancelResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5787,8 +5965,8 @@ export const createPaymentCapture: API.OperationMethod<
   CreatePaymentCaptureError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<PaymentCaptureResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<PaymentCaptureResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5804,8 +5982,8 @@ export const createPaymentLink: API.OperationMethod<
   CreatePaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentLinkRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreatePaymentLinkRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5821,8 +5999,8 @@ export const createPaymentMethod: API.OperationMethod<
   CreatePaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreatePaymentMethodRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<PaymentMethodsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreatePaymentMethodRequest>,
+  output: __S(625, __c19, 17) as any as S.Schema<PaymentMethodsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5842,8 +6020,8 @@ export const createPaymentMethodsBalance: API.OperationMethod<
   CreatePaymentMethodsBalanceError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c19, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
-  output: __S(611, __c19, 3) as any as S.Schema<BalanceCheckResponse>,
+  input: __S(642, __c20, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<BalanceCheckResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5859,8 +6037,8 @@ export const createPaymentRefund: API.OperationMethod<
   CreatePaymentRefundError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<CreatePaymentRefundRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<PaymentRefundResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentRefundRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PaymentRefundResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5880,8 +6058,8 @@ export const createPaymentReversal: API.OperationMethod<
   CreatePaymentReversalError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentReversalRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<PaymentReversalResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreatePaymentReversalRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<PaymentReversalResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5897,8 +6075,8 @@ export const createPaymentsDetail: API.OperationMethod<
   CreatePaymentsDetailError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(707, __c22, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
-  output: __S(708, __c22, 4) as any as S.Schema<PaymentDetailsResponse>,
+  input: __S(739, __c23, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<PaymentDetailsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5918,8 +6096,8 @@ export const createPaypalUpdateOrder: API.OperationMethod<
   CreatePaypalUpdateOrderError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(739, __c23, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
-  output: __S(740, __c23, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
+  input: __S(771, __c24, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
+  output: __S(772, __c24, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5935,8 +6113,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(770, __c24, 2) as any as S.Schema<CreateSessionRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
+  input: __S(802, __c25, 2) as any as S.Schema<CreateSessionRequest>,
+  output: __S(803, __c25, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5952,8 +6130,8 @@ export const createStoredPaymentMethod: API.OperationMethod<
   CreateStoredPaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(801, __c25, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<StoredPaymentMethodResource>,
+  input: __S(833, __c26, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<StoredPaymentMethodResource>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -5973,13 +6151,34 @@ export const createValidateShopperId: API.OperationMethod<
   CreateValidateShopperIdError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c27, 1) as any as S.Schema<CreateValidateShopperIdRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<ValidateShopperIdResponse>,
+  input: __S(897, __c28, 1) as any as S.Schema<CreateValidateShopperIdRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ValidateShopperIdResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateValidateShopperId",
+}));
+
+export type CreateVerifyShopperTaxIdentificationError =
+  | BadRequest
+  | Forbidden
+  | UnprocessableEntity
+  | AdyenOpError;
+/** Verify the shopper's tax identification. In some countries, collecting and verifying tax information is required for regulatory compliance. Submit the shopper's tax identification for verification; when the verification succeeds, the response returns an opaque token that you submit in /payments. */
+export const createVerifyShopperTaxIdentification: API.OperationMethod<
+  CreateVerifyShopperTaxIdentificationRequest,
+  VerifyShopperTaxIdentificationResponse,
+  CreateVerifyShopperTaxIdentificationError,
+  AdyenOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(929, __c29, 1) as any as S.Schema<CreateVerifyShopperTaxIdentificationRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<VerifyShopperTaxIdentificationResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  protocol: AdyenProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVerifyShopperTaxIdentification",
 }));
 
 export type DeleteStoredPaymentMethodError = AdyenOpError;
@@ -5990,8 +6189,8 @@ export const deleteStoredPaymentMethod: API.OperationMethod<
   DeleteStoredPaymentMethodError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6007,8 +6206,8 @@ export const getPaymentLink: API.OperationMethod<
   GetPaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetPaymentLinkRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetPaymentLinkRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6024,8 +6223,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<SessionResultResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<SessionResultResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6041,8 +6240,8 @@ export const getStoredPaymentMethods: API.OperationMethod<
   GetStoredPaymentMethodsError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6058,8 +6257,8 @@ export const updatePaymentLink: API.OperationMethod<
   UpdatePaymentLinkError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<PaymentLinkResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<PaymentLinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6075,8 +6274,8 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
@@ -6091,8 +6290,37 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          amount: __S(1216, __c38, 0),
+          expiresAt: S.optional(S.String),
           merchantAccount: S.String,
-          order: __S(32, __c1, 0),
+          reference: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/orders", code: 200 })),
+      ).annotate({ identifier: "CreateOrderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          amount: __S(1216, __c38, 0),
+          expiresAt: S.String,
+          fraudResult: S.optional(__S(1410, __c44, 2)),
+          orderData: S.String,
+          pspReference: S.optional(S.String),
+          reference: S.optional(S.String),
+          refusalReason: S.optional(S.String),
+          remainingAmount: __S(1216, __c38, 0),
+          resultCode: S.String,
+        }),
+      ).annotate({ identifier: "CreateOrderResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          merchantAccount: S.String,
+          order: __S(64, __c2, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orders/cancel", code: 200 })),
       ).annotate({ identifier: "CreateOrdersCancelRequest" });
     case 1:
@@ -6104,7 +6332,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelOrderResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6115,7 +6343,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "EncryptedOrderData" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6141,7 +6369,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(65, __c2, 1)),
+          name: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "PaymentValidations" });
     case 3:
@@ -6161,52 +6389,52 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1504, __c47, 0)),
-          additionalAmount: S.optional(__S(1696, __c53, 0)),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          authenticationData: S.optional(__S(1665, __c52, 1)),
-          bankAccount: S.optional(__S(64, __c2, 0)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          browserInfo: S.optional(__S(1440, __c45, 0)),
+          accountInfo: S.optional(__S(1664, __c52, 0)),
+          additionalAmount: S.optional(__S(1216, __c38, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          authenticationData: S.optional(__S(1825, __c57, 1)),
+          bankAccount: S.optional(__S(96, __c3, 0)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          browserInfo: S.optional(__S(1600, __c50, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
           checkoutAttemptId: S.optional(S.String),
-          company: S.optional(__S(288, __c9, 0)),
+          company: S.optional(__S(320, __c10, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
-          dccQuote: S.optional(__S(256, __c8, 0)),
+          dccQuote: S.optional(__S(288, __c9, 0)),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1632, __c51, 0)),
+          deliveryAddress: S.optional(__S(1792, __c56, 0)),
           deliveryDate: S.optional(S.String),
           deviceFingerprint: S.optional(S.String),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
-          enhancedSchemeData: S.optional(__S(214, __c6, 22)),
+          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
           entityType: S.optional(S.String),
           fraudOffset: S.optional(S.Number),
-          fundOrigin: S.optional(__S(225, __c7, 1)),
-          fundRecipient: S.optional(__S(227, __c7, 3)),
+          fundOrigin: S.optional(__S(257, __c8, 1)),
+          fundRecipient: S.optional(__S(259, __c8, 3)),
           industryUsage: S.optional(S.String),
-          installments: S.optional(__S(257, __c8, 1)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          localizedShopperStatement: S.optional(__S(1728, __c54, 0)),
-          mandate: S.optional(__S(289, __c9, 1)),
+          installments: S.optional(__S(289, __c9, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          localizedShopperStatement: S.optional(__S(1856, __c58, 0)),
+          mandate: S.optional(__S(321, __c10, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          merchantRiskIndicator: S.optional(__S(1472, __c46, 0)),
-          metadata: S.optional(__S(1728, __c54, 0)),
-          mpiData: S.optional(__S(1344, __c42, 0)),
-          opi: S.optional(__S(320, __c10, 0)),
-          order: S.optional(__S(32, __c1, 0)),
+          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
+          metadata: S.optional(__S(1856, __c58, 0)),
+          mpiData: S.optional(__S(1504, __c47, 0)),
+          opi: S.optional(__S(352, __c11, 0)),
+          order: S.optional(__S(64, __c2, 0)),
           orderReference: S.optional(S.String),
           origin: S.optional(S.String),
           paymentMethod: S.Unknown,
-          paymentValidations: S.optional(__S(66, __c2, 2)),
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
+          paymentValidations: S.optional(__S(98, __c3, 2)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -6214,33 +6442,33 @@ function __c2(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(228, __c7, 4)),
+          riskData: S.optional(__S(260, __c8, 4)),
           sessionValidity: S.optional(S.String),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
-          shopperTaxInfo: S.optional(__S(67, __c2, 3)),
+          shopperTaxInfo: S.optional(__S(99, __c3, 3)),
           socialSecurityNumber: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           store: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
-          subMerchants: S.optional(__S(129, __c4, 1)),
-          surcharge: S.optional(__S(68, __c2, 4)),
+          subMerchants: S.optional(__S(161, __c5, 1)),
+          surcharge: S.optional(__S(100, __c3, 4)),
           telephoneNumber: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(290, __c9, 2)),
-          threeDS2RequestData: S.optional(__S(1280, __c40, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
+          threeDS2RequestData: S.optional(__S(1440, __c45, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/payments", code: 200 })),
       ).annotate({ identifier: "CreatePaymentRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6253,23 +6481,23 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
-          amount: S.optional(__S(96, __c3, 0)),
+          amount: S.optional(__S(128, __c4, 0)),
           description: S.optional(S.String),
           reference: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "Split" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(129, __c4, 1));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(1376, __c43, 0)),
-          amount: S.optional(__S(1696, __c53, 0)),
+          address: S.optional(__S(1536, __c48, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           email: S.optional(S.String),
           id: S.optional(S.String),
           mcc: S.optional(S.String),
@@ -6281,10 +6509,10 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "SubMerchantInfo" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(160, __c5, 0));
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6296,7 +6524,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PlatformChargebackLogic" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6320,7 +6548,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "Leg" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6332,7 +6560,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "Passenger" });
     case 4:
-      return S.Array(__S(195, __c6, 3));
+      return S.Array(__S(227, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6351,7 +6579,7 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          agency: S.optional(__S(192, __c6, 0)),
+          agency: S.optional(__S(224, __c7, 0)),
           boardingFee: S.optional(S.Number),
           code: S.optional(S.String),
           computerizedReservationSystem: S.optional(S.String),
@@ -6359,11 +6587,11 @@ function __c6(j: number): any {
           designatorCode: S.optional(S.String),
           documentType: S.optional(S.String),
           flightDate: S.optional(S.String),
-          legs: S.optional(__S(194, __c6, 2)),
+          legs: S.optional(__S(226, __c7, 2)),
           passengerName: S.String,
-          passengers: S.optional(__S(196, __c6, 4)),
-          ticket: S.optional(__S(197, __c6, 5)),
-          travelAgency: S.optional(__S(198, __c6, 6)),
+          passengers: S.optional(__S(228, __c7, 4)),
+          ticket: S.optional(__S(229, __c7, 5)),
+          travelAgency: S.optional(__S(230, __c7, 6)),
         }),
       ).annotate({ identifier: "Airline" });
     case 8:
@@ -6398,15 +6626,15 @@ function __c6(j: number): any {
         S.Struct({
           customerServicePhoneNumber: S.optional(S.String),
           noShow: S.optional(S.Boolean),
-          pickupInfo: S.optional(__S(200, __c6, 8)),
+          pickupInfo: S.optional(__S(232, __c7, 8)),
           rateType: S.optional(S.String),
           rentalAgreementNumber: S.optional(S.String),
           rentalClassId: S.optional(S.String),
           rentalDays: S.optional(S.Number),
           rentalRate: S.optional(S.Number),
-          rentalSurcharges: S.optional(__S(201, __c6, 9)),
+          rentalSurcharges: S.optional(__S(233, __c7, 9)),
           renterName: S.String,
-          returnInfo: S.optional(__S(202, __c6, 10)),
+          returnInfo: S.optional(__S(234, __c7, 10)),
           taxExempt: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CarRental" });
@@ -6442,15 +6670,15 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ItemDetailLine" });
     case 15:
-      return S.Array(__S(206, __c6, 14));
+      return S.Array(__S(238, __c7, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           customerReferenceNumber: S.optional(S.String),
-          destination: S.optional(__S(205, __c6, 13)),
+          destination: S.optional(__S(237, __c7, 13)),
           dutyAmount: S.optional(S.Number),
           freightAmount: S.optional(S.Number),
-          itemDetailLines: S.optional(__S(207, __c6, 15)),
+          itemDetailLines: S.optional(__S(239, __c7, 15)),
           orderDate: S.optional(S.String),
           shipFromPostalCode: S.optional(S.String),
           totalTaxAmount: S.optional(S.Number),
@@ -6471,7 +6699,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "Room" });
     case 19:
-      return S.Array(__S(210, __c6, 18));
+      return S.Array(__S(242, __c7, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -6479,14 +6707,14 @@ function __c6(j: number): any {
           checkOutDate: S.optional(S.String),
           customerServicePhoneNumber: S.optional(S.String),
           fireSafetyCompliance: S.optional(S.Boolean),
-          folio: S.optional(__S(209, __c6, 17)),
+          folio: S.optional(__S(241, __c7, 17)),
           foodBeverageCharges: S.optional(S.Number),
           lodgingChargeType: S.optional(S.String),
           noShow: S.optional(S.Boolean),
           prepaidExpenses: S.optional(S.Number),
           propertyPhoneNumber: S.optional(S.String),
           renterName: S.optional(S.String),
-          rooms: S.optional(__S(211, __c6, 19)),
+          rooms: S.optional(__S(243, __c7, 19)),
           totalRoomTax: S.optional(S.Number),
           totalTax: S.optional(S.Number),
         }),
@@ -6506,17 +6734,17 @@ function __c6(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          airline: S.optional(__S(199, __c6, 7)),
-          carRental: S.optional(__S(203, __c6, 11)),
-          healthcare: S.optional(__S(204, __c6, 12)),
-          levelTwoThree: S.optional(__S(208, __c6, 16)),
-          lodging: S.optional(__S(212, __c6, 20)),
-          temporaryServices: S.optional(__S(213, __c6, 21)),
+          airline: S.optional(__S(231, __c7, 7)),
+          carRental: S.optional(__S(235, __c7, 11)),
+          healthcare: S.optional(__S(236, __c7, 12)),
+          levelTwoThree: S.optional(__S(240, __c7, 16)),
+          lodging: S.optional(__S(244, __c7, 20)),
+          temporaryServices: S.optional(__S(245, __c7, 21)),
         }),
       ).annotate({ identifier: "EnhancedSchemeData" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6554,9 +6782,9 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          billingAddress: S.optional(__S(1376, __c43, 0)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
           shopperEmail: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           telephoneNumber: S.optional(S.String),
           walletIdentifier: S.optional(S.String),
         }),
@@ -6575,13 +6803,13 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IBAN: S.optional(S.String),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          paymentMethod: S.optional(__S(224, __c7, 0)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          paymentMethod: S.optional(__S(256, __c8, 0)),
           shopperEmail: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           storedPaymentMethodId: S.optional(S.String),
-          subMerchant: S.optional(__S(226, __c7, 2)),
+          subMerchant: S.optional(__S(258, __c8, 2)),
           telephoneNumber: S.optional(S.String),
           walletIdentifier: S.optional(S.String),
           walletOwnerTaxId: S.optional(S.String),
@@ -6592,26 +6820,26 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientData: S.optional(S.String),
-          customFields: S.optional(__S(1728, __c54, 0)),
+          customFields: S.optional(__S(1856, __c58, 0)),
           fraudOffset: S.optional(S.Number),
           profileReference: S.optional(S.String),
         }),
       ).annotate({ identifier: "RiskData" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
           accountType: S.optional(S.String),
-          baseAmount: S.optional(__S(1696, __c53, 0)),
+          baseAmount: S.optional(__S(1216, __c38, 0)),
           basePoints: S.Number,
-          buy: S.optional(__S(1696, __c53, 0)),
-          interbank: S.optional(__S(1696, __c53, 0)),
+          buy: S.optional(__S(1216, __c38, 0)),
+          interbank: S.optional(__S(1216, __c38, 0)),
           reference: S.optional(S.String),
-          sell: S.optional(__S(1696, __c53, 0)),
+          sell: S.optional(__S(1216, __c38, 0)),
           signature: S.optional(S.String),
           source: S.optional(S.String),
           type: S.optional(S.String),
@@ -6628,7 +6856,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "Installments" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6658,13 +6886,13 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requestParameters: S.optional(__S(1728, __c54, 0)),
+          requestParameters: S.optional(__S(1856, __c58, 0)),
           requestTemplateCode: S.String,
         }),
       ).annotate({ identifier: "ThirdPartyTokenRedundancyInfo" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6675,7 +6903,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "OpiRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6684,14 +6912,14 @@ function __c11(j: number): any {
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           adjustAuthType: S.optional(S.String),
           adjustAuthorisationData: S.optional(S.String),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
           industryUsage: S.optional(S.String),
-          lineItems: S.optional(__S(1313, __c41, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
           merchantAccount: S.String,
-          mpiData: S.optional(__S(1344, __c42, 0)),
+          mpiData: S.optional(__S(1504, __c47, 0)),
           reference: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6704,27 +6932,27 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adjustAuthorisationData: S.optional(S.String),
-          amount: __S(1696, __c53, 0),
+          amount: __S(1216, __c38, 0),
           industryUsage: S.optional(S.String),
-          lineItems: S.optional(__S(1313, __c41, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
           merchantAccount: S.String,
           paymentPspReference: S.String,
           pspReference: S.String,
           reference: S.String,
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentAmountUpdateResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
         }).pipe(
@@ -6733,7 +6961,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreatePaymentCancelRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6747,22 +6975,22 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PaymentCancelResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          enhancedSchemeData: S.optional(__S(214, __c6, 22)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
           merchantAccount: S.String,
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
           reference: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
-          subMerchants: S.optional(__S(129, __c4, 1)),
+          splits: S.optional(__S(130, __c4, 2)),
+          subMerchants: S.optional(__S(161, __c5, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/captures", code: 200 }),
         ),
@@ -6770,70 +6998,18 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(1696, __c53, 0),
-          lineItems: S.optional(__S(1313, __c41, 1)),
+          amount: __S(1216, __c38, 0),
+          lineItems: S.optional(__S(1473, __c46, 1)),
           merchantAccount: S.String,
           paymentPspReference: S.String,
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
           pspReference: S.String,
           reference: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           status: S.String,
-          subMerchants: S.optional(__S(129, __c4, 1)),
+          subMerchants: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "PaymentCaptureResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          allowedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          blockedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          captureDelayHours: S.optional(S.Number),
-          countryCode: S.optional(S.String),
-          dateOfBirth: S.optional(S.String),
-          deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1376, __c43, 0)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(225, __c7, 1)),
-          fundRecipient: S.optional(__S(227, __c7, 3)),
-          installmentOptions: S.optional(__S(545, __c17, 1)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          manualCapture: S.optional(S.Boolean),
-          mcc: S.optional(S.String),
-          merchantAccount: S.String,
-          merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1728, __c54, 0)),
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
-          recurringProcessingModel: S.optional(S.String),
-          reference: S.String,
-          requiredShopperFields: S.optional(__S(1409, __c44, 1)),
-          returnUrl: S.optional(S.String),
-          reusable: S.optional(S.Boolean),
-          riskData: S.optional(__S(228, __c7, 4)),
-          shopperEmail: S.optional(S.String),
-          shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
-          shopperReference: S.optional(S.String),
-          shopperStatement: S.optional(S.String),
-          showRemovePaymentMethodButton: S.optional(S.Boolean),
-          socialSecurityNumber: S.optional(S.String),
-          splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(98, __c3, 2)),
-          store: S.optional(S.String),
-          storePaymentMethodMode: S.optional(S.String),
-          telephoneNumber: S.optional(S.String),
-          themeId: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(512, __c16, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/paymentLinks", code: 200 })),
-      ).annotate({ identifier: "CreatePaymentLinkRequest" });
   }
 }
 function __c16(j: number): any {
@@ -6841,12 +7017,51 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          homePhone: S.optional(__S(1410, __c44, 2)),
-          mobilePhone: S.optional(__S(1410, __c44, 2)),
-          threeDSRequestorChallengeInd: S.optional(S.String),
-          workPhone: S.optional(__S(1410, __c44, 2)),
-        }),
-      ).annotate({ identifier: "CheckoutSessionThreeDS2RequestData" });
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          captureDelayHours: S.optional(S.Number),
+          countryCode: S.optional(S.String),
+          dateOfBirth: S.optional(S.String),
+          deliverAt: S.optional(S.String),
+          deliveryAddress: S.optional(__S(1536, __c48, 0)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          fundOrigin: S.optional(__S(257, __c8, 1)),
+          fundRecipient: S.optional(__S(259, __c8, 3)),
+          installmentOptions: S.optional(__S(577, __c18, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          manualCapture: S.optional(S.Boolean),
+          mcc: S.optional(S.String),
+          merchantAccount: S.String,
+          merchantOrderReference: S.optional(S.String),
+          metadata: S.optional(__S(1856, __c58, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          recurringProcessingModel: S.optional(S.String),
+          reference: S.String,
+          requiredShopperFields: S.optional(__S(1569, __c49, 1)),
+          returnUrl: S.optional(S.String),
+          reusable: S.optional(S.Boolean),
+          riskData: S.optional(__S(260, __c8, 4)),
+          shopperEmail: S.optional(S.String),
+          shopperLocale: S.optional(S.String),
+          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperReference: S.optional(S.String),
+          shopperStatement: S.optional(S.String),
+          showRemovePaymentMethodButton: S.optional(S.Boolean),
+          socialSecurityNumber: S.optional(S.String),
+          splitCardFundingSources: S.optional(S.Boolean),
+          splits: S.optional(__S(130, __c4, 2)),
+          store: S.optional(S.String),
+          storePaymentMethodMode: S.optional(S.String),
+          telephoneNumber: S.optional(S.String),
+          themeId: S.optional(S.String),
+          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/paymentLinks", code: 200 })),
+      ).annotate({ identifier: "CreatePaymentLinkRequest" });
   }
 }
 function __c17(j: number): any {
@@ -6854,65 +7069,12 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxValue: S.optional(S.Number),
-          plans: S.optional(__S(1409, __c44, 1)),
-          preselectedValue: S.optional(S.Number),
-          values: S.optional(__S(1824, __c57, 0)),
+          homePhone: S.optional(__S(1570, __c49, 2)),
+          mobilePhone: S.optional(__S(1570, __c49, 2)),
+          threeDSRequestorChallengeInd: S.optional(S.String),
+          workPhone: S.optional(__S(1570, __c49, 2)),
         }),
-      ).annotate({ identifier: "InstallmentOption" });
-    case 1:
-      return S.Record(S.String, __S(544, __c17, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          allowedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          blockedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          captureDelayHours: S.optional(S.Number),
-          countryCode: S.optional(S.String),
-          dateOfBirth: S.optional(S.String),
-          deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1376, __c43, 0)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(225, __c7, 1)),
-          fundRecipient: S.optional(__S(227, __c7, 3)),
-          id: S.String,
-          installmentOptions: S.optional(__S(545, __c17, 1)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          manualCapture: S.optional(S.Boolean),
-          mcc: S.optional(S.String),
-          merchantAccount: S.String,
-          merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1728, __c54, 0)),
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
-          recurringProcessingModel: S.optional(S.String),
-          reference: S.String,
-          requiredShopperFields: S.optional(__S(1409, __c44, 1)),
-          returnUrl: S.optional(S.String),
-          reusable: S.optional(S.Boolean),
-          riskData: S.optional(__S(228, __c7, 4)),
-          shopperEmail: S.optional(S.String),
-          shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
-          shopperReference: S.optional(S.String),
-          shopperStatement: S.optional(S.String),
-          showRemovePaymentMethodButton: S.optional(S.Boolean),
-          socialSecurityNumber: S.optional(S.String),
-          splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(98, __c3, 2)),
-          status: S.String,
-          store: S.optional(S.String),
-          storePaymentMethodMode: S.optional(S.String),
-          telephoneNumber: S.optional(S.String),
-          themeId: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(512, __c16, 0)),
-          updatedAt: S.optional(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "PaymentLinkResponse" });
+      ).annotate({ identifier: "CheckoutSessionThreeDS2RequestData" });
   }
 }
 function __c18(j: number): any {
@@ -6920,16 +7082,82 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          maxValue: S.optional(S.Number),
+          plans: S.optional(__S(1569, __c49, 1)),
+          preselectedValue: S.optional(S.Number),
+          values: S.optional(__S(1920, __c60, 0)),
+        }),
+      ).annotate({ identifier: "InstallmentOption" });
+    case 1:
+      return S.Record(S.String, __S(576, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          captureDelayHours: S.optional(S.Number),
+          countryCode: S.optional(S.String),
+          dateOfBirth: S.optional(S.String),
+          deliverAt: S.optional(S.String),
+          deliveryAddress: S.optional(__S(1536, __c48, 0)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          fundOrigin: S.optional(__S(257, __c8, 1)),
+          fundRecipient: S.optional(__S(259, __c8, 3)),
+          id: S.String,
+          installmentOptions: S.optional(__S(577, __c18, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          manualCapture: S.optional(S.Boolean),
+          mcc: S.optional(S.String),
+          merchantAccount: S.String,
+          merchantOrderReference: S.optional(S.String),
+          metadata: S.optional(__S(1856, __c58, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
+          recurringProcessingModel: S.optional(S.String),
+          reference: S.String,
+          requiredShopperFields: S.optional(__S(1569, __c49, 1)),
+          returnUrl: S.optional(S.String),
+          reusable: S.optional(S.Boolean),
+          riskData: S.optional(__S(260, __c8, 4)),
+          shopperEmail: S.optional(S.String),
+          shopperLocale: S.optional(S.String),
+          shopperName: S.optional(__S(1568, __c49, 0)),
+          shopperReference: S.optional(S.String),
+          shopperStatement: S.optional(S.String),
+          showRemovePaymentMethodButton: S.optional(S.Boolean),
+          socialSecurityNumber: S.optional(S.String),
+          splitCardFundingSources: S.optional(S.Boolean),
+          splits: S.optional(__S(130, __c4, 2)),
+          status: S.String,
+          store: S.optional(S.String),
+          storePaymentMethodMode: S.optional(S.String),
+          telephoneNumber: S.optional(S.String),
+          themeId: S.optional(S.String),
+          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
+          updatedAt: S.optional(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "PaymentLinkResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          allowedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          amount: S.optional(__S(1696, __c53, 0)),
-          blockedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          browserInfo: S.optional(__S(1440, __c45, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
+          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          browserInfo: S.optional(__S(1600, __c50, 0)),
           channel: S.optional(S.String),
           countryCode: S.optional(S.String),
           merchantAccount: S.String,
-          order: S.optional(__S(32, __c1, 0)),
+          order: S.optional(__S(64, __c2, 0)),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
@@ -6951,13 +7179,13 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appIdentifierInfo: S.optional(__S(577, __c18, 1)),
+          appIdentifierInfo: S.optional(__S(609, __c19, 1)),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "PaymentMethodUPIApps" });
     case 3:
-      return S.Array(__S(578, __c18, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6974,12 +7202,12 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "Item" });
     case 6:
-      return S.Array(__S(581, __c18, 5));
+      return S.Array(__S(613, __c19, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(1728, __c54, 0)),
-          items: S.optional(__S(582, __c18, 6)),
+          configuration: S.optional(__S(1856, __c58, 0)),
+          items: S.optional(__S(614, __c19, 6)),
           key: S.optional(S.String),
           optional: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -6987,15 +7215,15 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "SubInputDetail" });
     case 8:
-      return S.Array(__S(583, __c18, 7));
+      return S.Array(__S(615, __c19, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(1728, __c54, 0)),
-          details: S.optional(__S(584, __c18, 8)),
-          inputDetails: S.optional(__S(584, __c18, 8)),
+          configuration: S.optional(__S(1856, __c58, 0)),
+          details: S.optional(__S(616, __c19, 8)),
+          inputDetails: S.optional(__S(616, __c19, 8)),
           itemSearchUrl: S.optional(S.String),
-          items: S.optional(__S(582, __c18, 6)),
+          items: S.optional(__S(614, __c19, 6)),
           key: S.optional(S.String),
           optional: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -7003,7 +7231,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "InputDetail" });
     case 10:
-      return S.Array(__S(585, __c18, 9));
+      return S.Array(__S(617, __c19, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -7013,25 +7241,25 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "PaymentMethodIssuer" });
     case 12:
-      return S.Array(__S(587, __c18, 11));
+      return S.Array(__S(619, __c19, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(579, __c18, 3)),
+          apps: S.optional(__S(611, __c19, 3)),
           brand: S.optional(S.String),
-          brands: S.optional(__S(1216, __c38, 0)),
-          configuration: S.optional(__S(1728, __c54, 0)),
+          brands: S.optional(__S(1344, __c42, 0)),
+          configuration: S.optional(__S(1856, __c58, 0)),
           fundingSource: S.optional(S.String),
-          group: S.optional(__S(580, __c18, 4)),
-          inputDetails: S.optional(__S(586, __c18, 10)),
-          issuers: S.optional(__S(588, __c18, 12)),
+          group: S.optional(__S(612, __c19, 4)),
+          inputDetails: S.optional(__S(618, __c19, 10)),
+          issuers: S.optional(__S(620, __c19, 12)),
           name: S.optional(S.String),
           promoted: S.optional(S.Boolean),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentMethod" });
     case 14:
-      return S.Array(__S(589, __c18, 13));
+      return S.Array(__S(621, __c19, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -7051,23 +7279,23 @@ function __c18(j: number): any {
           networkTxReference: S.optional(S.String),
           ownerName: S.optional(S.String),
           shopperEmail: S.optional(S.String),
-          supportedRecurringProcessingModels: S.optional(__S(1216, __c38, 0)),
-          supportedShopperInteractions: S.optional(__S(1216, __c38, 0)),
+          supportedRecurringProcessingModels: S.optional(__S(1344, __c42, 0)),
+          supportedShopperInteractions: S.optional(__S(1344, __c42, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StoredPaymentMethod" });
     case 16:
-      return S.Array(__S(591, __c18, 15));
+      return S.Array(__S(623, __c19, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          paymentMethods: S.optional(__S(590, __c18, 14)),
-          storedPaymentMethods: S.optional(__S(592, __c18, 16)),
+          paymentMethods: S.optional(__S(622, __c19, 14)),
+          storedPaymentMethods: S.optional(__S(624, __c19, 16)),
         }),
       ).annotate({ identifier: "PaymentMethodsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7082,7 +7310,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acctInfo: S.optional(__S(1473, __c46, 1)),
+          acctInfo: S.optional(__S(1633, __c51, 1)),
           acctType: S.optional(S.String),
           acquirerBIN: S.optional(S.String),
           acquirerMerchantID: S.optional(S.String),
@@ -7090,12 +7318,12 @@ function __c19(j: number): any {
           authenticationOnly: S.optional(S.Boolean),
           challengeIndicator: S.optional(S.String),
           deviceChannel: S.String,
-          deviceRenderOptions: S.optional(__S(1474, __c46, 2)),
-          homePhone: S.optional(__S(1410, __c44, 2)),
+          deviceRenderOptions: S.optional(__S(1634, __c51, 2)),
+          homePhone: S.optional(__S(1570, __c49, 2)),
           mcc: S.optional(S.String),
           merchantName: S.optional(S.String),
           messageVersion: S.optional(S.String),
-          mobilePhone: S.optional(__S(1410, __c44, 2)),
+          mobilePhone: S.optional(__S(1570, __c49, 2)),
           notificationURL: S.optional(S.String),
           payTokenInd: S.optional(S.Boolean),
           paymentAuthenticationUseCase: S.optional(S.String),
@@ -7104,53 +7332,53 @@ function __c19(j: number): any {
           recurringFrequency: S.optional(S.String),
           sdkAppID: S.optional(S.String),
           sdkEncData: S.optional(S.String),
-          sdkEphemPubKey: S.optional(__S(1475, __c46, 3)),
+          sdkEphemPubKey: S.optional(__S(1635, __c51, 3)),
           sdkMaxTimeout: S.optional(S.Number),
           sdkReferenceNumber: S.optional(S.String),
           sdkTransID: S.optional(S.String),
           sdkVersion: S.optional(S.String),
           threeDSCompInd: S.optional(S.String),
           threeDSRequestorAuthenticationInd: S.optional(S.String),
-          threeDSRequestorAuthenticationInfo: S.optional(__S(1476, __c46, 4)),
+          threeDSRequestorAuthenticationInfo: S.optional(__S(1636, __c51, 4)),
           threeDSRequestorChallengeInd: S.optional(S.String),
           threeDSRequestorID: S.optional(S.String),
           threeDSRequestorName: S.optional(S.String),
-          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1477, __c46, 5)),
+          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1637, __c51, 5)),
           threeDSRequestorURL: S.optional(S.String),
           transType: S.optional(S.String),
           transactionType: S.optional(S.String),
           whiteListStatus: S.optional(S.String),
-          workPhone: S.optional(__S(1410, __c44, 2)),
+          workPhone: S.optional(__S(1570, __c49, 2)),
         }),
       ).annotate({ identifier: "ThreeDS2RequestData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1504, __c47, 0)),
-          additionalAmount: S.optional(__S(1696, __c53, 0)),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          browserInfo: S.optional(__S(1440, __c45, 0)),
+          accountInfo: S.optional(__S(1664, __c52, 0)),
+          additionalAmount: S.optional(__S(1216, __c38, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          browserInfo: S.optional(__S(1600, __c50, 0)),
           captureDelayHours: S.optional(S.Number),
           dateOfBirth: S.optional(S.String),
-          dccQuote: S.optional(__S(256, __c8, 0)),
-          deliveryAddress: S.optional(__S(1376, __c43, 0)),
+          dccQuote: S.optional(__S(288, __c9, 0)),
+          deliveryAddress: S.optional(__S(1536, __c48, 0)),
           deliveryDate: S.optional(S.String),
           deviceFingerprint: S.optional(S.String),
           fraudOffset: S.optional(S.Number),
-          installments: S.optional(__S(257, __c8, 1)),
-          localizedShopperStatement: S.optional(__S(1728, __c54, 0)),
+          installments: S.optional(__S(289, __c9, 1)),
+          localizedShopperStatement: S.optional(__S(1856, __c58, 0)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          merchantRiskIndicator: S.optional(__S(1472, __c46, 0)),
-          metadata: S.optional(__S(1728, __c54, 0)),
+          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
+          metadata: S.optional(__S(1856, __c58, 0)),
           orderReference: S.optional(S.String),
-          paymentMethod: __S(1728, __c54, 0),
-          recurring: S.optional(__S(608, __c19, 0)),
+          paymentMethod: __S(1856, __c58, 0),
+          recurring: S.optional(__S(640, __c20, 0)),
           recurringProcessingModel: S.optional(S.String),
           reference: S.optional(S.String),
           selectedBrand: S.optional(S.String),
@@ -7160,14 +7388,14 @@ function __c19(j: number): any {
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           socialSecurityNumber: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           store: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(609, __c19, 1)),
+          threeDS2RequestData: S.optional(__S(641, __c20, 1)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           totalsGroup: S.optional(S.String),
           trustedShopper: S.optional(S.Boolean),
@@ -7176,54 +7404,15 @@ function __c19(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          balance: __S(1696, __c53, 0),
-          fraudResult: S.optional(__S(1762, __c55, 2)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          balance: __S(1216, __c38, 0),
+          fraudResult: S.optional(__S(1410, __c44, 2)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           resultCode: S.String,
-          transactionLimit: S.optional(__S(1696, __c53, 0)),
+          transactionLimit: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "BalanceCheckResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          capturePspReference: S.optional(S.String),
-          enhancedSchemeData: S.optional(__S(214, __c6, 22)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          merchantAccount: S.String,
-          merchantRefundReason: S.optional(S.NullOr(S.String)),
-          reference: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
-          store: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/refunds", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreatePaymentRefundRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amount: __S(1696, __c53, 0),
-          capturePspReference: S.optional(S.String),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          merchantAccount: S.String,
-          merchantRefundReason: S.optional(S.NullOr(S.String)),
-          paymentPspReference: S.String,
-          pspReference: S.String,
-          reference: S.optional(S.String),
-          splits: S.optional(__S(98, __c3, 2)),
-          status: S.String,
-          store: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentRefundResponse" });
   }
 }
 function __c21(j: number): any {
@@ -7233,7 +7422,46 @@ function __c21(j: number): any {
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          capturePspReference: S.optional(S.String),
+          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          merchantAccount: S.String,
+          merchantRefundReason: S.optional(S.NullOr(S.String)),
+          reference: S.optional(S.String),
+          splits: S.optional(__S(130, __c4, 2)),
+          store: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/refunds", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreatePaymentRefundRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: __S(1216, __c38, 0),
+          capturePspReference: S.optional(S.String),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          merchantAccount: S.String,
+          merchantRefundReason: S.optional(S.NullOr(S.String)),
+          paymentPspReference: S.String,
+          pspReference: S.String,
+          reference: S.optional(S.String),
+          splits: S.optional(__S(130, __c4, 2)),
+          status: S.String,
+          store: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentRefundResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentPspReference: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
         }).pipe(
@@ -7242,7 +7470,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreatePaymentReversalRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7291,8 +7519,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          authenticationData: S.optional(__S(705, __c22, 1)),
-          details: __S(706, __c22, 2),
+          authenticationData: S.optional(__S(737, __c23, 1)),
+          details: __S(738, __c23, 2),
           paymentData: S.optional(S.String),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/payments/details", code: 200 })),
@@ -7300,34 +7528,34 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(704, __c22, 0)),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          amount: S.optional(__S(1696, __c53, 0)),
+          action: S.optional(__S(736, __c23, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           donationToken: S.optional(S.String),
-          fraudResult: S.optional(__S(1762, __c55, 2)),
+          fraudResult: S.optional(__S(1410, __c44, 2)),
           merchantReference: S.optional(S.String),
-          opi: S.optional(__S(1568, __c49, 0)),
-          order: S.optional(__S(1536, __c48, 0)),
-          paymentMethod: S.optional(__S(1600, __c50, 0)),
-          paymentValidations: S.optional(__S(1540, __c48, 4)),
+          opi: S.optional(__S(1728, __c54, 0)),
+          order: S.optional(__S(1696, __c53, 0)),
+          paymentMethod: S.optional(__S(1760, __c55, 0)),
+          paymentValidations: S.optional(__S(1700, __c53, 4)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           refusalReasonCode: S.optional(S.String),
           resultCode: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          threeDS2ResponseData: S.optional(__S(1541, __c48, 5)),
-          threeDS2Result: S.optional(__S(1542, __c48, 6)),
+          threeDS2ResponseData: S.optional(__S(1701, __c53, 5)),
+          threeDS2Result: S.optional(__S(1702, __c53, 6)),
           threeDSPaymentData: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentDetailsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           description: S.optional(S.String),
           reference: S.optional(S.String),
           selected: S.optional(S.Boolean),
@@ -7335,26 +7563,26 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "DeliveryMethod" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "TaxTotal" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: S.optional(__S(1696, __c53, 0)),
-          deliveryAddress: S.optional(__S(1632, __c51, 0)),
-          deliveryMethods: S.optional(__S(737, __c23, 1)),
-          discountAmount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
+          deliveryAddress: S.optional(__S(1792, __c56, 0)),
+          deliveryMethods: S.optional(__S(769, __c24, 1)),
+          discountAmount: S.optional(__S(1216, __c38, 0)),
           paymentData: S.optional(S.String),
           pspReference: S.optional(S.String),
           sessionId: S.optional(S.String),
-          shippingAmount: S.optional(__S(1696, __c53, 0)),
-          taxTotal: S.optional(__S(738, __c23, 2)),
+          shippingAmount: S.optional(__S(1216, __c38, 0)),
+          taxTotal: S.optional(__S(770, __c24, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/paypal/updateOrder", code: 200 })),
       ).annotate({ identifier: "CreatePaypalUpdateOrderRequest" });
     case 4:
@@ -7366,55 +7594,56 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PaypalUpdateOrderResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          plans: S.optional(__S(1409, __c44, 1)),
+          plans: S.optional(__S(1569, __c49, 1)),
           preselectedValue: S.optional(S.Number),
-          values: S.optional(__S(1824, __c57, 0)),
+          values: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "CheckoutSessionInstallmentOption" });
     case 1:
-      return S.Record(S.String, __S(768, __c24, 0));
+      return S.Record(S.String, __S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1504, __c47, 0)),
-          additionalAmount: S.optional(__S(1696, __c53, 0)),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          allowedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          authenticationData: S.optional(__S(1665, __c52, 1)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          blockedPaymentMethods: S.optional(__S(1216, __c38, 0)),
+          accountInfo: S.optional(__S(1664, __c52, 0)),
+          additionalAmount: S.optional(__S(1216, __c38, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          authenticationData: S.optional(__S(1825, __c57, 1)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
-          company: S.optional(__S(288, __c9, 0)),
+          company: S.optional(__S(320, __c10, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1632, __c51, 0)),
+          deliveryAddress: S.optional(__S(1792, __c56, 0)),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
+          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
           expiresAt: S.optional(S.String),
-          fundOrigin: S.optional(__S(225, __c7, 1)),
-          fundRecipient: S.optional(__S(227, __c7, 3)),
-          installmentOptions: S.optional(__S(769, __c24, 1)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          mandate: S.optional(__S(289, __c9, 1)),
+          fundOrigin: S.optional(__S(257, __c8, 1)),
+          fundRecipient: S.optional(__S(259, __c8, 3)),
+          installmentOptions: S.optional(__S(801, __c25, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          mandate: S.optional(__S(321, __c10, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1856, __c58, 0)),
           mode: S.optional(S.String),
-          mpiData: S.optional(__S(1344, __c42, 0)),
+          mpiData: S.optional(__S(1504, __c47, 0)),
           payable: S.optional(S.Boolean),
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -7422,28 +7651,28 @@ function __c24(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(228, __c7, 4)),
+          riskData: S.optional(__S(260, __c8, 4)),
           shopperConversionId: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           showInstallmentAmount: S.optional(S.Boolean),
           showRemovePaymentMethodButton: S.optional(S.Boolean),
           socialSecurityNumber: S.optional(S.String),
           splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           store: S.optional(S.String),
           storeFiltrationMode: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
           storePaymentMethodMode: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
           themeId: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(290, __c9, 2)),
-          threeDS2RequestData: S.optional(__S(512, __c16, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
+          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sessions", code: 200 })),
@@ -7451,40 +7680,41 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accountInfo: S.optional(__S(1504, __c47, 0)),
-          additionalAmount: S.optional(__S(1696, __c53, 0)),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          allowedPaymentMethods: S.optional(__S(1216, __c38, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          authenticationData: S.optional(__S(1665, __c52, 1)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          blockedPaymentMethods: S.optional(__S(1216, __c38, 0)),
+          accountInfo: S.optional(__S(1664, __c52, 0)),
+          additionalAmount: S.optional(__S(1216, __c38, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          allowedPaymentMethods: S.optional(__S(1344, __c42, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          authenticationData: S.optional(__S(1825, __c57, 1)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          blockedPaymentMethods: S.optional(__S(1344, __c42, 0)),
           captureDelayHours: S.optional(S.Number),
           channel: S.optional(S.String),
-          company: S.optional(__S(288, __c9, 0)),
+          company: S.optional(__S(320, __c10, 0)),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
           deliverAt: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1632, __c51, 0)),
+          deliveryAddress: S.optional(__S(1792, __c56, 0)),
           enableOneClick: S.optional(S.Boolean),
           enablePayOut: S.optional(S.Boolean),
           enableRecurring: S.optional(S.Boolean),
+          enhancedSchemeData: S.optional(__S(246, __c7, 22)),
           expiresAt: S.String,
-          fundOrigin: S.optional(__S(225, __c7, 1)),
-          fundRecipient: S.optional(__S(227, __c7, 3)),
+          fundOrigin: S.optional(__S(257, __c8, 1)),
+          fundRecipient: S.optional(__S(259, __c8, 3)),
           id: S.String,
-          installmentOptions: S.optional(__S(769, __c24, 1)),
-          lineItems: S.optional(__S(1313, __c41, 1)),
-          mandate: S.optional(__S(289, __c9, 1)),
+          installmentOptions: S.optional(__S(801, __c25, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
+          mandate: S.optional(__S(321, __c10, 1)),
           mcc: S.optional(S.String),
           merchantAccount: S.String,
           merchantOrderReference: S.optional(S.String),
-          metadata: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1856, __c58, 0)),
           mode: S.optional(S.String),
-          mpiData: S.optional(__S(1344, __c42, 0)),
+          mpiData: S.optional(__S(1504, __c47, 0)),
           payable: S.optional(S.Boolean),
-          platformChargebackLogic: S.optional(__S(160, __c5, 0)),
+          platformChargebackLogic: S.optional(__S(192, __c6, 0)),
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           recurringProcessingModel: S.optional(S.String),
@@ -7492,28 +7722,28 @@ function __c24(j: number): any {
           redirectToIssuerMethod: S.optional(S.String),
           reference: S.String,
           returnUrl: S.String,
-          riskData: S.optional(__S(228, __c7, 4)),
+          riskData: S.optional(__S(260, __c8, 4)),
           sessionData: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
           showInstallmentAmount: S.optional(S.Boolean),
           showRemovePaymentMethodButton: S.optional(S.Boolean),
           socialSecurityNumber: S.optional(S.String),
           splitCardFundingSources: S.optional(S.Boolean),
-          splits: S.optional(__S(98, __c3, 2)),
+          splits: S.optional(__S(130, __c4, 2)),
           store: S.optional(S.String),
           storeFiltrationMode: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
           storePaymentMethodMode: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
           themeId: S.optional(S.String),
-          thirdPartyTokenRedundancyInfo: S.optional(__S(290, __c9, 2)),
-          threeDS2RequestData: S.optional(__S(512, __c16, 0)),
+          thirdPartyTokenRedundancyInfo: S.optional(__S(322, __c10, 2)),
+          threeDS2RequestData: S.optional(__S(544, __c17, 0)),
           threeDSAuthenticationOnly: S.optional(S.Boolean),
           trustedShopper: S.optional(S.Boolean),
           url: S.optional(S.String),
@@ -7521,7 +7751,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateCheckoutSessionResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7545,8 +7775,8 @@ function __c25(j: number): any {
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           merchantAccount: S.String,
-          opi: S.optional(__S(320, __c10, 0)),
-          paymentMethod: __S(800, __c25, 0),
+          opi: S.optional(__S(352, __c11, 0)),
+          paymentMethod: __S(832, __c26, 0),
           recurringProcessingModel: S.String,
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
@@ -7555,7 +7785,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateStoredPaymentMethodRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7572,7 +7802,9 @@ function __c26(j: number): any {
           mandateId: S.String,
           maskedAccountId: S.optional(S.String),
           minAmount: S.optional(S.String),
+          previousMandateId: S.optional(S.String),
           providerId: S.String,
+          purposeCode: S.optional(S.String),
           recurringAmount: S.optional(S.String),
           recurringStatement: S.optional(S.String),
           remarks: S.optional(S.String),
@@ -7587,7 +7819,7 @@ function __c26(j: number): any {
         S.Struct({
           alias: S.optional(S.String),
           aliasType: S.optional(S.String),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
           brand: S.optional(S.String),
           cardBin: S.optional(S.String),
           createdAt: S.optional(S.String),
@@ -7601,20 +7833,20 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           issuerName: S.optional(S.String),
           lastFour: S.optional(S.String),
-          mandate: S.optional(__S(832, __c26, 0)),
+          mandate: S.optional(__S(864, __c27, 0)),
           name: S.optional(S.String),
           networkTxReference: S.optional(S.String),
-          opi: S.optional(__S(1568, __c49, 0)),
+          opi: S.optional(__S(1728, __c54, 0)),
           ownerName: S.optional(S.String),
           shopperEmail: S.optional(S.String),
           shopperReference: S.optional(S.String),
-          supportedRecurringProcessingModels: S.optional(__S(1216, __c38, 0)),
+          supportedRecurringProcessingModels: S.optional(__S(1344, __c42, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StoredPaymentMethodResource" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7626,7 +7858,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           merchantAccount: S.String,
-          paymentMethod: __S(864, __c27, 0),
+          paymentMethod: __S(896, __c28, 0),
           shopperEmail: S.optional(S.String),
           shopperIP: S.optional(S.String),
           shopperReference: S.optional(S.String),
@@ -7641,7 +7873,46 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ValidateShopperIdResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taxCountryCode: S.String,
+          taxIdentificationNumber: S.String,
+          taxIdentificationType: S.String,
+        }),
+      ).annotate({ identifier: "ShopperTaxIdentification" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          merchantAccount: S.String,
+          shopperReference: S.String,
+          shopperTaxIdentification: __S(928, __c29, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/verifyShopperTaxIdentification", code: 200 })),
+      ).annotate({ identifier: "CreateVerifyShopperTaxIdentificationRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maskedName: S.optional(S.String),
+          taxCountryCode: S.optional(S.String),
+          taxIdentificationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VerifiedShopperTaxIdentification" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.String),
+          reasonCode: S.optional(S.String),
+          result: S.optional(S.String),
+          taxVerificationReference: S.optional(S.String),
+          verifiedShopperTaxIdentification: S.optional(__S(930, __c29, 2)),
+          verifiedShopperTaxIdentificationToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VerifyShopperTaxIdentificationResponse" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7663,7 +7934,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7673,7 +7944,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetPaymentLinkRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7685,56 +7956,24 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1696, __c53, 0)),
-          paymentMethod: S.optional(__S(1600, __c50, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
+          paymentMethod: S.optional(__S(1760, __c55, 0)),
           pspReference: S.optional(S.String),
           resultCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Payment" });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          additionalData: S.optional(__S(1728, __c54, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
           id: S.optional(S.String),
-          payments: S.optional(__S(962, __c30, 2)),
+          payments: S.optional(__S(1026, __c32, 2)),
           reference: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionResultResponse" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          shopperReference: S.optional(S.String.pipe(T.Query())),
-          merchantAccount: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/storedPaymentMethods", code: 200 })),
-      ).annotate({ identifier: "GetStoredPaymentMethodsRequest" });
-    case 1:
-      return S.Array(__S(833, __c26, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          merchantAccount: S.optional(S.String),
-          shopperReference: S.optional(S.String),
-          storedPaymentMethods: S.optional(__S(993, __c31, 1)),
-        }),
-      ).annotate({ identifier: "ListStoredPaymentMethodsResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          linkId: S.String.pipe(T.Label()),
-          status: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/paymentLinks/{linkId}", code: 200 })),
-      ).annotate({ identifier: "UpdatePaymentLinkRequest" });
   }
 }
 function __c33(j: number): any {
@@ -7761,8 +8000,40 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          shopperReference: S.optional(S.String.pipe(T.Query())),
+          merchantAccount: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/storedPaymentMethods", code: 200 })),
+      ).annotate({ identifier: "GetStoredPaymentMethodsRequest" });
+    case 1:
+      return S.Array(__S(865, __c27, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          merchantAccount: S.optional(S.String),
+          shopperReference: S.optional(S.String),
+          storedPaymentMethods: S.optional(__S(1089, __c34, 1)),
+        }),
+      ).annotate({ identifier: "ListStoredPaymentMethodsResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          linkId: S.String.pipe(T.Label()),
+          status: S.String,
+        }).pipe(T.Http({ method: "PATCH", uri: "/paymentLinks/{linkId}", code: 200 })),
+      ).annotate({ identifier: "UpdatePaymentLinkRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           sessionId: S.String.pipe(T.Label()),
-          amount: __S(1696, __c53, 0),
+          amount: __S(1216, __c38, 0),
           payable: S.optional(S.Boolean),
           sessionData: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{sessionId}", code: 200 })),
@@ -7775,13 +8046,79 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CheckoutSessionPatchSessionResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          remittancePurpose: S.String,
+          sublimitStatus: S.String,
+        }),
+      ).annotate({ identifier: "LrsContext" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          calculationType: S.String,
+          lrs: __S(1184, __c37, 0),
+          taxCountryCode: S.String,
+        }),
+      ).annotate({ identifier: "TaxCalculationContext" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          merchantAccount: S.String,
+          taxCalculationContext: __S(1185, __c37, 1),
+          taxableAmount: __S(1216, __c38, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/calculateTax", code: 200 })),
+      ).annotate({ identifier: "CreateCalculateTaxRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          taxAmount: S.optional(__S(1216, __c38, 0)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TaxCalculationComponent" });
+    case 4:
+      return S.Array(__S(1187, __c37, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          merchantAccount: S.optional(S.String),
+          taxCalculationContext: S.optional(__S(1185, __c37, 1)),
+          taxCalculations: S.optional(__S(1188, __c37, 4)),
+          taxableAmount: S.optional(__S(1216, __c38, 0)),
+          totalAmount: S.optional(__S(1216, __c38, 0)),
+          totalTaxAmount: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "TaxCalculation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          taxCalculation: S.optional(__S(1189, __c37, 5)),
+          taxCalculationReference: S.optional(S.String),
+          taxCalculationToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CalculateTaxResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "TaxableAmount" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
           merchantAccount: S.String,
           paymentReference: S.String,
           reference: S.optional(S.String),
@@ -7799,7 +8136,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "StandalonePaymentCancelResponse" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7835,17 +8172,17 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          adyenLibrary: S.optional(__S(1152, __c36, 0)),
-          adyenPaymentSource: S.optional(__S(1152, __c36, 0)),
-          externalPlatform: S.optional(__S(1153, __c36, 1)),
-          merchantApplication: S.optional(__S(1152, __c36, 0)),
-          merchantDevice: S.optional(__S(1154, __c36, 2)),
-          shopperInteractionDevice: S.optional(__S(1155, __c36, 3)),
+          adyenLibrary: S.optional(__S(1280, __c40, 0)),
+          adyenPaymentSource: S.optional(__S(1280, __c40, 0)),
+          externalPlatform: S.optional(__S(1281, __c40, 1)),
+          merchantApplication: S.optional(__S(1280, __c40, 0)),
+          merchantDevice: S.optional(__S(1282, __c40, 2)),
+          shopperInteractionDevice: S.optional(__S(1283, __c40, 3)),
         }),
       ).annotate({ identifier: "ApplicationInfo" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7855,7 +8192,7 @@ function __c37(j: number): any {
           countryCode: S.optional(S.String),
           encryptedCardNumber: S.optional(S.String),
           merchantAccount: S.String,
-          supportedBrands: S.optional(__S(1216, __c38, 0)),
+          supportedBrands: S.optional(__S(1344, __c42, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cardDetails", code: 200 })),
       ).annotate({ identifier: "CreateCardDetailRequest" });
     case 1:
@@ -7867,11 +8204,11 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "CardBrandDetails" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          brands: S.optional(__S(1186, __c37, 2)),
+          brands: S.optional(__S(1314, __c41, 2)),
           fundingSource: S.optional(S.String),
           isCardCommercial: S.optional(S.Boolean),
           issuingCountryCode: S.optional(S.String),
@@ -7879,39 +8216,39 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CardDetailsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          accountInfo: S.optional(__S(1504, __c47, 0)),
-          amount: __S(1696, __c53, 0),
-          applicationInfo: S.optional(__S(1156, __c36, 4)),
-          authenticationData: S.optional(__S(1665, __c52, 1)),
-          billingAddress: S.optional(__S(1376, __c43, 0)),
-          browserInfo: S.optional(__S(1440, __c45, 0)),
+          accountInfo: S.optional(__S(1664, __c52, 0)),
+          amount: __S(1216, __c38, 0),
+          applicationInfo: S.optional(__S(1284, __c40, 4)),
+          authenticationData: S.optional(__S(1825, __c57, 1)),
+          billingAddress: S.optional(__S(1536, __c48, 0)),
+          browserInfo: S.optional(__S(1600, __c50, 0)),
           channel: S.optional(S.String),
           checkoutAttemptId: S.optional(S.String),
           countryCode: S.optional(S.String),
           dateOfBirth: S.optional(S.String),
-          deliveryAddress: S.optional(__S(1632, __c51, 0)),
+          deliveryAddress: S.optional(__S(1792, __c56, 0)),
           deviceFingerprint: S.optional(S.String),
           donationAccount: S.optional(S.String),
           donationCampaignId: S.optional(S.String),
           donationOriginalPspReference: S.optional(S.String),
           donationToken: S.optional(S.String),
-          lineItems: S.optional(__S(1313, __c41, 1)),
+          lineItems: S.optional(__S(1473, __c46, 1)),
           merchantAccount: S.String,
-          merchantRiskIndicator: S.optional(__S(1472, __c46, 0)),
-          metadata: S.optional(__S(1728, __c54, 0)),
-          mpiData: S.optional(__S(1344, __c42, 0)),
+          merchantRiskIndicator: S.optional(__S(1632, __c51, 0)),
+          metadata: S.optional(__S(1856, __c58, 0)),
+          mpiData: S.optional(__S(1504, __c47, 0)),
           origin: S.optional(S.String),
           paymentMethod: S.optional(S.Unknown),
           recurringProcessingModel: S.optional(S.String),
@@ -7924,46 +8261,67 @@ function __c39(j: number): any {
           shopperIP: S.optional(S.String),
           shopperInteraction: S.optional(S.String),
           shopperLocale: S.optional(S.String),
-          shopperName: S.optional(__S(1408, __c44, 0)),
+          shopperName: S.optional(__S(1568, __c49, 0)),
           shopperReference: S.optional(S.String),
           socialSecurityNumber: S.optional(S.String),
           store: S.optional(S.String),
           telephoneNumber: S.optional(S.String),
-          threeDS2RequestData: S.optional(__S(1280, __c40, 0)),
+          threeDS2RequestData: S.optional(__S(1440, __c45, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/donations", code: 200 })),
       ).annotate({ identifier: "CreateDonationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           donationAccount: S.optional(S.String),
           id: S.optional(S.String),
           merchantAccount: S.optional(S.String),
-          payment: S.optional(__S(1281, __c40, 1)),
+          payment: S.optional(__S(1441, __c45, 1)),
           reference: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "DonationPaymentResponse" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acctInfo: S.optional(__S(1473, __c46, 1)),
+          accountScore: S.Number,
+          checkId: S.Number,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "FraudCheckResult" });
+    case 1:
+      return S.Array(__S(1408, __c44, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountScore: S.Number,
+          results: S.optional(__S(1409, __c44, 1)),
+        }),
+      ).annotate({ identifier: "FraudResult" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          acctInfo: S.optional(__S(1633, __c51, 1)),
           acctType: S.optional(S.String),
           acquirerBIN: S.optional(S.String),
           acquirerMerchantID: S.optional(S.String),
           addrMatch: S.optional(S.String),
           authenticationOnly: S.optional(S.Boolean),
           challengeIndicator: S.optional(S.String),
-          deviceRenderOptions: S.optional(__S(1474, __c46, 2)),
-          homePhone: S.optional(__S(1410, __c44, 2)),
+          deviceRenderOptions: S.optional(__S(1634, __c51, 2)),
+          homePhone: S.optional(__S(1570, __c49, 2)),
           mcc: S.optional(S.String),
           merchantName: S.optional(S.String),
           messageVersion: S.optional(S.String),
-          mobilePhone: S.optional(__S(1410, __c44, 2)),
+          mobilePhone: S.optional(__S(1570, __c49, 2)),
           notificationURL: S.optional(S.String),
           payTokenInd: S.optional(S.Boolean),
           paymentAuthenticationUseCase: S.optional(S.String),
@@ -7971,49 +8329,49 @@ function __c40(j: number): any {
           recurringExpiry: S.optional(S.String),
           recurringFrequency: S.optional(S.String),
           sdkAppID: S.optional(S.String),
-          sdkEphemPubKey: S.optional(__S(1475, __c46, 3)),
+          sdkEphemPubKey: S.optional(__S(1635, __c51, 3)),
           sdkMaxTimeout: S.optional(S.Number),
           sdkReferenceNumber: S.optional(S.String),
           sdkTransID: S.optional(S.String),
           threeDSCompInd: S.optional(S.String),
           threeDSRequestorAuthenticationInd: S.optional(S.String),
-          threeDSRequestorAuthenticationInfo: S.optional(__S(1476, __c46, 4)),
+          threeDSRequestorAuthenticationInfo: S.optional(__S(1636, __c51, 4)),
           threeDSRequestorChallengeInd: S.optional(S.String),
           threeDSRequestorID: S.optional(S.String),
           threeDSRequestorName: S.optional(S.String),
-          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1477, __c46, 5)),
+          threeDSRequestorPriorAuthenticationInfo: S.optional(__S(1637, __c51, 5)),
           threeDSRequestorURL: S.optional(S.String),
           transType: S.optional(S.String),
           transactionType: S.optional(S.String),
           whiteListStatus: S.optional(S.String),
-          workPhone: S.optional(__S(1410, __c44, 2)),
+          workPhone: S.optional(__S(1570, __c49, 2)),
         }),
       ).annotate({ identifier: "ThreeDS2RequestFields" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.Unknown),
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          amount: S.optional(__S(1696, __c53, 0)),
+          additionalData: S.optional(__S(1856, __c58, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           donationToken: S.optional(S.String),
-          fraudResult: S.optional(__S(1762, __c55, 2)),
+          fraudResult: S.optional(__S(1410, __c44, 2)),
           merchantReference: S.optional(S.String),
-          opi: S.optional(__S(1568, __c49, 0)),
-          order: S.optional(__S(1536, __c48, 0)),
-          paymentMethod: S.optional(__S(1600, __c50, 0)),
-          paymentValidations: S.optional(__S(1540, __c48, 4)),
+          opi: S.optional(__S(1728, __c54, 0)),
+          order: S.optional(__S(1696, __c53, 0)),
+          paymentMethod: S.optional(__S(1760, __c55, 0)),
+          paymentValidations: S.optional(__S(1700, __c53, 4)),
           pspReference: S.optional(S.String),
           refusalReason: S.optional(S.String),
           refusalReasonCode: S.optional(S.String),
           resultCode: S.optional(S.String),
-          threeDS2ResponseData: S.optional(__S(1541, __c48, 5)),
-          threeDS2Result: S.optional(__S(1542, __c48, 6)),
+          threeDS2ResponseData: S.optional(__S(1701, __c53, 5)),
+          threeDS2Result: S.optional(__S(1702, __c53, 6)),
           threeDSPaymentData: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentResponse" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8047,10 +8405,10 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "LineItem" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(1472, __c46, 0));
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8071,7 +8429,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ThreeDSecureData" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8086,7 +8444,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "BillingAddress" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8106,7 +8464,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "Phone" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8124,7 +8482,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "BrowserInfo" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8134,7 +8492,7 @@ function __c46(j: number): any {
           deliveryEmail: S.optional(S.String),
           deliveryEmailAddress: S.optional(S.String),
           deliveryTimeframe: S.optional(S.String),
-          giftCardAmount: S.optional(__S(1696, __c53, 0)),
+          giftCardAmount: S.optional(__S(1216, __c38, 0)),
           giftCardCount: S.optional(S.Number),
           giftCardCurr: S.optional(S.String),
           preOrderDate: S.optional(S.String),
@@ -8170,7 +8528,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sdkInterface: S.optional(S.String),
-          sdkUiType: S.optional(__S(1409, __c44, 1)),
+          sdkUiType: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "DeviceRenderOptions" });
     case 3:
@@ -8201,7 +8559,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ThreeDSRequestorPriorAuthenticationInfo" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8229,17 +8587,17 @@ function __c47(j: number): any {
       ).annotate({ identifier: "AccountInfo" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           expiresAt: S.optional(S.String),
           orderData: S.optional(S.String),
           pspReference: S.String,
           reference: S.optional(S.String),
-          remainingAmount: S.optional(__S(1696, __c53, 0)),
+          remainingAmount: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "CheckoutOrderResponse" });
     case 1:
@@ -8264,15 +8622,15 @@ function __c48(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rawResponse: S.optional(__S(1537, __c48, 1)),
-          result: S.optional(__S(1538, __c48, 2)),
+          rawResponse: S.optional(__S(1697, __c53, 1)),
+          result: S.optional(__S(1698, __c53, 2)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaymentValidationsNameResponse" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(1539, __c48, 3)),
+          name: S.optional(__S(1699, __c53, 3)),
         }),
       ).annotate({ identifier: "PaymentValidationsResponse" });
     case 5:
@@ -8320,7 +8678,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ThreeDS2Result" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8331,7 +8689,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "OpiResponse" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8342,7 +8700,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ResponsePaymentMethod" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8359,7 +8717,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeliveryAddress" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8375,50 +8733,18 @@ function __c52(j: number): any {
         S.Struct({
           attemptAuthentication: S.optional(S.String),
           authenticationOnly: S.optional(S.Boolean),
-          threeDSRequestData: S.optional(__S(1664, __c52, 0)),
+          threeDSRequestData: S.optional(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "AuthenticationData" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          currency: S.String,
-          value: S.Number,
-        }),
-      ).annotate({ identifier: "Amount" });
-  }
-}
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountScore: S.Number,
-          checkId: S.Number,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "FraudCheckResult" });
-    case 1:
-      return S.Array(__S(1760, __c55, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accountScore: S.Number,
-          results: S.optional(__S(1761, __c55, 1)),
-        }),
-      ).annotate({ identifier: "FraudResult" });
-  }
-}
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8435,7 +8761,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
-          values: __S(1824, __c57, 0),
+          values: __S(1920, __c60, 0),
         }),
       ).annotate({ identifier: "Amounts" });
     case 2:
@@ -8445,17 +8771,17 @@ function __c56(j: number): any {
           donationType: S.optional(S.String),
           maxRoundupAmount: S.optional(S.Number),
           type: S.String,
-          values: S.optional(__S(1824, __c57, 0)),
+          values: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "Donation" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amounts: S.optional(__S(1793, __c56, 1)),
+          amounts: S.optional(__S(1889, __c59, 1)),
           bannerUrl: S.optional(S.String),
           campaignName: S.optional(S.String),
           causeName: S.optional(S.String),
-          donation: S.optional(__S(1794, __c56, 2)),
+          donation: S.optional(__S(1890, __c59, 2)),
           id: S.optional(S.String),
           logoUrl: S.optional(S.String),
           nonprofitDescription: S.optional(S.String),
@@ -8465,22 +8791,22 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "DonationCampaign" });
     case 4:
-      return S.Array(__S(1795, __c56, 3));
+      return S.Array(__S(1891, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          donationCampaigns: S.optional(__S(1796, __c56, 4)),
+          donationCampaigns: S.optional(__S(1892, __c59, 4)),
         }),
       ).annotate({ identifier: "DonationCampaignsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8494,10 +8820,10 @@ function __c58(j: number): any {
         S.Struct({
           accountUpdate: S.optional(S.Boolean),
           dryRun: S.optional(S.Boolean),
-          networkToken: S.optional(__S(1856, __c58, 0)),
-          networkTxReferencePaths: S.optional(__S(1216, __c38, 0)),
+          networkToken: S.optional(__S(1952, __c61, 0)),
+          networkTxReferencePaths: S.optional(__S(1344, __c42, 0)),
           tokenize: S.optional(S.Boolean),
-          transactionLinkIdPaths: S.optional(__S(1216, __c38, 0)),
+          transactionLinkIdPaths: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "CheckoutForwardRequestOptions" });
     case 2:
@@ -8520,7 +8846,7 @@ function __c58(j: number): any {
         S.Struct({
           body: S.String,
           credentials: S.optional(S.String),
-          headers: S.optional(__S(1728, __c54, 0)),
+          headers: S.optional(__S(1856, __c58, 0)),
           httpMethod: S.String,
           urlSuffix: S.optional(S.String),
         }),
@@ -8529,13 +8855,13 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: S.optional(__S(1696, __c53, 0)),
+          amount: S.optional(__S(1216, __c38, 0)),
           baseUrl: S.String,
           merchantAccount: S.String,
           merchantReference: S.optional(S.String),
-          options: S.optional(__S(1857, __c58, 1)),
-          paymentMethod: S.optional(__S(1858, __c58, 2)),
-          request: __S(1859, __c58, 3),
+          options: S.optional(__S(1953, __c61, 1)),
+          paymentMethod: S.optional(__S(1954, __c61, 2)),
+          request: __S(1955, __c61, 3),
           shopperReference: S.String,
           storedPaymentMethodId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/forward", code: 200 })),
@@ -8556,50 +8882,21 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           body: S.optional(S.String),
-          headers: S.optional(__S(1728, __c54, 0)),
+          headers: S.optional(__S(1856, __c58, 0)),
           status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CheckoutForwardResponseFromUrl" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          accountUpdate: S.optional(__S(1861, __c58, 5)),
+          accountUpdate: S.optional(__S(1957, __c61, 5)),
           merchantReference: S.optional(S.String),
-          networkToken: S.optional(__S(1862, __c58, 6)),
+          networkToken: S.optional(__S(1958, __c61, 6)),
           pspReference: S.optional(S.String),
-          response: __S(1863, __c58, 7),
+          response: __S(1959, __c61, 7),
           storedPaymentMethodId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckoutForwardResponse" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          amount: __S(1696, __c53, 0),
-          expiresAt: S.optional(S.String),
-          merchantAccount: S.String,
-          reference: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/orders", code: 200 })),
-      ).annotate({ identifier: "CreateOrderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          additionalData: S.optional(__S(1728, __c54, 0)),
-          amount: __S(1696, __c53, 0),
-          expiresAt: S.String,
-          fraudResult: S.optional(__S(1762, __c55, 2)),
-          orderData: S.String,
-          pspReference: S.optional(S.String),
-          reference: S.optional(S.String),
-          refusalReason: S.optional(S.String),
-          remainingAmount: __S(1696, __c53, 0),
-          resultCode: S.String,
-        }),
-      ).annotate({ identifier: "CreateOrderResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

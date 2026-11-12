@@ -40,11 +40,11 @@ export type AccessPolicyResourcePropertiesRolesList = Array<
 >;
 export interface AccessPolicyResourceProperties {
   /** The objectId of the principal in Azure Active Directory. */
-  principalObjectId?: string;
+  principalObjectId?: string | undefined;
   /** An description of the access policy. */
-  description?: string;
+  description?: string | undefined;
   /** The list of roles the principal is assigned on the environment. */
-  roles?: AccessPolicyResourcePropertiesRolesList;
+  roles?: AccessPolicyResourcePropertiesRolesList | undefined;
 }
 export interface AccessPoliciesCreateOrUpdateRequest {
   /** Azure Subscription ID. */
@@ -59,12 +59,12 @@ export interface AccessPoliciesCreateOrUpdateRequest {
 }
 export interface AccessPoliciesCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
-  properties?: AccessPolicyResourceProperties;
+  type?: string | undefined;
+  properties?: AccessPolicyResourceProperties | undefined;
 }
 export interface DeleteAccessPolicyRequest {
   /** Azure Subscription ID. */
@@ -131,7 +131,7 @@ export interface EnvironmentsCreateOrUpdateRequest {
   /** The location of the resource. */
   location: string;
   /** Key-value pairs of additional properties for the resource. */
-  tags?: EnvironmentsCreateOrUpdateRequestTagsMap;
+  tags?: EnvironmentsCreateOrUpdateRequestTagsMap | undefined;
   /** The kind of the environment. */
   kind: EnvironmentsCreateOrUpdateRequestKind | (string & {});
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
@@ -143,15 +143,15 @@ export type EnvironmentsCreateOrUpdateResponseTagsMap = { [key: string]: string 
 export type EnvironmentsCreateOrUpdateResponseKind = "Gen1" | "Gen2";
 export interface EnvironmentsCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EnvironmentsCreateOrUpdateResponseTagsMap;
+  tags?: EnvironmentsCreateOrUpdateResponseTagsMap | undefined;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
@@ -166,14 +166,14 @@ export type LocalTimestampFormat = "Embedded";
 /** An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded. */
 export interface LocalTimestampTimeZoneOffset {
   /** The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00) */
-  propertyName?: string;
+  propertyName?: string | undefined;
 }
 /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
 export interface LocalTimestamp {
   /** An enum that represents the format of the local timestamp property that needs to be set. */
-  format?: LocalTimestampFormat | (string & {});
+  format?: LocalTimestampFormat | (string & {}) | undefined;
   /** An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded. */
-  timeZoneOffset?: LocalTimestampTimeZoneOffset;
+  timeZoneOffset?: LocalTimestampTimeZoneOffset | undefined;
 }
 export interface EventSourcesCreateOrUpdateRequest {
   /** Azure Subscription ID. */
@@ -187,11 +187,11 @@ export interface EventSourcesCreateOrUpdateRequest {
   /** The location of the resource. */
   location: string;
   /** Key-value pairs of additional properties for the resource. */
-  tags?: EventSourcesCreateOrUpdateRequestTagsMap;
+  tags?: EventSourcesCreateOrUpdateRequestTagsMap | undefined;
   /** The kind of the event source. */
   kind: EventSourcesCreateOrUpdateRequestKind | (string & {});
   /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
-  localTimestamp?: LocalTimestamp;
+  localTimestamp?: LocalTimestamp | undefined;
 }
 /** Resource tags */
 export type EventSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -199,15 +199,15 @@ export type EventSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string 
 export type EventSourcesCreateOrUpdateResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
 export interface EventSourcesCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EventSourcesCreateOrUpdateResponseTagsMap;
+  tags?: EventSourcesCreateOrUpdateResponseTagsMap | undefined;
   /** The kind of the event source. */
   kind: EventSourcesCreateOrUpdateResponseKind;
 }
@@ -223,12 +223,12 @@ export interface GetAccessPolicyRequest {
 }
 export interface GetAccessPolicyResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
-  properties?: AccessPolicyResourceProperties;
+  type?: string | undefined;
+  properties?: AccessPolicyResourceProperties | undefined;
 }
 export interface GetEnvironmentRequest {
   /** Azure Subscription ID. */
@@ -238,7 +238,7 @@ export interface GetEnvironmentRequest {
   /** The name of the Time Series Insights environment associated with the specified resource group. */
   environmentName: string;
   /** Setting $expand=status will include the status of the internal services of the environment in the Time Series Insights service. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags */
 export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined };
@@ -246,15 +246,15 @@ export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined 
 export type GetEnvironmentResponseKind = "Gen1" | "Gen2";
 export interface GetEnvironmentResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: GetEnvironmentResponseTagsMap;
+  tags?: GetEnvironmentResponseTagsMap | undefined;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
@@ -276,15 +276,15 @@ export type GetEventSourceResponseTagsMap = { [key: string]: string | undefined 
 export type GetEventSourceResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
 export interface GetEventSourceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: GetEventSourceResponseTagsMap;
+  tags?: GetEventSourceResponseTagsMap | undefined;
   /** The kind of the event source. */
   kind: GetEventSourceResponseKind;
 }
@@ -305,9 +305,9 @@ export type ReferenceDataSetKeyPropertyType = "String" | "Double" | "Bool" | "Da
 /** A key property for the reference data set. A reference data set can have multiple key properties. */
 export interface ReferenceDataSetKeyProperty {
   /** The name of the key property. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the key property. */
-  type?: ReferenceDataSetKeyPropertyType | (string & {});
+  type?: ReferenceDataSetKeyPropertyType | (string & {}) | undefined;
 }
 /** The list of key properties for the reference data set. */
 export type ReferenceDataSetResourcePropertiesKeyPropertiesList =
@@ -329,24 +329,26 @@ export interface ReferenceDataSetResourceProperties {
   /** The list of key properties for the reference data set. */
   keyProperties: ReferenceDataSetResourcePropertiesKeyPropertiesList;
   /** The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used. */
-  dataStringComparisonBehavior?: ReferenceDataSetResourcePropertiesDataStringComparisonBehavior;
+  dataStringComparisonBehavior?:
+    | ReferenceDataSetResourcePropertiesDataStringComparisonBehavior
+    | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The time the resource was created. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export interface GetReferenceDataSetResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: GetReferenceDataSetResponseTagsMap;
-  properties?: ReferenceDataSetResourceProperties;
+  tags?: GetReferenceDataSetResponseTagsMap | undefined;
+  properties?: ReferenceDataSetResourceProperties | undefined;
 }
 export interface ListAccessPolicyByEnvironmentRequest {
   /** Azure Subscription ID. */
@@ -359,19 +361,19 @@ export interface ListAccessPolicyByEnvironmentRequest {
 /** An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs. */
 export interface AccessPolicyResource {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
-  properties?: AccessPolicyResourceProperties;
+  type?: string | undefined;
+  properties?: AccessPolicyResourceProperties | undefined;
 }
 /** Result of the List access policies operation. */
 export type AccessPolicyListResponseValueList = Array<AccessPolicyResource>;
 /** The response of the List access policies operation. */
 export interface AccessPolicyListResponse {
   /** Result of the List access policies operation. */
-  value?: AccessPolicyListResponseValueList;
+  value?: AccessPolicyListResponseValueList | undefined;
 }
 export interface ListEnvironmentByResourceGroupRequest {
   /** Azure Subscription ID. */
@@ -386,15 +388,15 @@ export type EnvironmentResourceKind = "Gen1" | "Gen2";
 /** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. */
 export interface EnvironmentResource {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EnvironmentResourceTagsMap;
+  tags?: EnvironmentResourceTagsMap | undefined;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
@@ -405,7 +407,7 @@ export type EnvironmentListResponseValueList = Array<EnvironmentResource>;
 /** The response of the List Environments operation. */
 export interface EnvironmentListResponse {
   /** Result of the List Environments operation. */
-  value?: EnvironmentListResponseValueList;
+  value?: EnvironmentListResponseValueList | undefined;
 }
 export interface ListEnvironmentBySubscriptionRequest {
   /** Azure Subscription ID. */
@@ -426,15 +428,15 @@ export type EventSourceResourceKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
 /** An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source */
 export interface EventSourceResource {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: EventSourceResourceTagsMap;
+  tags?: EventSourceResourceTagsMap | undefined;
   /** The kind of the event source. */
   kind: EventSourceResourceKind;
 }
@@ -443,97 +445,97 @@ export type EventSourceListResponseValueList = Array<EventSourceResource>;
 /** The response of the List EventSources operation. */
 export interface EventSourceListResponse {
   /** Result of the List EventSources operation. */
-  value?: EventSourceListResponseValueList;
+  value?: EventSourceListResponseValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Contains the localized display information for this particular operation / action. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly form of the resource type related to this action/operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Dimension of blobs, possibly be blob type or access tier. */
 export interface Dimension {
   /** Display name of dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Dimensions of blobs, including blob type and access tier. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Retention policy of a resource metric. */
 export interface MetricAvailability {
-  timeGrain?: string;
-  blobDuration?: string;
+  timeGrain?: string | undefined;
+  blobDuration?: string | undefined;
 }
 /** Retention policies of a resource metric. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
 /** Metric specification of operation. */
 export interface MetricSpecification {
   /** Name of metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit could be Bytes or Count. */
-  unit?: string;
+  unit?: string | undefined;
   /** Dimensions of blobs, including blob type and access tier. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Aggregation type could be Average. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Retention policies of a resource metric. */
-  availabilities?: MetricSpecificationAvailabilitiesList;
+  availabilities?: MetricSpecificationAvailabilitiesList | undefined;
   /** The category this metric specification belong to, could be Capacity. */
-  category?: string;
+  category?: string | undefined;
   /** Account Resource Id. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
 }
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** The specification of an Azure Monitoring log. */
 export interface LogSpecification {
   /** Log name. */
-  name?: string;
+  name?: string | undefined;
   /** Log display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A list of Azure Monitoring log definitions. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** One property of operation, include metric specifications. */
 export interface ServiceSpecification {
   /** Metric specifications of operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** A list of Azure Monitoring log definitions. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
   /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** A Time Series Insights REST API operation */
 export interface Operation {
   /** The name of the operation being performed on this particular object. */
-  name?: string;
+  name?: string | undefined;
   /** Contains the localized display information for this particular operation / action. */
-  display?: OperationDisplay;
-  origin?: string;
-  properties?: OperationProperties;
+  display?: OperationDisplay | undefined;
+  origin?: string | undefined;
+  properties?: OperationProperties | undefined;
 }
 /** List of Time Series Insights operations supported by the Microsoft.TimeSeriesInsights resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Time Series Insights operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Time Series Insights operations supported by the Microsoft.TimeSeriesInsights resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReferenceDataSetByEnvironmentRequest {
   /** Azure Subscription ID. */
@@ -548,23 +550,23 @@ export type ReferenceDataSetResourceTagsMap = { [key: string]: string | undefine
 /** A reference data set provides metadata about the events in an environment. Metadata in the reference data set will be joined with events as they are read from event sources. The metadata that makes up the reference data set is uploaded or modified through the Time Series Insights data plane APIs. */
 export interface ReferenceDataSetResource {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: ReferenceDataSetResourceTagsMap;
-  properties?: ReferenceDataSetResourceProperties;
+  tags?: ReferenceDataSetResourceTagsMap | undefined;
+  properties?: ReferenceDataSetResourceProperties | undefined;
 }
 /** Result of the List Reference Data Sets operation. */
 export type ReferenceDataSetListResponseValueList = Array<ReferenceDataSetResource>;
 /** The response of the List Reference Data Sets operation. */
 export interface ReferenceDataSetListResponse {
   /** Result of the List Reference Data Sets operation. */
-  value?: ReferenceDataSetListResponseValueList;
+  value?: ReferenceDataSetListResponseValueList | undefined;
 }
 /** Key-value pairs of additional properties for the resource. */
 export type ReferenceDataSetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -582,7 +584,8 @@ export interface ReferenceDataSetCreationProperties {
   /** The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used. */
   dataStringComparisonBehavior?:
     | ReferenceDataSetCreationPropertiesDataStringComparisonBehavior
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ReferenceDataSetsCreateOrUpdateRequest {
   /** Azure Subscription ID. */
@@ -596,23 +599,23 @@ export interface ReferenceDataSetsCreateOrUpdateRequest {
   /** The location of the resource. */
   location: string;
   /** Key-value pairs of additional properties for the resource. */
-  tags?: ReferenceDataSetsCreateOrUpdateRequestTagsMap;
+  tags?: ReferenceDataSetsCreateOrUpdateRequestTagsMap | undefined;
   properties: ReferenceDataSetCreationProperties;
 }
 /** Resource tags */
 export type ReferenceDataSetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ReferenceDataSetsCreateOrUpdateResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: ReferenceDataSetsCreateOrUpdateResponseTagsMap;
-  properties?: ReferenceDataSetResourceProperties;
+  tags?: ReferenceDataSetsCreateOrUpdateResponseTagsMap | undefined;
+  properties?: ReferenceDataSetResourceProperties | undefined;
 }
 /** A role defining the data plane operations that a principal can perform on a Time Series Insights client. */
 export type AccessPolicyMutablePropertiesRolesItem = "Reader" | "Contributor";
@@ -623,9 +626,9 @@ export type AccessPolicyMutablePropertiesRolesList = Array<
 /** An object that represents a set of mutable access policy resource properties. */
 export interface AccessPolicyMutableProperties {
   /** An description of the access policy. */
-  description?: string;
+  description?: string | undefined;
   /** The list of roles the principal is assigned on the environment. */
-  roles?: AccessPolicyMutablePropertiesRolesList;
+  roles?: AccessPolicyMutablePropertiesRolesList | undefined;
 }
 export interface UpdateAccessPolicyRequest {
   /** Azure Subscription ID. */
@@ -636,16 +639,16 @@ export interface UpdateAccessPolicyRequest {
   environmentName: string;
   /** The name of the Time Series Insights access policy associated with the specified environment. */
   accessPolicyName: string;
-  properties?: AccessPolicyMutableProperties;
+  properties?: AccessPolicyMutableProperties | undefined;
 }
 export interface UpdateAccessPolicyResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
-  properties?: AccessPolicyResourceProperties;
+  type?: string | undefined;
+  properties?: AccessPolicyResourceProperties | undefined;
 }
 /** The kind of the environment. */
 export type UpdateEnvironmentRequestKind = "Gen1" | "Gen2";
@@ -661,7 +664,7 @@ export interface UpdateEnvironmentRequest {
   /** The kind of the environment. */
   kind: UpdateEnvironmentRequestKind | (string & {});
   /** Key-value pairs of additional properties for the environment. */
-  tags?: UpdateEnvironmentRequestTagsMap;
+  tags?: UpdateEnvironmentRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefined };
@@ -669,15 +672,15 @@ export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefin
 export type UpdateEnvironmentResponseKind = "Gen1" | "Gen2";
 export interface UpdateEnvironmentResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: UpdateEnvironmentResponseTagsMap;
+  tags?: UpdateEnvironmentResponseTagsMap | undefined;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
@@ -699,7 +702,7 @@ export interface UpdateEventSourceRequest {
   /** The kind of the event source. */
   kind: UpdateEventSourceRequestKind | (string & {});
   /** Key-value pairs of additional properties for the event source. */
-  tags?: UpdateEventSourceRequestTagsMap;
+  tags?: UpdateEventSourceRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateEventSourceResponseTagsMap = { [key: string]: string | undefined };
@@ -707,15 +710,15 @@ export type UpdateEventSourceResponseTagsMap = { [key: string]: string | undefin
 export type UpdateEventSourceResponseKind = "Microsoft.EventHub" | "Microsoft.IoTHub";
 export interface UpdateEventSourceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: UpdateEventSourceResponseTagsMap;
+  tags?: UpdateEventSourceResponseTagsMap | undefined;
   /** The kind of the event source. */
   kind: UpdateEventSourceResponseKind;
 }
@@ -731,22 +734,22 @@ export interface UpdateReferenceDataSetRequest {
   /** The name of the Time Series Insights reference data set associated with the specified environment. */
   referenceDataSetName: string;
   /** Key-value pairs of additional properties for the reference data set. */
-  tags?: UpdateReferenceDataSetRequestTagsMap;
+  tags?: UpdateReferenceDataSetRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateReferenceDataSetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateReferenceDataSetResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
   location: string;
   /** Resource tags */
-  tags?: UpdateReferenceDataSetResponseTagsMap;
-  properties?: ReferenceDataSetResourceProperties;
+  tags?: UpdateReferenceDataSetResponseTagsMap | undefined;
+  properties?: ReferenceDataSetResourceProperties | undefined;
 }
 export type AccessPoliciesCreateOrUpdateError = AzureOpError;
 /** Create or update an access policy in the specified environment. */

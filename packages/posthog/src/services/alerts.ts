@@ -73,56 +73,68 @@ export interface AlertsDestroyResponse {}
 export type CreateAlertRequestSubscribedUsersList = Array<number>;
 export interface InsightsThresholdBounds {
   /** Alert fires when the value drops below this number. */
-  lower?: number | null;
+  lower?: number | null | undefined;
   /** Alert fires when the value exceeds this number. */
-  upper?: number | null;
+  upper?: number | null | undefined;
 }
 export type InsightThresholdType = "absolute" | "percentage";
 export interface InsightThreshold {
-  bounds?: InsightsThresholdBounds | null;
+  bounds?: InsightsThresholdBounds | null | undefined;
   /** Whether bounds are compared as absolute values or as percentage change from the previous interval. */
-  type?: InsightThresholdType | (string & {});
+  type?: InsightThresholdType | (string & {}) | undefined;
 }
 export interface ThresholdInput {
   /** Optional name for the threshold. */
-  name?: string;
+  name?: string | undefined;
   /** Threshold bounds and type. Includes bounds (lower/upper floats) and type (absolute or percentage). For threshold-based alerts (no detector_config), at least one of lower or upper must be set. */
-  configuration?: InsightThreshold;
+  configuration?: InsightThreshold | undefined;
 }
 export type AlertConditionType = "absolute_value" | "relative_increase" | "relative_decrease";
 export interface AlertCondition {
-  type?: AlertConditionType | (string & {});
+  type?: AlertConditionType | (string & {}) | undefined;
 }
 export interface TrendsAlertConfig {
   /** When true, evaluate the current (still incomplete) time interval in addition to completed ones. */
-  check_ongoing_interval?: boolean | null;
+  check_ongoing_interval?: boolean | null | undefined;
   /** Zero-based index of the series in the insight's query to monitor. */
-  series_index?: number;
-  type?: string;
+  series_index?: number | undefined;
+  type?: string | undefined;
 }
 export type HogQLAlertEvaluation = "last_row" | "first_row" | "any_row";
 export interface HogQLAlertConfig {
   /** Name of the result column to evaluate. When unset, the single numeric column is used (an error if the result has more than one numeric column). */
-  column?: string | null;
+  column?: string | null | undefined;
   /** How to read the result rows -- an explicit choice, no implicit default. */
   evaluation: HogQLAlertEvaluation | (string & {});
   /** Column whose value labels the evaluated row(s) in breach messages: every row in `any_row` mode, or the single evaluated row in `last_row`/`first_row`. When unset, the first non-evaluated column is used, falling back to the row number (any_row) or the value column name (last_row/first_row). */
-  label_column?: string | null;
-  type?: string;
+  label_column?: string | null | undefined;
+  type?: string | undefined;
 }
 export type FunnelConversionMetric = "conversion_from_start" | "conversion_from_previous";
 export interface FunnelsAlertConfig {
   /** When true, evaluate the current (still in-progress) period; by default only completed periods are used. */
-  check_ongoing_interval?: boolean | null;
+  check_ongoing_interval?: boolean | null | undefined;
   /** Zero-based step index to evaluate. Null = the last step (overall conversion). */
-  funnel_step?: number | null;
+  funnel_step?: number | null | undefined;
   metric: FunnelConversionMetric | (string & {});
-  type?: string;
+  type?: string | undefined;
 }
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null | undefined;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsAlertConfigVariablesMap = {
+  [key: string]: MetricsDashboardVariableSelection | undefined;
+};
 export interface MetricsAlertConfig {
   /** When true, anchor on the trailing (possibly still accumulating) bucket instead of the last complete one. */
-  check_ongoing_interval?: boolean | null;
-  type?: string;
+  check_ongoing_interval?: boolean | null | undefined;
+  type?: string | undefined;
+  /** Values for the `$name` variables in the insight's query. */
+  variables?: MetricsAlertConfigVariablesMap | null | undefined;
 }
 /** Per-insight-kind alert config, discriminated by ``type`` -- keeps the OpenAPI (and the generated frontend types and MCP tool schemas) in sync with every kind alerts support. */
 export type AlertConfigUnion =
@@ -132,117 +144,117 @@ export type AlertConfigUnion =
   | MetricsAlertConfig;
 export interface PreprocessingConfig {
   /** Order of differencing. 0 = raw values, 1 = first-order diffs (default: 0) */
-  diffs_n?: number | null;
+  diffs_n?: number | null | undefined;
   /** Number of lag features. 0 = none, >0 = include n lagged values (default: 0) */
-  lags_n?: number | null;
+  lags_n?: number | null | undefined;
   /** Moving average window size. 0 = no smoothing, >1 = smooth over n points (default: 0) */
-  smooth_n?: number | null;
+  smooth_n?: number | null | undefined;
 }
 export interface ZScoreDetectorConfig {
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold [0-1]. Points above this probability are flagged (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size for calculating mean/std (default: 30) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface MADDetectorConfig {
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold [0-1]. Points above this probability are flagged (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size for calculating median/MAD (default: 30) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface IQRDetectorConfig {
   /** IQR multiplier for fence calculation (default: 1.5, use 3.0 for far outliers) */
-  multiplier?: number | null;
+  multiplier?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
-  type?: string;
+  preprocessing?: PreprocessingConfig | null | undefined;
+  type?: string | undefined;
   /** Rolling window size for calculating quartiles (default: 30) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface ThresholdDetectorConfig {
   /** Lower bound - values below this are anomalies */
-  lower_bound?: number | null;
+  lower_bound?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
-  type?: string;
+  preprocessing?: PreprocessingConfig | null | undefined;
+  type?: string | undefined;
   /** Upper bound - values above this are anomalies */
-  upper_bound?: number | null;
+  upper_bound?: number | null | undefined;
 }
 export interface ECODDetectorConfig {
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export type COPODDetectorConfig = ECODDetectorConfig;
 export interface IsolationForestDetectorConfig {
   /** Number of trees in the forest (default: 100) */
-  n_estimators?: number | null;
+  n_estimators?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export type Method = "largest" | "mean" | "median";
 export interface KNNDetectorConfig {
   /** Distance method: 'largest', 'mean', 'median' (default: 'largest') */
-  method?: Method | (string & {}) | null;
+  method?: Method | (string & {}) | null | undefined;
   /** Number of neighbors to consider (default: 5) */
-  n_neighbors?: number | null;
+  n_neighbors?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface HBOSDetectorConfig {
   /** Number of histogram bins (default: 10) */
-  n_bins?: number | null;
+  n_bins?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface LOFDetectorConfig {
   /** Number of neighbors for LOF (default: 20) */
-  n_neighbors?: number | null;
+  n_neighbors?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export interface OCSVMDetectorConfig {
   /** SVM kernel type (default: "rbf") */
-  kernel?: string | null;
+  kernel?: string | null | undefined;
   /** Upper bound on training errors fraction (default: 0.1) */
-  nu?: number | null;
+  nu?: number | null | undefined;
   /** Preprocessing transforms applied before detection */
-  preprocessing?: PreprocessingConfig | null;
+  preprocessing?: PreprocessingConfig | null | undefined;
   /** Anomaly probability threshold (default: 0.9) */
-  threshold?: number | null;
-  type?: string;
+  threshold?: number | null | undefined;
+  type?: string | undefined;
   /** Rolling window size -- how many historical data points to train on (default: based on calculation interval) */
-  window?: number | null;
+  window?: number | null | undefined;
 }
 export type PCADetectorConfig = ECODDetectorConfig;
 export type EnsembleDetectorConfigDetectorsItem =
@@ -263,19 +275,15 @@ export type EnsembleDetectorConfigDetectorsList = Array<EnsembleDetectorConfigDe
 export type EnsembleOperator = "and" | "or";
 export interface EnsembleDetectorConfig {
   /** Sub-detector configurations (minimum 2) */
-  detectors?: EnsembleDetectorConfigDetectorsList;
+  detectors?: EnsembleDetectorConfigDetectorsList | undefined;
   /** How to combine sub-detector results */
-  operator?: EnsembleOperator | (string & {});
-  type?: string;
+  operator?: EnsembleOperator | (string & {}) | undefined;
+  type?: string | undefined;
 }
 export interface LLMDetectorConfig {
   /** What counts as unusual or interesting for this metric, in your own words. Optional. */
-  instructions?: string | null;
-  /** Minimum confidence [0-1] the model must report before the alert fires (default: 0.7) */
-  threshold?: number | null;
-  type?: string;
-  /** How many recent points the model is shown (default: 90) */
-  window?: number | null;
+  instructions?: string | null | undefined;
+  type?: string | undefined;
 }
 /** Detector configuration types */
 export type DetectorConfig =
@@ -303,15 +311,15 @@ export type CalculationIntervalEnum =
   | "monthly";
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 /** * `notify` - Notify * `suppress` - Suppress */
 export type InvestigationInconclusiveActionEnum = "notify" | "suppress";
@@ -319,38 +327,41 @@ export interface CreateAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Insight ID monitored by this alert. Note: Response returns full InsightBasicSerializer object. */
-  insight?: number;
+  insight?: number | undefined;
   /** Human-readable name for the alert. */
-  name?: string;
+  name?: string | undefined;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
-  subscribed_users?: CreateAlertRequestSubscribedUsersList;
+  subscribed_users?: CreateAlertRequestSubscribedUsersList | undefined;
   /** Threshold configuration with bounds and type for evaluating the alert. */
-  threshold?: ThresholdInput;
+  threshold?: ThresholdInput | undefined;
   /** Alert condition type. Determines how the value is evaluated: absolute_value, relative_increase, or relative_decrease. */
-  condition?: AlertCondition | null;
+  condition?: AlertCondition | null | undefined;
   /** Whether the alert is actively being evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
-  schedule_start_time?: string | null;
+  schedule_start_time?: string | null | undefined;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
-  config?: AlertConfigUnion | null;
-  detector_config?: DetectorConfig | null;
+  config?: AlertConfigUnion | null | undefined;
+  detector_config?: DetectorConfig | null | undefined;
   /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  calculation_interval?: CalculationIntervalEnum | (string & {});
+  calculation_interval?: CalculationIntervalEnum | (string & {}) | undefined;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Skip alert evaluation on weekends (Saturday and Sunday, local to project timezone). */
-  skip_weekend?: boolean | null;
+  skip_weekend?: boolean | null | undefined;
   /** Blocked local time windows (HH:MM in the project timezone). Interval is half-open [start, end): start inclusive, end exclusive. Use blocked_windows array of {start, end}. Null disables. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts. */
-  investigation_agent_enabled?: boolean;
+  investigation_agent_enabled?: boolean | undefined;
   /** When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls. */
-  investigation_gates_notifications?: boolean;
+  investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
-  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum | (string & {});
+  investigation_inconclusive_action?:
+    | InvestigationInconclusiveActionEnum
+    | (string & {})
+    | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -367,25 +378,25 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type AlertSubscribedUsersList = Array<number>;
 export interface Threshold {
-  id?: string;
-  created_at?: string;
+  id?: string | undefined;
+  created_at?: string | undefined;
   /** Optional name for the threshold. */
-  name?: string;
+  name?: string | undefined;
   /** Threshold bounds and type. Includes bounds (lower/upper floats) and type (absolute or percentage). For threshold-based alerts (no detector_config), at least one of lower or upper must be set. */
-  configuration?: InsightThreshold;
+  configuration?: InsightThreshold | undefined;
 }
 /** * `Firing` - Firing * `Not firing` - Not firing * `Errored` - Errored * `Snoozed` - Snoozed */
 export type AlertCheckStateEnum = "Firing" | "Not firing" | "Errored" | "Snoozed";
@@ -400,9 +411,9 @@ export interface AlertDelivery {
   /** Email address, or destination name, that received the notification. */
   target: string;
   /** Hog function ID, for destination deliveries. Null for email. */
-  target_id?: string | null;
+  target_id?: string | null | undefined;
   /** Destination template: 'slack', 'discord', 'webhook', or 'teams'. Null for email. */
-  template?: string | null;
+  template?: string | null | undefined;
   /** Delivery status. Always 'accepted', for a confirmed send. */
   status: string;
   /** When the delivery was recorded. */
@@ -413,86 +424,86 @@ export interface AlertDelivery {
 /** Destinations that accepted this check's notification, one record per destination (channel, target, status, at). Null when no delivery receipt was recorded, which covers checks that notified nobody and checks predating delivery receipts. */
 export type AlertCheckDeliveriesList = Array<AlertDelivery>;
 export interface AlertCheck {
-  id?: string;
-  created_at?: string;
-  calculated_value?: number | null;
-  state?: AlertCheckStateEnum;
-  error?: AlertCheckErrorMap | null;
-  targets_notified?: boolean;
-  anomaly_scores?: unknown;
-  triggered_points?: unknown;
-  triggered_dates?: unknown;
-  interval?: string | null;
-  triggered_metadata?: unknown;
-  investigation_status?: InvestigationStatusEnum | null;
-  investigation_verdict?: InvestigationVerdictEnum | null;
-  investigation_summary?: string | null;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  calculated_value?: number | null | undefined;
+  state?: AlertCheckStateEnum | undefined;
+  error?: AlertCheckErrorMap | null | undefined;
+  targets_notified?: boolean | undefined;
+  anomaly_scores?: unknown | undefined;
+  triggered_points?: unknown | undefined;
+  triggered_dates?: unknown | undefined;
+  interval?: string | null | undefined;
+  triggered_metadata?: unknown | undefined;
+  investigation_status?: InvestigationStatusEnum | null | undefined;
+  investigation_verdict?: InvestigationVerdictEnum | null | undefined;
+  investigation_summary?: string | null | undefined;
   /** Short ID of the Notebook produced by the investigation agent, when the agent ran for this check. */
-  investigation_notebook_short_id?: string | null;
-  notification_sent_at?: string | null;
-  notification_suppressed_by_agent?: boolean;
+  investigation_notebook_short_id?: string | null | undefined;
+  notification_sent_at?: string | null | undefined;
+  notification_suppressed_by_agent?: boolean | undefined;
   /** Destinations that accepted this check's notification, one record per destination (channel, target, status, at). Null when no delivery receipt was recorded, which covers checks that notified nobody and checks predating delivery receipts. */
-  deliveries?: AlertCheckDeliveriesList | null;
+  deliveries?: AlertCheckDeliveriesList | null | undefined;
 }
 /** Alert check results. By default returns the last 5. Use checks_date_from and checks_date_to (e.g. '-24h', '-7d') to get checks within a time window, checks_limit to cap how many are returned (default 5, max 500), and checks_offset to skip the newest N checks for pagination (0-based). Newest checks first. Only populated on retrieve. */
 export type AlertChecksList = Array<AlertCheck>;
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface Alert {
-  id?: string;
-  created_by?: UserBasic | null;
-  created_at?: string;
+  id?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
   /** Insight ID monitored by this alert. Note: Response returns full InsightBasicSerializer object. */
-  insight?: number;
+  insight?: number | undefined;
   /** Short ID of the insight monitored by this alert. */
-  insight_short_id?: string;
+  insight_short_id?: string | undefined;
   /** Display name of the insight monitored by this alert. */
-  insight_display_name?: string;
+  insight_display_name?: string | undefined;
   /** Whether this alert can use the AI detector, judged for the person who created it, since scheduled checks run as the creator. Only computed when retrieving a single alert; null elsewhere. */
-  llm_detector_available?: boolean | null;
+  llm_detector_available?: boolean | null | undefined;
   /** Human-readable name for the alert. */
-  name?: string;
+  name?: string | undefined;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
-  subscribed_users?: AlertSubscribedUsersList;
+  subscribed_users?: AlertSubscribedUsersList | undefined;
   /** Threshold configuration with bounds and type for evaluating the alert. */
-  threshold?: Threshold;
+  threshold?: Threshold | undefined;
   /** Alert condition type. Determines how the value is evaluated: absolute_value, relative_increase, or relative_decrease. */
-  condition?: AlertCondition | null;
+  condition?: AlertCondition | null | undefined;
   /** Current alert state: Firing, Not firing, Errored, or Snoozed. */
-  state?: string;
+  state?: string | undefined;
   /** Whether the alert is actively being evaluated. */
-  enabled?: boolean;
-  last_notified_at?: string | null;
-  last_checked_at?: string | null;
+  enabled?: boolean | undefined;
+  last_notified_at?: string | null | undefined;
+  last_checked_at?: string | null | undefined;
   /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
-  schedule_start_time?: string | null;
-  next_check_at?: string | null;
+  schedule_start_time?: string | null | undefined;
+  next_check_at?: string | null | undefined;
   /** Alert check results. By default returns the last 5. Use checks_date_from and checks_date_to (e.g. '-24h', '-7d') to get checks within a time window, checks_limit to cap how many are returned (default 5, max 500), and checks_offset to skip the newest N checks for pagination (0-based). Newest checks first. Only populated on retrieve. */
-  checks?: AlertChecksList;
+  checks?: AlertChecksList | undefined;
   /** Total alert checks matching the retrieve filters (date window). Only set on alert retrieve; omitted otherwise. */
-  checks_total?: number | null;
+  checks_total?: number | null | undefined;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
-  config?: AlertConfigUnion | null;
-  detector_config?: DetectorConfig | null;
+  config?: AlertConfigUnion | null | undefined;
+  detector_config?: DetectorConfig | null | undefined;
   /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  calculation_interval?: CalculationIntervalEnum;
+  calculation_interval?: CalculationIntervalEnum | undefined;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Skip alert evaluation on weekends (Saturday and Sunday, local to project timezone). */
-  skip_weekend?: boolean | null;
+  skip_weekend?: boolean | null | undefined;
   /** Blocked local time windows (HH:MM in the project timezone). Interval is half-open [start, end): start inclusive, end exclusive. Use blocked_windows array of {start, end}. Null disables. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** The last calculated value from the most recent alert check. */
-  last_value?: number | null;
+  last_value?: number | null | undefined;
   /** When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts. */
-  investigation_agent_enabled?: boolean;
+  investigation_agent_enabled?: boolean | undefined;
   /** When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls. */
-  investigation_gates_notifications?: boolean;
+  investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
-  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum;
+  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
 }
 /** * `slack` - slack */
 export type ChannelTypeEnum = "slack";
@@ -502,13 +513,13 @@ export interface CreateAlertsDestinationRequest {
   /** A UUID string identifying this alert configuration. */
   id: string;
   /** Destination type. Slack is the only type this endpoint creates. * `slack` - slack */
-  type?: ChannelTypeEnum | (string & {});
+  type?: ChannelTypeEnum | (string & {}) | undefined;
   /** Integration ID of the Slack workspace to post in. List them with the integrations endpoint. */
   slack_workspace_id: number;
   /** Slack channel ID to post in, for example C0123456789. */
   slack_channel_id: string;
   /** Channel name shown on the destination, for example product-alerts. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
 }
 /** IDs of the created destination. Pass them to destinations/delete to remove it. */
 export type AlertDestinationResponseHogFunctionIdsList = Array<string>;
@@ -522,23 +533,25 @@ export interface CreateAlertsSimulateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Skip this many completed insight intervals before simulation, matching live evaluation. Time-series Trends only; a positive delay requires check_ongoing_interval=false. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** Numeric insight ID or saved insight short ID to simulate the detector on. */
-  insight?: CreateAlertsSimulateRequestInsight;
+  insight?: CreateAlertsSimulateRequestInsight | undefined;
   /** Detector configuration to simulate. Omit it to use the default daily z-score detector (threshold 0.95, window 90, first-difference preprocessing). */
-  detector_config?: DetectorConfig;
+  detector_config?: DetectorConfig | undefined;
   /** Zero-based index of the series to analyze (trends insights only). */
-  series_index?: number;
+  series_index?: number | undefined;
   /** Relative date string for how far back to simulate (e.g. '-24h', '-30d', '-4w'). If not provided, uses the detector's minimum required samples. Trends insights only -- a SQL query's own rows are the series. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** Per-insight-kind alert config. For SQL insights, selects the evaluated column and read direction (last_row/first_row) so the preview matches the alert; ignored for trends. */
-  config?: AlertConfigUnion | null;
+  config?: AlertConfigUnion | null | undefined;
+  /** ID of the saved alert this preview is for. The AI detector reads the points that the alert's earlier AI checks fired on, the same way a live check does. Omit it for a new alert. */
+  alert?: string | null | undefined;
 }
 /** Data values for each point. */
 export type AlertSimulateResponseDataList = Array<number>;
 /** Date labels for each point. */
 export type AlertSimulateResponseDatesList = Array<string>;
-/** Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict. */
+/** Score for each point. Null can mean insufficient data or a valid unscored point. The AI detector has no score, so every point is null in an AI preview. */
 export type AlertSimulateResponseScoresList = Array<number | null>;
 /** Indices of points flagged as anomalies. */
 export type AlertSimulateResponseTriggeredIndicesList = Array<number>;
@@ -566,55 +579,65 @@ export type BreakdownSimulationResultSubDetectorScoresList =
   Array<BreakdownSimulationResultSubDetectorScoresItemMap>;
 export interface BreakdownSimulationResult {
   /** Breakdown value label. */
-  label?: string;
+  label?: string | undefined;
   /** Data values for each point. */
-  data?: BreakdownSimulationResultDataList;
+  data?: BreakdownSimulationResultDataList | undefined;
   /** Date labels for each point. */
-  dates?: BreakdownSimulationResultDatesList;
+  dates?: BreakdownSimulationResultDatesList | undefined;
   /** Anomaly score for each point. */
-  scores?: BreakdownSimulationResultScoresList;
+  scores?: BreakdownSimulationResultScoresList | undefined;
   /** Indices of points flagged as anomalies. */
-  triggered_indices?: BreakdownSimulationResultTriggeredIndicesList;
+  triggered_indices?: BreakdownSimulationResultTriggeredIndicesList | undefined;
   /** Dates of points flagged as anomalies. */
-  triggered_dates?: BreakdownSimulationResultTriggeredDatesList;
+  triggered_dates?: BreakdownSimulationResultTriggeredDatesList | undefined;
   /** Total number of data points analyzed. */
-  total_points?: number;
+  total_points?: number | undefined;
   /** Number of anomalies detected. */
-  anomaly_count?: number;
+  anomaly_count?: number | undefined;
   /** Per-sub-detector scores for ensemble detectors. */
-  sub_detector_scores?: BreakdownSimulationResultSubDetectorScoresList;
+  sub_detector_scores?: BreakdownSimulationResultSubDetectorScoresList | undefined;
 }
 /** Per-breakdown-value simulation results. Present only when the insight has breakdowns (up to 25 values). */
 export type AlertSimulateResponseBreakdownResultsList = Array<BreakdownSimulationResult>;
 export interface AlertSimulateResponse {
   /** Completed intervals skipped. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** Start of the latest eligible interval. */
-  evaluated_interval_start?: string;
+  evaluated_interval_start?: string | undefined;
   /** Exclusive end of the latest eligible interval. */
-  evaluated_interval_end?: string;
+  evaluated_interval_end?: string | undefined;
   /** Project timezone of the interval. */
-  evaluated_interval_timezone?: string;
+  evaluated_interval_timezone?: string | undefined;
   /** Data values for each point. */
-  data?: AlertSimulateResponseDataList;
+  data?: AlertSimulateResponseDataList | undefined;
   /** Date labels for each point. */
-  dates?: AlertSimulateResponseDatesList;
-  /** Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict. */
-  scores?: AlertSimulateResponseScoresList;
+  dates?: AlertSimulateResponseDatesList | undefined;
+  /** Score for each point. Null can mean insufficient data or a valid unscored point. The AI detector has no score, so every point is null in an AI preview. */
+  scores?: AlertSimulateResponseScoresList | undefined;
   /** Indices of points flagged as anomalies. */
-  triggered_indices?: AlertSimulateResponseTriggeredIndicesList;
+  triggered_indices?: AlertSimulateResponseTriggeredIndicesList | undefined;
   /** Dates of points flagged as anomalies. */
-  triggered_dates?: AlertSimulateResponseTriggeredDatesList;
+  triggered_dates?: AlertSimulateResponseTriggeredDatesList | undefined;
   /** Interval of the trends query (hour, day, week, month). */
-  interval?: string | null;
+  interval?: string | null | undefined;
   /** Total number of data points analyzed. */
-  total_points?: number;
+  total_points?: number | undefined;
   /** Number of anomalies detected. */
-  anomaly_count?: number;
+  anomaly_count?: number | undefined;
   /** Per-sub-detector scores for ensemble detectors. Each entry has 'type' and 'scores' fields. */
-  sub_detector_scores?: AlertSimulateResponseSubDetectorScoresList;
+  sub_detector_scores?: AlertSimulateResponseSubDetectorScoresList | undefined;
+  /** AI detector only: the model's reason for its verdict on the latest point. */
+  rationale?: string | undefined;
+  /** AI detector only: the shape the model saw at the latest point, or 'none'. */
+  kind?: string | null | undefined;
   /** Per-breakdown-value simulation results. Present only when the insight has breakdowns (up to 25 values). */
-  breakdown_results?: AlertSimulateResponseBreakdownResultsList;
+  breakdown_results?: AlertSimulateResponseBreakdownResultsList | undefined;
+}
+export interface CreateAlertsTakeOwnershipRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
 }
 export interface CreateAlertsTestDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -629,38 +652,38 @@ export interface GetAlertRequest {
   /** A UUID string identifying this alert configuration. */
   id: string;
   /** Relative date string for the start of the check history window (e.g. '-24h', '-7d', '-14d'). Returns checks created after this time. Max retention is 14 days. */
-  checks_date_from?: string;
+  checks_date_from?: string | undefined;
   /** Relative date string for the end of the check history window (e.g. '-1h', '-1d'). Defaults to now if not specified. */
-  checks_date_to?: string;
+  checks_date_to?: string | undefined;
   /** Maximum number of check results to return (default 5, max 500). Applied after date filtering. */
-  checks_limit?: number;
+  checks_limit?: number | undefined;
   /** Number of newest checks to skip (0-based). Use with checks_limit for pagination. Default 0. */
-  checks_offset?: number;
+  checks_offset?: number | undefined;
 }
 export interface ListAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional. Restrict results to alerts created by the user with this UUID. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Optional. Restrict results by whether the alert uses anomaly detection. */
-  has_detector?: boolean;
+  has_detector?: boolean | undefined;
   /** Optional. Restrict results to alerts on this insight ID. */
-  insight_id?: number;
+  insight_id?: number | undefined;
   /** Optional. Restrict results to alerts whose insight has this tag. */
-  insight_tag?: string;
+  insight_tag?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional. Fuzzy match against alert `name` using Postgres trigram word similarity (handles typos, transpositions, and prefix-as-you-type). Results are ordered by relevance, then creation time. Capped at 200 characters; longer queries return a 400 error. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedAlertListResultsList = Array<Alert>;
 export interface PaginatedAlertList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedAlertListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedAlertListResultsList | undefined;
 }
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type UpdateAlertRequestSubscribedUsersList = Array<number>;
@@ -670,38 +693,41 @@ export interface UpdateAlertRequest {
   /** A UUID string identifying this alert configuration. */
   id: string;
   /** Insight ID monitored by this alert. Note: Response returns full InsightBasicSerializer object. */
-  insight?: number;
+  insight?: number | undefined;
   /** Human-readable name for the alert. */
-  name?: string;
+  name?: string | undefined;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
-  subscribed_users?: UpdateAlertRequestSubscribedUsersList;
+  subscribed_users?: UpdateAlertRequestSubscribedUsersList | undefined;
   /** Threshold configuration with bounds and type for evaluating the alert. */
-  threshold?: ThresholdInput;
+  threshold?: ThresholdInput | undefined;
   /** Alert condition type. Determines how the value is evaluated: absolute_value, relative_increase, or relative_decrease. */
-  condition?: AlertCondition | null;
+  condition?: AlertCondition | null | undefined;
   /** Whether the alert is actively being evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
-  schedule_start_time?: string | null;
+  schedule_start_time?: string | null | undefined;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
-  config?: AlertConfigUnion | null;
-  detector_config?: DetectorConfig | null;
+  config?: AlertConfigUnion | null | undefined;
+  detector_config?: DetectorConfig | null | undefined;
   /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  calculation_interval?: CalculationIntervalEnum | (string & {});
+  calculation_interval?: CalculationIntervalEnum | (string & {}) | undefined;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Skip alert evaluation on weekends (Saturday and Sunday, local to project timezone). */
-  skip_weekend?: boolean | null;
+  skip_weekend?: boolean | null | undefined;
   /** Blocked local time windows (HH:MM in the project timezone). Interval is half-open [start, end): start inclusive, end exclusive. Use blocked_windows array of {start, end}. Null disables. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts. */
-  investigation_agent_enabled?: boolean;
+  investigation_agent_enabled?: boolean | undefined;
   /** When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls. */
-  investigation_gates_notifications?: boolean;
+  investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
-  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum | (string & {});
+  investigation_inconclusive_action?:
+    | InvestigationInconclusiveActionEnum
+    | (string & {})
+    | undefined;
 }
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type UpdateAlertsPartialRequestSubscribedUsersList = Array<number>;
@@ -711,38 +737,41 @@ export interface UpdateAlertsPartialRequest {
   /** A UUID string identifying this alert configuration. */
   id: string;
   /** Insight ID monitored by this alert. Note: Response returns full InsightBasicSerializer object. */
-  insight?: number;
+  insight?: number | undefined;
   /** Human-readable name for the alert. */
-  name?: string;
+  name?: string | undefined;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
-  subscribed_users?: UpdateAlertsPartialRequestSubscribedUsersList;
+  subscribed_users?: UpdateAlertsPartialRequestSubscribedUsersList | undefined;
   /** Threshold configuration with bounds and type for evaluating the alert. */
-  threshold?: ThresholdInput;
+  threshold?: ThresholdInput | undefined;
   /** Alert condition type. Determines how the value is evaluated: absolute_value, relative_increase, or relative_decrease. */
-  condition?: AlertCondition | null;
+  condition?: AlertCondition | null | undefined;
   /** Whether the alert is actively being evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time. */
-  schedule_start_time?: string | null;
+  schedule_start_time?: string | null | undefined;
   /** Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period). */
-  config?: AlertConfigUnion | null;
-  detector_config?: DetectorConfig | null;
+  config?: AlertConfigUnion | null | undefined;
+  detector_config?: DetectorConfig | null | undefined;
   /** Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems. */
-  evaluation_delay_intervals?: number;
+  evaluation_delay_intervals?: number | undefined;
   /** How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  calculation_interval?: CalculationIntervalEnum | (string & {});
+  calculation_interval?: CalculationIntervalEnum | (string & {}) | undefined;
   /** Snooze the alert until this time. Pass a relative date string (e.g. '2h', '1d') or null to unsnooze. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Skip alert evaluation on weekends (Saturday and Sunday, local to project timezone). */
-  skip_weekend?: boolean | null;
+  skip_weekend?: boolean | null | undefined;
   /** Blocked local time windows (HH:MM in the project timezone). Interval is half-open [start, end): start inclusive, end exclusive. Use blocked_windows array of {start, end}. Null disables. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts. */
-  investigation_agent_enabled?: boolean;
+  investigation_agent_enabled?: boolean | undefined;
   /** When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls. */
-  investigation_gates_notifications?: boolean;
+  investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
-  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum | (string & {});
+  investigation_inconclusive_action?:
+    | InvestigationInconclusiveActionEnum
+    | (string & {})
+    | undefined;
 }
 export type AlertsDestinationsDeleteCreateError = PosthogOpError;
 /** Stop sending this alert to a destination. The alert keeps its email recipients. */
@@ -752,8 +781,8 @@ export const alertsDestinationsDeleteCreate: API.OperationMethod<
   AlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<AlertsDestinationsDeleteCreateRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<AlertsDestinationsDeleteCreateResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<AlertsDestinationsDeleteCreateRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<AlertsDestinationsDeleteCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -768,8 +797,8 @@ export const alertsDestroy: API.OperationMethod<
   AlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<AlertsDestroyRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<AlertsDestroyResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<AlertsDestroyRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<AlertsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -784,8 +813,8 @@ export const createAlert: API.OperationMethod<
   CreateAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateAlertRequest>,
-  output: __S(173, __c10, 13) as any as S.Schema<Alert>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateAlertRequest>,
+  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -801,8 +830,8 @@ export const createAlertsDestination: API.OperationMethod<
   CreateAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateAlertsDestinationRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<AlertDestinationResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateAlertsDestinationRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<AlertDestinationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -818,13 +847,30 @@ export const createAlertsSimulate: API.OperationMethod<
   CreateAlertsSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateAlertsSimulateRequest>,
-  output: __S(197, __c12, 5) as any as S.Schema<AlertSimulateResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateAlertsSimulateRequest>,
+  output: __S(213, __c13, 5) as any as S.Schema<AlertSimulateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAlertsSimulate",
+}));
+
+export type CreateAlertsTakeOwnershipError = PosthogOpError;
+/** Make the requesting user the owner of this alert and enable it. Checks run with the owner's access, so this is how an alert continues after its owner left. */
+export const createAlertsTakeOwnership: API.OperationMethod<
+  CreateAlertsTakeOwnershipRequest,
+  Alert,
+  CreateAlertsTakeOwnershipError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<CreateAlertsTakeOwnershipRequest>,
+  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsTakeOwnership",
 }));
 
 export type CreateAlertsTestDeliveryError = PosthogOpError;
@@ -835,8 +881,8 @@ export const createAlertsTestDelivery: API.OperationMethod<
   CreateAlertsTestDeliveryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateAlertsTestDeliveryRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateAlertsTestDeliveryResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateAlertsTestDeliveryRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CreateAlertsTestDeliveryResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -851,8 +897,8 @@ export const getAlert: API.OperationMethod<
   GetAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetAlertRequest>,
-  output: __S(173, __c10, 13) as any as S.Schema<Alert>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetAlertRequest>,
+  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -867,8 +913,8 @@ export const listAlerts: API.OperationMethod<
   ListAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListAlertsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<PaginatedAlertList>,
+  input: __S(16, __c1, 0) as any as S.Schema<ListAlertsRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<PaginatedAlertList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -883,8 +929,8 @@ export const updateAlert: API.OperationMethod<
   UpdateAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<UpdateAlertRequest>,
-  output: __S(173, __c10, 13) as any as S.Schema<Alert>,
+  input: __S(32, __c2, 0) as any as S.Schema<UpdateAlertRequest>,
+  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -899,8 +945,8 @@ export const updateAlertsPartial: API.OperationMethod<
   UpdateAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateAlertsPartialRequest>,
-  output: __S(173, __c10, 13) as any as S.Schema<Alert>,
+  input: __S(48, __c3, 0) as any as S.Schema<UpdateAlertsPartialRequest>,
+  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -910,6 +956,23 @@ export const updateAlertsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          checks_date_from: S.optional(S.String.pipe(T.Query())),
+          checks_date_to: S.optional(S.String.pipe(T.Query())),
+          checks_limit: S.optional(S.Number.pipe(T.Query())),
+          checks_offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetAlertRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -925,46 +988,16 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
       ).annotate({ identifier: "ListAlertsRequest" });
     case 1:
-      return S.Array(__S(173, __c10, 13));
+      return S.Array(__S(189, __c11, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(1, __c0, 1)),
+          results: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "PaginatedAlertList" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          insight: S.optional(S.Number),
-          name: S.optional(S.String),
-          subscribed_users: S.optional(__S(144, __c9, 0)),
-          threshold: S.optional(__S(128, __c8, 0)),
-          condition: S.optional(S.NullOr(__S(162, __c10, 2))),
-          enabled: S.optional(S.Boolean),
-          schedule_start_time: S.optional(S.NullOr(S.String)),
-          config: S.optional(S.NullOr(S.Unknown)),
-          detector_config: S.optional(S.NullOr(S.Unknown)),
-          evaluation_delay_intervals: S.optional(S.Number),
-          calculation_interval: S.optional(S.String),
-          snoozed_until: S.optional(S.NullOr(S.String)),
-          skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(165, __c10, 5))),
-          investigation_agent_enabled: S.optional(S.Boolean),
-          investigation_gates_notifications: S.optional(S.Boolean),
-          investigation_inconclusive_action: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateAlertRequest" });
   }
 }
 function __c2(j: number): any {
@@ -976,9 +1009,9 @@ function __c2(j: number): any {
           id: S.String.pipe(T.Label()),
           insight: S.optional(S.Number),
           name: S.optional(S.String),
-          subscribed_users: S.optional(__S(144, __c9, 0)),
-          threshold: S.optional(__S(128, __c8, 0)),
-          condition: S.optional(S.NullOr(__S(162, __c10, 2))),
+          subscribed_users: S.optional(__S(160, __c10, 0)),
+          threshold: S.optional(__S(144, __c9, 0)),
+          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
           enabled: S.optional(S.Boolean),
           schedule_start_time: S.optional(S.NullOr(S.String)),
           config: S.optional(S.NullOr(S.Unknown)),
@@ -987,14 +1020,14 @@ function __c2(j: number): any {
           calculation_interval: S.optional(S.String),
           snoozed_until: S.optional(S.NullOr(S.String)),
           skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(165, __c10, 5))),
+          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
           investigation_agent_enabled: S.optional(S.Boolean),
           investigation_gates_notifications: S.optional(S.Boolean),
           investigation_inconclusive_action: S.optional(S.String),
         }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
         ),
-      ).annotate({ identifier: "UpdateAlertsPartialRequest" });
+      ).annotate({ identifier: "UpdateAlertRequest" });
   }
 }
 function __c3(j: number): any {
@@ -1004,7 +1037,37 @@ function __c3(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: __S(80, __c5, 0),
+          insight: S.optional(S.Number),
+          name: S.optional(S.String),
+          subscribed_users: S.optional(__S(160, __c10, 0)),
+          threshold: S.optional(__S(144, __c9, 0)),
+          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
+          enabled: S.optional(S.Boolean),
+          schedule_start_time: S.optional(S.NullOr(S.String)),
+          config: S.optional(S.NullOr(S.Unknown)),
+          detector_config: S.optional(S.NullOr(S.Unknown)),
+          evaluation_delay_intervals: S.optional(S.Number),
+          calculation_interval: S.optional(S.String),
+          snoozed_until: S.optional(S.NullOr(S.String)),
+          skip_weekend: S.optional(S.NullOr(S.Boolean)),
+          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
+          investigation_agent_enabled: S.optional(S.Boolean),
+          investigation_gates_notifications: S.optional(S.Boolean),
+          investigation_inconclusive_action: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateAlertsPartialRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          hog_function_ids: __S(96, __c6, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1015,7 +1078,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "AlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1023,13 +1086,13 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1042,7 +1105,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "AlertsDestroyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1050,9 +1113,9 @@ function __c7(j: number): any {
           project_id: S.String.pipe(T.Label()),
           insight: S.optional(S.Number),
           name: S.optional(S.String),
-          subscribed_users: S.optional(__S(144, __c9, 0)),
-          threshold: S.optional(__S(128, __c8, 0)),
-          condition: S.optional(S.NullOr(__S(162, __c10, 2))),
+          subscribed_users: S.optional(__S(160, __c10, 0)),
+          threshold: S.optional(__S(144, __c9, 0)),
+          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
           enabled: S.optional(S.Boolean),
           schedule_start_time: S.optional(S.NullOr(S.String)),
           config: S.optional(S.NullOr(S.Unknown)),
@@ -1061,7 +1124,7 @@ function __c7(j: number): any {
           calculation_interval: S.optional(S.String),
           snoozed_until: S.optional(S.NullOr(S.String)),
           skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(165, __c10, 5))),
+          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
           investigation_agent_enabled: S.optional(S.Boolean),
           investigation_gates_notifications: S.optional(S.Boolean),
           investigation_inconclusive_action: S.optional(S.String),
@@ -1069,18 +1132,18 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateAlertRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          configuration: S.optional(__S(161, __c10, 1)),
+          configuration: S.optional(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "ThresholdInput" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -1088,7 +1151,7 @@ function __c9(j: number): any {
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1100,7 +1163,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bounds: S.optional(S.NullOr(__S(160, __c10, 0))),
+          bounds: S.optional(S.NullOr(__S(176, __c11, 0))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "InsightThreshold" });
@@ -1118,11 +1181,11 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
     case 4:
-      return S.Array(__S(163, __c10, 3));
+      return S.Array(__S(179, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          blocked_windows: S.optional(__S(164, __c10, 4)),
+          blocked_windows: S.optional(__S(180, __c11, 4)),
         }),
       ).annotate({ identifier: "AlertScheduleRestriction" });
     case 6:
@@ -1135,7 +1198,7 @@ function __c10(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(145, __c9, 1))),
+          hedgehog_config: S.optional(S.NullOr(__S(161, __c10, 1))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -1145,7 +1208,7 @@ function __c10(j: number): any {
           id: S.optional(S.String),
           created_at: S.optional(S.String),
           name: S.optional(S.String),
-          configuration: S.optional(__S(161, __c10, 1)),
+          configuration: S.optional(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "Threshold" });
     case 8:
@@ -1163,7 +1226,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "AlertDelivery" });
     case 10:
-      return S.Array(__S(169, __c10, 9));
+      return S.Array(__S(185, __c11, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1171,7 +1234,7 @@ function __c10(j: number): any {
           created_at: S.optional(S.String),
           calculated_value: S.optional(S.NullOr(S.Number)),
           state: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(168, __c10, 8))),
+          error: S.optional(S.NullOr(__S(184, __c11, 8))),
           targets_notified: S.optional(S.Boolean),
           anomaly_scores: S.optional(S.Unknown),
           triggered_points: S.optional(S.Unknown),
@@ -1184,32 +1247,32 @@ function __c10(j: number): any {
           investigation_notebook_short_id: S.optional(S.NullOr(S.String)),
           notification_sent_at: S.optional(S.NullOr(S.String)),
           notification_suppressed_by_agent: S.optional(S.Boolean),
-          deliveries: S.optional(S.NullOr(__S(170, __c10, 10))),
+          deliveries: S.optional(S.NullOr(__S(186, __c11, 10))),
         }),
       ).annotate({ identifier: "AlertCheck" });
     case 12:
-      return S.Array(__S(171, __c10, 11));
+      return S.Array(__S(187, __c11, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(166, __c10, 6))),
+          created_by: S.optional(S.NullOr(__S(182, __c11, 6))),
           created_at: S.optional(S.String),
           insight: S.optional(S.Number),
           insight_short_id: S.optional(S.String),
           insight_display_name: S.optional(S.String),
           llm_detector_available: S.optional(S.NullOr(S.Boolean)),
           name: S.optional(S.String),
-          subscribed_users: S.optional(__S(144, __c9, 0)),
-          threshold: S.optional(__S(167, __c10, 7)),
-          condition: S.optional(S.NullOr(__S(162, __c10, 2))),
+          subscribed_users: S.optional(__S(160, __c10, 0)),
+          threshold: S.optional(__S(183, __c11, 7)),
+          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
           state: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           last_notified_at: S.optional(S.NullOr(S.String)),
           last_checked_at: S.optional(S.NullOr(S.String)),
           schedule_start_time: S.optional(S.NullOr(S.String)),
           next_check_at: S.optional(S.NullOr(S.String)),
-          checks: S.optional(__S(172, __c10, 12)),
+          checks: S.optional(__S(188, __c11, 12)),
           checks_total: S.optional(S.NullOr(S.Number)),
           config: S.optional(S.NullOr(S.Unknown)),
           detector_config: S.optional(S.NullOr(S.Unknown)),
@@ -1217,7 +1280,7 @@ function __c10(j: number): any {
           calculation_interval: S.optional(S.String),
           snoozed_until: S.optional(S.NullOr(S.String)),
           skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(165, __c10, 5))),
+          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
           last_value: S.optional(S.NullOr(S.Number)),
           investigation_agent_enabled: S.optional(S.Boolean),
           investigation_gates_notifications: S.optional(S.Boolean),
@@ -1227,7 +1290,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "Alert" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1249,12 +1312,12 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(80, __c5, 0),
+          hog_function_ids: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "AlertDestinationResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1266,6 +1329,7 @@ function __c12(j: number): any {
           series_index: S.optional(S.Number),
           date_from: S.optional(S.NullOr(S.String)),
           config: S.optional(S.NullOr(S.Unknown)),
+          alert: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/alerts/simulate/", code: 200 }),
         ),
@@ -1273,23 +1337,23 @@ function __c12(j: number): any {
     case 1:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          data: S.optional(__S(144, __c9, 0)),
-          dates: S.optional(__S(80, __c5, 0)),
-          scores: S.optional(__S(193, __c12, 1)),
-          triggered_indices: S.optional(__S(144, __c9, 0)),
-          triggered_dates: S.optional(__S(80, __c5, 0)),
+          data: S.optional(__S(160, __c10, 0)),
+          dates: S.optional(__S(96, __c6, 0)),
+          scores: S.optional(__S(209, __c13, 1)),
+          triggered_indices: S.optional(__S(160, __c10, 0)),
+          triggered_dates: S.optional(__S(96, __c6, 0)),
           total_points: S.optional(S.Number),
           anomaly_count: S.optional(S.Number),
-          sub_detector_scores: S.optional(__S(194, __c12, 2)),
+          sub_detector_scores: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "BreakdownSimulationResult" });
     case 4:
-      return S.Array(__S(195, __c12, 3));
+      return S.Array(__S(211, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1297,21 +1361,40 @@ function __c12(j: number): any {
           evaluated_interval_start: S.optional(S.String),
           evaluated_interval_end: S.optional(S.String),
           evaluated_interval_timezone: S.optional(S.String),
-          data: S.optional(__S(144, __c9, 0)),
-          dates: S.optional(__S(80, __c5, 0)),
-          scores: S.optional(__S(193, __c12, 1)),
-          triggered_indices: S.optional(__S(144, __c9, 0)),
-          triggered_dates: S.optional(__S(80, __c5, 0)),
+          data: S.optional(__S(160, __c10, 0)),
+          dates: S.optional(__S(96, __c6, 0)),
+          scores: S.optional(__S(209, __c13, 1)),
+          triggered_indices: S.optional(__S(160, __c10, 0)),
+          triggered_dates: S.optional(__S(96, __c6, 0)),
           interval: S.optional(S.NullOr(S.String)),
           total_points: S.optional(S.Number),
           anomaly_count: S.optional(S.Number),
-          sub_detector_scores: S.optional(__S(194, __c12, 2)),
-          breakdown_results: S.optional(__S(196, __c12, 4)),
+          sub_detector_scores: S.optional(__S(210, __c13, 2)),
+          rationale: S.optional(S.String),
+          kind: S.optional(S.NullOr(S.String)),
+          breakdown_results: S.optional(__S(212, __c13, 4)),
         }),
       ).annotate({ identifier: "AlertSimulateResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/take_ownership/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAlertsTakeOwnershipRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1326,23 +1409,6 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAlertsTestDeliveryRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          checks_date_from: S.optional(S.String.pipe(T.Query())),
-          checks_date_to: S.optional(S.String.pipe(T.Query())),
-          checks_limit: S.optional(S.Number.pipe(T.Query())),
-          checks_offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetAlertRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

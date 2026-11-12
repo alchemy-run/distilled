@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -154,8 +155,8 @@ export interface CreateCliTokenRequest {
 export type Token = string | redacted.Redacted<string>;
 export type Hostname = string;
 export interface CreateCliTokenResponse {
-  CliToken?: string | redacted.Redacted<string>;
-  WebServerHostname?: string;
+  CliToken?: string | redacted.Redacted<string> | undefined;
+  WebServerHostname?: string | undefined;
 }
 export type IamRoleArn = string;
 export type S3BucketArn = string;
@@ -165,8 +166,8 @@ export type SubnetList = string[];
 export type SecurityGroupId = string;
 export type SecurityGroupList = string[];
 export interface NetworkConfiguration {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type S3ObjectVersion = string;
 export type ConfigKey = string;
@@ -185,11 +186,11 @@ export interface ModuleLoggingConfigurationInput {
   LogLevel: string;
 }
 export interface LoggingConfigurationInput {
-  DagProcessingLogs?: ModuleLoggingConfigurationInput;
-  SchedulerLogs?: ModuleLoggingConfigurationInput;
-  WebserverLogs?: ModuleLoggingConfigurationInput;
-  WorkerLogs?: ModuleLoggingConfigurationInput;
-  TaskLogs?: ModuleLoggingConfigurationInput;
+  DagProcessingLogs?: ModuleLoggingConfigurationInput | undefined;
+  SchedulerLogs?: ModuleLoggingConfigurationInput | undefined;
+  WebserverLogs?: ModuleLoggingConfigurationInput | undefined;
+  WorkerLogs?: ModuleLoggingConfigurationInput | undefined;
+  TaskLogs?: ModuleLoggingConfigurationInput | undefined;
 }
 export type WeeklyMaintenanceWindowStart = string;
 export type TagKey = string;
@@ -207,30 +208,32 @@ export interface CreateEnvironmentInput {
   SourceBucketArn: string;
   DagS3Path: string;
   NetworkConfiguration: NetworkConfiguration;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  EnvironmentClass?: string;
-  MaxWorkers?: number;
-  KmsKey?: string;
-  AirflowVersion?: string;
-  LoggingConfiguration?: LoggingConfigurationInput;
-  WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string | undefined };
-  WebserverAccessMode?: string;
-  MinWorkers?: number;
-  Schedulers?: number;
-  EndpointManagement?: string;
-  MinWebservers?: number;
-  MaxWebservers?: number;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  EnvironmentClass?: string | undefined;
+  MaxWorkers?: number | undefined;
+  KmsKey?: string | undefined;
+  AirflowVersion?: string | undefined;
+  LoggingConfiguration?: LoggingConfigurationInput | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WebserverAccessMode?: string | undefined;
+  MinWorkers?: number | undefined;
+  Schedulers?: number | undefined;
+  EndpointManagement?: string | undefined;
+  MinWebservers?: number | undefined;
+  MaxWebservers?: number | undefined;
 }
 export type EnvironmentArn = string;
 export interface CreateEnvironmentOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface CreateWebLoginTokenRequest {
   Name: string;
@@ -238,10 +241,10 @@ export interface CreateWebLoginTokenRequest {
 export type IamIdentity = string;
 export type AirflowIdentity = string;
 export interface CreateWebLoginTokenResponse {
-  WebToken?: string | redacted.Redacted<string>;
-  WebServerHostname?: string;
-  IamIdentity?: string;
-  AirflowIdentity?: string;
+  WebToken?: string | redacted.Redacted<string> | undefined;
+  WebServerHostname?: string | undefined;
+  IamIdentity?: string | undefined;
+  AirflowIdentity?: string | undefined;
 }
 export interface DeleteEnvironmentInput {
   Name: string;
@@ -255,74 +258,76 @@ export type CreatedAt = Date;
 export type WebserverUrl = string;
 export type CloudWatchLogGroupArn = string;
 export interface ModuleLoggingConfiguration {
-  Enabled?: boolean;
-  LogLevel?: string;
-  CloudWatchLogGroupArn?: string;
+  Enabled?: boolean | undefined;
+  LogLevel?: string | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
 }
 export interface LoggingConfiguration {
-  DagProcessingLogs?: ModuleLoggingConfiguration;
-  SchedulerLogs?: ModuleLoggingConfiguration;
-  WebserverLogs?: ModuleLoggingConfiguration;
-  WorkerLogs?: ModuleLoggingConfiguration;
-  TaskLogs?: ModuleLoggingConfiguration;
+  DagProcessingLogs?: ModuleLoggingConfiguration | undefined;
+  SchedulerLogs?: ModuleLoggingConfiguration | undefined;
+  WebserverLogs?: ModuleLoggingConfiguration | undefined;
+  WorkerLogs?: ModuleLoggingConfiguration | undefined;
+  TaskLogs?: ModuleLoggingConfiguration | undefined;
 }
 export type UpdateStatus = string;
 export type UpdateCreatedAt = Date;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface UpdateError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UpdateSource = string;
 export type WorkerReplacementStrategy = string;
 export interface LastUpdate {
-  Status?: string;
-  CreatedAt?: Date;
-  Error?: UpdateError;
-  Source?: string;
-  WorkerReplacementStrategy?: string;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Error?: UpdateError | undefined;
+  Source?: string | undefined;
+  WorkerReplacementStrategy?: string | undefined;
 }
 export type VpcEndpointServiceName = string;
 export type CeleryExecutorQueue = string;
 export interface Environment {
-  Name?: string;
-  Status?: string;
-  Arn?: string;
-  CreatedAt?: Date;
-  WebserverUrl?: string;
-  ExecutionRoleArn?: string;
-  ServiceRoleArn?: string;
-  KmsKey?: string;
-  AirflowVersion?: string;
-  SourceBucketArn?: string;
-  DagS3Path?: string;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  EnvironmentClass?: string;
-  MaxWorkers?: number;
-  NetworkConfiguration?: NetworkConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  LastUpdate?: LastUpdate;
-  WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string | undefined };
-  WebserverAccessMode?: string;
-  MinWorkers?: number;
-  Schedulers?: number;
-  WebserverVpcEndpointService?: string;
-  DatabaseVpcEndpointService?: string;
-  CeleryExecutorQueue?: string;
-  EndpointManagement?: string;
-  MinWebservers?: number;
-  MaxWebservers?: number;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WebserverUrl?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  ServiceRoleArn?: string | undefined;
+  KmsKey?: string | undefined;
+  AirflowVersion?: string | undefined;
+  SourceBucketArn?: string | undefined;
+  DagS3Path?: string | undefined;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  EnvironmentClass?: string | undefined;
+  MaxWorkers?: number | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  LastUpdate?: LastUpdate | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WebserverAccessMode?: string | undefined;
+  MinWorkers?: number | undefined;
+  Schedulers?: number | undefined;
+  WebserverVpcEndpointService?: string | undefined;
+  DatabaseVpcEndpointService?: string | undefined;
+  CeleryExecutorQueue?: string | undefined;
+  EndpointManagement?: string | undefined;
+  MinWebservers?: number | undefined;
+  MaxWebservers?: number | undefined;
 }
 export interface GetEnvironmentOutput {
-  Environment?: Environment;
+  Environment?: Environment | undefined;
 }
 export type RestApiPath = string;
 export type RestApiMethod = string;
@@ -331,29 +336,29 @@ export interface InvokeRestApiRequest {
   Name: string;
   Path: string;
   Method: string;
-  QueryParameters?: any;
-  Body?: any;
+  QueryParameters?: any | undefined;
+  Body?: any | undefined;
 }
 export type RestApiResponse = unknown;
 export interface InvokeRestApiResponse {
-  RestApiStatusCode?: number;
-  RestApiResponse?: any;
+  RestApiStatusCode?: number | undefined;
+  RestApiResponse?: any | undefined;
 }
 export type NextToken = string;
 export interface ListEnvironmentsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EnvironmentList = string[];
 export interface ListEnvironmentsOutput {
   Environments: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface Dimension {
   Name: string;
@@ -362,18 +367,18 @@ export interface Dimension {
 export type Dimensions = Dimension[];
 export type Unit = string;
 export interface StatisticSet {
-  SampleCount?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  SampleCount?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export interface MetricDatum {
   MetricName: string;
   Timestamp: Date;
-  Dimensions?: Dimension[];
-  Value?: number;
-  Unit?: string;
-  StatisticValues?: StatisticSet;
+  Dimensions?: Dimension[] | undefined;
+  Value?: number | undefined;
+  Unit?: string | undefined;
+  StatisticValues?: StatisticSet | undefined;
 }
 export type MetricData = MetricDatum[];
 export interface PublishMetricsInput {
@@ -397,38 +402,40 @@ export interface UpdateNetworkConfigurationInput {
 }
 export interface UpdateEnvironmentInput {
   Name: string;
-  ExecutionRoleArn?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  AirflowVersion?: string;
-  DagS3Path?: string;
-  EnvironmentClass?: string;
-  LoggingConfiguration?: LoggingConfigurationInput;
-  MaxWorkers?: number;
-  MinWorkers?: number;
-  MaxWebservers?: number;
-  MinWebservers?: number;
-  WorkerReplacementStrategy?: string;
-  NetworkConfiguration?: UpdateNetworkConfigurationInput;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  Schedulers?: number;
-  SourceBucketArn?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  WebserverAccessMode?: string;
-  WeeklyMaintenanceWindowStart?: string;
+  ExecutionRoleArn?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  AirflowVersion?: string | undefined;
+  DagS3Path?: string | undefined;
+  EnvironmentClass?: string | undefined;
+  LoggingConfiguration?: LoggingConfigurationInput | undefined;
+  MaxWorkers?: number | undefined;
+  MinWorkers?: number | undefined;
+  MaxWebservers?: number | undefined;
+  MinWebservers?: number | undefined;
+  WorkerReplacementStrategy?: string | undefined;
+  NetworkConfiguration?: UpdateNetworkConfigurationInput | undefined;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  Schedulers?: number | undefined;
+  SourceBucketArn?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  WebserverAccessMode?: string | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
 }
 export interface UpdateEnvironmentOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
  */
 export const createCliToken: API.OperationMethod<
-  CreateCliTokenRequest,
+  CreateCliTokenRequest & RegionInput,
   CreateCliTokenResponse,
   CreateCliTokenError,
   Credentials | HttpClient.HttpClient
@@ -454,7 +461,7 @@ export type CreateEnvironmentError =
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -485,7 +492,7 @@ export type CreateWebLoginTokenError =
  * Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
  */
 export const createWebLoginToken: API.OperationMethod<
-  CreateWebLoginTokenRequest,
+  CreateWebLoginTokenRequest & RegionInput,
   CreateWebLoginTokenResponse,
   CreateWebLoginTokenError,
   Credentials | HttpClient.HttpClient
@@ -516,7 +523,7 @@ export type DeleteEnvironmentError =
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentOutput,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -546,7 +553,7 @@ export type GetEnvironmentError =
  * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -574,7 +581,7 @@ export type InvokeRestApiError =
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API
  */
 export const invokeRestApi: API.OperationMethod<
-  InvokeRestApiRequest,
+  InvokeRestApiRequest & RegionInput,
   InvokeRestApiResponse,
   InvokeRestApiError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +609,7 @@ export type ListEnvironmentsError = InternalServerException | ValidationExceptio
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -634,7 +641,7 @@ export type ListTagsForResourceError =
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -655,7 +662,7 @@ export type PublishMetricsError = InternalServerException | ValidationException 
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
 export const publishMetrics: API.OperationMethod<
-  PublishMetricsInput,
+  PublishMetricsInput & RegionInput,
   PublishMetricsOutput,
   PublishMetricsError,
   Credentials | HttpClient.HttpClient
@@ -680,7 +687,7 @@ export type TagResourceError =
  * Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -705,7 +712,7 @@ export type UntagResourceError =
  * Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -731,7 +738,7 @@ export type UpdateEnvironmentError =
  * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient

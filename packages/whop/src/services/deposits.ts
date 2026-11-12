@@ -43,11 +43,11 @@ export class Conflict
 
 export interface CreateDepositRequest {
   /** Amount to prefill on hosted deposit page. Crypto deposits require a $10 minimum. */
-  amount?: number;
+  amount?: number | undefined;
   /** Account ID to fund, `biz_` or `user_`. Any business resolves without authentication; a user account resolves only for that same authenticated user. */
   destination: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateDepositResponseMethodsBankCurrenciesItemRailsItem =
   | "ach"
@@ -154,7 +154,7 @@ export interface CreateDepositResponse {
   /** Account ID of the destination owner. */
   account_id: string | null;
   /** Requested deposit amount. */
-  amount?: string;
+  amount?: string | undefined;
   /** URL of the hosted deposit page. Only present for business destinations. */
   hosted_url: string | null;
   /** Available deposit methods for destination. */

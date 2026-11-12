@@ -63,13 +63,13 @@ export class UnprocessableEntity
 export type CreateAccessTokenRequestScopedActionsList = Array<string>;
 export interface CreateAccessTokenRequest {
   /** The unique identifier of the company to generate the token for, starting with 'biz_'. The API key must have permission to access this company. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** The expiration timestamp for the access token. Defaults to 1 hour from now, with a maximum of 3 hours. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** An array of permission scopes to grant to the access token. If empty or omitted, all permissions from the authenticating credential are inherited. Must be a subset of the credential's permissions. */
-  scoped_actions?: CreateAccessTokenRequestScopedActionsList | null;
+  scoped_actions?: CreateAccessTokenRequestScopedActionsList | null | undefined;
   /** The unique identifier of the user to generate the token for, starting with 'user_'. The API key must have permission to access this user. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
 }
 /** A short-lived access token used to authenticate API requests on behalf of a user. */
 export interface AccessToken {

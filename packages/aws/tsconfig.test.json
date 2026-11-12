@@ -13,18 +13,34 @@
     "rewriteRelativeImportExtensions": false,
     "paths": {
       "@distilled.cloud/core/*": ["../core/src/*"],
-      "@distilled.cloud/aws4signer": ["../aws4signer/src/index.ts"]
+      "@distilled.cloud/aws4signer": ["../aws4signer/src/index.ts"],
+      "@distilled.cloud/s3": ["../s3/src/index.ts"],
+      "@distilled.cloud/s3/Category": ["../s3/src/category.ts"],
+      "@distilled.cloud/s3/Credentials": ["../s3/src/credentials.ts"],
+      "@distilled.cloud/s3/Endpoint": ["../s3/src/endpoint.ts"],
+      "@distilled.cloud/s3/ErrorMessage": ["../s3/src/error-message.ts"],
+      "@distilled.cloud/s3/Errors": ["../s3/src/errors.ts"],
+      "@distilled.cloud/s3/Presign": ["../s3/src/presign.ts"],
+      "@distilled.cloud/s3/Protocol": ["../s3/src/protocol.ts"],
+      "@distilled.cloud/s3/Region": ["../s3/src/region.ts"],
+      "@distilled.cloud/s3/Retry": ["../s3/src/retry.ts"],
+      "@distilled.cloud/s3/Sensitive": ["../s3/src/sensitive.ts"],
+      "@distilled.cloud/s3/SigV4": ["../s3/src/sigv4.ts"],
+      "@distilled.cloud/s3/Traits": ["../s3/src/traits.ts"],
+      "@distilled.cloud/s3/client/*": ["../s3/src/client/*.ts"],
+      "@distilled.cloud/s3/eventstream/*": ["../s3/src/eventstream/*.ts"],
+      "@distilled.cloud/s3/hash/*": ["../s3/src/hash/*.ts"],
+      "@distilled.cloud/s3/middleware/*": ["../s3/src/middleware/*.ts"],
+      "@distilled.cloud/s3/protocols/*": ["../s3/src/protocols/*.ts"],
+      "@distilled.cloud/s3/rules-engine/*": ["../s3/src/rules-engine/*.ts"],
+      "@distilled.cloud/s3/util/*": ["../s3/src/util/*.ts"],
+      "@distilled.cloud/s3/*": ["../s3/src/services/*.ts"]
     }
   },
   "references": [
-    {
-      "path": "./tsconfig.json"
-    },
-    {
-      "path": "../core"
-    },
-    {
-      "path": "../aws4signer"
-    }
+    { "path": "./tsconfig.json" },
+    { "path": "../core" },
+    { "path": "../aws4signer" },
+    { "path": "../s3" }
   ]
 }

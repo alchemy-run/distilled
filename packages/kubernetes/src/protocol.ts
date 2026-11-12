@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * KubernetesProtocol -- hand-written.
  *
@@ -43,7 +44,8 @@ export type KubernetesOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | KubernetesParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Kubernetes operation. */
 export type KubernetesOpContext = Credentials | HttpClient.HttpClient;
@@ -67,12 +69,8 @@ export const KubernetesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     // The k8s error body is `v1.Status` -- `{ message, reason, code }`. The
     // factory's default lenient envelope reads `message`/`code`; `reason` is
     // recovered from the raw body for the unknown fallback below.
-    unknownError: ({ message, body }) =>
-      new UnknownKubernetesError({
-        reason: statusReason(body),
-        message,
-        body,
-      }),
+    unknownError: (info) =>
+      new UnknownKubernetesError({ ...unknownErrorProps(info), reason: statusReason(info.body) }),
     parseError: ({ body, cause }) => new KubernetesParseError({ body, cause }),
   },
 );

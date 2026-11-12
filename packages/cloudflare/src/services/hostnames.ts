@@ -82,15 +82,15 @@ export type SettingsTlsDeleteResponseValue =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSettingTlsResponse {
   /** This is the time the tls setting was originally created for this hostname. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The hostname for which the tls settings are set. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Deployment status for the given tls setting. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** This is the time the tls setting was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** The TLS setting value. The type depends on the `setting_id` used in the request path: */
-  value?: SettingsTlsDeleteResponseValue | null;
+  value?: SettingsTlsDeleteResponseValue | null | undefined;
 }
 export type SettingsTlsGetRequestSettingId = "ciphers" | "min_tls_version" | "http2";
 export interface GetSettingTlsRequest {
@@ -109,15 +109,15 @@ export type SettingsTlsGetResponseValue =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingTlsResponse {
   /** This is the time the tls setting was originally created for this hostname. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The hostname for which the tls settings are set. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Deployment status for the given tls setting. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** This is the time the tls setting was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** The TLS setting value. The type depends on the `setting_id` used in the request path: */
-  value?: SettingsTlsGetResponseValue | null;
+  value?: SettingsTlsGetResponseValue | null | undefined;
 }
 export type ListSettingsTlsRequestSettingId = "ciphers" | "min_tls_version" | "http2";
 export interface ListSettingsTlsRequest {
@@ -133,15 +133,15 @@ export type ListSettingsTlsResultItemValue =
   | ListSettingsTlsResultItemValueCase1List;
 export interface ListSettingsTlsResultItem {
   /** This is the time the tls setting was originally created for this hostname. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The hostname for which the tls settings are set. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Deployment status for the given tls setting. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** This is the time the tls setting was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** The TLS setting value. The type depends on the `setting_id` used in the request path: */
-  value?: ListSettingsTlsResultItemValue | null;
+  value?: ListSettingsTlsResultItemValue | null | undefined;
 }
 export type ListSettingsTlsResultList = Array<ListSettingsTlsResultItem>;
 export type ListSettingsTlsResponse = ListSettingsTlsResultList;
@@ -170,15 +170,15 @@ export type SettingsTlsUpdateResponseValue =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingTlsResponse {
   /** This is the time the tls setting was originally created for this hostname. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The hostname for which the tls settings are set. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Deployment status for the given tls setting. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** This is the time the tls setting was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** The TLS setting value. The type depends on the `setting_id` used in the request path: */
-  value?: SettingsTlsUpdateResponseValue | null;
+  value?: SettingsTlsUpdateResponseValue | null | undefined;
 }
 export type DeleteSettingTlsError =
   | AdvancedCertificateManagerRequired

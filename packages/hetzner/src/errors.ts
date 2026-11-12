@@ -41,6 +41,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -89,11 +90,9 @@ export class PreconditionFailed
  */
 export class UnknownHetznerError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownHetznerError>()("UnknownHetznerError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     details: /*@__PURE__*/ Schema.optional(Schema.Unknown),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** Schema parse error wrapper. */
 export class HetznerParseError

@@ -81,26 +81,26 @@ export class SpectrumProtocolNotAvailable
 export type AppsCreateRequestDnsType = "CNAME" | "ADDRESS";
 export interface AppsCreateRequestDns {
   /** The name of the DNS record associated with the application. */
-  name?: string;
+  name?: string | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsCreateRequestDnsType | (string & {});
+  type?: AppsCreateRequestDnsType | (string & {}) | undefined;
 }
 export type AppsCreateRequestTrafficType = "direct" | "http" | "https" | "worker";
 export type AppsCreateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsCreateRequestEdgeIpsDynamicType = "dynamic";
 export interface AppsCreateRequestEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsCreateRequestEdgeIpsDynamicConnectivity | (string & {});
+  connectivity?: AppsCreateRequestEdgeIpsDynamicConnectivity | (string & {}) | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsCreateRequestEdgeIpsDynamicType | (string & {});
+  type?: AppsCreateRequestEdgeIpsDynamicType | (string & {}) | undefined;
 }
 export type AppsCreateRequestEdgeIpsStaticIpsList = Array<string>;
 export type AppsCreateRequestEdgeIpsStaticType = "static";
 export interface AppsCreateRequestEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsCreateRequestEdgeIpsStaticIpsList;
+  ips?: AppsCreateRequestEdgeIpsStaticIpsList | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsCreateRequestEdgeIpsStaticType | (string & {});
+  type?: AppsCreateRequestEdgeIpsStaticType | (string & {}) | undefined;
 }
 export type AppsCreateRequestEdgeIps =
   | AppsCreateRequestEdgeIpsDynamic
@@ -109,13 +109,14 @@ export type AppsCreateRequestOriginDirectList = Array<string>;
 export type AppsCreateRequestOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsCreateRequestOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string;
+  name?: string | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsCreateRequestOriginDnsType | (string & {});
+  type?: AppsCreateRequestOriginDnsType | (string & {}) | undefined;
 }
 export type AppsCreateRequestOriginPort = string | number;
+export type AppsCreateRequestOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsCreateRequestProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsCreateRequestTls = "off" | "flexible" | "full" | "strict";
 export interface CreateAppRequest {
@@ -126,34 +127,38 @@ export interface CreateAppRequest {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
-  trafficType?: AppsCreateRequestTrafficType | (string & {});
+  trafficType?: AppsCreateRequestTrafficType | (string & {}) | undefined;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean;
+  argoSmartRouting?: boolean | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsCreateRequestEdgeIps;
+  edgeIps?: AppsCreateRequestEdgeIps | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean;
+  ipFirewall?: boolean | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsCreateRequestOriginDirectList;
+  originDirect?: AppsCreateRequestOriginDirectList | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsCreateRequestOriginDns;
+  originDns?: AppsCreateRequestOriginDns | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsCreateRequestOriginPort;
+  originPort?: AppsCreateRequestOriginPort | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string;
+  originWorkerId?: string | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsCreateRequestOriginWorkerStatus | (string & {}) | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsCreateRequestProxyProtocol | (string & {});
+  proxyProtocol?: AppsCreateRequestProxyProtocol | (string & {}) | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsCreateRequestTls | (string & {});
+  tls?: AppsCreateRequestTls | (string & {}) | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string;
+  virtualNetworkId?: string | undefined;
 }
 export type AppsCreateResultSpectrumConfigAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsCreateResultSpectrumConfigAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsCreateResultSpectrumConfigAppConfigDnsType | null;
+  type?: AppsCreateResultSpectrumConfigAppConfigDnsType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigAppConfigTrafficType =
   | "direct"
@@ -167,17 +172,20 @@ export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicType = "dynamic";
 export interface AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity | null;
+  connectivity?:
+    | AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity
+    | null
+    | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicType | null;
+  type?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList = Array<string>;
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticType = "static";
 export interface AppsCreateResultSpectrumConfigAppConfigEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null;
+  ips?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticType | null;
+  type?: AppsCreateResultSpectrumConfigAppConfigEdgeIpsStaticType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIps =
   | AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamic
@@ -186,13 +194,17 @@ export type AppsCreateResultSpectrumConfigAppConfigOriginDirectList = Array<stri
 export type AppsCreateResultSpectrumConfigAppConfigOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsCreateResultSpectrumConfigAppConfigOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsCreateResultSpectrumConfigAppConfigOriginDnsType | null;
+  type?: AppsCreateResultSpectrumConfigAppConfigOriginDnsType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsCreateResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsCreateResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsCreateResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsCreateResultSpectrumConfigAppConfig {
@@ -209,32 +221,36 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsCreateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean | null;
+  argoSmartRouting?: boolean | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsCreateResultSpectrumConfigAppConfigEdgeIps | null;
+  edgeIps?: AppsCreateResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean | null;
+  ipFirewall?: boolean | null | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsCreateResultSpectrumConfigAppConfigOriginDirectList | null;
+  originDirect?: AppsCreateResultSpectrumConfigAppConfigOriginDirectList | null | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsCreateResultSpectrumConfigAppConfigOriginDns | null;
+  originDns?: AppsCreateResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsCreateResultSpectrumConfigAppConfigOriginPort | null;
+  originPort?: AppsCreateResultSpectrumConfigAppConfigOriginPort | null | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string | null;
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsCreateResultSpectrumConfigAppConfigOriginWorkerStatus | null | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsCreateResultSpectrumConfigAppConfigProxyProtocol | null;
+  proxyProtocol?: AppsCreateResultSpectrumConfigAppConfigProxyProtocol | null | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsCreateResultSpectrumConfigAppConfigTls | null;
+  tls?: AppsCreateResultSpectrumConfigAppConfigTls | null | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string | null;
+  virtualNetworkId?: string | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigPaygoAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsCreateResultSpectrumConfigPaygoAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsCreateResultSpectrumConfigPaygoAppConfigDnsType | null;
+  type?: AppsCreateResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
 export interface AppsCreateResultSpectrumConfigPaygoAppConfig {
@@ -249,7 +265,7 @@ export interface AppsCreateResultSpectrumConfigPaygoAppConfig {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsCreateResultSpectrumConfigPaygoAppConfigOriginDirectList | null;
+  originDirect?: AppsCreateResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
 }
 export type AppsCreateResult =
   | AppsCreateResultSpectrumConfigAppConfig
@@ -270,9 +286,9 @@ export interface GetAnalyticAggregateCurrentRequest {
   /** Identifier. */
   zoneId: string;
   /** Comma-delimited list of Spectrum Application Id(s). If provided, the response will be limited to Spectrum Application Id(s) that match. */
-  appID?: string;
+  appID?: string | undefined;
   /** Co-location identifier. */
-  coloName?: string;
+  coloName?: string | undefined;
 }
 export interface AnalyticsAggregatesCurrentsGetResultItem {
   /** Application identifier. */
@@ -317,17 +333,17 @@ export interface GetAnalyticEventBytimeRequest {
   /** Used to select time series resolution. */
   timeDelta: AnalyticsEventsBytimesGetRequestTimeDelta | (string & {});
   /** Can be used to break down the data by given attributes. Options are: */
-  dimensions?: AnalyticsEventsBytimesGetRequestDimensionsList;
+  dimensions?: AnalyticsEventsBytimesGetRequestDimensionsList | undefined;
   /** Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are: */
-  filters?: string;
+  filters?: string | undefined;
   /** One or more metrics to compute. Options are: */
-  metrics?: AnalyticsEventsBytimesGetRequestMetricsList;
+  metrics?: AnalyticsEventsBytimesGetRequestMetricsList | undefined;
   /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  since?: string;
+  since?: string | undefined;
   /** The sort order for the result set; sort fields must be included in `metrics` or `dimensions`. */
-  sort?: AnalyticsEventsBytimesGetRequestSortList;
+  sort?: AnalyticsEventsBytimesGetRequestSortList | undefined;
   /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsEventsBytimesGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsEventsBytimesGetResponseDataItemMetricsCase0List = Array<number>;
@@ -338,8 +354,8 @@ export type AnalyticsEventsBytimesGetResponseDataItemMetrics =
   | AnalyticsEventsBytimesGetResponseDataItemMetricsCase0List
   | AnalyticsEventsBytimesGetResponseDataItemMetricsCase1List;
 export interface AnalyticsEventsBytimesGetResponseDataItem {
-  dimensions?: AnalyticsEventsBytimesGetResponseDataItemDimensionsList | null;
-  metrics?: AnalyticsEventsBytimesGetResponseDataItemMetrics | null;
+  dimensions?: AnalyticsEventsBytimesGetResponseDataItemDimensionsList | null | undefined;
+  metrics?: AnalyticsEventsBytimesGetResponseDataItemMetrics | null | undefined;
 }
 export type AnalyticsEventsBytimesGetResponseDataList =
   Array<AnalyticsEventsBytimesGetResponseDataItem>;
@@ -365,19 +381,19 @@ export type AnalyticsEventsBytimesGetResponseQueryMetricsList =
 export type AnalyticsEventsBytimesGetResponseQuerySortList = Array<string>;
 export interface AnalyticsEventsBytimesGetResponseQuery {
   /** Can be used to break down the data by given attributes. Options are: */
-  dimensions?: AnalyticsEventsBytimesGetResponseQueryDimensionsList | null;
+  dimensions?: AnalyticsEventsBytimesGetResponseQueryDimensionsList | null | undefined;
   /** Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are: */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Limit number of returned metrics. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** One or more metrics to compute. Options are: */
-  metrics?: AnalyticsEventsBytimesGetResponseQueryMetricsList | null;
+  metrics?: AnalyticsEventsBytimesGetResponseQueryMetricsList | null | undefined;
   /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  since?: string | null;
+  since?: string | null | undefined;
   /** The sort order for the result set; sort fields must be included in `metrics` or `dimensions`. */
-  sort?: AnalyticsEventsBytimesGetResponseQuerySortList | null;
+  sort?: AnalyticsEventsBytimesGetResponseQuerySortList | null | undefined;
   /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  until?: string | null;
+  until?: string | null | undefined;
 }
 export type AnalyticsEventsBytimesGetResponseTotalsMap = { [key: string]: number | undefined };
 export type AnalyticsEventsBytimesGetResponseTimeIntervalsItemList = Array<string>;
@@ -399,7 +415,7 @@ export interface GetAnalyticEventBytimeResponse {
   /** Total result for each selected metrics across all data. */
   totals: AnalyticsEventsBytimesGetResponseTotalsMap;
   /** List of time interval buckets: [start, end]. */
-  timeIntervals?: AnalyticsEventsBytimesGetResponseTimeIntervalsList | null;
+  timeIntervals?: AnalyticsEventsBytimesGetResponseTimeIntervalsList | null | undefined;
 }
 export type AnalyticsEventsSummariesGetRequestDimensionsList = Array<string>;
 export type AnalyticsEventsSummariesGetRequestMetrics =
@@ -418,17 +434,17 @@ export interface GetAnalyticEventSummaryRequest {
   /** Identifier. */
   zoneId: string;
   /** Can be used to break down the data by given attributes. Options are: */
-  dimensions?: AnalyticsEventsSummariesGetRequestDimensionsList;
+  dimensions?: AnalyticsEventsSummariesGetRequestDimensionsList | undefined;
   /** Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are: */
-  filters?: string;
+  filters?: string | undefined;
   /** One or more metrics to compute. Options are: */
-  metrics?: AnalyticsEventsSummariesGetRequestMetricsList;
+  metrics?: AnalyticsEventsSummariesGetRequestMetricsList | undefined;
   /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  since?: string;
+  since?: string | undefined;
   /** The sort order for the result set; sort fields must be included in `metrics` or `dimensions`. */
-  sort?: AnalyticsEventsSummariesGetRequestSortList;
+  sort?: AnalyticsEventsSummariesGetRequestSortList | undefined;
   /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsEventsSummariesGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsEventsSummariesGetResponseDataItemMetricsCase0List = Array<number>;
@@ -439,8 +455,8 @@ export type AnalyticsEventsSummariesGetResponseDataItemMetrics =
   | AnalyticsEventsSummariesGetResponseDataItemMetricsCase0List
   | AnalyticsEventsSummariesGetResponseDataItemMetricsCase1List;
 export interface AnalyticsEventsSummariesGetResponseDataItem {
-  dimensions?: AnalyticsEventsSummariesGetResponseDataItemDimensionsList | null;
-  metrics?: AnalyticsEventsSummariesGetResponseDataItemMetrics | null;
+  dimensions?: AnalyticsEventsSummariesGetResponseDataItemDimensionsList | null | undefined;
+  metrics?: AnalyticsEventsSummariesGetResponseDataItemMetrics | null | undefined;
 }
 export type AnalyticsEventsSummariesGetResponseDataList =
   Array<AnalyticsEventsSummariesGetResponseDataItem>;
@@ -466,19 +482,19 @@ export type AnalyticsEventsSummariesGetResponseQueryMetricsList =
 export type AnalyticsEventsSummariesGetResponseQuerySortList = Array<string>;
 export interface AnalyticsEventsSummariesGetResponseQuery {
   /** Can be used to break down the data by given attributes. Options are: */
-  dimensions?: AnalyticsEventsSummariesGetResponseQueryDimensionsList | null;
+  dimensions?: AnalyticsEventsSummariesGetResponseQueryDimensionsList | null | undefined;
   /** Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are: */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Limit number of returned metrics. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** One or more metrics to compute. Options are: */
-  metrics?: AnalyticsEventsSummariesGetResponseQueryMetricsList | null;
+  metrics?: AnalyticsEventsSummariesGetResponseQueryMetricsList | null | undefined;
   /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  since?: string | null;
+  since?: string | null | undefined;
   /** The sort order for the result set; sort fields must be included in `metrics` or `dimensions`. */
-  sort?: AnalyticsEventsSummariesGetResponseQuerySortList | null;
+  sort?: AnalyticsEventsSummariesGetResponseQuerySortList | null | undefined;
   /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  until?: string | null;
+  until?: string | null | undefined;
 }
 export type AnalyticsEventsSummariesGetResponseTotalsMap = { [key: string]: number | undefined };
 export type AnalyticsEventsSummariesGetResponseTimeIntervalsItemList = Array<string>;
@@ -500,7 +516,7 @@ export interface GetAnalyticEventSummaryResponse {
   /** Total result for each selected metrics across all data. */
   totals: AnalyticsEventsSummariesGetResponseTotalsMap;
   /** List of time interval buckets: [start, end]. */
-  timeIntervals?: AnalyticsEventsSummariesGetResponseTimeIntervalsList | null;
+  timeIntervals?: AnalyticsEventsSummariesGetResponseTimeIntervalsList | null | undefined;
 }
 export interface GetAppRequest {
   /** Zone identifier. */
@@ -511,9 +527,9 @@ export interface GetAppRequest {
 export type AppsGetResultSpectrumConfigAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsGetResultSpectrumConfigAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsGetResultSpectrumConfigAppConfigDnsType | null;
+  type?: AppsGetResultSpectrumConfigAppConfigDnsType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigAppConfigTrafficType =
   | "direct"
@@ -527,17 +543,17 @@ export type AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
 export type AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicType = "dynamic";
 export interface AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity | null;
+  connectivity?: AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity | null | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicType | null;
+  type?: AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticIpsList = Array<string>;
 export type AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticType = "static";
 export interface AppsGetResultSpectrumConfigAppConfigEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null;
+  ips?: AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticType | null;
+  type?: AppsGetResultSpectrumConfigAppConfigEdgeIpsStaticType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigAppConfigEdgeIps =
   | AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamic
@@ -546,13 +562,17 @@ export type AppsGetResultSpectrumConfigAppConfigOriginDirectList = Array<string>
 export type AppsGetResultSpectrumConfigAppConfigOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsGetResultSpectrumConfigAppConfigOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsGetResultSpectrumConfigAppConfigOriginDnsType | null;
+  type?: AppsGetResultSpectrumConfigAppConfigOriginDnsType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsGetResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsGetResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsGetResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsGetResultSpectrumConfigAppConfig {
@@ -569,32 +589,36 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsGetResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean | null;
+  argoSmartRouting?: boolean | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsGetResultSpectrumConfigAppConfigEdgeIps | null;
+  edgeIps?: AppsGetResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean | null;
+  ipFirewall?: boolean | null | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsGetResultSpectrumConfigAppConfigOriginDirectList | null;
+  originDirect?: AppsGetResultSpectrumConfigAppConfigOriginDirectList | null | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsGetResultSpectrumConfigAppConfigOriginDns | null;
+  originDns?: AppsGetResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsGetResultSpectrumConfigAppConfigOriginPort | null;
+  originPort?: AppsGetResultSpectrumConfigAppConfigOriginPort | null | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string | null;
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsGetResultSpectrumConfigAppConfigOriginWorkerStatus | null | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsGetResultSpectrumConfigAppConfigProxyProtocol | null;
+  proxyProtocol?: AppsGetResultSpectrumConfigAppConfigProxyProtocol | null | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsGetResultSpectrumConfigAppConfigTls | null;
+  tls?: AppsGetResultSpectrumConfigAppConfigTls | null | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string | null;
+  virtualNetworkId?: string | null | undefined;
 }
 export type AppsGetResultSpectrumConfigPaygoAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsGetResultSpectrumConfigPaygoAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsGetResultSpectrumConfigPaygoAppConfigDnsType | null;
+  type?: AppsGetResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
 export interface AppsGetResultSpectrumConfigPaygoAppConfig {
@@ -609,7 +633,7 @@ export interface AppsGetResultSpectrumConfigPaygoAppConfig {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsGetResultSpectrumConfigPaygoAppConfigOriginDirectList | null;
+  originDirect?: AppsGetResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
 }
 export type AppsGetResult =
   | AppsGetResultSpectrumConfigAppConfig
@@ -621,37 +645,37 @@ export interface ListAppsRequest {
   /** Zone identifier. */
   zoneId: string;
   /** Sets the direction by which results are ordered. */
-  direction?: AppsListRequestDirection | (string & {});
+  direction?: AppsListRequestDirection | (string & {}) | undefined;
   /** Application field by which results are ordered. */
-  order?: AppsListRequestOrder | (string & {});
+  order?: AppsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. This parameter is required in order to use other pagination parameters. If included in the query, `result_info` will be present in the response. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type AppsListResultCase0ItemDnsType = "CNAME" | "ADDRESS";
 export interface AppsListResultCase0ItemDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsListResultCase0ItemDnsType | null;
+  type?: AppsListResultCase0ItemDnsType | null | undefined;
 }
 export type AppsListResultCase0ItemTrafficType = "direct" | "http" | "https" | "worker";
 export type AppsListResultCase0ItemEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsListResultCase0ItemEdgeIpsDynamicType = "dynamic";
 export interface AppsListResultCase0ItemEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsListResultCase0ItemEdgeIpsDynamicConnectivity | null;
+  connectivity?: AppsListResultCase0ItemEdgeIpsDynamicConnectivity | null | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsListResultCase0ItemEdgeIpsDynamicType | null;
+  type?: AppsListResultCase0ItemEdgeIpsDynamicType | null | undefined;
 }
 export type AppsListResultCase0ItemEdgeIpsStaticIpsList = Array<string>;
 export type AppsListResultCase0ItemEdgeIpsStaticType = "static";
 export interface AppsListResultCase0ItemEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsListResultCase0ItemEdgeIpsStaticIpsList | null;
+  ips?: AppsListResultCase0ItemEdgeIpsStaticIpsList | null | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsListResultCase0ItemEdgeIpsStaticType | null;
+  type?: AppsListResultCase0ItemEdgeIpsStaticType | null | undefined;
 }
 export type AppsListResultCase0ItemEdgeIps =
   | AppsListResultCase0ItemEdgeIpsDynamic
@@ -660,13 +684,14 @@ export type AppsListResultCase0ItemOriginDirectList = Array<string>;
 export type AppsListResultCase0ItemOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsListResultCase0ItemOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsListResultCase0ItemOriginDnsType | null;
+  type?: AppsListResultCase0ItemOriginDnsType | null | undefined;
 }
 export type AppsListResultCase0ItemOriginPort = string | number;
+export type AppsListResultCase0ItemOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsListResultCase0ItemProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsListResultCase0ItemTls = "off" | "flexible" | "full" | "strict";
 export interface AppsListResultCase0Item {
@@ -683,33 +708,37 @@ export interface AppsListResultCase0Item {
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsListResultCase0ItemTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean | null;
+  argoSmartRouting?: boolean | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsListResultCase0ItemEdgeIps | null;
+  edgeIps?: AppsListResultCase0ItemEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean | null;
+  ipFirewall?: boolean | null | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsListResultCase0ItemOriginDirectList | null;
+  originDirect?: AppsListResultCase0ItemOriginDirectList | null | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsListResultCase0ItemOriginDns | null;
+  originDns?: AppsListResultCase0ItemOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsListResultCase0ItemOriginPort | null;
+  originPort?: AppsListResultCase0ItemOriginPort | null | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string | null;
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsListResultCase0ItemOriginWorkerStatus | null | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsListResultCase0ItemProxyProtocol | null;
+  proxyProtocol?: AppsListResultCase0ItemProxyProtocol | null | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsListResultCase0ItemTls | null;
+  tls?: AppsListResultCase0ItemTls | null | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string | null;
+  virtualNetworkId?: string | null | undefined;
 }
 export type AppsListResultCase0List = Array<AppsListResultCase0Item>;
 export type AppsListResultCase1ItemDnsType = "CNAME" | "ADDRESS";
 export interface AppsListResultCase1ItemDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsListResultCase1ItemDnsType | null;
+  type?: AppsListResultCase1ItemDnsType | null | undefined;
 }
 export type AppsListResultCase1ItemOriginDirectList = Array<string>;
 export interface AppsListResultCase1Item {
@@ -724,7 +753,7 @@ export interface AppsListResultCase1Item {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsListResultCase1ItemOriginDirectList | null;
+  originDirect?: AppsListResultCase1ItemOriginDirectList | null | undefined;
 }
 export type AppsListResultCase1List = Array<AppsListResultCase1Item>;
 export type AppsListResult = AppsListResultCase0List | AppsListResultCase1List;
@@ -732,7 +761,7 @@ export interface ListAppsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsListResult;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProtocolsRequest {
   /** Zone identifier. */
@@ -754,26 +783,26 @@ export type ListProtocolsResponse = ListProtocolsResultList;
 export type AppsUpdateRequestDnsType = "CNAME" | "ADDRESS";
 export interface AppsUpdateRequestDns {
   /** The name of the DNS record associated with the application. */
-  name?: string;
+  name?: string | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsUpdateRequestDnsType | (string & {});
+  type?: AppsUpdateRequestDnsType | (string & {}) | undefined;
 }
 export type AppsUpdateRequestTrafficType = "direct" | "http" | "https" | "worker";
 export type AppsUpdateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsUpdateRequestEdgeIpsDynamicType = "dynamic";
 export interface AppsUpdateRequestEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsUpdateRequestEdgeIpsDynamicConnectivity | (string & {});
+  connectivity?: AppsUpdateRequestEdgeIpsDynamicConnectivity | (string & {}) | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsUpdateRequestEdgeIpsDynamicType | (string & {});
+  type?: AppsUpdateRequestEdgeIpsDynamicType | (string & {}) | undefined;
 }
 export type AppsUpdateRequestEdgeIpsStaticIpsList = Array<string>;
 export type AppsUpdateRequestEdgeIpsStaticType = "static";
 export interface AppsUpdateRequestEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsUpdateRequestEdgeIpsStaticIpsList;
+  ips?: AppsUpdateRequestEdgeIpsStaticIpsList | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsUpdateRequestEdgeIpsStaticType | (string & {});
+  type?: AppsUpdateRequestEdgeIpsStaticType | (string & {}) | undefined;
 }
 export type AppsUpdateRequestEdgeIps =
   | AppsUpdateRequestEdgeIpsDynamic
@@ -782,13 +811,14 @@ export type AppsUpdateRequestOriginDirectList = Array<string>;
 export type AppsUpdateRequestOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsUpdateRequestOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string;
+  name?: string | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsUpdateRequestOriginDnsType | (string & {});
+  type?: AppsUpdateRequestOriginDnsType | (string & {}) | undefined;
 }
 export type AppsUpdateRequestOriginPort = string | number;
+export type AppsUpdateRequestOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsUpdateRequestProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsUpdateRequestTls = "off" | "flexible" | "full" | "strict";
 export interface UpdateAppRequest {
@@ -801,34 +831,38 @@ export interface UpdateAppRequest {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
-  trafficType?: AppsUpdateRequestTrafficType | (string & {});
+  trafficType?: AppsUpdateRequestTrafficType | (string & {}) | undefined;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean;
+  argoSmartRouting?: boolean | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsUpdateRequestEdgeIps;
+  edgeIps?: AppsUpdateRequestEdgeIps | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean;
+  ipFirewall?: boolean | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsUpdateRequestOriginDirectList;
+  originDirect?: AppsUpdateRequestOriginDirectList | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsUpdateRequestOriginDns;
+  originDns?: AppsUpdateRequestOriginDns | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsUpdateRequestOriginPort;
+  originPort?: AppsUpdateRequestOriginPort | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string;
+  originWorkerId?: string | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsUpdateRequestOriginWorkerStatus | (string & {}) | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsUpdateRequestProxyProtocol | (string & {});
+  proxyProtocol?: AppsUpdateRequestProxyProtocol | (string & {}) | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsUpdateRequestTls | (string & {});
+  tls?: AppsUpdateRequestTls | (string & {}) | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string;
+  virtualNetworkId?: string | undefined;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsUpdateResultSpectrumConfigAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsUpdateResultSpectrumConfigAppConfigDnsType | null;
+  type?: AppsUpdateResultSpectrumConfigAppConfigDnsType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigTrafficType =
   | "direct"
@@ -842,17 +876,20 @@ export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicType = "dynamic";
 export interface AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamic {
   /** The IP versions supported for inbound connections on Spectrum anycast IPs. */
-  connectivity?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity | null;
+  connectivity?:
+    | AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity
+    | null
+    | undefined;
   /** The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names. */
-  type?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicType | null;
+  type?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList = Array<string>;
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticType = "static";
 export interface AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStatic {
   /** The array of customer owned IPs we broadcast via anycast for this hostname and application. */
-  ips?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null;
+  ips?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticIpsList | null | undefined;
   /** The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names. */
-  type?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticType | null;
+  type?: AppsUpdateResultSpectrumConfigAppConfigEdgeIpsStaticType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIps =
   | AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamic
@@ -861,13 +898,17 @@ export type AppsUpdateResultSpectrumConfigAppConfigOriginDirectList = Array<stri
 export type AppsUpdateResultSpectrumConfigAppConfigOriginDnsType = "" | "A" | "AAAA" | "SRV";
 export interface AppsUpdateResultSpectrumConfigAppConfigOriginDns {
   /** The name of the DNS record associated with the origin. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The TTL of our resolution of your DNS record in seconds. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records. */
-  type?: AppsUpdateResultSpectrumConfigAppConfigOriginDnsType | null;
+  type?: AppsUpdateResultSpectrumConfigAppConfigOriginDnsType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsUpdateResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsUpdateResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsUpdateResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsUpdateResultSpectrumConfigAppConfig {
@@ -884,32 +925,36 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsUpdateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
-  argoSmartRouting?: boolean | null;
+  argoSmartRouting?: boolean | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
-  edgeIps?: AppsUpdateResultSpectrumConfigAppConfigEdgeIps | null;
+  edgeIps?: AppsUpdateResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
-  ipFirewall?: boolean | null;
+  ipFirewall?: boolean | null | undefined;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsUpdateResultSpectrumConfigAppConfigOriginDirectList | null;
+  originDirect?: AppsUpdateResultSpectrumConfigAppConfigOriginDirectList | null | undefined;
   /** The name and type of DNS record for the Spectrum application. */
-  originDns?: AppsUpdateResultSpectrumConfigAppConfigOriginDns | null;
+  originDns?: AppsUpdateResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
-  originPort?: AppsUpdateResultSpectrumConfigAppConfigOriginPort | null;
+  originPort?: AppsUpdateResultSpectrumConfigAppConfigOriginPort | null | undefined;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
-  originWorkerId?: string | null;
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsUpdateResultSpectrumConfigAppConfigOriginWorkerStatus | null | undefined;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
-  proxyProtocol?: AppsUpdateResultSpectrumConfigAppConfigProxyProtocol | null;
+  proxyProtocol?: AppsUpdateResultSpectrumConfigAppConfigProxyProtocol | null | undefined;
   /** The type of TLS termination associated with the application. */
-  tls?: AppsUpdateResultSpectrumConfigAppConfigTls | null;
+  tls?: AppsUpdateResultSpectrumConfigAppConfigTls | null | undefined;
   /** Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks. */
-  virtualNetworkId?: string | null;
+  virtualNetworkId?: string | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType = "CNAME" | "ADDRESS";
 export interface AppsUpdateResultSpectrumConfigPaygoAppConfigDns {
   /** The name of the DNS record associated with the application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of DNS record associated with the application. */
-  type?: AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType | null;
+  type?: AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
 export interface AppsUpdateResultSpectrumConfigPaygoAppConfig {
@@ -924,7 +969,7 @@ export interface AppsUpdateResultSpectrumConfigPaygoAppConfig {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
-  originDirect?: AppsUpdateResultSpectrumConfigPaygoAppConfigOriginDirectList | null;
+  originDirect?: AppsUpdateResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
 }
 export type AppsUpdateResult =
   | AppsUpdateResultSpectrumConfigAppConfig
@@ -1162,6 +1207,8 @@ function __c1(j: number): any {
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
           originPort: S.optional(__S(9, __c1, 1).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
+          originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
+          originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
           proxyProtocol: S.optional(S.String.pipe(T.Body("proxy_protocol"))),
           tls: S.optional(S.String),
           virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
@@ -1188,6 +1235,8 @@ function __c1(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",
@@ -1229,6 +1278,8 @@ function __c2(j: number): any {
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
           originPort: S.optional(__S(17, __c2, 1).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
+          originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
+          originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
           proxyProtocol: S.optional(S.String.pipe(T.Body("proxy_protocol"))),
           tls: S.optional(S.String),
           virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
@@ -1253,6 +1304,8 @@ function __c2(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",
@@ -1497,6 +1550,8 @@ function __c10(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -245,7 +246,7 @@ export type MatchFieldType =
 export type MatchFieldData = string;
 export interface FieldToMatch {
   Type: MatchFieldType;
-  Data?: string;
+  Data?: string | undefined;
 }
 export type ByteMatchTargetString = Uint8Array;
 export type TextTransformation =
@@ -272,12 +273,12 @@ export interface ByteMatchTuple {
 export type ByteMatchTuples = ByteMatchTuple[];
 export interface ByteMatchSet {
   ByteMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   ByteMatchTuples: ByteMatchTuple[];
 }
 export interface CreateByteMatchSetResponse {
-  ByteMatchSet?: ByteMatchSet;
-  ChangeToken?: string;
+  ByteMatchSet?: ByteMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateGeoMatchSetRequest {
   Name: string;
@@ -542,12 +543,12 @@ export interface GeoMatchConstraint {
 export type GeoMatchConstraints = GeoMatchConstraint[];
 export interface GeoMatchSet {
   GeoMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   GeoMatchConstraints: GeoMatchConstraint[];
 }
 export interface CreateGeoMatchSetResponse {
-  GeoMatchSet?: GeoMatchSet;
-  ChangeToken?: string;
+  GeoMatchSet?: GeoMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateIPSetRequest {
   Name: string;
@@ -562,12 +563,12 @@ export interface IPSetDescriptor {
 export type IPSetDescriptors = IPSetDescriptor[];
 export interface IPSet {
   IPSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   IPSetDescriptors: IPSetDescriptor[];
 }
 export interface CreateIPSetResponse {
-  IPSet?: IPSet;
-  ChangeToken?: string;
+  IPSet?: IPSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export type MetricName = string;
 export type RateKey = "IP" | (string & {});
@@ -585,7 +586,7 @@ export interface CreateRateBasedRuleRequest {
   RateKey: RateKey;
   RateLimit: number;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type Negated = boolean;
 export type PredicateType =
@@ -605,15 +606,15 @@ export interface Predicate {
 export type Predicates = Predicate[];
 export interface RateBasedRule {
   RuleId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   MatchPredicates: Predicate[];
   RateKey: RateKey;
   RateLimit: number;
 }
 export interface CreateRateBasedRuleResponse {
-  Rule?: RateBasedRule;
-  ChangeToken?: string;
+  Rule?: RateBasedRule | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRegexMatchSetRequest {
   Name: string;
@@ -626,13 +627,13 @@ export interface RegexMatchTuple {
 }
 export type RegexMatchTuples = RegexMatchTuple[];
 export interface RegexMatchSet {
-  RegexMatchSetId?: string;
-  Name?: string;
-  RegexMatchTuples?: RegexMatchTuple[];
+  RegexMatchSetId?: string | undefined;
+  Name?: string | undefined;
+  RegexMatchTuples?: RegexMatchTuple[] | undefined;
 }
 export interface CreateRegexMatchSetResponse {
-  RegexMatchSet?: RegexMatchSet;
-  ChangeToken?: string;
+  RegexMatchSet?: RegexMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRegexPatternSetRequest {
   Name: string;
@@ -642,43 +643,43 @@ export type RegexPatternString = string;
 export type RegexPatternStrings = string[];
 export interface RegexPatternSet {
   RegexPatternSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   RegexPatternStrings: string[];
 }
 export interface CreateRegexPatternSetResponse {
-  RegexPatternSet?: RegexPatternSet;
-  ChangeToken?: string;
+  RegexPatternSet?: RegexPatternSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRuleRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface Rule {
   RuleId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   Predicates: Predicate[];
 }
 export interface CreateRuleResponse {
-  Rule?: Rule;
-  ChangeToken?: string;
+  Rule?: Rule | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateRuleGroupRequest {
   Name: string;
   MetricName: string;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface RuleGroup {
   RuleGroupId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
 }
 export interface CreateRuleGroupResponse {
-  RuleGroup?: RuleGroup;
-  ChangeToken?: string;
+  RuleGroup?: RuleGroup | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateSizeConstraintSetRequest {
   Name: string;
@@ -695,12 +696,12 @@ export interface SizeConstraint {
 export type SizeConstraints = SizeConstraint[];
 export interface SizeConstraintSet {
   SizeConstraintSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   SizeConstraints: SizeConstraint[];
 }
 export interface CreateSizeConstraintSetResponse {
-  SizeConstraintSet?: SizeConstraintSet;
-  ChangeToken?: string;
+  SizeConstraintSet?: SizeConstraintSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface CreateSqlInjectionMatchSetRequest {
   Name: string;
@@ -713,12 +714,12 @@ export interface SqlInjectionMatchTuple {
 export type SqlInjectionMatchTuples = SqlInjectionMatchTuple[];
 export interface SqlInjectionMatchSet {
   SqlInjectionMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   SqlInjectionMatchTuples: SqlInjectionMatchTuple[];
 }
 export interface CreateSqlInjectionMatchSetResponse {
-  SqlInjectionMatchSet?: SqlInjectionMatchSet;
-  ChangeToken?: string;
+  SqlInjectionMatchSet?: SqlInjectionMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export type WafActionType = "BLOCK" | "ALLOW" | "COUNT" | (string & {});
 export interface WafAction {
@@ -729,7 +730,7 @@ export interface CreateWebACLRequest {
   MetricName: string;
   DefaultAction: WafAction;
   ChangeToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type RulePriority = number;
 export type WafOverrideActionType = "NONE" | "COUNT" | (string & {});
@@ -744,24 +745,24 @@ export type ExcludedRules = ExcludedRule[];
 export interface ActivatedRule {
   Priority: number;
   RuleId: string;
-  Action?: WafAction;
-  OverrideAction?: WafOverrideAction;
-  Type?: WafRuleType;
-  ExcludedRules?: ExcludedRule[];
+  Action?: WafAction | undefined;
+  OverrideAction?: WafOverrideAction | undefined;
+  Type?: WafRuleType | undefined;
+  ExcludedRules?: ExcludedRule[] | undefined;
 }
 export type ActivatedRules = ActivatedRule[];
 export type ResourceArn = string;
 export interface WebACL {
   WebACLId: string;
-  Name?: string;
-  MetricName?: string;
+  Name?: string | undefined;
+  MetricName?: string | undefined;
   DefaultAction: WafAction;
   Rules: ActivatedRule[];
-  WebACLArn?: string;
+  WebACLArn?: string | undefined;
 }
 export interface CreateWebACLResponse {
-  WebACL?: WebACL;
-  ChangeToken?: string;
+  WebACL?: WebACL | undefined;
+  ChangeToken?: string | undefined;
 }
 export type S3BucketName = string;
 export type IgnoreUnsupportedType = boolean;
@@ -785,33 +786,33 @@ export interface XssMatchTuple {
 export type XssMatchTuples = XssMatchTuple[];
 export interface XssMatchSet {
   XssMatchSetId: string;
-  Name?: string;
+  Name?: string | undefined;
   XssMatchTuples: XssMatchTuple[];
 }
 export interface CreateXssMatchSetResponse {
-  XssMatchSet?: XssMatchSet;
-  ChangeToken?: string;
+  XssMatchSet?: XssMatchSet | undefined;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteByteMatchSetRequest {
   ByteMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteByteMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteGeoMatchSetRequest {
   GeoMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteGeoMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteIPSetRequest {
   IPSetId: string;
   ChangeToken: string;
 }
 export interface DeleteIPSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteLoggingConfigurationRequest {
   ResourceArn: string;
@@ -826,92 +827,92 @@ export interface DeleteRateBasedRuleRequest {
   ChangeToken: string;
 }
 export interface DeleteRateBasedRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRegexMatchSetRequest {
   RegexMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteRegexMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRegexPatternSetRequest {
   RegexPatternSetId: string;
   ChangeToken: string;
 }
 export interface DeleteRegexPatternSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRuleRequest {
   RuleId: string;
   ChangeToken: string;
 }
 export interface DeleteRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteRuleGroupRequest {
   RuleGroupId: string;
   ChangeToken: string;
 }
 export interface DeleteRuleGroupResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteSizeConstraintSetRequest {
   SizeConstraintSetId: string;
   ChangeToken: string;
 }
 export interface DeleteSizeConstraintSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteSqlInjectionMatchSetRequest {
   SqlInjectionMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteSqlInjectionMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteWebACLRequest {
   WebACLId: string;
   ChangeToken: string;
 }
 export interface DeleteWebACLResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface DeleteXssMatchSetRequest {
   XssMatchSetId: string;
   ChangeToken: string;
 }
 export interface DeleteXssMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GetByteMatchSetRequest {
   ByteMatchSetId: string;
 }
 export interface GetByteMatchSetResponse {
-  ByteMatchSet?: ByteMatchSet;
+  ByteMatchSet?: ByteMatchSet | undefined;
 }
 export interface GetChangeTokenRequest {}
 export interface GetChangeTokenResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GetChangeTokenStatusRequest {
   ChangeToken: string;
 }
 export type ChangeTokenStatus = "PROVISIONED" | "PENDING" | "INSYNC" | (string & {});
 export interface GetChangeTokenStatusResponse {
-  ChangeTokenStatus?: ChangeTokenStatus;
+  ChangeTokenStatus?: ChangeTokenStatus | undefined;
 }
 export interface GetGeoMatchSetRequest {
   GeoMatchSetId: string;
 }
 export interface GetGeoMatchSetResponse {
-  GeoMatchSet?: GeoMatchSet;
+  GeoMatchSet?: GeoMatchSet | undefined;
 }
 export interface GetIPSetRequest {
   IPSetId: string;
 }
 export interface GetIPSetResponse {
-  IPSet?: IPSet;
+  IPSet?: IPSet | undefined;
 }
 export interface GetLoggingConfigurationRequest {
   ResourceArn: string;
@@ -921,58 +922,58 @@ export type RedactedFields = FieldToMatch[];
 export interface LoggingConfiguration {
   ResourceArn: string;
   LogDestinationConfigs: string[];
-  RedactedFields?: FieldToMatch[];
+  RedactedFields?: FieldToMatch[] | undefined;
 }
 export interface GetLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface GetPermissionPolicyRequest {
   ResourceArn: string;
 }
 export type PolicyString = string;
 export interface GetPermissionPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetRateBasedRuleRequest {
   RuleId: string;
 }
 export interface GetRateBasedRuleResponse {
-  Rule?: RateBasedRule;
+  Rule?: RateBasedRule | undefined;
 }
 export type NextMarker = string;
 export interface GetRateBasedRuleManagedKeysRequest {
   RuleId: string;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export type ManagedKey = string;
 export type ManagedKeys = string[];
 export interface GetRateBasedRuleManagedKeysResponse {
-  ManagedKeys?: string[];
-  NextMarker?: string;
+  ManagedKeys?: string[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface GetRegexMatchSetRequest {
   RegexMatchSetId: string;
 }
 export interface GetRegexMatchSetResponse {
-  RegexMatchSet?: RegexMatchSet;
+  RegexMatchSet?: RegexMatchSet | undefined;
 }
 export interface GetRegexPatternSetRequest {
   RegexPatternSetId: string;
 }
 export interface GetRegexPatternSetResponse {
-  RegexPatternSet?: RegexPatternSet;
+  RegexPatternSet?: RegexPatternSet | undefined;
 }
 export interface GetRuleRequest {
   RuleId: string;
 }
 export interface GetRuleResponse {
-  Rule?: Rule;
+  Rule?: Rule | undefined;
 }
 export interface GetRuleGroupRequest {
   RuleGroupId: string;
 }
 export interface GetRuleGroupResponse {
-  RuleGroup?: RuleGroup;
+  RuleGroup?: RuleGroup | undefined;
 }
 export interface TimeWindow {
   StartTime: Date;
@@ -993,71 +994,71 @@ export type HTTPVersion = string;
 export type HeaderName = string;
 export type HeaderValue = string;
 export interface HTTPHeader {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type HTTPHeaders = HTTPHeader[];
 export interface HTTPRequest {
-  ClientIP?: string;
-  Country?: string;
-  URI?: string;
-  Method?: string;
-  HTTPVersion?: string;
-  Headers?: HTTPHeader[];
+  ClientIP?: string | undefined;
+  Country?: string | undefined;
+  URI?: string | undefined;
+  Method?: string | undefined;
+  HTTPVersion?: string | undefined;
+  Headers?: HTTPHeader[] | undefined;
 }
 export type SampleWeight = number;
 export type Action = string;
 export interface SampledHTTPRequest {
   Request: HTTPRequest;
   Weight: number;
-  Timestamp?: Date;
-  Action?: string;
-  RuleWithinRuleGroup?: string;
+  Timestamp?: Date | undefined;
+  Action?: string | undefined;
+  RuleWithinRuleGroup?: string | undefined;
 }
 export type SampledHTTPRequests = SampledHTTPRequest[];
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
-  SampledRequests?: SampledHTTPRequest[];
-  PopulationSize?: number;
-  TimeWindow?: TimeWindow;
+  SampledRequests?: SampledHTTPRequest[] | undefined;
+  PopulationSize?: number | undefined;
+  TimeWindow?: TimeWindow | undefined;
 }
 export interface GetSizeConstraintSetRequest {
   SizeConstraintSetId: string;
 }
 export interface GetSizeConstraintSetResponse {
-  SizeConstraintSet?: SizeConstraintSet;
+  SizeConstraintSet?: SizeConstraintSet | undefined;
 }
 export interface GetSqlInjectionMatchSetRequest {
   SqlInjectionMatchSetId: string;
 }
 export interface GetSqlInjectionMatchSetResponse {
-  SqlInjectionMatchSet?: SqlInjectionMatchSet;
+  SqlInjectionMatchSet?: SqlInjectionMatchSet | undefined;
 }
 export interface GetWebACLRequest {
   WebACLId: string;
 }
 export interface GetWebACLResponse {
-  WebACL?: WebACL;
+  WebACL?: WebACL | undefined;
 }
 export interface GetXssMatchSetRequest {
   XssMatchSetId: string;
 }
 export interface GetXssMatchSetResponse {
-  XssMatchSet?: XssMatchSet;
+  XssMatchSet?: XssMatchSet | undefined;
 }
 export type PaginationLimit = number;
 export interface ListActivatedRulesInRuleGroupRequest {
-  RuleGroupId?: string;
-  NextMarker?: string;
-  Limit?: number;
+  RuleGroupId?: string | undefined;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ListActivatedRulesInRuleGroupResponse {
-  NextMarker?: string;
-  ActivatedRules?: ActivatedRule[];
+  NextMarker?: string | undefined;
+  ActivatedRules?: ActivatedRule[] | undefined;
 }
 export interface ListByteMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ByteMatchSetSummary {
   ByteMatchSetId: string;
@@ -1065,12 +1066,12 @@ export interface ByteMatchSetSummary {
 }
 export type ByteMatchSetSummaries = ByteMatchSetSummary[];
 export interface ListByteMatchSetsResponse {
-  NextMarker?: string;
-  ByteMatchSets?: ByteMatchSetSummary[];
+  NextMarker?: string | undefined;
+  ByteMatchSets?: ByteMatchSetSummary[] | undefined;
 }
 export interface ListGeoMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface GeoMatchSetSummary {
   GeoMatchSetId: string;
@@ -1078,12 +1079,12 @@ export interface GeoMatchSetSummary {
 }
 export type GeoMatchSetSummaries = GeoMatchSetSummary[];
 export interface ListGeoMatchSetsResponse {
-  NextMarker?: string;
-  GeoMatchSets?: GeoMatchSetSummary[];
+  NextMarker?: string | undefined;
+  GeoMatchSets?: GeoMatchSetSummary[] | undefined;
 }
 export interface ListIPSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface IPSetSummary {
   IPSetId: string;
@@ -1091,21 +1092,21 @@ export interface IPSetSummary {
 }
 export type IPSetSummaries = IPSetSummary[];
 export interface ListIPSetsResponse {
-  NextMarker?: string;
-  IPSets?: IPSetSummary[];
+  NextMarker?: string | undefined;
+  IPSets?: IPSetSummary[] | undefined;
 }
 export interface ListLoggingConfigurationsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type LoggingConfigurations = LoggingConfiguration[];
 export interface ListLoggingConfigurationsResponse {
-  LoggingConfigurations?: LoggingConfiguration[];
-  NextMarker?: string;
+  LoggingConfigurations?: LoggingConfiguration[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListRateBasedRulesRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RuleSummary {
   RuleId: string;
@@ -1113,12 +1114,12 @@ export interface RuleSummary {
 }
 export type RuleSummaries = RuleSummary[];
 export interface ListRateBasedRulesResponse {
-  NextMarker?: string;
-  Rules?: RuleSummary[];
+  NextMarker?: string | undefined;
+  Rules?: RuleSummary[] | undefined;
 }
 export interface ListRegexMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RegexMatchSetSummary {
   RegexMatchSetId: string;
@@ -1126,12 +1127,12 @@ export interface RegexMatchSetSummary {
 }
 export type RegexMatchSetSummaries = RegexMatchSetSummary[];
 export interface ListRegexMatchSetsResponse {
-  NextMarker?: string;
-  RegexMatchSets?: RegexMatchSetSummary[];
+  NextMarker?: string | undefined;
+  RegexMatchSets?: RegexMatchSetSummary[] | undefined;
 }
 export interface ListRegexPatternSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RegexPatternSetSummary {
   RegexPatternSetId: string;
@@ -1139,12 +1140,12 @@ export interface RegexPatternSetSummary {
 }
 export type RegexPatternSetSummaries = RegexPatternSetSummary[];
 export interface ListRegexPatternSetsResponse {
-  NextMarker?: string;
-  RegexPatternSets?: RegexPatternSetSummary[];
+  NextMarker?: string | undefined;
+  RegexPatternSets?: RegexPatternSetSummary[] | undefined;
 }
 export interface ListRuleGroupsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface RuleGroupSummary {
   RuleGroupId: string;
@@ -1152,20 +1153,20 @@ export interface RuleGroupSummary {
 }
 export type RuleGroupSummaries = RuleGroupSummary[];
 export interface ListRuleGroupsResponse {
-  NextMarker?: string;
-  RuleGroups?: RuleGroupSummary[];
+  NextMarker?: string | undefined;
+  RuleGroups?: RuleGroupSummary[] | undefined;
 }
 export interface ListRulesRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ListRulesResponse {
-  NextMarker?: string;
-  Rules?: RuleSummary[];
+  NextMarker?: string | undefined;
+  Rules?: RuleSummary[] | undefined;
 }
 export interface ListSizeConstraintSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SizeConstraintSetSummary {
   SizeConstraintSetId: string;
@@ -1173,12 +1174,12 @@ export interface SizeConstraintSetSummary {
 }
 export type SizeConstraintSetSummaries = SizeConstraintSetSummary[];
 export interface ListSizeConstraintSetsResponse {
-  NextMarker?: string;
-  SizeConstraintSets?: SizeConstraintSetSummary[];
+  NextMarker?: string | undefined;
+  SizeConstraintSets?: SizeConstraintSetSummary[] | undefined;
 }
 export interface ListSqlInjectionMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SqlInjectionMatchSetSummary {
   SqlInjectionMatchSetId: string;
@@ -1186,12 +1187,12 @@ export interface SqlInjectionMatchSetSummary {
 }
 export type SqlInjectionMatchSetSummaries = SqlInjectionMatchSetSummary[];
 export interface ListSqlInjectionMatchSetsResponse {
-  NextMarker?: string;
-  SqlInjectionMatchSets?: SqlInjectionMatchSetSummary[];
+  NextMarker?: string | undefined;
+  SqlInjectionMatchSets?: SqlInjectionMatchSetSummary[] | undefined;
 }
 export interface ListSubscribedRuleGroupsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface SubscribedRuleGroupSummary {
   RuleGroupId: string;
@@ -1200,25 +1201,25 @@ export interface SubscribedRuleGroupSummary {
 }
 export type SubscribedRuleGroupSummaries = SubscribedRuleGroupSummary[];
 export interface ListSubscribedRuleGroupsResponse {
-  NextMarker?: string;
-  RuleGroups?: SubscribedRuleGroupSummary[];
+  NextMarker?: string | undefined;
+  RuleGroups?: SubscribedRuleGroupSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
   ResourceARN: string;
 }
 export interface TagInfoForResource {
-  ResourceARN?: string;
-  TagList?: Tag[];
+  ResourceARN?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
 export interface ListTagsForResourceResponse {
-  NextMarker?: string;
-  TagInfoForResource?: TagInfoForResource;
+  NextMarker?: string | undefined;
+  TagInfoForResource?: TagInfoForResource | undefined;
 }
 export interface ListWebACLsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface WebACLSummary {
   WebACLId: string;
@@ -1226,12 +1227,12 @@ export interface WebACLSummary {
 }
 export type WebACLSummaries = WebACLSummary[];
 export interface ListWebACLsResponse {
-  NextMarker?: string;
-  WebACLs?: WebACLSummary[];
+  NextMarker?: string | undefined;
+  WebACLs?: WebACLSummary[] | undefined;
 }
 export interface ListXssMatchSetsRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface XssMatchSetSummary {
   XssMatchSetId: string;
@@ -1239,14 +1240,14 @@ export interface XssMatchSetSummary {
 }
 export type XssMatchSetSummaries = XssMatchSetSummary[];
 export interface ListXssMatchSetsResponse {
-  NextMarker?: string;
-  XssMatchSets?: XssMatchSetSummary[];
+  NextMarker?: string | undefined;
+  XssMatchSets?: XssMatchSetSummary[] | undefined;
 }
 export interface PutLoggingConfigurationRequest {
   LoggingConfiguration: LoggingConfiguration;
 }
 export interface PutLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface PutPermissionPolicyRequest {
   ResourceArn: string;
@@ -1276,7 +1277,7 @@ export interface UpdateByteMatchSetRequest {
   Updates: ByteMatchSetUpdate[];
 }
 export interface UpdateByteMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface GeoMatchSetUpdate {
   Action: ChangeAction;
@@ -1289,7 +1290,7 @@ export interface UpdateGeoMatchSetRequest {
   Updates: GeoMatchSetUpdate[];
 }
 export interface UpdateGeoMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface IPSetUpdate {
   Action: ChangeAction;
@@ -1302,7 +1303,7 @@ export interface UpdateIPSetRequest {
   Updates: IPSetUpdate[];
 }
 export interface UpdateIPSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RuleUpdate {
   Action: ChangeAction;
@@ -1316,7 +1317,7 @@ export interface UpdateRateBasedRuleRequest {
   RateLimit: number;
 }
 export interface UpdateRateBasedRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RegexMatchSetUpdate {
   Action: ChangeAction;
@@ -1329,7 +1330,7 @@ export interface UpdateRegexMatchSetRequest {
   ChangeToken: string;
 }
 export interface UpdateRegexMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RegexPatternSetUpdate {
   Action: ChangeAction;
@@ -1342,7 +1343,7 @@ export interface UpdateRegexPatternSetRequest {
   ChangeToken: string;
 }
 export interface UpdateRegexPatternSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface UpdateRuleRequest {
   RuleId: string;
@@ -1350,7 +1351,7 @@ export interface UpdateRuleRequest {
   Updates: RuleUpdate[];
 }
 export interface UpdateRuleResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface RuleGroupUpdate {
   Action: ChangeAction;
@@ -1363,7 +1364,7 @@ export interface UpdateRuleGroupRequest {
   ChangeToken: string;
 }
 export interface UpdateRuleGroupResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface SizeConstraintSetUpdate {
   Action: ChangeAction;
@@ -1376,7 +1377,7 @@ export interface UpdateSizeConstraintSetRequest {
   Updates: SizeConstraintSetUpdate[];
 }
 export interface UpdateSizeConstraintSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface SqlInjectionMatchSetUpdate {
   Action: ChangeAction;
@@ -1389,7 +1390,7 @@ export interface UpdateSqlInjectionMatchSetRequest {
   Updates: SqlInjectionMatchSetUpdate[];
 }
 export interface UpdateSqlInjectionMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface WebACLUpdate {
   Action: ChangeAction;
@@ -1399,11 +1400,11 @@ export type WebACLUpdates = WebACLUpdate[];
 export interface UpdateWebACLRequest {
   WebACLId: string;
   ChangeToken: string;
-  Updates?: WebACLUpdate[];
-  DefaultAction?: WafAction;
+  Updates?: WebACLUpdate[] | undefined;
+  DefaultAction?: WafAction | undefined;
 }
 export interface UpdateWebACLResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export interface XssMatchSetUpdate {
   Action: ChangeAction;
@@ -1416,7 +1417,7 @@ export interface UpdateXssMatchSetRequest {
   Updates: XssMatchSetUpdate[];
 }
 export interface UpdateXssMatchSetResponse {
-  ChangeToken?: string;
+  ChangeToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type ParameterExceptionField =
@@ -1494,7 +1495,7 @@ export type CreateByteMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createByteMatchSet: API.OperationMethod<
-  CreateByteMatchSetRequest,
+  CreateByteMatchSetRequest & RegionInput,
   CreateByteMatchSetResponse,
   CreateByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type CreateGeoMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createGeoMatchSet: API.OperationMethod<
-  CreateGeoMatchSetRequest,
+  CreateGeoMatchSetRequest & RegionInput,
   CreateGeoMatchSetResponse,
   CreateGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1614,7 @@ export type CreateIPSetError =
  * AWS WAF Developer Guide.
  */
 export const createIPSet: API.OperationMethod<
-  CreateIPSetRequest,
+  CreateIPSetRequest & RegionInput,
   CreateIPSetResponse,
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -1723,7 +1724,7 @@ export type CreateRateBasedRuleError =
  * Guide.
  */
 export const createRateBasedRule: API.OperationMethod<
-  CreateRateBasedRuleRequest,
+  CreateRateBasedRuleRequest & RegionInput,
   CreateRateBasedRuleResponse,
   CreateRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type CreateRegexMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createRegexMatchSet: API.OperationMethod<
-  CreateRegexMatchSetRequest,
+  CreateRegexMatchSetRequest & RegionInput,
   CreateRegexMatchSetResponse,
   CreateRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1835,7 +1836,7 @@ export type CreateRegexPatternSetError =
  * AWS WAF Developer Guide.
  */
 export const createRegexPatternSet: API.OperationMethod<
-  CreateRegexPatternSetRequest,
+  CreateRegexPatternSetRequest & RegionInput,
   CreateRegexPatternSetResponse,
   CreateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type CreateRuleError =
  * AWS WAF Developer Guide.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1964,7 +1965,7 @@ export type CreateRuleGroupError =
  * AWS WAF Developer Guide.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2025,7 +2026,7 @@ export type CreateSizeConstraintSetError =
  * AWS WAF Developer Guide.
  */
 export const createSizeConstraintSet: API.OperationMethod<
-  CreateSizeConstraintSetRequest,
+  CreateSizeConstraintSetRequest & RegionInput,
   CreateSizeConstraintSetResponse,
   CreateSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2084,7 @@ export type CreateSqlInjectionMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createSqlInjectionMatchSet: API.OperationMethod<
-  CreateSqlInjectionMatchSetRequest,
+  CreateSqlInjectionMatchSetRequest & RegionInput,
   CreateSqlInjectionMatchSetResponse,
   CreateSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2153,7 +2154,7 @@ export type CreateWebACLError =
  * For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide.
  */
 export const createWebACL: API.OperationMethod<
-  CreateWebACLRequest,
+  CreateWebACLRequest & RegionInput,
   CreateWebACLResponse,
   CreateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2197,7 +2198,7 @@ export type CreateWebACLMigrationStackError =
  * Developer Guide.
  */
 export const createWebACLMigrationStack: API.OperationMethod<
-  CreateWebACLMigrationStackRequest,
+  CreateWebACLMigrationStackRequest & RegionInput,
   CreateWebACLMigrationStackResponse,
   CreateWebACLMigrationStackError,
   Credentials | HttpClient.HttpClient
@@ -2254,7 +2255,7 @@ export type CreateXssMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createXssMatchSet: API.OperationMethod<
-  CreateXssMatchSetRequest,
+  CreateXssMatchSetRequest & RegionInput,
   CreateXssMatchSetResponse,
   CreateXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2307,7 +2308,7 @@ export type DeleteByteMatchSetError =
  * - Submit a `DeleteByteMatchSet` request.
  */
 export const deleteByteMatchSet: API.OperationMethod<
-  DeleteByteMatchSetRequest,
+  DeleteByteMatchSetRequest & RegionInput,
   DeleteByteMatchSetResponse,
   DeleteByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2360,7 +2361,7 @@ export type DeleteGeoMatchSetError =
  * - Submit a `DeleteGeoMatchSet` request.
  */
 export const deleteGeoMatchSet: API.OperationMethod<
-  DeleteGeoMatchSetRequest,
+  DeleteGeoMatchSetRequest & RegionInput,
   DeleteGeoMatchSetResponse,
   DeleteGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2413,7 +2414,7 @@ export type DeleteIPSetError =
  * - Submit a `DeleteIPSet` request.
  */
 export const deleteIPSet: API.OperationMethod<
-  DeleteIPSetRequest,
+  DeleteIPSetRequest & RegionInput,
   DeleteIPSetResponse,
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type DeleteLoggingConfigurationError =
  * ACL.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2485,7 +2486,7 @@ export type DeletePermissionPolicyError =
  * The user making the request must be the owner of the RuleGroup.
  */
 export const deletePermissionPolicy: API.OperationMethod<
-  DeletePermissionPolicyRequest,
+  DeletePermissionPolicyRequest & RegionInput,
   DeletePermissionPolicyResponse,
   DeletePermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type DeleteRateBasedRuleError =
  * - Submit a `DeleteRateBasedRule` request.
  */
 export const deleteRateBasedRule: API.OperationMethod<
-  DeleteRateBasedRuleRequest,
+  DeleteRateBasedRuleRequest & RegionInput,
   DeleteRateBasedRuleResponse,
   DeleteRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type DeleteRegexMatchSetError =
  * - Submit a `DeleteRegexMatchSet` request.
  */
 export const deleteRegexMatchSet: API.OperationMethod<
-  DeleteRegexMatchSetRequest,
+  DeleteRegexMatchSetRequest & RegionInput,
   DeleteRegexMatchSetResponse,
   DeleteRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2634,7 +2635,7 @@ export type DeleteRegexPatternSetError =
  * or if the `RegexPatternSet` is not empty.
  */
 export const deleteRegexPatternSet: API.OperationMethod<
-  DeleteRegexPatternSetRequest,
+  DeleteRegexPatternSetRequest & RegionInput,
   DeleteRegexPatternSetResponse,
   DeleteRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type DeleteRuleError =
  * - Submit a `DeleteRule` request.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2746,7 +2747,7 @@ export type DeleteRuleGroupError =
  * - Submit a `DeleteRuleGroup` request.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type DeleteSizeConstraintSetError =
  * - Submit a `DeleteSizeConstraintSet` request.
  */
 export const deleteSizeConstraintSet: API.OperationMethod<
-  DeleteSizeConstraintSetRequest,
+  DeleteSizeConstraintSetRequest & RegionInput,
   DeleteSizeConstraintSetResponse,
   DeleteSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -2855,7 +2856,7 @@ export type DeleteSqlInjectionMatchSetError =
  * - Submit a `DeleteSqlInjectionMatchSet` request.
  */
 export const deleteSqlInjectionMatchSet: API.OperationMethod<
-  DeleteSqlInjectionMatchSetRequest,
+  DeleteSqlInjectionMatchSetRequest & RegionInput,
   DeleteSqlInjectionMatchSetResponse,
   DeleteSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2907,7 +2908,7 @@ export type DeleteWebACLError =
  * - Submit a `DeleteWebACL` request.
  */
 export const deleteWebACL: API.OperationMethod<
-  DeleteWebACLRequest,
+  DeleteWebACLRequest & RegionInput,
   DeleteWebACLResponse,
   DeleteWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2963,7 +2964,7 @@ export type DeleteXssMatchSetError =
  * - Submit a `DeleteXssMatchSet` request.
  */
 export const deleteXssMatchSet: API.OperationMethod<
-  DeleteXssMatchSetRequest,
+  DeleteXssMatchSetRequest & RegionInput,
   DeleteXssMatchSetResponse,
   DeleteXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3001,7 +3002,7 @@ export type GetByteMatchSetError =
  * Returns the ByteMatchSet specified by `ByteMatchSetId`.
  */
 export const getByteMatchSet: API.OperationMethod<
-  GetByteMatchSetRequest,
+  GetByteMatchSetRequest & RegionInput,
   GetByteMatchSetResponse,
   GetByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3036,7 +3037,7 @@ export type GetChangeTokenError = WAFInternalErrorException | CommonErrors;
  * status of your change token.
  */
 export const getChangeToken: API.OperationMethod<
-  GetChangeTokenRequest,
+  GetChangeTokenRequest & RegionInput,
   GetChangeTokenResponse,
   GetChangeTokenError,
   Credentials | HttpClient.HttpClient
@@ -3074,7 +3075,7 @@ export type GetChangeTokenStatusError =
  * - `INSYNC`: Propagation is complete.
  */
 export const getChangeTokenStatus: API.OperationMethod<
-  GetChangeTokenStatusRequest,
+  GetChangeTokenStatusRequest & RegionInput,
   GetChangeTokenStatusResponse,
   GetChangeTokenStatusError,
   Credentials | HttpClient.HttpClient
@@ -3105,7 +3106,7 @@ export type GetGeoMatchSetError =
  * Returns the GeoMatchSet that is specified by `GeoMatchSetId`.
  */
 export const getGeoMatchSet: API.OperationMethod<
-  GetGeoMatchSetRequest,
+  GetGeoMatchSetRequest & RegionInput,
   GetGeoMatchSetResponse,
   GetGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type GetIPSetError =
  * Returns the IPSet that is specified by `IPSetId`.
  */
 export const getIPSet: API.OperationMethod<
-  GetIPSetRequest,
+  GetIPSetRequest & RegionInput,
   GetIPSetResponse,
   GetIPSetError,
   Credentials | HttpClient.HttpClient
@@ -3166,7 +3167,7 @@ export type GetLoggingConfigurationError =
  * Returns the LoggingConfiguration for the specified web ACL.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3196,7 +3197,7 @@ export type GetPermissionPolicyError =
  * Returns the IAM policy attached to the RuleGroup.
  */
 export const getPermissionPolicy: API.OperationMethod<
-  GetPermissionPolicyRequest,
+  GetPermissionPolicyRequest & RegionInput,
   GetPermissionPolicyResponse,
   GetPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3229,7 +3230,7 @@ export type GetRateBasedRuleError =
  * request.
  */
 export const getRateBasedRule: API.OperationMethod<
-  GetRateBasedRuleRequest,
+  GetRateBasedRuleRequest & RegionInput,
   GetRateBasedRuleResponse,
   GetRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -3263,7 +3264,7 @@ export type GetRateBasedRuleManagedKeysError =
  * the rate limit, the 10,000 addresses with the highest rates will be blocked.
  */
 export const getRateBasedRuleManagedKeys: API.OperationMethod<
-  GetRateBasedRuleManagedKeysRequest,
+  GetRateBasedRuleManagedKeysRequest & RegionInput,
   GetRateBasedRuleManagedKeysResponse,
   GetRateBasedRuleManagedKeysError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3300,7 @@ export type GetRegexMatchSetError =
  * Returns the RegexMatchSet specified by `RegexMatchSetId`.
  */
 export const getRegexMatchSet: API.OperationMethod<
-  GetRegexMatchSetRequest,
+  GetRegexMatchSetRequest & RegionInput,
   GetRegexMatchSetResponse,
   GetRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3330,7 +3331,7 @@ export type GetRegexPatternSetError =
  * Returns the RegexPatternSet specified by `RegexPatternSetId`.
  */
 export const getRegexPatternSet: API.OperationMethod<
-  GetRegexPatternSetRequest,
+  GetRegexPatternSetRequest & RegionInput,
   GetRegexPatternSetResponse,
   GetRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type GetRuleError =
  * Returns the Rule that is specified by the `RuleId` that you included in the `GetRule` request.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type GetRuleGroupError =
  * To view the rules in a rule group, use ListActivatedRulesInRuleGroup.
  */
 export const getRuleGroup: API.OperationMethod<
-  GetRuleGroupRequest,
+  GetRuleGroupRequest & RegionInput,
   GetRuleGroupResponse,
   GetRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3427,7 +3428,7 @@ export type GetSampledRequestsError =
  * returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
  */
 export const getSampledRequests: API.OperationMethod<
-  GetSampledRequestsRequest,
+  GetSampledRequestsRequest & RegionInput,
   GetSampledRequestsResponse,
   GetSampledRequestsError,
   Credentials | HttpClient.HttpClient
@@ -3458,7 +3459,7 @@ export type GetSizeConstraintSetError =
  * Returns the SizeConstraintSet specified by `SizeConstraintSetId`.
  */
 export const getSizeConstraintSet: API.OperationMethod<
-  GetSizeConstraintSetRequest,
+  GetSizeConstraintSetRequest & RegionInput,
   GetSizeConstraintSetResponse,
   GetSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -3489,7 +3490,7 @@ export type GetSqlInjectionMatchSetError =
  * Returns the SqlInjectionMatchSet that is specified by `SqlInjectionMatchSetId`.
  */
 export const getSqlInjectionMatchSet: API.OperationMethod<
-  GetSqlInjectionMatchSetRequest,
+  GetSqlInjectionMatchSetRequest & RegionInput,
   GetSqlInjectionMatchSetResponse,
   GetSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3520,7 +3521,7 @@ export type GetWebACLError =
  * Returns the WebACL that is specified by `WebACLId`.
  */
 export const getWebACL: API.OperationMethod<
-  GetWebACLRequest,
+  GetWebACLRequest & RegionInput,
   GetWebACLResponse,
   GetWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3551,7 +3552,7 @@ export type GetXssMatchSetError =
  * Returns the XssMatchSet that is specified by `XssMatchSetId`.
  */
 export const getXssMatchSet: API.OperationMethod<
-  GetXssMatchSetRequest,
+  GetXssMatchSetRequest & RegionInput,
   GetXssMatchSetResponse,
   GetXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3582,7 +3583,7 @@ export type ListActivatedRulesInRuleGroupError =
  * Returns an array of ActivatedRule objects.
  */
 export const listActivatedRulesInRuleGroup: API.OperationMethod<
-  ListActivatedRulesInRuleGroupRequest,
+  ListActivatedRulesInRuleGroupRequest & RegionInput,
   ListActivatedRulesInRuleGroupResponse,
   ListActivatedRulesInRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3612,7 +3613,7 @@ export type ListByteMatchSetsError =
  * Returns an array of ByteMatchSetSummary objects.
  */
 export const listByteMatchSets: API.OperationMethod<
-  ListByteMatchSetsRequest,
+  ListByteMatchSetsRequest & RegionInput,
   ListByteMatchSetsResponse,
   ListByteMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3642,7 +3643,7 @@ export type ListGeoMatchSetsError =
  * Returns an array of GeoMatchSetSummary objects in the response.
  */
 export const listGeoMatchSets: API.OperationMethod<
-  ListGeoMatchSetsRequest,
+  ListGeoMatchSetsRequest & RegionInput,
   ListGeoMatchSetsResponse,
   ListGeoMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3669,7 +3670,7 @@ export type ListIPSetsError = WAFInternalErrorException | WAFInvalidAccountExcep
  * Returns an array of IPSetSummary objects in the response.
  */
 export const listIPSets: API.OperationMethod<
-  ListIPSetsRequest,
+  ListIPSetsRequest & RegionInput,
   ListIPSetsResponse,
   ListIPSetsError,
   Credentials | HttpClient.HttpClient
@@ -3700,7 +3701,7 @@ export type ListLoggingConfigurationsError =
  * Returns an array of LoggingConfiguration objects.
  */
 export const listLoggingConfigurations: API.OperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3730,7 +3731,7 @@ export type ListRateBasedRulesError =
  * Returns an array of RuleSummary objects.
  */
 export const listRateBasedRules: API.OperationMethod<
-  ListRateBasedRulesRequest,
+  ListRateBasedRulesRequest & RegionInput,
   ListRateBasedRulesResponse,
   ListRateBasedRulesError,
   Credentials | HttpClient.HttpClient
@@ -3760,7 +3761,7 @@ export type ListRegexMatchSetsError =
  * Returns an array of RegexMatchSetSummary objects.
  */
 export const listRegexMatchSets: API.OperationMethod<
-  ListRegexMatchSetsRequest,
+  ListRegexMatchSetsRequest & RegionInput,
   ListRegexMatchSetsResponse,
   ListRegexMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3790,7 +3791,7 @@ export type ListRegexPatternSetsError =
  * Returns an array of RegexPatternSetSummary objects.
  */
 export const listRegexPatternSets: API.OperationMethod<
-  ListRegexPatternSetsRequest,
+  ListRegexPatternSetsRequest & RegionInput,
   ListRegexPatternSetsResponse,
   ListRegexPatternSetsError,
   Credentials | HttpClient.HttpClient
@@ -3817,7 +3818,7 @@ export type ListRuleGroupsError = WAFInternalErrorException | CommonErrors;
  * Returns an array of RuleGroup objects.
  */
 export const listRuleGroups: API.OperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3844,7 +3845,7 @@ export type ListRulesError = WAFInternalErrorException | WAFInvalidAccountExcept
  * Returns an array of RuleSummary objects.
  */
 export const listRules: API.OperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
@@ -3874,7 +3875,7 @@ export type ListSizeConstraintSetsError =
  * Returns an array of SizeConstraintSetSummary objects.
  */
 export const listSizeConstraintSets: API.OperationMethod<
-  ListSizeConstraintSetsRequest,
+  ListSizeConstraintSetsRequest & RegionInput,
   ListSizeConstraintSetsResponse,
   ListSizeConstraintSetsError,
   Credentials | HttpClient.HttpClient
@@ -3904,7 +3905,7 @@ export type ListSqlInjectionMatchSetsError =
  * Returns an array of SqlInjectionMatchSet objects.
  */
 export const listSqlInjectionMatchSets: API.OperationMethod<
-  ListSqlInjectionMatchSetsRequest,
+  ListSqlInjectionMatchSetsRequest & RegionInput,
   ListSqlInjectionMatchSetsResponse,
   ListSqlInjectionMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type ListSubscribedRuleGroupsError =
  * Returns an array of RuleGroup objects that you are subscribed to.
  */
 export const listSubscribedRuleGroups: API.OperationMethod<
-  ListSubscribedRuleGroupsRequest,
+  ListSubscribedRuleGroupsRequest & RegionInput,
   ListSubscribedRuleGroupsResponse,
   ListSubscribedRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3970,7 +3971,7 @@ export type ListTagsForResourceError =
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4007,7 +4008,7 @@ export type ListWebACLsError =
  * Returns an array of WebACLSummary objects in the response.
  */
 export const listWebACLs: API.OperationMethod<
-  ListWebACLsRequest,
+  ListWebACLsRequest & RegionInput,
   ListWebACLsResponse,
   ListWebACLsError,
   Credentials | HttpClient.HttpClient
@@ -4037,7 +4038,7 @@ export type ListXssMatchSetsError =
  * Returns an array of XssMatchSet objects.
  */
 export const listXssMatchSets: API.OperationMethod<
-  ListXssMatchSetsRequest,
+  ListXssMatchSetsRequest & RegionInput,
   ListXssMatchSetsResponse,
   ListXssMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -4083,7 +4084,7 @@ export type PutLoggingConfigurationError =
  * When you successfully enable logging using a `PutLoggingConfiguration` request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more information, see Logging Web ACL Traffic Information in the *AWS WAF Developer Guide*.
  */
 export const putLoggingConfiguration: API.OperationMethod<
-  PutLoggingConfigurationRequest,
+  PutLoggingConfigurationRequest & RegionInput,
   PutLoggingConfigurationResponse,
   PutLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4142,7 +4143,7 @@ export type PutPermissionPolicyError =
  * An example of a valid policy parameter is shown in the Examples section below.
  */
 export const putPermissionPolicy: API.OperationMethod<
-  PutPermissionPolicyRequest,
+  PutPermissionPolicyRequest & RegionInput,
   PutPermissionPolicyResponse,
   PutPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4184,7 +4185,7 @@ export type TagResourceError =
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4224,7 +4225,7 @@ export type UntagResourceError =
  * WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4296,7 +4297,7 @@ export type UpdateByteMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateByteMatchSet: API.OperationMethod<
-  UpdateByteMatchSetRequest,
+  UpdateByteMatchSetRequest & RegionInput,
   UpdateByteMatchSetResponse,
   UpdateByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4364,7 +4365,7 @@ export type UpdateGeoMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateGeoMatchSet: API.OperationMethod<
-  UpdateGeoMatchSetRequest,
+  UpdateGeoMatchSetRequest & RegionInput,
   UpdateGeoMatchSetResponse,
   UpdateGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4467,7 +4468,7 @@ export type UpdateIPSetError =
  * Developer Guide.
  */
 export const updateIPSet: API.OperationMethod<
-  UpdateIPSetRequest,
+  UpdateIPSetRequest & RegionInput,
   UpdateIPSetResponse,
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -4551,7 +4552,7 @@ export type UpdateRateBasedRuleError =
  * By adding this `RateBasedRule` to a `WebACL`, you could limit requests to your login page without affecting the rest of your site.
  */
 export const updateRateBasedRule: API.OperationMethod<
-  UpdateRateBasedRuleRequest,
+  UpdateRateBasedRuleRequest & RegionInput,
   UpdateRateBasedRuleResponse,
   UpdateRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -4623,7 +4624,7 @@ export type UpdateRegexMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateRegexMatchSet: API.OperationMethod<
-  UpdateRegexMatchSetRequest,
+  UpdateRegexMatchSetRequest & RegionInput,
   UpdateRegexMatchSetResponse,
   UpdateRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4695,7 +4696,7 @@ export type UpdateRegexPatternSetError =
  * AWS WAF Developer Guide.
  */
 export const updateRegexPatternSet: API.OperationMethod<
-  UpdateRegexPatternSetRequest,
+  UpdateRegexPatternSetRequest & RegionInput,
   UpdateRegexPatternSetResponse,
   UpdateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -4774,7 +4775,7 @@ export type UpdateRuleError =
  * AWS WAF Developer Guide.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -4840,7 +4841,7 @@ export type UpdateRuleGroupError =
  * AWS WAF Developer Guide.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4919,7 +4920,7 @@ export type UpdateSizeConstraintSetError =
  * AWS WAF Developer Guide.
  */
 export const updateSizeConstraintSet: API.OperationMethod<
-  UpdateSizeConstraintSetRequest,
+  UpdateSizeConstraintSetRequest & RegionInput,
   UpdateSizeConstraintSetResponse,
   UpdateSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -4997,7 +4998,7 @@ export type UpdateSqlInjectionMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateSqlInjectionMatchSet: API.OperationMethod<
-  UpdateSqlInjectionMatchSetRequest,
+  UpdateSqlInjectionMatchSetRequest & RegionInput,
   UpdateSqlInjectionMatchSetResponse,
   UpdateSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -5105,7 +5106,7 @@ export type UpdateWebACLError =
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
  */
 export const updateWebACL: API.OperationMethod<
-  UpdateWebACLRequest,
+  UpdateWebACLRequest & RegionInput,
   UpdateWebACLResponse,
   UpdateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -5186,7 +5187,7 @@ export type UpdateXssMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateXssMatchSet: API.OperationMethod<
-  UpdateXssMatchSetRequest,
+  UpdateXssMatchSetRequest & RegionInput,
   UpdateXssMatchSetResponse,
   UpdateXssMatchSetError,
   Credentials | HttpClient.HttpClient

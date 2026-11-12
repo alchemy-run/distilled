@@ -35,20 +35,20 @@ const TELEMETRY = {
 export type CheckNameAvailabilityRequestType = "Microsoft.Management/managementGroups";
 export interface CheckNameAvailabilityRequest {
   /** the name to check for availability */
-  name?: string;
+  name?: string | undefined;
   /** fully qualified resource type which includes provider namespace */
-  type?: CheckNameAvailabilityRequestType | (string & {});
+  type?: CheckNameAvailabilityRequestType | (string & {}) | undefined;
 }
 /** Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable. */
 export type Reason = "Invalid" | "AlreadyExists";
 /** Describes the result of the request to check management group name availability. */
 export interface CheckNameAvailabilityResult {
   /** Required. True indicates name is valid and available. False indicates the name is invalid, unavailable, or both. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable. */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** Required if nameAvailable == false. Localized. If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that is already in use, and direct them to select a different name. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateManagementGroupSubscriptionRequest {
   /** Management Group ID. */
@@ -63,68 +63,68 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The ID of the parent management group. */
 export interface DescendantParentGroupInfo {
   /** The fully qualified ID for the parent management group. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
+  id?: string | undefined;
 }
 /** The generic properties of subscription under a management group. */
 export interface SubscriptionUnderManagementGroupProperties {
   /** The AAD Tenant ID associated with the subscription. For example, 00000000-0000-0000-0000-000000000000 */
-  tenant?: string;
+  tenant?: string | undefined;
   /** The friendly name of the subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID of the parent management group. */
-  parent?: DescendantParentGroupInfo | null;
+  parent?: DescendantParentGroupInfo | null | undefined;
   /** The state of the subscription. */
-  state?: string;
+  state?: string | undefined;
 }
 export interface CreateManagementGroupSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of subscription under a management group. */
-  properties?: SubscriptionUnderManagementGroupProperties;
+  properties?: SubscriptionUnderManagementGroupProperties | undefined;
 }
 /** The provisioning state of the serviceGroup. For example, Running */
 export type ProvisioningState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 /** The attributes of the serviceGroup. */
 export interface ServiceGroupAttributes {
   /** The criticality designation of the service group. Valid values range from 0 through 4. */
-  criticality?: number;
+  criticality?: number | undefined;
 }
 /** The details of the parent serviceGroup. */
 export interface ParentServiceGroupProperties {
   /** The fully qualified ID of the parent serviceGroup. For example, '/providers/Microsoft.Management/serviceGroups/TestServiceGroup' */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** ServiceGroup creation request body parameters. */
 export interface ServiceGroupProperties {
   /** The provisioning state of the serviceGroup. For example, Running */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The display name of the serviceGroup. For example, ServiceGroupTest1 */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The attributes of the serviceGroup. */
-  attributes?: ServiceGroupAttributes;
+  attributes?: ServiceGroupAttributes | undefined;
   /** The details of the parent serviceGroup. */
-  parent?: ParentServiceGroupProperties;
+  parent?: ParentServiceGroupProperties | undefined;
 }
 /** The serviceGroup tags. */
 export type CreateOrUpdateServiceGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -132,33 +132,33 @@ export interface CreateOrUpdateServiceGroupRequest {
   /** ServiceGroup Name. */
   serviceGroupName: string;
   /** ServiceGroup creation request body parameters. */
-  properties?: ServiceGroupProperties;
+  properties?: ServiceGroupProperties | undefined;
   /** The kind of the serviceGroup. */
-  kind?: string;
+  kind?: string | undefined;
   /** The serviceGroup tags. */
-  tags?: CreateOrUpdateServiceGroupRequestTagsMap;
+  tags?: CreateOrUpdateServiceGroupRequestTagsMap | undefined;
 }
 /** The serviceGroup tags. */
 export type CreateOrUpdateServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateOrUpdateServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ServiceGroup creation request body parameters. */
-  properties?: ServiceGroupProperties;
+  properties?: ServiceGroupProperties | undefined;
   /** The kind of the serviceGroup. */
-  kind?: string;
+  kind?: string | undefined;
   /** The serviceGroup tags. */
-  tags?: CreateOrUpdateServiceGroupResponseTagsMap;
+  tags?: CreateOrUpdateServiceGroupResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteHierarchySettingsRequest {
   /** Management Group ID. */
@@ -171,11 +171,11 @@ export interface DeleteManagementGroupRequest {
 }
 export interface DeleteManagementGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagementGroupSubscriptionRequest {
   /** Management Group ID. */
@@ -190,11 +190,11 @@ export interface DeleteServiceGroupRequest {
 }
 export interface DeleteServiceGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetHierarchySettingsRequest {
   /** Management Group ID. */
@@ -203,50 +203,50 @@ export interface GetHierarchySettingsRequest {
 /** The generic properties of hierarchy settings. */
 export interface HierarchySettingsProperties {
   /** The AAD Tenant ID associated with the hierarchy settings. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access. */
-  requireAuthorizationForGroupCreation?: boolean;
+  requireAuthorizationForGroupCreation?: boolean | undefined;
   /** Settings that sets the default Management Group under which new subscriptions get added in this tenant. For example, /providers/Microsoft.Management/managementGroups/defaultGroup */
-  defaultManagementGroup?: string;
+  defaultManagementGroup?: string | undefined;
 }
 export interface GetHierarchySettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of hierarchy settings. */
-  properties?: HierarchySettingsProperties;
+  properties?: HierarchySettingsProperties | undefined;
 }
 export type GetManagementGroupRequestExpand = "children" | "path" | "ancestors";
 export interface GetManagementGroupRequest {
   /** Management Group ID. */
   groupId: string;
   /** The $expand=children query string parameter allows clients to request inclusion of children in the response payload. $expand=path includes the path from the root group to the current group. $expand=ancestors includes the ancestor Ids of the current group. */
-  _expand?: GetManagementGroupRequestExpand | (string & {});
+  _expand?: GetManagementGroupRequestExpand | (string & {}) | undefined;
   /** The $recurse=true query string parameter allows clients to request inclusion of entire hierarchy in the response payload. Note that $expand=children must be passed up if $recurse is set to true. */
-  _recurse?: boolean;
+  _recurse?: boolean | undefined;
   /** A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription') */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** (Optional) The ID of the parent management group. */
 export interface ParentGroupInfo {
   /** The fully qualified ID for the parent management group. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
+  id?: string | undefined;
   /** The name of the parent management group */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name of the parent management group. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A path element of a management group ancestors. */
 export interface ManagementGroupPathElement {
   /** The name of the group. */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name of the group. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The path from the root to the current group. */
 export type ManagementGroupDetailsPathList = Array<ManagementGroupPathElement>;
@@ -258,19 +258,21 @@ export type ManagementGroupDetailsManagementGroupAncestorsChainList =
 /** The details of a management group. */
 export interface ManagementGroupDetails {
   /** The version number of the object. */
-  version?: number;
+  version?: number | undefined;
   /** The date and time when this object was last updated. */
-  updatedTime?: string;
+  updatedTime?: string | undefined;
   /** The identity of the principal or process that updated the object. */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   /** (Optional) The ID of the parent management group. */
-  parent?: ParentGroupInfo;
+  parent?: ParentGroupInfo | undefined;
   /** The path from the root to the current group. */
-  path?: ManagementGroupDetailsPathList;
+  path?: ManagementGroupDetailsPathList | undefined;
   /** The ancestors of the management group. */
-  managementGroupAncestors?: ManagementGroupDetailsManagementGroupAncestorsList | null;
+  managementGroupAncestors?: ManagementGroupDetailsManagementGroupAncestorsList | null | undefined;
   /** The ancestors of the management group displayed in reversed order, from immediate parent to the root. */
-  managementGroupAncestorsChain?: ManagementGroupDetailsManagementGroupAncestorsChainList;
+  managementGroupAncestorsChain?:
+    | ManagementGroupDetailsManagementGroupAncestorsChainList
+    | undefined;
 }
 /** The type of child resource. */
 export type ManagementGroupChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
@@ -279,66 +281,66 @@ export type ManagementGroupChildInfoChildrenList = Array<ManagementGroupChildInf
 /** The child information of a management group. */
 export interface ManagementGroupChildInfo {
   /** The fully qualified resource type which includes provider namespace (e.g. Microsoft.Management/managementGroups) */
-  type?: ManagementGroupChildType;
+  type?: ManagementGroupChildType | undefined;
   /** The fully qualified ID for the child resource (management group or subscription). For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
+  id?: string | undefined;
   /** The name of the child entity. */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name of the child resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of children. */
-  children?: ManagementGroupChildInfoChildrenList;
+  children?: ManagementGroupChildInfoChildrenList | undefined;
 }
 /** The list of children. */
 export type ManagementGroupPropertiesChildrenList = Array<ManagementGroupChildInfo>;
 /** The generic properties of a management group. */
 export interface ManagementGroupProperties {
   /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The friendly name of the management group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The details of a management group. */
-  details?: ManagementGroupDetails;
+  details?: ManagementGroupDetails | undefined;
   /** The list of children. */
-  children?: ManagementGroupPropertiesChildrenList | null;
+  children?: ManagementGroupPropertiesChildrenList | null | undefined;
 }
 export interface GetManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of a management group. */
-  properties?: ManagementGroupProperties;
+  properties?: ManagementGroupProperties | undefined;
 }
 export interface GetManagementGroupDescendantsRequest {
   /** Management Group ID. */
   groupId: string;
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The generic properties of an descendant. */
 export interface DescendantInfoProperties {
   /** The friendly name of the management group. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The ID of the parent management group. */
-  parent?: DescendantParentGroupInfo | null;
+  parent?: DescendantParentGroupInfo | null | undefined;
 }
 /** The descendant. */
 export interface DescendantInfo {
   /** The fully qualified ID for the descendant. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 or /subscriptions/0000000-0000-0000-0000-000000000000 */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The type of the resource. For example, Microsoft.Management/managementGroups or /subscriptions */
-  type?: string | null;
+  type?: string | null | undefined;
   /** The name of the descendant. For example, 00000000-0000-0000-0000-000000000000 */
-  name?: string;
+  name?: string | undefined;
   /** The generic properties of an descendant. */
-  properties?: DescendantInfoProperties | null;
+  properties?: DescendantInfoProperties | null | undefined;
 }
 /** The DescendantInfo items on this page */
 export type DescendantListResultValueList = Array<DescendantInfo>;
@@ -347,7 +349,7 @@ export interface DescendantListResult {
   /** The DescendantInfo items on this page */
   value: DescendantListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetManagementGroupSubscriptionSubscriptionRequest {
   /** Management Group ID. */
@@ -357,34 +359,34 @@ export interface GetManagementGroupSubscriptionSubscriptionRequest {
 }
 export interface GetManagementGroupSubscriptionSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of subscription under a management group. */
-  properties?: SubscriptionUnderManagementGroupProperties;
+  properties?: SubscriptionUnderManagementGroupProperties | undefined;
 }
 export interface GetManagementGroupSubscriptionSubscriptionsUnderManagementGroupRequest {
   /** Management Group ID. */
   groupId: string;
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** The details of subscription under management group. */
 export interface SubscriptionUnderManagementGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of subscription under a management group. */
-  properties?: SubscriptionUnderManagementGroupProperties;
+  properties?: SubscriptionUnderManagementGroupProperties | undefined;
 }
 /** The SubscriptionUnderManagementGroup items on this page */
 export type ListSubscriptionUnderManagementGroupValueList = Array<SubscriptionUnderManagementGroup>;
@@ -393,7 +395,7 @@ export interface ListSubscriptionUnderManagementGroup {
   /** The SubscriptionUnderManagementGroup items on this page */
   value: ListSubscriptionUnderManagementGroupValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetServiceGroupRequest {
   /** ServiceGroup Name. */
@@ -403,44 +405,44 @@ export interface GetServiceGroupRequest {
 export type GetServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ServiceGroup creation request body parameters. */
-  properties?: ServiceGroupProperties;
+  properties?: ServiceGroupProperties | undefined;
   /** The kind of the serviceGroup. */
-  kind?: string;
+  kind?: string | undefined;
   /** The serviceGroup tags. */
-  tags?: GetServiceGroupResponseTagsMap;
+  tags?: GetServiceGroupResponseTagsMap | undefined;
 }
 /** The properties of the request to create or update Management Group settings */
 export interface CreateOrUpdateSettingsProperties {
   /** Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access. */
-  requireAuthorizationForGroupCreation?: boolean;
+  requireAuthorizationForGroupCreation?: boolean | undefined;
   /** Settings that sets the default Management Group under which new subscriptions get added in this tenant. For example, /providers/Microsoft.Management/managementGroups/defaultGroup */
-  defaultManagementGroup?: string;
+  defaultManagementGroup?: string | undefined;
 }
 export interface HierarchySettingsCreateOrUpdateRequest {
   /** Management Group ID. */
   groupId: string;
   /** The properties of the request to create or update Management Group settings */
-  properties?: CreateOrUpdateSettingsProperties;
+  properties?: CreateOrUpdateSettingsProperties | undefined;
 }
 export interface HierarchySettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of hierarchy settings. */
-  properties?: HierarchySettingsProperties;
+  properties?: HierarchySettingsProperties | undefined;
 }
 export type ListEntitiesRequestSearch =
   | "AllowedParents"
@@ -455,21 +457,21 @@ export type ListEntitiesRequestView =
   | "Audit";
 export interface ListEntitiesRequest {
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
   /** Number of entities to skip over when retrieving results. Passing this in will override $skipToken. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  _top?: number;
+  _top?: number | undefined;
   /** This parameter specifies the fields to include in the response. Can include any combination of Name,DisplayName,Type,ParentDisplayNameChain,ParentChain, e.g. '$select=Name,DisplayName,Type,ParentDisplayNameChain,ParentNameChain'. When specified the $select parameter can override select in $skipToken. */
-  _select?: string;
+  _select?: string | undefined;
   /** The $search parameter is used in conjunction with the $filter parameter to return three different outputs depending on the parameter passed in. With $search=AllowedParents the API will return the entity info of all groups that the requested entity will be able to reparent to as determined by the user's permissions. With $search=AllowedChildren the API will return the entity info of all entities that can be added as children of the requested entity. With $search=ParentAndFirstLevelChildren the API will return the parent and first level of children that the user has either direct access to or indirect access via one of their descendants. With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group. With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter. The user must have direct access to the children entities or one of it's descendants for it to show up in the results. */
-  _search?: ListEntitiesRequestSearch | (string & {});
+  _search?: ListEntitiesRequestSearch | (string & {}) | undefined;
   /** The filter parameter allows you to filter on the the name or display name fields. You can check for equality on the name field (e.g. name eq '{entityName}') and you can check for substrings on either the name or display name fields(e.g. contains(name, '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note that the '{entityName}' and '{substringToSearch}' fields are checked case insensitively. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  _view?: ListEntitiesRequestView | (string & {});
+  _view?: ListEntitiesRequestView | (string & {}) | undefined;
   /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
-  groupName?: string;
+  groupName?: string | undefined;
 }
 /** (Optional) The ID of the parent management group. */
 export type EntityParentGroupInfo = DescendantParentGroupInfo;
@@ -482,36 +484,36 @@ export type EntityInfoPropertiesParentNameChainList = Array<string>;
 /** The generic properties of an entity. */
 export interface EntityInfoProperties {
   /** The AAD Tenant ID associated with the entity. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** The friendly name of the management group. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** (Optional) The ID of the parent management group. */
-  parent?: DescendantParentGroupInfo | null;
+  parent?: DescendantParentGroupInfo | null | undefined;
   /** The users specific permissions to this item. */
-  permissions?: Permissions | null;
+  permissions?: Permissions | null | undefined;
   /** The users specific permissions to this item. */
-  inheritedPermissions?: Permissions | null;
+  inheritedPermissions?: Permissions | null | undefined;
   /** Number of Descendants */
-  numberOfDescendants?: number | null;
+  numberOfDescendants?: number | null | undefined;
   /** Number of children is the number of Groups and Subscriptions that are exactly one level underneath the current Group. */
-  numberOfChildren?: number | null;
+  numberOfChildren?: number | null | undefined;
   /** Number of children is the number of Groups that are exactly one level underneath the current Group. */
-  numberOfChildGroups?: number | null;
+  numberOfChildGroups?: number | null | undefined;
   /** The parent display name chain from the root group to the immediate parent */
-  parentDisplayNameChain?: EntityInfoPropertiesParentDisplayNameChainList | null;
+  parentDisplayNameChain?: EntityInfoPropertiesParentDisplayNameChainList | null | undefined;
   /** The parent name chain from the root group to the immediate parent */
-  parentNameChain?: EntityInfoPropertiesParentNameChainList | null;
+  parentNameChain?: EntityInfoPropertiesParentNameChainList | null | undefined;
 }
 /** The entity. */
 export interface EntityInfo {
   /** The fully qualified ID for the entity. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The type of the resource. For example, Microsoft.Management/managementGroups */
-  type?: string | null;
+  type?: string | null | undefined;
   /** The name of the entity. For example, 00000000-0000-0000-0000-000000000000 */
-  name?: string;
+  name?: string | undefined;
   /** The generic properties of an entity. */
-  properties?: EntityInfoProperties | null;
+  properties?: EntityInfoProperties | null | undefined;
 }
 /** The EntityInfo items on this page */
 export type EntityListResultValueList = Array<EntityInfo>;
@@ -520,9 +522,9 @@ export interface EntityListResult {
   /** The EntityInfo items on this page */
   value: EntityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Total count of records that match the filter. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface ListHierarchySettingsRequest {
   /** Management Group ID. */
@@ -531,65 +533,65 @@ export interface ListHierarchySettingsRequest {
 /** The hierarchy settings resource. */
 export interface HierarchySettingsInfo {
   /** The fully qualified ID for the settings object. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000/settings/default. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the resource. For example, Microsoft.Management/managementGroups/settings. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the object. In this case, default. */
-  name?: string;
+  name?: string | undefined;
   /** The generic properties of hierarchy settings. */
-  properties?: HierarchySettingsProperties;
+  properties?: HierarchySettingsProperties | undefined;
 }
 /** The list of hierarchy settings. */
 export type HierarchySettingsListValueList = Array<HierarchySettingsInfo>;
 /** Lists all hierarchy settings. */
 export interface HierarchySettingsList {
   /** The list of hierarchy settings. */
-  value?: HierarchySettingsListValueList;
+  value?: HierarchySettingsListValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  _nextLink?: string;
+  _nextLink?: string | undefined;
 }
 export interface ListManagementGroupsRequest {
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** The generic properties of a management group. */
 export interface ManagementGroupInfoProperties {
   /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The friendly name of the management group. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The management group resource. */
 export interface ManagementGroupInfo {
   /** The fully qualified ID for the management group. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
+  id?: string | undefined;
   /** The type of the resource. For example, Microsoft.Management/managementGroups */
-  type?: string;
+  type?: string | undefined;
   /** The name of the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  name?: string;
+  name?: string | undefined;
   /** The generic properties of a management group. */
-  properties?: ManagementGroupInfoProperties;
+  properties?: ManagementGroupInfoProperties | undefined;
 }
 /** The list of management groups. */
 export type ManagementGroupListResultValueList = Array<ManagementGroupInfo>;
 /** Describes the result of the request to list management groups. */
 export interface ManagementGroupListResult {
   /** The list of management groups. */
-  value?: ManagementGroupListResultValueList;
+  value?: ManagementGroupListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  _nextLink?: string;
+  _nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -598,61 +600,61 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** (Optional) The ID of the parent management group used during creation. */
 export type CreateParentGroupInfoInput = DescendantParentGroupInfo;
 /** The details of a management group used during creation. */
 export interface CreateManagementGroupDetailsInput {
   /** (Optional) The ID of the parent management group used during creation. */
-  parent?: DescendantParentGroupInfo;
+  parent?: DescendantParentGroupInfo | undefined;
 }
 /** The generic properties of a management group used during creation. */
 export interface CreateManagementGroupPropertiesInput {
   /** The friendly name of the management group. If no value is passed then this field will be set to the groupId. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The details of a management group used during creation. */
-  details?: CreateManagementGroupDetailsInput;
+  details?: CreateManagementGroupDetailsInput | undefined;
 }
 export interface ManagementGroupsCreateOrUpdateRequest {
   /** Management Group ID. */
   groupId: string;
   /** The name of the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  name?: string;
+  name?: string | undefined;
   /** The generic properties of a management group used during creation. */
-  properties?: CreateManagementGroupPropertiesInput;
+  properties?: CreateManagementGroupPropertiesInput | undefined;
 }
 export interface ManagementGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of a management group. */
-  properties?: ManagementGroupProperties;
+  properties?: ManagementGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface StartTenantBackfillRequest {}
 /** The status of the Tenant Backfill */
@@ -666,48 +668,48 @@ export type Status =
 /** The tenant backfill status */
 export interface TenantBackfillStatusResult {
   /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The status of the Tenant Backfill */
-  status?: Status;
+  status?: Status | undefined;
 }
 export interface TenantBackfillStatusRequest {}
 export interface UpdateHierarchySettingsRequest {
   /** Management Group ID. */
   groupId: string;
   /** The properties of the request to create or update Management Group settings */
-  properties?: CreateOrUpdateSettingsProperties;
+  properties?: CreateOrUpdateSettingsProperties | undefined;
 }
 export interface UpdateHierarchySettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of hierarchy settings. */
-  properties?: HierarchySettingsProperties;
+  properties?: HierarchySettingsProperties | undefined;
 }
 export interface UpdateManagementGroupRequest {
   /** Management Group ID. */
   groupId: string;
   /** The friendly name of the management group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** (Optional) The fully qualified ID for the parent management group. For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  parentGroupId?: string;
+  parentGroupId?: string | undefined;
 }
 export interface UpdateManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The generic properties of a management group. */
-  properties?: ManagementGroupProperties;
+  properties?: ManagementGroupProperties | undefined;
 }
 /** The serviceGroup tags. */
 export type UpdateServiceGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -715,35 +717,35 @@ export interface UpdateServiceGroupRequest {
   /** ServiceGroup Name. */
   serviceGroupName: string;
   /** ServiceGroup creation request body parameters. */
-  properties?: ServiceGroupProperties;
+  properties?: ServiceGroupProperties | undefined;
   /** The kind of the serviceGroup. */
-  kind?: string;
+  kind?: string | undefined;
   /** The serviceGroup tags. */
-  tags?: UpdateServiceGroupRequestTagsMap;
+  tags?: UpdateServiceGroupRequestTagsMap | undefined;
 }
 /** The serviceGroup tags. */
 export type UpdateServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ServiceGroup creation request body parameters. */
-  properties?: ServiceGroupProperties;
+  properties?: ServiceGroupProperties | undefined;
   /** The kind of the serviceGroup. */
-  kind?: string;
+  kind?: string | undefined;
   /** The serviceGroup tags. */
-  tags?: UpdateServiceGroupResponseTagsMap;
+  tags?: UpdateServiceGroupResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckNameAvailabilityError = AzureOpError;
 /** Checks if the specified management group name is valid and unique */

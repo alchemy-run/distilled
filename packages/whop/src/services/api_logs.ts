@@ -37,43 +37,43 @@ export type ListApiLogsRequestHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "D
 export type ListApiLogsRequestStatus = "success" | "error";
 export interface ListApiLogsRequest {
   /** The account (biz_*) whose API logs to list. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return requests served at or after this ISO 8601 timestamp. Defaults to 7 days before created_before, or 7 days ago. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only return requests served before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return requests for this operation, matched exactly against the operation_name shown on each log row (for example api/v1/products#create). */
-  operation_name?: string;
+  operation_name?: string | undefined;
   /** Only return requests made with this HTTP method. */
-  http_method?: ListApiLogsRequestHttpMethod | (string & {});
+  http_method?: ListApiLogsRequestHttpMethod | (string & {}) | undefined;
   /** Only return requests that finished with this status. */
-  status?: ListApiLogsRequestStatus | (string & {});
+  status?: ListApiLogsRequestStatus | (string & {}) | undefined;
   /** Only return requests made with this API key (apik_...). */
-  api_key_id?: string;
+  api_key_id?: string | undefined;
   /** Only return requests that took at least this many milliseconds. */
-  min_duration_ms?: number;
+  min_duration_ms?: number | undefined;
   /** Only return requests that took at most this many milliseconds. */
-  max_duration_ms?: number;
+  max_duration_ms?: number | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListApiLogsResponseDataItemHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type ListApiLogsResponseDataItemStatus = "success" | "error";
 export interface ListApiLogsResponseDataItem {
-  api_key_id?: string | null;
+  api_key_id?: string | null | undefined;
   created_at: string;
-  duration_ms?: number | null;
-  http_method?: ListApiLogsResponseDataItemHttpMethod | null;
-  http_path?: string | null;
+  duration_ms?: number | null | undefined;
+  http_method?: ListApiLogsResponseDataItemHttpMethod | null | undefined;
+  http_path?: string | null | undefined;
   id: string;
-  ip_address?: string | null;
-  operation_name?: string | null;
-  resource_id?: string | null;
-  status?: ListApiLogsResponseDataItemStatus | null;
-  status_code?: number | null;
-  user_agent?: string | null;
+  ip_address?: string | null | undefined;
+  operation_name?: string | null | undefined;
+  resource_id?: string | null | undefined;
+  status?: ListApiLogsResponseDataItemStatus | null | undefined;
+  status_code?: number | null | undefined;
+  user_agent?: string | null | undefined;
 }
 export type ListApiLogsResponseDataList = Array<ListApiLogsResponseDataItem>;
 export interface ListApiLogsResponsePageInfo {

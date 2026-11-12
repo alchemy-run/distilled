@@ -1,0 +1,8 @@
+{
+  "description": "Remove POST /function: it is an admin route the spec doesn't mark as one. Observed live 2026-11-01: with no token it answers 403 BadDeployKey. The functions service sends no token, so the call can never succeed, and runFunctionByPath (POST /run/{functionIdentifier}) covers the same call.",
+  "patches": [
+    { "op": "remove", "path": "/shapes/com.convex.functions#PublicFunctionPost" },
+    { "op": "remove", "path": "/shapes/com.convex.functions#PublicFunctionPostRequest" },
+    { "op": "remove", "path": "/shapes/com.convex.functions#PublicFunctionPostResponse" }
+  ]
+}

@@ -37,53 +37,53 @@ export type AddAddsServiceRequestCustomNotificationEmailsList = Array<string>;
 export type AddAddsServiceRequestNotificationEmailsList = Array<string>;
 export interface AddAddsServiceRequest {
   /** The id of the service. */
-  id?: string;
+  id?: string | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date and time, in UTC, when the service was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of additional emails that are configured to receive notifications about the service. */
-  customNotificationEmails?: AddAddsServiceRequestCustomNotificationEmailsList;
+  customNotificationEmails?: AddAddsServiceRequestCustomNotificationEmailsList | undefined;
   /** Indicates if the service is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The health of the service. */
-  health?: string;
+  health?: string | undefined;
   /** The date and time, in UTC, when the service was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** Indicates if email notification is enabled or not. */
-  notificationEmailEnabled?: boolean;
+  notificationEmailEnabled?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailEnabledForGlobalAdmins?: boolean;
+  notificationEmailEnabledForGlobalAdmins?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailsEnabledForGlobalAdmins?: boolean;
+  notificationEmailsEnabledForGlobalAdmins?: boolean | undefined;
   /** The list of emails to whom service notifications will be sent. */
-  notificationEmails?: AddAddsServiceRequestNotificationEmailsList;
+  notificationEmails?: AddAddsServiceRequestNotificationEmailsList | undefined;
   /** Gets the original disable state. */
-  originalDisabledState?: boolean;
+  originalDisabledState?: boolean | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The id of the service. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The name of the service. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The id of the tenant to which the service is registered to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of additional emails that are configured to receive notifications about the service. */
 export type ServicePropertiesCustomNotificationEmailsList = Array<string>;
@@ -92,53 +92,53 @@ export type ServicePropertiesNotificationEmailsList = Array<string>;
 /** The service properties for a given service. */
 export interface ServiceProperties {
   /** The id of the service. */
-  id?: string;
+  id?: string | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date and time, in UTC, when the service was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of additional emails that are configured to receive notifications about the service. */
-  customNotificationEmails?: ServicePropertiesCustomNotificationEmailsList;
+  customNotificationEmails?: ServicePropertiesCustomNotificationEmailsList | undefined;
   /** Indicates if the service is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The health of the service. */
-  health?: string;
+  health?: string | undefined;
   /** The date and time, in UTC, when the service was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** Indicates if email notification is enabled or not. */
-  notificationEmailEnabled?: boolean;
+  notificationEmailEnabled?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailEnabledForGlobalAdmins?: boolean;
+  notificationEmailEnabledForGlobalAdmins?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailsEnabledForGlobalAdmins?: boolean;
+  notificationEmailsEnabledForGlobalAdmins?: boolean | undefined;
   /** The list of emails to whom service notifications will be sent. */
-  notificationEmails?: ServicePropertiesNotificationEmailsList;
+  notificationEmails?: ServicePropertiesNotificationEmailsList | undefined;
   /** Gets the original disable state. */
-  originalDisabledState?: boolean;
+  originalDisabledState?: boolean | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The id of the service. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The name of the service. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The id of the tenant to which the service is registered to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The monitoring level reported by the server. */
 export type AddAddsServicesServiceMemberRequestServerReportedMonitoringLevel =
@@ -149,116 +149,117 @@ export interface AddAddsServicesServiceMemberRequest {
   /** The name of the service under which the server is to be onboarded. */
   serviceName: string;
   /** The id of the server. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The service id to whom this server belongs. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The tenant id to whom this server belongs. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The total number of alerts that are currently active for the server. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information, if any, for the server. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date time , in UTC, when the server was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The server specific configuration related dimensions. */
-  dimensions?: unknown;
+  dimensions?: unknown | undefined;
   /** Indicates if the server is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason for disabling the server. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of installed QFEs for the server. */
-  installedQfes?: unknown;
+  installedQfes?: unknown | undefined;
   /** The date and time , in UTC, when the server was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the server was last rebooted. */
-  lastReboot?: string;
+  lastReboot?: string | undefined;
   /** The date and time, in UTC, when the server's data monitoring configuration was last changed. */
-  lastServerReportedMonitoringLevelChange?: string;
+  lastServerReportedMonitoringLevelChange?: string | undefined;
   /** The date and time, in UTC, when the server properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The id of the machine. */
-  machineId?: string;
+  machineId?: string | undefined;
   /** The name of the server. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** The name of the operating system installed in the machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of the operating system installed in the machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Server specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The list of recommended hotfixes for the server. */
-  recommendedQfes?: unknown;
+  recommendedQfes?: unknown | undefined;
   /** The total count of alerts that are resolved for this server. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The service role that is being monitored in the server. */
-  role?: string;
+  role?: string | undefined;
   /** The monitoring level reported by the server. */
   serverReportedMonitoringLevel?:
     | AddAddsServicesServiceMemberRequestServerReportedMonitoringLevel
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The health status of the server. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The monitoring level reported by the server. */
 export type ServiceMemberServerReportedMonitoringLevel = "Partial" | "Full" | "Off";
 /** The server properties for a given service. */
 export interface ServiceMember {
   /** The id of the server. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The service id to whom this server belongs. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The tenant id to whom this server belongs. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The total number of alerts that are currently active for the server. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information, if any, for the server. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date time , in UTC, when the server was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The server specific configuration related dimensions. */
-  dimensions?: unknown;
+  dimensions?: unknown | undefined;
   /** Indicates if the server is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason for disabling the server. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of installed QFEs for the server. */
-  installedQfes?: unknown;
+  installedQfes?: unknown | undefined;
   /** The date and time , in UTC, when the server was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the server was last rebooted. */
-  lastReboot?: string;
+  lastReboot?: string | undefined;
   /** The date and time, in UTC, when the server's data monitoring configuration was last changed. */
-  lastServerReportedMonitoringLevelChange?: string;
+  lastServerReportedMonitoringLevelChange?: string | undefined;
   /** The date and time, in UTC, when the server properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The id of the machine. */
-  machineId?: string;
+  machineId?: string | undefined;
   /** The name of the server. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** The name of the operating system installed in the machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of the operating system installed in the machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Server specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The list of recommended hotfixes for the server. */
-  recommendedQfes?: unknown;
+  recommendedQfes?: unknown | undefined;
   /** The total count of alerts that are resolved for this server. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The service role that is being monitored in the server. */
-  role?: string;
+  role?: string | undefined;
   /** The monitoring level reported by the server. */
-  serverReportedMonitoringLevel?: ServiceMemberServerReportedMonitoringLevel;
+  serverReportedMonitoringLevel?: ServiceMemberServerReportedMonitoringLevel | undefined;
   /** The health status of the server. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The name of the metric. */
 export type AddAddsServicesUserPreferenceRequestMetricNamesList = Array<string>;
@@ -268,7 +269,7 @@ export interface AddAddsServicesUserPreferenceRequest {
   /** The name of the feature. */
   featureName: string;
   /** The name of the metric. */
-  metricNames?: AddAddsServicesUserPreferenceRequestMetricNamesList;
+  metricNames?: AddAddsServicesUserPreferenceRequestMetricNamesList | undefined;
 }
 export interface AddAddsServicesUserPreferenceResponse {}
 export interface AddConfigurationRequest {}
@@ -277,47 +278,47 @@ export type TenantGlobalAdminsEmailList = Array<string>;
 /** The details of the onboarded tenant. */
 export interface Tenant {
   /** The Id of the tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The Azure Active Directory license of the tenant. */
-  aadLicense?: string;
+  aadLicense?: string | undefined;
   /** Indicate if the tenant has Azure Active Directory Premium license or not. */
-  aadPremium?: boolean;
+  aadPremium?: boolean | undefined;
   /** Indicates if the tenant is configured to automatically receive updates for Azure Active Directory Connect Health client side features. */
-  agentAutoUpdate?: boolean;
+  agentAutoUpdate?: boolean | undefined;
   /** The time in minutes after which an alert will be auto-suppressed. */
-  alertSuppressionTimeInMins?: number;
+  alertSuppressionTimeInMins?: number | undefined;
   /** Indicates if the tenant data can be seen by Microsoft through Azure portal. */
-  consentedToMicrosoftDevOps?: boolean;
+  consentedToMicrosoftDevOps?: boolean | undefined;
   /** The country letter code of the tenant. */
-  countryLetterCode?: string;
+  countryLetterCode?: string | undefined;
   /** The date, in UTC, when the tenant was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The date and time, in UTC, till when the tenant data can be seen by Microsoft through Azure portal. */
-  devOpsTtl?: string;
+  devOpsTtl?: string | undefined;
   /** Indicates if the tenant is disabled in Azure Active Directory Connect Health. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason due to which the tenant was disabled in Azure Active Directory Connect Health. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of global administrators for the tenant. */
-  globalAdminsEmail?: TenantGlobalAdminsEmailList;
+  globalAdminsEmail?: TenantGlobalAdminsEmailList | undefined;
   /** The initial domain of the tenant. */
-  initialDomain?: string;
+  initialDomain?: string | undefined;
   /** The date and time, in UTC, when the tenant was last disabled in Azure Active Directory Connect Health. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the tenant onboarding status in Azure Active Directory Connect Health was last verified. */
-  lastVerified?: string;
+  lastVerified?: string | undefined;
   /** Indicates if the tenant is allowed to onboard to Azure Active Directory Connect Health. */
-  onboardingAllowed?: boolean;
+  onboardingAllowed?: boolean | undefined;
   /** Indicates if the tenant is already onboarded to Azure Active Directory Connect Health. */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** The certificate associated with the tenant to onboard data to Azure Active Directory Connect Health. */
-  pksCertificate?: unknown;
+  pksCertificate?: unknown | undefined;
   /** Indicates if the tenant has signed up for private preview of Azure Active Directory Connect Health features. */
-  privatePreviewTenant?: boolean;
+  privatePreviewTenant?: boolean | undefined;
   /** Indicates if data collection for this tenant is disabled or not. */
-  tenantInQuarantine?: boolean;
+  tenantInQuarantine?: boolean | undefined;
   /** The name of the tenant. */
-  tenantName?: string;
+  tenantName?: string | undefined;
 }
 /** The list of additional emails that are configured to receive notifications about the service. */
 export type AddServiceRequestCustomNotificationEmailsList = Array<string>;
@@ -325,92 +326,92 @@ export type AddServiceRequestCustomNotificationEmailsList = Array<string>;
 export type AddServiceRequestNotificationEmailsList = Array<string>;
 export interface AddServiceRequest {
   /** The id of the service. */
-  id?: string;
+  id?: string | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date and time, in UTC, when the service was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of additional emails that are configured to receive notifications about the service. */
-  customNotificationEmails?: AddServiceRequestCustomNotificationEmailsList;
+  customNotificationEmails?: AddServiceRequestCustomNotificationEmailsList | undefined;
   /** Indicates if the service is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The health of the service. */
-  health?: string;
+  health?: string | undefined;
   /** The date and time, in UTC, when the service was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** Indicates if email notification is enabled or not. */
-  notificationEmailEnabled?: boolean;
+  notificationEmailEnabled?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailEnabledForGlobalAdmins?: boolean;
+  notificationEmailEnabledForGlobalAdmins?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailsEnabledForGlobalAdmins?: boolean;
+  notificationEmailsEnabledForGlobalAdmins?: boolean | undefined;
   /** The list of emails to whom service notifications will be sent. */
-  notificationEmails?: AddServiceRequestNotificationEmailsList;
+  notificationEmails?: AddServiceRequestNotificationEmailsList | undefined;
   /** Gets the original disable state. */
-  originalDisabledState?: boolean;
+  originalDisabledState?: boolean | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The id of the service. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The name of the service. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The id of the tenant to which the service is registered to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface AddServiceAlertFeedbackRequest {
   /** The name of the service. */
   serviceName: string;
   /** The alert level which indicates the severity of the alert. */
-  level?: string;
+  level?: string | undefined;
   /** The alert state which can be either active or resolved with multiple resolution types. */
-  state?: string;
+  state?: string | undefined;
   /** The alert short name. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** The feedback for the alert which indicates if the customer likes or dislikes the alert. */
-  feedback?: string;
+  feedback?: string | undefined;
   /** Additional comments related to the alert. */
-  comment?: string;
+  comment?: string | undefined;
   /** Indicates if the alert feedback can be shared from product team. */
-  consentedToShare?: boolean;
+  consentedToShare?: boolean | undefined;
   /** The server Id of the alert. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The date and time,in UTC,when the alert was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 /** The alert feedback details. */
 export interface AlertFeedback {
   /** The alert level which indicates the severity of the alert. */
-  level?: string;
+  level?: string | undefined;
   /** The alert state which can be either active or resolved with multiple resolution types. */
-  state?: string;
+  state?: string | undefined;
   /** The alert short name. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** The feedback for the alert which indicates if the customer likes or dislikes the alert. */
-  feedback?: string;
+  feedback?: string | undefined;
   /** Additional comments related to the alert. */
-  comment?: string;
+  comment?: string | undefined;
   /** Indicates if the alert feedback can be shared from product team. */
-  consentedToShare?: boolean;
+  consentedToShare?: boolean | undefined;
   /** The server Id of the alert. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The date and time,in UTC,when the alert was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 /** The monitoring level reported by the server. */
 export type AddServiceMemberRequestServerReportedMonitoringLevel = "Partial" | "Full" | "Off";
@@ -418,65 +419,66 @@ export interface AddServiceMemberRequest {
   /** The name of the service under which the server is to be onboarded. */
   serviceName: string;
   /** The id of the server. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The service id to whom this server belongs. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The tenant id to whom this server belongs. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The total number of alerts that are currently active for the server. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information, if any, for the server. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date time , in UTC, when the server was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The server specific configuration related dimensions. */
-  dimensions?: unknown;
+  dimensions?: unknown | undefined;
   /** Indicates if the server is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason for disabling the server. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of installed QFEs for the server. */
-  installedQfes?: unknown;
+  installedQfes?: unknown | undefined;
   /** The date and time , in UTC, when the server was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the server was last rebooted. */
-  lastReboot?: string;
+  lastReboot?: string | undefined;
   /** The date and time, in UTC, when the server's data monitoring configuration was last changed. */
-  lastServerReportedMonitoringLevelChange?: string;
+  lastServerReportedMonitoringLevelChange?: string | undefined;
   /** The date and time, in UTC, when the server properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The id of the machine. */
-  machineId?: string;
+  machineId?: string | undefined;
   /** The name of the server. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** The name of the operating system installed in the machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of the operating system installed in the machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Server specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The list of recommended hotfixes for the server. */
-  recommendedQfes?: unknown;
+  recommendedQfes?: unknown | undefined;
   /** The total count of alerts that are resolved for this server. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The service role that is being monitored in the server. */
-  role?: string;
+  role?: string | undefined;
   /** The monitoring level reported by the server. */
   serverReportedMonitoringLevel?:
     | AddServiceMemberRequestServerReportedMonitoringLevel
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The health status of the server. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteAddsServiceRequest {
   /** The name of the service which needs to be deleted. */
   serviceName: string;
   /** Indicates if the service will be permanently deleted or disabled. True indicates that the service will be permanently deleted and False indicates that the service will be marked disabled and then deleted after 30 days, if it is not re-registered. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
 }
 export interface DeleteAddsServiceResponse {}
 export interface DeleteAddsServiceMemberRequest {
@@ -485,7 +487,7 @@ export interface DeleteAddsServiceMemberRequest {
   /** The server Id. */
   serviceMemberId: string;
   /** Indicates if the server will be permanently deleted or disabled. True indicates that the server will be permanently deleted and False indicates that the server will be marked disabled and then deleted after 30 days, if it is not re-registered. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
 }
 export interface DeleteAddsServiceMemberResponse {}
 export interface DeleteAddsServicesUserPreferenceRequest {
@@ -499,7 +501,7 @@ export interface DeleteServiceRequest {
   /** The name of the service which needs to be deleted. */
   serviceName: string;
   /** Indicates if the service will be permanently deleted or disabled. True indicates that the service will be permanently deleted and False indicates that the service will be marked disabled and then deleted after 30 days, if it is not re-registered. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
 }
 export interface DeleteServiceResponse {}
 export interface DeleteServiceMemberRequest {
@@ -508,7 +510,7 @@ export interface DeleteServiceMemberRequest {
   /** The server Id. */
   serviceMemberId: string;
   /** Indicates if the server will be permanently deleted or disabled. True indicates that the server will be permanently deleted and False indicates that the server will be marked disabled and then deleted after 30 days, if it is not re-registered. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
 }
 export interface DeleteServiceMemberResponse {}
 export interface DeleteServiceMemberDataRequest {
@@ -533,19 +535,19 @@ export type ForestSummarySitesList = Array<string>;
 /** The forest summary for an ADDS domain. */
 export interface ForestSummary {
   /** The forest name. */
-  forestName?: string;
+  forestName?: string | undefined;
   /** The domain count. */
-  domainCount?: number;
+  domainCount?: number | undefined;
   /** The site count. */
-  siteCount?: number;
+  siteCount?: number | undefined;
   /** The number of domain controllers that are monitored by Azure Active Directory Connect Health. */
-  monitoredDcCount?: number;
+  monitoredDcCount?: number | undefined;
   /** The total domain controllers. */
-  totalDcCount?: number;
+  totalDcCount?: number | undefined;
   /** The list of domain controller names. */
-  domains?: ForestSummaryDomainsList;
+  domains?: ForestSummaryDomainsList | undefined;
   /** The list of site names. */
-  sites?: ForestSummarySitesList;
+  sites?: ForestSummarySitesList | undefined;
 }
 export interface GetAddsServiceMemberRequest {
   /** The name of the service. */
@@ -562,38 +564,38 @@ export interface GetAddsServiceMetricMetadataRequest {
 /** The metric group details. */
 export interface MetricGroup {
   /** The key for the group. */
-  key?: string;
+  key?: string | undefined;
   /** The display name for the group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** indicates if the metric group is displayed in Azure Active Directory Connect Health UI. */
-  invisibleForUi?: boolean;
+  invisibleForUi?: boolean | undefined;
 }
 /** The groupings for the metrics. */
 export type MetricMetadataGroupingsList = Array<MetricGroup>;
 /** The metric meta data */
 export interface MetricMetadata {
   /** The name of the class which retrieve and process the metric. */
-  metricsProcessorClassName?: string;
+  metricsProcessorClassName?: string | undefined;
   /** The metric name */
-  metricName?: string;
+  metricName?: string | undefined;
   /** The groupings for the metrics. */
-  groupings?: MetricMetadataGroupingsList;
+  groupings?: MetricMetadataGroupingsList | undefined;
   /** The display name for the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates if the metrics is a rate,value, percent or duration type. */
-  valueKind?: string;
+  valueKind?: string | undefined;
   /** The minimum value. */
-  minValue?: number;
+  minValue?: number | undefined;
   /** The maximum value. */
-  maxValue?: number;
+  maxValue?: number | undefined;
   /** Indicates whether the dashboard to represent the metric is a line, bar,pie, area or donut chart. */
-  kind?: string;
+  kind?: string | undefined;
   /** Indicates if the metric is a default metric or not. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Indicates if the metric is a performance counter metric or not. */
-  isPerfCounter?: boolean;
+  isPerfCounter?: boolean | undefined;
   /** Indicates if the metric is visible to DevOps or not. */
-  isDevOps?: boolean;
+  isDevOps?: boolean | undefined;
 }
 export interface GetAddsServiceMetricMetadataForGroupRequest {
   /** The name of the service. */
@@ -603,20 +605,20 @@ export interface GetAddsServiceMetricMetadataForGroupRequest {
   /** The group name */
   groupName: string;
   /** The group key */
-  groupKey?: string;
+  groupKey?: string | undefined;
   /** The start date. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** The end date. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 /** The list of the metric values. */
 export type MetricSetValuesList = Array<number>;
 /** The set of metric values. Example of a MetricSet are Values of token requests for a Server1 or RelyingParty1. */
 export interface MetricSet {
   /** The name of the set. */
-  setName?: string;
+  setName?: string | undefined;
   /** The list of the metric values. */
-  values?: MetricSetValuesList;
+  values?: MetricSetValuesList | undefined;
 }
 /** The list of metric set. */
 export type MetricSetsSetsList = Array<MetricSet>;
@@ -625,9 +627,9 @@ export type MetricSetsTimeStampsList = Array<string>;
 /** The metrics data represented set. */
 export interface MetricSets {
   /** The list of metric set. */
-  sets?: MetricSetsSetsList;
+  sets?: MetricSetsSetsList | undefined;
   /** The list of timestamps for each metric in the metric set. */
-  timeStamps?: MetricSetsTimeStampsList;
+  timeStamps?: MetricSetsTimeStampsList | undefined;
 }
 export interface GetAddsServiceMetricsRequest {
   /** The name of the service. */
@@ -637,11 +639,11 @@ export interface GetAddsServiceMetricsRequest {
   /** The group name */
   groupName: string;
   /** The group key */
-  groupKey?: string;
+  groupKey?: string | undefined;
   /** The start date. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** The end date. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 export interface GetAddsServicesReplicationStatusRequest {
   /** The name of the service. */
@@ -650,11 +652,11 @@ export interface GetAddsServicesReplicationStatusRequest {
 /** Replication summary for a domain controller. */
 export interface ReplicationStatus {
   /** The forest name. */
-  forestName?: string;
+  forestName?: string | undefined;
   /** The total number of domain controllers for a given forest. */
-  totalDcCount?: number;
+  totalDcCount?: number | undefined;
   /** The total number of domain controllers with error in a given forest. */
-  errorDcCount?: number;
+  errorDcCount?: number | undefined;
 }
 export interface GetAddsServicesUserPreferenceRequest {
   /** The name of the service. */
@@ -667,14 +669,14 @@ export type UserPreferenceMetricNamesList = Array<string>;
 /** The user preference for a given feature. */
 export interface UserPreference {
   /** The name of the metric. */
-  metricNames?: UserPreferenceMetricNamesList;
+  metricNames?: UserPreferenceMetricNamesList | undefined;
 }
 export interface GetConfigurationRequest {}
 export interface GetReportDevOpsRequest {}
 /** The result for an operation. */
 export interface Result {
   /** The value. */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 export interface GetServiceRequest {
   /** The name of the service. */
@@ -703,9 +705,9 @@ export interface GetServiceMemberConnectorMetadataRequest {
 /** Details of the connector. */
 export interface ConnectorMetadataDetails {
   /** The Connector Id. */
-  connectorId?: string;
+  connectorId?: string | undefined;
   /** The Connector Display Name */
-  connectorDisplayName?: string;
+  connectorDisplayName?: string | undefined;
 }
 /** The list of connectors. */
 export type ConnectorMetadataConnectorsList = Array<ConnectorMetadataDetails>;
@@ -714,9 +716,9 @@ export type ConnectorMetadataRunProfileNamesList = Array<string>;
 /** Gets the list of connectors and run profile names. */
 export interface ConnectorMetadata {
   /** The list of connectors. */
-  connectors?: ConnectorMetadataConnectorsList;
+  connectors?: ConnectorMetadataConnectorsList | undefined;
   /** The list of run profile names. */
-  runProfileNames?: ConnectorMetadataRunProfileNamesList;
+  runProfileNames?: ConnectorMetadataRunProfileNamesList | undefined;
 }
 export interface GetServiceMemberMetricsRequest {
   /** The name of the service. */
@@ -728,11 +730,11 @@ export interface GetServiceMemberMetricsRequest {
   /** The group name */
   groupName: string;
   /** The group key */
-  groupKey?: string;
+  groupKey?: string | undefined;
   /** The start date. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** The end date. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 export interface GetServiceMemberServiceConfigurationRequest {
   /** The name of the service. */
@@ -743,23 +745,23 @@ export interface GetServiceMemberServiceConfigurationRequest {
 /** The service configuration */
 export interface ServiceConfiguration {
   /** The version of the sync service. */
-  version?: string;
+  version?: string | undefined;
   /** The service type of the server. */
-  serviceType?: number;
+  serviceType?: number | undefined;
   /** The service account. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** The SQL server information. */
-  sqlServer?: string;
+  sqlServer?: string | undefined;
   /** The SQL version. */
-  sqlVersion?: string;
+  sqlVersion?: string | undefined;
   /** The SQL edition */
-  sqlEdition?: string;
+  sqlEdition?: string | undefined;
   /** The SQL instance details. */
-  sqlInstance?: string;
+  sqlInstance?: string | undefined;
   /** The SQL database. */
-  sqlDatabaseName?: string;
+  sqlDatabaseName?: string | undefined;
   /** The SQL database size. */
-  sqlDatabaseSize?: number;
+  sqlDatabaseSize?: number | undefined;
 }
 export interface GetServiceMetricMetadataRequest {
   /** The name of the service. */
@@ -775,11 +777,11 @@ export interface GetServiceMetricMetadataForGroupRequest {
   /** The group name */
   groupName: string;
   /** The group key */
-  groupKey?: string;
+  groupKey?: string | undefined;
   /** The start date. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** The end date. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 export interface GetServiceMetricsRequest {
   /** The name of the service. */
@@ -789,11 +791,11 @@ export interface GetServiceMetricsRequest {
   /** The group name */
   groupName: string;
   /** The group key */
-  groupKey?: string;
+  groupKey?: string | undefined;
   /** The start date. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** The end date. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 export interface GetServiceTenantWhitelistingRequest {
   /** The name of the service. */
@@ -807,17 +809,17 @@ export interface ListAdDomainServiceMembersRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Indicates if the result should be grouped by site or not. */
   isGroupbySite: boolean;
   /** The custom query. */
-  query?: string;
+  query?: string | undefined;
   /** The next partition key to query for. */
   nextPartitionKey: ListAdDomainServiceMembersRequestNextPartitionKey | (string & {});
   /** The next row key to query for. */
   nextRowKey: ListAdDomainServiceMembersRequestNextRowKey | (string & {});
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 /** The list of ADDS roles. */
 export type AddsServiceMemberAddsRolesList = Array<string>;
@@ -826,20 +828,20 @@ export type AddsServiceMemberDcTypesList = Array<string>;
 /** The key value pair for properties. */
 export interface Item {
   /** The key for the property. */
-  key?: string;
+  key?: string | undefined;
   /** The value for the key. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The server specific configuration related dimensions. */
 export type AddsServiceMemberDimensionsList = Array<Item>;
 /** The details of the hotfix installed in the server. */
 export interface Hotfix {
   /** The name of the hotfix KB. */
-  kbName?: string;
+  kbName?: string | undefined;
   /** The link to the KB Article. */
-  link?: string;
+  link?: string | undefined;
   /** The date and time, in UTC, when the KB was installed in the server. */
-  installedDate?: string;
+  installedDate?: string | undefined;
 }
 /** The list of installed QFEs for the server. */
 export type AddsServiceMemberInstalledQfesList = Array<Hotfix>;
@@ -856,86 +858,90 @@ export type AddsServiceMemberServerReportedMonitoringLevel = "Partial" | "Full" 
 /** The server details for ADDS service. */
 export interface AddsServiceMember {
   /** The domain name. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The site name. */
-  siteName?: string;
+  siteName?: string | undefined;
   /** The list of ADDS roles. */
-  addsRoles?: AddsServiceMemberAddsRolesList;
+  addsRoles?: AddsServiceMemberAddsRolesList | undefined;
   /** Indicates if the global catalog for this domain is reachable or not. */
-  gcReachable?: boolean;
+  gcReachable?: boolean | undefined;
   /** Indicates if the Dc is advertising or not. */
-  isAdvertising?: boolean;
+  isAdvertising?: boolean | undefined;
   /** Indicates if the primary domain controller is reachable or not. */
-  pdcReachable?: boolean;
+  pdcReachable?: boolean | undefined;
   /** Indicates if the SYSVOL state is healthy or not. */
-  sysvolState?: boolean;
+  sysvolState?: boolean | undefined;
   /** The list of domain controller types. */
-  dcTypes?: AddsServiceMemberDcTypesList;
+  dcTypes?: AddsServiceMemberDcTypesList | undefined;
   /** The id of the server. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The service id to whom this server belongs. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The tenant id to whom this server belongs. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The total number of alerts that are currently active for the server. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information, if any, for the server. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date time , in UTC, when the server was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The server specific configuration related dimensions. */
-  dimensions?: AddsServiceMemberDimensionsList;
+  dimensions?: AddsServiceMemberDimensionsList | undefined;
   /** Indicates if the server is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason for disabling the server. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of installed QFEs for the server. */
-  installedQfes?: AddsServiceMemberInstalledQfesList;
+  installedQfes?: AddsServiceMemberInstalledQfesList | undefined;
   /** The date and time , in UTC, when the server was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the server was last rebooted. */
-  lastReboot?: string;
+  lastReboot?: string | undefined;
   /** The date and time, in UTC, when the server's data monitoring configuration was last changed. */
-  lastServerReportedMonitoringLevelChange?: string;
+  lastServerReportedMonitoringLevelChange?: string | undefined;
   /** The date and time, in UTC, when the server properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The id of the machine. */
-  machineId?: string;
+  machineId?: string | undefined;
   /** The name of the server. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: AddsServiceMemberMonitoringConfigurationsComputedList;
+  monitoringConfigurationsComputed?:
+    | AddsServiceMemberMonitoringConfigurationsComputedList
+    | undefined;
   /** The customized monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: AddsServiceMemberMonitoringConfigurationsCustomizedList;
+  monitoringConfigurationsCustomized?:
+    | AddsServiceMemberMonitoringConfigurationsCustomizedList
+    | undefined;
   /** The name of the operating system installed in the machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of the operating system installed in the machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Server specific properties. */
-  properties?: AddsServiceMemberPropertiesList;
+  properties?: AddsServiceMemberPropertiesList | undefined;
   /** The list of recommended hotfixes for the server. */
-  recommendedQfes?: AddsServiceMemberRecommendedQfesList;
+  recommendedQfes?: AddsServiceMemberRecommendedQfesList | undefined;
   /** The total count of alerts that are resolved for this server. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The service role that is being monitored in the server. */
-  role?: string;
+  role?: string | undefined;
   /** The monitoring level reported by the server. */
-  serverReportedMonitoringLevel?: AddsServiceMemberServerReportedMonitoringLevel;
+  serverReportedMonitoringLevel?: AddsServiceMemberServerReportedMonitoringLevel | undefined;
   /** The health status of the server. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The value returned by the operation. */
 export type AddsServiceMembersValueList = Array<AddsServiceMember>;
 /** The list of ADDS service members. */
 export interface AddsServiceMembers {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: AddsServiceMembersValueList;
+  value?: AddsServiceMembersValueList | undefined;
   /** The total count of service members. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAddsServiceMemberCredentialsRequest {
   /** The name of the service. */
@@ -943,52 +949,52 @@ export interface ListAddsServiceMemberCredentialsRequest {
   /** The server Id. */
   serviceMemberId: string;
   /** The property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The credential data. */
 export type CredentialCredentialDataList = Array<string>;
 /** The credential for a given server. */
 export interface Credential {
   /** The credential identifier. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The type of credential. */
-  type?: string;
+  type?: string | undefined;
   /** The credential data. */
-  credentialData?: CredentialCredentialDataList;
+  credentialData?: CredentialCredentialDataList | undefined;
 }
 /** The value returned by the operation. */
 export type CredentialsValueList = Array<Credential>;
 /** The list of agent credentials. */
 export interface Credentials {
   /** The value returned by the operation. */
-  value?: CredentialsValueList;
+  value?: CredentialsValueList | undefined;
 }
 export interface ListAddsServiceMembersRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListAddsServiceMetricMetadataRequest {
   /** The name of the service. */
   serviceName: string;
   /** The metric metadata property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Indicates if only performance counter metrics are requested. */
-  perfCounter?: boolean;
+  perfCounter?: boolean | undefined;
 }
 /** The value returned by the operation. */
 export type MetricMetadataListValueList = Array<MetricMetadata>;
 /** The list of metric metadata. */
 export interface MetricMetadataList {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: MetricMetadataListValueList;
+  value?: MetricMetadataListValueList | undefined;
   /** The total count of service elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAddsServiceMetricsAverageRequest {
   /** The name of the service. */
@@ -1003,13 +1009,13 @@ export type MetricsValueList = Array<Item>;
 /** The list of metric items. */
 export interface Metrics {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: MetricsValueList;
+  value?: MetricsValueList | undefined;
   /** The total count of metrics. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAddsServiceMetricsSumRequest {
   /** The name of the service. */
@@ -1021,95 +1027,95 @@ export interface ListAddsServiceMetricsSumRequest {
 }
 export interface ListAddsServicePremiumServicesRequest {
   /** The service property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** The skip count, which specifies the number of elements that can be bypassed from a sequence and then return the remaining elements. */
-  skipCount?: number;
+  skipCount?: number | undefined;
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 /** The value returned by the operation. */
 export type ServicesValueList = Array<ServiceProperties>;
 /** The list of services for a given onboarded tenant. */
 export interface Services {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: ServicesValueList;
+  value?: ServicesValueList | undefined;
   /** The total count of service elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAddsServiceReplicationDetailsRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Indicates if InboundReplicationNeighbor details are required or not. */
-  withDetails?: boolean;
+  withDetails?: boolean | undefined;
 }
 /** The replication summary for the domain controller inbound neighbor. */
 export interface InboundReplicationNeighbor {
   /** The name of the source domain controller. */
-  sourceDomainController?: string;
+  sourceDomainController?: string | undefined;
   /** The number of consecutive failure counts. */
-  consecutiveFailureCount?: number;
+  consecutiveFailureCount?: number | undefined;
   /** The naming context. */
-  namingContext?: string;
+  namingContext?: string | undefined;
   /** The health status for the domain controller */
-  status?: number;
+  status?: number | undefined;
   /** The last time a sync was attempted on the domain controller. */
-  lastAttemptedSync?: string;
+  lastAttemptedSync?: string | undefined;
   /** The last time when a successful sync happened. */
-  lastSuccessfulSync?: string;
+  lastSuccessfulSync?: string | undefined;
   /** The last error code. */
-  lastErrorCode?: number;
+  lastErrorCode?: number | undefined;
   /** The error message of the last error. */
-  lastErrorMessage?: string;
+  lastErrorMessage?: string | undefined;
   /** The error title. */
-  errorTitle?: string;
+  errorTitle?: string | undefined;
   /** The error description. */
-  errorDescription?: string;
+  errorDescription?: string | undefined;
   /** The link for the fix of the error. */
-  fixLink?: string;
+  fixLink?: string | undefined;
   /** The details of the fix. */
-  fixDetails?: string;
+  fixDetails?: string | undefined;
   /** The additional details. */
-  additionalInfo?: string;
+  additionalInfo?: string | undefined;
 }
 /** List of individual domain controller neighbor's inbound replication status. */
 export type ReplicationSummaryInboundNeighborCollectionList = Array<InboundReplicationNeighbor>;
 /** The replication summary for a domain controller. */
 export interface ReplicationSummary {
   /** The domain controller name. */
-  targetServer?: string;
+  targetServer?: string | undefined;
   /** The site name for a given domain controller. */
-  site?: string;
+  site?: string | undefined;
   /** The domain name for a given domain controller. */
-  domain?: string;
+  domain?: string | undefined;
   /** The health status for a domain controller. */
-  status?: number;
+  status?: number | undefined;
   /** The last time when a sync was attempted for a given domain controller. */
-  lastAttemptedSync?: string;
+  lastAttemptedSync?: string | undefined;
   /** The time when the last successful sync happened for a given domain controller. */
-  lastSuccessfulSync?: string;
+  lastSuccessfulSync?: string | undefined;
   /** List of individual domain controller neighbor's inbound replication status. */
-  inboundNeighborCollection?: ReplicationSummaryInboundNeighborCollectionList;
+  inboundNeighborCollection?: ReplicationSummaryInboundNeighborCollectionList | undefined;
 }
 /** The value returned by the operation. */
 export type ReplicationDetailsListValueList = Array<ReplicationSummary>;
 /** The list of replication details. */
 export interface ReplicationDetailsList {
   /** The value returned by the operation. */
-  value?: ReplicationDetailsListValueList;
+  value?: ReplicationDetailsListValueList | undefined;
   /** The total count of replication detail elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListAddsServiceReplicationSummaryRequestNextPartitionKey = " ";
 export type ListAddsServiceReplicationSummaryRequestNextRowKey = " ";
@@ -1117,7 +1123,7 @@ export interface ListAddsServiceReplicationSummaryRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Indicates if the result should be grouped by site or not. */
   isGroupbySite: boolean;
   /** The custom query. */
@@ -1127,24 +1133,24 @@ export interface ListAddsServiceReplicationSummaryRequest {
   /** The next row key to query for. */
   nextRowKey: ListAddsServiceReplicationSummaryRequestNextRowKey | (string & {});
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 /** The value returned by the operation. */
 export type ReplicationSummaryListValueList = Array<ReplicationSummary>;
 /** The list of replication summary details. */
 export interface ReplicationSummaryList {
   /** The value returned by the operation. */
-  value?: ReplicationSummaryListValueList;
+  value?: ReplicationSummaryListValueList | undefined;
 }
 export interface ListAddsServicesRequest {
   /** The service property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** The skip count, which specifies the number of elements that can be bypassed from a sequence and then return the remaining elements. */
-  skipCount?: number;
+  skipCount?: number | undefined;
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 export interface ListAddsServiceServerAlertsRequest {
   /** The name of the service. */
@@ -1152,13 +1158,13 @@ export interface ListAddsServiceServerAlertsRequest {
   /** The server Id for which the alert details needs to be queried. */
   serviceMemberId: string;
   /** The alert property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The alert state to query for. */
-  state?: string;
+  state?: string | undefined;
   /** The start date to query for. */
-  from?: string;
+  from?: string | undefined;
   /** The end date till when to query for. */
-  to?: string;
+  to?: string | undefined;
 }
 /** The alert level which indicates the severity of the alert. */
 export type AlertLevel = "Warning" | "Error" | "PreWarning";
@@ -1172,22 +1178,22 @@ export type AlertState =
 /** The help link which contains more information related to an alert. */
 export interface HelpLink {
   /** The title for the link. */
-  title?: string;
+  title?: string | undefined;
   /** The url for the help document. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The help links to get more information related to the alert. */
 export type AlertRelatedLinksList = Array<HelpLink>;
 /** The additional information for a property. */
 export interface AdditionalInformation {
   /** The title name for the property. */
-  titleName?: string;
+  titleName?: string | undefined;
   /** The title value for the property. */
-  titleValue?: string;
+  titleValue?: string | undefined;
   /** The list of properties which are included in the additional information. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Indicates if properties are present or not. */
-  hasProperties?: boolean;
+  hasProperties?: boolean | undefined;
 }
 /** Additional information related to the alert. */
 export type AlertAdditionalInformationList = Array<AdditionalInformation>;
@@ -1198,110 +1204,110 @@ export type AlertResolvedAlertPropertiesList = Array<Item>;
 /** The alert details indicating an issue with service or server. */
 export interface Alert {
   /** The alert Id. */
-  alertId?: string;
+  alertId?: string | undefined;
   /** The alert level which indicates the severity of the alert. */
-  level?: AlertLevel;
+  level?: AlertLevel | undefined;
   /** The alert state which can be either active or resolved with multiple resolution types. */
-  state?: AlertState;
+  state?: AlertState | undefined;
   /** The alert short name. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** The display name for the alert. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The alert description. */
-  description?: string;
+  description?: string | undefined;
   /** The alert remediation. */
-  remediation?: string;
+  remediation?: string | undefined;
   /** The help links to get more information related to the alert. */
-  relatedLinks?: AlertRelatedLinksList;
+  relatedLinks?: AlertRelatedLinksList | undefined;
   /** The scope of the alert. Indicates if it is a service or a server related alert. */
-  scope?: string;
+  scope?: string | undefined;
   /** Additional information related to the alert. */
-  additionalInformation?: AlertAdditionalInformationList;
+  additionalInformation?: AlertAdditionalInformationList | undefined;
   /** The date and time,in UTC,when the alert was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The date and time, in UTC, when the alert was resolved. */
-  resolvedDate?: string;
+  resolvedDate?: string | undefined;
   /** The date and time, in UTC, when the alert was last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring role type for which the alert was raised. */
-  monitorRoleType?: string;
+  monitorRoleType?: string | undefined;
   /** The active alert properties. */
-  activeAlertProperties?: AlertActiveAlertPropertiesList;
+  activeAlertProperties?: AlertActiveAlertPropertiesList | undefined;
   /** The resolved alert properties. */
-  resolvedAlertProperties?: AlertResolvedAlertPropertiesList;
+  resolvedAlertProperties?: AlertResolvedAlertPropertiesList | undefined;
   /** The tenant Id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service Id. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The server Id. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
 }
 /** The value returned by the operation. */
 export type AlertsValueList = Array<Alert>;
 /** The list of alerts for a service. */
 export interface Alerts {
   /** The value returned by the operation. */
-  value?: AlertsValueList;
+  value?: AlertsValueList | undefined;
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The total count of alert elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAddsServicesServiceMembersRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The server specific dimension. */
-  dimensionType?: string;
+  dimensionType?: string | undefined;
   /** The value of the dimension. */
-  dimensionSignature?: string;
+  dimensionSignature?: string | undefined;
 }
 /** The value returned by the operation. */
 export type ServiceMembersValueList = Array<ServiceMember>;
 /** The list of servers that are onboarded for a given service. */
 export interface ServiceMembers {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: ServiceMembersValueList;
+  value?: ServiceMembersValueList | undefined;
   /** The total count of service elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListAlertAddsAlertsRequest {
   /** The name of the service. */
   serviceName: string;
   /** The alert property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The alert state to query for. */
-  state?: string;
+  state?: string | undefined;
   /** The start date to query for. */
-  from?: string;
+  from?: string | undefined;
   /** The end date till when to query for. */
-  to?: string;
+  to?: string | undefined;
 }
 export interface ListConfigurationAddsConfigurationsRequest {
   /** The name of the service. */
   serviceName: string;
   /** The grouping for configurations. */
-  grouping?: string;
+  grouping?: string | undefined;
 }
 /** The value returned by the operation. */
 export type AddsConfigurationValueList = Array<Item>;
 /** The list of key value properties. */
 export interface AddsConfiguration {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: AddsConfigurationValueList;
+  value?: AddsConfigurationValueList | undefined;
   /** The total count of configuration. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListDimensionAddsDimensionsRequest {
   /** The name of the service. */
@@ -1314,92 +1320,92 @@ export type DimensionHealth = "Healthy" | "Warning" | "Error" | "NotMonitored" |
 /** The connector object error. */
 export interface Dimension {
   /** The health status for the domain controller. */
-  health?: DimensionHealth;
+  health?: DimensionHealth | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The value returned by the operation. */
 export type DimensionsValueList = Array<Dimension>;
 /** The list of dimensions. */
 export interface Dimensions {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: DimensionsValueList;
+  value?: DimensionsValueList | undefined;
   /** The total count of dimensions. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListIPAddressAggregatesByServiceRequest {
   /** The name of the service. */
   serviceName: string;
   /** A continuationtoken value returned in paginated result to load different pages. */
-  skiptoken?: string;
+  skiptoken?: string | undefined;
 }
 /** The key value pair for properties. */
 export interface IPAddressAggregate {
   /** Unique ID for the entree */
-  id?: string;
+  id?: string | undefined;
   /** The tenant ID */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service ID */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The IP address from where the attempted login originated from. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** When the event occurred */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The first audit timestamp */
-  firstAuditTimestamp?: string;
+  firstAuditTimestamp?: string | undefined;
   /** The last audit timestamp */
-  lastAuditTimestamp?: string;
+  lastAuditTimestamp?: string | undefined;
   /** The extranet lockout error count */
-  extranetLockoutErrorCount?: number;
+  extranetLockoutErrorCount?: number | undefined;
   /** The bad password error count */
-  badPasswordErrorCount?: number;
+  badPasswordErrorCount?: number | undefined;
   /** The unique usernames attempted */
-  uniqueUsernamesAttemptedCount?: number;
+  uniqueUsernamesAttemptedCount?: number | undefined;
   /** A value indicating whether the attempt count threshold been exceeded */
-  attemptCountThresholdIsExceeded?: boolean;
+  attemptCountThresholdIsExceeded?: boolean | undefined;
   /** The duration of the event */
-  timeSpan?: string;
+  timeSpan?: string | undefined;
   /** A value indicating whether the IP address has been listed as allowed. */
-  isWhitelistedIpAddress?: boolean;
+  isWhitelistedIpAddress?: boolean | undefined;
   /** The network location */
-  networkLocation?: string;
+  networkLocation?: string | undefined;
   /** The attempted count threshold on trigger. */
-  attemptCountThresholdOnTrigger?: number;
+  attemptCountThresholdOnTrigger?: number | undefined;
   /** The attempted threshold type on trigger. */
-  attemptThresholdTypeOnTrigger?: string;
+  attemptThresholdTypeOnTrigger?: string | undefined;
   /** The geographic location. */
-  geographicLocation?: string;
+  geographicLocation?: string | undefined;
 }
 /** The value returned by the operation. */
 export type IPAddressAggregatesValueList = Array<IPAddressAggregate>;
 /** IP address aggregates. */
 export interface IPAddressAggregates {
   /** The value returned by the operation. */
-  value?: IPAddressAggregatesValueList;
+  value?: IPAddressAggregatesValueList | undefined;
   /** URL to get the next set of IP Aggregate list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The number of results. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListIPAddressAggregateSettingsRequest {
   /** The name of the service. */
@@ -1408,38 +1414,38 @@ export interface ListIPAddressAggregateSettingsRequest {
 /** The key value pair for IP aggregate thresholds. */
 export interface IPAddressAggregateSetting {
   /** Unique ID for the entree */
-  id?: string;
+  id?: string | undefined;
   /** This threshold setting defines the per day trigger for a new event to be generated in the report. */
-  badPasswordAndExtranetLockoutCombinedDailyThreshold?: number;
+  badPasswordAndExtranetLockoutCombinedDailyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  badPasswordAndExtranetLockoutCombinedHourlyThreshold?: number;
+  badPasswordAndExtranetLockoutCombinedHourlyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  extranetLockoutDailyThreshold?: number;
+  extranetLockoutDailyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  extranetLockoutHourlyThreshold?: number;
+  extranetLockoutHourlyThreshold?: number | undefined;
   /** A value indicating whether email notification has been enabled. */
-  emailNotificationEnabled?: boolean;
+  emailNotificationEnabled?: boolean | undefined;
 }
 export interface ListOperationsRequest {}
 /** The details of the operation. */
 export interface Operation {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The display details for the operation. */
-  display?: unknown;
+  display?: unknown | undefined;
 }
 /** List of operations supported by the Microsoft.ADHybridHealthService resource provider. */
 export type OperationListResponseValueList = Array<Operation>;
 /** Lists all of the available REST API operations for Azure Active Directory Connect Health. */
 export interface OperationListResponse {
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of operations supported by the Microsoft.ADHybridHealthService resource provider. */
-  value?: OperationListResponseValueList;
+  value?: OperationListResponseValueList | undefined;
   /** The total count of operations. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token to get next set of operations. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListServiceAlertFeedbackRequest {
   /** The name of the service. */
@@ -1452,19 +1458,19 @@ export type AlertFeedbacksValueList = Array<AlertFeedback>;
 /** The list of alert feedback. */
 export interface AlertFeedbacks {
   /** The value returned by the operation. */
-  value?: AlertFeedbacksValueList;
+  value?: AlertFeedbacksValueList | undefined;
 }
 export interface ListServiceAlertsRequest {
   /** The name of the service. */
   serviceName: string;
   /** The alert property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The alert state to query for. */
-  state?: string;
+  state?: string | undefined;
   /** The start date to query for. */
-  from?: string;
+  from?: string | undefined;
   /** The end date till when to query for. */
-  to?: string;
+  to?: string | undefined;
 }
 export interface ListServiceMemberAlertsRequest {
   /** The name of the service. */
@@ -1472,13 +1478,13 @@ export interface ListServiceMemberAlertsRequest {
   /** The server Id for which the alert details needs to be queried. */
   serviceMemberId: string;
   /** The alert property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The alert state to query for. */
-  state?: string;
+  state?: string | undefined;
   /** The start date to query for. */
-  from?: string;
+  from?: string | undefined;
   /** The end date till when to query for. */
-  to?: string;
+  to?: string | undefined;
 }
 export interface ListServiceMemberConnectorsRequest {
   /** The name of the service. */
@@ -1495,64 +1501,64 @@ export type PartitionScopeContainersExcludedList = Array<string>;
 /** The connector partition scope. */
 export interface PartitionScope {
   /** Indicates if the partition scope is default or not. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** The in-scope object classes. */
-  objectClasses?: PartitionScopeObjectClassesList;
+  objectClasses?: PartitionScopeObjectClassesList | undefined;
   /** The list of containers included. */
-  containersIncluded?: PartitionScopeContainersIncludedList;
+  containersIncluded?: PartitionScopeContainersIncludedList | undefined;
   /** The list of containers excluded. */
-  containersExcluded?: PartitionScopeContainersExcludedList;
+  containersExcluded?: PartitionScopeContainersExcludedList | undefined;
 }
 /** Describes the partition in Synchronization service. */
 export interface Partition {
   /** The partition Id. */
-  id?: string;
+  id?: string | undefined;
   /** The distinguished name for the partition. */
-  dn?: string;
+  dn?: string | undefined;
   /** Indicates if the partition object is selected or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The date and time when the partition is created. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** The time and date when the partition was last modified. */
-  timeLastModified?: string;
+  timeLastModified?: string | undefined;
   /** The scope of the partition. */
-  partitionScope?: PartitionScope;
+  partitionScope?: PartitionScope | undefined;
   /** The name of the partition. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates if the partition is a domain or not. */
-  isDomain?: boolean;
+  isDomain?: boolean | undefined;
   /** The partition type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The partitions of the connector. */
 export type ConnectorPartitionsList = Array<Partition>;
 /** The run step for a run profile. */
 export interface RunStep {
   /** The batch size used by the run step. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** The object processing limit. */
-  objectProcessLimit?: number;
+  objectProcessLimit?: number | undefined;
   /** The object deletion limit. */
-  objectDeleteLimit?: number;
+  objectDeleteLimit?: number | undefined;
   /** The page size of the run step. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The Id of the partition that a current run step operation is executing. */
-  partitionId?: string;
+  partitionId?: string | undefined;
   /** The run step operation types. */
-  operationType?: number;
+  operationType?: number | undefined;
   /** The operation timeout. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** The run steps of the run profile. */
 export type RunProfileRunStepsList = Array<RunStep>;
 /** Describes the run profile. */
 export interface RunProfile {
   /** The run profile Id. */
-  id?: string;
+  id?: string | undefined;
   /** The run profile name */
-  name?: string;
+  name?: string | undefined;
   /** The run steps of the run profile. */
-  runSteps?: RunProfileRunStepsList;
+  runSteps?: RunProfileRunStepsList | undefined;
 }
 /** The run profiles of the connector. */
 export type ConnectorRunProfilesList = Array<RunProfile>;
@@ -1563,42 +1569,42 @@ export type ConnectorAttributesIncludedList = Array<string>;
 /** The connect details. */
 export interface Connector {
   /** The connector Id. */
-  connectorId?: string;
+  connectorId?: string | undefined;
   /** The connector Id. */
-  id?: string;
+  id?: string | undefined;
   /** The connector name. */
-  name?: string;
+  name?: string | undefined;
   /** The connector version */
-  version?: number;
+  version?: number | undefined;
   /** The connector type. */
-  type?: string;
+  type?: string | undefined;
   /** The connector description. */
-  description?: string;
+  description?: string | undefined;
   /** The schema xml for the connector. */
-  schemaXml?: string;
+  schemaXml?: string | undefined;
   /** The password management settings of the connector. */
-  passwordManagementSettings?: unknown;
+  passwordManagementSettings?: unknown | undefined;
   /** The password hash synchronization configuration of the connector. */
-  passwordHashSyncConfiguration?: unknown;
+  passwordHashSyncConfiguration?: unknown | undefined;
   /** The date and time when this connector was created. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** The date and time when this connector was last modified. */
-  timeLastModified?: string;
+  timeLastModified?: string | undefined;
   /** The partitions of the connector. */
-  partitions?: ConnectorPartitionsList;
+  partitions?: ConnectorPartitionsList | undefined;
   /** The run profiles of the connector. */
-  runProfiles?: ConnectorRunProfilesList;
+  runProfiles?: ConnectorRunProfilesList | undefined;
   /** The class inclusion list of the connector. */
-  classesIncluded?: ConnectorClassesIncludedList;
+  classesIncluded?: ConnectorClassesIncludedList | undefined;
   /** The attribute inclusion list of the connector. */
-  attributesIncluded?: ConnectorAttributesIncludedList;
+  attributesIncluded?: ConnectorAttributesIncludedList | undefined;
 }
 /** The value returned by the operation. */
 export type ConnectorsValueList = Array<Connector>;
 /** The list of connects for a service. */
 export interface Connectors {
   /** The value returned by the operation. */
-  value?: ConnectorsValueList;
+  value?: ConnectorsValueList | undefined;
 }
 export interface ListServiceMemberCredentialsRequest {
   /** The name of the service. */
@@ -1606,7 +1612,7 @@ export interface ListServiceMemberCredentialsRequest {
   /** The server Id. */
   serviceMemberId: string;
   /** The property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListServiceMemberDataFreshnessRequest {
   /** The name of the service. */
@@ -1619,7 +1625,7 @@ export type DataFreshnessDetailsValueList = Array<Item>;
 /** The data freshness details for the server. */
 export interface DataFreshnessDetails {
   /** The value returned by the operation. */
-  value?: DataFreshnessDetailsValueList;
+  value?: DataFreshnessDetailsValueList | undefined;
 }
 export interface ListServiceMemberGlobalConfigurationRequest {
   /** The name of the service. */
@@ -1632,40 +1638,40 @@ export type GlobalConfigurationFeatureSetList = Array<Item>;
 /** The global configuration settings. */
 export interface GlobalConfiguration {
   /** The version for the global configuration. */
-  version?: number;
+  version?: number | undefined;
   /** The schema for the configuration. */
-  schemaXml?: string;
+  schemaXml?: string | undefined;
   /** Indicates if password sync is enabled or not. */
-  passwordSyncEnabled?: boolean;
+  passwordSyncEnabled?: boolean | undefined;
   /** The number of saved password events. */
-  numSavedPwdEvent?: number;
+  numSavedPwdEvent?: number | undefined;
   /** The list of additional feature sets. */
-  featureSet?: GlobalConfigurationFeatureSetList;
+  featureSet?: GlobalConfigurationFeatureSetList | undefined;
 }
 /** The value returned by the operation. */
 export type GlobalConfigurationsValueList = Array<GlobalConfiguration>;
 /** The list of global configurations. */
 export interface GlobalConfigurations {
   /** The value returned by the operation. */
-  value?: GlobalConfigurationsValueList;
+  value?: GlobalConfigurationsValueList | undefined;
 }
 export interface ListServiceMembersRequest {
   /** The name of the service. */
   serviceName: string;
   /** The server property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The server specific dimension. */
-  dimensionType?: string;
+  dimensionType?: string | undefined;
   /** The value of the dimension. */
-  dimensionSignature?: string;
+  dimensionSignature?: string | undefined;
 }
 export interface ListServiceMetricMetadataRequest {
   /** The name of the service. */
   serviceName: string;
   /** The metric metadata property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Indicates if only performance counter metrics are requested. */
-  perfCounter?: boolean;
+  perfCounter?: boolean | undefined;
 }
 export interface ListServiceMetricsAverageRequest {
   /** The name of the service. */
@@ -1692,53 +1698,53 @@ export type ItemsValueList = Array<Item>;
 /** The list of key value properties. */
 export interface Items {
   /** The value returned by the operation. */
-  value?: ItemsValueList;
+  value?: ItemsValueList | undefined;
 }
 export interface ListServicePremiumRequest {
   /** The service property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** The skip count, which specifies the number of elements that can be bypassed from a sequence and then return the remaining elements. */
-  skipCount?: number;
+  skipCount?: number | undefined;
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 export interface ListServicesRequest {
   /** The service property filter to apply. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** The skip count, which specifies the number of elements that can be bypassed from a sequence and then return the remaining elements. */
-  skipCount?: number;
+  skipCount?: number | undefined;
   /** The take count , which specifies the number of elements that can be returned from a sequence. */
-  takeCount?: number;
+  takeCount?: number | undefined;
 }
 export interface ListServiceUserBadPasswordReportRequest {
   /** The name of the service. */
   serviceName: string;
   /** The source of data, if its test data or customer data. */
-  dataSource?: string;
+  dataSource?: string | undefined;
 }
 /** The bad password login attempt details. */
 export interface ErrorReportUsersEntry {
   /** The user ID value. */
-  userId?: string;
+  userId?: string | undefined;
   /** The IP address corresponding to the last error event. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The date and time when the last error event was logged. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The list of unique IP addresses. */
-  uniqueIpAddresses?: string;
+  uniqueIpAddresses?: string | undefined;
   /** The total count of specific error events. */
-  totalErrorAttempts?: number;
+  totalErrorAttempts?: number | undefined;
 }
 /** The value returned by the operation. */
 export type ErrorReportUsersEntriesValueList = Array<ErrorReportUsersEntry>;
 /** The list of bad password log in attempt entries. */
 export interface ErrorReportUsersEntries {
   /** The value returned by the operation. */
-  value?: ErrorReportUsersEntriesValueList;
+  value?: ErrorReportUsersEntriesValueList | undefined;
 }
 export interface ServiceMembersListExportStatusRequest {
   /** The name of the service. */
@@ -1749,26 +1755,26 @@ export interface ServiceMembersListExportStatusRequest {
 /** The details of the export status. */
 export interface ExportStatus {
   /** The id of the service for whom the export status is being reported. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The server Id for whom the export status is being reported. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The date and time when the export ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The run step result Id. */
-  runStepResultId?: string;
+  runStepResultId?: string | undefined;
 }
 /** The value returned by the operation. */
 export type ExportStatusesValueList = Array<ExportStatus>;
 /** The list of export statuses. */
 export interface ExportStatuses {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The value returned by the operation. */
-  value?: ExportStatusesValueList;
+  value?: ExportStatusesValueList | undefined;
   /** The total count of service elements. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The continuation token for paginated calls. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ServicesListAllRiskyIpDownloadReportRequest {
   /** The name of the service. */
@@ -1777,24 +1783,24 @@ export interface ServicesListAllRiskyIpDownloadReportRequest {
 /** The blob uri pointing to Risky IP Report. */
 export interface RiskyIPBlobUri {
   /** The tenant id for whom the report belongs to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service id for whom the report belongs to. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The blob uri for the report. */
-  resultSasUri?: string;
+  resultSasUri?: string | undefined;
   /** Time at which the new Risky IP report was requested. */
-  blobCreateDateTime?: string;
+  blobCreateDateTime?: string | undefined;
   /** Time at which the blob creation job for the new Risky IP report was completed. */
-  jobCompletionTime?: string;
+  jobCompletionTime?: string | undefined;
   /** Status of the Risky IP report generation. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The list of blob uris. */
 export type RiskyIPBlobUrisValueList = Array<RiskyIPBlobUri>;
 /** The list containing blob uris. */
 export interface RiskyIPBlobUris {
   /** The list of blob uris. */
-  value?: RiskyIPBlobUrisValueList;
+  value?: RiskyIPBlobUrisValueList | undefined;
 }
 export interface ServicesListCurrentRiskyIpDownloadReportRequest {
   /** The name of the service. */
@@ -1807,18 +1813,18 @@ export interface ServicesListExportErrorsRequest {
 /** The error count details. */
 export interface ErrorCount {
   /** The error bucket. */
-  errorBucket?: string;
+  errorBucket?: string | undefined;
   /** The error count. */
-  count?: number;
+  count?: number | undefined;
   /** Indicates if the error count is truncated or not. */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 /** The value returned by the operation. */
 export type ErrorCountsValueList = Array<ErrorCount>;
 /** The list of error counts. */
 export interface ErrorCounts {
   /** The value returned by the operation. */
-  value?: ErrorCountsValueList;
+  value?: ErrorCountsValueList | undefined;
 }
 export interface ServicesListExportErrorsV2Request {
   /** The name of the service. */
@@ -1829,83 +1835,83 @@ export interface ServicesListExportErrorsV2Request {
 /** Object that hold sync object details. */
 export interface AssociatedObject {
   /** The display name of the object. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The distinguished name of the object. */
-  distinguishedName?: string;
+  distinguishedName?: string | undefined;
   /** The last dirSync time. */
-  lastDirSyncTime?: string;
+  lastDirSyncTime?: string | undefined;
   /** The email of the object. */
-  mail?: string;
+  mail?: string | undefined;
   /** The object guid. */
-  objectGuid?: string;
+  objectGuid?: string | undefined;
   /** The object type. */
-  objectType?: string;
+  objectType?: string | undefined;
   /** The On-premises UPN. */
-  onpremisesUserPrincipalName?: string;
+  onpremisesUserPrincipalName?: string | undefined;
   /** The proxy addresses. */
-  proxyAddresses?: string;
+  proxyAddresses?: string | undefined;
   /** The source anchor. */
-  sourceAnchor?: string;
+  sourceAnchor?: string | undefined;
   /** The source of authority. */
-  sourceOfAuthority?: string;
+  sourceOfAuthority?: string | undefined;
   /** The time of the error. */
-  timeOccurred?: string;
+  timeOccurred?: string | undefined;
   /** The UPN. */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
 }
 /** The merged export error. */
 export interface MergedExportError {
   /** The error Id. */
-  id?: string;
+  id?: string | undefined;
   /** The incoming object display name. */
-  incomingObjectDisplayName?: string;
+  incomingObjectDisplayName?: string | undefined;
   /** The incoming object type. */
-  incomingObjectType?: string;
+  incomingObjectType?: string | undefined;
   /** The user principal name */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
   /** The type of the error. */
-  type?: string;
+  type?: string | undefined;
   /** The attribute name. */
-  attributeName?: string;
+  attributeName?: string | undefined;
   /** The attribute value. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
   /** The date and time when the error occurred. */
-  timeOccurred?: string;
+  timeOccurred?: string | undefined;
   /** The time when the error first occurred. */
-  timeFirstOccurred?: string;
+  timeFirstOccurred?: string | undefined;
   /** the cs object Id. */
-  csObjectId?: string;
+  csObjectId?: string | undefined;
   /** the DN of the object. */
-  dn?: string;
+  dn?: string | undefined;
   /** The incoming object details. */
-  incomingObject?: AssociatedObject;
+  incomingObject?: AssociatedObject | undefined;
   /** The existing object */
-  existingObject?: AssociatedObject;
+  existingObject?: AssociatedObject | undefined;
   /** The modified or removed attribute value. */
-  modifiedOrRemovedAttributeValue?: string;
+  modifiedOrRemovedAttributeValue?: string | undefined;
   /** The run step result Id. */
-  runStepResultId?: string;
+  runStepResultId?: string | undefined;
   /** The sam account name. */
-  samAccountName?: string;
+  samAccountName?: string | undefined;
   /** The server error details. */
-  serverErrorDetail?: string;
+  serverErrorDetail?: string | undefined;
   /** The service Id. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The server Id. */
-  serviceMemberId?: string;
+  serviceMemberId?: string | undefined;
   /** The merged entity Id. */
-  mergedEntityId?: string;
+  mergedEntityId?: string | undefined;
   /** The date and time, in UTC, when the error was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The export error status. */
-  exportErrorStatus?: number;
+  exportErrorStatus?: number | undefined;
 }
 /** The value returned by the operation. */
 export type MergedExportErrorsValueList = Array<MergedExportError>;
 /** The list of export errors. */
 export interface MergedExportErrors {
   /** The value returned by the operation. */
-  value?: MergedExportErrorsValueList;
+  value?: MergedExportErrorsValueList | undefined;
 }
 export interface ServicesListExportStatusRequest {
   /** The name of the service. */
@@ -1919,113 +1925,113 @@ export interface UpdateAddsServiceRequest {
   /** The name of the service which needs to be deleted. */
   serviceName: string;
   /** The id of the service. */
-  id?: string;
+  id?: string | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date and time, in UTC, when the service was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of additional emails that are configured to receive notifications about the service. */
-  customNotificationEmails?: UpdateAddsServiceRequestCustomNotificationEmailsList;
+  customNotificationEmails?: UpdateAddsServiceRequestCustomNotificationEmailsList | undefined;
   /** Indicates if the service is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The health of the service. */
-  health?: string;
+  health?: string | undefined;
   /** The date and time, in UTC, when the service was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** Indicates if email notification is enabled or not. */
-  notificationEmailEnabled?: boolean;
+  notificationEmailEnabled?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailEnabledForGlobalAdmins?: boolean;
+  notificationEmailEnabledForGlobalAdmins?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailsEnabledForGlobalAdmins?: boolean;
+  notificationEmailsEnabledForGlobalAdmins?: boolean | undefined;
   /** The list of emails to whom service notifications will be sent. */
-  notificationEmails?: UpdateAddsServiceRequestNotificationEmailsList;
+  notificationEmails?: UpdateAddsServiceRequestNotificationEmailsList | undefined;
   /** Gets the original disable state. */
-  originalDisabledState?: boolean;
+  originalDisabledState?: boolean | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The id of the service. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The id of the tenant to which the service is registered to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of global administrators for the tenant. */
 export type UpdateConfigurationRequestGlobalAdminsEmailList = Array<string>;
 export interface UpdateConfigurationRequest {
   /** The Id of the tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The Azure Active Directory license of the tenant. */
-  aadLicense?: string;
+  aadLicense?: string | undefined;
   /** Indicate if the tenant has Azure Active Directory Premium license or not. */
-  aadPremium?: boolean;
+  aadPremium?: boolean | undefined;
   /** Indicates if the tenant is configured to automatically receive updates for Azure Active Directory Connect Health client side features. */
-  agentAutoUpdate?: boolean;
+  agentAutoUpdate?: boolean | undefined;
   /** The time in minutes after which an alert will be auto-suppressed. */
-  alertSuppressionTimeInMins?: number;
+  alertSuppressionTimeInMins?: number | undefined;
   /** Indicates if the tenant data can be seen by Microsoft through Azure portal. */
-  consentedToMicrosoftDevOps?: boolean;
+  consentedToMicrosoftDevOps?: boolean | undefined;
   /** The country letter code of the tenant. */
-  countryLetterCode?: string;
+  countryLetterCode?: string | undefined;
   /** The date, in UTC, when the tenant was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The date and time, in UTC, till when the tenant data can be seen by Microsoft through Azure portal. */
-  devOpsTtl?: string;
+  devOpsTtl?: string | undefined;
   /** Indicates if the tenant is disabled in Azure Active Directory Connect Health. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The reason due to which the tenant was disabled in Azure Active Directory Connect Health. */
-  disabledReason?: number;
+  disabledReason?: number | undefined;
   /** The list of global administrators for the tenant. */
-  globalAdminsEmail?: UpdateConfigurationRequestGlobalAdminsEmailList;
+  globalAdminsEmail?: UpdateConfigurationRequestGlobalAdminsEmailList | undefined;
   /** The initial domain of the tenant. */
-  initialDomain?: string;
+  initialDomain?: string | undefined;
   /** The date and time, in UTC, when the tenant was last disabled in Azure Active Directory Connect Health. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date and time, in UTC, when the tenant onboarding status in Azure Active Directory Connect Health was last verified. */
-  lastVerified?: string;
+  lastVerified?: string | undefined;
   /** Indicates if the tenant is allowed to onboard to Azure Active Directory Connect Health. */
-  onboardingAllowed?: boolean;
+  onboardingAllowed?: boolean | undefined;
   /** Indicates if the tenant is already onboarded to Azure Active Directory Connect Health. */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** The certificate associated with the tenant to onboard data to Azure Active Directory Connect Health. */
-  pksCertificate?: unknown;
+  pksCertificate?: unknown | undefined;
   /** Indicates if the tenant has signed up for private preview of Azure Active Directory Connect Health features. */
-  privatePreviewTenant?: boolean;
+  privatePreviewTenant?: boolean | undefined;
   /** Indicates if data collection for this tenant is disabled or not. */
-  tenantInQuarantine?: boolean;
+  tenantInQuarantine?: boolean | undefined;
   /** The name of the tenant. */
-  tenantName?: string;
+  tenantName?: string | undefined;
 }
 export interface UpdateIPAddressAggregateSettingsRequest {
   /** The name of the service. */
   serviceName: string;
   /** Unique ID for the entree */
-  id?: string;
+  id?: string | undefined;
   /** This threshold setting defines the per day trigger for a new event to be generated in the report. */
-  badPasswordAndExtranetLockoutCombinedDailyThreshold?: number;
+  badPasswordAndExtranetLockoutCombinedDailyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  badPasswordAndExtranetLockoutCombinedHourlyThreshold?: number;
+  badPasswordAndExtranetLockoutCombinedHourlyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  extranetLockoutDailyThreshold?: number;
+  extranetLockoutDailyThreshold?: number | undefined;
   /** This threshold setting defines the per hour trigger for a new event to be generated in the report. */
-  extranetLockoutHourlyThreshold?: number;
+  extranetLockoutHourlyThreshold?: number | undefined;
   /** A value indicating whether email notification has been enabled. */
-  emailNotificationEnabled?: boolean;
+  emailNotificationEnabled?: boolean | undefined;
 }
 /** The list of additional emails that are configured to receive notifications about the service. */
 export type UpdateServiceRequestCustomNotificationEmailsList = Array<string>;
@@ -2035,59 +2041,59 @@ export interface UpdateServiceRequest {
   /** The name of the service which needs to be deleted. */
   serviceName: string;
   /** The id of the service. */
-  id?: string;
+  id?: string | undefined;
   /** The count of alerts that are currently active for the service. */
-  activeAlerts?: number;
+  activeAlerts?: number | undefined;
   /** The additional information related to the service. */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** The date and time, in UTC, when the service was onboarded to Azure Active Directory Connect Health. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The list of additional emails that are configured to receive notifications about the service. */
-  customNotificationEmails?: UpdateServiceRequestCustomNotificationEmailsList;
+  customNotificationEmails?: UpdateServiceRequestCustomNotificationEmailsList | undefined;
   /** Indicates if the service is disabled or not. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The display name of the service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The health of the service. */
-  health?: string;
+  health?: string | undefined;
   /** The date and time, in UTC, when the service was last disabled. */
-  lastDisabled?: string;
+  lastDisabled?: string | undefined;
   /** The date or time , in UTC, when the service properties were last updated. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsComputed?: unknown;
+  monitoringConfigurationsComputed?: unknown | undefined;
   /** The customized monitoring configuration of the service which determines what activities are monitored by Azure Active Directory Connect Health. */
-  monitoringConfigurationsCustomized?: unknown;
+  monitoringConfigurationsCustomized?: unknown | undefined;
   /** Indicates if email notification is enabled or not. */
-  notificationEmailEnabled?: boolean;
+  notificationEmailEnabled?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailEnabledForGlobalAdmins?: boolean;
+  notificationEmailEnabledForGlobalAdmins?: boolean | undefined;
   /** Indicates if email notification is enabled for global administrators of the tenant. */
-  notificationEmailsEnabledForGlobalAdmins?: boolean;
+  notificationEmailsEnabledForGlobalAdmins?: boolean | undefined;
   /** The list of emails to whom service notifications will be sent. */
-  notificationEmails?: UpdateServiceRequestNotificationEmailsList;
+  notificationEmails?: UpdateServiceRequestNotificationEmailsList | undefined;
   /** Gets the original disable state. */
-  originalDisabledState?: boolean;
+  originalDisabledState?: boolean | undefined;
   /** The total count of alerts that has been resolved for the service. */
-  resolvedAlerts?: number;
+  resolvedAlerts?: number | undefined;
   /** The id of the service. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** The signature of the service. */
-  signature?: string;
+  signature?: string | undefined;
   /** List of service specific configuration properties. */
-  simpleProperties?: unknown;
+  simpleProperties?: unknown | undefined;
   /** The id of the tenant to which the service is registered to. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The service type for the services onboarded to Azure Active Directory Connect Health. Depending on whether the service is monitoring, ADFS, Sync or ADDS roles, the service type can either be AdFederationService or AadSyncService or AdDomainService. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface UpdateServiceMonitoringConfigurationRequest {
   /** The name of the service. */
   serviceName: string;
   /** The key for the property. */
-  key?: string;
+  key?: string | undefined;
   /** The value for the key. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface UpdateServiceMonitoringConfigurationResponse {}
 export type AddAddsServiceError = AzureOpError;

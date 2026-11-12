@@ -85,47 +85,47 @@ export class NotFound
 export interface GetUserinfoRequest {}
 export interface Userinfo {
   /** The user's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The user's last name. */
-  family_name?: string;
+  family_name?: string | undefined;
   /** The user's gender. */
-  gender?: string;
+  gender?: string | undefined;
   /** The user's first name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** The hosted domain e.g. example.com if the user is Google apps user. */
-  hd?: string;
+  hd?: string | undefined;
   /** The obfuscated ID of the user. */
-  id?: string;
+  id?: string | undefined;
   /** URL of the profile page. */
-  link?: string;
+  link?: string | undefined;
   /** The user's preferred locale. */
-  locale?: string;
+  locale?: string | undefined;
   /** The user's full name. */
-  name?: string;
+  name?: string | undefined;
   /** URL of the user's picture image. */
-  picture?: string;
+  picture?: string | undefined;
   /** Boolean flag which is true if the email address is verified. Always verified because we only return the user's primary email address. */
-  verified_email?: boolean;
+  verified_email?: boolean | undefined;
 }
 export interface GetUserinfoV2MeRequest {}
 export interface TokeninfoRequest {
-  id_token?: string;
+  id_token?: string | undefined;
 }
 export interface Tokeninfo {
   /** Who is the intended audience for this token. In general the same as issued_to. */
-  audience?: string;
+  audience?: string | undefined;
   /** The email address of the user. Present only if the email scope is present in the request. */
-  email?: string;
+  email?: string | undefined;
   /** The expiry time of the token, as number of seconds left until expiry. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** To whom was the token issued to. In general the same as audience. */
-  issued_to?: string;
+  issued_to?: string | undefined;
   /** The space separated list of scopes granted to this token. */
-  scope?: string;
+  scope?: string | undefined;
   /** The obfuscated user id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Boolean flag which is true if the email address is verified. Present only if the email scope is present in the request. */
-  verified_email?: boolean;
+  verified_email?: boolean | undefined;
 }
 export type GetUserinfoError = NotFound | Forbidden | GcpOpError;
 export const getUserinfo: API.OperationMethod<

@@ -48,7 +48,7 @@ export interface CreateZoneRrsetRequestRecordsItem {
   /** Value of the record. For details about accepted values, see the [DNS record types documentation](https://docs.hetzner.com/networking/dns/record-types/overview/). */
   value: string;
   /** Comment of the record. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Records of the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. The order of records returned in responses is not guaranteed to be consistent. */
 export type CreateZoneRrsetRequestRecordsList = Array<CreateZoneRrsetRequestRecordsItem>;
@@ -62,11 +62,11 @@ export interface CreateZoneRrsetRequest {
   /** Type of the [RRSet](#tag/zone-rrsets). */
   type: CreateZoneRrsetRequestType | (string & {});
   /** Time To Live (TTL) of the [RRSet](#tag/zone-rrsets). Must be in between 60s and 2147483647s. If not set, the [Zone's](#tag/zones) Default TTL is used. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Records of the [RRSet](#tag/zone-rrsets). Must not be empty and must only contain distinct record values. The order of records returned in responses is not guaranteed to be consistent. */
   records: CreateZoneRrsetRequestRecordsList;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateZoneRrsetRequestLabelsMap;
+  labels?: CreateZoneRrsetRequestLabelsMap | undefined;
 }
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type CreateZoneRrsetResponseRrsetType =
@@ -313,17 +313,17 @@ export interface ListZoneRrsetsRequest {
   /** ID or Name of the Zone. */
   id_or_name: string;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by their type. May be used multiple times. The response will only contain resources matching the specified types. */
-  type?: ListZoneRrsetsRequestTypeList;
+  type?: ListZoneRrsetsRequestTypeList | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListZoneRrsetsRequestSortList;
+  sort?: ListZoneRrsetsRequestSortList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type ListZoneRrsetsResponseRrsetsItemType =
@@ -419,7 +419,7 @@ export interface UpdateZoneRrsetRequest {
   rr_name: string;
   rr_type: UpdateZoneRrsetRequestRrType | (string & {});
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateZoneRrsetRequestLabelsMap;
+  labels?: UpdateZoneRrsetRequestLabelsMap | undefined;
 }
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type UpdateZoneRrsetResponseRrsetType =
@@ -520,7 +520,7 @@ export const getZoneRrset: API.OperationMethod<
 }));
 
 export type ListZoneRrsetsError = HetznerOpError;
-/** List RRSets Returns all [RRSets](#tag/zone-rrsets) in the [Zone](#tag/zones). Use the provided URI parameters to modify the result. The maximum value for `per_page` on this endpoint is `100` instead of `50`. Only applicable for [Zones](#tag/zones) in primary mode. #### Operation specific errors */
+/** List RRSets Returns all [RRSets](#tag/zone-rrsets) in the [Zone](#tag/zones). Use the provided URI parameters to modify the result. Only applicable for [Zones](#tag/zones) in primary mode. #### Operation specific errors */
 export const listZoneRrsets: API.PaginatedOperationMethod<
   ListZoneRrsetsRequest,
   ListZoneRrsetsResponse,

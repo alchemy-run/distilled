@@ -85,8 +85,8 @@ export interface CreateClientCertificateRequest {
   validityDays: number;
 }
 export interface CreateResponseCertificateAuthority {
-  id?: string | null;
-  name?: string | null;
+  id?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type CreateResponseStatus =
   | "active"
@@ -96,41 +96,41 @@ export type CreateResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateClientCertificateResponse {
   /** Client Certificate Tag */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Client Certificate PEM. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Certificate Authority used to issue the Client Certificate. */
-  certificateAuthority?: CreateResponseCertificateAuthority | null;
+  certificateAuthority?: CreateResponseCertificateAuthority | null | undefined;
   /** Common Name of the Client Certificate. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Country, provided by the CSR. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Date that the Client Certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Unique identifier of the Client Certificate. */
-  fingerprintSha256?: string | null;
+  fingerprintSha256?: string | null | undefined;
   /** Date that the Client Certificate was issued by the Certificate Authority. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Location, provided by the CSR. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Organization, provided by the CSR. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational Unit, provided by the CSR. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** The serial number on the created Client Certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the Client Certificate.. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Subject Key Identifier. */
-  ski?: string | null;
+  ski?: string | null | undefined;
   /** State, provided by the CSR. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions. */
-  status?: CreateResponseStatus | null;
+  status?: CreateResponseStatus | null | undefined;
   /** The number of days the Client Certificate will be valid after the issued_on date. */
-  validityDays?: number | null;
+  validityDays?: number | null | undefined;
 }
 export interface DeleteClientCertificateRequest {
   /** Identifier. */
@@ -147,41 +147,41 @@ export type DeleteResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteClientCertificateResponse {
   /** Client Certificate Tag */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Client Certificate PEM. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Certificate Authority used to issue the Client Certificate. */
-  certificateAuthority?: CreateResponseCertificateAuthority | null;
+  certificateAuthority?: CreateResponseCertificateAuthority | null | undefined;
   /** Common Name of the Client Certificate. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Country, provided by the CSR. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Date that the Client Certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Unique identifier of the Client Certificate. */
-  fingerprintSha256?: string | null;
+  fingerprintSha256?: string | null | undefined;
   /** Date that the Client Certificate was issued by the Certificate Authority. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Location, provided by the CSR. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Organization, provided by the CSR. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational Unit, provided by the CSR. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** The serial number on the created Client Certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the Client Certificate.. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Subject Key Identifier. */
-  ski?: string | null;
+  ski?: string | null | undefined;
   /** State, provided by the CSR. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions. */
-  status?: DeleteResponseStatus | null;
+  status?: DeleteResponseStatus | null | undefined;
   /** The number of days the Client Certificate will be valid after the issued_on date. */
-  validityDays?: number | null;
+  validityDays?: number | null | undefined;
 }
 export interface GetClientCertificateRequest {
   /** Identifier. */
@@ -198,41 +198,41 @@ export type GetResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetClientCertificateResponse {
   /** Client Certificate Tag */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Client Certificate PEM. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Certificate Authority used to issue the Client Certificate. */
-  certificateAuthority?: CreateResponseCertificateAuthority | null;
+  certificateAuthority?: CreateResponseCertificateAuthority | null | undefined;
   /** Common Name of the Client Certificate. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Country, provided by the CSR. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Date that the Client Certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Unique identifier of the Client Certificate. */
-  fingerprintSha256?: string | null;
+  fingerprintSha256?: string | null | undefined;
   /** Date that the Client Certificate was issued by the Certificate Authority. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Location, provided by the CSR. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Organization, provided by the CSR. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational Unit, provided by the CSR. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** The serial number on the created Client Certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the Client Certificate.. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Subject Key Identifier. */
-  ski?: string | null;
+  ski?: string | null | undefined;
   /** State, provided by the CSR. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** The number of days the Client Certificate will be valid after the issued_on date. */
-  validityDays?: number | null;
+  validityDays?: number | null | undefined;
 }
 export type ListRequestStatus =
   | "all"
@@ -244,15 +244,15 @@ export interface ListClientCertificatesRequest {
   /** Identifier. */
   zoneId: string;
   /** Limit to the number of records returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of records per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Client Certitifcate Status to filter results by. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
 }
 export type ListResultItemCertificateAuthority = CreateResponseCertificateAuthority;
 export type ListResultItemStatus =
@@ -262,55 +262,55 @@ export type ListResultItemStatus =
   | "revoked";
 export interface ListResultItem {
   /** Client Certificate Tag */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Client Certificate PEM. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Certificate Authority used to issue the Client Certificate. */
-  certificateAuthority?: CreateResponseCertificateAuthority | null;
+  certificateAuthority?: CreateResponseCertificateAuthority | null | undefined;
   /** Common Name of the Client Certificate. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Country, provided by the CSR. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Date that the Client Certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Unique identifier of the Client Certificate. */
-  fingerprintSha256?: string | null;
+  fingerprintSha256?: string | null | undefined;
   /** Date that the Client Certificate was issued by the Certificate Authority. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Location, provided by the CSR. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Organization, provided by the CSR. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational Unit, provided by the CSR. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** The serial number on the created Client Certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the Client Certificate.. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Subject Key Identifier. */
-  ski?: string | null;
+  ski?: string | null | undefined;
   /** State, provided by the CSR. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
   /** The number of days the Client Certificate will be valid after the issued_on date. */
-  validityDays?: number | null;
+  validityDays?: number | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListClientCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchClientCertificateRequest {
   /** Identifier. */
   zoneId: string;
   /** Client Certificate Tag */
   clientCertificateId: string;
-  reactivate?: boolean;
+  reactivate?: boolean | undefined;
 }
 export type EditResponseCertificateAuthority = CreateResponseCertificateAuthority;
 export type EditResponseStatus =
@@ -321,41 +321,41 @@ export type EditResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchClientCertificateResponse {
   /** Client Certificate Tag */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Client Certificate PEM. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Certificate Authority used to issue the Client Certificate. */
-  certificateAuthority?: CreateResponseCertificateAuthority | null;
+  certificateAuthority?: CreateResponseCertificateAuthority | null | undefined;
   /** Common Name of the Client Certificate. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Country, provided by the CSR. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Date that the Client Certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Unique identifier of the Client Certificate. */
-  fingerprintSha256?: string | null;
+  fingerprintSha256?: string | null | undefined;
   /** Date that the Client Certificate was issued by the Certificate Authority. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Location, provided by the CSR. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Organization, provided by the CSR. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational Unit, provided by the CSR. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** The serial number on the created Client Certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the Client Certificate.. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Subject Key Identifier. */
-  ski?: string | null;
+  ski?: string | null | undefined;
   /** State, provided by the CSR. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Client Certificates may be active or revoked, and the pending_reactivation or pending_revocation represent in-progress asynchronous transitions. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** The number of days the Client Certificate will be valid after the issued_on date. */
-  validityDays?: number | null;
+  validityDays?: number | null | undefined;
 }
 export type CreateClientCertificateError = Forbidden | CloudflareOpError;
 /** Create a new API Shield mTLS Client Certificate. */

@@ -30,19 +30,19 @@ export interface AddCallRequest {
   /** An ID supplied by the 3rd-party Call provider. It must be unique across all Calls from that service. */
   external_unique_id: string;
   /** An optional, human-readable ID supplied by the 3rd-party Call provider. If supplied, this ID will be displayed in the Call object. */
-  external_display_id?: string;
+  external_display_id?: string | undefined;
   /** The URL required for a client to join the Call. */
   join_url: string;
   /** When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL. */
-  desktop_app_join_url?: string;
+  desktop_app_join_url?: string | undefined;
   /** Unix timestamp of the call start time */
-  date_start?: number;
+  date_start?: number | undefined;
   /** The name of the Call. */
-  title?: string;
+  title?: string | undefined;
   /** The valid Slack user ID of the user who created this Call. When this method is called with a user token, the `created_by` field is optional and defaults to the authed user of the token. Otherwise, the field is required. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The list of users to register as participants in the Call. [Read more on how to specify users here](/apis/web-api/using-the-calls-api#users). */
-  users?: AddCallRequestUsersList;
+  users?: AddCallRequestUsersList | undefined;
 }
 export interface AddCallResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -66,7 +66,7 @@ export interface CallsEndRequest {
   /** `id` returned when registering the call using the [`calls.add`](/reference/methods/calls.add) method. */
   id: string;
   /** Call duration in seconds */
-  duration?: number;
+  duration?: number | undefined;
 }
 export interface CallsEndResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -99,11 +99,11 @@ export interface UpdateCallRequest {
   /** `id` returned by the [`calls.add`](/reference/methods/calls.add) method. */
   id: string;
   /** The name of the Call. */
-  title?: string;
+  title?: string | undefined;
   /** The URL required for a client to join the Call. */
-  join_url?: string;
+  join_url?: string | undefined;
   /** When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL. */
-  desktop_app_join_url?: string;
+  desktop_app_join_url?: string | undefined;
 }
 export interface UpdateCallResponse {
   /** Always `true` (a failed call raises a typed error instead). */

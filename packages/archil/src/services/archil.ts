@@ -35,13 +35,13 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** `conflict`: the name is taken (e.g. a branch that already exists on the disk). */
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
-      code: S.Number,
       message: S.String,
     }).pipe(C.withConflictError),
-    [{ status: 409 }],
+    [{ status: 409, body: { "/code": "conflict" } }],
   ) {}
 
 export class Forbidden
@@ -53,48 +53,235 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** `image_not_ready`: the sandbox image has no finished build; poll it until it is ready. */
+export class ImageNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ImageNotReady>()("ImageNotReady", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "image_not_ready" } }],
+  ) {}
+
+/** `no_capacity`: no sandbox capacity is available; retry. */
+export class NoCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NoCapacity>()("NoCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 503, body: { "/code": "no_capacity" } }],
+  ) {}
+
+/** `not_enabled`: sandboxes are not enabled on this control plane. Not retryable. */
+export class NotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotEnabled>()("NotEnabled", {
+      message: S.String,
+    }),
+    [{ status: 503, body: { "/code": "not_enabled" } }],
+  ) {}
+
+/** `not_found`: the disk, branch, sandbox, image, port token or API token named by the request does not exist, or the API key cannot see it. The message names which. */
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
-      code: S.Number,
       message: S.String,
     }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
+    [{ status: 404, body: { "/code": "not_found" } }],
+  ) {}
+
+/** `sandbox_fork_checkpoint`: the checkpoint to fork from is unavailable. */
+export class SandboxForkCheckpoint
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxForkCheckpoint>()("SandboxForkCheckpoint", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_fork_checkpoint" } }],
+  ) {}
+
+/** `sandbox_fork_mounted`: the sandbox has a disk mounted; stop it before forking. */
+export class SandboxForkMounted
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxForkMounted>()("SandboxForkMounted", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_fork_mounted" } }],
+  ) {}
+
+/** `sandbox_has_forks`: delete the sandbox's forks first. */
+export class SandboxHasForks
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxHasForks>()("SandboxHasForks", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_has_forks" } }],
+  ) {}
+
+/** `sandbox_mounts_while_active`: mounts can only change on a cold start of an inactive sandbox. */
+export class SandboxMountsWhileActive
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxMountsWhileActive>()("SandboxMountsWhileActive", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_mounts_while_active" } }],
+  ) {}
+
+/** `sandbox_name_conflict`: a sandbox with this name already exists in the account. */
+export class SandboxNameConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNameConflict>()("SandboxNameConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_name_conflict" } }],
+  ) {}
+
+/** `sandbox_not_deletable`: stop the sandbox before deleting it, unless it has exited or failed. */
+export class SandboxNotDeletable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotDeletable>()("SandboxNotDeletable", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_not_deletable" } }],
+  ) {}
+
+/** `sandbox_not_forkable`: only a running, paused or stopped sandbox can be forked. */
+export class SandboxNotForkable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotForkable>()("SandboxNotForkable", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_not_forkable" } }],
+  ) {}
+
+/** `sandbox_not_ready`: the sandbox is still starting; retry once it is running. */
+export class SandboxNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotReady>()("SandboxNotReady", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_not_ready" } }],
+  ) {}
+
+/** `sandbox_pausing`: the sandbox is still pausing; retry once it is paused. */
+export class SandboxPausing
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxPausing>()("SandboxPausing", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_pausing" } }],
+  ) {}
+
+/** `sandbox_start_conflict`: the sandbox is already starting with a different lifecycle intent. */
+export class SandboxStartConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStartConflict>()("SandboxStartConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_start_conflict" } }],
+  ) {}
+
+/** `sandbox_stop_conflict`: the sandbox is already shutting down with a different lifecycle intent. */
+export class SandboxStopConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStopConflict>()("SandboxStopConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_stop_conflict" } }],
+  ) {}
+
+/** `sandbox_stopping`: the sandbox is still stopping; retry once it is stopped. */
+export class SandboxStopping
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStopping>()("SandboxStopping", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_stopping" } }],
+  ) {}
+
+/** `sandbox_terminated`: the sandbox is not accepting requests (it is paused, stopped or gone). */
+export class SandboxTerminated
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxTerminated>()("SandboxTerminated", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_terminated" } }],
   ) {}
 
 export type TokenUserType = "token";
 export interface TokenUser {
   type: TokenUserType;
   /** Deprecated. Client-provided token. If omitted, the server generates a cryptographically secure token and returns it in the response. */
-  principal?: string;
+  principal?: string | undefined;
   nickname: string;
   /** Deprecated. Last 4 characters of the token. Required when principal is provided; ignored when the server generates the token. */
-  tokenSuffix?: string;
+  tokenSuffix?: string | undefined;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
+  ttl?: string | undefined;
+  /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string | undefined;
+  /** When true, the token can be used for only one mount. Later mount attempts with it are rejected. */
+  oneUse?: boolean | undefined;
+  /** When true, mounts made with this token reject writes with EROFS. */
+  readOnly?: boolean | undefined;
 }
 export type AwsStsUserType = "awssts";
 export interface AwsStsUser {
   type: AwsStsUserType;
   /** IAM principal ARN */
   principal: string;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
+  ttl?: string | undefined;
+  /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string | undefined;
+  /** When true, the credential can be used for only one mount. */
+  oneUse?: boolean | undefined;
+  /** When true, mounts made with this credential reject writes with EROFS. */
+  readOnly?: boolean | undefined;
 }
-export type DiskUser = TokenUser | AwsStsUser;
+export type S3UserType = "s3";
+export interface S3User {
+  type: S3UserType;
+  nickname?: string | undefined;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m"). Maximum 365 days ("8760h"). Requests signed with an expired key, including presigned URLs, are rejected. Mutually exclusive with expiresAt. */
+  ttl?: string | undefined;
+  /** Optional absolute expiration time as an RFC3339 timestamp. Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string | undefined;
+  /** When true, the keys can only make GET and HEAD requests. Writes, deletes, and multipart uploads return AccessDenied. */
+  readOnly?: boolean | undefined;
+}
+export type DiskUser = TokenUser | AwsStsUser | S3User;
 export interface AddDiskUserRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   body: DiskUser;
 }
-export type AuthorizedUserType = "token" | "awssts";
+export type AuthorizedUserType = "token" | "awssts" | "s3";
+/** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
+export type AuthorizedUserStatus = "active" | "expired" | "consumed" | "in_use";
 export interface AuthorizedUser {
-  type?: AuthorizedUserType;
+  type?: AuthorizedUserType | undefined;
   /** Use identifier instead. Only populated for awssts type (the IAM ARN). */
-  principal?: string;
-  nickname?: string;
-  tokenSuffix?: string;
+  principal?: string | undefined;
+  nickname?: string | undefined;
+  tokenSuffix?: string | undefined;
   /** The generated disk token (used by clients when mounting the disk). Only present in the response when the server generates the token (i.e. principal was not provided). This value is shown exactly once and cannot be retrieved again. */
-  token?: string;
-  /** Stable identifier for this user, returned in creation and list responses. Use this value with DELETE /api/disks/{id}/users/{type}?identifier={identifier} to remove the user. For awssts users, this is the IAM ARN. */
-  identifier?: string;
-  createdAt?: string;
+  token?: string | Redacted.Redacted<string> | undefined;
+  /** The S3 access key ID. Only present for s3 users. */
+  s3AccessKeyId?: string | undefined;
+  /** The generated S3 secret access key. Only present in the creation response for s3 users. This value is shown exactly once and cannot be retrieved again. */
+  s3SecretKey?: string | Redacted.Redacted<string> | undefined;
+  /** Stable identifier for this user, returned in creation and list responses. Use this value with DELETE /api/disks/{id}/users/{type}?identifier={identifier} to remove the user. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
+  identifier?: string | undefined;
+  createdAt?: string | undefined;
+  /** When the user expires. Absent for users without an expiry. */
+  expiresAt?: string | undefined;
+  /** Whether the user can be used for only one mount. */
+  oneUse?: boolean | undefined;
+  /** When a one-use user was consumed by its mount. Absent until then. */
+  consumedAt?: string | undefined;
+  /** Whether the user grants read-only access. */
+  readOnly?: boolean | undefined;
+  /** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
+  status?: AuthorizedUserStatus | undefined;
 }
 export interface ApiResponseAuthorizedUser {
   success: boolean;
@@ -104,23 +291,49 @@ export interface CreateApiTokenRequest {
   /** Token name */
   name: string;
   /** Token description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ApiResponseTokenCreatedData {
   /** Token hash/ID */
-  id?: string;
-  name?: string;
-  description?: string;
+  id: string;
+  name?: string | undefined;
+  description?: string | undefined;
   /** Last 4 characters of the token */
-  tokenSuffix?: string;
-  createdAt?: string;
-  lastUsedAt?: string;
+  tokenSuffix?: string | undefined;
+  createdAt?: string | undefined;
+  lastUsedAt?: string | undefined;
   /** Full token value (only shown at creation) */
-  token?: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface ApiResponseTokenCreated {
   success: boolean;
   data: ApiResponseTokenCreatedData;
+}
+export interface CreateBranchRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  branch_name: string;
+  /** Name of a committed checkpoint on the source, which is the root disk or `from_branch` when set. */
+  from_checkpoint_name: string;
+  /** Name of the branch the checkpoint was taken on. Omit to use the root disk. */
+  from_branch?: string | undefined;
+}
+export interface BranchResponse {
+  /** ID of the disk the branch belongs to. */
+  root_filesystem_id: string;
+  branch_name: string;
+  /** ID of the branch's own writable filesystem. */
+  filesystem_id: string;
+  /** Name of the checkpoint the branch started from. */
+  from_checkpoint_name: string;
+  /** ID of the filesystem the checkpoint was taken on: the disk ID for the root disk, or the source branch's `filesystem_id`. */
+  from_checkpoint_filesystem_id: string;
+  /** When the branch was created. */
+  created_at: string;
+}
+export interface BranchApiResponse {
+  success: boolean;
+  data: BranchResponse;
 }
 /** Mount type identifier */
 export type S3MountType = "s3";
@@ -131,13 +344,13 @@ export interface S3Mount {
   /** S3 bucket name */
   bucketName: string;
   /** AWS access key ID (optional for public buckets or IAM role auth) */
-  accessKeyId?: string | Redacted.Redacted<string>;
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
   /** AWS secret access key */
-  secretAccessKey?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Session token for temporary credentials */
-  sessionToken?: string | Redacted.Redacted<string>;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
   /** Prefix within the bucket */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type GCSMountType = "gcs";
@@ -152,7 +365,7 @@ export interface GCSMount {
   /** HMAC secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type R2MountType = "r2";
@@ -169,7 +382,7 @@ export interface R2Mount {
   /** R2 secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type S3CompatibleMountType = "s3-compatible";
@@ -186,7 +399,7 @@ export interface S3CompatibleMount {
   /** Secret access key */
   secretAccessKey: string | Redacted.Redacted<string>;
   /** Prefix within the bucket (optional) */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 /** Mount type identifier */
 export type AzureBlobMountType = "azure-blob";
@@ -197,9 +410,9 @@ export interface AzureBlobMount {
   /** Azure blob container name */
   containerName: string;
   /** Azure blob endpoint URL (optional if storageAccountName provided) */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Azure storage account name (used to derive endpoint if not provided) */
-  storageAccountName?: string;
+  storageAccountName?: string | undefined;
   /** Azure AD tenant ID */
   tenantId: string;
   /** Azure AD application client ID */
@@ -207,7 +420,7 @@ export interface AzureBlobMount {
   /** Azure AD application client secret */
   clientSecret: string | Redacted.Redacted<string>;
   /** Prefix within the container */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
 }
 export type MountConfig = S3Mount | GCSMount | R2Mount | S3CompatibleMount | AzureBlobMount;
 /** Storage mount to attach. Omit for archil-managed storage. */
@@ -218,18 +431,54 @@ export interface CreateDiskRequest {
   /** Disk name (alphanumeric, dashes, underscores) */
   name: string;
   /** Storage mount to attach. Omit for archil-managed storage. */
-  mounts?: CreateDiskRequestMountsList;
+  mounts?: CreateDiskRequestMountsList | undefined;
   /** Deprecated. Use AddDiskUser after creation instead. When provided, suppresses the default auto-generated token user. */
-  authMethods?: CreateDiskRequestAuthMethodsList;
+  authMethods?: CreateDiskRequestAuthMethodsList | undefined;
 }
 export type ApiResponseCreateDiskDataAuthorizedUsersList = Array<AuthorizedUser>;
 export interface ApiResponseCreateDiskData {
-  diskId?: string;
-  authorizedUsers?: ApiResponseCreateDiskDataAuthorizedUsersList;
+  diskId: string;
+  authorizedUsers?: ApiResponseCreateDiskDataAuthorizedUsersList | undefined;
 }
 export interface ApiResponseCreateDisk {
   success: boolean;
   data: ApiResponseCreateDiskData;
+}
+/** Registry credentials required for private images. Supply them on every build request; Archil does not store them. Omit for public images. */
+export interface RegistryAuth {
+  /** Registry username. */
+  username: string;
+  /** Password or access token with pull access to the image. */
+  password: string | Redacted.Redacted<string>;
+}
+export interface CreateImageRequest {
+  /** Linux OCI image reference. Docker shorthand and tags are accepted. */
+  source: string;
+  registry_auth?: RegistryAuth | undefined;
+}
+export type ImageState = "building" | "ready" | "failed";
+/** Set when `failed`. `invalid_source`: the registry reported the image missing or denied access, so requesting it again will not help. `interrupted`: the build did not finish; request the image again. */
+export type ImageFailureReason = "invalid_source" | "interrupted";
+export interface Image {
+  /** Stable ID for the normalized source and its public or private scope. Private image IDs are scoped to your account. Adding or removing registry credentials changes the scope and the ID; rebuilding in the same scope keeps the ID. */
+  image_id: string;
+  /** Normalized OCI reference the image is pulled from. */
+  source: string;
+  /** Whether the image is pulled with registry credentials. */
+  private: boolean;
+  status: ImageState;
+  /** The most recent successful build. Sandboxes created from this `image_id` boot it, and keep it after the image is rebuilt. */
+  digest?: string | undefined;
+  /** The pulled manifest, as `repository@sha256:...`. */
+  canonical_source?: string | undefined;
+  /** Set when `failed`. `invalid_source`: the registry reported the image missing or denied access, so requesting it again will not help. `interrupted`: the build did not finish; request the image again. */
+  failure_reason?: ImageFailureReason | undefined;
+  created_at: string;
+  updated_at: string;
+}
+export interface ApiResponseImage {
+  success: boolean;
+  data: Image;
 }
 /** TCP ports to expose publicly when the sandbox is created. */
 export type CreateSandboxRequestPortsList = Array<number>;
@@ -241,14 +490,14 @@ export type SandboxEgressTransformHeadersMap = { [key: string]: string | undefin
 /** Optional outbound HTTPS request transformations. An omitted or empty transform leaves the rule as an ordinary allow without request mutations. */
 export interface SandboxEgressTransform {
   /** Outbound HTTPS request headers to set, overwriting values supplied by the sandbox. */
-  headers?: SandboxEgressTransformHeadersMap;
+  headers?: SandboxEgressTransformHeadersMap | undefined;
 }
 export interface SandboxEgressRule {
   /** Target allowed by this rule. Effective transformations and forwarding require an exact or wildcard lowercase domain. */
   target: string;
-  transform?: SandboxEgressTransform;
-  /** Absolute public HTTPS URL that receives this rule's permitted HTTP and HTTPS requests instead of their original upstream. The original path is appended to this URL, and Archil overwrites the archil-forwarded-host, archil-forwarded-scheme, archil-forwarded-port, archil-forwarded-path, and archil-sandbox-id headers with request metadata. A transform on the same rule is applied before forwarding, so the forwarded request carries the transformed headers. URLs containing credentials, a query, or a fragment are rejected. */
-  forward_url?: string;
+  transform?: SandboxEgressTransform | undefined;
+  /** Absolute public HTTPS URL that receives this rule's permitted HTTP and HTTPS requests instead of their original upstream. Requires a lowercase domain; IP addresses, credentials, queries, and fragments are rejected. Protected and private destination addresses are blocked. The original path and query are appended to this URL's path prefix. Archil overwrites the archil-forwarded-host, archil-forwarded-scheme, archil-forwarded-port, archil-forwarded-path, and archil-sandbox-id headers with request metadata. A transform on the same rule is applied before forwarding. */
+  forward_url?: string | undefined;
 }
 export type SandboxEgressPolicyAllowItem = string | SandboxEgressRule;
 /** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
@@ -261,46 +510,120 @@ export type SandboxEgressPolicyDrainOnPauseList = Array<string>;
 export interface SandboxEgressPolicy {
   default: SandboxNetworkAction | (string & {});
   /** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
-  allow?: SandboxEgressPolicyAllowList;
+  allow?: SandboxEgressPolicyAllowList | undefined;
   /** Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain. */
-  deny?: SandboxEgressPolicyDenyList;
+  deny?: SandboxEgressPolicyDenyList | undefined;
   /** Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume. */
-  drain_on_pause?: SandboxEgressPolicyDrainOnPauseList;
+  drain_on_pause?: SandboxEgressPolicyDrainOnPauseList | undefined;
 }
 /** Sandbox network policy. New sandboxes on free plans receive deny-all egress with no allowlist exceptions. Start/resume and forks retain the stored policy. For paid accounts, egress is unrestricted when omitted. */
 export interface SandboxNetwork {
-  egress?: SandboxEgressPolicy;
+  egress?: SandboxEgressPolicy | undefined;
 }
+export interface SandboxMount {
+  /** Existing disk owned by your account in the sandbox's region. A sandbox's internal root disk cannot be used here. */
+  disk_id: string;
+  /** Absolute guest directory to mount at. Required when more than one disk is mounted; a sole mount defaults to /mnt/archil. Paths cannot overlap or contain whitespace, control characters, empty components, . or .. components, or a trailing slash. The root directory and guest system directories (/usr, /etc, /var, /opt, /dev, ...) and their descendants are reserved. A disk can be mounted once per sandbox. */
+  path?: string | undefined;
+  /** Relative subdirectory of the disk to expose instead of its root. */
+  subdirectory?: string | undefined;
+  read_only?: boolean | undefined;
+  /** Mount in conditional mode, which lets this mount write to the disk without a delegation checkout, allowing concurrent writers. */
+  conditional?: boolean | undefined;
+  /** Milliseconds to wait for the disk's exclusive root delegation before the mount fails. Not allowed with read_only or conditional. */
+  queue_ms?: number | undefined;
+}
+/** Archil disks mounted inside the guest for the first session; `start` can replace them for later sessions. Inherited by forks. A sandbox with mounts must be stopped before it can be forked. */
+export type CreateSandboxRequestMountsList = Array<SandboxMount>;
 export interface CreateSandboxRequest {
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Sandbox name, unique within the account. A random word-list name is generated when omitted. */
-  name?: string;
-  vcpu_count?: number;
-  mem_size_mib?: number;
-  /** Public Linux OCI image reference. Docker shorthand and tags are accepted; the selected platform manifest is pinned at creation. */
-  base_image?: string;
+  name?: string | undefined;
+  vcpu_count?: number | undefined;
+  mem_size_mib?: number | undefined;
+  /** Public Linux OCI image reference with a linux/amd64 manifest for Archil's public sandbox service. Docker shorthand and tags are accepted; the deployment's platform manifest is pinned at creation. Defaults to `node:24-bookworm` (Debian with Node.js, Python, git, and a C toolchain) when neither this nor `image_id` is set. Mutually exclusive with `image_id`. */
+  base_image?: string | undefined;
+  /** ID from [Build Image](/api-reference/images/build-image), for a public or private image. For private images, build with `registry_auth` first, then pass the returned ID here. The sandbox boots the image's current `digest`. Mutually exclusive with `base_image`. */
+  image_id?: string | undefined;
   /** TCP ports to expose publicly when the sandbox is created. */
-  ports?: CreateSandboxRequestPortsList;
+  ports?: CreateSandboxRequestPortsList | undefined;
   /** Allow services inside the sandbox to expose ingress. When false, services still run but their ports must be exposed explicitly through the API. Retained across starts, resumes, and forks. */
-  enable_service_ingress?: boolean;
+  enable_service_ingress?: boolean | undefined;
   /** Environment variables applied to every process */
-  env?: CreateSandboxRequestEnvMap;
-  network?: SandboxNetwork;
-  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. */
-  max_ttl_seconds?: number;
-  /** Pause after this many seconds without a direct process connection, preserving memory and processes for resume. Omit or set to zero to disable idle expiry. */
-  idle_ttl_seconds?: number;
+  env?: CreateSandboxRequestEnvMap | undefined;
+  network?: SandboxNetwork | undefined;
+  /** Archil disks mounted inside the guest for the first session; `start` can replace them for later sessions. Inherited by forks. A sandbox with mounts must be stopped before it can be forked. */
+  mounts?: CreateSandboxRequestMountsList | undefined;
+  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Timeout resets cannot extend a session beyond 24 hours. */
+  max_ttl_seconds?: number | undefined;
+  /** Pause after this many seconds without a direct process connection, preserving memory and processes for resume. Defaults to 1800 (30 minutes) when omitted. Zero disables idle expiry. */
+  idle_ttl_seconds?: number | undefined;
   /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
-  max_concurrent_execs?: number;
+  max_concurrent_execs?: number | undefined;
 }
-export interface CreateSandboxResponse {}
+export type SandboxState =
+  | "pending"
+  | "running"
+  | "pausing"
+  | "paused"
+  | "stopping"
+  | "stopped"
+  | "exited"
+  | "failed"
+  | "deleting"
+  | "deleted";
+/** Sandbox CPU architecture. Archil's public sandbox service runs on amd64. This response field is not a creation option; callers cannot select an architecture per sandbox. */
+export type SandboxPlatform = "amd64";
+export interface SandboxEndpoint {
+  port: number;
+  hostname: string;
+}
+/** Public hostnames published by enabled sandbox services. */
+export type SandboxEndpointsList = Array<SandboxEndpoint>;
+export type SandboxMountsList = Array<SandboxMount>;
+export interface Sandbox {
+  sandbox_id: string;
+  /** Sandbox name. */
+  name: string;
+  status: SandboxState;
+  vcpu_count: number;
+  mem_size_mib: number;
+  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Defaults to 24 hours. Timeout resets cannot extend a session beyond 24 hours. */
+  max_ttl_seconds: number;
+  /** Seconds without a direct process connection before the sandbox pauses, preserving memory and processes for resume. Zero disables idle expiry. */
+  idle_ttl_seconds: number;
+  /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
+  max_concurrent_execs: number;
+  /** OCI reference requested when the sandbox was created. Empty for a sandbox created from `image_id`. */
+  base_image: string;
+  /** Image digest the sandbox was created from, if any. */
+  image_digest?: string | undefined;
+  /** Sandbox CPU architecture. Archil's public sandbox service runs on amd64. This response field is not a creation option; callers cannot select an architecture per sandbox. */
+  platform?: SandboxPlatform | undefined;
+  /** Public hostnames published by enabled sandbox services. */
+  endpoints?: SandboxEndpointsList | undefined;
+  /** Whether services inside the sandbox can expose ingress. Explicit API port exposure remains available regardless of this setting. */
+  enable_service_ingress?: boolean | undefined;
+  mounts?: SandboxMountsList | undefined;
+  created_at: string;
+  running_at?: string | undefined;
+  finished_at?: string | undefined;
+  last_active_at: string;
+  exit_reason?: string | undefined;
+  /** Disk checkpoint the current session leaves behind. Present while pausing, paused, stopping, or stopped, and committed once the sandbox is paused or stopped. Pass it to the fork endpoint to fork exactly this state. */
+  checkpoint?: string | undefined;
+}
+export interface ApiResponseSandbox {
+  success: boolean;
+  data: Sandbox;
+}
 export interface CreateSandboxConnectionRequest {
   /** Sandbox UUID */
   sid: string;
 }
 export interface SandboxConnection {
-  url: string;
+  url: string | Redacted.Redacted<string>;
   expires_at: string;
 }
 export interface ApiResponseSandboxConnection {
@@ -312,7 +635,7 @@ export interface CreateSandboxPortTokenRequest {
   sid: string;
   port: number;
   /** Token lifetime as a Go duration string (for example, "4m", "1h", or "24h"). Maximum 365 days ("8760h"). Omit for no expiration. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface CreatedSandboxPortToken {
   /** Stable token identifier used for get and revoke operations. */
@@ -320,11 +643,11 @@ export interface CreatedSandboxPortToken {
   port: number;
   created_at: string;
   /** When the token expires. Absent for a non-expiring token. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Stable sandbox port hostname, shared with public access. */
   hostname: string;
   /** Raw token returned only when the token is created. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface ApiResponseCreatedSandboxPortToken {
   success: boolean;
@@ -336,11 +659,11 @@ export interface CreateShareUrlRequest {
   /** File key (path) within the disk. */
   key: string;
   /** URL lifetime in seconds. Any integer from 1 to 604800 (7 days). Defaults to 86400 (24 hours). */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
 }
 export interface ApiResponseShareUrlData {
   /** The signed, public download URL. */
-  url: string;
+  url: string | Redacted.Redacted<string>;
   /** URL lifetime in seconds. */
   expiresIn: number;
 }
@@ -377,7 +700,7 @@ export interface DeleteTokenRequest {
   id: string;
 }
 export interface ApiResponseMessageData {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ApiResponseMessage {
   success: boolean;
@@ -387,18 +710,29 @@ export interface ExecMount {
   /** Disk ID to mount at this relative path */
   disk: string;
   /** Subdirectory of the disk to expose at the mountpoint. Must be a relative path with no `.` or `..` segments. When omitted, the disk's root is exposed. */
-  subdirectory?: string;
-  /** When true, the disk is mounted read-only inside the container. Writes against the mount fail with EROFS. */
-  readOnly?: boolean;
+  subdirectory?: string | undefined;
+  /** When true, the disk is mounted read-only inside the microVM. Writes against the mount fail with EROFS. */
+  readOnly?: boolean | undefined;
 }
 export type ExecRequestDisksValue = string | ExecMount;
 /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
 export type ExecRequestDisksMap = { [key: string]: ExecRequestDisksValue | undefined };
+/** Network policy for the command's microVM, using the [sandbox firewall](/compute/sandboxes/firewall) egress rules. Egress is unrestricted when omitted. The Free plan cannot set one; a request with one is rejected with 403 `network_plan_required`. */
+export type ExecNetwork = SandboxNetwork;
 export interface ExecRequest {
   /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
   disks: ExecRequestDisksMap;
-  /** Shell command to execute inside the container */
+  /** Shell command to execute inside the microVM */
   command: string;
+  /** Public Linux OCI image reference to run the command in, such as `python:3.13`. Docker Hub shorthand, tags, and digests are accepted. The first exec with an image waits while Archil prepares it; later execs reuse it. Defaults to Archil's exec image when neither this nor `imageId` is set. Mutually exclusive with `imageId`. */
+  baseImage?: string | undefined;
+  /** An image built with [Build Image](/api-reference/images/build-image), for private images or to prepare a public image ahead of time. The exec runs the image's latest successful build. Mutually exclusive with `baseImage`. */
+  imageId?: string | undefined;
+  /** vCPUs for the command's microVM. Defaults to 2. An exec larger than the default size (2 vCPU, 4096 MiB) bills as that many multiples of a call, by whichever of vCPU and memory is the larger multiple, rounded up. The Free plan allows only the default size. */
+  vcpuCount?: number | undefined;
+  /** Memory in MiB for the command's microVM. Defaults to 4096. Billed as described for `vcpuCount`. */
+  memSizeMib?: number | undefined;
+  network?: SandboxNetwork | undefined;
 }
 /** Server-measured timings for an exec request. */
 export interface ExecTiming {
@@ -425,8 +759,17 @@ export interface ApiResponseExec {
 export interface ExecDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
-  /** Shell command to execute inside the container */
+  /** Shell command to execute inside the microVM */
   command: string;
+  /** Public Linux OCI image reference to run the command in, such as `python:3.13`. Docker Hub shorthand, tags, and digests are accepted. The first exec with an image waits while Archil prepares it; later execs reuse it. Defaults to Archil's exec image when neither this nor `imageId` is set. Mutually exclusive with `imageId`. */
+  baseImage?: string | undefined;
+  /** An image built with [Build Image](/api-reference/images/build-image), for private images or to prepare a public image ahead of time. The exec runs the image's latest successful build. Mutually exclusive with `baseImage`. */
+  imageId?: string | undefined;
+  /** vCPUs for the command's microVM. Defaults to 2. An exec larger than the default size (2 vCPU, 4096 MiB) bills as that many multiples of a call, by whichever of vCPU and memory is the larger multiple, rounded up. The Free plan allows only the default size. */
+  vcpuCount?: number | undefined;
+  /** Memory in MiB for the command's microVM. Defaults to 4096. Billed as described for `vcpuCount`. */
+  memSizeMib?: number | undefined;
+  network?: SandboxNetwork | undefined;
 }
 export interface ApiResponseExecDisk {
   success: boolean;
@@ -437,25 +780,281 @@ export interface ExposeSandboxPortRequest {
   sid: string;
   port: number;
 }
-export interface SandboxPort {
-  port: number;
-  hostname: string;
-}
+export type SandboxPort = SandboxEndpoint;
 export interface ApiResponseSandboxPort {
   success: boolean;
-  data: SandboxPort;
+  data: SandboxEndpoint;
 }
 export interface ForkSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Name for the fork. A random word-list name is generated when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Fork this checkpoint of the source, as returned by pause, stop, or describe, instead of the source's live state. The source is neither paused nor resumed. Only the current session's checkpoint and the one before it are accepted; an uncommitted or superseded checkpoint is rejected with 409. */
-  checkpoint?: string;
+  checkpoint?: string | undefined;
 }
-export interface ForkSandboxResponse {}
+export interface GetAllowedIpsRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+}
+export type ApiResponseAllowedIpsDataAllowedIpsList = Array<string>;
+export interface ApiResponseAllowedIpsData {
+  allowedIps: ApiResponseAllowedIpsDataAllowedIpsList;
+}
+export interface ApiResponseAllowedIps {
+  success: boolean;
+  data: ApiResponseAllowedIpsData;
+}
+export interface GetBillingSubscriptionRequest {}
+export type BillingOwnerType = "personal" | "organization";
+export interface BillingOwner {
+  /** Selected account ID. */
+  accountId: string;
+  type: BillingOwnerType;
+}
+/** `not_setup` until the account has a billing customer; `self_serve` once it does. */
+export type BillingSubscriptionBillingMode = "not_setup" | "self_serve";
+/** The plan usage is priced under. */
+export type BillingSubscriptionPlan = "free" | "developer" | "team" | "enterprise" | "unknown";
+/** Current subscription status; `none` without a paid subscription, `past_due` while a failing payment is retried and the plan is kept. */
+export type BillingSubscriptionSubscriptionStatus = "none" | "active" | "past_due";
+export interface BillingPeriod {
+  /** Unix timestamp in seconds. */
+  start: number;
+  /** Unix timestamp in seconds. */
+  end: number;
+}
+export type BillingScheduledChangeType = "schedule_transition" | "plan_change";
+export type BillingScheduledChangeTargetPlan = "developer" | "team" | "enterprise";
+export interface BillingScheduledChange {
+  type: BillingScheduledChangeType;
+  /** Unix timestamp in seconds. */
+  effectiveAt: number;
+  targetPlan?: BillingScheduledChangeTargetPlan | undefined;
+}
+export type BillingPaymentHealthStatus =
+  | "not_applicable"
+  | "invoice_open"
+  | "action_required"
+  | "missing_payment_method"
+  | "healthy";
+export interface BillingPaymentHealth {
+  status: BillingPaymentHealthStatus;
+  hasDefaultPaymentMethod: boolean;
+  openInvoiceId?: string | undefined;
+  /** What is still owed on the open invoice, in dollars to the cent. */
+  amountRemaining?: number | undefined;
+  openInvoiceCurrency?: string | undefined;
+  openInvoiceDueDate?: number | undefined;
+  /** When the payment processor retries automatically, if scheduled. */
+  openInvoiceNextPaymentAttempt?: number | undefined;
+  /** An unfinished purchase or plan change awaiting payment, which the console resumes. */
+  pendingOperationId?: string | undefined;
+}
+/** What the console offers the account from its billing page, given the subscription's state. */
+export interface BillingSubscriptionActions {
+  canStartCheckout: boolean;
+  canManagePaymentMethods: boolean;
+  canUpdateBillingProfile: boolean;
+  canViewInvoices: boolean;
+  canChangePlan: boolean;
+  canCancel: boolean;
+  canKeepSubscription: boolean;
+  canPayOpenInvoice: boolean;
+  canWithdrawScheduledChange: boolean;
+}
+export interface BillingSubscription {
+  billingOwner: BillingOwner;
+  /** `not_setup` until the account has a billing customer; `self_serve` once it does. */
+  billingMode: BillingSubscriptionBillingMode;
+  /** The plan usage is priced under. */
+  plan: BillingSubscriptionPlan;
+  /** Current subscription status; `none` without a paid subscription, `past_due` while a failing payment is retried and the plan is kept. */
+  subscriptionStatus: BillingSubscriptionSubscriptionStatus;
+  billingPeriod?: BillingPeriod | undefined;
+  /** Unix timestamp in seconds. */
+  scheduledCancellationAt?: number | undefined;
+  scheduledChange?: BillingScheduledChange | undefined;
+  hasPendingUpdate: boolean;
+  paymentHealth: BillingPaymentHealth;
+  actions: BillingSubscriptionActions;
+}
+export interface ApiResponseBillingSubscription {
+  success: boolean;
+  data: BillingSubscription;
+}
+export interface GetBillingSummaryRequest {
+  /** Which billing period: `current` (the default), or a YYYY-MM-DD date (UTC) inside a past period that has been invoiced; the day a period starts on selects it. A past period's lines are read whole from the invoices issued for it, named in `invoices`, under the plan they were issued for, whatever the account is on now. */
+  period?: string | undefined;
+}
+export interface BillingSummaryPlan {
+  /** The plan id, such as `enterprise`. */
+  id: string;
+  /** The plan's name as billing shows it. */
+  name: string;
+}
+/** The key to branch on. `fixed` is a charge over the whole period (the plan's base price; an item paid for up front per period, such as a block of sandboxes, on its feature with its quantity); `usage` is a meter's usage billed past its grants, with its quantity; `credit` is a credit taken off, on the feature it draws, in money (what is left of the grant is in `credits`); `other` is anything else billed inside the period, such as a proration, a one-off purchase or a reward (`Discount`), carried with its own `name`. */
+export type BillingLineType = "fixed" | "usage" | "credit" | "other";
+/** One line of the period's statement, as billing invoiced it or previews it. */
+export interface BillingLine {
+  /** The key to branch on. `fixed` is a charge over the whole period (the plan's base price; an item paid for up front per period, such as a block of sandboxes, on its feature with its quantity); `usage` is a meter's usage billed past its grants, with its quantity; `credit` is a credit taken off, on the feature it draws, in money (what is left of the grant is in `credits`); `other` is anything else billed inside the period, such as a proration, a one-off purchase or a reward (`Discount`), carried with its own `name`. */
+  type: BillingLineType;
+  /** On a `usage` or `credit` line, and a `fixed` line for an item paid up front, the feature it is on. */
+  featureId?: string | undefined;
+  /** The line's label as billing wrote it. */
+  name: string;
+  /** On a line with a `featureId`, the quantity billed, in `unit`. */
+  quantity?: number | undefined;
+  /** The quantity's unit, such as vCPU-hours or USD. */
+  unit?: string | undefined;
+  /** Unix timestamp in seconds; the span the line covers. A line is on the period its span ends in, or for an item billed over several periods (a yearly add-on) the period it starts in, and on no other. */
+  start: number;
+  /** Unix timestamp in seconds, exclusive. */
+  end: number;
+  /** In dollars to the cent; negative for a credit. */
+  amount: number;
+  /** The invoice the line is on, one of `invoices`; absent for a line previewed for the period end and not invoiced yet. */
+  invoiceId?: string | undefined;
+}
+/** The statement's lines, oldest invoice first, then the lines previewed for the period end: on the current period, what was billed as it opened (the base price, a proration) and what billing will bill as it closes (the usage past the grants, the credits taken off); on a past period, everything the invoices issued for it carry. Empty on a plan that bills nothing. */
+export type BillingSummaryLinesList = Array<BillingLine>;
+/** One grant the account draws before it is billed, described by when it refills or expires rather than by a kind. */
+export interface BillingCreditGrant {
+  /** The feature the grant is on, such as `prepaid_credit`. */
+  featureId: string;
+  /** The feature's name, such as `Prepaid credit (USD)`. */
+  name: string;
+  /** The unit the grant is counted in, such as USD or disks. */
+  unit: string;
+  /** What the grant carries, per period for one that refills. */
+  granted: number;
+  /** What is left on it, rounded to two decimals. */
+  remaining: number;
+  /** Unix timestamp in seconds when the grant refills; null for a one-time grant. */
+  resetsAt: number | null;
+  /** Unix timestamp in seconds when the grant lapses; null when it does not. */
+  expiresAt: number | null;
+}
+/** The grants the account still draws on, on the current period only: each with something left or that will refill. A spent one-time grant and an expired one are not listed; a past period lists none (its `credit` lines show the draw). This is a grant's standing, not a charge: a `credit` line in `lines` is what a grant took off this period's bill, in money, and the two need not pair up. A grant nothing has drawn from yet has no line; an included quantity (tool calls, disks) is spent without one, since billing invoices only the usage past it; and several grants on one feature draw as one line. */
+export type BillingSummaryCreditsList = Array<BillingCreditGrant>;
+export interface BillingSummaryProjection {
+  /** What the period is projected to invoice, in dollars; what is billed so far, plus the usage still to come once it has drawn what is left of each grant. */
+  billedCost: number;
+  /** The pace the projection extends, in dollars of usage per day; the mean over the last three elapsed UTC days inside the period. */
+  dailyRate: number;
+}
+/** The invoice's status with the billing processor. `draft` is a renewal the processor has not finalized yet, for about an hour after the period rolls; it already carries every line it will bill. Voided invoices are not listed. */
+export type BillingIssuedInvoiceStatus = "draft" | "open" | "paid" | "uncollectible";
+export interface BillingIssuedInvoice {
+  id: string;
+  /** The invoice's status with the billing processor. `draft` is a renewal the processor has not finalized yet, for about an hour after the period rolls; it already carries every line it will bill. Voided invoices are not listed. */
+  status: BillingIssuedInvoiceStatus;
+  /** The invoice as the billing processor hosts it. */
+  hostedInvoiceUrl?: string | undefined;
+}
+/** The invoices the lines with an `invoiceId` are on, oldest first. Absent when nothing is invoiced for the period yet. */
+export type BillingSummaryInvoicesList = Array<BillingIssuedInvoice>;
+export interface BillingSummary {
+  currency: string;
+  /** The period read; the UTC calendar month for an account without a billing cycle. */
+  billingPeriod: BillingPeriod;
+  plan: BillingSummaryPlan;
+  /** The statement's lines, oldest invoice first, then the lines previewed for the period end: on the current period, what was billed as it opened (the base price, a proration) and what billing will bill as it closes (the usage past the grants, the credits taken off); on a past period, everything the invoices issued for it carry. Empty on a plan that bills nothing. */
+  lines: BillingSummaryLinesList;
+  /** What the period invoices, or would if it ended now; the lines' sum, to the cent. */
+  billedCost: number;
+  /** The grants the account still draws on, on the current period only: each with something left or that will refill. A spent one-time grant and an expired one are not listed; a past period lists none (its `credit` lines show the draw). This is a grant's standing, not a charge: a `credit` line in `lines` is what a grant took off this period's bill, in money, and the two need not pair up. A grant nothing has drawn from yet has no line; an included quantity (tool calls, disks) is spent without one, since billing invoices only the usage past it; and several grants on one feature draw as one line. */
+  credits: BillingSummaryCreditsList;
+  /** The period end at the recent daily pace; absent for a past period, a plan that prices no usage, or without an elapsed day of usage. */
+  projected?: BillingSummaryProjection | undefined;
+  /** The invoices the lines with an `invoiceId` are on, oldest first. Absent when nothing is invoiced for the period yet. */
+  invoices?: BillingSummaryInvoicesList | undefined;
+}
+export interface ApiResponseBillingSummary {
+  success: boolean;
+  data: BillingSummary;
+}
+export type GetBillingUsageRequestFor =
+  | "today"
+  | "yesterday"
+  | "this-week"
+  | "last-week"
+  | "this-month"
+  | "last-month";
+export type GetBillingUsageRequestGranularity = "1d" | "1h";
+export interface GetBillingUsageRequest {
+  /** Start of the window, inclusive: an RFC 3339 timestamp, or a YYYY-MM-DD date taken at midnight in `timezone`. Defaults to seven days (hourly: 24 hours) before `end`. Not with `for`. */
+  start?: string | undefined;
+  /** End of the window, exclusive, in the same forms as `start`. Defaults to now. Not with `for`. */
+  end?: string | undefined;
+  /** A named window relative to now in `timezone`, instead of `start` and `end`. Weeks start on Monday. A window may run past now; the intervals after it are left out. */
+  for?: GetBillingUsageRequestFor | (string & {}) | undefined;
+  /** Width of each interval. Days are aligned to `timezone`; hours are UTC. */
+  granularity?: GetBillingUsageRequestGranularity | (string & {}) | undefined;
+  /** IANA timezone that day intervals and dates are aligned to. */
+  timezone?: string | undefined;
+}
+export type BillingUsageGranularity = "1d" | "1h";
+/** Cost of one unit of each meter, in dollars per unit as a decimal (a rate can be well below a cent), keyed by feature id; zero for a meter the plan does not price. */
+export type BillingUsageRatesPerUnitMap = { [key: string]: number | undefined };
+export interface BillingUsageQuantity {
+  /** In the meter's own unit. */
+  quantity: number;
+  /** The meter's unit, such as vCPU-hours, GiB-hours, GiB-months or calls. */
+  unit: string;
+  /** Quantity at the account's rate, in dollars to the cent; zero for a meter the plan does not price. */
+  cost: number;
+}
+/** Quantity and cost per meter over the window, keyed by feature id. */
+export type BillingUsageWindowFeaturesMap = { [key: string]: BillingUsageQuantity | undefined };
+/** The window as a whole, the summary the intervals break down. Its quantities are the intervals' sums; its costs are priced over the whole span and rounded once per meter, so they are the same at any granularity, while the intervals, each rounded on its own, can add up to a little less. */
+export interface BillingUsageWindow {
+  /** Unix timestamp in seconds. */
+  start: number;
+  /** Unix timestamp in seconds, exclusive. */
+  end: number;
+  /** Usage over the window at the account's rates, in dollars to the cent. */
+  cost: number;
+  /** Quantity and cost per meter over the window, keyed by feature id. */
+  features: BillingUsageWindowFeaturesMap;
+}
+/** Quantity and cost per meter in the interval, keyed by feature id. */
+export type BillingUsageIntervalFeaturesMap = { [key: string]: BillingUsageQuantity | undefined };
+export interface BillingUsageInterval {
+  /** Unix timestamp in seconds. */
+  start: number;
+  /** Unix timestamp in seconds, exclusive. */
+  end: number;
+  /** The interval's usage at the account's rates, in dollars to the cent; the sum of `features`. */
+  cost: number;
+  /** Quantity and cost per meter in the interval, keyed by feature id. */
+  features: BillingUsageIntervalFeaturesMap;
+}
+/** Newest first, each the window's share of one interval. Intervals after now are left out. */
+export type BillingUsageIntervalsList = Array<BillingUsageInterval>;
+export interface BillingUsage {
+  granularity: BillingUsageGranularity;
+  timezone: string;
+  currency: string;
+  /** Cost of one unit of each meter, in dollars per unit as a decimal (a rate can be well below a cent), keyed by feature id; zero for a meter the plan does not price. */
+  ratesPerUnit: BillingUsageRatesPerUnitMap;
+  window: BillingUsageWindow;
+  /** Newest first, each the window's share of one interval. Intervals after now are left out. */
+  intervals: BillingUsageIntervalsList;
+  /** The current billing period, which `/api/billing/summary` sums; absent on a plan without one. */
+  billingPeriod?: BillingPeriod | undefined;
+}
+export interface ApiResponseBillingUsage {
+  success: boolean;
+  data: BillingUsage;
+}
+export interface GetBranchRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  name: string;
+}
 export interface GetDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
@@ -469,13 +1068,13 @@ export type MountResponseAccessMode = "rw" | "ro";
 /** Mount configuration details (secrets omitted) */
 export interface MountConfigResponse {
   /** Bucket name */
-  bucketName?: string;
+  bucketName?: string | undefined;
   /** Storage endpoint URL */
-  bucketEndpoint?: string;
+  bucketEndpoint?: string | undefined;
   /** Prefix within the bucket */
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
   /** Session identifier for IAM-authorized mounts */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 /** Current connection status */
 export type MountResponseConnectionStatus = "connected" | "disconnected";
@@ -483,36 +1082,36 @@ export type MountResponseConnectionStatus = "connected" | "disconnected";
 export type MountResponseAuthorizationType = "iam" | "accessKeys" | "oauth";
 export interface MountResponse {
   /** Mount identifier */
-  id?: string;
+  id?: string | undefined;
   /** Storage backend type */
-  type?: MountResponseType;
+  type?: MountResponseType | undefined;
   /** Mount path */
-  path?: string;
+  path?: string | undefined;
   /** Bucket/container name */
-  name?: string;
+  name?: string | undefined;
   /** Access mode */
-  accessMode?: MountResponseAccessMode;
-  config?: MountConfigResponse;
+  accessMode?: MountResponseAccessMode | undefined;
+  config?: MountConfigResponse | undefined;
   /** Current connection status */
-  connectionStatus?: MountResponseConnectionStatus;
+  connectionStatus?: MountResponseConnectionStatus | undefined;
   /** Authentication error message (if disconnected) */
-  authError?: string;
+  authError?: string | undefined;
   /** How the mount authenticates to the storage backend */
-  authorizationType?: MountResponseAuthorizationType;
+  authorizationType?: MountResponseAuthorizationType | undefined;
 }
 export type DiskResponseMountsList = Array<MountResponse>;
 export interface DiskMetrics {
   /** Data transfer amount with unit (e.g., "1.5 GB") */
-  dataTransfer?: string;
+  dataTransfer?: string | undefined;
   /** Total request count as a formatted string (e.g., "1,234") */
-  requests?: string;
+  requests?: string | undefined;
   /** Average response time with unit (e.g., "45ms") */
-  avgResponseTime?: string;
+  avgResponseTime?: string | undefined;
 }
 export interface ConnectedClient {
-  id?: string;
-  ipAddress?: string;
-  connectedAt?: string;
+  id?: string | undefined;
+  ipAddress?: string | undefined;
+  connectedAt?: string | undefined;
 }
 export type DiskResponseConnectedClientsList = Array<ConnectedClient>;
 export type DiskResponseAuthorizedUsersList = Array<AuthorizedUser>;
@@ -526,7 +1125,7 @@ export interface DiskResponse {
   /** Disk status */
   status: DiskResponseStatus;
   /** Filesystem handler status */
-  fsHandlerStatus?: string;
+  fsHandlerStatus?: string | undefined;
   /** Cloud provider */
   provider: string;
   /** Disk region (e.g., aws-us-east-1, gcp-us-central1) */
@@ -534,72 +1133,41 @@ export interface DiskResponse {
   /** Creation timestamp */
   createdAt: string;
   /** Last access timestamp */
-  lastAccessed?: string;
+  lastAccessed?: string | undefined;
   /** Total data size in bytes */
-  dataSize?: number;
+  dataSize?: number | undefined;
   /** Monthly usage amount formatted as a currency string (e.g., "$1.23") */
-  monthlyUsage?: string;
-  mounts?: DiskResponseMountsList;
-  metrics?: DiskMetrics;
-  connectedClients?: DiskResponseConnectedClientsList;
-  authorizedUsers?: DiskResponseAuthorizedUsersList;
+  monthlyUsage?: string | undefined;
+  mounts?: DiskResponseMountsList | undefined;
+  metrics?: DiskMetrics | undefined;
+  connectedClients?: DiskResponseConnectedClientsList | undefined;
+  authorizedUsers?: DiskResponseAuthorizedUsersList | undefined;
+  /** Active data size in bytes (data in the high-speed cache). Absent until the disk holds data. */
+  activeDataBytes?: number | undefined;
+  /** Total logical data written to the disk, in bytes. Absent until the disk holds data. */
+  totalDataBytes?: number | undefined;
 }
 export interface ApiResponseDisk {
   success: boolean;
   data: DiskResponse;
 }
+export interface GetImageRequest {
+  image_id: string;
+}
 export interface GetSandboxRequest {
   /** Sandbox UUID */
   sid: string;
 }
-export type SandboxState =
-  | "pending"
-  | "running"
-  | "pausing"
-  | "paused"
-  | "stopping"
-  | "stopped"
-  | "exited"
-  | "failed"
-  | "deleting"
-  | "deleted";
-/** Sandbox CPU architecture. */
-export type SandboxPlatform = "arm64" | "amd64";
-export type SandboxEndpoint = SandboxPort;
-/** Public hostnames published by enabled sandbox services. */
-export type SandboxEndpointsList = Array<SandboxPort>;
-export interface Sandbox {
-  sandbox_id: string;
-  /** Sandbox name. */
-  name: string;
-  status: SandboxState;
-  vcpu_count: number;
-  mem_size_mib: number;
-  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Defaults to 24 hours and can be reset with the timeout endpoint. */
-  max_ttl_seconds: number;
-  /** Seconds without a direct process connection before the sandbox pauses, preserving memory and processes for resume. Zero disables idle expiry. */
-  idle_ttl_seconds: number;
-  /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
-  max_concurrent_execs: number;
-  /** OCI reference requested when the sandbox was created. */
-  base_image: string;
-  /** Sandbox CPU architecture. */
-  platform?: SandboxPlatform;
-  /** Public hostnames published by enabled sandbox services. */
-  endpoints?: SandboxEndpointsList;
-  /** Whether services inside the sandbox can expose ingress. Explicit API port exposure remains available regardless of this setting. */
-  enable_service_ingress?: boolean;
-  created_at: string;
-  running_at?: string;
-  finished_at?: string;
-  last_active_at: string;
-  exit_reason?: string;
-  /** Disk checkpoint the current session leaves behind. Present while pausing, paused, stopping, or stopped, and committed once the sandbox is paused or stopped. Pass it to the fork endpoint to fork exactly this state. */
-  checkpoint?: string;
+export interface GetSandboxMountRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
 }
-export interface ApiResponseSandbox {
+export interface ApiResponseSandboxMountData {
+  allowSandboxMount: boolean;
+}
+export interface ApiResponseSandboxMount {
   success: boolean;
-  data: Sandbox;
+  data: ApiResponseSandboxMountData;
 }
 export interface GetSandboxNetworkRequest {
   /** Sandbox UUID */
@@ -620,38 +1188,77 @@ export interface SandboxPortToken {
   port: number;
   created_at: string;
   /** When the token expires. Absent for a non-expiring token. */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface ApiResponseSandboxPortToken {
   success: boolean;
   data: SandboxPortToken;
 }
+/** Path globs with ripgrep's `-g` rules, matched against paths relative to `directory`. A leading `!` excludes. A glob without a `/` matches a file or directory name at any depth; a glob with a `/` matches the whole relative path, and a leading `/` anchors it to `directory`. A trailing `/` matches only directories, so use `dir/**` to search the files under `dir`. When several globs match a path, the last one wins. A directory excluded this way is skipped with everything under it. If any non-`!` glob is given, files that match no glob are skipped. A file a glob matches is searched or skipped regardless of `types` and `typesNot`. */
+export type GrepDiskRequestGlobsList = Array<string>;
+/** Only search files of these types, using ripgrep's default type names (for example `py`, `ts`, `go`, `md`). */
+export type GrepDiskRequestTypesList = Array<string>;
+/** Skip files of these types, using ripgrep's default type names. Takes precedence over `types`. */
+export type GrepDiskRequestTypesNotList = Array<string>;
 export interface GrepDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   /** Directory on the disk to search, relative to the disk root. An empty string or "/" means the disk root. */
   directory: string;
-  /** Extended regular expression (passed to `grep -E`) */
+  /** Regular expression in [ripgrep syntax](https://docs.rs/regex/latest/regex/#syntax). A newline separates alternative patterns, except with `multiline`, where it matches a line break. */
   pattern: string;
   /** When true, walks subdirectories breadth-first. */
-  recursive?: boolean;
-  /** Wall-clock deadline for the entire request. Capped at 30 seconds because the runtime exec container itself is bounded at ~30s; longer requests would have their workers killed mid-scan. */
-  maxDurationSeconds?: number;
+  recursive?: boolean | undefined;
+  /** Wall-clock deadline for the entire request. Capped at 30 seconds because the runtime exec microVM itself is bounded at ~30s; longer requests would have their workers killed mid-scan. */
+  maxDurationSeconds?: number | undefined;
   /** Maximum number of parallel grep workers. Higher values finish larger datasets within the deadline but consume proportionally more runtime capacity. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Stop scanning once the aggregator has this many matches. Returned matches are a sample of whichever workers reported first, not the lexicographically first N. */
-  maxResults?: number;
+  maxResults?: number | undefined;
+  /** Match the pattern case-insensitively (`rg -i`). Defaults to false. */
+  ignoreCase?: boolean | undefined;
+  /** Let a match span lines (`rg -U`): `\n` or a newline character in the pattern matches a line break, and `.` matches one only after `(?s)`. Files with Windows line endings need `\r?\n` instead of `\n`. Matches on adjacent lines come back as one match covering all of them, with `endLine` set, and count once toward `maxResults`. A file with at least `maxResults` matching lines stops the request with `max_results`, even when merging leaves fewer matches. Defaults to false. */
+  multiline?: boolean | undefined;
+  /** Path globs with ripgrep's `-g` rules, matched against paths relative to `directory`. A leading `!` excludes. A glob without a `/` matches a file or directory name at any depth; a glob with a `/` matches the whole relative path, and a leading `/` anchors it to `directory`. A trailing `/` matches only directories, so use `dir/**` to search the files under `dir`. When several globs match a path, the last one wins. A directory excluded this way is skipped with everything under it. If any non-`!` glob is given, files that match no glob are skipped. A file a glob matches is searched or skipped regardless of `types` and `typesNot`. */
+  globs?: GrepDiskRequestGlobsList | undefined;
+  /** Only search files of these types, using ripgrep's default type names (for example `py`, `ts`, `go`, `md`). */
+  types?: GrepDiskRequestTypesList | undefined;
+  /** Skip files of these types, using ripgrep's default type names. Takes precedence over `types`. */
+  typesNot?: GrepDiskRequestTypesNotList | undefined;
+  /** Lines of context to return before each match (`rg -B`). When either context field is set, the result includes `groups`. */
+  contextBefore?: number | undefined;
+  /** Lines of context to return after each match (`rg -A`). When either context field is set, the result includes `groups`. */
+  contextAfter?: number | undefined;
 }
 export interface GrepMatch {
   /** Path to the file (relative to the disk root). */
   file: string;
-  /** 1-based line number where the match occurred. */
+  /** 1-based line number where the match occurred. With `multiline`, the match's first line. */
   line: number;
-  /** The matching line. */
+  /** With `multiline`, the 1-based number of the match's last line. */
+  endLine?: number | undefined;
+  /** The matching line, truncated at 512 KiB, or shorter with context. With `multiline`, every line the match covers, joined by `\n`, each truncated separately. */
   text: string;
 }
 export type GrepDiskResultMatchesList = Array<GrepMatch>;
-/** Why the search stopped. - `completed`: every file under the directory was scanned successfully. - `incomplete`: pipeline ran to its natural end but one or more batches errored (invalid regex, unreadable file, runtime issue). Results may be partial or wrong; do not rely on completeness. - `max_results`: hit `maxResults` before scanning everything. - `deadline`: hit `maxDurationSeconds`. - `list_failed`: directory listing failed; partial results may be present. */
+export interface GrepGroupLine {
+  /** 1-based line number. */
+  line: number;
+  /** The line, truncated like `GrepMatch.text`. */
+  text: string;
+  /** True for a matching line, false for a context line. */
+  match: boolean;
+}
+export type GrepGroupLinesList = Array<GrepGroupLine>;
+/** A run of consecutive lines from one file, as grep prints it with context: each match with its surrounding lines, with nearby matches merged into one group so every line appears once. */
+export interface GrepGroup {
+  /** Path to the file (relative to the disk root). */
+  file: string;
+  lines: GrepGroupLinesList;
+}
+/** Matches with their context lines, grouped the way grep prints them. Present only when `contextBefore` or `contextAfter` is set. Holds the same matches as `matches`. When the search stops at `maxResults`, the last group ends up to `contextAfter` lines after its last kept match, and any matches in those lines are shown as context. Each line of a group counts toward the 32 MiB response limit, so large context and `maxResults` multiply it. */
+export type GrepDiskResultGroupsList = Array<GrepGroup>;
+/** Why the search stopped. - `completed`: every file under the directory was scanned successfully. - `incomplete`: pipeline ran to its natural end but one or more batches errored (invalid regex, unreadable file, runtime issue) or exceeded the 4 MiB output limit. Results may be partial or wrong; do not rely on completeness. - `max_results`: hit `maxResults`, or the response size limit (32 MiB of match and context text), before scanning everything. - `deadline`: hit `maxDurationSeconds`. - `list_failed`: directory listing failed; partial results may be present. */
 export type GrepStoppedReason =
   | "completed"
   | "incomplete"
@@ -660,18 +1267,20 @@ export type GrepStoppedReason =
   | "list_failed";
 export interface GrepDiskResult {
   matches: GrepDiskResultMatchesList;
+  /** Matches with their context lines, grouped the way grep prints them. Present only when `contextBefore` or `contextAfter` is set. Holds the same matches as `matches`. When the search stops at `maxResults`, the last group ends up to `contextAfter` lines after its last kept match, and any matches in those lines are shown as context. Each line of a group counts toward the 32 MiB response limit, so large context and `maxResults` multiply it. */
+  groups?: GrepDiskResultGroupsList | undefined;
   stoppedReason: GrepStoppedReason;
-  /** Files actually fed to a grep container. */
+  /** Files actually fed to a grep microVM. */
   filesScanned: number;
-  /** Number of grep containers started for this request. */
+  /** Number of grep microVMs started for this request. */
   containersDispatched: number;
-  /** Sum of per-container execution time in seconds, measured by the runtime. Approximates billable container-seconds. */
+  /** Sum of per-microVM execution time in seconds, measured by the runtime. Diagnostic only; each search request is billed as one serverless tool call regardless of this value. */
   computeSecondsUsed: number;
   /** End-to-end wall clock measured by the server. */
   durationMs: number;
   /** Wall-clock time spent enumerating files via listObjects, from the request's start to the moment listing fully drained (or was canceled). Listing and matching overlap, so listingMs + grepMs typically exceeds durationMs. */
   listingMs: number;
-  /** Wall-clock time spent matching, from the first grep container being dispatched to the last container reporting results. 0 if no batches ran. */
+  /** Wall-clock time spent matching, from the first grep microVM being dispatched to the last microVM reporting results. 0 if no batches ran. */
   grepMs: number;
 }
 export interface ApiResponseGrepDisk {
@@ -680,49 +1289,84 @@ export interface ApiResponseGrepDisk {
 }
 export interface ListApiTokensRequest {
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ApiTokenResponse {
   /** Token hash/ID */
-  id?: string;
-  name?: string;
-  description?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   /** Last 4 characters of the token */
-  tokenSuffix?: string;
-  createdAt?: string;
-  lastUsedAt?: string;
+  tokenSuffix?: string | undefined;
+  createdAt?: string | undefined;
+  lastUsedAt?: string | undefined;
 }
 export type ApiResponseTokenListDataTokensList = Array<ApiTokenResponse>;
 export interface ApiResponseTokenListData {
-  tokens?: ApiResponseTokenListDataTokensList;
+  tokens?: ApiResponseTokenListDataTokensList | undefined;
 }
 export interface ApiResponseTokenList {
   success: boolean;
   data: ApiResponseTokenListData;
 }
+export interface ListBranchesRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+}
+export type BranchListApiResponseDataList = Array<BranchResponse>;
+export interface BranchListApiResponse {
+  success: boolean;
+  data: BranchListApiResponseDataList;
+}
+export interface ListDelegationsRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+}
+export interface DelegationEntry {
+  /** ID of the client holding the delegation. */
+  clientId: string;
+  /** Inode the delegation covers. */
+  inodeId: number;
+  /** Path of the inode, resolved best-effort. Omitted when the server could not resolve it. */
+  path?: string | undefined;
+  /** True while the checkout is still in flight. */
+  isPending: boolean;
+  /** True when the holding client is no longer connected to the disk. */
+  isOrphaned: boolean;
+}
+export type ApiResponseDelegationsDataDelegationsList = Array<DelegationEntry>;
+export interface ApiResponseDelegationsData {
+  delegations: ApiResponseDelegationsDataDelegationsList;
+}
+export interface ApiResponseDelegations {
+  success: boolean;
+  data: ApiResponseDelegationsData;
+}
 export interface ListDisksRequest {
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter disks by exact name match. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ApiResponseDiskListDataList = Array<DiskResponse>;
 /** All API responses use a standard envelope with `success: boolean` and `data` (on success) or `error: string` (on failure). The ApiResponse_* schemas each define the specific `data` shape for their endpoint. */
 export interface ApiResponseDiskList {
   success: boolean;
   data: ApiResponseDiskListDataList;
+  /** Set when more disks remain. Pass it as `cursor` to read the next page. */
+  nextCursor?: string | undefined;
 }
 export interface ListSandboxesRequest {
   /** Only sandboxes that mount this disk */
-  filesystem?: string;
+  filesystem?: string | undefined;
 }
 export type ApiResponseSandboxListDataSandboxesList = Array<Sandbox>;
 export interface ApiResponseSandboxListData {
-  sandboxes?: ApiResponseSandboxListDataSandboxesList;
+  sandboxes?: ApiResponseSandboxListDataSandboxesList | undefined;
 }
 export interface ApiResponseSandboxList {
   success: boolean;
@@ -732,7 +1376,7 @@ export interface ListSandboxPortsRequest {
   /** Sandbox UUID */
   sid: string;
 }
-export type SandboxPortListPortsList = Array<SandboxPort>;
+export type SandboxPortListPortsList = Array<SandboxEndpoint>;
 export interface SandboxPortList {
   ports: SandboxPortListPortsList;
 }
@@ -744,9 +1388,9 @@ export interface ListSandboxPortTokensRequest {
   /** Sandbox UUID */
   sid: string;
   /** Maximum number of items to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type SandboxPortTokenListTokensList = Array<SandboxPortToken>;
 export interface SandboxPortTokenList {
@@ -756,42 +1400,106 @@ export interface ApiResponseSandboxPortTokenList {
   success: boolean;
   data: SandboxPortTokenList;
   /** Set when more port tokens remain. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export interface PauseSandboxRequest {
   /** Sandbox UUID */
   sid: string;
 }
-export type RemoveDiskUserRequestUserType = "token" | "awssts";
+export interface PrefetchRange {
+  /** Path of a regular file, relative to the disk root. */
+  path: string;
+  /** First byte to warm. Defaults to 0. */
+  offset?: number | undefined;
+  /** Bytes to warm from `offset`. Defaults to the end of the file. */
+  length?: number | undefined;
+}
+/** Byte ranges to warm. A request may name at most 1000. */
+export type PrefetchDiskRequestRangesList = Array<PrefetchRange>;
+export interface PrefetchDiskRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  /** Byte ranges to warm. A request may name at most 1000. */
+  ranges: PrefetchDiskRequestRangesList;
+}
+/** Set when this range was not warmed: `retry` for a transient failure worth retrying, `failed` otherwise. Other ranges in the request are unaffected. */
+export type PrefetchRangeResultError = "retry" | "failed";
+export interface PrefetchRangeResult {
+  /** Whether the path exists. */
+  found: boolean;
+  /** Bytes of the range being warmed, including bytes that were already cached. */
+  bytesRequested: number;
+  /** Of `bytesRequested`, the bytes fetched (or still being fetched) from object storage. The rest were already cached. */
+  bytesWarmed: number;
+  /** Set when this range was not warmed: `retry` for a transient failure worth retrying, `failed` otherwise. Other ranges in the request are unaffected. */
+  error?: PrefetchRangeResultError | undefined;
+}
+/** One result per requested range, in request order. */
+export type ApiResponsePrefetchDataResultsList = Array<PrefetchRangeResult>;
+export interface ApiResponsePrefetchData {
+  /** One result per requested range, in request order. */
+  results: ApiResponsePrefetchDataResultsList;
+}
+export interface ApiResponsePrefetch {
+  success: boolean;
+  data: ApiResponsePrefetchData;
+}
+export type RemoveDiskUserRequestUserType = "token" | "awssts" | "s3";
 export interface RemoveDiskUserRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   /** The type of user authentication */
   userType: RemoveDiskUserRequestUserType | (string & {});
-  /** Identifier of the user to remove, as returned in the creation or list response. For awssts users, this is the IAM ARN. */
-  identifier?: string;
+  /** Identifier of the user to remove, as returned in the creation or list response. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
+  identifier?: string | undefined;
   /** Use identifier instead. */
-  principal?: string;
+  principal?: string | undefined;
 }
 export interface ResumeSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
+}
+export interface RevokeDelegationRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  /** Inode the delegation covers. */
+  inodeId: number;
+  /** ID of the client holding the delegation. */
+  clientId: string;
+}
+/** IPv4 addresses and CIDR ranges. An empty list allows any address. */
+export type SetAllowedIpsRequestAllowedIpsList = Array<string>;
+export interface SetAllowedIpsRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  /** IPv4 addresses and CIDR ranges. An empty list allows any address. */
+  allowedIps: SetAllowedIpsRequestAllowedIpsList;
+}
+export interface SetSandboxMountRequest {
+  /** Disk ID (format `dsk-{16 hex chars}`) */
+  id: string;
+  /** Whether sandboxes and exec commands may mount the disk. */
+  allowSandboxMount: boolean;
 }
 export interface SetSandboxTimeoutRequest {
   /** Sandbox UUID */
   sid: string;
-  /** Seconds from now until a running sandbox expires, and the lifetime budget for its next powered-on session. */
-  timeout?: number;
+  /** Seconds from now until a running sandbox pauses, capped at 24 hours after its current session started. Also sets the lifetime budget for its next powered-on session. */
+  timeout?: number | undefined;
   /** Seconds without a direct process connection before the sandbox pauses. Zero disables idle expiry. */
-  idle_ttl_seconds?: number;
+  idle_ttl_seconds?: number | undefined;
 }
+/** Replace the sandbox's additional disk mounts for this and later sessions. Omit to keep the current ones; an empty list removes all additional mounts without deleting their disks. The internal root disk is unaffected. Not accepted by resume, and 409 while the sandbox is running or pending. */
+export type StartSandboxRequestMountsList = Array<SandboxMount>;
 export interface StartSandboxRequest {
   /** Sandbox UUID */
   sid: string;
   /** Hold the request for a completed sandbox lifecycle transition */
-  wait?: boolean;
+  wait?: boolean | undefined;
+  /** Replace the sandbox's additional disk mounts for this and later sessions. Omit to keep the current ones; an empty list removes all additional mounts without deleting their disks. The internal root disk is unaffected. Not accepted by resume, and 409 while the sandbox is running or pending. */
+  mounts?: StartSandboxRequestMountsList | undefined;
 }
 export interface StopSandboxRequest {
   /** Sandbox UUID */
@@ -800,19 +1508,19 @@ export interface StopSandboxRequest {
 export interface UpdateSandboxNetworkRequest {
   /** Sandbox UUID */
   sid: string;
-  egress?: SandboxEgressPolicy;
+  egress?: SandboxEgressPolicy | undefined;
 }
-export type AddDiskUserError = BadRequest | ArchilOpError;
-/** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN */
+export type AddDiskUserError = BadRequest | NotFound | ArchilOpError;
+/** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN - **s3**: An access key pair for the disk's [S3 API](/protocols/s3-api). The server generates both keys and returns the secret key only in this response. The keys reach the whole disk, read-write unless `readOnly` is set, so keep them on your server and give browsers and other untrusted clients presigned URLs instead. */
 export const addDiskUser: API.OperationMethod<
   AddDiskUserRequest,
   ApiResponseAuthorizedUser,
   AddDiskUserError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<AddDiskUserRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<ApiResponseAuthorizedUser>,
-  errors: [BadRequest, UnknownArchilError],
+  input: __S(0, __c0, 0) as any as S.Schema<AddDiskUserRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<ApiResponseAuthorizedUser>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -827,8 +1535,8 @@ export const createApiToken: API.OperationMethod<
   CreateApiTokenError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<CreateApiTokenRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<ApiResponseTokenCreated>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateApiTokenRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<ApiResponseTokenCreated>,
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -836,7 +1544,24 @@ export const createApiToken: API.OperationMethod<
   span: "CreateApiToken",
 }));
 
-export type CreateDiskError = BadRequest | Forbidden | Conflict | ArchilOpError;
+export type CreateBranchError = BadRequest | NotFound | Conflict | ArchilOpError;
+/** Create a branch Creates an independent, writable fork of the disk that starts from a committed checkpoint. Writes on the branch don't affect its source. Fails with 409 when the branch name exists or the checkpoint is not committed yet, and 404 when the checkpoint or `from_branch` doesn't exist. */
+export const createBranch: API.OperationMethod<
+  CreateBranchRequest,
+  BranchApiResponse,
+  CreateBranchError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c3, 0) as any as S.Schema<CreateBranchRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<BranchApiResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
+}));
+
+export type CreateDiskError = BadRequest | Forbidden | ArchilOpError;
 /** Create a new disk Creates a new disk with the specified configuration. A default disk token user is automatically generated and returned in the response, so the disk is immediately mountable. The one-time disk token appears in `authorizedUsers[].token` and cannot be retrieved again. (This disk token is scoped to the new disk and is separate from the API key you used to make this request.) To provide your own users instead, pass the deprecated `authMethods` field or call AddDiskUser after creation. */
 export const createDisk: API.OperationMethod<
   CreateDiskRequest,
@@ -844,33 +1569,55 @@ export const createDisk: API.OperationMethod<
   CreateDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(314, __c39, 2) as any as S.Schema<CreateDiskRequest>,
-  output: __S(316, __c39, 4) as any as S.Schema<ApiResponseCreateDisk>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownArchilError],
+  input: __S(98, __c6, 2) as any as S.Schema<CreateDiskRequest>,
+  output: __S(100, __c6, 4) as any as S.Schema<ApiResponseCreateDisk>,
+  errors: [BadRequest, Forbidden, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDisk",
 }));
 
-export type CreateSandboxError = BadRequest | Conflict | ArchilOpError;
-/** Create a sandbox Provisions a sandbox VM with the requested shape and a dedicated, persistent Archil disk. By default the response reports `pending` after the runtime accepts the start. Set `wait=true` to hold for `running`; if the wait budget expires, the response remains `pending` and startup continues. */
+export type CreateImageError = BadRequest | NoCapacity | NotEnabled | ArchilOpError;
+/** Build a sandbox image Builds an OCI image for use by sandboxes. Poll [Get Image](/api-reference/images/get-image) until it is `ready`, then pass its `image_id` when creating a sandbox. Repeated requests join an active build. Completed tags rebuild; completed digest references are reused. During a rebuild, sandboxes can use the last successful digest. Submit the request again to retry a failed or unresponsive build. */
+export const createImage: API.OperationMethod<
+  CreateImageRequest,
+  ApiResponseImage,
+  CreateImageError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(129, __c8, 1) as any as S.Schema<CreateImageRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<ApiResponseImage>,
+  errors: [BadRequest, NoCapacity, NotEnabled, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateImage",
+}));
+
+export type CreateSandboxError =
+  | BadRequest
+  | NotFound
+  | ImageNotReady
+  | SandboxNameConflict
+  | ArchilOpError;
+/** Create a sandbox Provisions a sandbox VM with the requested shape and an internal, persistent Archil disk backing its root filesystem. This backing disk cannot be disabled or replaced with an existing disk. Use `mounts` to attach additional existing disks at guest paths; omit it or pass an empty list to create a sandbox without additional disks. By default the response reports `pending` after the runtime accepts the start. Set `wait=true` to hold for `running`; if the wait budget expires, the response remains `pending` and startup continues. */
 export const createSandbox: API.OperationMethod<
   CreateSandboxRequest,
-  CreateSandboxResponse,
+  ApiResponseSandbox,
   CreateSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(330, __c41, 2) as any as S.Schema<CreateSandboxRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateSandboxResponse>,
-  errors: [BadRequest, Conflict, UnknownArchilError],
+  input: __S(162, __c10, 2) as any as S.Schema<CreateSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSandbox",
 }));
 
-export type CreateSandboxConnectionError = NotFound | Conflict | ArchilOpError;
+export type CreateSandboxConnectionError = NotFound | SandboxTerminated | ArchilOpError;
 /** Create a sandbox process connection Returns a short-lived WebSocket URL used by the sandbox process API. The URL contains a signed token that expires at `expires_at`; an open WebSocket can remain connected after the token expires. */
 export const createSandboxConnection: API.OperationMethod<
   CreateSandboxConnectionRequest,
@@ -878,9 +1625,9 @@ export const createSandboxConnection: API.OperationMethod<
   CreateSandboxConnectionError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<CreateSandboxConnectionRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<ApiResponseSandboxConnection>,
-  errors: [NotFound, Conflict, UnknownArchilError],
+  input: __S(272, __c17, 0) as any as S.Schema<CreateSandboxConnectionRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ApiResponseSandboxConnection>,
+  errors: [NotFound, SandboxTerminated, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -895,8 +1642,8 @@ export const createSandboxPortToken: API.OperationMethod<
   CreateSandboxPortTokenError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<CreateSandboxPortTokenRequest>,
-  output: __S(362, __c45, 2) as any as S.Schema<ApiResponseCreatedSandboxPortToken>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateSandboxPortTokenRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ApiResponseCreatedSandboxPortToken>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -912,8 +1659,8 @@ export const createShareUrl: API.OperationMethod<
   CreateShareUrlError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateShareUrlRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ApiResponseShareUrl>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateShareUrlRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ApiResponseShareUrl>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -929,8 +1676,8 @@ export const deleteDisk: API.OperationMethod<
   DeleteDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteDiskRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<ApiResponseEmpty>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteDiskRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<ApiResponseEmpty>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -938,7 +1685,7 @@ export const deleteDisk: API.OperationMethod<
   span: "DeleteDisk",
 }));
 
-export type DeleteSandboxError = NotFound | Conflict | ArchilOpError;
+export type DeleteSandboxError = NotFound | SandboxNotDeletable | SandboxHasForks | ArchilOpError;
 /** Delete a sandbox Permanently deletes a stopped, exited, or failed sandbox and its backing disk. A sandbox with child forks cannot be deleted until those children are deleted, starting with the deepest ones. */
 export const deleteSandbox: API.OperationMethod<
   DeleteSandboxRequest,
@@ -946,9 +1693,9 @@ export const deleteSandbox: API.OperationMethod<
   DeleteSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [NotFound, Conflict, UnknownArchilError],
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxResponse>,
+  errors: [NotFound, SandboxNotDeletable, SandboxHasForks, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -963,8 +1710,8 @@ export const deleteSandboxPort: API.OperationMethod<
   DeleteSandboxPortError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteSandboxPortRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<DeleteSandboxPortResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxPortResponse>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -980,8 +1727,8 @@ export const deleteSandboxPortToken: API.OperationMethod<
   DeleteSandboxPortTokenError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteSandboxPortTokenRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<DeleteSandboxPortTokenResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteSandboxPortTokenRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxPortTokenResponse>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -997,8 +1744,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ApiResponseMessage>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1007,11 +1754,11 @@ export const deleteToken: API.OperationMethod<
 }));
 
 export type ExecError = BadRequest | NotFound | ArchilOpError;
-/** Execute a command with multiple disks mounted Launches a container with the supplied set of disks each mounted at its own relative path under `/mnt/archil`, runs the command to completion, and shuts down the container. Activation is atomic: every disk mounts or none of them do. Relative paths must be non-empty, non-absolute, and contain no `.` / `..` segments. Mounting two disks at the same relative path is an error. */
+/** Execute a command with multiple disks mounted Launches a Firecracker microVM with the supplied set of disks each mounted at its own relative path under `/mnt/archil`, runs the command to completion, and shuts down the microVM. Activation is atomic: every disk mounts or none of them do. Relative paths must be non-empty, non-absolute, and contain no `.` / `..` segments. Mounting two disks at the same relative path is an error. */
 export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, ArchilOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(57, __c7, 1) as any as S.Schema<ExecRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<ApiResponseExec>,
+    input: __S(433, __c27, 1) as any as S.Schema<ExecRequest>,
+    output: __S(450, __c28, 2) as any as S.Schema<ApiResponseExec>,
     errors: [BadRequest, NotFound, UnknownArchilError],
     protocol: ArchilProtocol,
     retry: Retry.Retry,
@@ -1020,15 +1767,15 @@ export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, 
   }));
 
 export type ExecDiskError = BadRequest | NotFound | ArchilOpError;
-/** Execute a command on a disk Launches a container with the specified disk mounted, runs the given command to completion, shuts down the container, and returns the command result. */
+/** Execute a command on a disk Launches a Firecracker microVM with the specified disk mounted, runs the given command to completion, shuts down the microVM, and returns the command result. */
 export const execDisk: API.OperationMethod<
   ExecDiskRequest,
   ApiResponseExecDisk,
   ExecDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ExecDiskRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ApiResponseExecDisk>,
+  input: __S(464, __c29, 0) as any as S.Schema<ExecDiskRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ApiResponseExecDisk>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1044,8 +1791,8 @@ export const exposeSandboxPort: API.OperationMethod<
   ExposeSandboxPortError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ExposeSandboxPortRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<ApiResponseSandboxPort>,
+  input: __S(480, __c30, 0) as any as S.Schema<ExposeSandboxPortRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<ApiResponseSandboxPort>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1053,21 +1800,121 @@ export const exposeSandboxPort: API.OperationMethod<
   span: "ExposeSandboxPort",
 }));
 
-export type ForkSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
-/** Fork a sandbox Checkpoints a running source sandbox and creates an isolated writable disk branch. Forks from running or paused sources resume from the source's CPU, memory, and disk state. Forks from stopped sources cold-boot from the saved disk checkpoint. A running source is resumed after its checkpoint; paused and stopped sources remain inactive. Forked sandboxes may themselves be forked. Passing `checkpoint` forks that saved state without touching the source, so clients can pause once, wait for the checkpoint, and fork it from any number of places. Without `checkpoint` the server pauses a running source inside the request and resumes it afterwards; that path is kept for older clients and is bounded by the request timeout. */
+export type ForkSandboxError =
+  | BadRequest
+  | NotFound
+  | SandboxNameConflict
+  | SandboxForkMounted
+  | SandboxForkCheckpoint
+  | SandboxNotForkable
+  | ArchilOpError;
+/** Fork a sandbox Checkpoints a running source sandbox and creates an isolated writable disk branch. Forks from running or paused sources resume from the source's CPU, memory, and disk state. Forks from stopped sources cold-boot from the saved disk checkpoint. A running source is resumed after its checkpoint; paused and stopped sources remain inactive. Forked sandboxes may themselves be forked. Passing `checkpoint` forks that saved state without touching the source, so clients can pause once, wait for the checkpoint, and fork it from any number of places. Without `checkpoint` the server pauses a running source inside the request and resumes it afterwards; that path is kept for older clients and is bounded by the request timeout. Sandboxes with additional disk mounts must be stopped before forking. The fork inherits mounts of the same external disks; only the internal root disk is branched, so external disk contents are not isolated. */
 export const forkSandbox: API.OperationMethod<
   ForkSandboxRequest,
-  ForkSandboxResponse,
+  ApiResponseSandbox,
   ForkSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<ForkSandboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(496, __c31, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [
+    BadRequest,
+    NotFound,
+    SandboxNameConflict,
+    SandboxForkMounted,
+    SandboxForkCheckpoint,
+    SandboxNotForkable,
+    UnknownArchilError,
+  ],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ForkSandbox",
+}));
+
+export type GetAllowedIpsError = NotFound | ArchilOpError;
+/** Get a disk's allowed IPs IPv4 addresses and CIDR ranges allowed to mount the disk. An empty list allows any address. */
+export const getAllowedIps: API.OperationMethod<
+  GetAllowedIpsRequest,
+  ApiResponseAllowedIps,
+  GetAllowedIpsError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c32, 0) as any as S.Schema<GetAllowedIpsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<ApiResponseAllowedIps>,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllowedIps",
+}));
+
+export type GetBillingSubscriptionError = ArchilOpError;
+/** Get the subscription's plan and state Returns the account's plan and the state of its subscription: the plan, the subscription's status and billing period, a scheduled change or cancellation if one is pending, payment health (a default payment method on file, an open invoice and when it is retried) and the actions the console offers for it. Accounts that share billing share the subscription and open-invoice information. The plan here is the one the `usage` and `summary` routes price usage under. */
+export const getBillingSubscription: API.OperationMethod<
+  GetBillingSubscriptionRequest,
+  ApiResponseBillingSubscription,
+  GetBillingSubscriptionError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<GetBillingSubscriptionRequest>,
+  output: __S(550, __c34, 6) as any as S.Schema<ApiResponseBillingSubscription>,
+  errors: [UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSubscription",
+}));
+
+export type GetBillingSummaryError = BadRequest | ArchilOpError;
+/** Get a billing period's statement Returns a billing period's statement as billing itself states it: `lines`, each line invoiced for the period or previewed for its end (a fixed fee, a meter's usage billed past its grants, a credit taken off, anything else under its own name), and `billedCost`, their sum, which is what the period invoices or would if it ended now. On the current period also `credits`, the grants the account still draws on, and a projection to the period end at the recent daily pace. Nothing here is derived from the plan's terms: a plan billing can express, this route reports. Money is in dollars to the cent, before tax. A line is before discounts, as billing reports it, and what a reward takes off follows as an `other` line named `Discount`: off each line previewed for the period end, and off each invoice as a whole (its total under its lines' sum), on the span of the invoice's fixed fee when it has one, else of its first line on the period. So the sum is what the period invoiced, or will. */
+export const getBillingSummary: API.OperationMethod<
+  GetBillingSummaryRequest,
+  ApiResponseBillingSummary,
+  GetBillingSummaryError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<GetBillingSummaryRequest>,
+  output: __S(586, __c36, 10) as any as S.Schema<ApiResponseBillingSummary>,
+  errors: [BadRequest, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSummary",
+}));
+
+export type GetBillingUsageError = BadRequest | ArchilOpError;
+/** Get metered usage and its cost over a window Returns what the account's meters recorded over a window, for the window as a whole and per interval, in each meter's own unit (such as vCPU-hours, GiB-hours, GiB-months or calls), and what that usage comes to at the account's rates, per meter and in total, before any grant and fixed fee: the cost of what was used, not what will be invoiced, which `/api/billing/summary` reports. The meters are the catalog's metered features, so a meter added there is reported from then on. A meter's rate is the price of the plan item its usage is billed from: the meter's own item, or the credit system whose rate card names it, at the plan's own prices and overrides; a meter the plan does not price has a zero rate, and a tiered item is priced at its first tier. Usage reaches billing once per reporter interval from every region, so an interval's figures can still grow for a few minutes after it ends, longer if a region's reporter is behind. The default window is the seven days (hourly: 24 hours) up to now; a window may be at most 31 days, and is widened to whole intervals. Money is in dollars, to the cent. */
+export const getBillingUsage: API.OperationMethod<
+  GetBillingUsageRequest,
+  ApiResponseBillingUsage,
+  GetBillingUsageError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c37, 0) as any as S.Schema<GetBillingUsageRequest>,
+  output: __S(599, __c37, 7) as any as S.Schema<ApiResponseBillingUsage>,
+  errors: [BadRequest, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsage",
+}));
+
+export type GetBranchError = BadRequest | NotFound | ArchilOpError;
+/** Get a branch */
+export const getBranch: API.OperationMethod<
+  GetBranchRequest,
+  BranchApiResponse,
+  GetBranchError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c38, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<BranchApiResponse>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetDiskError = BadRequest | NotFound | ArchilOpError;
@@ -1078,13 +1925,30 @@ export const getDisk: API.OperationMethod<
   GetDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetDiskRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<ApiResponseDisk>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetDiskRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ApiResponseDisk>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDisk",
+}));
+
+export type GetImageError = NotFound | NotEnabled | ArchilOpError;
+/** Get a sandbox image Returns the image's build status and latest successful digest, if available. Failed builds include a `failure_reason`. Use [Build Image](/api-reference/images/build-image) (`POST /api/images`) to retry interrupted builds. */
+export const getImage: API.OperationMethod<
+  GetImageRequest,
+  ApiResponseImage,
+  GetImageError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(656, __c41, 0) as any as S.Schema<GetImageRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<ApiResponseImage>,
+  errors: [NotFound, NotEnabled, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetSandboxError = NotFound | ArchilOpError;
@@ -1095,13 +1959,30 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandbox",
+}));
+
+export type GetSandboxMountError = NotFound | ArchilOpError;
+/** Get whether sandboxes may mount a disk */
+export const getSandboxMount: API.OperationMethod<
+  GetSandboxMountRequest,
+  ApiResponseSandboxMount,
+  GetSandboxMountError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c43, 0) as any as S.Schema<GetSandboxMountRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ApiResponseSandboxMount>,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxMount",
 }));
 
 export type GetSandboxNetworkError = NotFound | ArchilOpError;
@@ -1112,8 +1993,8 @@ export const getSandboxNetwork: API.OperationMethod<
   GetSandboxNetworkError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetSandboxNetworkRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetSandboxNetworkRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1129,8 +2010,8 @@ export const getSandboxPortToken: API.OperationMethod<
   GetSandboxPortTokenError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetSandboxPortTokenRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ApiResponseSandboxPortToken>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetSandboxPortTokenRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<ApiResponseSandboxPortToken>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1139,15 +2020,15 @@ export const getSandboxPortToken: API.OperationMethod<
 }));
 
 export type GrepDiskError = BadRequest | NotFound | ArchilOpError;
-/** Parallel grep over a directory on a disk Searches files under a directory on the disk for lines matching a regular expression. Listing and matching are fanned out across ephemeral exec containers, so the request finishes within the user's time budget regardless of the size of the directory. The user controls cost and latency with three knobs: - `maxDurationSeconds` is the wall-clock deadline (capped at 30s). - `concurrency` is the maximum number of parallel grep workers. Higher concurrency finishes larger datasets within the deadline, at proportionally more compute. - `maxResults` causes the search to short-circuit after the aggregator has collected this many matches. With `recursive: false` only files directly under `directory` are searched. With `recursive: true` subdirectories are walked breadth-first and grep workers are dispatched as soon as each level finishes listing -- listing and matching overlap. The matches returned when stopping early on `maxResults` are a sample of whichever workers reported first, not the lexicographically first N. The response surfaces `stoppedReason` so callers can distinguish completion from early termination. */
+/** Parallel grep over a directory on a disk Searches files under a directory on the disk for lines matching a regular expression. Listing and matching are fanned out across ephemeral exec microVMs, so the request finishes within the user's time budget regardless of the size of the directory. The user controls search latency and scope with three knobs: - `maxDurationSeconds` is the wall-clock deadline (capped at 30s). - `concurrency` is the maximum number of parallel grep workers. Higher concurrency finishes larger datasets within the deadline, at proportionally more compute. - `maxResults` causes the search to short-circuit after the aggregator has collected this many matches. With `recursive: false` only files directly under `directory` are searched. With `recursive: true` subdirectories are walked breadth-first and grep workers are dispatched as soon as each level finishes listing -- listing and matching overlap. Matching runs on ripgrep. Narrow the files searched with `globs`, `types`, and `typesNot`; change matching with `ignoreCase` and `multiline`; and ask for surrounding lines with `contextBefore` and `contextAfter`, which adds `groups` to the result. The matches returned when stopping early on `maxResults`, or on the 32 MiB limit on match and context text, are a sample of whichever workers reported first, not the lexicographically first N. The response surfaces `stoppedReason` so callers can distinguish completion from early termination. */
 export const grepDisk: API.OperationMethod<
   GrepDiskRequest,
   ApiResponseGrepDisk,
   GrepDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GrepDiskRequest>,
-  output: __S(188, __c23, 4) as any as S.Schema<ApiResponseGrepDisk>,
+  input: __S(784, __c49, 0) as any as S.Schema<GrepDiskRequest>,
+  output: __S(792, __c49, 8) as any as S.Schema<ApiResponseGrepDisk>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1163,13 +2044,47 @@ export const listApiTokens: API.OperationMethod<
   ListApiTokensError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListApiTokensRequest>,
-  output: __S(196, __c24, 4) as any as S.Schema<ApiResponseTokenList>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListApiTokensRequest>,
+  output: __S(804, __c50, 4) as any as S.Schema<ApiResponseTokenList>,
   errors: [UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiTokens",
+}));
+
+export type ListBranchesError = BadRequest | NotFound | ArchilOpError;
+/** List a disk's branches Lists every branch of the disk, including branches of branches, in no particular order. */
+export const listBranches: API.OperationMethod<
+  ListBranchesRequest,
+  BranchListApiResponse,
+  ListBranchesError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(816, __c51, 0) as any as S.Schema<ListBranchesRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<BranchListApiResponse>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
+}));
+
+export type ListDelegationsError = NotFound | ArchilOpError;
+/** List a disk's write delegations Lists every delegation held on the disk. A delegation grants one client exclusive write access to an inode; it is identified by the (clientId, inodeId) pair. `isOrphaned` marks delegations held by clients no longer connected. */
+export const listDelegations: API.OperationMethod<
+  ListDelegationsRequest,
+  ApiResponseDelegations,
+  ListDelegationsError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c52, 0) as any as S.Schema<ListDelegationsRequest>,
+  output: __S(836, __c52, 4) as any as S.Schema<ApiResponseDelegations>,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDelegations",
 }));
 
 export type ListDisksError = ArchilOpError;
@@ -1180,8 +2095,8 @@ export const listDisks: API.OperationMethod<
   ListDisksError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListDisksRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<ApiResponseDiskList>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListDisksRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<ApiResponseDiskList>,
   errors: [UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1197,8 +2112,8 @@ export const listSandboxes: API.OperationMethod<
   ListSandboxesError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListSandboxesRequest>,
-  output: __S(211, __c26, 3) as any as S.Schema<ApiResponseSandboxList>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListSandboxesRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<ApiResponseSandboxList>,
   errors: [BadRequest, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1214,8 +2129,8 @@ export const listSandboxPorts: API.OperationMethod<
   ListSandboxPortsError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListSandboxPortsRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<ApiResponseSandboxPortList>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListSandboxPortsRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<ApiResponseSandboxPortList>,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1231,8 +2146,8 @@ export const listSandboxPortTokens: API.OperationMethod<
   ListSandboxPortTokensError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
+  output: __S(899, __c56, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
   errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1240,7 +2155,7 @@ export const listSandboxPortTokens: API.OperationMethod<
   span: "ListSandboxPortTokens",
 }));
 
-export type PauseSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
+export type PauseSandboxError = BadRequest | NotFound | SandboxNotReady | ArchilOpError;
 /** Pause a sandbox Snapshot the CPU & memory state, then stop the VM. The sandbox reports `pausing` until the snapshot commit marker is durable and the VM exits, then reports `paused`. Attached process connections close, while agent-owned processes remain available for reattachment after resume. A sandbox that is still `pending` must reach `running` before it can be paused. To restore the snapshot, call `/resume`. */
 export const pauseSandbox: API.OperationMethod<
   PauseSandboxRequest,
@@ -1248,16 +2163,33 @@ export const pauseSandbox: API.OperationMethod<
   PauseSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<PauseSandboxRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(912, __c57, 0) as any as S.Schema<PauseSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [BadRequest, NotFound, SandboxNotReady, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseSandbox",
 }));
 
-export type RemoveDiskUserError = BadRequest | ArchilOpError;
+export type PrefetchDiskError = BadRequest | NotFound | ArchilOpError;
+/** Prefetch file ranges Warms byte ranges of files on a disk into Archil's storage cache, so later reads from any client, serverless exec, or sandbox are served without going to the backing object storage. Each range names one file and an optional `offset` and `length`; a file may appear in several ranges. Paths are relative to the disk root. Ranges must name regular files: a directory is found but warms nothing, so list a directory's files to warm its contents. The response reports one result per range, in request order, and may return before the data is fully fetched. A path that does not exist reports `found: false`. A failed range does not fail the others; retry the ranges whose `error` is `retry`. If the disk is not mounted anywhere, prefetching loads it. Warmed data becomes active data and is metered like data your clients read. */
+export const prefetchDisk: API.OperationMethod<
+  PrefetchDiskRequest,
+  ApiResponsePrefetch,
+  PrefetchDiskError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(930, __c58, 2) as any as S.Schema<PrefetchDiskRequest>,
+  output: __S(934, __c58, 6) as any as S.Schema<ApiResponsePrefetch>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrefetchDisk",
+}));
+
+export type RemoveDiskUserError = BadRequest | NotFound | ArchilOpError;
 /** Remove user from disk Removes an authorized user from a disk. */
 export const removeDiskUser: API.OperationMethod<
   RemoveDiskUserRequest,
@@ -1265,16 +2197,16 @@ export const removeDiskUser: API.OperationMethod<
   RemoveDiskUserError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<RemoveDiskUserRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, UnknownArchilError],
+  input: __S(944, __c59, 0) as any as S.Schema<RemoveDiskUserRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveDiskUser",
 }));
 
-export type ResumeSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
+export type ResumeSandboxError = BadRequest | NotFound | SandboxStartConflict | ArchilOpError;
 /** Resume a sandbox Restores a paused sandbox's committed CPU and memory snapshot. Resuming a running sandbox or a pending resume is idempotent. Only a `paused` sandbox can begin a new resume; `stopped`, `exited`, `failed`, `stopping`, `pausing`, or a pending cold start returns 409. */
 export const resumeSandbox: API.OperationMethod<
   ResumeSandboxRequest,
@@ -1282,50 +2214,118 @@ export const resumeSandbox: API.OperationMethod<
   ResumeSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ResumeSandboxRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(960, __c60, 0) as any as S.Schema<ResumeSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [BadRequest, NotFound, SandboxStartConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeSandbox",
 }));
 
-export type SetSandboxTimeoutError = BadRequest | NotFound | Conflict | ArchilOpError;
-/** Set a sandbox's timeouts Replaces one or both sandbox timeout settings. Updating `timeout` while the sandbox is running resets its hard expiration deadline to that many seconds from now. Updating `idle_ttl_seconds` resets the idle countdown when no direct process connection is active; zero disables idle expiry. Omitted settings remain unchanged. Updates are retained across later stops and starts. For an inactive sandbox, they apply to the next powered-on session. Sandboxes that are starting or shutting down, or whose timeout changes concurrently, return 409. */
+export type RevokeDelegationError = BadRequest | NotFound | ArchilOpError;
+/** Revoke a write delegation Forcibly reclaims write access from a client that is unreachable or crashed without checking its delegation in. */
+export const revokeDelegation: API.OperationMethod<
+  RevokeDelegationRequest,
+  ApiResponseMessage,
+  RevokeDelegationError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(976, __c61, 0) as any as S.Schema<RevokeDelegationRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDelegation",
+}));
+
+export type SetAllowedIpsError = BadRequest | NotFound | ArchilOpError;
+/** Replace a disk's allowed IPs */
+export const setAllowedIps: API.OperationMethod<
+  SetAllowedIpsRequest,
+  ApiResponseAllowedIps,
+  SetAllowedIpsError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c62, 0) as any as S.Schema<SetAllowedIpsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<ApiResponseAllowedIps>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAllowedIps",
+}));
+
+export type SetSandboxMountError = BadRequest | NotFound | ArchilOpError;
+/** Set whether sandboxes may mount a disk */
+export const setSandboxMount: API.OperationMethod<
+  SetSandboxMountRequest,
+  ApiResponseSandboxMount,
+  SetSandboxMountError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1008, __c63, 0) as any as S.Schema<SetSandboxMountRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ApiResponseSandboxMount>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSandboxMount",
+}));
+
+export type SetSandboxTimeoutError = BadRequest | NotFound | ArchilOpError;
+/** Set a sandbox's timeouts Replaces one or both sandbox timeout settings. Updating `timeout` while the sandbox is running resets its hard expiration deadline to that many seconds from now, capped at 24 hours after the current session started. Updating `idle_ttl_seconds` resets the idle countdown when no direct process connection is active; zero disables idle expiry. Omitted settings remain unchanged. Updates are retained across later stops and starts. For an inactive sandbox, they apply to the next powered-on session. Sandboxes that are starting or shutting down, or whose timeout changes concurrently, return 409. */
 export const setSandboxTimeout: API.OperationMethod<
   SetSandboxTimeoutRequest,
   ApiResponseSandbox,
   SetSandboxTimeoutError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(1024, __c64, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSandboxTimeout",
 }));
 
-export type StartSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
-/** Cold-start a sandbox Cold-boots from the persisted configuration and disks. If the sandbox was paused, its memory snapshot is consumed and discarded before the new VM runs; disk state remains. Starting a running sandbox or a pending cold start is idempotent. A sandbox that is stopping, pausing, or pending a resume returns 409. */
+export type StartSandboxError =
+  | BadRequest
+  | NotFound
+  | SandboxPausing
+  | SandboxStopping
+  | SandboxStartConflict
+  | SandboxMountsWhileActive
+  | SandboxTerminated
+  | ArchilOpError;
+/** Cold-start a sandbox Cold-boots from the persisted configuration and disks. If the sandbox was paused, its memory snapshot is consumed and discarded before the new VM runs; disk state remains. Without mount changes, starting a running sandbox or a pending cold start is idempotent. A sandbox that is stopping, pausing, or pending a resume returns 409. Providing `mounts` replaces the additional disk mounts for this and later sessions and requires an inactive sandbox; omit it to preserve saved mounts. */
 export const startSandbox: API.OperationMethod<
   StartSandboxRequest,
   ApiResponseSandbox,
   StartSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<StartSandboxRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(1040, __c65, 0) as any as S.Schema<StartSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [
+    BadRequest,
+    NotFound,
+    SandboxPausing,
+    SandboxStopping,
+    SandboxStartConflict,
+    SandboxMountsWhileActive,
+    SandboxTerminated,
+    UnknownArchilError,
+  ],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartSandbox",
 }));
 
-export type StopSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
+export type StopSandboxError = BadRequest | NotFound | SandboxStopConflict | ArchilOpError;
 /** Stop a sandbox Gracefully shuts down the guest, then checkpoints its disk before entering `stopped`. The sandbox and any forks from it cold-boot from disk state. Stopping a paused sandbox reuses its existing disk checkpoint. In-flight processes receive the guest shutdown signal. */
 export const stopSandbox: API.OperationMethod<
   StopSandboxRequest,
@@ -1333,21 +2333,16 @@ export const stopSandbox: API.OperationMethod<
   StopSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  input: __S(1056, __c66, 0) as any as S.Schema<StopSandboxRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ApiResponseSandbox>,
+  errors: [BadRequest, NotFound, SandboxStopConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopSandbox",
 }));
 
-export type UpdateSandboxNetworkError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | ArchilOpError;
+export type UpdateSandboxNetworkError = BadRequest | Forbidden | NotFound | ArchilOpError;
 /** Replace a running sandbox's network policy Applies the complete replacement policy to a running sandbox, then records it as the current policy. A rejected update leaves the previous policy unchanged. Free-plan accounts cannot update network policies and receive 403 with code sandbox_network_plan_required. For paid accounts, an empty object restores unrestricted egress. Existing network sessions are not terminated; the replacement governs new connections and is retained across later stops and resumes. Sandboxes that are not running, or whose policy changes concurrently, return 409. */
 export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkRequest,
@@ -1355,9 +2350,9 @@ export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownArchilError],
+  input: __S(1072, __c67, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1371,6 +2366,373 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/users", code: 200 })),
+      ).annotate({ identifier: "AddDiskUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "ApiResponseAuthorizedUser" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          principal: S.optional(S.String),
+          nickname: S.optional(S.String),
+          tokenSuffix: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          s3AccessKeyId: S.optional(S.String),
+          s3SecretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          identifier: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          oneUse: S.optional(S.Boolean),
+          consumedAt: S.optional(S.String),
+          readOnly: S.optional(S.Boolean),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizedUser" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/tokens", code: 200 })),
+      ).annotate({ identifier: "CreateApiTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          tokenSuffix: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastUsedAt: S.optional(S.String),
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "ApiResponseTokenCreatedData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(33, __c2, 1),
+        }),
+      ).annotate({ identifier: "ApiResponseTokenCreated" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          branch_name: S.String,
+          from_checkpoint_name: S.String,
+          from_branch: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/branches", code: 200 })),
+      ).annotate({ identifier: "CreateBranchRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "BranchApiResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          root_filesystem_id: S.String,
+          branch_name: S.String,
+          filesystem_id: S.String,
+          from_checkpoint_name: S.String,
+          from_checkpoint_filesystem_id: S.String,
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "BranchResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          mounts: S.optional(__S(96, __c6, 0)),
+          authMethods: S.optional(__S(97, __c6, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks", code: 200 })),
+      ).annotate({ identifier: "CreateDiskRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          authorizedUsers: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "ApiResponseCreateDiskData" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(99, __c6, 3),
+        }),
+      ).annotate({ identifier: "ApiResponseCreateDisk" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(16, __c1, 0));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "RegistryAuth" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          registry_auth: S.optional(__S(128, __c8, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/images", code: 200 })),
+      ).annotate({ identifier: "CreateImageRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image_id: S.String,
+          source: S.String,
+          private: S.Boolean,
+          status: S.String,
+          digest: S.optional(S.String),
+          canonical_source: S.optional(S.String),
+          failure_reason: S.optional(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "Image" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(144, __c9, 0),
+        }),
+      ).annotate({ identifier: "ApiResponseImage" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.Record(S.String, S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          wait: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.optional(S.String),
+          vcpu_count: S.optional(S.Number),
+          mem_size_mib: S.optional(S.Number),
+          base_image: S.optional(S.String),
+          image_id: S.optional(S.String),
+          ports: S.optional(__S(160, __c10, 0)),
+          enable_service_ingress: S.optional(S.Boolean),
+          env: S.optional(__S(161, __c10, 1)),
+          network: S.optional(__S(194, __c12, 2)),
+          mounts: S.optional(__S(241, __c15, 1)),
+          max_ttl_seconds: S.optional(S.Number),
+          idle_ttl_seconds: S.optional(S.Number),
+          max_concurrent_execs: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.String,
+          allow: S.optional(__S(192, __c12, 0)),
+          deny: S.optional(__S(176, __c11, 0)),
+          drain_on_pause: S.optional(__S(176, __c11, 0)),
+        }),
+      ).annotate({ identifier: "SandboxEgressPolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          egress: S.optional(__S(193, __c12, 1)),
+        }),
+      ).annotate({ identifier: "SandboxNetwork" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.Number,
+          hostname: S.String,
+        }),
+      ).annotate({ identifier: "SandboxEndpoint" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(208, __c13, 0));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          disk_id: S.String,
+          path: S.optional(S.String),
+          subdirectory: S.optional(S.String),
+          read_only: S.optional(S.Boolean),
+          conditional: S.optional(S.Boolean),
+          queue_ms: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SandboxMount" });
+    case 1:
+      return S.Array(__S(240, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sandbox_id: S.String,
+          name: S.String,
+          status: S.String,
+          vcpu_count: S.Number,
+          mem_size_mib: S.Number,
+          max_ttl_seconds: S.Number,
+          idle_ttl_seconds: S.Number,
+          max_concurrent_execs: S.Number,
+          base_image: S.String,
+          image_digest: S.optional(S.String),
+          platform: S.optional(S.String),
+          endpoints: S.optional(__S(224, __c14, 0)),
+          enable_service_ingress: S.optional(S.Boolean),
+          mounts: S.optional(__S(241, __c15, 1)),
+          created_at: S.String,
+          running_at: S.optional(S.String),
+          finished_at: S.optional(S.String),
+          last_active_at: S.String,
+          exit_reason: S.optional(S.String),
+          checkpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Sandbox" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(242, __c15, 2),
+        }),
+      ).annotate({ identifier: "ApiResponseSandbox" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/connections", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String.pipe(T.SensitiveValue({})),
+          expires_at: S.String,
+        }),
+      ).annotate({ identifier: "SandboxConnection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(273, __c17, 1),
+        }),
+      ).annotate({ identifier: "ApiResponseSandboxConnection" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sid: S.String.pipe(T.Label()),
+          port: S.Number,
+          ttl: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/port-tokens", code: 200 })),
+      ).annotate({ identifier: "CreateSandboxPortTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          port: S.Number,
+          created_at: S.String,
+          expires_at: S.optional(S.String),
+          hostname: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "CreatedSandboxPortToken" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(289, __c18, 1),
+        }),
+      ).annotate({ identifier: "ApiResponseCreatedSandboxPortToken" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
           key: S.String,
           expiresIn: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/share", code: 200 })),
@@ -1378,7 +2740,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.String,
+          url: S.String.pipe(T.SensitiveValue({})),
           expiresIn: S.Number,
         }),
       ).annotate({ identifier: "ApiResponseShareUrlData" });
@@ -1386,12 +2748,12 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(1, __c0, 1),
+          data: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "ApiResponseShareUrl" });
   }
 }
-function __c1(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1407,7 +2769,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ApiResponseEmpty" });
   }
 }
-function __c2(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1417,7 +2779,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteSandboxRequest" });
   }
 }
-function __c3(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteSandboxResponse" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1428,7 +2796,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteSandboxPortRequest" });
   }
 }
-function __c4(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1445,7 +2813,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteSandboxPortTokenRequest" });
   }
 }
-function __c5(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1455,7 +2823,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c6(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,25 +2835,30 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(48, __c6, 0),
+          data: __S(416, __c26, 0),
         }),
       ).annotate({ identifier: "ApiResponseMessage" });
   }
 }
-function __c7(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          disks: __S(56, __c7, 0),
+          disks: __S(432, __c27, 0),
           command: S.String,
+          baseImage: S.optional(S.String),
+          imageId: S.optional(S.String),
+          vcpuCount: S.optional(S.Number),
+          memSizeMib: S.optional(S.Number),
+          network: S.optional(__S(194, __c12, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/exec", code: 200 })),
       ).annotate({ identifier: "ExecRequest" });
   }
 }
-function __c8(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1501,30 +2874,35 @@ function __c8(j: number): any {
           exitCode: S.Number,
           stdout: S.String,
           stderr: S.String,
-          timing: __S(64, __c8, 0),
+          timing: __S(448, __c28, 0),
         }),
       ).annotate({ identifier: "ExecDiskResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(65, __c8, 1),
+          data: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "ApiResponseExec" });
   }
 }
-function __c9(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           command: S.String,
+          baseImage: S.optional(S.String),
+          imageId: S.optional(S.String),
+          vcpuCount: S.optional(S.Number),
+          memSizeMib: S.optional(S.Number),
+          network: S.optional(__S(194, __c12, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/exec", code: 200 })),
       ).annotate({ identifier: "ExecDiskRequest" });
   }
 }
-function __c10(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1537,23 +2915,12 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(88, __c11, 0),
+          data: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPort" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.Number,
-          hostname: S.String,
-        }),
-      ).annotate({ identifier: "SandboxPort" });
-  }
-}
-function __c12(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1566,7 +2933,268 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ForkSandboxRequest" });
   }
 }
-function __c13(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/disks/{id}/allowed-ips", code: 200 })),
+      ).annotate({ identifier: "GetAllowedIpsRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowedIps: __S(176, __c11, 0),
+        }),
+      ).annotate({ identifier: "ApiResponseAllowedIpsData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(528, __c33, 0),
+        }),
+      ).annotate({ identifier: "ApiResponseAllowedIps" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/subscription", code: 200 })),
+      ).annotate({ identifier: "GetBillingSubscriptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BillingOwner" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          effectiveAt: S.Number,
+          targetPlan: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BillingScheduledChange" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          hasDefaultPaymentMethod: S.Boolean,
+          openInvoiceId: S.optional(S.String),
+          amountRemaining: S.optional(S.Number),
+          openInvoiceCurrency: S.optional(S.String),
+          openInvoiceDueDate: S.optional(S.Number),
+          openInvoiceNextPaymentAttempt: S.optional(S.Number),
+          pendingOperationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BillingPaymentHealth" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          canStartCheckout: S.Boolean,
+          canManagePaymentMethods: S.Boolean,
+          canUpdateBillingProfile: S.Boolean,
+          canViewInvoices: S.Boolean,
+          canChangePlan: S.Boolean,
+          canCancel: S.Boolean,
+          canKeepSubscription: S.Boolean,
+          canPayOpenInvoice: S.Boolean,
+          canWithdrawScheduledChange: S.Boolean,
+        }),
+      ).annotate({ identifier: "BillingSubscriptionActions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          billingOwner: __S(545, __c34, 1),
+          billingMode: S.String,
+          plan: S.String,
+          subscriptionStatus: S.String,
+          billingPeriod: S.optional(__S(560, __c35, 0)),
+          scheduledCancellationAt: S.optional(S.Number),
+          scheduledChange: S.optional(__S(546, __c34, 2)),
+          hasPendingUpdate: S.Boolean,
+          paymentHealth: __S(547, __c34, 3),
+          actions: __S(548, __c34, 4),
+        }),
+      ).annotate({ identifier: "BillingSubscription" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(549, __c34, 5),
+        }),
+      ).annotate({ identifier: "ApiResponseBillingSubscription" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.Number,
+          end: S.Number,
+        }),
+      ).annotate({ identifier: "BillingPeriod" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          period: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/billing/summary", code: 200 })),
+      ).annotate({ identifier: "GetBillingSummaryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "BillingSummaryPlan" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          featureId: S.optional(S.String),
+          name: S.String,
+          quantity: S.optional(S.Number),
+          unit: S.optional(S.String),
+          start: S.Number,
+          end: S.Number,
+          amount: S.Number,
+          invoiceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BillingLine" });
+    case 3:
+      return S.Array(__S(578, __c36, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          featureId: S.String,
+          name: S.String,
+          unit: S.String,
+          granted: S.Number,
+          remaining: S.Number,
+          resetsAt: S.NullOr(S.Number),
+          expiresAt: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "BillingCreditGrant" });
+    case 5:
+      return S.Array(__S(580, __c36, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          billedCost: S.Number,
+          dailyRate: S.Number,
+        }),
+      ).annotate({ identifier: "BillingSummaryProjection" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          hostedInvoiceUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BillingIssuedInvoice" });
+    case 8:
+      return S.Array(__S(583, __c36, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          billingPeriod: __S(560, __c35, 0),
+          plan: __S(577, __c36, 1),
+          lines: __S(579, __c36, 3),
+          billedCost: S.Number,
+          credits: __S(581, __c36, 5),
+          projected: S.optional(__S(582, __c36, 6)),
+          invoices: S.optional(__S(584, __c36, 8)),
+        }),
+      ).annotate({ identifier: "BillingSummary" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(585, __c36, 9),
+        }),
+      ).annotate({ identifier: "ApiResponseBillingSummary" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          for: S.optional(S.String.pipe(T.Query())),
+          granularity: S.optional(S.String.pipe(T.Query())),
+          timezone: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/billing/usage", code: 200 })),
+      ).annotate({ identifier: "GetBillingUsageRequest" });
+    case 1:
+      return S.Record(S.String, S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          quantity: S.Number,
+          unit: S.String,
+          cost: S.Number,
+        }),
+      ).annotate({ identifier: "BillingUsageQuantity" });
+    case 3:
+      return S.Record(S.String, __S(594, __c37, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.Number,
+          end: S.Number,
+          cost: S.Number,
+          features: __S(595, __c37, 3),
+        }),
+      ).annotate({ identifier: "BillingUsageWindow" });
+    case 5:
+      return S.Array(__S(596, __c37, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          granularity: S.String,
+          timezone: S.String,
+          currency: S.String,
+          ratesPerUnit: __S(593, __c37, 1),
+          window: __S(596, __c37, 4),
+          intervals: __S(597, __c37, 5),
+          billingPeriod: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "BillingUsage" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(598, __c37, 6),
+        }),
+      ).annotate({ identifier: "ApiResponseBillingUsage" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/disks/{id}/branches/{name}", code: 200 })),
+      ).annotate({ identifier: "GetBranchRequest" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1578,12 +3206,12 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(118, __c14, 6),
+          data: __S(646, __c40, 6),
         }),
       ).annotate({ identifier: "ApiResponseDisk" });
   }
 }
-function __c14(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1602,14 +3230,14 @@ function __c14(j: number): any {
           path: S.optional(S.String),
           name: S.optional(S.String),
           accessMode: S.optional(S.String),
-          config: S.optional(__S(112, __c14, 0)),
+          config: S.optional(__S(640, __c40, 0)),
           connectionStatus: S.optional(S.String),
           authError: S.optional(S.String),
           authorizationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountResponse" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1627,7 +3255,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "ConnectedClient" });
     case 5:
-      return S.Array(__S(116, __c14, 4));
+      return S.Array(__S(644, __c40, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1642,15 +3270,27 @@ function __c14(j: number): any {
           lastAccessed: S.optional(S.String),
           dataSize: S.optional(S.Number),
           monthlyUsage: S.optional(S.String),
-          mounts: S.optional(__S(114, __c14, 2)),
-          metrics: S.optional(__S(115, __c14, 3)),
-          connectedClients: S.optional(__S(117, __c14, 5)),
-          authorizedUsers: S.optional(__S(320, __c40, 0)),
+          mounts: S.optional(__S(642, __c40, 2)),
+          metrics: S.optional(__S(643, __c40, 3)),
+          connectedClients: S.optional(__S(645, __c40, 5)),
+          authorizedUsers: S.optional(__S(112, __c7, 0)),
+          activeDataBytes: S.optional(S.Number),
+          totalDataBytes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DiskResponse" });
   }
 }
-function __c15(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/images/{image_id}", code: 200 })),
+      ).annotate({ identifier: "GetImageRequest" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1660,51 +3300,34 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(88, __c11, 0));
-  }
-}
-function __c17(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sandbox_id: S.String,
-          name: S.String,
-          status: S.String,
-          vcpu_count: S.Number,
-          mem_size_mib: S.Number,
-          max_ttl_seconds: S.Number,
-          idle_ttl_seconds: S.Number,
-          max_concurrent_execs: S.Number,
-          base_image: S.String,
-          platform: S.optional(S.String),
-          endpoints: S.optional(__S(128, __c16, 0)),
-          enable_service_ingress: S.optional(S.Boolean),
-          created_at: S.String,
-          running_at: S.optional(S.String),
-          finished_at: S.optional(S.String),
-          last_active_at: S.String,
-          exit_reason: S.optional(S.String),
-          checkpoint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Sandbox" });
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/disks/{id}/sandbox-mount", code: 200 })),
+      ).annotate({ identifier: "GetSandboxMountRequest" });
   }
 }
-function __c18(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowSandboxMount: S.Boolean,
+        }),
+      ).annotate({ identifier: "ApiResponseSandboxMountData" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(136, __c17, 0),
+          data: __S(704, __c44, 0),
         }),
-      ).annotate({ identifier: "ApiResponseSandbox" });
+      ).annotate({ identifier: "ApiResponseSandboxMount" });
   }
 }
-function __c19(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1714,18 +3337,18 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetSandboxNetworkRequest" });
   }
 }
-function __c20(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(347, __c43, 3),
+          data: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "ApiResponseSandboxNetwork" });
   }
 }
-function __c21(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1740,12 +3363,12 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(176, __c22, 0),
+          data: __S(768, __c48, 0),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPortToken" });
   }
 }
-function __c22(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1758,7 +3381,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SandboxPortToken" });
   }
 }
-function __c23(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1770,6 +3393,13 @@ function __c23(j: number): any {
           maxDurationSeconds: S.optional(S.Number),
           concurrency: S.optional(S.Number),
           maxResults: S.optional(S.Number),
+          ignoreCase: S.optional(S.Boolean),
+          multiline: S.optional(S.Boolean),
+          globs: S.optional(__S(176, __c11, 0)),
+          types: S.optional(__S(176, __c11, 0)),
+          typesNot: S.optional(__S(176, __c11, 0)),
+          contextBefore: S.optional(S.Number),
+          contextAfter: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/grep", code: 200 })),
       ).annotate({ identifier: "GrepDiskRequest" });
     case 1:
@@ -1777,15 +3407,36 @@ function __c23(j: number): any {
         S.Struct({
           file: S.String,
           line: S.Number,
+          endLine: S.optional(S.Number),
           text: S.String,
         }),
       ).annotate({ identifier: "GrepMatch" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(785, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          matches: __S(186, __c23, 2),
+          line: S.Number,
+          text: S.String,
+          match: S.Boolean,
+        }),
+      ).annotate({ identifier: "GrepGroupLine" });
+    case 4:
+      return S.Array(__S(787, __c49, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          lines: __S(788, __c49, 4),
+        }),
+      ).annotate({ identifier: "GrepGroup" });
+    case 6:
+      return S.Array(__S(789, __c49, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          matches: __S(786, __c49, 2),
+          groups: S.optional(__S(790, __c49, 6)),
           stoppedReason: S.String,
           filesScanned: S.Number,
           containersDispatched: S.Number,
@@ -1795,16 +3446,16 @@ function __c23(j: number): any {
           grepMs: S.Number,
         }),
       ).annotate({ identifier: "GrepDiskResult" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(187, __c23, 3),
+          data: __S(791, __c49, 7),
         }),
       ).annotate({ identifier: "ApiResponseGrepDisk" });
   }
 }
-function __c24(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1825,23 +3476,77 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ApiTokenResponse" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(801, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(194, __c24, 2)),
+          tokens: S.optional(__S(802, __c50, 2)),
         }),
       ).annotate({ identifier: "ApiResponseTokenListData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(195, __c24, 3),
+          data: __S(803, __c50, 3),
         }),
       ).annotate({ identifier: "ApiResponseTokenList" });
   }
 }
-function __c25(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/disks/{id}/branches", code: 200 })),
+      ).annotate({ identifier: "ListBranchesRequest" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(817, __c51, 1),
+        }),
+      ).annotate({ identifier: "BranchListApiResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/disks/{id}/delegations", code: 200 })),
+      ).annotate({ identifier: "ListDelegationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String,
+          inodeId: S.Number,
+          path: S.optional(S.String),
+          isPending: S.Boolean,
+          isOrphaned: S.Boolean,
+        }),
+      ).annotate({ identifier: "DelegationEntry" });
+    case 2:
+      return S.Array(__S(833, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          delegations: __S(834, __c52, 2),
+        }),
+      ).annotate({ identifier: "ApiResponseDelegationsData" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(835, __c52, 3),
+        }),
+      ).annotate({ identifier: "ApiResponseDelegations" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,17 +3557,18 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/disks", code: 200 })),
       ).annotate({ identifier: "ListDisksRequest" });
     case 1:
-      return S.Array(__S(118, __c14, 6));
+      return S.Array(__S(646, __c40, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(201, __c25, 1),
+          data: __S(849, __c53, 1),
+          nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiResponseDiskList" });
   }
 }
-function __c26(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1871,23 +3577,23 @@ function __c26(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes", code: 200 })),
       ).annotate({ identifier: "ListSandboxesRequest" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(242, __c15, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: S.optional(__S(209, __c26, 1)),
+          sandboxes: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "ApiResponseSandboxListData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(210, __c26, 2),
+          data: __S(866, __c54, 2),
         }),
       ).annotate({ identifier: "ApiResponseSandboxList" });
   }
 }
-function __c27(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1898,19 +3604,19 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ports: __S(128, __c16, 0),
+          ports: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "SandboxPortList" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(217, __c27, 1),
+          data: __S(881, __c55, 1),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPortList" });
   }
 }
-function __c28(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1921,24 +3627,24 @@ function __c28(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/port-tokens", code: 200 })),
       ).annotate({ identifier: "ListSandboxPortTokensRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(225, __c28, 1),
+          tokens: __S(897, __c56, 1),
         }),
       ).annotate({ identifier: "SandboxPortTokenList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(226, __c28, 2),
+          data: __S(898, __c56, 2),
           nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPortTokenList" });
   }
 }
-function __c29(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1948,7 +3654,52 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PauseSandboxRequest" });
   }
 }
-function __c30(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          offset: S.optional(S.Number),
+          length: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PrefetchRange" });
+    case 1:
+      return S.Array(__S(928, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          ranges: __S(929, __c58, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/prefetch", code: 200 })),
+      ).annotate({ identifier: "PrefetchDiskRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          found: S.Boolean,
+          bytesRequested: S.Number,
+          bytesWarmed: S.Number,
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrefetchRangeResult" });
+    case 4:
+      return S.Array(__S(931, __c58, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(932, __c58, 4),
+        }),
+      ).annotate({ identifier: "ApiResponsePrefetchData" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(933, __c58, 5),
+        }),
+      ).annotate({ identifier: "ApiResponsePrefetch" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1961,7 +3712,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RemoveDiskUserRequest" });
   }
 }
-function __c31(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1972,7 +3723,41 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ResumeSandboxRequest" });
   }
 }
-function __c32(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          inodeId: S.Number,
+          clientId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/revoke-delegation", code: 200 })),
+      ).annotate({ identifier: "RevokeDelegationRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          allowedIps: __S(176, __c11, 0),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/disks/{id}/allowed-ips", code: 200 })),
+      ).annotate({ identifier: "SetAllowedIpsRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          allowSandboxMount: S.Boolean,
+        }).pipe(T.Http({ method: "PUT", uri: "/api/disks/{id}/sandbox-mount", code: 200 })),
+      ).annotate({ identifier: "SetSandboxMountRequest" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1984,18 +3769,19 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SetSandboxTimeoutRequest" });
   }
 }
-function __c33(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sid: S.String.pipe(T.Label()),
           wait: S.optional(S.Boolean.pipe(T.Query())),
+          mounts: S.optional(__S(241, __c15, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/start", code: 200 })),
       ).annotate({ identifier: "StartSandboxRequest" });
   }
 }
-function __c34(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2005,223 +3791,15 @@ function __c34(j: number): any {
       ).annotate({ identifier: "StopSandboxRequest" });
   }
 }
-function __c35(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sid: S.String.pipe(T.Label()),
-          egress: S.optional(__S(346, __c43, 2)),
+          egress: S.optional(__S(193, __c12, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/sandboxes/{sid}/network", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxNetworkRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/users", code: 200 })),
-      ).annotate({ identifier: "AddDiskUserRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          data: __S(296, __c37, 0),
-        }),
-      ).annotate({ identifier: "ApiResponseAuthorizedUser" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          principal: S.optional(S.String),
-          nickname: S.optional(S.String),
-          tokenSuffix: S.optional(S.String),
-          token: S.optional(S.String),
-          identifier: S.optional(S.String),
-          createdAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizedUser" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/tokens", code: 200 })),
-      ).annotate({ identifier: "CreateApiTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          tokenSuffix: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          lastUsedAt: S.optional(S.String),
-          token: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApiResponseTokenCreatedData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          data: __S(305, __c38, 1),
-        }),
-      ).annotate({ identifier: "ApiResponseTokenCreated" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          mounts: S.optional(__S(312, __c39, 0)),
-          authMethods: S.optional(__S(313, __c39, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/disks", code: 200 })),
-      ).annotate({ identifier: "CreateDiskRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          diskId: S.optional(S.String),
-          authorizedUsers: S.optional(__S(320, __c40, 0)),
-        }),
-      ).annotate({ identifier: "ApiResponseCreateDiskData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          data: __S(315, __c39, 3),
-        }),
-      ).annotate({ identifier: "ApiResponseCreateDisk" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(296, __c37, 0));
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-    case 1:
-      return S.Record(S.String, S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          wait: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.optional(S.String),
-          vcpu_count: S.optional(S.Number),
-          mem_size_mib: S.optional(S.Number),
-          base_image: S.optional(S.String),
-          ports: S.optional(__S(328, __c41, 0)),
-          enable_service_ingress: S.optional(S.Boolean),
-          env: S.optional(__S(329, __c41, 1)),
-          network: S.optional(__S(347, __c43, 3)),
-          max_ttl_seconds: S.optional(S.Number),
-          idle_ttl_seconds: S.optional(S.Number),
-          max_concurrent_execs: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes", code: 200 })),
-      ).annotate({ identifier: "CreateSandboxRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateSandboxResponse" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.Array(S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          default: S.String,
-          allow: S.optional(__S(344, __c43, 0)),
-          deny: S.optional(__S(345, __c43, 1)),
-          drain_on_pause: S.optional(__S(345, __c43, 1)),
-        }),
-      ).annotate({ identifier: "SandboxEgressPolicy" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          egress: S.optional(__S(346, __c43, 2)),
-        }),
-      ).annotate({ identifier: "SandboxNetwork" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/connections", code: 200 })),
-      ).annotate({ identifier: "CreateSandboxConnectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-          expires_at: S.String,
-        }),
-      ).annotate({ identifier: "SandboxConnection" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          data: __S(353, __c44, 1),
-        }),
-      ).annotate({ identifier: "ApiResponseSandboxConnection" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sid: S.String.pipe(T.Label()),
-          port: S.Number,
-          ttl: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/port-tokens", code: 200 })),
-      ).annotate({ identifier: "CreateSandboxPortTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          port: S.Number,
-          created_at: S.String,
-          expires_at: S.optional(S.String),
-          hostname: S.String,
-          token: S.String,
-        }),
-      ).annotate({ identifier: "CreatedSandboxPortToken" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          data: __S(361, __c45, 1),
-        }),
-      ).annotate({ identifier: "ApiResponseCreatedSandboxPortToken" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

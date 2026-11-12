@@ -31,11 +31,11 @@ export interface CreateDataQualityRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Ids of the checks to run. Omit to run every enabled check in the project. */
-  check_ids?: CreateDataQualityRunRequestCheckIdsList;
+  check_ids?: CreateDataQualityRunRequestCheckIdsList | undefined;
   /** Narrow the run to one subject. Pass subject_uuid with it. Ignored when check_ids is given. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
-  subject_type?: SubjectTypeEnum | (string & {});
+  subject_type?: SubjectTypeEnum | (string & {}) | undefined;
   /** Id of the subject to run every enabled check on. Pass subject_type with it. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 export interface DataQualitySuiteRun {
   id: string;
@@ -69,19 +69,19 @@ export interface ListDataQualityRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: ListDataQualityRunsRequestSubjectType | (string & {});
+  subject_type?: ListDataQualityRunsRequestSubjectType | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 export type PaginatedDataQualitySuiteRunListResultsList = Array<DataQualitySuiteRun>;
 export interface PaginatedDataQualitySuiteRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataQualitySuiteRunListResultsList;
 }
 export interface ListDataQualityRunsCheckRunsRequest {

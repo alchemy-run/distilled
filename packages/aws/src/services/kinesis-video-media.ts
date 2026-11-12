@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -141,19 +142,19 @@ export type FragmentNumberString = string;
 export type ContinuationToken = string;
 export interface StartSelector {
   StartSelectorType: StartSelectorType;
-  AfterFragmentNumber?: string;
-  StartTimestamp?: Date;
-  ContinuationToken?: string;
+  AfterFragmentNumber?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  ContinuationToken?: string | undefined;
 }
 export interface GetMediaInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   StartSelector: StartSelector;
 }
 export type ContentType = string;
 export interface GetMediaOutput {
-  ContentType?: string;
-  Payload?: T.StreamingOutputBody;
+  ContentType?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
 }
 export type ErrorMessage = string;
 export type GetMediaError =
@@ -202,7 +203,7 @@ export type GetMediaError =
  * bottom of this topic, as well as Common Errors.
  */
 export const getMedia: API.OperationMethod<
-  GetMediaInput,
+  GetMediaInput & RegionInput,
   GetMediaOutput,
   GetMediaError,
   Credentials | HttpClient.HttpClient

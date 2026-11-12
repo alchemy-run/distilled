@@ -1,5 +1,5 @@
 {
-  "description": "Align ai_search#InstancesRead with distilled cloudflare/aisearch readInstance",
+  "description": "Align ai_search#InstancesRead with distilled cloudflare/aisearch readInstance; type its not-found (code 7002, ai_search_not_found) as AiSearchInstanceNotFound",
   "patches": [
     {
       "op": "move",
@@ -34,7 +34,7 @@
           "target": "com.cloudflare.ai_search#ValidationError"
         },
         {
-          "target": "com.cloudflare.ai_search#NotFound"
+          "target": "com.cloudflare.ai_search#AiSearchInstanceNotFound"
         },
         {
           "target": "com.cloudflare.ai_search#InvalidRoute"

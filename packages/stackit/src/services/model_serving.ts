@@ -59,25 +59,25 @@ export interface CreateTokenRequest {
   projectId: string;
   /** region name */
   regionId: string;
-  description?: string;
-  labels?: Labels;
+  description?: string | undefined;
+  labels?: Labels | undefined;
   name: string;
   /** time to live duration. Must be valid duration string. If not set the token will never expire. */
-  ttlDuration?: string;
+  ttlDuration?: string | undefined;
 }
 export type TokenCreatedState = "creating" | "active" | "deleting";
 export interface TokenCreated {
   content: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenCreatedState;
   validUntil: string;
 }
 export interface CreateTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenCreated;
 }
 export interface DeleteTokenRequest {
@@ -89,7 +89,7 @@ export interface DeleteTokenRequest {
   tId: string;
 }
 export interface MessageResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetChatModelRequest {
   /** region name */
@@ -101,14 +101,14 @@ export type ChatModelDetailsBits = 1 | 2 | 4 | 8 | 16;
 export type ChatModelDetailsCategory = "standard" | "plus" | "premium";
 export type ChatModelDetailsQuantizationMethod = "PTQ" | "QAT";
 export interface SKU {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type ChatModelDetailsSkusList = Array<SKU>;
 export type ChatModelDetailsTagsList = Array<string>;
 export interface ChatModelDetails {
-  bits?: ChatModelDetailsBits;
+  bits?: ChatModelDetailsBits | undefined;
   category: ChatModelDetailsCategory;
   contextLength: number;
   description: string;
@@ -117,7 +117,7 @@ export interface ChatModelDetails {
   id: string;
   /** huggingface name */
   name: string;
-  quantizationMethod?: ChatModelDetailsQuantizationMethod;
+  quantizationMethod?: ChatModelDetailsQuantizationMethod | undefined;
   region: string;
   /** model size in bytes */
   size: number;
@@ -127,7 +127,7 @@ export interface ChatModelDetails {
   url: string;
 }
 export interface GetChatModelResponse {
-  message?: string;
+  message?: string | undefined;
   model: ChatModelDetails;
 }
 export interface GetEmbeddingModelRequest {
@@ -150,12 +150,12 @@ export interface EmbeddingModelDetails {
   outputDimension: number;
   region: string;
   skus: EmbeddingModelDetailsSkusList;
-  tags?: EmbeddingModelDetailsTagsList;
+  tags?: EmbeddingModelDetailsTagsList | undefined;
   /** url of the model */
   url: string;
 }
 export interface GetEmbeddingsModelResp {
-  message?: string;
+  message?: string | undefined;
   model: EmbeddingModelDetails;
 }
 export interface GetTokenRequest {
@@ -168,16 +168,16 @@ export interface GetTokenRequest {
 }
 export type TokenState = "creating" | "active" | "deleting" | "inactive";
 export interface Token {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenState;
   validUntil: string;
 }
 export interface GetTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: Token;
 }
 export interface ListModelsRequest {
@@ -198,14 +198,14 @@ export interface Model {
   name: string;
   region: string;
   skus: ModelSkusList;
-  tags?: ModelTagsList;
+  tags?: ModelTagsList | undefined;
   type: ModelType;
   /** url of the model */
   url: string;
 }
 export type ListModelsResponseModelsList = Array<Model>;
 export interface ListModelsResponse {
-  message?: string;
+  message?: string | undefined;
   models: ListModelsResponseModelsList;
 }
 export interface ListTokensRequest {
@@ -214,11 +214,11 @@ export interface ListTokensRequest {
   /** region name */
   regionId: string;
   /** Filter token resource by labels */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 export type ListTokenRespTokensList = Array<Token>;
 export interface ListTokenResp {
-  message?: string;
+  message?: string | undefined;
   tokens: ListTokenRespTokensList;
 }
 /** Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. Send empty object {} to remove all labels. The `stackit` prefix is reserved and cannot be used for Keys. */
@@ -230,12 +230,12 @@ export interface PartialUpdateTokenRequest {
   regionId: string;
   /** token id */
   tId: string;
-  description?: string;
-  labels?: LabelPatch;
-  name?: string;
+  description?: string | undefined;
+  labels?: LabelPatch | undefined;
+  name?: string | undefined;
 }
 export interface UpdateTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: Token;
 }
 export type CreateTokenError = BadRequest | Conflict | StackitOpError;

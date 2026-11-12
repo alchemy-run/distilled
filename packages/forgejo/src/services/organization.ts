@@ -82,31 +82,31 @@ export class UnprocessableEntity
 /** possible values are `public` (default), `limited` or `private` */
 export type CreateOrgRequestVisibility = "public" | "limited" | "private";
 export interface CreateOrgRequest {
-  description?: string;
-  email?: string;
-  full_name?: string;
-  location?: string;
-  repo_admin_change_team_access?: boolean;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
+  location?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   username: string;
   /** possible values are `public` (default), `limited` or `private` */
-  visibility?: CreateOrgRequestVisibility | (string & {});
-  website?: string;
+  visibility?: CreateOrgRequestVisibility | (string & {}) | undefined;
+  website?: string | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type CreateOrgRepoRequestObjectFormatName = "sha1" | "sha256";
@@ -120,201 +120,201 @@ export interface CreateOrgRepoRequest {
   /** name of organization */
   org: string;
   /** Whether the repository should be auto-initialized? */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** DefaultBranch of the repository (used when initializes and in template) */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** Gitignores to use, separated by commas */
-  gitignores?: string;
+  gitignores?: string | undefined;
   /** Label-Set to use */
-  issue_labels?: string;
+  issue_labels?: string | undefined;
   /** License to use */
-  license?: string;
+  license?: string | undefined;
   /** Name of the repository to create */
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: CreateOrgRepoRequestObjectFormatName | (string & {});
+  object_format_name?: CreateOrgRepoRequestObjectFormatName | (string & {}) | undefined;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Readme of the repository to create */
-  readme?: string;
+  readme?: string | undefined;
   /** Whether the repository is template */
-  template?: boolean;
+  template?: boolean | undefined;
   /** TrustModel of the repository */
-  trust_model?: CreateOrgRepoRequestTrustModel | (string & {});
+  trust_model?: CreateOrgRepoRequestTrustModel | (string & {}) | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 export interface CreateOrgVariableRequest {
   /** name of the organization */
@@ -356,14 +356,14 @@ export type EditOrgRequestVisibility = "public" | "limited" | "private";
 export interface EditOrgRequest {
   /** name of the organization to edit */
   org: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
-  location?: string;
-  repo_admin_change_team_access?: boolean;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
+  location?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** possible values are `public`, `limited` or `private` */
-  visibility?: EditOrgRequestVisibility | (string & {});
-  website?: string;
+  visibility?: EditOrgRequestVisibility | (string & {}) | undefined;
+  website?: string | undefined;
 }
 export interface GetOrgRequest {
   /** name of the organization to get */
@@ -382,35 +382,35 @@ export type ActionRunnerStatus = "offline" | "idle" | "active";
 /** ActionRunner represents a runner */
 export interface ActionRunner {
   /** Description provides optional details about this runner. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if runner is ephemeral runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** ID uniquely identifies this runner. */
-  id?: number;
+  id?: number | undefined;
   /** Labels is a list of labels attached to this runner. */
-  labels?: ActionRunnerLabelsList;
+  labels?: ActionRunnerLabelsList | undefined;
   /** Name of the runner; not unique. */
-  name?: string;
+  name?: string | undefined;
   /** OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a repository. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or organization. */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Status indicates whether this runner is offline, or active, for example. */
-  status?: ActionRunnerStatus;
+  status?: ActionRunnerStatus | undefined;
   /** UUID uniquely identifies this runner. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Version is the self-reported version string of Forgejo Runner. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetOrgRunnersRequest {
   /** name of the organization */
   org: string;
   /** whether to include all visible runners (true) or only those that are directly owned by the organization (false) */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetOrgRunnersResponseBodyList = Array<ActionRunner>;
 export type GetOrgRunnersResponse = GetOrgRunnersResponseBodyList;
@@ -427,17 +427,17 @@ export interface ActionVariable {
   /** the name of the variable */
   name: string;
   /** the owner to which the variable belongs */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository to which the variable belongs */
-  repo_id?: number;
+  repo_id?: number | undefined;
 }
 export interface GetOrgVariablesListRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetOrgVariablesListResponseBodyList = Array<ActionVariable>;
 export type GetOrgVariablesListResponse = GetOrgVariablesListResponseBodyList;
@@ -496,11 +496,11 @@ export type OrgCreateHookRequestType =
 export interface OrgCreateHookRequest {
   /** name of the organization */
   org: string;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   config: CreateHookOptionConfig;
-  events?: OrgCreateHookRequestEventsList;
+  events?: OrgCreateHookRequestEventsList | undefined;
   type: OrgCreateHookRequestType | (string & {});
 }
 /** Deprecated: use Metadata instead */
@@ -509,15 +509,15 @@ export type HookEventsList = Array<string>;
 /** Hook a hook is a web hook when one repository changed */
 export interface Hook {
   active: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   /** Deprecated: use Metadata instead */
-  config?: HookConfigMap;
-  content_type?: string;
+  config?: HookConfigMap | undefined;
+  content_type?: string | undefined;
   created_at: string;
-  events?: HookEventsList;
+  events?: HookEventsList | undefined;
   id: number;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   type: string;
   updated_at: string;
   url: string;
@@ -526,20 +526,20 @@ export interface OrgCreateLabelRequest {
   /** name of the organization */
   org: string;
   color: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
   name: string;
 }
 /** Label a label to an issue or a pr */
 export interface Label {
   color: string;
-  description?: string;
-  exclusive?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
   id: number;
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export type OrgCreateTeamRequestPermission = "read" | "write" | "admin";
 export type OrgCreateTeamRequestUnitsList = Array<string>;
@@ -547,13 +547,13 @@ export type OrgCreateTeamRequestUnitsMapMap = { [key: string]: string | undefine
 export interface OrgCreateTeamRequest {
   /** name of the organization */
   org: string;
-  can_create_org_repo?: boolean;
-  description?: string;
-  includes_all_repositories?: boolean;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  permission?: OrgCreateTeamRequestPermission | (string & {});
-  units?: OrgCreateTeamRequestUnitsList;
-  units_map?: OrgCreateTeamRequestUnitsMapMap;
+  permission?: OrgCreateTeamRequestPermission | (string & {}) | undefined;
+  units?: OrgCreateTeamRequestUnitsList | undefined;
+  units_map?: OrgCreateTeamRequestUnitsMapMap | undefined;
 }
 export interface OrgDeleteAvatarRequest {
   /** name of the organization */
@@ -593,22 +593,22 @@ export interface OrgEditHookRequest {
   org: string;
   /** id of the hook to update */
   id: number;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
-  config?: OrgEditHookRequestConfigMap;
-  events?: OrgEditHookRequestEventsList;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
+  config?: OrgEditHookRequestConfigMap | undefined;
+  events?: OrgEditHookRequestEventsList | undefined;
 }
 export interface OrgEditLabelRequest {
   /** name of the organization */
   org: string;
   /** id of the label to edit */
   id: number;
-  color?: string;
-  description?: string;
-  exclusive?: boolean;
-  is_archived?: boolean;
-  name?: string;
+  color?: string | undefined;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  is_archived?: boolean | undefined;
+  name?: string | undefined;
 }
 export type OrgEditTeamRequestPermission = "read" | "write" | "admin";
 export type OrgEditTeamRequestUnitsList = Array<string>;
@@ -616,19 +616,19 @@ export type OrgEditTeamRequestUnitsMapMap = { [key: string]: string | undefined 
 export interface OrgEditTeamRequest {
   /** id of the team to edit */
   id: number;
-  can_create_org_repo?: boolean;
-  description?: string;
-  includes_all_repositories?: boolean;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  permission?: OrgEditTeamRequestPermission | (string & {});
-  units?: OrgEditTeamRequestUnitsList;
-  units_map?: OrgEditTeamRequestUnitsMapMap;
+  permission?: OrgEditTeamRequestPermission | (string & {}) | undefined;
+  units?: OrgEditTeamRequestUnitsList | undefined;
+  units_map?: OrgEditTeamRequestUnitsMapMap | undefined;
 }
 export interface OrgGetAllRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgGetAllResponseBodyList = Array<Organization>;
 export type OrgGetAllResponse = OrgGetAllResponseBodyList;
@@ -653,68 +653,68 @@ export type QuotaRuleInfoSubjectsList = Array<string>;
 /** QuotaRuleInfo contains information about a quota rule */
 export interface QuotaRuleInfo {
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the rule (only shown to admins) */
-  name?: string;
+  name?: string | undefined;
   /** Subjects the rule affects */
-  subjects?: QuotaRuleInfoSubjectsList;
+  subjects?: QuotaRuleInfoSubjectsList | undefined;
 }
 /** Rules associated with the group */
 export type QuotaGroupRulesList = Array<QuotaRuleInfo>;
 /** QuotaGroup represents a quota group */
 export interface QuotaGroup {
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Rules associated with the group */
-  rules?: QuotaGroupRulesList;
+  rules?: QuotaGroupRulesList | undefined;
 }
 /** QuotaGroupList represents a list of quota groups */
 export type QuotaGroupList = Array<QuotaGroup>;
 /** QuotaUsedSizeAssetsAttachments represents the size-based attachment quota usage of a user */
 export interface QuotaUsedSizeAssetsAttachments {
   /** Storage size used for the user's issue & comment attachments */
-  issues?: number;
+  issues?: number | undefined;
   /** Storage size used for the user's release attachments */
-  releases?: number;
+  releases?: number | undefined;
 }
 /** QuotaUsedSizeAssetsPackages represents the size-based package quota usage of a user */
 export interface QuotaUsedSizeAssetsPackages {
   /** Storage suze used for the user's packages */
-  all?: number;
+  all?: number | undefined;
 }
 /** QuotaUsedSizeAssets represents the size-based asset usage of a user */
 export interface QuotaUsedSizeAssets {
   /** Storage size used for the user's artifacts */
-  artifacts?: number;
-  attachments?: QuotaUsedSizeAssetsAttachments;
-  packages?: QuotaUsedSizeAssetsPackages;
+  artifacts?: number | undefined;
+  attachments?: QuotaUsedSizeAssetsAttachments | undefined;
+  packages?: QuotaUsedSizeAssetsPackages | undefined;
 }
 /** QuotaUsedSizeGit represents the size-based git (lfs) quota usage of a user */
 export interface QuotaUsedSizeGit {
   /** Storage size of the user's Git LFS objects */
-  LFS?: number;
+  LFS?: number | undefined;
 }
 /** QuotaUsedSizeRepos represents the size-based repository quota usage of a user */
 export interface QuotaUsedSizeRepos {
   /** Storage size of the user's private repositories */
-  private?: number;
+  private?: number | undefined;
   /** Storage size of the user's public repositories */
-  public?: number;
+  public?: number | undefined;
 }
 /** QuotaUsedSize represents the size-based quota usage of a user */
 export interface QuotaUsedSize {
-  assets?: QuotaUsedSizeAssets;
-  git?: QuotaUsedSizeGit;
-  repos?: QuotaUsedSizeRepos;
+  assets?: QuotaUsedSizeAssets | undefined;
+  git?: QuotaUsedSizeGit | undefined;
+  repos?: QuotaUsedSizeRepos | undefined;
 }
 /** QuotaUsed represents the quota usage of a user */
 export interface QuotaUsed {
-  size?: QuotaUsedSize;
+  size?: QuotaUsedSize | undefined;
 }
 /** QuotaInfo represents information about a user's quota */
 export interface QuotaInfo {
-  groups?: QuotaGroupList;
-  used?: QuotaUsed;
+  groups?: QuotaGroupList | undefined;
+  used?: QuotaUsed | undefined;
 }
 export interface OrgGetTeamRequest {
   /** id of the team to get */
@@ -728,11 +728,11 @@ export interface OrgGetUserPermissionsRequest {
 }
 /** OrganizationPermissions list different users permissions on an organization */
 export interface OrganizationPermissions {
-  can_create_repository?: boolean;
-  can_read?: boolean;
-  can_write?: boolean;
-  is_admin?: boolean;
-  is_owner?: boolean;
+  can_create_repository?: boolean | undefined;
+  can_read?: boolean | undefined;
+  can_write?: boolean | undefined;
+  is_admin?: boolean | undefined;
+  is_owner?: boolean | undefined;
 }
 export interface OrgIsMemberRequest {
   /** name of the organization */
@@ -752,9 +752,9 @@ export interface OrgListActionsSecretsRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Secret represents a secret */
 export interface Secret {
@@ -768,49 +768,49 @@ export interface OrgListActivityFeedsRequest {
   /** name of the org */
   org: string;
   /** the date of the activities to be found */
-  date?: string;
+  date?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AttachmentType = "attachment" | "external";
 /** Attachment a generic attachment */
 export interface Attachment {
-  browser_download_url?: string;
-  created_at?: string;
-  download_count?: number;
-  id?: number;
-  name?: string;
-  size?: number;
-  type?: AttachmentType;
-  uuid?: string;
+  browser_download_url?: string | undefined;
+  created_at?: string | undefined;
+  download_count?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  type?: AttachmentType | undefined;
+  uuid?: string | undefined;
 }
 /** The attachments to the comment */
 export type CommentAssetsList = Array<Attachment>;
 /** Comment represents a comment on a commit or issue */
 export interface Comment {
   /** The attachments to the comment */
-  assets?: CommentAssetsList;
+  assets?: CommentAssetsList | undefined;
   /** The body of the comment */
-  body?: string;
+  body?: string | undefined;
   /** The time of the comment's creation */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The HTML URL of the comment */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The identifier of the comment */
-  id?: number;
+  id?: number | undefined;
   /** The HTML URL of the issue if the comment is posted on an issue, else empty string */
-  issue_url?: string;
+  issue_url?: string | undefined;
   /** The original author that posted the comment if it was not posted locally, else empty string */
-  original_author?: string;
+  original_author?: string | undefined;
   /** The ID of the original author that posted the comment if it was not posted locally, else 0 */
-  original_author_id?: number;
+  original_author_id?: number | undefined;
   /** The HTML URL of the pull request if the comment is posted on a pull request, else empty string */
-  pull_request_url?: string;
+  pull_request_url?: string | undefined;
   /** The time of the comment's update */
-  updated_at?: string;
-  user?: User;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 /** the type of action */
 export type ActivityOpType =
@@ -842,20 +842,20 @@ export type ActivityOpType =
   | "pull_request_ready_for_review"
   | "auto_merge_pull_request";
 export interface Activity {
-  act_user?: User;
-  act_user_id?: number;
-  comment?: Comment;
-  comment_id?: number;
-  content?: string;
-  created?: string;
-  id?: number;
-  is_private?: boolean;
+  act_user?: User | undefined;
+  act_user_id?: number | undefined;
+  comment?: Comment | undefined;
+  comment_id?: number | undefined;
+  content?: string | undefined;
+  created?: string | undefined;
+  id?: number | undefined;
+  is_private?: boolean | undefined;
   /** the type of action */
-  op_type?: ActivityOpType;
-  ref_name?: string;
-  repo?: Repository;
-  repo_id?: number;
-  user_id?: number;
+  op_type?: ActivityOpType | undefined;
+  ref_name?: string | undefined;
+  repo?: Repository | undefined;
+  repo_id?: number | undefined;
+  user_id?: number | undefined;
 }
 export type OrgListActivityFeedsResponseBodyList = Array<Activity>;
 export type OrgListActivityFeedsResponse = OrgListActivityFeedsResponseBodyList;
@@ -863,21 +863,21 @@ export interface OrgListBlockedUsersRequest {
   /** name of the org */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface BlockedUser {
-  block_id?: number;
-  created_at?: string;
+  block_id?: number | undefined;
+  created_at?: string | undefined;
 }
 export type OrgListBlockedUsersResponseBodyList = Array<BlockedUser>;
 export type OrgListBlockedUsersResponse = OrgListBlockedUsersResponseBodyList;
 export interface OrgListCurrentUserOrgsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListCurrentUserOrgsResponseBodyList = Array<Organization>;
 export type OrgListCurrentUserOrgsResponse = OrgListCurrentUserOrgsResponseBodyList;
@@ -885,9 +885,9 @@ export interface OrgListHooksRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListHooksResponseBodyList = Array<Hook>;
 export type OrgListHooksResponse = OrgListHooksResponseBodyList;
@@ -896,11 +896,11 @@ export interface OrgListLabelsRequest {
   /** name of the organization */
   org: string;
   /** Specifies the sorting method: mostissues, leastissues, or reversealphabetically. */
-  sort?: OrgListLabelsRequestSort | (string & {});
+  sort?: OrgListLabelsRequestSort | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListLabelsResponseBodyList = Array<Label>;
 export type OrgListLabelsResponse = OrgListLabelsResponseBodyList;
@@ -908,9 +908,9 @@ export interface OrgListMembersRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListMembersResponseBodyList = Array<User>;
 export type OrgListMembersResponse = OrgListMembersResponseBodyList;
@@ -918,9 +918,9 @@ export interface OrgListPublicMembersRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListPublicMembersResponseBodyList = Array<User>;
 export type OrgListPublicMembersResponse = OrgListPublicMembersResponseBodyList;
@@ -928,18 +928,18 @@ export interface OrgListQuotaArtifactsRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** QuotaUsedArtifact represents an artifact counting towards a user's quota */
 export interface QuotaUsedArtifact {
   /** HTML URL to the action run containing the artifact */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Name of the artifact */
-  name?: string;
+  name?: string | undefined;
   /** Size of the artifact (compressed) */
-  size?: number;
+  size?: number | undefined;
 }
 /** QuotaUsedArtifactList represents a list of artifacts counting towards a user's quota */
 export type QuotaUsedArtifactList = Array<QuotaUsedArtifact>;
@@ -948,27 +948,27 @@ export interface OrgListQuotaAttachmentsRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Context for the attachment: URLs to the containing object */
 export interface QuotaUsedAttachmentContainedIn {
   /** API URL for the object that contains this attachment */
-  api_url?: string;
+  api_url?: string | undefined;
   /** HTML URL for the object that contains this attachment */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** QuotaUsedAttachment represents an attachment counting towards a user's quota */
 export interface QuotaUsedAttachment {
   /** API URL for the attachment */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Context for the attachment: URLs to the containing object */
-  contained_in?: QuotaUsedAttachmentContainedIn;
+  contained_in?: QuotaUsedAttachmentContainedIn | undefined;
   /** Filename of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** Size of the attachment (in bytes) */
-  size?: number;
+  size?: number | undefined;
 }
 /** QuotaUsedAttachmentList represents a list of attachment counting towards a user's quota */
 export type QuotaUsedAttachmentList = Array<QuotaUsedAttachment>;
@@ -977,22 +977,22 @@ export interface OrgListQuotaPackagesRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** QuotaUsedPackage represents a package counting towards a user's quota */
 export interface QuotaUsedPackage {
   /** HTML URL to the package version */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Name of the package */
-  name?: string;
+  name?: string | undefined;
   /** Size of the package version */
-  size?: number;
+  size?: number | undefined;
   /** Type of the package */
-  type?: string;
+  type?: string | undefined;
   /** Version of the package */
-  version?: string;
+  version?: string | undefined;
 }
 /** QuotaUsedPackageList represents a list of packages counting towards a user's quota */
 export type QuotaUsedPackageList = Array<QuotaUsedPackage>;
@@ -1001,9 +1001,9 @@ export interface OrgListReposRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListReposResponseBodyList = Array<Repository>;
 export type OrgListReposResponse = OrgListReposResponseBodyList;
@@ -1011,11 +1011,11 @@ export interface OrgListTeamActivityFeedsRequest {
   /** id of the team */
   id: number;
   /** the date of the activities to be found */
-  date?: string;
+  date?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListTeamActivityFeedsResponseBodyList = Array<Activity>;
 export type OrgListTeamActivityFeedsResponse = OrgListTeamActivityFeedsResponseBodyList;
@@ -1029,9 +1029,9 @@ export interface OrgListTeamMembersRequest {
   /** id of the team */
   id: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListTeamMembersResponseBodyList = Array<User>;
 export type OrgListTeamMembersResponse = OrgListTeamMembersResponseBodyList;
@@ -1047,9 +1047,9 @@ export interface OrgListTeamReposRequest {
   /** id of the team */
   id: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListTeamReposResponseBodyList = Array<Repository>;
 export type OrgListTeamReposResponse = OrgListTeamReposResponseBodyList;
@@ -1057,9 +1057,9 @@ export interface OrgListTeamsRequest {
   /** name of the organization */
   org: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListTeamsResponseBodyList = Array<Team>;
 export type OrgListTeamsResponse = OrgListTeamsResponseBodyList;
@@ -1067,9 +1067,9 @@ export interface OrgListUserOrgsRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgListUserOrgsResponseBodyList = Array<Organization>;
 export type OrgListUserOrgsResponse = OrgListUserOrgsResponseBodyList;
@@ -1100,7 +1100,7 @@ export interface OrgSearchRunJobsRequest {
   /** name of the organization */
   org: string;
   /** a comma separated list of run job labels to search for */
-  labels?: string;
+  labels?: string | undefined;
 }
 /** the action run job needed ids */
 export type ActionRunJobNeedsList = Array<string>;
@@ -1109,27 +1109,27 @@ export type ActionRunJobRunsOnList = Array<string>;
 /** ActionRunJob represents a job of a run */
 export interface ActionRunJob {
   /** How many times the job has been attempted including the current attempt. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Opaque identifier that uniquely identifies a single attempt of a job. */
-  handle?: string;
+  handle?: string | undefined;
   /** Identifier of this job. */
-  id?: number;
+  id?: number | undefined;
   /** the action run job name */
-  name?: string;
+  name?: string | undefined;
   /** the action run job needed ids */
-  needs?: ActionRunJobNeedsList;
+  needs?: ActionRunJobNeedsList | undefined;
   /** the owner id */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository id */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Identifier of the workflow run this job belongs to. */
-  run_id?: number;
+  run_id?: number | undefined;
   /** the action run job labels to run on */
-  runs_on?: ActionRunJobRunsOnList;
+  runs_on?: ActionRunJobRunsOnList | undefined;
   /** the action run job status */
-  status?: string;
+  status?: string | undefined;
   /** the action run job latest task id */
-  task_id?: number;
+  task_id?: number | undefined;
 }
 export type OrgSearchRunJobsResponseBodyList = Array<ActionRunJob>;
 export type OrgSearchRunJobsResponse = OrgSearchRunJobsResponseBodyList;
@@ -1144,23 +1144,23 @@ export interface OrgUpdateAvatarRequest {
   /** name of the organization */
   org: string;
   /** image must be base64 encoded */
-  image?: string;
+  image?: string | undefined;
 }
 export interface OrgUpdateAvatarResponse {}
 export interface RegisterOrgRunnerRequest {
   /** name of the organization */
   org: string;
   /** Description of the runner to register. */
-  description?: string;
+  description?: string | undefined;
   /** Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** Name of the runner to register. The name of the runner does not have to be unique. */
   name: string;
 }
 export interface RegisterRunnerResponse {
-  id?: number;
-  token?: string;
-  uuid?: string;
+  id?: number | undefined;
+  token?: string | undefined;
+  uuid?: string | undefined;
 }
 export interface RenameOrgRequest {
   /** existing org name */
@@ -1173,18 +1173,18 @@ export interface SearchTeamRequest {
   /** name of the organization */
   org: string;
   /** keywords to search */
-  q?: string;
+  q?: string | undefined;
   /** include search within team description (defaults to true) */
-  include_desc?: boolean;
+  include_desc?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SearchTeamResponseDataList = Array<Team>;
 export interface SearchTeamResponse {
-  data?: SearchTeamResponseDataList;
-  ok?: boolean;
+  data?: SearchTeamResponseDataList | undefined;
+  ok?: boolean | undefined;
 }
 export interface UpdateOrgSecretRequest {
   /** name of organization */
@@ -1201,7 +1201,7 @@ export interface UpdateOrgVariableRequest {
   /** name of the variable */
   variablename: string;
   /** New name for the variable. If the field is empty, the variable name won't be updated. Forgejo will convert it to uppercase. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the variable to update. Special characters will be retained. Line endings will be normalized to LF to match the behaviour of browsers. Encode the data with Base64 if line endings should be retained. */
   value: string;
 }

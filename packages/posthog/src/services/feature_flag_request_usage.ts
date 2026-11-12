@@ -32,7 +32,7 @@ export interface ListFeatureFlagRequestUsageRequest {
   /** Exclusive end of the usage period. */
   date_to: string;
   /** Time bucket used to group request usage. Hourly queries are limited to 8 days. * `hour` - hour * `day` - day */
-  time_interval?: ListFeatureFlagRequestUsageRequestTimeInterval | (string & {});
+  time_interval?: ListFeatureFlagRequestUsageRequestTimeInterval | (string & {}) | undefined;
 }
 /** * `remote_evaluation` - remote_evaluation * `local_evaluation` - local_evaluation */
 export type FeatureFlagRequestTypeEnum = "remote_evaluation" | "local_evaluation";
@@ -45,7 +45,7 @@ export interface FeatureFlagRequestUsageItem {
   sdk: string;
   /** Number of billable requests in this bucket. */
   request_count: number;
-  /** Estimated billing units. Local evaluation requests count as 10 units each. */
+  /** Estimated billing units. Local evaluation requests count as 10 units each, except 304 Not Modified responses, which count as 1. */
   billing_units: number;
 }
 /** Feature flag request usage by SDK. */

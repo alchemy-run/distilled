@@ -135,15 +135,15 @@ export interface CreateExperienceRequest {
   /** The unique identifier of the app that powers this experience. */
   app_id: string;
   /** Whether the experience is publicly accessible without a membership. */
-  is_public?: boolean | null;
+  is_public?: boolean | null | undefined;
   /** A logo image displayed alongside the experience name. */
-  logo?: CreateExperienceRequestLogo | null;
+  logo?: CreateExperienceRequestLogo | null | undefined;
   /** The display name of the experience. Defaults to the app's name if not provided. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this experience. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The unique identifier of the section to place the experience in. */
-  section_id?: string | null;
+  section_id?: string | null | undefined;
 }
 export interface DeleteExperienceRequest {
   /** The unique identifier of the experience to delete. */
@@ -160,21 +160,21 @@ export interface DuplicateExperienceRequest {
   /** The unique identifier of the experience to duplicate. */
   id: string;
   /** The display name for the duplicated experience. Defaults to the original experience's name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetExperienceRequest {
   /** The unique identifier of the experience. */
   id: string;
 }
 export interface ListExperienceRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  product_id?: string;
-  app_id?: string;
-  created_before?: string;
-  created_after?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  product_id?: string | undefined;
+  app_id?: string | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
   account_id: string;
 }
 /** The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app. */
@@ -231,19 +231,19 @@ export interface UpdateExperienceRequest {
   /** The unique identifier of the experience to update. */
   id: string;
   /** The access level of the experience. */
-  access_level?: ExperienceAccessLevels | (string & {}) | null;
+  access_level?: ExperienceAccessLevels | (string & {}) | null | undefined;
   /** Whether the experience is publicly accessible without a membership. */
-  is_public?: boolean | null;
+  is_public?: boolean | null | undefined;
   /** A logo image displayed alongside the experience name. */
-  logo?: CreateExperienceRequestLogo | null;
+  logo?: CreateExperienceRequestLogo | null | undefined;
   /** The display name of the experience. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this experience. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The position of the experience within its section for display ordering. */
-  order?: string | null;
+  order?: string | null | undefined;
   /** The unique identifier of the section to move the experience into. */
-  section_id?: string | null;
+  section_id?: string | null | undefined;
 }
 export type AttachExperienceError =
   | BadRequest

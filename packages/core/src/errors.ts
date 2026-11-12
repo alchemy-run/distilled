@@ -147,6 +147,14 @@ export { ConfigError } from "./config.ts";
 // with it without importing every class in this module.
 export { InvalidInput } from "./protocol-http.ts";
 
+// Defined in the `base` bundle group (`sdk-error.ts`), with pagination and
+// the operation runtime that fail with it.
+export { SdkError } from "./sdk-error.ts";
+
+// Defined in the `base` bundle group (`unknown-error.ts`), so AWS spreads
+// them without importing the REST modules.
+export { UnknownErrorFields, type UnknownErrorProps } from "./unknown-error.ts";
+
 // ============================================================================
 // Error Maps
 // ============================================================================

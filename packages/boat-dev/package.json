@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/boat-dev",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.19",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -38,6 +38,12 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./Login": {
+      "types": "./lib/login.d.ts",
+      "bun": "./src/login.ts",
+      "worker": "./src/login.ts",
+      "default": "./lib/login.js"
     },
     "./Pagination": {
       "types": "./lib/pagination.d.ts",
@@ -84,7 +90,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-22"
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-08"
   }
 }

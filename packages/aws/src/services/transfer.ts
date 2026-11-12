@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -173,7 +174,7 @@ export type MapType = "FILE" | "DIRECTORY" | (string & {});
 export interface HomeDirectoryMapEntry {
   Entry: string;
   Target: string;
-  Type?: MapType;
+  Type?: MapType | undefined;
 }
 export type HomeDirectoryMappings = HomeDirectoryMapEntry[];
 export type Policy = string;
@@ -182,17 +183,17 @@ export type SecondaryGids = number[];
 export interface PosixProfile {
   Uid: number;
   Gid: number;
-  SecondaryGids?: number[];
+  SecondaryGids?: number[] | undefined;
 }
 export type Role = string;
 export type ServerId = string;
 export type ExternalId = string;
 export interface CreateAccessRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
   Role: string;
   ServerId: string;
   ExternalId: string;
@@ -221,17 +222,17 @@ export interface CustomDirectoriesType {
   TemporaryFilesDirectory: string;
 }
 export interface CreateAgreementRequest {
-  Description?: string;
+  Description?: string | undefined;
   ServerId: string;
   LocalProfileId: string;
   PartnerProfileId: string;
-  BaseDirectory?: string;
+  BaseDirectory?: string | undefined;
   AccessRole: string;
-  Status?: AgreementStatusType;
-  Tags?: Tag[];
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  Status?: AgreementStatusType | undefined;
+  Tags?: Tag[] | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export type AgreementId = string;
 export interface CreateAgreementResponse {
@@ -261,21 +262,21 @@ export type As2ConnectorSecretId = string;
 export type PreserveContentType = "ENABLED" | "DISABLED" | (string & {});
 export type As2AsyncMdnServerIds = string[];
 export interface As2AsyncMdnConnectorConfig {
-  Url?: string;
-  ServerIds?: string[];
+  Url?: string | undefined;
+  ServerIds?: string[] | undefined;
 }
 export interface As2ConnectorConfig {
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  MessageSubject?: string | redacted.Redacted<string>;
-  Compression?: CompressionEnum;
-  EncryptionAlgorithm?: EncryptionAlg;
-  SigningAlgorithm?: SigningAlg;
-  MdnSigningAlgorithm?: MdnSigningAlg;
-  MdnResponse?: MdnResponse;
-  BasicAuthSecretId?: string;
-  PreserveContentType?: PreserveContentType;
-  AsyncMdnConfig?: As2AsyncMdnConnectorConfig;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  MessageSubject?: string | redacted.Redacted<string> | undefined;
+  Compression?: CompressionEnum | undefined;
+  EncryptionAlgorithm?: EncryptionAlg | undefined;
+  SigningAlgorithm?: SigningAlg | undefined;
+  MdnSigningAlgorithm?: MdnSigningAlg | undefined;
+  MdnResponse?: MdnResponse | undefined;
+  BasicAuthSecretId?: string | undefined;
+  PreserveContentType?: PreserveContentType | undefined;
+  AsyncMdnConfig?: As2AsyncMdnConnectorConfig | undefined;
 }
 export type SecretId = string;
 export type SftpConnectorTrustedHostKey = string;
@@ -284,30 +285,30 @@ export type MaxConcurrentConnections = number;
 export type SecretVersionStage = string;
 export type SecretVersionStageList = string[];
 export interface SftpConnectorConfig {
-  UserSecretId?: string;
-  TrustedHostKeys?: string[];
-  MaxConcurrentConnections?: number;
-  OrderedUserSecretVersionStages?: string[];
+  UserSecretId?: string | undefined;
+  TrustedHostKeys?: string[] | undefined;
+  MaxConcurrentConnections?: number | undefined;
+  OrderedUserSecretVersionStages?: string[] | undefined;
 }
 export type ConnectorSecurityPolicyName = string;
 export type VpcLatticeResourceConfigurationArn = string;
 export type SftpPort = number;
 export interface ConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
-  PortNumber?: number;
+  PortNumber?: number | undefined;
 }
 export type ConnectorEgressConfig = { VpcLattice: ConnectorVpcLatticeEgressConfig };
 export type ConnectorsIpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export interface CreateConnectorRequest {
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
   AccessRole: string;
-  LoggingRole?: string;
-  Tags?: Tag[];
-  SftpConfig?: SftpConnectorConfig;
-  SecurityPolicyName?: string;
-  EgressConfig?: ConnectorEgressConfig;
-  IpAddressType?: ConnectorsIpAddressType;
+  LoggingRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: ConnectorEgressConfig | undefined;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export type ConnectorId = string;
 export interface CreateConnectorResponse {
@@ -320,8 +321,8 @@ export type CertificateIds = string[];
 export interface CreateProfileRequest {
   As2Id: string;
   ProfileType: ProfileType;
-  CertificateIds?: string[];
-  Tags?: Tag[];
+  CertificateIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProfileResponse {
   ProfileId: string;
@@ -337,11 +338,11 @@ export type VpcId = string;
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export interface EndpointDetails {
-  AddressAllocationIds?: string[];
-  SubnetIds?: string[];
-  VpcEndpointId?: string;
-  VpcId?: string;
-  SecurityGroupIds?: string[];
+  AddressAllocationIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  VpcEndpointId?: string | undefined;
+  VpcId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type EndpointType = "PUBLIC" | "VPC" | "VPC_ENDPOINT" | (string & {});
 export type HostKey = string | redacted.Redacted<string>;
@@ -353,11 +354,11 @@ export type SftpAuthenticationMethods =
   | "PUBLIC_KEY_AND_PASSWORD"
   | (string & {});
 export interface IdentityProviderDetails {
-  Url?: string;
-  InvocationRole?: string;
-  DirectoryId?: string;
-  Function?: string;
-  SftpAuthenticationMethods?: SftpAuthenticationMethods;
+  Url?: string | undefined;
+  InvocationRole?: string | undefined;
+  DirectoryId?: string | undefined;
+  Function?: string | undefined;
+  SftpAuthenticationMethods?: SftpAuthenticationMethods | undefined;
 }
 export type IdentityProviderType =
   | "SERVICE_MANAGED"
@@ -376,22 +377,22 @@ export type SetStatOption = "DEFAULT" | "ENABLE_NO_OP" | (string & {});
 export type CommunicationMode = "CLIENT_TALK_FIRST" | "SERVER_TALK_FIRST" | (string & {});
 export interface SftpPortWithOptions {
   SftpPort: number;
-  CommunicationMode?: CommunicationMode;
+  CommunicationMode?: CommunicationMode | undefined;
 }
 export type SftpPorts = SftpPortWithOptions[];
 export type As2Transport = "HTTP" | (string & {});
 export type As2Transports = As2Transport[];
 export type ProxyMode = "NONE" | "PROXY_PROTOCOL_V2_ENFORCED" | (string & {});
 export interface ProxyConfig {
-  SftpMode?: ProxyMode;
+  SftpMode?: ProxyMode | undefined;
 }
 export interface ProtocolDetails {
-  PassiveIp?: string;
-  TlsSessionResumptionMode?: TlsSessionResumptionMode;
-  SetStatOption?: SetStatOption;
-  SftpPorts?: SftpPortWithOptions[];
-  As2Transports?: As2Transport[];
-  ProxyConfig?: ProxyConfig;
+  PassiveIp?: string | undefined;
+  TlsSessionResumptionMode?: TlsSessionResumptionMode | undefined;
+  SetStatOption?: SetStatOption | undefined;
+  SftpPorts?: SftpPortWithOptions[] | undefined;
+  As2Transports?: As2Transport[] | undefined;
+  ProxyConfig?: ProxyConfig | undefined;
 }
 export type SecurityPolicyName = string;
 export type WorkflowId = string;
@@ -402,35 +403,37 @@ export interface WorkflowDetail {
 export type OnUploadWorkflowDetails = WorkflowDetail[];
 export type OnPartialUploadWorkflowDetails = WorkflowDetail[];
 export interface WorkflowDetails {
-  OnUpload?: WorkflowDetail[];
-  OnPartialUpload?: WorkflowDetail[];
+  OnUpload?: WorkflowDetail[] | undefined;
+  OnPartialUpload?: WorkflowDetail[] | undefined;
 }
 export type Arn = string;
 export type StructuredLogDestinations = string[];
 export type DirectoryListingOptimization = "ENABLED" | "DISABLED" | (string & {});
 export interface S3StorageOptions {
-  DirectoryListingOptimization?: DirectoryListingOptimization;
+  DirectoryListingOptimization?: DirectoryListingOptimization | undefined;
 }
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
+export type HostKeyStorageType = "SERVICE_MANAGED" | "SECRETS_MANAGER" | (string & {});
 export interface CreateServerRequest {
-  Certificate?: string;
-  Domain?: Domain;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKey?: string | redacted.Redacted<string>;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: IdentityProviderType;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  ProtocolDetails?: ProtocolDetails;
-  SecurityPolicyName?: string;
-  Tags?: Tag[];
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: IpAddressType;
+  Certificate?: string | undefined;
+  Domain?: Domain | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKey?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  SecurityPolicyName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  HostKeyStorageType?: HostKeyStorageType | undefined;
 }
 export interface CreateServerResponse {
   ServerId: string;
@@ -438,15 +441,15 @@ export interface CreateServerResponse {
 export type SshPublicKeyBody = string;
 export type UserName = string;
 export interface CreateUserRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
   Role: string;
   ServerId: string;
-  SshPublicKeyBody?: string;
-  Tags?: Tag[];
+  SshPublicKeyBody?: string | undefined;
+  Tags?: Tag[] | undefined;
   UserName: string;
 }
 export interface CreateUserResponse {
@@ -455,8 +458,8 @@ export interface CreateUserResponse {
 }
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenterConfig {
-  InstanceArn?: string;
-  Role?: string;
+  InstanceArn?: string | undefined;
+  Role?: string | undefined;
 }
 export type WebAppIdentityProviderDetails = { IdentityCenterConfig: IdentityCenterConfig };
 export type WebAppAccessEndpoint = string;
@@ -465,19 +468,19 @@ export type WebAppUnits = { Provisioned: number };
 export type WebAppEndpointPolicy = "FIPS" | "STANDARD" | (string & {});
 export type WebAppVpcEndpointIpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export interface WebAppVpcConfig {
-  SubnetIds?: string[];
-  VpcId?: string;
-  SecurityGroupIds?: string[];
-  IpAddressType?: WebAppVpcEndpointIpAddressType;
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  IpAddressType?: WebAppVpcEndpointIpAddressType | undefined;
 }
 export type WebAppEndpointDetails = { Vpc: WebAppVpcConfig };
 export interface CreateWebAppRequest {
   IdentityProviderDetails: WebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  Tags?: Tag[];
-  WebAppEndpointPolicy?: WebAppEndpointPolicy;
-  EndpointDetails?: WebAppEndpointDetails;
+  AccessEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  Tags?: Tag[] | undefined;
+  WebAppEndpointPolicy?: WebAppEndpointPolicy | undefined;
+  EndpointDetails?: WebAppEndpointDetails | undefined;
 }
 export type WebAppId = string;
 export interface CreateWebAppResponse {
@@ -489,38 +492,38 @@ export type WorkflowStepName = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3InputFileLocation {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export type EfsFileSystemId = string;
 export type EfsPath = string;
 export interface EfsFileLocation {
-  FileSystemId?: string;
-  Path?: string;
+  FileSystemId?: string | undefined;
+  Path?: string | undefined;
 }
 export interface InputFileLocation {
-  S3FileLocation?: S3InputFileLocation;
-  EfsFileLocation?: EfsFileLocation;
+  S3FileLocation?: S3InputFileLocation | undefined;
+  EfsFileLocation?: EfsFileLocation | undefined;
 }
 export type OverwriteExisting = "TRUE" | "FALSE" | (string & {});
 export type SourceFileLocation = string;
 export interface CopyStepDetails {
-  Name?: string;
-  DestinationFileLocation?: InputFileLocation;
-  OverwriteExisting?: OverwriteExisting;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  DestinationFileLocation?: InputFileLocation | undefined;
+  OverwriteExisting?: OverwriteExisting | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type CustomStepTarget = string;
 export type CustomStepTimeoutSeconds = number;
 export interface CustomStepDetails {
-  Name?: string;
-  Target?: string;
-  TimeoutSeconds?: number;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  Target?: string | undefined;
+  TimeoutSeconds?: number | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export interface DeleteStepDetails {
-  Name?: string;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type S3TagKey = string;
 export type S3TagValue = string;
@@ -530,33 +533,33 @@ export interface S3Tag {
 }
 export type S3Tags = S3Tag[];
 export interface TagStepDetails {
-  Name?: string;
-  Tags?: S3Tag[];
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  Tags?: S3Tag[] | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type EncryptionType = "PGP" | (string & {});
 export interface DecryptStepDetails {
-  Name?: string;
+  Name?: string | undefined;
   Type: EncryptionType;
-  SourceFileLocation?: string;
-  OverwriteExisting?: OverwriteExisting;
+  SourceFileLocation?: string | undefined;
+  OverwriteExisting?: OverwriteExisting | undefined;
   DestinationFileLocation: InputFileLocation;
 }
 export interface WorkflowStep {
-  Type?: WorkflowStepType;
-  CopyStepDetails?: CopyStepDetails;
-  CustomStepDetails?: CustomStepDetails;
-  DeleteStepDetails?: DeleteStepDetails;
-  TagStepDetails?: TagStepDetails;
-  DecryptStepDetails?: DecryptStepDetails;
+  Type?: WorkflowStepType | undefined;
+  CopyStepDetails?: CopyStepDetails | undefined;
+  CustomStepDetails?: CustomStepDetails | undefined;
+  DeleteStepDetails?: DeleteStepDetails | undefined;
+  TagStepDetails?: TagStepDetails | undefined;
+  DecryptStepDetails?: DecryptStepDetails | undefined;
 }
 export type WorkflowSteps = WorkflowStep[];
 export interface CreateWorkflowRequest {
-  Description?: string;
+  Description?: string | undefined;
   Steps: WorkflowStep[];
-  OnExceptionSteps?: WorkflowStep[];
-  Tags?: Tag[];
-  StructuredLogDestinations?: string[];
+  OnExceptionSteps?: WorkflowStep[] | undefined;
+  Tags?: Tag[] | undefined;
+  StructuredLogDestinations?: string[] | undefined;
 }
 export interface CreateWorkflowResponse {
   WorkflowId: string;
@@ -622,13 +625,13 @@ export interface DescribeAccessRequest {
   ExternalId: string;
 }
 export interface DescribedAccess {
-  HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  HomeDirectoryType?: HomeDirectoryType;
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
-  ExternalId?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
+  ExternalId?: string | undefined;
 }
 export interface DescribeAccessResponse {
   ServerId: string;
@@ -640,18 +643,18 @@ export interface DescribeAgreementRequest {
 }
 export interface DescribedAgreement {
   Arn: string;
-  AgreementId?: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  ServerId?: string;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  BaseDirectory?: string;
-  AccessRole?: string;
-  Tags?: Tag[];
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  AgreementId?: string | undefined;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  ServerId?: string | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  BaseDirectory?: string | undefined;
+  AccessRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export interface DescribeAgreementResponse {
   Agreement: DescribedAgreement;
@@ -668,19 +671,19 @@ export type CertSerial = string;
 export type CertificateType = "CERTIFICATE" | "CERTIFICATE_WITH_PRIVATE_KEY" | (string & {});
 export interface DescribedCertificate {
   Arn: string;
-  CertificateId?: string;
-  Usage?: CertificateUsageType;
-  Status?: CertificateStatusType;
-  Certificate?: string | redacted.Redacted<string>;
-  CertificateChain?: string | redacted.Redacted<string>;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Serial?: string;
-  NotBeforeDate?: Date;
-  NotAfterDate?: Date;
-  Type?: CertificateType;
-  Description?: string;
-  Tags?: Tag[];
+  CertificateId?: string | undefined;
+  Usage?: CertificateUsageType | undefined;
+  Status?: CertificateStatusType | undefined;
+  Certificate?: string | redacted.Redacted<string> | undefined;
+  CertificateChain?: string | redacted.Redacted<string> | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Serial?: string | undefined;
+  NotBeforeDate?: Date | undefined;
+  NotAfterDate?: Date | undefined;
+  Type?: CertificateType | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeCertificateResponse {
   Certificate: DescribedCertificate;
@@ -692,7 +695,7 @@ export type ServiceManagedEgressIpAddress = string;
 export type ServiceManagedEgressIpAddresses = string[];
 export interface DescribedConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
-  PortNumber?: number;
+  PortNumber?: number | undefined;
 }
 export type DescribedConnectorEgressConfig = {
   VpcLattice: DescribedConnectorVpcLatticeEgressConfig;
@@ -702,20 +705,20 @@ export type ConnectorErrorMessage = string;
 export type ConnectorStatus = "ACTIVE" | "ERRORED" | "PENDING" | (string & {});
 export interface DescribedConnector {
   Arn: string;
-  ConnectorId?: string;
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
-  AccessRole?: string;
-  LoggingRole?: string;
-  Tags?: Tag[];
-  SftpConfig?: SftpConnectorConfig;
-  ServiceManagedEgressIpAddresses?: string[];
-  SecurityPolicyName?: string;
-  EgressConfig?: DescribedConnectorEgressConfig;
+  ConnectorId?: string | undefined;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
+  AccessRole?: string | undefined;
+  LoggingRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  ServiceManagedEgressIpAddresses?: string[] | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: DescribedConnectorEgressConfig | undefined;
   EgressType: ConnectorEgressType;
-  ErrorMessage?: string;
+  ErrorMessage?: string | undefined;
   Status: ConnectorStatus;
-  IpAddressType?: ConnectorsIpAddressType;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export interface DescribeConnectorResponse {
   Connector: DescribedConnector;
@@ -728,28 +731,28 @@ export interface DescribeExecutionRequest {
 export type S3VersionId = string;
 export type S3Etag = string;
 export interface S3FileLocation {
-  Bucket?: string;
-  Key?: string;
-  VersionId?: string;
-  Etag?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  Etag?: string | undefined;
 }
 export interface FileLocation {
-  S3FileLocation?: S3FileLocation;
-  EfsFileLocation?: EfsFileLocation;
+  S3FileLocation?: S3FileLocation | undefined;
+  EfsFileLocation?: EfsFileLocation | undefined;
 }
 export type SessionId = string;
 export interface UserDetails {
   UserName: string;
   ServerId: string;
-  SessionId?: string;
+  SessionId?: string | undefined;
 }
 export interface ServiceMetadata {
   UserDetails: UserDetails;
 }
 export type LogGroupName = string;
 export interface LoggingConfiguration {
-  LoggingRole?: string;
-  LogGroupName?: string;
+  LoggingRole?: string | undefined;
+  LogGroupName?: string | undefined;
 }
 export type ExecutionStatus =
   | "IN_PROGRESS"
@@ -774,24 +777,24 @@ export interface ExecutionError {
   Message: string;
 }
 export interface ExecutionStepResult {
-  StepType?: WorkflowStepType;
-  Outputs?: string;
-  Error?: ExecutionError;
+  StepType?: WorkflowStepType | undefined;
+  Outputs?: string | undefined;
+  Error?: ExecutionError | undefined;
 }
 export type ExecutionStepResults = ExecutionStepResult[];
 export interface ExecutionResults {
-  Steps?: ExecutionStepResult[];
-  OnExceptionSteps?: ExecutionStepResult[];
+  Steps?: ExecutionStepResult[] | undefined;
+  OnExceptionSteps?: ExecutionStepResult[] | undefined;
 }
 export interface DescribedExecution {
-  ExecutionId?: string;
-  InitialFileLocation?: FileLocation;
-  ServiceMetadata?: ServiceMetadata;
-  ExecutionRole?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  PosixProfile?: PosixProfile;
-  Status?: ExecutionStatus;
-  Results?: ExecutionResults;
+  ExecutionId?: string | undefined;
+  InitialFileLocation?: FileLocation | undefined;
+  ServiceMetadata?: ServiceMetadata | undefined;
+  ExecutionRole?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Status?: ExecutionStatus | undefined;
+  Results?: ExecutionResults | undefined;
 }
 export interface DescribeExecutionResponse {
   WorkflowId: string;
@@ -807,12 +810,14 @@ export type HostKeyType = string;
 export type DateImported = Date;
 export interface DescribedHostKey {
   Arn: string;
-  HostKeyId?: string;
-  HostKeyFingerprint?: string;
-  Description?: string;
-  Type?: string;
-  DateImported?: Date;
-  Tags?: Tag[];
+  HostKeyId?: string | undefined;
+  HostKeyFingerprint?: string | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  DateImported?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export interface DescribeHostKeyResponse {
   HostKey: DescribedHostKey;
@@ -822,11 +827,11 @@ export interface DescribeProfileRequest {
 }
 export interface DescribedProfile {
   Arn: string;
-  ProfileId?: string;
-  ProfileType?: ProfileType;
-  As2Id?: string;
-  CertificateIds?: string[];
-  Tags?: Tag[];
+  ProfileId?: string | undefined;
+  ProfileType?: ProfileType | undefined;
+  As2Id?: string | undefined;
+  CertificateIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeProfileResponse {
   Profile: DescribedProfile;
@@ -841,15 +846,15 @@ export type SecurityPolicyResourceType = "SERVER" | "CONNECTOR" | (string & {});
 export type SecurityPolicyProtocol = "SFTP" | "FTPS" | (string & {});
 export type SecurityPolicyProtocols = SecurityPolicyProtocol[];
 export interface DescribedSecurityPolicy {
-  Fips?: boolean;
+  Fips?: boolean | undefined;
   SecurityPolicyName: string;
-  SshCiphers?: string[];
-  SshKexs?: string[];
-  SshMacs?: string[];
-  TlsCiphers?: string[];
-  SshHostKeyAlgorithms?: string[];
-  Type?: SecurityPolicyResourceType;
-  Protocols?: SecurityPolicyProtocol[];
+  SshCiphers?: string[] | undefined;
+  SshKexs?: string[] | undefined;
+  SshMacs?: string[] | undefined;
+  TlsCiphers?: string[] | undefined;
+  SshHostKeyAlgorithms?: string[] | undefined;
+  Type?: SecurityPolicyResourceType | undefined;
+  Protocols?: SecurityPolicyProtocol[] | undefined;
 }
 export interface DescribeSecurityPolicyResponse {
   SecurityPolicy: DescribedSecurityPolicy;
@@ -868,28 +873,28 @@ export type State =
 export type UserCount = number;
 export interface DescribedServer {
   Arn: string;
-  Certificate?: string;
-  ProtocolDetails?: ProtocolDetails;
-  Domain?: Domain;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKeyFingerprint?: string;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: IdentityProviderType;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  SecurityPolicyName?: string;
-  ServerId?: string;
-  State?: State;
-  Tags?: Tag[];
-  UserCount?: number;
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  As2ServiceManagedEgressIpAddresses?: string[];
-  IpAddressType?: IpAddressType;
+  Certificate?: string | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  Domain?: Domain | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKeyFingerprint?: string | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  SecurityPolicyName?: string | undefined;
+  ServerId?: string | undefined;
+  State?: State | undefined;
+  Tags?: Tag[] | undefined;
+  UserCount?: number | undefined;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  As2ServiceManagedEgressIpAddresses?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
 }
 export interface DescribeServerResponse {
   Server: DescribedServer;
@@ -906,15 +911,15 @@ export interface SshPublicKey {
 export type SshPublicKeys = SshPublicKey[];
 export interface DescribedUser {
   Arn: string;
-  HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  HomeDirectoryType?: HomeDirectoryType;
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
-  SshPublicKeys?: SshPublicKey[];
-  Tags?: Tag[];
-  UserName?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
+  SshPublicKeys?: SshPublicKey[] | undefined;
+  Tags?: Tag[] | undefined;
+  UserName?: string | undefined;
 }
 export interface DescribeUserResponse {
   ServerId: string;
@@ -925,9 +930,9 @@ export interface DescribeWebAppRequest {
 }
 export type IdentityCenterApplicationArn = string;
 export interface DescribedIdentityCenterConfig {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  Role?: string;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  Role?: string | undefined;
 }
 export type DescribedWebAppIdentityProviderDetails = {
   IdentityCenterConfig: DescribedIdentityCenterConfig;
@@ -935,22 +940,22 @@ export type DescribedWebAppIdentityProviderDetails = {
 export type WebAppEndpoint = string;
 export type WebAppEndpointType = "PUBLIC" | "VPC" | (string & {});
 export interface DescribedWebAppVpcConfig {
-  SubnetIds?: string[];
-  VpcId?: string;
-  VpcEndpointId?: string;
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export type DescribedWebAppEndpointDetails = { Vpc: DescribedWebAppVpcConfig };
 export interface DescribedWebApp {
   Arn: string;
   WebAppId: string;
-  DescribedIdentityProviderDetails?: DescribedWebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  Tags?: Tag[];
-  WebAppEndpointPolicy?: WebAppEndpointPolicy;
-  EndpointType?: WebAppEndpointType;
-  DescribedEndpointDetails?: DescribedWebAppEndpointDetails;
+  DescribedIdentityProviderDetails?: DescribedWebAppIdentityProviderDetails | undefined;
+  AccessEndpoint?: string | undefined;
+  WebAppEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  Tags?: Tag[] | undefined;
+  WebAppEndpointPolicy?: WebAppEndpointPolicy | undefined;
+  EndpointType?: WebAppEndpointType | undefined;
+  DescribedEndpointDetails?: DescribedWebAppEndpointDetails | undefined;
 }
 export interface DescribeWebAppResponse {
   WebApp: DescribedWebApp;
@@ -964,9 +969,9 @@ export type WebAppFaviconFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface DescribedWebAppCustomization {
   Arn: string;
   WebAppId: string;
-  Title?: string;
-  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Title?: string | undefined;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface DescribeWebAppCustomizationResponse {
   WebAppCustomization: DescribedWebAppCustomization;
@@ -976,12 +981,12 @@ export interface DescribeWorkflowRequest {
 }
 export interface DescribedWorkflow {
   Arn: string;
-  Description?: string;
-  Steps?: WorkflowStep[];
-  OnExceptionSteps?: WorkflowStep[];
-  WorkflowId?: string;
-  Tags?: Tag[];
-  StructuredLogDestinations?: string[];
+  Description?: string | undefined;
+  Steps?: WorkflowStep[] | undefined;
+  OnExceptionSteps?: WorkflowStep[] | undefined;
+  WorkflowId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  StructuredLogDestinations?: string[] | undefined;
 }
 export interface DescribeWorkflowResponse {
   Workflow: DescribedWorkflow;
@@ -990,21 +995,24 @@ export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface ImportCertificateRequest {
   Usage: CertificateUsageType;
   Certificate: string | redacted.Redacted<string>;
-  CertificateChain?: string | redacted.Redacted<string>;
-  PrivateKey?: string | redacted.Redacted<string>;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Description?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | redacted.Redacted<string> | undefined;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportCertificateResponse {
   CertificateId: string;
 }
+export type KmsKey = string;
 export interface ImportHostKeyRequest {
   ServerId: string;
   HostKeyBody: string | redacted.Redacted<string>;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface ImportHostKeyResponse {
   ServerId: string;
@@ -1023,88 +1031,88 @@ export interface ImportSshPublicKeyResponse {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAccessesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedAccess {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  Role?: string;
-  ExternalId?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Role?: string | undefined;
+  ExternalId?: string | undefined;
 }
 export type ListedAccesses = ListedAccess[];
 export interface ListAccessesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   Accesses: ListedAccess[];
 }
 export interface ListAgreementsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedAgreement {
-  Arn?: string;
-  AgreementId?: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  ServerId?: string;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
+  Arn?: string | undefined;
+  AgreementId?: string | undefined;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  ServerId?: string | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
 }
 export type ListedAgreements = ListedAgreement[];
 export interface ListAgreementsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Agreements: ListedAgreement[];
 }
 export interface ListCertificatesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedCertificate {
-  Arn?: string;
-  CertificateId?: string;
-  Usage?: CertificateUsageType;
-  Status?: CertificateStatusType;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Type?: CertificateType;
-  Description?: string;
+  Arn?: string | undefined;
+  CertificateId?: string | undefined;
+  Usage?: CertificateUsageType | undefined;
+  Status?: CertificateStatusType | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Type?: CertificateType | undefined;
+  Description?: string | undefined;
 }
 export type ListedCertificates = ListedCertificate[];
 export interface ListCertificatesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Certificates: ListedCertificate[];
 }
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedConnector {
-  Arn?: string;
-  ConnectorId?: string;
-  Url?: string;
+  Arn?: string | undefined;
+  ConnectorId?: string | undefined;
+  Url?: string | undefined;
 }
 export type ListedConnectors = ListedConnector[];
 export interface ListConnectorsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Connectors: ListedConnector[];
 }
 export interface ListExecutionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowId: string;
 }
 export interface ListedExecution {
-  ExecutionId?: string;
-  InitialFileLocation?: FileLocation;
-  ServiceMetadata?: ServiceMetadata;
-  Status?: ExecutionStatus;
+  ExecutionId?: string | undefined;
+  InitialFileLocation?: FileLocation | undefined;
+  ServiceMetadata?: ServiceMetadata | undefined;
+  Status?: ExecutionStatus | undefined;
 }
 export type ListedExecutions = ListedExecution[];
 export interface ListExecutionsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WorkflowId: string;
   Executions: ListedExecution[];
 }
@@ -1112,8 +1120,8 @@ export type TransferId = string;
 export interface ListFileTransferResultsRequest {
   ConnectorId: string;
   TransferId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FilePath = string;
 export type TransferTableStatus = "QUEUED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
@@ -1122,135 +1130,137 @@ export type Message = string;
 export interface ConnectorFileTransferResult {
   FilePath: string;
   StatusCode: TransferTableStatus;
-  FailureCode?: string;
-  FailureMessage?: string;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
 }
 export type ConnectorFileTransferResults = ConnectorFileTransferResult[];
 export interface ListFileTransferResultsResponse {
   FileTransferResults: ConnectorFileTransferResult[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHostKeysRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedHostKey {
   Arn: string;
-  HostKeyId?: string;
-  Fingerprint?: string;
-  Description?: string;
-  Type?: string;
-  DateImported?: Date;
+  HostKeyId?: string | undefined;
+  Fingerprint?: string | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  DateImported?: Date | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export type ListedHostKeys = ListedHostKey[];
 export interface ListHostKeysResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   HostKeys: ListedHostKey[];
 }
 export interface ListProfilesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ProfileType?: ProfileType;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ProfileType?: ProfileType | undefined;
 }
 export interface ListedProfile {
-  Arn?: string;
-  ProfileId?: string;
-  As2Id?: string;
-  ProfileType?: ProfileType;
+  Arn?: string | undefined;
+  ProfileId?: string | undefined;
+  As2Id?: string | undefined;
+  ProfileType?: ProfileType | undefined;
 }
 export type ListedProfiles = ListedProfile[];
 export interface ListProfilesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Profiles: ListedProfile[];
 }
 export interface ListSecurityPoliciesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecurityPolicyNames = string[];
 export interface ListSecurityPoliciesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   SecurityPolicyNames: string[];
 }
 export interface ListServersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedServer {
   Arn: string;
-  Domain?: Domain;
-  IdentityProviderType?: IdentityProviderType;
-  EndpointType?: EndpointType;
-  LoggingRole?: string;
-  ServerId?: string;
-  State?: State;
-  UserCount?: number;
+  Domain?: Domain | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  EndpointType?: EndpointType | undefined;
+  LoggingRole?: string | undefined;
+  ServerId?: string | undefined;
+  State?: State | undefined;
+  UserCount?: number | undefined;
 }
 export type ListedServers = ListedServer[];
 export interface ListServersResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Servers: ListedServer[];
 }
 export interface ListTagsForResourceRequest {
   Arn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Arn?: string;
-  NextToken?: string;
-  Tags?: Tag[];
+  Arn?: string | undefined;
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListUsersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export type SshPublicKeyCount = number;
 export interface ListedUser {
   Arn: string;
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  Role?: string;
-  SshPublicKeyCount?: number;
-  UserName?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Role?: string | undefined;
+  SshPublicKeyCount?: number | undefined;
+  UserName?: string | undefined;
 }
 export type ListedUsers = ListedUser[];
 export interface ListUsersResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   Users: ListedUser[];
 }
 export interface ListWebAppsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedWebApp {
   Arn: string;
   WebAppId: string;
-  AccessEndpoint?: string;
-  WebAppEndpoint?: string;
-  EndpointType?: WebAppEndpointType;
+  AccessEndpoint?: string | undefined;
+  WebAppEndpoint?: string | undefined;
+  EndpointType?: WebAppEndpointType | undefined;
 }
 export type ListedWebApps = ListedWebApp[];
 export interface ListWebAppsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WebApps: ListedWebApp[];
 }
 export interface ListWorkflowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedWorkflow {
-  WorkflowId?: string;
-  Description?: string;
-  Arn?: string;
+  WorkflowId?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ListedWorkflows = ListedWorkflow[];
 export interface ListWorkflowsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Workflows: ListedWorkflow[];
 }
 export type CallbackToken = string;
@@ -1266,7 +1276,7 @@ export type MaxItems = number;
 export interface StartDirectoryListingRequest {
   ConnectorId: string;
   RemoteDirectoryPath: string;
-  MaxItems?: number;
+  MaxItems?: number | undefined;
   OutputDirectoryPath: string;
 }
 export type ListingId = string;
@@ -1279,17 +1289,17 @@ export type FilePaths = string[];
 export type CustomHttpHeaderKeyType = string | redacted.Redacted<string>;
 export type CustomHttpHeaderValueType = string | redacted.Redacted<string>;
 export interface CustomHttpHeader {
-  Key?: string | redacted.Redacted<string>;
-  Value?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomHttpHeaders = CustomHttpHeader[];
 export interface StartFileTransferRequest {
   ConnectorId: string;
-  SendFilePaths?: string[];
-  RetrieveFilePaths?: string[];
-  LocalDirectoryPath?: string;
-  RemoteDirectoryPath?: string;
-  CustomHttpHeaders?: CustomHttpHeader[];
+  SendFilePaths?: string[] | undefined;
+  RetrieveFilePaths?: string[] | undefined;
+  LocalDirectoryPath?: string | undefined;
+  RemoteDirectoryPath?: string | undefined;
+  CustomHttpHeaders?: CustomHttpHeader[] | undefined;
 }
 export interface StartFileTransferResponse {
   TransferId: string;
@@ -1330,29 +1340,29 @@ export interface TestConnectionRequest {
 export type Status = string;
 export type SftpConnectorHostKey = string;
 export interface SftpConnectorConnectionDetails {
-  HostKey?: string;
+  HostKey?: string | undefined;
 }
 export interface TestConnectionResponse {
-  ConnectorId?: string;
-  Status?: string;
-  StatusMessage?: string;
-  SftpConnectionDetails?: SftpConnectorConnectionDetails;
+  ConnectorId?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
+  SftpConnectionDetails?: SftpConnectorConnectionDetails | undefined;
 }
 export type SourceIp = string;
 export type UserPassword = string | redacted.Redacted<string>;
 export interface TestIdentityProviderRequest {
   ServerId: string;
-  ServerProtocol?: Protocol;
-  SourceIp?: string;
+  ServerProtocol?: Protocol | undefined;
+  SourceIp?: string | undefined;
   UserName: string;
-  UserPassword?: string | redacted.Redacted<string>;
+  UserPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type Response = string;
 export type StatusCode = number;
 export interface TestIdentityProviderResponse {
-  Response?: string;
+  Response?: string | undefined;
   StatusCode: number;
-  Message?: string;
+  Message?: string | undefined;
   Url: string;
 }
 export type TagKeys = string[];
@@ -1362,12 +1372,12 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccessRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
   ServerId: string;
   ExternalId: string;
 }
@@ -1378,43 +1388,43 @@ export interface UpdateAccessResponse {
 export interface UpdateAgreementRequest {
   AgreementId: string;
   ServerId: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  BaseDirectory?: string;
-  AccessRole?: string;
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  BaseDirectory?: string | undefined;
+  AccessRole?: string | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export interface UpdateAgreementResponse {
   AgreementId: string;
 }
 export interface UpdateCertificateRequest {
   CertificateId: string;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Description?: string;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateCertificateResponse {
   CertificateId: string;
 }
 export interface UpdateConnectorVpcLatticeEgressConfig {
-  ResourceConfigurationArn?: string;
-  PortNumber?: number;
+  ResourceConfigurationArn?: string | undefined;
+  PortNumber?: number | undefined;
 }
 export type UpdateConnectorEgressConfig = { VpcLattice: UpdateConnectorVpcLatticeEgressConfig };
 export interface UpdateConnectorRequest {
   ConnectorId: string;
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
-  AccessRole?: string;
-  LoggingRole?: string;
-  SftpConfig?: SftpConnectorConfig;
-  SecurityPolicyName?: string;
-  EgressConfig?: UpdateConnectorEgressConfig;
-  IpAddressType?: ConnectorsIpAddressType;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
+  AccessRole?: string | undefined;
+  LoggingRole?: string | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: UpdateConnectorEgressConfig | undefined;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export interface UpdateConnectorResponse {
   ConnectorId: string;
@@ -1422,7 +1432,9 @@ export interface UpdateConnectorResponse {
 export interface UpdateHostKeyRequest {
   ServerId: string;
   HostKeyId: string;
-  Description: string;
+  Description?: string | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface UpdateHostKeyResponse {
   ServerId: string;
@@ -1430,40 +1442,40 @@ export interface UpdateHostKeyResponse {
 }
 export interface UpdateProfileRequest {
   ProfileId: string;
-  CertificateIds?: string[];
+  CertificateIds?: string[] | undefined;
 }
 export interface UpdateProfileResponse {
   ProfileId: string;
 }
 export interface UpdateServerRequest {
-  Certificate?: string;
-  ProtocolDetails?: ProtocolDetails;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKey?: string | redacted.Redacted<string>;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  SecurityPolicyName?: string;
+  Certificate?: string | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKey?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  SecurityPolicyName?: string | undefined;
   ServerId: string;
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: IpAddressType;
-  IdentityProviderType?: IdentityProviderType;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
 }
 export interface UpdateServerResponse {
   ServerId: string;
 }
 export interface UpdateUserRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
   ServerId: string;
   UserName: string;
 }
@@ -1472,31 +1484,31 @@ export interface UpdateUserResponse {
   UserName: string;
 }
 export interface UpdateWebAppIdentityCenterConfig {
-  Role?: string;
+  Role?: string | undefined;
 }
 export type UpdateWebAppIdentityProviderDetails = {
   IdentityCenterConfig: UpdateWebAppIdentityCenterConfig;
 };
 export interface UpdateWebAppVpcConfig {
-  SubnetIds?: string[];
-  IpAddressType?: WebAppVpcEndpointIpAddressType;
+  SubnetIds?: string[] | undefined;
+  IpAddressType?: WebAppVpcEndpointIpAddressType | undefined;
 }
 export type UpdateWebAppEndpointDetails = { Vpc: UpdateWebAppVpcConfig };
 export interface UpdateWebAppRequest {
   WebAppId: string;
-  IdentityProviderDetails?: UpdateWebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  EndpointDetails?: UpdateWebAppEndpointDetails;
+  IdentityProviderDetails?: UpdateWebAppIdentityProviderDetails | undefined;
+  AccessEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  EndpointDetails?: UpdateWebAppEndpointDetails | undefined;
 }
 export interface UpdateWebAppResponse {
   WebAppId: string;
 }
 export interface UpdateWebAppCustomizationRequest {
   WebAppId: string;
-  Title?: string;
-  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Title?: string | undefined;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface UpdateWebAppCustomizationResponse {
   WebAppId: string;
@@ -1516,7 +1528,7 @@ export type CreateAccessError =
  * Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use `CreateAccess` to limit the access to the correct set of users who need this ability.
  */
 export const createAccess: API.OperationMethod<
-  CreateAccessRequest,
+  CreateAccessRequest & RegionInput,
   CreateAccessResponse,
   CreateAccessError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1565,7 @@ export type CreateAgreementError =
  * Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both causes the command to fail.
  */
 export const createAgreement: API.OperationMethod<
-  CreateAgreementRequest,
+  CreateAgreementRequest & RegionInput,
   CreateAgreementResponse,
   CreateAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1601,7 @@ export type CreateConnectorError =
  * You must specify exactly one configuration object: either for AS2 (`As2Config`) or SFTP (`SftpConfig`).
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1634,7 @@ export type CreateProfileError =
  * Creates the local or partner profile to use for AS2 transfers.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1668,7 @@ export type CreateServerError =
  * Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated `ServerId` property that is assigned to the newly created server.
  */
 export const createServer: API.OperationMethod<
-  CreateServerRequest,
+  CreateServerRequest & RegionInput,
   CreateServerResponse,
   CreateServerError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1702,7 @@ export type CreateUserError =
  * Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the `IdentityProviderType` set to `SERVICE_MANAGED`. Using parameters for `CreateUser`, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1724,7 +1736,7 @@ export type CreateWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const createWebApp: API.OperationMethod<
-  CreateWebAppRequest,
+  CreateWebAppRequest & RegionInput,
   CreateWebAppResponse,
   CreateWebAppError,
   Credentials | HttpClient.HttpClient
@@ -1757,7 +1769,7 @@ export type CreateWorkflowError =
  * Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the `workflow-details` field in `CreateServer` and `UpdateServer` operations.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1789,7 +1801,7 @@ export type DeleteAccessError =
  * Allows you to delete the access specified in the `ServerID` and `ExternalID` parameters.
  */
 export const deleteAccess: API.OperationMethod<
-  DeleteAccessRequest,
+  DeleteAccessRequest & RegionInput,
   DeleteAccessResponse,
   DeleteAccessError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1831,7 @@ export type DeleteAgreementError =
  * Delete the agreement that's specified in the provided `AgreementId`.
  */
 export const deleteAgreement: API.OperationMethod<
-  DeleteAgreementRequest,
+  DeleteAgreementRequest & RegionInput,
   DeleteAgreementResponse,
   DeleteAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1861,7 @@ export type DeleteCertificateError =
  * Deletes the certificate that's specified in the `CertificateId` parameter.
  */
 export const deleteCertificate: API.OperationMethod<
-  DeleteCertificateRequest,
+  DeleteCertificateRequest & RegionInput,
   DeleteCertificateResponse,
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1879,7 +1891,7 @@ export type DeleteConnectorError =
  * Deletes the connector that's specified in the provided `ConnectorId`.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1922,7 @@ export type DeleteHostKeyError =
  * Deletes the host key that's specified in the `HostKeyId` parameter.
  */
 export const deleteHostKey: API.OperationMethod<
-  DeleteHostKeyRequest,
+  DeleteHostKeyRequest & RegionInput,
   DeleteHostKeyResponse,
   DeleteHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1953,7 @@ export type DeleteProfileError =
  * Deletes the profile that's specified in the `ProfileId` parameter.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -1974,7 +1986,7 @@ export type DeleteServerError =
  * No response returns from this operation.
  */
 export const deleteServer: API.OperationMethod<
-  DeleteServerRequest,
+  DeleteServerRequest & RegionInput,
   DeleteServerResponse,
   DeleteServerError,
   Credentials | HttpClient.HttpClient
@@ -2006,7 +2018,7 @@ export type DeleteSshPublicKeyError =
  * Deletes a user's Secure Shell (SSH) public key.
  */
 export const deleteSshPublicKey: API.OperationMethod<
-  DeleteSshPublicKeyRequest,
+  DeleteSshPublicKeyRequest & RegionInput,
   DeleteSshPublicKeyResponse,
   DeleteSshPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2053,7 @@ export type DeleteUserError =
  * When you delete a user from a server, the user's information is lost.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -2072,7 +2084,7 @@ export type DeleteWebAppError =
  * Deletes the specified web app.
  */
 export const deleteWebApp: API.OperationMethod<
-  DeleteWebAppRequest,
+  DeleteWebAppRequest & RegionInput,
   DeleteWebAppResponse,
   DeleteWebAppError,
   Credentials | HttpClient.HttpClient
@@ -2105,7 +2117,7 @@ export type DeleteWebAppCustomizationError =
  * Deletes the `WebAppCustomization` object that corresponds to the web app ID specified.
  */
 export const deleteWebAppCustomization: API.OperationMethod<
-  DeleteWebAppCustomizationRequest,
+  DeleteWebAppCustomizationRequest & RegionInput,
   DeleteWebAppCustomizationResponse,
   DeleteWebAppCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2153,7 @@ export type DeleteWorkflowError =
  * Deletes the specified workflow.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2174,7 +2186,7 @@ export type DescribeAccessError =
  * The response from this call returns the properties of the access that is associated with the `ServerId` value that was specified.
  */
 export const describeAccess: API.OperationMethod<
-  DescribeAccessRequest,
+  DescribeAccessRequest & RegionInput,
   DescribeAccessResponse,
   DescribeAccessError,
   Credentials | HttpClient.HttpClient
@@ -2204,7 +2216,7 @@ export type DescribeAgreementError =
  * Describes the agreement that's identified by the `AgreementId`.
  */
 export const describeAgreement: API.OperationMethod<
-  DescribeAgreementRequest,
+  DescribeAgreementRequest & RegionInput,
   DescribeAgreementResponse,
   DescribeAgreementError,
   Credentials | HttpClient.HttpClient
@@ -2236,7 +2248,7 @@ export type DescribeCertificateError =
  * Transfer Family automatically publishes a Amazon CloudWatch metric called `DaysUntilExpiry` for imported certificates. This metric tracks the number of days until the certificate expires based on the `InactiveDate`. The metric is available in the `AWS/Transfer` namespace and includes the `CertificateId` as a dimension.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResponse,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2278,7 @@ export type DescribeConnectorError =
  * Describes the connector that's identified by the `ConnectorId.`
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2312,7 @@ export type DescribeExecutionError =
  * If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a `ResourceNotFound` exception.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionRequest,
+  DescribeExecutionRequest & RegionInput,
   DescribeExecutionResponse,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2330,7 +2342,7 @@ export type DescribeHostKeyError =
  * Returns the details of the host key that's specified by the `HostKeyId` and `ServerId`.
  */
 export const describeHostKey: API.OperationMethod<
-  DescribeHostKeyRequest,
+  DescribeHostKeyRequest & RegionInput,
   DescribeHostKeyResponse,
   DescribeHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -2360,7 +2372,7 @@ export type DescribeProfileError =
  * Returns the details of the profile that's specified by the `ProfileId`.
  */
 export const describeProfile: API.OperationMethod<
-  DescribeProfileRequest,
+  DescribeProfileRequest & RegionInput,
   DescribeProfileResponse,
   DescribeProfileError,
   Credentials | HttpClient.HttpClient
@@ -2390,7 +2402,7 @@ export type DescribeSecurityPolicyError =
  * Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
 export const describeSecurityPolicy: API.OperationMethod<
-  DescribeSecurityPolicyRequest,
+  DescribeSecurityPolicyRequest & RegionInput,
   DescribeSecurityPolicyResponse,
   DescribeSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2434,7 @@ export type DescribeServerError =
  * The response contains a description of a server's properties. When you set `EndpointType` to VPC, the response will contain the `EndpointDetails`.
  */
 export const describeServer: API.OperationMethod<
-  DescribeServerRequest,
+  DescribeServerRequest & RegionInput,
   DescribeServerResponse,
   DescribeServerError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2466,7 @@ export type DescribeUserError =
  * The response from this call returns the properties of the user associated with the `ServerId` value that was specified.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -2487,7 +2499,7 @@ export type DescribeWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const describeWebApp: API.OperationMethod<
-  DescribeWebAppRequest,
+  DescribeWebAppRequest & RegionInput,
   DescribeWebAppResponse,
   DescribeWebAppError,
   Credentials | HttpClient.HttpClient
@@ -2519,7 +2531,7 @@ export type DescribeWebAppCustomizationError =
  * Describes the web app customization object that's identified by `WebAppId`.
  */
 export const describeWebAppCustomization: API.OperationMethod<
-  DescribeWebAppCustomizationRequest,
+  DescribeWebAppCustomizationRequest & RegionInput,
   DescribeWebAppCustomizationResponse,
   DescribeWebAppCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2565,7 @@ export type DescribeWorkflowError =
  * Describes the specified workflow.
  */
 export const describeWorkflow: API.OperationMethod<
-  DescribeWorkflowRequest,
+  DescribeWorkflowRequest & RegionInput,
   DescribeWorkflowResponse,
   DescribeWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2603,7 +2615,7 @@ export type ImportCertificateError =
  * - **Frequency:** Published daily
  */
 export const importCertificate: API.OperationMethod<
-  ImportCertificateRequest,
+  ImportCertificateRequest & RegionInput,
   ImportCertificateResponse,
   ImportCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2635,7 +2647,7 @@ export type ImportHostKeyError =
  * Adds a host key to the server that's specified by the `ServerId` parameter.
  */
 export const importHostKey: API.OperationMethod<
-  ImportHostKeyRequest,
+  ImportHostKeyRequest & RegionInput,
   ImportHostKeyResponse,
   ImportHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -2671,7 +2683,7 @@ export type ImportSshPublicKeyError =
  * The response returns the `UserName` value, the `ServerId` value, and the name of the `SshPublicKeyId`.
  */
 export const importSshPublicKey: API.OperationMethod<
-  ImportSshPublicKeyRequest,
+  ImportSshPublicKeyRequest & RegionInput,
   ImportSshPublicKeyResponse,
   ImportSshPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -2704,7 +2716,7 @@ export type ListAccessesError =
  * Lists the details for all the accesses you have on your server.
  */
 export const listAccesses: API.PaginatedOperationMethod<
-  ListAccessesRequest,
+  ListAccessesRequest & RegionInput,
   ListAccessesResponse,
   ListAccessesError,
   Credentials | HttpClient.HttpClient,
@@ -2743,7 +2755,7 @@ export type ListAgreementsError =
  * Returns a list of the agreements for the server that's identified by the `ServerId` that you supply. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing agreements from where you left off.
  */
 export const listAgreements: API.PaginatedOperationMethod<
-  ListAgreementsRequest,
+  ListAgreementsRequest & RegionInput,
   ListAgreementsResponse,
   ListAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -2782,7 +2794,7 @@ export type ListCertificatesError =
  * Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for the `NextToken` parameter, you can supply that value to continue listing certificates from where you left off.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResponse,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2821,7 +2833,7 @@ export type ListConnectorsError =
  * Lists the connectors for the specified Region.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2862,7 +2874,7 @@ export type ListExecutionsError =
  * If the specified workflow ID cannot be found, `ListExecutions` returns a `ResourceNotFound` exception.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2902,7 +2914,7 @@ export type ListFileTransferResultsError =
  * File transfer results are available up to 7 days after an operation has been requested.
  */
 export const listFileTransferResults: API.PaginatedOperationMethod<
-  ListFileTransferResultsRequest,
+  ListFileTransferResultsRequest & RegionInput,
   ListFileTransferResultsResponse,
   ListFileTransferResultsError,
   Credentials | HttpClient.HttpClient,
@@ -2943,7 +2955,7 @@ export type ListHostKeysError =
  * Returns a list of host keys for the server that's specified by the `ServerId` parameter.
  */
 export const listHostKeys: API.OperationMethod<
-  ListHostKeysRequest,
+  ListHostKeysRequest & RegionInput,
   ListHostKeysResponse,
   ListHostKeysError,
   Credentials | HttpClient.HttpClient
@@ -2975,7 +2987,7 @@ export type ListProfilesError =
  * Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing profiles from where you left off.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -3013,7 +3025,7 @@ export type ListSecurityPoliciesError =
  * Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
 export const listSecurityPolicies: API.PaginatedOperationMethod<
-  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesRequest & RegionInput,
   ListSecurityPoliciesResponse,
   ListSecurityPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3050,7 +3062,7 @@ export type ListServersError =
  * Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
  */
 export const listServers: API.PaginatedOperationMethod<
-  ListServersRequest,
+  ListServersRequest & RegionInput,
   ListServersResponse,
   ListServersError,
   Credentials | HttpClient.HttpClient,
@@ -3087,7 +3099,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3125,7 +3137,7 @@ export type ListUsersError =
  * Lists the users for a file transfer protocol-enabled server that you specify by passing the `ServerId` parameter.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -3165,7 +3177,7 @@ export type ListWebAppsError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const listWebApps: API.PaginatedOperationMethod<
-  ListWebAppsRequest,
+  ListWebAppsRequest & RegionInput,
   ListWebAppsResponse,
   ListWebAppsError,
   Credentials | HttpClient.HttpClient,
@@ -3202,7 +3214,7 @@ export type ListWorkflowsError =
  * Lists all workflows associated with your Amazon Web Services account for your current region.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -3243,7 +3255,7 @@ export type SendWorkflowStepStateError =
  * The `ExecutionId`, `WorkflowId`, and `Token` are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
  */
 export const sendWorkflowStepState: API.OperationMethod<
-  SendWorkflowStepStateRequest,
+  SendWorkflowStepStateRequest & RegionInput,
   SendWorkflowStepStateResponse,
   SendWorkflowStepStateError,
   Credentials | HttpClient.HttpClient
@@ -3290,7 +3302,7 @@ export type StartDirectoryListingError =
  * - `truncated`: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your `Truncated` output value is true, you can increase the value provided in the optional `max-items` input attribute to be able to list more items (up to the maximum allowed list size of 200,000 items).
  */
 export const startDirectoryListing: API.OperationMethod<
-  StartDirectoryListingRequest,
+  StartDirectoryListingRequest & RegionInput,
   StartDirectoryListingResponse,
   StartDirectoryListingError,
   Credentials | HttpClient.HttpClient
@@ -3330,7 +3342,7 @@ export type StartFileTransferError =
  * - If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more `SendFilePaths` to identify the files you want to transfer, and a `RemoteDirectoryPath` to specify the destination folder.
  */
 export const startFileTransfer: API.OperationMethod<
-  StartFileTransferRequest,
+  StartFileTransferRequest & RegionInput,
   StartFileTransferResponse,
   StartFileTransferError,
   Credentials | HttpClient.HttpClient
@@ -3362,7 +3374,7 @@ export type StartRemoteDeleteError =
  * Deletes a file or directory on the remote SFTP server.
  */
 export const startRemoteDelete: API.OperationMethod<
-  StartRemoteDeleteRequest,
+  StartRemoteDeleteRequest & RegionInput,
   StartRemoteDeleteResponse,
   StartRemoteDeleteError,
   Credentials | HttpClient.HttpClient
@@ -3394,7 +3406,7 @@ export type StartRemoteMoveError =
  * Moves or renames a file or directory on the remote SFTP server.
  */
 export const startRemoteMove: API.OperationMethod<
-  StartRemoteMoveRequest,
+  StartRemoteMoveRequest & RegionInput,
   StartRemoteMoveResponse,
   StartRemoteMoveError,
   Credentials | HttpClient.HttpClient
@@ -3430,7 +3442,7 @@ export type StartServerError =
  * No response is returned from this call.
  */
 export const startServer: API.OperationMethod<
-  StartServerRequest,
+  StartServerRequest & RegionInput,
   StartServerResponse,
   StartServerError,
   Credentials | HttpClient.HttpClient
@@ -3468,7 +3480,7 @@ export type StopServerError =
  * No response is returned from this call.
  */
 export const stopServer: API.OperationMethod<
-  StopServerRequest,
+  StopServerRequest & RegionInput,
   StopServerResponse,
   StopServerError,
   Credentials | HttpClient.HttpClient
@@ -3501,7 +3513,7 @@ export type TagResourceError =
  * There is no response returned from this call.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3531,7 +3543,7 @@ export type TestConnectionError =
  * Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
  */
 export const testConnection: API.OperationMethod<
-  TestConnectionRequest,
+  TestConnectionRequest & RegionInput,
   TestConnectionResponse,
   TestConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3583,7 +3595,7 @@ export type TestIdentityProviderError =
  * It is possible your sever is in a different region. You can specify a region by adding the following: `--region region-code`, such as `--region us-east-2` to specify a server in **US East (Ohio)**.
  */
 export const testIdentityProvider: API.OperationMethod<
-  TestIdentityProviderRequest,
+  TestIdentityProviderRequest & RegionInput,
   TestIdentityProviderResponse,
   TestIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3615,7 +3627,7 @@ export type UntagResourceError =
  * No response is returned from this call.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3647,7 +3659,7 @@ export type UpdateAccessError =
  * Allows you to update parameters for the access specified in the `ServerID` and `ExternalID` parameters.
  */
 export const updateAccess: API.OperationMethod<
-  UpdateAccessRequest,
+  UpdateAccessRequest & RegionInput,
   UpdateAccessResponse,
   UpdateAccessError,
   Credentials | HttpClient.HttpClient
@@ -3685,7 +3697,7 @@ export type UpdateAgreementError =
  * If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
  */
 export const updateAgreement: API.OperationMethod<
-  UpdateAgreementRequest,
+  UpdateAgreementRequest & RegionInput,
   UpdateAgreementResponse,
   UpdateAgreementError,
   Credentials | HttpClient.HttpClient
@@ -3718,7 +3730,7 @@ export type UpdateCertificateError =
  * Updates the active and inactive dates for a certificate.
  */
 export const updateCertificate: API.OperationMethod<
-  UpdateCertificateRequest,
+  UpdateCertificateRequest & RegionInput,
   UpdateCertificateResponse,
   UpdateCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3751,7 +3763,7 @@ export type UpdateConnectorError =
  * Updates some of the parameters for an existing connector. Provide the `ConnectorId` for the connector that you want to update, along with the new values for the parameters to update.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3781,10 +3793,12 @@ export type UpdateHostKeyError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
+ * Updates the host key that's specified by the `ServerId` and `HostKeyId` parameters. You can update the description of the host key, change where the host key is stored by specifying the `StorageType`, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager.
+ *
+ * To change a host key's storage type from `SERVICE_MANAGED` to `SECRETS_MANAGER`, you must have the `transfer:ExportHostKey` permission. `transfer:ExportHostKey` is a permission-only action that has no corresponding API operation.
  */
 export const updateHostKey: API.OperationMethod<
-  UpdateHostKeyRequest,
+  UpdateHostKeyRequest & RegionInput,
   UpdateHostKeyResponse,
   UpdateHostKeyError,
   Credentials | HttpClient.HttpClient
@@ -3816,7 +3830,7 @@ export type UpdateProfileError =
  * Updates some of the parameters for an existing profile. Provide the `ProfileId` for the profile that you want to update, along with the new values for the parameters to update.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   UpdateProfileResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3853,7 +3867,7 @@ export type UpdateServerError =
  * The `UpdateServer` call returns the `ServerId` of the server you updated.
  */
 export const updateServer: API.OperationMethod<
-  UpdateServerRequest,
+  UpdateServerRequest & RegionInput,
   UpdateServerResponse,
   UpdateServerError,
   Credentials | HttpClient.HttpClient
@@ -3896,7 +3910,7 @@ export type UpdateUserError =
  * ` aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"`
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -3931,7 +3945,7 @@ export type UpdateWebAppError =
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
 export const updateWebApp: API.OperationMethod<
-  UpdateWebAppRequest,
+  UpdateWebAppRequest & RegionInput,
   UpdateWebAppResponse,
   UpdateWebAppError,
   Credentials | HttpClient.HttpClient
@@ -3965,7 +3979,7 @@ export type UpdateWebAppCustomizationError =
  * Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
  */
 export const updateWebAppCustomization: API.OperationMethod<
-  UpdateWebAppCustomizationRequest,
+  UpdateWebAppCustomizationRequest & RegionInput,
   UpdateWebAppCustomizationResponse,
   UpdateWebAppCustomizationError,
   Credentials | HttpClient.HttpClient
@@ -4162,6 +4176,7 @@ function __c11(j: number): any {
           StructuredLogDestinations: S.optional(__S(80, __c5, 0)),
           S3StorageOptions: S.optional(__S(217, __c13, 9)),
           IpAddressType: S.optional(S.String),
+          HostKeyStorageType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServerRequest" });
   }
@@ -4767,6 +4782,8 @@ function __c42(j: number): any {
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribedHostKey" });
     case 2:
@@ -5049,6 +5066,8 @@ function __c52(j: number): any {
           HostKeyBody: SensitiveString,
           Description: S.optional(S.String),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportHostKeyRequest" });
   }
@@ -5276,6 +5295,8 @@ function __c61(j: number): any {
           Description: S.optional(S.String),
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListedHostKey" });
     case 2:
@@ -5720,9 +5741,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ServerId: S.String, HostKeyId: S.String, Description: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          ServerId: S.String,
+          HostKeyId: S.String,
+          Description: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateHostKeyRequest" });
   }
 }

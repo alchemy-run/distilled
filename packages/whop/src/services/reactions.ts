@@ -63,9 +63,9 @@ export class UnprocessableEntity
 
 export interface CreateReactionRequest {
   /** The emoji to react with, in shortcode or unicode format. For example, ':heart:' or a unicode emoji. Ignored in forums where reactions are always likes. */
-  emoji?: string | null;
+  emoji?: string | null | undefined;
   /** The unique identifier of a poll option to vote for. Only valid when the target message or post contains a poll. */
-  poll_option_id?: string | null;
+  poll_option_id?: string | null | undefined;
   /** The unique identifier of the message or forum post to react to. */
   resource_id: string;
 }
@@ -92,7 +92,7 @@ export interface Reaction {
 export interface DeleteReactionRequest {
   /** The unique identifier of the reaction to remove, or the identifier of the message or forum post to remove a reaction from. When passing a message or post ID, you must also provide the emoji argument. */
   id: string;
-  emoji?: string;
+  emoji?: string | undefined;
 }
 export type DeleteReactionResponse = boolean;
 export interface GetReactionRequest {
@@ -100,10 +100,10 @@ export interface GetReactionRequest {
   id: string;
 }
 export interface ListReactionRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   resource_id: string;
 }
 /** The user who left this reaction on the post. */

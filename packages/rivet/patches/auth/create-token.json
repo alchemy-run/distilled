@@ -1,0 +1,44 @@
+{
+  "description": "Mark the signed JWT createAuthToken returns as sensitive, so it is Redacted on decode, and type `namespace.not_found` (404) for a token scoped to a missing namespace.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.auth#AuthTokenCreateResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.auth#NamespaceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The namespace the token is scoped to does not exist (`namespace.not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "headers": {
+                "x-rivet-error": "namespace.not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.rivet.auth#AuthTokensCreate/errors",
+      "value": [
+        {
+          "target": "com.rivet.auth#NamespaceNotFound"
+        }
+      ]
+    }
+  ]
+}

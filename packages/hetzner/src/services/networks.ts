@@ -33,11 +33,11 @@ export interface CreateNetworkRequestSubnetsItem {
   /** Type of subnet. */
   type: CreateNetworkRequestSubnetsItemType | (string & {});
   /** IP range of the subnet. Uses CIDR notation. Must be a subnet of the parent [Networks](#tag/networks) `ip_range`. Must not overlap with any other subnets or with any destinations in routes. Minimum network size is /30. We highly recommend that you pick a larger subnet with a /24 netmask. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` property it belongs to. */
   network_zone: string;
   /** ID of the robot vSwitch. Must only be supplied for subnets of type `vswitch`. */
-  vswitch_id?: number;
+  vswitch_id?: number | undefined;
 }
 /** Array of subnets to allocate. */
 export type CreateNetworkRequestSubnetsList = Array<CreateNetworkRequestSubnetsItem>;
@@ -55,13 +55,13 @@ export interface CreateNetworkRequest {
   /** IP range of the [Network](#tag/networks). Uses CIDR notation. Must span all included subnets. Must be one of the private IPv4 ranges of RFC1918. Minimum network size is /24. We highly recommend that you pick a larger [Network](#tag/networks) with a /16 netmask. */
   ip_range: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateNetworkRequestLabelsMap;
+  labels?: CreateNetworkRequestLabelsMap | undefined;
   /** Array of subnets to allocate. */
-  subnets?: CreateNetworkRequestSubnetsList;
+  subnets?: CreateNetworkRequestSubnetsList | undefined;
   /** Array of routes set in this [Network](#tag/networks). */
-  routes?: CreateNetworkRequestRoutesList;
+  routes?: CreateNetworkRequestRoutesList | undefined;
   /** Toggle to expose routes to the [Networks](#tag/networks) vSwitch. Indicates if the routes from this [Network](#tag/networks) should be exposed to the vSwitch in this [Network](#tag/networks). Only takes effect if a [vSwitch is setup](https://docs.hetzner.com/cloud/networks/connect-dedi-vswitch) in this [Network](#tag/networks). */
-  expose_routes_to_vswitch?: boolean;
+  expose_routes_to_vswitch?: boolean | undefined;
 }
 /** Type of subnet. */
 export type CreateNetworkResponseNetworkSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -69,13 +69,13 @@ export interface CreateNetworkResponseNetworkSubnetsItem {
   /** Type of subnet. */
   type: CreateNetworkResponseNetworkSubnetsItemType;
   /** IP range of the subnet. Uses CIDR notation. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` property it belongs to. */
   network_zone: string;
   /** Gateway for [Servers](#tag/servers) attached to this subnet. For subnets of type `server` this is always the first IP of the subnets IP range. */
   gateway: string;
   /** ID of the robot vSwitch if the subnet is of type `vswitch`. */
-  vswitch_id?: number | null;
+  vswitch_id?: number | null | undefined;
 }
 /** List of subnets allocated in this [Network](#tag/networks). */
 export type CreateNetworkResponseNetworkSubnetsList =
@@ -108,7 +108,7 @@ export interface CreateNetworkResponseNetwork {
   /** Array of IDs of [Servers](#tag/servers) attached to this [Network](#tag/networks). */
   servers: CreateNetworkResponseNetworkServersList;
   /** Array of IDs of [Load Balancers](#tag/load-balancers) attached to this [Network](#tag/networks). */
-  load_balancers?: CreateNetworkResponseNetworkLoadBalancersList;
+  load_balancers?: CreateNetworkResponseNetworkLoadBalancersList | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateNetworkResponseNetworkProtection;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -119,7 +119,7 @@ export interface CreateNetworkResponseNetwork {
   expose_routes_to_vswitch: boolean;
 }
 export interface CreateNetworkResponse {
-  network?: CreateNetworkResponseNetwork;
+  network?: CreateNetworkResponseNetwork | undefined;
 }
 export interface DeleteNetworkRequest {
   /** ID of the Network. */
@@ -136,13 +136,13 @@ export interface GetNetworkResponseNetworkSubnetsItem {
   /** Type of subnet. */
   type: GetNetworkResponseNetworkSubnetsItemType;
   /** IP range of the subnet. Uses CIDR notation. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` property it belongs to. */
   network_zone: string;
   /** Gateway for [Servers](#tag/servers) attached to this subnet. For subnets of type `server` this is always the first IP of the subnets IP range. */
   gateway: string;
   /** ID of the robot vSwitch if the subnet is of type `vswitch`. */
-  vswitch_id?: number | null;
+  vswitch_id?: number | null | undefined;
 }
 /** List of subnets allocated in this [Network](#tag/networks). */
 export type GetNetworkResponseNetworkSubnetsList = Array<GetNetworkResponseNetworkSubnetsItem>;
@@ -171,7 +171,7 @@ export interface GetNetworkResponseNetwork {
   /** Array of IDs of [Servers](#tag/servers) attached to this [Network](#tag/networks). */
   servers: GetNetworkResponseNetworkServersList;
   /** Array of IDs of [Load Balancers](#tag/load-balancers) attached to this [Network](#tag/networks). */
-  load_balancers?: GetNetworkResponseNetworkLoadBalancersList;
+  load_balancers?: GetNetworkResponseNetworkLoadBalancersList | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateNetworkResponseNetworkProtection;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -182,7 +182,7 @@ export interface GetNetworkResponseNetwork {
   expose_routes_to_vswitch: boolean;
 }
 export interface GetNetworkResponse {
-  network?: GetNetworkResponseNetwork;
+  network?: GetNetworkResponseNetwork | undefined;
 }
 /** Type of the resource attached to the [Network](#tag/networks). */
 export type ListNetworkMembersRequestTypeItem = "server" | "load_balancer";
@@ -220,17 +220,17 @@ export interface ListNetworkMembersRequest {
   /** ID of the Network. */
   id: number;
   /** Filter members by type. May be used multiple times. The response will only contain members matching the specified types. */
-  type?: ListNetworkMembersRequestTypeList;
+  type?: ListNetworkMembersRequestTypeList | undefined;
   /** Filter members by the subnet they are attached to. May be used multiple times. The response will only contain members attached to the subnets with the specified IP ranges. Uses CIDR notation. */
-  subnet?: ListNetworkMembersRequestSubnetList;
+  subnet?: ListNetworkMembersRequestSubnetList | undefined;
   /** Filter members by status. May be used multiple times. The response will only contain members matching the specified statuses. */
-  status?: ListNetworkMembersRequestStatusList;
+  status?: ListNetworkMembersRequestStatusList | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworkMembersRequestSortList;
+  sort?: ListNetworkMembersRequestSortList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Type of the resource attached to the [Network](#tag/networks). */
 export type ListNetworkMembersResponseMembersItemType = "server" | "load_balancer";
@@ -294,15 +294,15 @@ export type ListNetworksRequestSortItem =
 export type ListNetworksRequestSortList = Array<ListNetworksRequestSortItem | (string & {})>;
 export interface ListNetworksRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworksRequestSortList;
+  sort?: ListNetworksRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Type of subnet. */
 export type ListNetworksResponseNetworksItemSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -310,13 +310,13 @@ export interface ListNetworksResponseNetworksItemSubnetsItem {
   /** Type of subnet. */
   type: ListNetworksResponseNetworksItemSubnetsItemType;
   /** IP range of the subnet. Uses CIDR notation. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` property it belongs to. */
   network_zone: string;
   /** Gateway for [Servers](#tag/servers) attached to this subnet. For subnets of type `server` this is always the first IP of the subnets IP range. */
   gateway: string;
   /** ID of the robot vSwitch if the subnet is of type `vswitch`. */
-  vswitch_id?: number | null;
+  vswitch_id?: number | null | undefined;
 }
 /** List of subnets allocated in this [Network](#tag/networks). */
 export type ListNetworksResponseNetworksItemSubnetsList =
@@ -346,7 +346,7 @@ export interface ListNetworksResponseNetworksItem {
   /** Array of IDs of [Servers](#tag/servers) attached to this [Network](#tag/networks). */
   servers: ListNetworksResponseNetworksItemServersList;
   /** Array of IDs of [Load Balancers](#tag/load-balancers) attached to this [Network](#tag/networks). */
-  load_balancers?: ListNetworksResponseNetworksItemLoadBalancersList;
+  load_balancers?: ListNetworksResponseNetworksItemLoadBalancersList | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateNetworkResponseNetworkProtection;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -370,11 +370,11 @@ export interface UpdateNetworkRequest {
   /** ID of the Network. */
   id: number;
   /** New [Network](#tag/networks) name. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateNetworkRequestLabelsMap;
+  labels?: UpdateNetworkRequestLabelsMap | undefined;
   /** Toggle to expose routes to the [Networks](#tag/networks) vSwitch. Indicates if the routes from this [Network](#tag/networks) should be exposed to the vSwitch in this [Network](#tag/networks). Only takes effect if a [vSwitch is setup](https://docs.hetzner.com/cloud/networks/connect-dedi-vswitch) in this [Network](#tag/networks). */
-  expose_routes_to_vswitch?: boolean;
+  expose_routes_to_vswitch?: boolean | undefined;
 }
 /** Type of subnet. */
 export type UpdateNetworkResponseNetworkSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -382,13 +382,13 @@ export interface UpdateNetworkResponseNetworkSubnetsItem {
   /** Type of subnet. */
   type: UpdateNetworkResponseNetworkSubnetsItemType;
   /** IP range of the subnet. Uses CIDR notation. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` property it belongs to. */
   network_zone: string;
   /** Gateway for [Servers](#tag/servers) attached to this subnet. For subnets of type `server` this is always the first IP of the subnets IP range. */
   gateway: string;
   /** ID of the robot vSwitch if the subnet is of type `vswitch`. */
-  vswitch_id?: number | null;
+  vswitch_id?: number | null | undefined;
 }
 /** List of subnets allocated in this [Network](#tag/networks). */
 export type UpdateNetworkResponseNetworkSubnetsList =
@@ -418,7 +418,7 @@ export interface UpdateNetworkResponseNetwork {
   /** Array of IDs of [Servers](#tag/servers) attached to this [Network](#tag/networks). */
   servers: UpdateNetworkResponseNetworkServersList;
   /** Array of IDs of [Load Balancers](#tag/load-balancers) attached to this [Network](#tag/networks). */
-  load_balancers?: UpdateNetworkResponseNetworkLoadBalancersList;
+  load_balancers?: UpdateNetworkResponseNetworkLoadBalancersList | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateNetworkResponseNetworkProtection;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -429,7 +429,7 @@ export interface UpdateNetworkResponseNetwork {
   expose_routes_to_vswitch: boolean;
 }
 export interface UpdateNetworkResponse {
-  network?: UpdateNetworkResponseNetwork;
+  network?: UpdateNetworkResponseNetwork | undefined;
 }
 export type CreateNetworkError = HetznerOpError;
 /** Create a Network Creates a [Network](#tag/networks). The provided `ip_range` can only be extended later on, but not reduced. Subnets can be added now or later on using the [add subnet action](#tag/network-actions/add_network_subnet). If you do not specify an `ip_range` for the subnet the first available /24 range will be used. Routes can be added now or later by using the [add route action](#tag/network-actions/add_network_route). */

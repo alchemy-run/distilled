@@ -56,44 +56,44 @@ export interface GetUserHomeSettingsRequest {
 }
 export interface PinnedSceneTab {
   /** Stable identifier for the tab. Generated client-side; safe to omit on create. */
-  id?: string;
+  id?: string | undefined;
   /** URL pathname the tab points at -- for example `/project/123/dashboard/45` or `/project/123/insights`. Combined with `search` and `hash` to reconstruct the destination. */
-  pathname?: string;
+  pathname?: string | undefined;
   /** Query string portion of the URL, including the leading `?`. Empty string when there is no query. */
-  search?: string;
+  search?: string | undefined;
   /** Fragment portion of the URL, including the leading `#`. Empty string when there is no fragment. */
-  hash?: string;
+  hash?: string | undefined;
   /** Default tab title derived from the destination scene. Used when `customTitle` is not set. */
-  title?: string;
+  title?: string | undefined;
   /** Optional user-provided title that overrides `title` in the navigation UI. */
-  customTitle?: string | null;
+  customTitle?: string | null | undefined;
   /** Icon key shown next to the tab in the sidebar -- for example `dashboard`, `insight`, `blank`. */
-  iconType?: string;
+  iconType?: string | undefined;
   /** Scene identifier resolved from the pathname when known -- used by the frontend for icon/title hints. */
-  sceneId?: string | null;
+  sceneId?: string | null | undefined;
   /** Scene key (logic key) for the destination, paired with `sceneParams` for deeper routing context. */
-  sceneKey?: string | null;
+  sceneKey?: string | null | undefined;
   /** Free-form scene parameters captured at pin time, used by the frontend to rehydrate the destination. */
-  sceneParams?: unknown;
+  sceneParams?: unknown | undefined;
   /** Whether this entry is pinned. Always coerced to true on save -- pass true or omit. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
 }
 /** Ordered list of pinned navigation tabs shown in the sidebar for the authenticated user within the current team. Send the full list to replace the existing pins; omit to leave them unchanged. */
 export type PinnedSceneTabsTabsList = Array<PinnedSceneTab>;
 export interface PinnedSceneTabs {
   /** Ordered list of pinned navigation tabs shown in the sidebar for the authenticated user within the current team. Send the full list to replace the existing pins; omit to leave them unchanged. */
-  tabs?: PinnedSceneTabsTabsList;
+  tabs?: PinnedSceneTabsTabsList | undefined;
   /** Tab descriptor for the user's chosen home page -- the destination opened when they click the PostHog logo or hit `/`. Set to a tab descriptor to pick a homepage, send `null` or `{}` to clear it and fall back to the project default. */
-  homepage?: PinnedSceneTab | null;
+  homepage?: PinnedSceneTab | null | undefined;
 }
 /** Ordered list of pinned navigation tabs shown in the sidebar for the authenticated user within the current team. Send the full list to replace the existing pins; omit to leave them unchanged. */
 export type UpdateUserHomeSettingsPartialRequestTabsList = Array<PinnedSceneTab>;
 export interface UpdateUserHomeSettingsPartialRequest {
   uuid: string;
   /** Ordered list of pinned navigation tabs shown in the sidebar for the authenticated user within the current team. Send the full list to replace the existing pins; omit to leave them unchanged. */
-  tabs?: UpdateUserHomeSettingsPartialRequestTabsList;
+  tabs?: UpdateUserHomeSettingsPartialRequestTabsList | undefined;
   /** Tab descriptor for the user's chosen home page -- the destination opened when they click the PostHog logo or hit `/`. Set to a tab descriptor to pick a homepage, send `null` or `{}` to clear it and fall back to the project default. */
-  homepage?: PinnedSceneTab | null;
+  homepage?: PinnedSceneTab | null | undefined;
 }
 export type GetUserHomeSettingsError = Forbidden | NotFound | PosthogOpError;
 /** Get the authenticated user's pinned sidebar tabs and configured homepage for the current team. Pass `@me` as the UUID. */

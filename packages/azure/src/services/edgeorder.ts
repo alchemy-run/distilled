@@ -52,49 +52,49 @@ export type AddressType = "None" | "Residential" | "Commercial";
 /** Shipping address where customer wishes to receive the device. */
 export interface ShippingAddress {
   /** Street Address line 1. */
-  streetAddress1?: string;
+  streetAddress1?: string | undefined;
   /** Street Address line 2. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** Street Address line 3. */
-  streetAddress3?: string;
+  streetAddress3?: string | undefined;
   /** Name of the City. */
-  city?: string;
+  city?: string | undefined;
   /** Name of the State or Province. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** Name of the Country. */
   country: string;
   /** Postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Extended Zip Code. */
-  zipExtendedCode?: string;
+  zipExtendedCode?: string | undefined;
   /** Name of the company. */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Type of address. */
-  addressType?: AddressType | (string & {});
+  addressType?: AddressType | (string & {}) | undefined;
 }
 /** List of Email-ids to be notified about job progress. */
 export type ContactDetailsEmailListList = Array<string>;
 /** Contact Details. */
 export interface ContactDetails {
   /** Contact name of the person. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** Phone number of the contact person. */
-  phone?: string;
+  phone?: string | undefined;
   /** Phone extension number of the contact person. */
-  phoneExtension?: string;
+  phoneExtension?: string | undefined;
   /** Mobile number of the contact person. */
-  mobile?: string;
+  mobile?: string | undefined;
   /** List of Email-ids to be notified about job progress. */
-  emailList?: ContactDetailsEmailListList;
+  emailList?: ContactDetailsEmailListList | undefined;
 }
 /** Address Properties. */
 export interface AddressPropertiesInput {
   /** Type of address based on its usage context. */
-  addressClassification?: AddressClassification | (string & {});
+  addressClassification?: AddressClassification | (string & {}) | undefined;
   /** Shipping details for the address. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Contact details for the address. */
-  contactDetails?: ContactDetails;
+  contactDetails?: ContactDetails | undefined;
 }
 export interface CreateAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -104,7 +104,7 @@ export interface CreateAddressRequest {
   /** The name of the address Resource within the specified resource group. address names must be between 3 and 24 characters in length and use any alphanumeric and underscore only. */
   addressName: string;
   /** Resource tags. */
-  tags?: CreateAddressRequestTagsMap;
+  tags?: CreateAddressRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an address. */
@@ -117,17 +117,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAddressResponseTagsMap = { [key: string]: string | undefined };
@@ -138,35 +138,35 @@ export type ProvisioningState = "Creating" | "Succeeded" | "Failed" | "Canceled"
 /** Address Properties. */
 export interface AddressProperties {
   /** Type of address based on its usage context. */
-  addressClassification?: AddressClassification;
+  addressClassification?: AddressClassification | undefined;
   /** Shipping details for the address. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Contact details for the address. */
-  contactDetails?: ContactDetails;
+  contactDetails?: ContactDetails | undefined;
   /** Status of address validation. */
-  addressValidationStatus?: AddressValidationStatus;
+  addressValidationStatus?: AddressValidationStatus | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateAddressResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAddressResponseTagsMap;
+  tags?: CreateAddressResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an address. */
   properties: AddressProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateOrderItemRequestTagsMap = { [key: string]: string | undefined };
@@ -175,15 +175,15 @@ export interface DisplayInfoInput {}
 /** Holds details about product hierarchy information. */
 export interface HierarchyInformation {
   /** Represents product family name that uniquely identifies product family. */
-  productFamilyName?: string;
+  productFamilyName?: string | undefined;
   /** Represents product line name that uniquely identifies product line. */
-  productLineName?: string;
+  productLineName?: string | undefined;
   /** Represents product name that uniquely identifies product. */
-  productName?: string;
+  productName?: string | undefined;
   /** Represents configuration name that uniquely identifies configuration. */
-  configurationName?: string;
+  configurationName?: string | undefined;
   /** Represents Model Display Name. */
-  configurationIdDisplayName?: string;
+  configurationIdDisplayName?: string | undefined;
 }
 /** Auto Provisioning Details. */
 export type AutoProvisioningStatus = "Enabled" | "Disabled";
@@ -192,23 +192,23 @@ export type DevicePresenceVerificationDetailsInput = DisplayInfoInput;
 /** Details Related To Provision Resource. */
 export interface ProvisioningDetailsInput {
   /** Quantity of the devices. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Provisioning Resource Arm ID. */
-  provisioningArmId?: string;
+  provisioningArmId?: string | undefined;
   /** Provisioning End Point. */
-  provisioningEndPoint?: string;
+  provisioningEndPoint?: string | undefined;
   /** Serial Number for the Device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Vendor Name for the Device , (for 1P devices - Microsoft). */
-  vendorName?: string;
+  vendorName?: string | undefined;
   /** Arc Enabled Resource Arm id. */
-  readyToConnectArmId?: string;
+  readyToConnectArmId?: string | undefined;
   /** Management Resource ArmId. */
-  managementResourceArmId?: string;
+  managementResourceArmId?: string | undefined;
   /** Auto Provisioning Details. */
-  autoProvisioningStatus?: AutoProvisioningStatus | (string & {});
+  autoProvisioningStatus?: AutoProvisioningStatus | (string & {}) | undefined;
   /** Proof of possession details. */
-  devicePresenceVerification?: DisplayInfoInput;
+  devicePresenceVerification?: DisplayInfoInput | undefined;
 }
 /** List Provisioning Details for Devices in Additional Config. */
 export type AdditionalConfigurationInputProvisioningDetailsList = Array<ProvisioningDetailsInput>;
@@ -219,7 +219,7 @@ export interface AdditionalConfigurationInput {
   /** Quantity of the product. */
   quantity: number;
   /** List Provisioning Details for Devices in Additional Config. */
-  provisioningDetails?: AdditionalConfigurationInputProvisioningDetailsList;
+  provisioningDetails?: AdditionalConfigurationInputProvisioningDetailsList | undefined;
 }
 /** List of additional configurations customer wants in the order item apart from the ones included in the base configuration. */
 export type ProductDetailsInputOptInAdditionalConfigurationsList =
@@ -227,13 +227,13 @@ export type ProductDetailsInputOptInAdditionalConfigurationsList =
 /** Represents product details. */
 export interface ProductDetailsInput {
   /** Display details of the product. */
-  displayInfo?: DisplayInfoInput;
+  displayInfo?: DisplayInfoInput | undefined;
   /** Hierarchy of the product which uniquely identifies the product. */
   hierarchyInformation: HierarchyInformation;
   /** Device Provisioning Details for Parent. */
-  parentProvisioningDetails?: ProvisioningDetailsInput;
+  parentProvisioningDetails?: ProvisioningDetailsInput | undefined;
   /** List of additional configurations customer wants in the order item apart from the ones included in the base configuration. */
-  optInAdditionalConfigurations?: ProductDetailsInputOptInAdditionalConfigurationsList;
+  optInAdditionalConfigurations?: ProductDetailsInputOptInAdditionalConfigurationsList | undefined;
 }
 /** Order item type. */
 export type OrderItemType = "Purchase" | "Rental" | "External";
@@ -267,12 +267,12 @@ export type DoubleEncryptionStatus = "Disabled" | "Enabled";
 /** Preferences related to the double encryption. */
 export interface EncryptionPreferences {
   /** Double encryption status as entered by the customer. It is compulsory to give this parameter if the 'Deny' or 'Disabled' policy is configured. */
-  doubleEncryptionStatus?: DoubleEncryptionStatus | (string & {});
+  doubleEncryptionStatus?: DoubleEncryptionStatus | (string & {}) | undefined;
 }
 /** Management resource preference to link device. */
 export interface ManagementResourcePreferences {
   /** Customer preferred Management resource ARM ID. */
-  preferredManagementResourceId?: string;
+  preferredManagementResourceId?: string | undefined;
 }
 /** Term Commitment Type */
 export type TermCommitmentType = "None" | "Trial" | "Timed";
@@ -281,20 +281,20 @@ export interface TermCommitmentPreferences {
   /** Term Commitment Type */
   preferredTermCommitmentType: TermCommitmentType | (string & {});
   /** Customer preferred Term Duration. */
-  preferredTermCommitmentDuration?: string;
+  preferredTermCommitmentDuration?: string | undefined;
 }
 /** Preferences related to the order. */
 export interface Preferences {
   /** Notification preferences. */
-  notificationPreferences?: PreferencesNotificationPreferencesList;
+  notificationPreferences?: PreferencesNotificationPreferencesList | undefined;
   /** Preferences related to the shipment logistics of the order. */
-  transportPreferences?: TransportPreferences;
+  transportPreferences?: TransportPreferences | undefined;
   /** Preferences related to the Encryption. */
-  encryptionPreferences?: EncryptionPreferences;
+  encryptionPreferences?: EncryptionPreferences | undefined;
   /** Preferences related to the Management resource. */
-  managementResourcePreferences?: ManagementResourcePreferences;
+  managementResourcePreferences?: ManagementResourcePreferences | undefined;
   /** Preferences related to the Term commitment. */
-  termCommitmentPreferences?: TermCommitmentPreferences;
+  termCommitmentPreferences?: TermCommitmentPreferences | undefined;
 }
 /** Additional notification email list. */
 export type OrderItemDetailsInputNotificationEmailListList = Array<string>;
@@ -307,15 +307,15 @@ export interface OrderItemDetailsInput {
   /** Order item type. */
   orderItemType: OrderItemType | (string & {});
   /** Defines the mode of the Order item. */
-  orderItemMode?: OrderMode | (string & {});
+  orderItemMode?: OrderMode | (string & {}) | undefined;
   /** Site Related Details. */
-  siteDetails?: SiteDetails;
+  siteDetails?: SiteDetails | undefined;
   /** Customer notification Preferences. */
-  preferences?: Preferences;
+  preferences?: Preferences | undefined;
   /** Additional notification email list. */
-  notificationEmailList?: OrderItemDetailsInputNotificationEmailListList;
+  notificationEmailList?: OrderItemDetailsInputNotificationEmailListList | undefined;
   /** The error detail. */
-  error?: DisplayInfoInput;
+  error?: DisplayInfoInput | undefined;
 }
 /** Address details for an order item. */
 export interface AddressDetailsInput {
@@ -327,7 +327,7 @@ export interface OrderItemPropertiesInput {
   /** Represents order item details. */
   orderItemDetails: OrderItemDetailsInput;
   /** Represents shipping and return address for order item. */
-  addressDetails?: AddressDetailsInput;
+  addressDetails?: AddressDetailsInput | undefined;
   /** Id of the order to which order item belongs to. */
   orderId: string;
 }
@@ -340,9 +340,9 @@ export type ResourceIdentityInputUserAssignedIdentitiesMap = {
 /** Msi identity details of the resource */
 export interface ResourceIdentityInput {
   /** Identity type */
-  type?: string;
+  type?: string | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateOrderItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -352,22 +352,22 @@ export interface CreateOrderItemRequest {
   /** The name of the order item. */
   orderItemName: string;
   /** Resource tags. */
-  tags?: CreateOrderItemRequestTagsMap;
+  tags?: CreateOrderItemRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Order item properties. */
   properties: OrderItemPropertiesInput;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateOrderItemResponseTagsMap = { [key: string]: string | undefined };
 /** Describes product display information. */
 export interface DisplayInfo {
   /** Product family display name. */
-  productFamilyDisplayName?: string;
+  productFamilyDisplayName?: string | undefined;
   /** Configuration display name. */
-  configurationDisplayName?: string;
+  configurationDisplayName?: string | undefined;
 }
 /** Identification type of the configuration. */
 export type IdentificationType = "NotSupported" | "SerialNumber";
@@ -378,47 +378,47 @@ export type DevicePresenceVerificationStatus = "NotInitiated" | "Completed";
 /** Proof of possession details. */
 export interface DevicePresenceVerificationDetails {
   /** Proof of possession status. */
-  status?: DevicePresenceVerificationStatus;
+  status?: DevicePresenceVerificationStatus | undefined;
   /** Insights on current status. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Details Related To Provision Resource. */
 export interface ProvisioningDetails {
   /** Quantity of the devices. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Provisioning Resource Arm ID. */
-  provisioningArmId?: string;
+  provisioningArmId?: string | undefined;
   /** Provisioning End Point. */
-  provisioningEndPoint?: string;
+  provisioningEndPoint?: string | undefined;
   /** Serial Number for the Device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Vendor Name for the Device , (for 1P devices - Microsoft). */
-  vendorName?: string;
+  vendorName?: string | undefined;
   /** Arc Enabled Resource Arm id. */
-  readyToConnectArmId?: string;
+  readyToConnectArmId?: string | undefined;
   /** Management Resource ArmId. */
-  managementResourceArmId?: string;
+  managementResourceArmId?: string | undefined;
   /** Unique Identity for a Device. */
-  uniqueDeviceIdentifier?: string;
+  uniqueDeviceIdentifier?: string | undefined;
   /** Auto Provisioning Details. */
-  autoProvisioningStatus?: AutoProvisioningStatus;
+  autoProvisioningStatus?: AutoProvisioningStatus | undefined;
   /** Proof of possession details. */
-  devicePresenceVerification?: DevicePresenceVerificationDetails;
+  devicePresenceVerification?: DevicePresenceVerificationDetails | undefined;
 }
 /** Device details. */
 export interface DeviceDetails {
   /** Device serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Device serial number to be displayed. */
-  displaySerialNumber?: string;
+  displaySerialNumber?: string | undefined;
   /** Management Resource Id. */
-  managementResourceId?: string;
+  managementResourceId?: string | undefined;
   /** Management Resource Tenant ID. */
-  managementResourceTenantId?: string;
+  managementResourceTenantId?: string | undefined;
   /** Determining nature of provisioning that the configuration supports. */
-  provisioningSupport?: ProvisioningSupport;
+  provisioningSupport?: ProvisioningSupport | undefined;
   /** Provisioning Details for the device. */
-  provisioningDetails?: ProvisioningDetails;
+  provisioningDetails?: ProvisioningDetails | undefined;
 }
 /** List Provisioning Details for Devices in Additional Config. */
 export type AdditionalConfigurationProvisioningDetailsList = Array<ProvisioningDetails>;
@@ -429,7 +429,7 @@ export interface AdditionalConfiguration {
   /** Quantity of the product. */
   quantity: number;
   /** List Provisioning Details for Devices in Additional Config. */
-  provisioningDetails?: AdditionalConfigurationProvisioningDetailsList;
+  provisioningDetails?: AdditionalConfigurationProvisioningDetailsList | undefined;
 }
 /** List of additional configurations customer wants in the order item apart from the ones included in the base configuration. */
 export type ProductDetailsOptInAdditionalConfigurationsList = Array<AdditionalConfiguration>;
@@ -440,47 +440,47 @@ export interface TermCommitmentInformation {
   /** Term Commitment Type */
   termCommitmentType: TermCommitmentType;
   /** Term Commitment Duration. Currently Supporting P365D, P1095D */
-  termCommitmentTypeDuration?: string;
+  termCommitmentTypeDuration?: string | undefined;
   /** Number of Days Pending for Term Commitment */
-  pendingDaysForTerm?: number;
+  pendingDaysForTerm?: number | undefined;
 }
 /** Device details for configuration. */
 export interface ConfigurationDeviceDetails {
   /** Display details of the product. */
-  displayInfo?: DisplayInfo;
+  displayInfo?: DisplayInfo | undefined;
   /** Hierarchy of the product which uniquely identifies the configuration. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** Quantity of the product. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Identification type of the configuration. */
-  identificationType?: IdentificationType;
+  identificationType?: IdentificationType | undefined;
   /** List of device details. */
-  deviceDetails?: ConfigurationDeviceDetailsDeviceDetailsList;
+  deviceDetails?: ConfigurationDeviceDetailsDeviceDetailsList | undefined;
   /** Term Commitment Information of the Device. */
-  termCommitmentInformation?: TermCommitmentInformation;
+  termCommitmentInformation?: TermCommitmentInformation | undefined;
 }
 /** Details of all child configurations that are part of the order item. */
 export type ProductDetailsChildConfigurationDeviceDetailsList = Array<ConfigurationDeviceDetails>;
 /** Represents product details. */
 export interface ProductDetails {
   /** Display details of the product. */
-  displayInfo?: DisplayInfo;
+  displayInfo?: DisplayInfo | undefined;
   /** Hierarchy of the product which uniquely identifies the product. */
   hierarchyInformation: HierarchyInformation;
   /** Double encryption status of the configuration. Read-only field. */
-  productDoubleEncryptionStatus?: DoubleEncryptionStatus;
+  productDoubleEncryptionStatus?: DoubleEncryptionStatus | undefined;
   /** Identification type of the configuration. */
-  identificationType?: IdentificationType;
+  identificationType?: IdentificationType | undefined;
   /** Device details of the parent configuration. */
-  parentDeviceDetails?: DeviceDetails;
+  parentDeviceDetails?: DeviceDetails | undefined;
   /** Device Provisioning Details for Parent. */
-  parentProvisioningDetails?: ProvisioningDetails;
+  parentProvisioningDetails?: ProvisioningDetails | undefined;
   /** List of additional configurations customer wants in the order item apart from the ones included in the base configuration. */
-  optInAdditionalConfigurations?: ProductDetailsOptInAdditionalConfigurationsList;
+  optInAdditionalConfigurations?: ProductDetailsOptInAdditionalConfigurationsList | undefined;
   /** Details of all child configurations that are part of the order item. */
-  childConfigurationDeviceDetails?: ProductDetailsChildConfigurationDeviceDetailsList;
+  childConfigurationDeviceDetails?: ProductDetailsChildConfigurationDeviceDetailsList | undefined;
   /** Term Commitment Information of the Device. */
-  termCommitmentInformation?: TermCommitmentInformation;
+  termCommitmentInformation?: TermCommitmentInformation | undefined;
 }
 /** Stage status. */
 export type StageStatus =
@@ -508,39 +508,39 @@ export type StageName =
 /** Resource stage details. */
 export interface StageDetails {
   /** Stage status. */
-  stageStatus?: StageStatus;
+  stageStatus?: StageStatus | undefined;
   /** Stage name. */
-  stageName?: StageName;
+  stageName?: StageName | undefined;
   /** Display name of the resource stage. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Stage start time. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** Order item status history. */
 export type OrderItemDetailsOrderItemStageHistoryList = Array<StageDetails>;
 /** Forward shipment details. */
 export interface ForwardShippingDetails {
   /** Name of the carrier. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Carrier Name for display purpose. Not to be used for any processing. */
-  carrierDisplayName?: string;
+  carrierDisplayName?: string | undefined;
   /** TrackingId of the package. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** TrackingUrl of the package. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Reverse shipment details. */
 export interface ReverseShippingDetails {
   /** SAS key to download the reverse shipment label of the package. */
-  sasKeyForLabel?: string;
+  sasKeyForLabel?: string | undefined;
   /** Name of the carrier. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Carrier Name for display purpose. Not to be used for any processing. */
-  carrierDisplayName?: string;
+  carrierDisplayName?: string | undefined;
   /** TrackingId of the package. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** TrackingUrl of the package. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Additional notification email list. */
 export type OrderItemDetailsNotificationEmailListList = Array<string>;
@@ -553,7 +553,7 @@ export type OrderItemReturnEnum = "Returnable" | "ReturnableWithFee" | "NotRetur
 /** Management RP details. */
 export interface ResourceProviderDetails {
   /** Resource provider namespace. */
-  resourceProviderNamespace?: string;
+  resourceProviderNamespace?: string | undefined;
 }
 /** List of parent RP details supported for configuration. */
 export type OrderItemDetailsManagementRpDetailsListList = Array<ResourceProviderDetails>;
@@ -562,24 +562,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type OrderItemDetailsErrorDetailsList = Array<ErrorDetail>;
@@ -588,15 +588,15 @@ export type OrderItemDetailsErrorAdditionalInfoList = Array<ErrorAdditionalInfo>
 /** The error detail. */
 export interface OrderItemDetailsError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: OrderItemDetailsErrorDetailsList;
+  details?: OrderItemDetailsErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: OrderItemDetailsErrorAdditionalInfoList;
+  additionalInfo?: OrderItemDetailsErrorAdditionalInfoList | undefined;
 }
 /** Order item details. */
 export interface OrderItemDetails {
@@ -605,62 +605,62 @@ export interface OrderItemDetails {
   /** Order item type. */
   orderItemType: OrderItemType;
   /** Defines the mode of the Order item. */
-  orderItemMode?: OrderMode;
+  orderItemMode?: OrderMode | undefined;
   /** Site Related Details. */
-  siteDetails?: SiteDetails;
+  siteDetails?: SiteDetails | undefined;
   /** Current Order item Status. */
-  currentStage?: StageDetails;
+  currentStage?: StageDetails | undefined;
   /** Order item status history. */
-  orderItemStageHistory?: OrderItemDetailsOrderItemStageHistoryList;
+  orderItemStageHistory?: OrderItemDetailsOrderItemStageHistoryList | undefined;
   /** Customer notification Preferences. */
-  preferences?: Preferences;
+  preferences?: Preferences | undefined;
   /** Forward Package Shipping details. */
-  forwardShippingDetails?: ForwardShippingDetails;
+  forwardShippingDetails?: ForwardShippingDetails | undefined;
   /** Reverse Package Shipping details. */
-  reverseShippingDetails?: ReverseShippingDetails;
+  reverseShippingDetails?: ReverseShippingDetails | undefined;
   /** Additional notification email list. */
-  notificationEmailList?: OrderItemDetailsNotificationEmailListList;
+  notificationEmailList?: OrderItemDetailsNotificationEmailListList | undefined;
   /** Cancellation reason. */
-  cancellationReason?: string;
+  cancellationReason?: string | undefined;
   /** Describes whether the order item is cancellable or not. */
-  cancellationStatus?: OrderItemCancellationEnum;
+  cancellationStatus?: OrderItemCancellationEnum | undefined;
   /** Describes whether the order item is deletable or not. */
-  deletionStatus?: ActionStatusEnum;
+  deletionStatus?: ActionStatusEnum | undefined;
   /** Return reason. */
-  returnReason?: string;
+  returnReason?: string | undefined;
   /** Describes whether the order item is returnable or not. */
-  returnStatus?: OrderItemReturnEnum;
+  returnStatus?: OrderItemReturnEnum | undefined;
   /** List of parent RP details supported for configuration. */
-  managementRpDetailsList?: OrderItemDetailsManagementRpDetailsListList;
+  managementRpDetailsList?: OrderItemDetailsManagementRpDetailsListList | undefined;
   /** The error detail. */
-  error?: OrderItemDetailsError;
+  error?: OrderItemDetailsError | undefined;
 }
 /** Address details for an order item. */
 export interface AddressDetails {
   /** Customer address and contact details. */
   forwardAddress: AddressProperties;
   /** Return shipping address. */
-  returnAddress?: AddressProperties;
+  returnAddress?: AddressProperties | undefined;
 }
 /** Represents order item properties. */
 export interface OrderItemProperties {
   /** Represents order item details. */
   orderItemDetails: OrderItemDetails;
   /** Represents shipping and return address for order item. */
-  addressDetails?: AddressDetails;
+  addressDetails?: AddressDetails | undefined;
   /** Start time of order item. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Id of the order to which order item belongs to. */
   orderId: string;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** User assigned identity properties */
 export interface ResourceIdentityUserAssignedIdentitiesValue {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User Assigned Identities */
 export type ResourceIdentityUserAssignedIdentitiesMap = {
@@ -669,35 +669,35 @@ export type ResourceIdentityUserAssignedIdentitiesMap = {
 /** Msi identity details of the resource */
 export interface ResourceIdentity {
   /** Identity type */
-  type?: string;
+  type?: string | undefined;
   /** Service Principal Id backing the Msi */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Home Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateOrderItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateOrderItemResponseTagsMap;
+  tags?: CreateOrderItemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Order item properties. */
   properties: OrderItemProperties;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -709,9 +709,9 @@ export interface DeleteAddressRequest {
 }
 export interface DeleteAddressResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOrderItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -723,9 +723,9 @@ export interface DeleteOrderItemRequest {
 }
 export interface DeleteOrderItemResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -739,15 +739,15 @@ export interface GetAddressRequest {
 export type GetAddressResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAddressResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAddressResponseTagsMap;
+  tags?: GetAddressResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an address. */
@@ -770,23 +770,23 @@ export type OrderPropertiesOrderStageHistoryList = Array<StageDetails>;
 /** Represents order details. */
 export interface OrderProperties {
   /** List of order item ARM Ids which are part of an order. */
-  orderItemIds?: OrderPropertiesOrderItemIdsList;
+  orderItemIds?: OrderPropertiesOrderItemIdsList | undefined;
   /** Order current status. */
-  currentStage?: StageDetails;
+  currentStage?: StageDetails | undefined;
   /** Order status history. */
-  orderStageHistory?: OrderPropertiesOrderStageHistoryList;
+  orderStageHistory?: OrderPropertiesOrderStageHistoryList | undefined;
   /** Order mode. */
-  orderMode?: OrderMode;
+  orderMode?: OrderMode | undefined;
 }
 export interface GetOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Order properties. */
   properties: OrderProperties;
 }
@@ -798,27 +798,27 @@ export interface GetOrderItemRequest {
   /** The name of the order item. */
   orderItemName: string;
   /** $expand is supported on parent device details, device details, forward shipping details and reverse shipping details parameters. Each of these can be provided as a comma separated list. Parent Device Details for order item provides details on the devices of the product, Device Details for order item provides details on the devices of the child configurations of the product, Forward and Reverse Shipping details provide forward and reverse shipping details respectively. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetOrderItemResponseTagsMap = { [key: string]: string | undefined };
 export interface GetOrderItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOrderItemResponseTagsMap;
+  tags?: GetOrderItemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Order item properties. */
   properties: OrderItemProperties;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 export interface ListAddressByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -826,26 +826,26 @@ export interface ListAddressByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** $filter is supported to filter based on shipping address properties. Filter supports only equals operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** $skipToken is supported on Get list of addresses, which provides the next page in the list of addresses. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type AddressResourceTagsMap = { [key: string]: string | undefined };
 /** Address Resource. */
 export interface AddressResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AddressResourceTagsMap;
+  tags?: AddressResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an address. */
@@ -858,29 +858,29 @@ export interface AddressResourceList {
   /** The AddressResource items on this page */
   value: AddressResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAddressBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $filter is supported to filter based on shipping address properties. Filter supports only equals operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** $skipToken is supported on Get list of addresses, which provides the next page in the list of addresses. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -889,23 +889,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -913,20 +913,20 @@ export interface ListOrderByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** $skipToken is supported on Get list of orders, which provides the next page in the list of orders. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Specifies the properties or parameters for an order. Order is a grouping of one or more order items. */
 export interface OrderResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Order properties. */
   properties: OrderProperties;
 }
@@ -937,15 +937,15 @@ export interface OrderResourceList {
   /** The OrderResource items on this page */
   value: OrderResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $skipToken is supported on Get list of orders, which provides the next page in the list of orders. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListOrderItemByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -953,34 +953,34 @@ export interface ListOrderItemByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** $filter is supported to filter based on order id and order Item Type. Filter supports only equals operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** $expand is supported on parent device details, device details, forward shipping details and reverse shipping details parameters. Each of these can be provided as a comma separated list. Parent Device Details for order item provides details on the devices of the product, Device Details for order item provides details on the devices of the child configurations of the product, Forward and Reverse Shipping details provide forward and reverse shipping details respectively. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** $skipToken is supported on Get list of order items, which provides the next page in the list of order items. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type OrderItemResourceTagsMap = { [key: string]: string | undefined };
 /** Represents order item resource. */
 export interface OrderItemResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OrderItemResourceTagsMap;
+  tags?: OrderItemResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Order item properties. */
   properties: OrderItemProperties;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 /** The OrderItemResource items on this page */
 export type OrderItemResourceListValueList = Array<OrderItemResource>;
@@ -989,19 +989,19 @@ export interface OrderItemResourceList {
   /** The OrderItemResource items on this page */
   value: OrderItemResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderItemBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $filter is supported to filter based on order id and order Item Type. Filter supports only equals operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** $expand is supported on parent device details, device details, forward shipping details and reverse shipping details parameters. Each of these can be provided as a comma separated list. Parent Device Details for order item provides details on the devices of the product, Device Details for order item provides details on the devices of the child configurations of the product, Forward and Reverse Shipping details provide forward and reverse shipping details respectively. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** $skipToken is supported on Get list of order items, which provides the next page in the list of order items. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** $top is supported on fetching list of resources. $top=10 means that the first 10 items in the list will be returned to the API caller. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Type of product filter. */
 export type SupportedFilterTypes = "ShipToCountries" | "DoubleEncryptionStatus";
@@ -1026,25 +1026,25 @@ export type ChildConfigurationFilterChildConfigurationTypesList = Array<
 /** Child configuration filter. */
 export interface ChildConfigurationFilter {
   /** The list of child configuration hierarchy customer wants to filter for the given configuration. */
-  hierarchyInformations?: ChildConfigurationFilterHierarchyInformationsList;
+  hierarchyInformations?: ChildConfigurationFilterHierarchyInformationsList | undefined;
   /** Filter to fetch all child configurations belonging to the given list of configuration types. */
-  childConfigurationTypes?: ChildConfigurationFilterChildConfigurationTypesList;
+  childConfigurationTypes?: ChildConfigurationFilterChildConfigurationTypesList | undefined;
 }
 /** Configuration filters. */
 export interface ConfigurationFilter {
   /** Product hierarchy information. */
   hierarchyInformation: HierarchyInformation;
   /** Filters specific to product. */
-  filterableProperty?: ConfigurationFilterFilterablePropertyList;
+  filterableProperty?: ConfigurationFilterFilterablePropertyList | undefined;
   /** Filter to fetch specific child configurations that exist in the configuration. This must be passed to either fetch a list of specific child configurations, or all child configurations of specific types of child configurations. */
-  childConfigurationFilter?: ChildConfigurationFilter;
+  childConfigurationFilter?: ChildConfigurationFilter | undefined;
 }
 /** Represents subscription registered features. */
 export interface CustomerSubscriptionRegisteredFeatures {
   /** Name of subscription registered feature. */
-  name?: string;
+  name?: string | undefined;
   /** State of subscription registered feature. */
-  state?: string;
+  state?: string | undefined;
 }
 /** List of registered feature flags for subscription. */
 export type CustomerSubscriptionDetailsRegisteredFeaturesList =
@@ -1052,9 +1052,9 @@ export type CustomerSubscriptionDetailsRegisteredFeaturesList =
 /** Holds Customer subscription details. Clients can display available products to unregistered customers by explicitly passing subscription details. */
 export interface CustomerSubscriptionDetails {
   /** List of registered feature flags for subscription. */
-  registeredFeatures?: CustomerSubscriptionDetailsRegisteredFeaturesList;
+  registeredFeatures?: CustomerSubscriptionDetailsRegisteredFeaturesList | undefined;
   /** Location placement Id of a subscription. */
-  locationPlacementId?: string;
+  locationPlacementId?: string | undefined;
   /** Quota ID of a subscription. */
   quotaId: string;
 }
@@ -1062,11 +1062,11 @@ export interface ListProductsAndConfigurationConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $skipToken is supported on list of configurations, which provides the next page in the list of configurations. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Holds details about product hierarchy information and filterable property. */
-  configurationFilter?: ConfigurationFilter;
+  configurationFilter?: ConfigurationFilter | undefined;
   /** Customer subscription properties. Clients can display available products to unregistered customers by explicitly passing subscription details. */
-  customerSubscriptionDetails?: CustomerSubscriptionDetails;
+  customerSubscriptionDetails?: CustomerSubscriptionDetails | undefined;
 }
 /** Type of description. */
 export type DescriptionType = "Base";
@@ -1086,35 +1086,35 @@ export type LinkType =
 /** Returns link related to the product. */
 export interface Link {
   /** Type of link. */
-  linkType?: LinkType;
+  linkType?: LinkType | undefined;
   /** Url of the link. */
-  linkUrl?: string;
+  linkUrl?: string | undefined;
 }
 /** Links for the product system. */
 export type DescriptionLinksList = Array<Link>;
 /** Description related properties of a product system. */
 export interface Description {
   /** Type of description. */
-  descriptionType?: DescriptionType;
+  descriptionType?: DescriptionType | undefined;
   /** Short description of the product system. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Long description of the product system. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** Keywords for the product system. */
-  keywords?: DescriptionKeywordsList;
+  keywords?: DescriptionKeywordsList | undefined;
   /** Attributes for the product system. */
-  attributes?: DescriptionAttributesList;
+  attributes?: DescriptionAttributesList | undefined;
   /** Links for the product system. */
-  links?: DescriptionLinksList;
+  links?: DescriptionLinksList | undefined;
 }
 /** Type of the image. */
 export type ImageType = "MainImage" | "BulletImage" | "GenericImage";
 /** Image for the product. */
 export interface ImageInformation {
   /** Type of the image. */
-  imageType?: ImageType;
+  imageType?: ImageType | undefined;
   /** Url of the image. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
 }
 /** Image information for the product system. */
 export type ConfigurationPropertiesImageInformationList = Array<ImageInformation>;
@@ -1127,9 +1127,9 @@ export interface MeterDetails {
   /** Represents billing type. */
   billingType: BillingType;
   /** Billing unit applicable for Pav2 billing. */
-  multiplier?: number;
+  multiplier?: number | undefined;
   /** Charging type. */
-  chargingType?: ChargingType;
+  chargingType?: ChargingType | undefined;
 }
 /** Represents Metering type (eg one-time or recurrent). */
 export type MeteringType = "OneTime" | "Recurring" | "Adhoc";
@@ -1143,24 +1143,24 @@ export interface TermTypeDetails {
 /** Holds billing meter details for each type of billing. */
 export interface BillingMeterDetails {
   /** Represents Billing type name. */
-  name?: string;
+  name?: string | undefined;
   /** Represents MeterDetails. */
-  meterDetails?: MeterDetails;
+  meterDetails?: MeterDetails | undefined;
   /** Represents Metering type (eg one-time or recurrent). */
-  meteringType?: MeteringType;
+  meteringType?: MeteringType | undefined;
   /** Frequency of recurrence. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** Represent Term Type details. */
-  termTypeDetails?: TermTypeDetails;
+  termTypeDetails?: TermTypeDetails | undefined;
 }
 /** Details on the various billing aspects for the product system. */
 export type CostInformationBillingMeterDetailsList = Array<BillingMeterDetails>;
 /** Cost information for the product system. */
 export interface CostInformation {
   /** Details on the various billing aspects for the product system. */
-  billingMeterDetails?: CostInformationBillingMeterDetailsList;
+  billingMeterDetails?: CostInformationBillingMeterDetailsList | undefined;
   /** Default url to display billing information. */
-  billingInfoUrl?: string;
+  billingInfoUrl?: string | undefined;
 }
 /** Current availability stage of the product. */
 export type AvailabilityStage =
@@ -1184,11 +1184,11 @@ export type DisabledReason =
 /** Availability information of a product system. */
 export interface AvailabilityInformation {
   /** Current availability stage of the product. */
-  availabilityStage?: AvailabilityStage;
+  availabilityStage?: AvailabilityStage | undefined;
   /** Reason why the product is disabled. */
-  disabledReason?: DisabledReason;
+  disabledReason?: DisabledReason | undefined;
   /** Message for why the product is disabled. */
-  disabledReasonMessage?: string;
+  disabledReasonMessage?: string | undefined;
 }
 /** The entity responsible for fulfillment of the item at the given hierarchy level. */
 export type FulfillmentType = "Microsoft" | "External";
@@ -1197,9 +1197,9 @@ export type ConfigurationPropertiesFilterablePropertiesList = Array<FilterablePr
 /** Specification of the configurations. */
 export interface Specification {
   /** Name of the specification. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the specification. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Specifications of the configuration. */
 export type ConfigurationPropertiesSpecificationsList = Array<Specification>;
@@ -1210,19 +1210,19 @@ export type WeightMeasurementUnit = "LBS" | "KGS";
 /** Dimensions of a configuration. */
 export interface Dimensions {
   /** Length of the device. */
-  length?: number;
+  length?: number | undefined;
   /** Height of the device. */
-  height?: number;
+  height?: number | undefined;
   /** Width of the device. */
-  width?: number;
+  width?: number | undefined;
   /** Unit for the dimensions of length, height and width. */
-  lengthHeightUnit?: LengthHeightUnit;
+  lengthHeightUnit?: LengthHeightUnit | undefined;
   /** Weight of the device. */
-  weight?: number;
+  weight?: number | undefined;
   /** Depth of the device. */
-  depth?: number;
+  depth?: number | undefined;
   /** Unit for the dimensions of weight. */
-  weightUnit?: WeightMeasurementUnit;
+  weightUnit?: WeightMeasurementUnit | undefined;
 }
 /** Different types of child configurations which exist for this configuration, these can be used to populate the child configuration filter. */
 export type ConfigurationPropertiesChildConfigurationTypesList = Array<ChildConfigurationType>;
@@ -1231,13 +1231,13 @@ export type CategoryInformationLinksList = Array<Link>;
 /** Category related properties of a child configuration. */
 export interface CategoryInformation {
   /** Category name of the child configuration. */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** Category display name of the child configuration. */
-  categoryDisplayName?: string;
+  categoryDisplayName?: string | undefined;
   /** Description text for the category. */
-  description?: string;
+  description?: string | undefined;
   /** Links for the category. */
-  links?: CategoryInformationLinksList;
+  links?: CategoryInformationLinksList | undefined;
 }
 /** Specifications of the configuration. */
 export type ChildConfigurationPropertiesSpecificationsList = Array<Specification>;
@@ -1255,55 +1255,59 @@ export type ChildConfigurationPropertiesImageInformationList = Array<ImageInform
 /** Properties of child configuration. */
 export interface ChildConfigurationProperties {
   /** Child configuration type. */
-  childConfigurationType?: ChildConfigurationType;
+  childConfigurationType?: ChildConfigurationType | undefined;
   /** Flag to indicate if the child configuration is part of the base configuration, which means the customer need not pass this configuration in OptInAdditionalConfigurations while placing an order, it will be shipped by default. */
-  isPartOfBaseConfiguration?: boolean;
+  isPartOfBaseConfiguration?: boolean | undefined;
   /** Minimum quantity a customer can order while choosing this configuration. */
-  minimumQuantity?: number;
+  minimumQuantity?: number | undefined;
   /** Maximum quantity a customer can order while choosing this configuration. */
-  maximumQuantity?: number;
+  maximumQuantity?: number | undefined;
   /** Specifications of the configuration. */
-  specifications?: ChildConfigurationPropertiesSpecificationsList;
+  specifications?: ChildConfigurationPropertiesSpecificationsList | undefined;
   /** Dimensions of the configuration. */
-  dimensions?: Dimensions;
+  dimensions?: Dimensions | undefined;
   /** Determining nature of provisioning that the configuration supports. */
-  provisioningSupport?: ProvisioningSupport;
+  provisioningSupport?: ProvisioningSupport | undefined;
   /** Different types of child configurations which exist for this configuration, these can be used to populate the child configuration filter. */
-  childConfigurationTypes?: ChildConfigurationPropertiesChildConfigurationTypesList;
+  childConfigurationTypes?: ChildConfigurationPropertiesChildConfigurationTypesList | undefined;
   /** Child configurations present for the configuration after applying child configuration filter, grouped by the category name of the child configuration. */
-  groupedChildConfigurations?: ChildConfigurationPropertiesGroupedChildConfigurationsList;
+  groupedChildConfigurations?:
+    | ChildConfigurationPropertiesGroupedChildConfigurationsList
+    | undefined;
   /** The Term Commitment Durations that are supported for a configuration. */
-  supportedTermCommitmentDurations?: ChildConfigurationPropertiesSupportedTermCommitmentDurationsList;
+  supportedTermCommitmentDurations?:
+    | ChildConfigurationPropertiesSupportedTermCommitmentDurationsList
+    | undefined;
   /** List of filters supported for a product. */
-  filterableProperties?: ChildConfigurationPropertiesFilterablePropertiesList;
+  filterableProperties?: ChildConfigurationPropertiesFilterablePropertiesList | undefined;
   /** Display Name for the product system. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description related to the product system. */
-  description?: Description;
+  description?: Description | undefined;
   /** Image information for the product system. */
-  imageInformation?: ChildConfigurationPropertiesImageInformationList;
+  imageInformation?: ChildConfigurationPropertiesImageInformationList | undefined;
   /** Cost information for the product system. */
-  costInformation?: CostInformation;
+  costInformation?: CostInformation | undefined;
   /** Availability information of the product system. */
-  availabilityInformation?: AvailabilityInformation;
+  availabilityInformation?: AvailabilityInformation | undefined;
   /** Hierarchy information of a product. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** The entity responsible for fulfillment of the item at the given hierarchy level. */
-  fulfilledBy?: FulfillmentType;
+  fulfilledBy?: FulfillmentType | undefined;
 }
 /** Child configuration object. */
 export interface ChildConfiguration {
   /** Properties of child configuration. */
-  properties?: ChildConfigurationProperties;
+  properties?: ChildConfigurationProperties | undefined;
 }
 /** List of child configurations. */
 export type GroupedChildConfigurationsChildConfigurationsList = Array<ChildConfiguration>;
 /** Grouped child configuration object. */
 export interface GroupedChildConfigurations {
   /** Category information. */
-  categoryInformation?: CategoryInformation;
+  categoryInformation?: CategoryInformation | undefined;
   /** List of child configurations. */
-  childConfigurations?: GroupedChildConfigurationsChildConfigurationsList;
+  childConfigurations?: GroupedChildConfigurationsChildConfigurationsList | undefined;
 }
 /** Child configurations present for the configuration after applying child configuration filter, grouped by the category name of the child configuration. */
 export type ConfigurationPropertiesGroupedChildConfigurationsList =
@@ -1313,38 +1317,40 @@ export type ConfigurationPropertiesSupportedTermCommitmentDurationsList = Array<
 /** Properties of configuration. */
 export interface ConfigurationProperties {
   /** Display Name for the product system. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description related to the product system. */
-  description?: Description;
+  description?: Description | undefined;
   /** Image information for the product system. */
-  imageInformation?: ConfigurationPropertiesImageInformationList;
+  imageInformation?: ConfigurationPropertiesImageInformationList | undefined;
   /** Cost information for the product system. */
-  costInformation?: CostInformation;
+  costInformation?: CostInformation | undefined;
   /** Availability information of the product system. */
-  availabilityInformation?: AvailabilityInformation;
+  availabilityInformation?: AvailabilityInformation | undefined;
   /** Hierarchy information of a product. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** The entity responsible for fulfillment of the item at the given hierarchy level. */
-  fulfilledBy?: FulfillmentType;
+  fulfilledBy?: FulfillmentType | undefined;
   /** List of filters supported for a product. */
-  filterableProperties?: ConfigurationPropertiesFilterablePropertiesList;
+  filterableProperties?: ConfigurationPropertiesFilterablePropertiesList | undefined;
   /** Specifications of the configuration. */
-  specifications?: ConfigurationPropertiesSpecificationsList;
+  specifications?: ConfigurationPropertiesSpecificationsList | undefined;
   /** Dimensions of the configuration. */
-  dimensions?: Dimensions;
+  dimensions?: Dimensions | undefined;
   /** Determining nature of provisioning that the configuration supports. */
-  provisioningSupport?: ProvisioningSupport;
+  provisioningSupport?: ProvisioningSupport | undefined;
   /** Different types of child configurations which exist for this configuration, these can be used to populate the child configuration filter. */
-  childConfigurationTypes?: ConfigurationPropertiesChildConfigurationTypesList;
+  childConfigurationTypes?: ConfigurationPropertiesChildConfigurationTypesList | undefined;
   /** Child configurations present for the configuration after applying child configuration filter, grouped by the category name of the child configuration. */
-  groupedChildConfigurations?: ConfigurationPropertiesGroupedChildConfigurationsList;
+  groupedChildConfigurations?: ConfigurationPropertiesGroupedChildConfigurationsList | undefined;
   /** The Term Commitment Durations that are supported for a configuration. */
-  supportedTermCommitmentDurations?: ConfigurationPropertiesSupportedTermCommitmentDurationsList;
+  supportedTermCommitmentDurations?:
+    | ConfigurationPropertiesSupportedTermCommitmentDurationsList
+    | undefined;
 }
 /** Configuration object. */
 export interface Configuration {
   /** Properties of configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The Configuration items on this page */
 export type ConfigurationsValueList = Array<Configuration>;
@@ -1353,7 +1359,7 @@ export interface Configurations {
   /** The Configuration items on this page */
   value: ConfigurationsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListProductsAndConfigurationProductFamiliesRequestFilterablePropertiesValueList =
   Array<FilterableProperty>;
@@ -1367,13 +1373,13 @@ export interface ListProductsAndConfigurationProductFamiliesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $expand is supported on configurations parameter for product, which provides details on the configurations for the product. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** $skipToken is supported on list of product families, which provides the next page in the list of product families. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Dictionary of filterable properties on product family. */
   filterableProperties: ListProductsAndConfigurationProductFamiliesRequestFilterablePropertiesMap;
   /** Customer subscription properties. Clients can display available products to unregistered customers by explicitly passing subscription details. */
-  customerSubscriptionDetails?: CustomerSubscriptionDetails;
+  customerSubscriptionDetails?: CustomerSubscriptionDetails | undefined;
 }
 /** Image information for the product system. */
 export type ProductFamilyPropertiesImageInformationList = Array<ImageInformation>;
@@ -1392,56 +1398,56 @@ export type ProductPropertiesConfigurationsList = Array<Configuration>;
 /** Properties of product. */
 export interface ProductProperties {
   /** Display Name for the product system. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description related to the product system. */
-  description?: Description;
+  description?: Description | undefined;
   /** Image information for the product system. */
-  imageInformation?: ProductPropertiesImageInformationList;
+  imageInformation?: ProductPropertiesImageInformationList | undefined;
   /** Cost information for the product system. */
-  costInformation?: CostInformation;
+  costInformation?: CostInformation | undefined;
   /** Availability information of the product system. */
-  availabilityInformation?: AvailabilityInformation;
+  availabilityInformation?: AvailabilityInformation | undefined;
   /** Hierarchy information of a product. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** The entity responsible for fulfillment of the item at the given hierarchy level. */
-  fulfilledBy?: FulfillmentType;
+  fulfilledBy?: FulfillmentType | undefined;
   /** List of filters supported for a product. */
-  filterableProperties?: ProductPropertiesFilterablePropertiesList;
+  filterableProperties?: ProductPropertiesFilterablePropertiesList | undefined;
   /** List of configurations for the product. */
-  configurations?: ProductPropertiesConfigurationsList;
+  configurations?: ProductPropertiesConfigurationsList | undefined;
 }
 /** Represents a product. */
 export interface Product {
   /** Properties of product. */
-  properties?: ProductProperties;
+  properties?: ProductProperties | undefined;
 }
 /** List of products in the product line. */
 export type ProductLinePropertiesProductsList = Array<Product>;
 /** Properties of product line. */
 export interface ProductLineProperties {
   /** Display Name for the product system. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description related to the product system. */
-  description?: Description;
+  description?: Description | undefined;
   /** Image information for the product system. */
-  imageInformation?: ProductLinePropertiesImageInformationList;
+  imageInformation?: ProductLinePropertiesImageInformationList | undefined;
   /** Cost information for the product system. */
-  costInformation?: CostInformation;
+  costInformation?: CostInformation | undefined;
   /** Availability information of the product system. */
-  availabilityInformation?: AvailabilityInformation;
+  availabilityInformation?: AvailabilityInformation | undefined;
   /** Hierarchy information of a product. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** The entity responsible for fulfillment of the item at the given hierarchy level. */
-  fulfilledBy?: FulfillmentType;
+  fulfilledBy?: FulfillmentType | undefined;
   /** List of filters supported for a product. */
-  filterableProperties?: ProductLinePropertiesFilterablePropertiesList;
+  filterableProperties?: ProductLinePropertiesFilterablePropertiesList | undefined;
   /** List of products in the product line. */
-  products?: ProductLinePropertiesProductsList;
+  products?: ProductLinePropertiesProductsList | undefined;
 }
 /** Product line. */
 export interface ProductLine {
   /** Properties of product line. */
-  properties?: ProductLineProperties;
+  properties?: ProductLineProperties | undefined;
 }
 /** List of product lines supported in the product family. */
 export type ProductFamilyPropertiesProductLinesList = Array<ProductLine>;
@@ -1450,30 +1456,30 @@ export type ProductFamilyPropertiesResourceProviderDetailsList = Array<ResourceP
 /** Properties of product family. */
 export interface ProductFamilyProperties {
   /** Display Name for the product system. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description related to the product system. */
-  description?: Description;
+  description?: Description | undefined;
   /** Image information for the product system. */
-  imageInformation?: ProductFamilyPropertiesImageInformationList;
+  imageInformation?: ProductFamilyPropertiesImageInformationList | undefined;
   /** Cost information for the product system. */
-  costInformation?: CostInformation;
+  costInformation?: CostInformation | undefined;
   /** Availability information of the product system. */
-  availabilityInformation?: AvailabilityInformation;
+  availabilityInformation?: AvailabilityInformation | undefined;
   /** Hierarchy information of a product. */
-  hierarchyInformation?: HierarchyInformation;
+  hierarchyInformation?: HierarchyInformation | undefined;
   /** The entity responsible for fulfillment of the item at the given hierarchy level. */
-  fulfilledBy?: FulfillmentType;
+  fulfilledBy?: FulfillmentType | undefined;
   /** List of filters supported for a product. */
-  filterableProperties?: ProductFamilyPropertiesFilterablePropertiesList;
+  filterableProperties?: ProductFamilyPropertiesFilterablePropertiesList | undefined;
   /** List of product lines supported in the product family. */
-  productLines?: ProductFamilyPropertiesProductLinesList;
+  productLines?: ProductFamilyPropertiesProductLinesList | undefined;
   /** Contains details related to resource provider. */
-  resourceProviderDetails?: ProductFamilyPropertiesResourceProviderDetailsList;
+  resourceProviderDetails?: ProductFamilyPropertiesResourceProviderDetailsList | undefined;
 }
 /** Product Family. */
 export interface ProductFamily {
   /** Properties of product family. */
-  properties?: ProductFamilyProperties;
+  properties?: ProductFamilyProperties | undefined;
 }
 /** The ProductFamily items on this page */
 export type ProductFamiliesValueList = Array<ProductFamily>;
@@ -1482,18 +1488,18 @@ export interface ProductFamilies {
   /** The ProductFamily items on this page */
   value: ProductFamiliesValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductsAndConfigurationProductFamiliesMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** $skipToken is supported on list of product families metadata, which provides the next page in the list of product families metadata. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Product families metadata details. */
 export interface ProductFamiliesMetadataDetails {
   /** Product family properties. */
-  properties?: ProductFamilyProperties;
+  properties?: ProductFamilyProperties | undefined;
 }
 /** The ProductFamiliesMetadataDetails items on this page */
 export type ProductFamiliesMetadataValueList = Array<ProductFamiliesMetadataDetails>;
@@ -1502,7 +1508,7 @@ export interface ProductFamiliesMetadata {
   /** The ProductFamiliesMetadataDetails items on this page */
   value: ProductFamiliesMetadataValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface OrderItemsReturnRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1512,26 +1518,26 @@ export interface OrderItemsReturnRequest {
   /** The name of the order item. */
   orderItemName: string;
   /** Customer return address. */
-  returnAddress?: AddressPropertiesInput;
+  returnAddress?: AddressPropertiesInput | undefined;
   /** Return Reason. */
   returnReason: string;
   /** Service tag (located on the bottom-right corner of the device). */
-  serviceTag?: string;
+  serviceTag?: string | undefined;
   /** Shipping Box required. */
-  shippingBoxRequired?: boolean;
+  shippingBoxRequired?: boolean | undefined;
 }
 export interface OrderItemsReturnResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Address Update Properties. */
 export interface AddressUpdateProperties {
   /** Shipping details for the address. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Contact details for the address. */
-  contactDetails?: ContactDetails;
+  contactDetails?: ContactDetails | undefined;
 }
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
 export type UpdateAddressRequestTagsMap = { [key: string]: string | undefined };
@@ -1543,56 +1549,56 @@ export interface UpdateAddressRequest {
   /** The name of the address Resource within the specified resource group. address names must be between 3 and 24 characters in length and use any alphanumeric and underscore only. */
   addressName: string;
   /** Properties of an address to be updated. */
-  properties?: AddressUpdateProperties;
+  properties?: AddressUpdateProperties | undefined;
   /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-  tags?: UpdateAddressRequestTagsMap;
+  tags?: UpdateAddressRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAddressResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAddressResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAddressResponseTagsMap;
+  tags?: UpdateAddressResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an address. */
   properties: AddressProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Additional notification email list. */
 export type OrderItemUpdatePropertiesInputNotificationEmailListList = Array<string>;
 /** Represents product details patchable properties. */
 export interface ProductDetailsUpdateParameterInput {
   /** Device Provisioning Details for Parent. */
-  parentProvisioningDetails?: ProvisioningDetailsInput;
+  parentProvisioningDetails?: ProvisioningDetailsInput | undefined;
 }
 /** Order item details Patchable Properties. */
 export interface OrderItemDetailsUpdateParameterInput {
   /** Represents product details. */
-  productDetails?: ProductDetailsUpdateParameterInput;
+  productDetails?: ProductDetailsUpdateParameterInput | undefined;
   /** Site Related Details. */
-  siteDetails?: SiteDetails;
+  siteDetails?: SiteDetails | undefined;
 }
 /** Order item update properties. */
 export interface OrderItemUpdatePropertiesInput {
   /** Updates forward shipping address and contact details. */
-  forwardAddress?: AddressPropertiesInput;
+  forwardAddress?: AddressPropertiesInput | undefined;
   /** Customer preference. */
-  preferences?: Preferences;
+  preferences?: Preferences | undefined;
   /** Additional notification email list. */
-  notificationEmailList?: OrderItemUpdatePropertiesInputNotificationEmailListList;
+  notificationEmailList?: OrderItemUpdatePropertiesInputNotificationEmailListList | undefined;
   /** Represents order item details. */
-  orderItemDetails?: OrderItemDetailsUpdateParameterInput;
+  orderItemDetails?: OrderItemDetailsUpdateParameterInput | undefined;
 }
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
 export type UpdateOrderItemRequestTagsMap = { [key: string]: string | undefined };
@@ -1604,35 +1610,35 @@ export interface UpdateOrderItemRequest {
   /** The name of the order item. */
   orderItemName: string;
   /** Order item update properties. */
-  properties?: OrderItemUpdatePropertiesInput;
+  properties?: OrderItemUpdatePropertiesInput | undefined;
   /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-  tags?: UpdateOrderItemRequestTagsMap;
+  tags?: UpdateOrderItemRequestTagsMap | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateOrderItemResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateOrderItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateOrderItemResponseTagsMap;
+  tags?: UpdateOrderItemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Order item properties. */
   properties: OrderItemProperties;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CancelOrderItemError = AzureOpError;
 /** Cancel order item. */

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -254,7 +255,7 @@ export interface AssociatePhoneNumberWithUserRequest {
 export interface AssociatePhoneNumberWithUserResponse {}
 export type NonEmptyString = string;
 export interface SigninDelegateGroup {
-  GroupName?: string;
+  GroupName?: string | undefined;
 }
 export type SigninDelegateGroupList = SigninDelegateGroup[];
 export interface AssociateSigninDelegateGroupsWithAccountRequest {
@@ -264,8 +265,8 @@ export interface AssociateSigninDelegateGroupsWithAccountRequest {
 export interface AssociateSigninDelegateGroupsWithAccountResponse {}
 export type RoomMembershipRole = "Administrator" | "Member" | (string & {});
 export interface MembershipItem {
-  MemberId?: string;
-  Role?: RoomMembershipRole;
+  MemberId?: string | undefined;
+  Role?: RoomMembershipRole | undefined;
 }
 export type MembershipItemList = MembershipItem[];
 export interface BatchCreateRoomMembershipRequest {
@@ -291,26 +292,26 @@ export type ErrorCode =
   | "PhoneNumberAssociationsExist"
   | (string & {});
 export interface MemberError {
-  MemberId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  MemberId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type MemberErrorList = MemberError[];
 export interface BatchCreateRoomMembershipResponse {
-  Errors?: MemberError[];
+  Errors?: MemberError[] | undefined;
 }
 export type NonEmptyStringList = string[];
 export interface BatchDeletePhoneNumberRequest {
   PhoneNumberIds: string[];
 }
 export interface PhoneNumberError {
-  PhoneNumberId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  PhoneNumberId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PhoneNumberErrorList = PhoneNumberError[];
 export interface BatchDeletePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type UserIdList = string[];
 export interface BatchSuspendUserRequest {
@@ -318,20 +319,20 @@ export interface BatchSuspendUserRequest {
   UserIdList: string[];
 }
 export interface UserError {
-  UserId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  UserId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UserErrorList = UserError[];
 export interface BatchSuspendUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export interface BatchUnsuspendUserRequest {
   AccountId: string;
   UserIdList: string[];
 }
 export interface BatchUnsuspendUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export type PhoneNumberProductType =
   | "BusinessCalling"
@@ -341,28 +342,28 @@ export type PhoneNumberProductType =
 export type CallingName = string | redacted.Redacted<string>;
 export interface UpdatePhoneNumberRequestItem {
   PhoneNumberId: string;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
 }
 export type UpdatePhoneNumberRequestItemList = UpdatePhoneNumberRequestItem[];
 export interface BatchUpdatePhoneNumberRequest {
   UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItem[];
 }
 export interface BatchUpdatePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type License = "Basic" | "Plus" | "Pro" | "ProTrial" | (string & {});
 export type UserType = "PrivateUser" | "SharedDevice" | (string & {});
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface AlexaForBusinessMetadata {
-  IsAlexaForBusinessEnabled?: boolean;
-  AlexaForBusinessRoomArn?: string | redacted.Redacted<string>;
+  IsAlexaForBusinessEnabled?: boolean | undefined;
+  AlexaForBusinessRoomArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateUserRequestItem {
   UserId: string;
-  LicenseType?: License;
-  UserType?: UserType;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
 }
 export type UpdateUserRequestItemList = UpdateUserRequestItem[];
 export interface BatchUpdateUserRequest {
@@ -370,7 +371,7 @@ export interface BatchUpdateUserRequest {
   UpdateUserRequestItems: UpdateUserRequestItem[];
 }
 export interface BatchUpdateUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export type AccountName = string;
 export interface CreateAccountRequest {
@@ -389,35 +390,35 @@ export interface Account {
   AwsAccountId: string;
   AccountId: string;
   Name: string;
-  AccountType?: AccountType;
-  CreatedTimestamp?: Date;
-  DefaultLicense?: License;
-  SupportedLicenses?: License[];
-  AccountStatus?: AccountStatus;
-  SigninDelegateGroups?: SigninDelegateGroup[];
+  AccountType?: AccountType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  DefaultLicense?: License | undefined;
+  SupportedLicenses?: License[] | undefined;
+  AccountStatus?: AccountStatus | undefined;
+  SigninDelegateGroups?: SigninDelegateGroup[] | undefined;
 }
 export interface CreateAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface CreateBotRequest {
   AccountId: string;
   DisplayName: string | redacted.Redacted<string>;
-  Domain?: string;
+  Domain?: string | undefined;
 }
 export type BotType = "ChatBot" | (string & {});
 export interface Bot {
-  BotId?: string;
-  UserId?: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  BotType?: BotType;
-  Disabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  BotEmail?: string | redacted.Redacted<string>;
-  SecurityToken?: string | redacted.Redacted<string>;
+  BotId?: string | undefined;
+  UserId?: string | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  BotType?: BotType | undefined;
+  Disabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  BotEmail?: string | redacted.Redacted<string> | undefined;
+  SecurityToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export type GuidString = string;
 export type JoinTokenString = string | redacted.Redacted<string>;
@@ -428,7 +429,7 @@ export interface CreateMeetingDialOutRequest {
   JoinToken: string | redacted.Redacted<string>;
 }
 export interface CreateMeetingDialOutResponse {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export type E164PhoneNumberList = (string | redacted.Redacted<string>)[];
 export interface CreatePhoneNumberOrderRequest {
@@ -443,88 +444,88 @@ export type PhoneNumberOrderStatus =
   | (string & {});
 export type OrderedPhoneNumberStatus = "Processing" | "Acquired" | "Failed" | (string & {});
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: OrderedPhoneNumberStatus;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Status?: OrderedPhoneNumberStatus | undefined;
 }
 export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export interface PhoneNumberOrder {
-  PhoneNumberOrderId?: string;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberOrderStatus;
-  OrderedPhoneNumbers?: OrderedPhoneNumber[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  PhoneNumberOrderId?: string | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberOrderStatus | undefined;
+  OrderedPhoneNumbers?: OrderedPhoneNumber[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreatePhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export interface CreateRoomRequest {
   AccountId: string;
   Name: string | redacted.Redacted<string>;
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface Room {
-  RoomId?: string;
-  Name?: string | redacted.Redacted<string>;
-  AccountId?: string;
-  CreatedBy?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  RoomId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface CreateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: RoomMembershipRole;
+  Role?: RoomMembershipRole | undefined;
 }
 export type MemberType = "User" | "Bot" | "Webhook" | (string & {});
 export interface Member {
-  MemberId?: string;
-  MemberType?: MemberType;
-  Email?: string | redacted.Redacted<string>;
-  FullName?: string | redacted.Redacted<string>;
-  AccountId?: string;
+  MemberId?: string | undefined;
+  MemberType?: MemberType | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  FullName?: string | redacted.Redacted<string> | undefined;
+  AccountId?: string | undefined;
 }
 export interface RoomMembership {
-  RoomId?: string;
-  Member?: Member;
-  Role?: RoomMembershipRole;
-  InvitedBy?: string;
-  UpdatedTimestamp?: Date;
+  RoomId?: string | undefined;
+  Member?: Member | undefined;
+  Role?: RoomMembershipRole | undefined;
+  InvitedBy?: string | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateRoomMembershipResponse {
-  RoomMembership?: RoomMembership;
+  RoomMembership?: RoomMembership | undefined;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export interface CreateUserRequest {
   AccountId: string;
-  Username?: string;
-  Email?: string | redacted.Redacted<string>;
-  UserType?: UserType;
+  Username?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  UserType?: UserType | undefined;
 }
 export type RegistrationStatus = "Unregistered" | "Registered" | "Suspended" | (string & {});
 export type InviteStatus = "Pending" | "Accepted" | "Failed" | (string & {});
 export interface User {
   UserId: string;
-  AccountId?: string;
-  PrimaryEmail?: string | redacted.Redacted<string>;
-  PrimaryProvisionedNumber?: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  LicenseType?: License;
-  UserType?: UserType;
-  UserRegistrationStatus?: RegistrationStatus;
-  UserInvitationStatus?: InviteStatus;
-  RegisteredOn?: Date;
-  InvitedOn?: Date;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
-  PersonalPIN?: string;
+  AccountId?: string | undefined;
+  PrimaryEmail?: string | redacted.Redacted<string> | undefined;
+  PrimaryProvisionedNumber?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  UserRegistrationStatus?: RegistrationStatus | undefined;
+  UserInvitationStatus?: InviteStatus | undefined;
+  RegisteredOn?: Date | undefined;
+  InvitedOn?: Date | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
+  PersonalPIN?: string | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DeleteAccountRequest {
   AccountId: string;
@@ -564,47 +565,47 @@ export interface GetAccountRequest {
   AccountId: string;
 }
 export interface GetAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface GetAccountSettingsRequest {
   AccountId: string;
 }
 export interface AccountSettings {
-  DisableRemoteControl?: boolean;
-  EnableDialOut?: boolean;
+  DisableRemoteControl?: boolean | undefined;
+  EnableDialOut?: boolean | undefined;
 }
 export interface GetAccountSettingsResponse {
-  AccountSettings?: AccountSettings;
+  AccountSettings?: AccountSettings | undefined;
 }
 export interface GetBotRequest {
   AccountId: string;
   BotId: string;
 }
 export interface GetBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface GetEventsConfigurationRequest {
   AccountId: string;
   BotId: string;
 }
 export interface EventsConfiguration {
-  BotId?: string;
-  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
+  BotId?: string | undefined;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string> | undefined;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetEventsConfigurationResponse {
-  EventsConfiguration?: EventsConfiguration;
+  EventsConfiguration?: EventsConfiguration | undefined;
 }
 export interface GetGlobalSettingsRequest {}
 export interface BusinessCallingSettings {
-  CdrBucket?: string;
+  CdrBucket?: string | undefined;
 }
 export interface VoiceConnectorSettings {
-  CdrBucket?: string;
+  CdrBucket?: string | undefined;
 }
 export interface GetGlobalSettingsResponse {
-  BusinessCalling?: BusinessCallingSettings;
-  VoiceConnector?: VoiceConnectorSettings;
+  BusinessCalling?: BusinessCallingSettings | undefined;
+  VoiceConnector?: VoiceConnectorSettings | undefined;
 }
 export interface GetPhoneNumberRequest {
   PhoneNumberId: string;
@@ -622,12 +623,12 @@ export type PhoneNumberStatus =
   | "DeleteFailed"
   | (string & {});
 export interface PhoneNumberCapabilities {
-  InboundCall?: boolean;
-  OutboundCall?: boolean;
-  InboundSMS?: boolean;
-  OutboundSMS?: boolean;
-  InboundMMS?: boolean;
-  OutboundMMS?: boolean;
+  InboundCall?: boolean | undefined;
+  OutboundCall?: boolean | undefined;
+  InboundSMS?: boolean | undefined;
+  OutboundSMS?: boolean | undefined;
+  InboundMMS?: boolean | undefined;
+  OutboundMMS?: boolean | undefined;
 }
 export type PhoneNumberAssociationName =
   | "AccountId"
@@ -637,9 +638,9 @@ export type PhoneNumberAssociationName =
   | "SipRuleId"
   | (string & {});
 export interface PhoneNumberAssociation {
-  Value?: string;
-  Name?: PhoneNumberAssociationName;
-  AssociatedTimestamp?: Date;
+  Value?: string | undefined;
+  Name?: PhoneNumberAssociationName | undefined;
+  AssociatedTimestamp?: Date | undefined;
 }
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export type CallingNameStatus =
@@ -649,65 +650,65 @@ export type CallingNameStatus =
   | "UpdateFailed"
   | (string & {});
 export interface PhoneNumber {
-  PhoneNumberId?: string;
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  Country?: string;
-  Type?: PhoneNumberType;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberStatus;
-  Capabilities?: PhoneNumberCapabilities;
-  Associations?: PhoneNumberAssociation[];
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameStatus?: CallingNameStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  DeletionTimestamp?: Date;
+  PhoneNumberId?: string | undefined;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Country?: string | undefined;
+  Type?: PhoneNumberType | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberStatus | undefined;
+  Capabilities?: PhoneNumberCapabilities | undefined;
+  Associations?: PhoneNumberAssociation[] | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameStatus?: CallingNameStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  DeletionTimestamp?: Date | undefined;
 }
 export interface GetPhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface GetPhoneNumberOrderRequest {
   PhoneNumberOrderId: string;
 }
 export interface GetPhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export interface GetPhoneNumberSettingsRequest {}
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameUpdatedTimestamp?: Date;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameUpdatedTimestamp?: Date | undefined;
 }
 export interface GetRetentionSettingsRequest {
   AccountId: string;
 }
 export type RetentionDays = number;
 export interface RoomRetentionSettings {
-  RetentionDays?: number;
+  RetentionDays?: number | undefined;
 }
 export interface ConversationRetentionSettings {
-  RetentionDays?: number;
+  RetentionDays?: number | undefined;
 }
 export interface RetentionSettings {
-  RoomRetentionSettings?: RoomRetentionSettings;
-  ConversationRetentionSettings?: ConversationRetentionSettings;
+  RoomRetentionSettings?: RoomRetentionSettings | undefined;
+  ConversationRetentionSettings?: ConversationRetentionSettings | undefined;
 }
 export interface GetRetentionSettingsResponse {
-  RetentionSettings?: RetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  RetentionSettings?: RetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export interface GetRoomRequest {
   AccountId: string;
   RoomId: string;
 }
 export interface GetRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface GetUserRequest {
   AccountId: string;
   UserId: string;
 }
 export interface GetUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface GetUserSettingsRequest {
   AccountId: string;
@@ -722,115 +723,115 @@ export interface UserSettings {
   Telephony: TelephonySettings;
 }
 export interface GetUserSettingsResponse {
-  UserSettings?: UserSettings;
+  UserSettings?: UserSettings | undefined;
 }
 export type UserEmailList = (string | redacted.Redacted<string>)[];
 export interface InviteUsersRequest {
   AccountId: string;
   UserEmailList: (string | redacted.Redacted<string>)[];
-  UserType?: UserType;
+  UserType?: UserType | undefined;
 }
 export type EmailStatus = "NotSent" | "Sent" | "Failed" | (string & {});
 export interface Invite {
-  InviteId?: string;
-  Status?: InviteStatus;
-  EmailAddress?: string | redacted.Redacted<string>;
-  EmailStatus?: EmailStatus;
+  InviteId?: string | undefined;
+  Status?: InviteStatus | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  EmailStatus?: EmailStatus | undefined;
 }
 export type InviteList = Invite[];
 export interface InviteUsersResponse {
-  Invites?: Invite[];
+  Invites?: Invite[] | undefined;
 }
 export type ProfileServiceMaxResults = number;
 export interface ListAccountsRequest {
-  Name?: string;
-  UserEmail?: string | redacted.Redacted<string>;
-  NextToken?: string;
-  MaxResults?: number;
+  Name?: string | undefined;
+  UserEmail?: string | redacted.Redacted<string> | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AccountList = Account[];
 export interface ListAccountsResponse {
-  Accounts?: Account[];
-  NextToken?: string;
+  Accounts?: Account[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResultMax = number;
 export interface ListBotsRequest {
   AccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BotList = Bot[];
 export interface ListBotsResponse {
-  Bots?: Bot[];
-  NextToken?: string;
+  Bots?: Bot[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPhoneNumberOrdersRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PhoneNumberOrderList = PhoneNumberOrder[];
 export interface ListPhoneNumberOrdersResponse {
-  PhoneNumberOrders?: PhoneNumberOrder[];
-  NextToken?: string;
+  PhoneNumberOrders?: PhoneNumberOrder[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPhoneNumbersRequest {
-  Status?: PhoneNumberStatus;
-  ProductType?: PhoneNumberProductType;
-  FilterName?: PhoneNumberAssociationName;
-  FilterValue?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Status?: PhoneNumberStatus | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  FilterName?: PhoneNumberAssociationName | undefined;
+  FilterValue?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PhoneNumberList = PhoneNumber[];
 export interface ListPhoneNumbersResponse {
-  PhoneNumbers?: PhoneNumber[];
-  NextToken?: string;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoomMembershipsRequest {
   AccountId: string;
   RoomId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RoomMembershipList = RoomMembership[];
 export interface ListRoomMembershipsResponse {
-  RoomMemberships?: RoomMembership[];
-  NextToken?: string;
+  RoomMemberships?: RoomMembership[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoomsRequest {
   AccountId: string;
-  MemberId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MemberId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RoomList = Room[];
 export interface ListRoomsResponse {
-  Rooms?: Room[];
-  NextToken?: string;
+  Rooms?: Room[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSupportedPhoneNumberCountriesRequest {
   ProductType: PhoneNumberProductType;
 }
 export type PhoneNumberTypeList = PhoneNumberType[];
 export interface PhoneNumberCountry {
-  CountryCode?: string;
-  SupportedPhoneNumberTypes?: PhoneNumberType[];
+  CountryCode?: string | undefined;
+  SupportedPhoneNumberTypes?: PhoneNumberType[] | undefined;
 }
 export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export interface ListSupportedPhoneNumberCountriesResponse {
-  PhoneNumberCountries?: PhoneNumberCountry[];
+  PhoneNumberCountries?: PhoneNumberCountry[] | undefined;
 }
 export interface ListUsersRequest {
   AccountId: string;
-  UserEmail?: string | redacted.Redacted<string>;
-  UserType?: UserType;
-  MaxResults?: number;
-  NextToken?: string;
+  UserEmail?: string | redacted.Redacted<string> | undefined;
+  UserType?: UserType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UserList = User[];
 export interface ListUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface LogoutUserRequest {
   AccountId: string;
@@ -840,19 +841,19 @@ export interface LogoutUserResponse {}
 export interface PutEventsConfigurationRequest {
   AccountId: string;
   BotId: string;
-  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string> | undefined;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutEventsConfigurationResponse {
-  EventsConfiguration?: EventsConfiguration;
+  EventsConfiguration?: EventsConfiguration | undefined;
 }
 export interface PutRetentionSettingsRequest {
   AccountId: string;
   RetentionSettings: RetentionSettings;
 }
 export interface PutRetentionSettingsResponse {
-  RetentionSettings?: RetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  RetentionSettings?: RetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export interface RedactConversationMessageRequest {
   AccountId: string;
@@ -871,44 +872,44 @@ export interface RegenerateSecurityTokenRequest {
   BotId: string;
 }
 export interface RegenerateSecurityTokenResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface ResetPersonalPINRequest {
   AccountId: string;
   UserId: string;
 }
 export interface ResetPersonalPINResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface RestorePhoneNumberRequest {
   PhoneNumberId: string;
 }
 export interface RestorePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export type TollFreePrefix = string;
 export type PhoneNumberMaxResults = number;
 export interface SearchAvailablePhoneNumbersRequest {
-  AreaCode?: string;
-  City?: string;
-  Country?: string;
-  State?: string;
-  TollFreePrefix?: string;
-  PhoneNumberType?: PhoneNumberType;
-  MaxResults?: number;
-  NextToken?: string;
+  AreaCode?: string | undefined;
+  City?: string | undefined;
+  Country?: string | undefined;
+  State?: string | undefined;
+  TollFreePrefix?: string | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchAvailablePhoneNumbersResponse {
-  E164PhoneNumbers?: (string | redacted.Redacted<string>)[];
-  NextToken?: string;
+  E164PhoneNumbers?: (string | redacted.Redacted<string>)[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface UpdateAccountRequest {
   AccountId: string;
-  Name?: string;
-  DefaultLicense?: License;
+  Name?: string | undefined;
+  DefaultLicense?: License | undefined;
 }
 export interface UpdateAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface UpdateAccountSettingsRequest {
   AccountId: string;
@@ -918,23 +919,23 @@ export interface UpdateAccountSettingsResponse {}
 export interface UpdateBotRequest {
   AccountId: string;
   BotId: string;
-  Disabled?: boolean;
+  Disabled?: boolean | undefined;
 }
 export interface UpdateBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface UpdateGlobalSettingsRequest {
-  BusinessCalling?: BusinessCallingSettings;
-  VoiceConnector?: VoiceConnectorSettings;
+  BusinessCalling?: BusinessCallingSettings | undefined;
+  VoiceConnector?: VoiceConnectorSettings | undefined;
 }
 export interface UpdateGlobalSettingsResponse {}
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface UpdatePhoneNumberSettingsRequest {
   CallingName: string | redacted.Redacted<string>;
@@ -943,29 +944,29 @@ export interface UpdatePhoneNumberSettingsResponse {}
 export interface UpdateRoomRequest {
   AccountId: string;
   RoomId: string;
-  Name?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface UpdateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: RoomMembershipRole;
+  Role?: RoomMembershipRole | undefined;
 }
 export interface UpdateRoomMembershipResponse {
-  RoomMembership?: RoomMembership;
+  RoomMembership?: RoomMembership | undefined;
 }
 export interface UpdateUserRequest {
   AccountId: string;
   UserId: string;
-  LicenseType?: License;
-  UserType?: UserType;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
 }
 export interface UpdateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface UpdateUserSettingsRequest {
   AccountId: string;
@@ -987,7 +988,7 @@ export type AssociatePhoneNumberWithUserError =
  * Associates a phone number with the specified Amazon Chime user.
  */
 export const associatePhoneNumberWithUser: API.OperationMethod<
-  AssociatePhoneNumberWithUserRequest,
+  AssociatePhoneNumberWithUserRequest & RegionInput,
   AssociatePhoneNumberWithUserResponse,
   AssociatePhoneNumberWithUserError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1025,7 @@ export type AssociateSigninDelegateGroupsWithAccountError =
  * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
  */
 export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
-  AssociateSigninDelegateGroupsWithAccountRequest,
+  AssociateSigninDelegateGroupsWithAccountRequest & RegionInput,
   AssociateSigninDelegateGroupsWithAccountResponse,
   AssociateSigninDelegateGroupsWithAccountError,
   Credentials | HttpClient.HttpClient
@@ -1061,7 +1062,7 @@ export type BatchCreateRoomMembershipError =
  * chat room administrator or a general chat room member.
  */
 export const batchCreateRoomMembership: API.OperationMethod<
-  BatchCreateRoomMembershipRequest,
+  BatchCreateRoomMembershipRequest & RegionInput,
   BatchCreateRoomMembershipResponse,
   BatchCreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1101,7 +1102,7 @@ export type BatchDeletePhoneNumberError =
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
 export const batchDeletePhoneNumber: API.OperationMethod<
-  BatchDeletePhoneNumberRequest,
+  BatchDeletePhoneNumberRequest & RegionInput,
   BatchDeletePhoneNumberResponse,
   BatchDeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type BatchSuspendUserError =
  * LogoutUser action.
  */
 export const batchSuspendUser: API.OperationMethod<
-  BatchSuspendUserRequest,
+  BatchSuspendUserRequest & RegionInput,
   BatchSuspendUserResponse,
   BatchSuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type BatchUnsuspendUserError =
  * status. Users who are not previously suspended are ignored.
  */
 export const batchUnsuspendUser: API.OperationMethod<
-  BatchUnsuspendUserRequest,
+  BatchUnsuspendUserRequest & RegionInput,
   BatchUnsuspendUserResponse,
   BatchUnsuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type BatchUpdatePhoneNumberError =
  * Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const batchUpdatePhoneNumber: API.OperationMethod<
-  BatchUpdatePhoneNumberRequest,
+  BatchUpdatePhoneNumberRequest & RegionInput,
   BatchUpdatePhoneNumberResponse,
   BatchUpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1272,7 +1273,7 @@ export type BatchUpdateUserError =
  * Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this action.
  */
 export const batchUpdateUser: API.OperationMethod<
-  BatchUpdateUserRequest,
+  BatchUpdateUserRequest & RegionInput,
   BatchUpdateUserResponse,
   BatchUpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1311,7 +1312,7 @@ export type CreateAccountError =
  * Administration Guide.
  */
 export const createAccount: API.OperationMethod<
-  CreateAccountRequest,
+  CreateAccountRequest & RegionInput,
   CreateAccountResponse,
   CreateAccountError,
   Credentials | HttpClient.HttpClient
@@ -1348,7 +1349,7 @@ export type CreateBotError =
  * Creates a bot for an Amazon Chime Enterprise account.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type CreateMeetingDialOutError =
  * **This API is not available in a dedicated namespace.**
  */
 export const createMeetingDialOut: API.OperationMethod<
-  CreateMeetingDialOutRequest,
+  CreateMeetingDialOutRequest & RegionInput,
   CreateMeetingDialOutResponse,
   CreateMeetingDialOutError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type CreatePhoneNumberOrderError =
  * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
 export const createPhoneNumberOrder: API.OperationMethod<
-  CreatePhoneNumberOrderRequest,
+  CreatePhoneNumberOrderRequest & RegionInput,
   CreatePhoneNumberOrderResponse,
   CreatePhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -1469,7 +1470,7 @@ export type CreateRoomError =
  * Creates a chat room for the specified Amazon Chime Enterprise account.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type CreateRoomMembershipError =
  * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
  */
 export const createRoomMembership: API.OperationMethod<
-  CreateRoomMembershipRequest,
+  CreateRoomMembershipRequest & RegionInput,
   CreateRoomMembershipResponse,
   CreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1548,7 @@ export type CreateUserError =
  * Creates a user under the specified Amazon Chime account.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type DeleteAccountError =
  * `Disabled` accounts list.
  */
 export const deleteAccount: API.OperationMethod<
-  DeleteAccountRequest,
+  DeleteAccountRequest & RegionInput,
   DeleteAccountResponse,
   DeleteAccountError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1635,7 @@ export type DeleteEventsConfigurationError =
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
 export const deleteEventsConfiguration: API.OperationMethod<
-  DeleteEventsConfigurationRequest,
+  DeleteEventsConfigurationRequest & RegionInput,
   DeleteEventsConfigurationResponse,
   DeleteEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1675,7 +1676,7 @@ export type DeletePhoneNumberError =
  * for 7 days before they are deleted permanently.
  */
 export const deletePhoneNumber: API.OperationMethod<
-  DeletePhoneNumberRequest,
+  DeletePhoneNumberRequest & RegionInput,
   DeletePhoneNumberResponse,
   DeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type DeleteRoomError =
  * Deletes a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -1747,7 +1748,7 @@ export type DeleteRoomMembershipError =
  * Removes a member from a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoomMembership: API.OperationMethod<
-  DeleteRoomMembershipRequest,
+  DeleteRoomMembershipRequest & RegionInput,
   DeleteRoomMembershipResponse,
   DeleteRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type DisassociatePhoneNumberFromUserError =
  * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
  */
 export const disassociatePhoneNumberFromUser: API.OperationMethod<
-  DisassociatePhoneNumberFromUserRequest,
+  DisassociatePhoneNumberFromUserRequest & RegionInput,
   DisassociatePhoneNumberFromUserResponse,
   DisassociatePhoneNumberFromUserError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type DisassociateSigninDelegateGroupsFromAccountError =
  * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
  */
 export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
-  DisassociateSigninDelegateGroupsFromAccountRequest,
+  DisassociateSigninDelegateGroupsFromAccountRequest & RegionInput,
   DisassociateSigninDelegateGroupsFromAccountResponse,
   DisassociateSigninDelegateGroupsFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1856,7 +1857,7 @@ export type GetAccountError =
  * licenses.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1895,7 @@ export type GetAccountSettingsError =
  * Use the Policies Page in the *Amazon Chime Administration Guide*.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type GetBotError =
  * Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type GetEventsConfigurationError =
  * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
 export const getEventsConfiguration: API.OperationMethod<
-  GetEventsConfigurationRequest,
+  GetEventsConfigurationRequest & RegionInput,
   GetEventsConfigurationResponse,
   GetEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2002,7 +2003,7 @@ export type GetGlobalSettingsError =
  * Calling and Amazon Chime Voice Connector settings.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsResponse,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2037,7 +2038,7 @@ export type GetPhoneNumberError =
  * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
  */
 export const getPhoneNumber: API.OperationMethod<
-  GetPhoneNumberRequest,
+  GetPhoneNumberRequest & RegionInput,
   GetPhoneNumberResponse,
   GetPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type GetPhoneNumberOrderError =
  * numbers in E.164 format, product type, and order status.
  */
 export const getPhoneNumberOrder: API.OperationMethod<
-  GetPhoneNumberOrderRequest,
+  GetPhoneNumberOrderRequest & RegionInput,
   GetPhoneNumberOrderResponse,
   GetPhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -2109,7 +2110,7 @@ export type GetPhoneNumberSettingsError =
  * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
  */
 export const getPhoneNumberSettings: API.OperationMethod<
-  GetPhoneNumberSettingsRequest,
+  GetPhoneNumberSettingsRequest & RegionInput,
   GetPhoneNumberSettingsResponse,
   GetPhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2146,7 @@ export type GetRetentionSettingsError =
  * Managing Chat Retention Policies in the *Amazon Chime Administration Guide*.
  */
 export const getRetentionSettings: API.OperationMethod<
-  GetRetentionSettingsRequest,
+  GetRetentionSettingsRequest & RegionInput,
   GetRetentionSettingsResponse,
   GetRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2181,7 +2182,7 @@ export type GetRoomError =
  * Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -2220,7 +2221,7 @@ export type GetUserError =
  * ListUsers action, and then filter by email address.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2257,7 @@ export type GetUserSettingsError =
  * Retrieves settings for the specified user ID, such as any associated phone number settings.
  */
 export const getUserSettings: API.OperationMethod<
-  GetUserSettingsRequest,
+  GetUserSettingsRequest & RegionInput,
   GetUserSettingsResponse,
   GetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2294,7 +2295,7 @@ export type InviteUsersError =
  * supported for this action.
  */
 export const inviteUsers: API.OperationMethod<
-  InviteUsersRequest,
+  InviteUsersRequest & RegionInput,
   InviteUsersResponse,
   InviteUsersError,
   Credentials | HttpClient.HttpClient
@@ -2332,7 +2333,7 @@ export type ListAccountsError =
  * filter by the user's email address, which returns one account result.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2374,7 +2375,7 @@ export type ListBotsError =
  * Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -2415,7 +2416,7 @@ export type ListPhoneNumberOrdersError =
  * Lists the phone number orders for the administrator's Amazon Chime account.
  */
 export const listPhoneNumberOrders: API.PaginatedOperationMethod<
-  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersRequest & RegionInput,
   ListPhoneNumberOrdersResponse,
   ListPhoneNumberOrdersError,
   Credentials | HttpClient.HttpClient,
@@ -2456,7 +2457,7 @@ export type ListPhoneNumbersError =
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -2499,7 +2500,7 @@ export type ListRoomMembershipsError =
  * such as the members' IDs, email addresses, and names.
  */
 export const listRoomMemberships: API.PaginatedOperationMethod<
-  ListRoomMembershipsRequest,
+  ListRoomMembershipsRequest & RegionInput,
   ListRoomMembershipsResponse,
   ListRoomMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2541,7 +2542,7 @@ export type ListRoomsError =
  * Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -2583,7 +2584,7 @@ export type ListSupportedPhoneNumberCountriesError =
  * Lists supported phone number countries.
  */
 export const listSupportedPhoneNumberCountries: API.OperationMethod<
-  ListSupportedPhoneNumberCountriesRequest,
+  ListSupportedPhoneNumberCountriesRequest & RegionInput,
   ListSupportedPhoneNumberCountriesResponse,
   ListSupportedPhoneNumberCountriesError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type ListUsersError =
  * address to list only the user that the email address belongs to.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2662,7 +2663,7 @@ export type LogoutUserError =
  * Logs out the specified user from all of the devices they are currently logged into.
  */
 export const logoutUser: API.OperationMethod<
-  LogoutUserRequest,
+  LogoutUserRequest & RegionInput,
   LogoutUserResponse,
   LogoutUserError,
   Credentials | HttpClient.HttpClient
@@ -2700,7 +2701,7 @@ export type PutEventsConfigurationError =
  * see Bot.
  */
 export const putEventsConfiguration: API.OperationMethod<
-  PutEventsConfigurationRequest,
+  PutEventsConfigurationRequest & RegionInput,
   PutEventsConfigurationResponse,
   PutEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type PutRetentionSettingsError =
  * in the *Amazon Chime Administration Guide*.
  */
 export const putRetentionSettings: API.OperationMethod<
-  PutRetentionSettingsRequest,
+  PutRetentionSettingsRequest & RegionInput,
   PutRetentionSettingsResponse,
   PutRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2784,7 +2785,7 @@ export type RedactConversationMessageError =
  * Redacts the specified message from the specified Amazon Chime conversation.
  */
 export const redactConversationMessage: API.OperationMethod<
-  RedactConversationMessageRequest,
+  RedactConversationMessageRequest & RegionInput,
   RedactConversationMessageResponse,
   RedactConversationMessageError,
   Credentials | HttpClient.HttpClient
@@ -2820,7 +2821,7 @@ export type RedactRoomMessageError =
  * Redacts the specified message from the specified Amazon Chime channel.
  */
 export const redactRoomMessage: API.OperationMethod<
-  RedactRoomMessageRequest,
+  RedactRoomMessageRequest & RegionInput,
   RedactRoomMessageResponse,
   RedactRoomMessageError,
   Credentials | HttpClient.HttpClient
@@ -2856,7 +2857,7 @@ export type RegenerateSecurityTokenError =
  * Regenerates the security token for a bot.
  */
 export const regenerateSecurityToken: API.OperationMethod<
-  RegenerateSecurityTokenRequest,
+  RegenerateSecurityTokenRequest & RegionInput,
   RegenerateSecurityTokenResponse,
   RegenerateSecurityTokenError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2894,7 @@ export type ResetPersonalPINError =
  * the User object with the updated personal meeting PIN.
  */
 export const resetPersonalPIN: API.OperationMethod<
-  ResetPersonalPINRequest,
+  ResetPersonalPINRequest & RegionInput,
   ResetPersonalPINResponse,
   ResetPersonalPINError,
   Credentials | HttpClient.HttpClient
@@ -2931,7 +2932,7 @@ export type RestorePhoneNumberError =
  * phone number **Inventory**.
  */
 export const restorePhoneNumber: API.OperationMethod<
-  RestorePhoneNumberRequest,
+  RestorePhoneNumberRequest & RegionInput,
   RestorePhoneNumberResponse,
   RestorePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2972,7 +2973,7 @@ export type SearchAvailablePhoneNumbersError =
  * support the `PhoneNumberType` filter, which you must use.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -3014,7 +3015,7 @@ export type UpdateAccountError =
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   UpdateAccountResponse,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type UpdateAccountSettingsError =
  * Guide.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3092,7 +3093,7 @@ export type UpdateBotError =
  * Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -3127,7 +3128,7 @@ export type UpdateGlobalSettingsError =
  * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsRequest,
+  UpdateGlobalSettingsRequest & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3167,7 +3168,7 @@ export type UpdatePhoneNumberError =
  * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -3205,7 +3206,7 @@ export type UpdatePhoneNumberSettingsError =
  * days. Outbound calling names can take up to 72 hours to update.
  */
 export const updatePhoneNumberSettings: API.OperationMethod<
-  UpdatePhoneNumberSettingsRequest,
+  UpdatePhoneNumberSettingsRequest & RegionInput,
   UpdatePhoneNumberSettingsResponse,
   UpdatePhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3240,7 +3241,7 @@ export type UpdateRoomError =
  * Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3280,7 @@ export type UpdateRoomMembershipError =
  * user IDs.
  */
 export const updateRoomMembership: API.OperationMethod<
-  UpdateRoomMembershipRequest,
+  UpdateRoomMembershipRequest & RegionInput,
   UpdateRoomMembershipResponse,
   UpdateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3315,7 +3316,7 @@ export type UpdateUserError =
  * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -3351,7 +3352,7 @@ export type UpdateUserSettingsError =
  * Updates the settings for the specified user, such as phone number settings.
  */
 export const updateUserSettings: API.OperationMethod<
-  UpdateUserSettingsRequest,
+  UpdateUserSettingsRequest & RegionInput,
   UpdateUserSettingsResponse,
   UpdateUserSettingsError,
   Credentials | HttpClient.HttpClient

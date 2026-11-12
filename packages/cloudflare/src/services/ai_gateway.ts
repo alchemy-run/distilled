@@ -187,7 +187,16 @@ export class GatewayAlreadyExists
       code: S.Number,
       message: S.String,
     }),
-    [{ code: 7001 }, { status: 504 }],
+    [{ code: 7001, message: { includes: "already exists" } }, { status: 504 }],
+  ) {}
+
+export class GatewayAuthenticationRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<GatewayAuthenticationRequired>()("GatewayAuthenticationRequired", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 7001, message: { includes: "must have authentication enabled" } }],
   ) {}
 
 export class GatewayNotFound
@@ -288,6 +297,7 @@ export type CreateRequestGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type CreateRequestGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -297,20 +307,21 @@ export type CreateRequestGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface CreateRequestGuardrailsPrompt {
-  p1?: CreateRequestGuardrailsPromptP1 | (string & {});
-  s1?: CreateRequestGuardrailsPromptS1 | (string & {});
-  s10?: CreateRequestGuardrailsPromptS10 | (string & {});
-  s11?: CreateRequestGuardrailsPromptS11 | (string & {});
-  s12?: CreateRequestGuardrailsPromptS12 | (string & {});
-  s13?: CreateRequestGuardrailsPromptS13 | (string & {});
-  s2?: CreateRequestGuardrailsPromptS2 | (string & {});
-  s3?: CreateRequestGuardrailsPromptS3 | (string & {});
-  s4?: CreateRequestGuardrailsPromptS4 | (string & {});
-  s5?: CreateRequestGuardrailsPromptS5 | (string & {});
-  s6?: CreateRequestGuardrailsPromptS6 | (string & {});
-  s7?: CreateRequestGuardrailsPromptS7 | (string & {});
-  s8?: CreateRequestGuardrailsPromptS8 | (string & {});
-  s9?: CreateRequestGuardrailsPromptS9 | (string & {});
+  p1?: CreateRequestGuardrailsPromptP1 | (string & {}) | undefined;
+  s1?: CreateRequestGuardrailsPromptS1 | (string & {}) | undefined;
+  s10?: CreateRequestGuardrailsPromptS10 | (string & {}) | undefined;
+  s11?: CreateRequestGuardrailsPromptS11 | (string & {}) | undefined;
+  s12?: CreateRequestGuardrailsPromptS12 | (string & {}) | undefined;
+  s13?: CreateRequestGuardrailsPromptS13 | (string & {}) | undefined;
+  s14?: CreateRequestGuardrailsPromptS14 | (string & {}) | undefined;
+  s2?: CreateRequestGuardrailsPromptS2 | (string & {}) | undefined;
+  s3?: CreateRequestGuardrailsPromptS3 | (string & {}) | undefined;
+  s4?: CreateRequestGuardrailsPromptS4 | (string & {}) | undefined;
+  s5?: CreateRequestGuardrailsPromptS5 | (string & {}) | undefined;
+  s6?: CreateRequestGuardrailsPromptS6 | (string & {}) | undefined;
+  s7?: CreateRequestGuardrailsPromptS7 | (string & {}) | undefined;
+  s8?: CreateRequestGuardrailsPromptS8 | (string & {}) | undefined;
+  s9?: CreateRequestGuardrailsPromptS9 | (string & {}) | undefined;
 }
 export type CreateRequestGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -318,6 +329,7 @@ export type CreateRequestGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type CreateRequestGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -327,20 +339,21 @@ export type CreateRequestGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface CreateRequestGuardrailsResponse {
-  p1?: CreateRequestGuardrailsResponseP1 | (string & {});
-  s1?: CreateRequestGuardrailsResponseS1 | (string & {});
-  s10?: CreateRequestGuardrailsResponseS10 | (string & {});
-  s11?: CreateRequestGuardrailsResponseS11 | (string & {});
-  s12?: CreateRequestGuardrailsResponseS12 | (string & {});
-  s13?: CreateRequestGuardrailsResponseS13 | (string & {});
-  s2?: CreateRequestGuardrailsResponseS2 | (string & {});
-  s3?: CreateRequestGuardrailsResponseS3 | (string & {});
-  s4?: CreateRequestGuardrailsResponseS4 | (string & {});
-  s5?: CreateRequestGuardrailsResponseS5 | (string & {});
-  s6?: CreateRequestGuardrailsResponseS6 | (string & {});
-  s7?: CreateRequestGuardrailsResponseS7 | (string & {});
-  s8?: CreateRequestGuardrailsResponseS8 | (string & {});
-  s9?: CreateRequestGuardrailsResponseS9 | (string & {});
+  p1?: CreateRequestGuardrailsResponseP1 | (string & {}) | undefined;
+  s1?: CreateRequestGuardrailsResponseS1 | (string & {}) | undefined;
+  s10?: CreateRequestGuardrailsResponseS10 | (string & {}) | undefined;
+  s11?: CreateRequestGuardrailsResponseS11 | (string & {}) | undefined;
+  s12?: CreateRequestGuardrailsResponseS12 | (string & {}) | undefined;
+  s13?: CreateRequestGuardrailsResponseS13 | (string & {}) | undefined;
+  s14?: CreateRequestGuardrailsResponseS14 | (string & {}) | undefined;
+  s2?: CreateRequestGuardrailsResponseS2 | (string & {}) | undefined;
+  s3?: CreateRequestGuardrailsResponseS3 | (string & {}) | undefined;
+  s4?: CreateRequestGuardrailsResponseS4 | (string & {}) | undefined;
+  s5?: CreateRequestGuardrailsResponseS5 | (string & {}) | undefined;
+  s6?: CreateRequestGuardrailsResponseS6 | (string & {}) | undefined;
+  s7?: CreateRequestGuardrailsResponseS7 | (string & {}) | undefined;
+  s8?: CreateRequestGuardrailsResponseS8 | (string & {}) | undefined;
+  s9?: CreateRequestGuardrailsResponseS9 | (string & {}) | undefined;
 }
 export interface CreateRequestGuardrails {
   prompt: CreateRequestGuardrailsPrompt;
@@ -352,8 +365,8 @@ export type CreateRequestOtelItemContentType = "json" | "protobuf";
 export interface CreateRequestOtelItem {
   headers: CreateRequestOtelItemHeadersMap;
   url: string;
-  authorization?: string;
-  contentType?: CreateRequestOtelItemContentType | (string & {});
+  authorization?: string | undefined;
+  contentType?: CreateRequestOtelItemContentType | (string & {}) | undefined;
 }
 export type CreateRequestOtelList = Array<CreateRequestOtelItem>;
 export type CreateRequestRateLimitingTechnique = "fixed" | "sliding";
@@ -394,17 +407,17 @@ export interface CreateRequestSpendLimitsRulesItem {
   limitType: CreateRequestSpendLimitsRulesItemLimitType | (string & {});
   /** exclusiveMinimum */
   window: number;
-  id?: string;
-  enabled?: boolean;
-  metadata?: CreateRequestSpendLimitsRulesItemMetadataMap;
-  model?: CreateRequestSpendLimitsRulesItemModel;
-  provider?: CreateRequestSpendLimitsRulesItemProvider;
-  technique?: CreateRequestSpendLimitsRulesItemTechnique | (string & {});
+  id?: string | undefined;
+  enabled?: boolean | undefined;
+  metadata?: CreateRequestSpendLimitsRulesItemMetadataMap | undefined;
+  model?: CreateRequestSpendLimitsRulesItemModel | undefined;
+  provider?: CreateRequestSpendLimitsRulesItemProvider | undefined;
+  technique?: CreateRequestSpendLimitsRulesItemTechnique | (string & {}) | undefined;
 }
 export type CreateRequestSpendLimitsRulesList = Array<CreateRequestSpendLimitsRulesItem>;
 export interface CreateRequestSpendLimits {
-  enabled?: boolean;
-  rules?: CreateRequestSpendLimitsRulesList;
+  enabled?: boolean | undefined;
+  rules?: CreateRequestSpendLimitsRulesList | undefined;
 }
 export interface CreateRequestStripeUsageEventsItem {
   payload: string;
@@ -424,31 +437,32 @@ export interface CreateAiGatewayRequest {
   collectLogs: boolean;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
-  authentication?: boolean;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean;
-  dlp?: CreateRequestDlp;
-  guardrails?: CreateRequestGuardrails;
-  logClassification?: boolean;
-  logManagement?: number;
-  logManagementStrategy?: CreateRequestLogManagementStrategy | (string & {});
-  logpush?: boolean;
-  logpushPublicKey?: string;
-  otel?: CreateRequestOtelList;
-  rateLimitingTechnique?: CreateRequestRateLimitingTechnique | (string & {});
+  byokOnly?: boolean | undefined;
+  dlp?: CreateRequestDlp | undefined;
+  guardrails?: CreateRequestGuardrails | undefined;
+  logClassification?: boolean | undefined;
+  logManagement?: number | undefined;
+  logManagementStrategy?: CreateRequestLogManagementStrategy | (string & {}) | undefined;
+  logpush?: boolean | undefined;
+  logpushPublicKey?: string | undefined;
+  otel?: CreateRequestOtelList | undefined;
+  rateLimitingTechnique?: CreateRequestRateLimitingTechnique | (string & {}) | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: CreateRequestRetryBackoff | (string & {});
+  retryBackoff?: CreateRequestRetryBackoff | (string & {}) | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number;
+  retryDelay?: number | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number;
-  spendLimits?: CreateRequestSpendLimits;
+  retryMaxAttempts?: number | undefined;
+  spendLimits?: CreateRequestSpendLimits | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string;
-  stripe?: CreateRequestStripe;
+  storeId?: string | undefined;
+  stripe?: CreateRequestStripe | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: CreateRequestWorkersAiBillingMode | (string & {});
-  zdr?: boolean;
+  workersAiBillingMode?: CreateRequestWorkersAiBillingMode | (string & {}) | undefined;
+  zdr?: boolean | undefined;
 }
 export type CreateResponseDlpCase0Action = "BLOCK" | "FLAG";
 export type CreateResponseDlpCase0ProfilesList = Array<string>;
@@ -483,6 +497,7 @@ export type CreateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type CreateResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -492,20 +507,21 @@ export type CreateResponseGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface CreateResponseGuardrailsPrompt {
-  p1?: CreateResponseGuardrailsPromptP1 | null;
-  s1?: CreateResponseGuardrailsPromptS1 | null;
-  s10?: CreateResponseGuardrailsPromptS10 | null;
-  s11?: CreateResponseGuardrailsPromptS11 | null;
-  s12?: CreateResponseGuardrailsPromptS12 | null;
-  s13?: CreateResponseGuardrailsPromptS13 | null;
-  s2?: CreateResponseGuardrailsPromptS2 | null;
-  s3?: CreateResponseGuardrailsPromptS3 | null;
-  s4?: CreateResponseGuardrailsPromptS4 | null;
-  s5?: CreateResponseGuardrailsPromptS5 | null;
-  s6?: CreateResponseGuardrailsPromptS6 | null;
-  s7?: CreateResponseGuardrailsPromptS7 | null;
-  s8?: CreateResponseGuardrailsPromptS8 | null;
-  s9?: CreateResponseGuardrailsPromptS9 | null;
+  p1?: CreateResponseGuardrailsPromptP1 | null | undefined;
+  s1?: CreateResponseGuardrailsPromptS1 | null | undefined;
+  s10?: CreateResponseGuardrailsPromptS10 | null | undefined;
+  s11?: CreateResponseGuardrailsPromptS11 | null | undefined;
+  s12?: CreateResponseGuardrailsPromptS12 | null | undefined;
+  s13?: CreateResponseGuardrailsPromptS13 | null | undefined;
+  s14?: CreateResponseGuardrailsPromptS14 | null | undefined;
+  s2?: CreateResponseGuardrailsPromptS2 | null | undefined;
+  s3?: CreateResponseGuardrailsPromptS3 | null | undefined;
+  s4?: CreateResponseGuardrailsPromptS4 | null | undefined;
+  s5?: CreateResponseGuardrailsPromptS5 | null | undefined;
+  s6?: CreateResponseGuardrailsPromptS6 | null | undefined;
+  s7?: CreateResponseGuardrailsPromptS7 | null | undefined;
+  s8?: CreateResponseGuardrailsPromptS8 | null | undefined;
+  s9?: CreateResponseGuardrailsPromptS9 | null | undefined;
 }
 export type CreateResponseGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -513,6 +529,7 @@ export type CreateResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type CreateResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -522,20 +539,21 @@ export type CreateResponseGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface CreateResponseGuardrailsResponse {
-  p1?: CreateResponseGuardrailsResponseP1 | null;
-  s1?: CreateResponseGuardrailsResponseS1 | null;
-  s10?: CreateResponseGuardrailsResponseS10 | null;
-  s11?: CreateResponseGuardrailsResponseS11 | null;
-  s12?: CreateResponseGuardrailsResponseS12 | null;
-  s13?: CreateResponseGuardrailsResponseS13 | null;
-  s2?: CreateResponseGuardrailsResponseS2 | null;
-  s3?: CreateResponseGuardrailsResponseS3 | null;
-  s4?: CreateResponseGuardrailsResponseS4 | null;
-  s5?: CreateResponseGuardrailsResponseS5 | null;
-  s6?: CreateResponseGuardrailsResponseS6 | null;
-  s7?: CreateResponseGuardrailsResponseS7 | null;
-  s8?: CreateResponseGuardrailsResponseS8 | null;
-  s9?: CreateResponseGuardrailsResponseS9 | null;
+  p1?: CreateResponseGuardrailsResponseP1 | null | undefined;
+  s1?: CreateResponseGuardrailsResponseS1 | null | undefined;
+  s10?: CreateResponseGuardrailsResponseS10 | null | undefined;
+  s11?: CreateResponseGuardrailsResponseS11 | null | undefined;
+  s12?: CreateResponseGuardrailsResponseS12 | null | undefined;
+  s13?: CreateResponseGuardrailsResponseS13 | null | undefined;
+  s14?: CreateResponseGuardrailsResponseS14 | null | undefined;
+  s2?: CreateResponseGuardrailsResponseS2 | null | undefined;
+  s3?: CreateResponseGuardrailsResponseS3 | null | undefined;
+  s4?: CreateResponseGuardrailsResponseS4 | null | undefined;
+  s5?: CreateResponseGuardrailsResponseS5 | null | undefined;
+  s6?: CreateResponseGuardrailsResponseS6 | null | undefined;
+  s7?: CreateResponseGuardrailsResponseS7 | null | undefined;
+  s8?: CreateResponseGuardrailsResponseS8 | null | undefined;
+  s9?: CreateResponseGuardrailsResponseS9 | null | undefined;
 }
 export interface CreateResponseGuardrails {
   prompt: CreateResponseGuardrailsPrompt;
@@ -547,8 +565,8 @@ export type CreateResponseOtelItemContentType = "json" | "protobuf";
 export interface CreateResponseOtelItem {
   headers: CreateResponseOtelItemHeadersMap;
   url: string;
-  authorization?: string | null;
-  contentType?: CreateResponseOtelItemContentType | null;
+  authorization?: string | null | undefined;
+  contentType?: CreateResponseOtelItemContentType | null | undefined;
 }
 export type CreateResponseOtelList = Array<CreateResponseOtelItem>;
 export type CreateResponseRateLimitingTechnique = "fixed" | "sliding";
@@ -574,17 +592,17 @@ export interface CreateResponseSpendLimitsRulesItem {
   limitType: CreateResponseSpendLimitsRulesItemLimitType;
   /** exclusiveMinimum */
   window: number;
-  id?: string | null;
-  enabled?: boolean | null;
-  metadata?: UntypedMetadataMap | null;
-  model?: CreateResponseSpendLimitsRulesItemModel | null;
-  provider?: CreateResponseSpendLimitsRulesItemProvider | null;
-  technique?: CreateResponseSpendLimitsRulesItemTechnique | null;
+  id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  metadata?: UntypedMetadataMap | null | undefined;
+  model?: CreateResponseSpendLimitsRulesItemModel | null | undefined;
+  provider?: CreateResponseSpendLimitsRulesItemProvider | null | undefined;
+  technique?: CreateResponseSpendLimitsRulesItemTechnique | null | undefined;
 }
 export type CreateResponseSpendLimitsRulesList = Array<CreateResponseSpendLimitsRulesItem>;
 export interface CreateResponseSpendLimits {
-  enabled?: boolean | null;
-  rules?: CreateResponseSpendLimitsRulesList | null;
+  enabled?: boolean | null | undefined;
+  rules?: CreateResponseSpendLimitsRulesList | null | undefined;
 }
 export type CreateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type CreateResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -604,36 +622,37 @@ export interface CreateAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
-  authentication?: boolean | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean | null;
-  dlp?: CreateResponseDlp | null;
+  byokOnly?: boolean | null | undefined;
+  dlp?: CreateResponseDlp | null | undefined;
   /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
-  fedrampLevel?: CreateResponseFedrampLevel | null;
+  fedrampLevel?: CreateResponseFedrampLevel | null | undefined;
   /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
-  fedrampMode?: CreateResponseFedrampMode | null;
-  guardrails?: CreateResponseGuardrails | null;
-  isDefault?: boolean | null;
-  logClassification?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: CreateResponseLogManagementStrategy | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?: CreateResponseOtelList | null;
-  rateLimitingTechnique?: CreateResponseRateLimitingTechnique | null;
+  fedrampMode?: CreateResponseFedrampMode | null | undefined;
+  guardrails?: CreateResponseGuardrails | null | undefined;
+  isDefault?: boolean | null | undefined;
+  logClassification?: boolean | null | undefined;
+  logManagement?: number | null | undefined;
+  logManagementStrategy?: CreateResponseLogManagementStrategy | null | undefined;
+  logpush?: boolean | null | undefined;
+  logpushPublicKey?: string | null | undefined;
+  otel?: CreateResponseOtelList | null | undefined;
+  rateLimitingTechnique?: CreateResponseRateLimitingTechnique | null | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: CreateResponseRetryBackoff | null;
+  retryBackoff?: CreateResponseRetryBackoff | null | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number | null;
-  spendLimits?: CreateResponseSpendLimits | null;
+  retryMaxAttempts?: number | null | undefined;
+  spendLimits?: CreateResponseSpendLimits | null | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string | null;
-  stripe?: CreateResponseStripe | null;
+  storeId?: string | null | undefined;
+  stripe?: CreateResponseStripe | null | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: CreateResponseWorkersAiBillingMode | null;
-  zdr?: boolean | null;
+  workersAiBillingMode?: CreateResponseWorkersAiBillingMode | null | undefined;
+  zdr?: boolean | null | undefined;
 }
 export type BillingSpendingLimitCreateRequestDuration = "daily" | "weekly" | "monthly";
 export type BillingSpendingLimitCreateRequestStrategy = "fixed" | "sliding";
@@ -652,7 +671,7 @@ export interface CreateBillingTopupRequest {
   /** Top-up amount in cents (min 1000). */
   amount: number;
   /** Payment method to charge instead of the customer's default payment method. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateBillingTopupResponse {
@@ -663,9 +682,9 @@ export interface CreateBillingTopupResponse {
   /** Top-up payment identifier. */
   paymentIntentId: string;
   /** Card brand (visa, mastercard, etc.). */
-  brand?: string | null;
+  brand?: string | null | undefined;
   /** Last 4 digits of card. */
-  last4?: string | null;
+  last4?: string | null | undefined;
 }
 export interface CreateBillingTopupConfigRequest {
   accountId: string;
@@ -674,13 +693,13 @@ export interface CreateBillingTopupConfigRequest {
   /** Balance threshold in cents that triggers auto top-up (min 500). */
   threshold: number;
   /** Version of the off-session auto-top-up consent accepted by the user. */
-  consentVersion?: string;
+  consentVersion?: string | undefined;
   /** Card to authenticate for future automatic top-ups. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
   /** Client-generated UUID that makes payment-method setup safe to retry. */
-  setupIdempotencyKey?: string;
+  setupIdempotencyKey?: string | undefined;
   /** Successfully confirmed payment-method setup identifier. */
-  setupIntentId?: string;
+  setupIntentId?: string | undefined;
 }
 export interface BillingTopupConfigCreateResultCase0 {
   amount: number;
@@ -710,15 +729,15 @@ export interface CreateCustomProviderRequest {
   baseUrl: string;
   name: string;
   slug: string;
-  beta?: boolean;
-  curlExample?: string;
-  description?: string;
-  enable?: boolean;
+  beta?: boolean | undefined;
+  curlExample?: string | undefined;
+  description?: string | undefined;
+  enable?: boolean | undefined;
   /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
-  headers?: string;
-  jsExample?: string;
-  link?: string;
-  position?: number;
+  headers?: string | undefined;
+  jsExample?: string | undefined;
+  link?: string | undefined;
+  position?: number | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCustomProviderResponse {
@@ -728,16 +747,16 @@ export interface CreateCustomProviderResponse {
   modifiedAt: string;
   name: string;
   slug: string;
-  beta?: boolean | null;
-  curlExample?: string | null;
-  description?: string | null;
-  enable?: boolean | null;
+  beta?: boolean | null | undefined;
+  curlExample?: string | null | undefined;
+  description?: string | null | undefined;
+  enable?: boolean | null | undefined;
   /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
-  headers?: string | null;
-  jsExample?: string | null;
-  link?: string | null;
-  logo?: string | null;
-  position?: number | null;
+  headers?: string | null | undefined;
+  jsExample?: string | null | undefined;
+  link?: string | null | undefined;
+  logo?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export type DatasetsCreateRequestFiltersItemKey =
   | "created_at"
@@ -833,7 +852,7 @@ export interface DynamicRoutingCreateDeploymentResponseElementsItemCase1Outputs 
   true: DynamicRoutingCreateDeploymentResponseElementsItemCase0OutputsNext;
 }
 export interface DynamicRoutingCreateDeploymentResponseElementsItemCase1Properties {
-  conditions?: unknown | null;
+  conditions?: unknown | null | undefined;
 }
 export type DynamicRoutingCreateDeploymentResponseElementsItemCase1Type = "conditional";
 export interface DynamicRoutingCreateDeploymentResponseElementsItemCase1 {
@@ -1112,7 +1131,7 @@ export interface DynamicRoutingCreateResponseVersion {
   createdAt: string;
   data: DynamicRoutingCreateRequestElementsList;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDynamicRoutingResponse {
@@ -1209,11 +1228,11 @@ export interface CreateProviderConfigRequest {
   alias: string;
   defaultConfig: boolean;
   providerSlug: string;
-  rateLimit?: number;
-  rateLimitPeriod?: number;
+  rateLimit?: number | undefined;
+  rateLimitPeriod?: number | undefined;
   /** Provider API key to store in the Secrets Store configured on the gateway. */
-  secret?: string;
-  secretId?: string;
+  secret?: string | undefined;
+  secretId?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProviderConfigResponse {
@@ -1226,8 +1245,10 @@ export interface CreateProviderConfigResponse {
   providerSlug: string;
   secretId: string;
   secretPreview: string;
-  rateLimit?: number | null;
-  rateLimitPeriod?: number | null;
+  /** UTC date (YYYY-MM-DD) the gateway last selected this key to authenticate a request to the provider, whether or not the request succeeded. Updated at most once a day. Null if the gateway has not used the key since this field was introduced. */
+  lastUsedAt?: string | null | undefined;
+  rateLimit?: number | null | undefined;
+  rateLimitPeriod?: number | null | undefined;
 }
 export type DynamicRoutingCreateVersionRequestElementsItemCase0OutputsNext =
   DynamicRoutingCreateDeploymentResponseElementsItemCase0OutputsNext;
@@ -1246,7 +1267,7 @@ export type DynamicRoutingCreateVersionRequestElementsItemCase1OutputsTrue =
 export type DynamicRoutingCreateVersionRequestElementsItemCase1Outputs =
   DynamicRoutingCreateDeploymentResponseElementsItemCase1Outputs;
 export interface DynamicRoutingCreateVersionRequestElementsItemCase1Properties {
-  conditions?: unknown;
+  conditions?: unknown | undefined;
 }
 export type DynamicRoutingCreateVersionRequestElementsItemCase1Type = "conditional";
 export interface DynamicRoutingCreateVersionRequestElementsItemCase1 {
@@ -1429,15 +1450,15 @@ export interface CreditBalanceBillingRequest {
   accountId: string;
 }
 export interface BillingCreditBalanceResponsePaymentMethod {
-  brand?: string | null;
-  last4?: string | null;
+  brand?: string | null | undefined;
+  last4?: string | null | undefined;
 }
 export interface BillingCreditBalanceResponseTopupConfig {
   amount: number;
   threshold: number;
-  disabledReason?: string | null;
-  error?: string | null;
-  lastFailedAt?: number | null;
+  disabledReason?: string | null | undefined;
+  error?: string | null | undefined;
+  lastFailedAt?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreditBalanceBillingResponse {
@@ -1445,7 +1466,7 @@ export interface CreditBalanceBillingResponse {
   hasDefaultPaymentMethod: boolean;
   paymentMethod: BillingCreditBalanceResponsePaymentMethod;
   topupConfig: BillingCreditBalanceResponseTopupConfig;
-  firstTopupSuccess?: boolean | null;
+  firstTopupSuccess?: boolean | null | undefined;
 }
 export interface DeleteAiGatewayRequest {
   accountId: string;
@@ -1485,6 +1506,7 @@ export type DeleteResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type DeleteResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -1494,20 +1516,21 @@ export type DeleteResponseGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface DeleteResponseGuardrailsPrompt {
-  p1?: DeleteResponseGuardrailsPromptP1 | null;
-  s1?: DeleteResponseGuardrailsPromptS1 | null;
-  s10?: DeleteResponseGuardrailsPromptS10 | null;
-  s11?: DeleteResponseGuardrailsPromptS11 | null;
-  s12?: DeleteResponseGuardrailsPromptS12 | null;
-  s13?: DeleteResponseGuardrailsPromptS13 | null;
-  s2?: DeleteResponseGuardrailsPromptS2 | null;
-  s3?: DeleteResponseGuardrailsPromptS3 | null;
-  s4?: DeleteResponseGuardrailsPromptS4 | null;
-  s5?: DeleteResponseGuardrailsPromptS5 | null;
-  s6?: DeleteResponseGuardrailsPromptS6 | null;
-  s7?: DeleteResponseGuardrailsPromptS7 | null;
-  s8?: DeleteResponseGuardrailsPromptS8 | null;
-  s9?: DeleteResponseGuardrailsPromptS9 | null;
+  p1?: DeleteResponseGuardrailsPromptP1 | null | undefined;
+  s1?: DeleteResponseGuardrailsPromptS1 | null | undefined;
+  s10?: DeleteResponseGuardrailsPromptS10 | null | undefined;
+  s11?: DeleteResponseGuardrailsPromptS11 | null | undefined;
+  s12?: DeleteResponseGuardrailsPromptS12 | null | undefined;
+  s13?: DeleteResponseGuardrailsPromptS13 | null | undefined;
+  s14?: DeleteResponseGuardrailsPromptS14 | null | undefined;
+  s2?: DeleteResponseGuardrailsPromptS2 | null | undefined;
+  s3?: DeleteResponseGuardrailsPromptS3 | null | undefined;
+  s4?: DeleteResponseGuardrailsPromptS4 | null | undefined;
+  s5?: DeleteResponseGuardrailsPromptS5 | null | undefined;
+  s6?: DeleteResponseGuardrailsPromptS6 | null | undefined;
+  s7?: DeleteResponseGuardrailsPromptS7 | null | undefined;
+  s8?: DeleteResponseGuardrailsPromptS8 | null | undefined;
+  s9?: DeleteResponseGuardrailsPromptS9 | null | undefined;
 }
 export type DeleteResponseGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -1515,6 +1538,7 @@ export type DeleteResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type DeleteResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -1524,20 +1548,21 @@ export type DeleteResponseGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface DeleteResponseGuardrailsResponse {
-  p1?: DeleteResponseGuardrailsResponseP1 | null;
-  s1?: DeleteResponseGuardrailsResponseS1 | null;
-  s10?: DeleteResponseGuardrailsResponseS10 | null;
-  s11?: DeleteResponseGuardrailsResponseS11 | null;
-  s12?: DeleteResponseGuardrailsResponseS12 | null;
-  s13?: DeleteResponseGuardrailsResponseS13 | null;
-  s2?: DeleteResponseGuardrailsResponseS2 | null;
-  s3?: DeleteResponseGuardrailsResponseS3 | null;
-  s4?: DeleteResponseGuardrailsResponseS4 | null;
-  s5?: DeleteResponseGuardrailsResponseS5 | null;
-  s6?: DeleteResponseGuardrailsResponseS6 | null;
-  s7?: DeleteResponseGuardrailsResponseS7 | null;
-  s8?: DeleteResponseGuardrailsResponseS8 | null;
-  s9?: DeleteResponseGuardrailsResponseS9 | null;
+  p1?: DeleteResponseGuardrailsResponseP1 | null | undefined;
+  s1?: DeleteResponseGuardrailsResponseS1 | null | undefined;
+  s10?: DeleteResponseGuardrailsResponseS10 | null | undefined;
+  s11?: DeleteResponseGuardrailsResponseS11 | null | undefined;
+  s12?: DeleteResponseGuardrailsResponseS12 | null | undefined;
+  s13?: DeleteResponseGuardrailsResponseS13 | null | undefined;
+  s14?: DeleteResponseGuardrailsResponseS14 | null | undefined;
+  s2?: DeleteResponseGuardrailsResponseS2 | null | undefined;
+  s3?: DeleteResponseGuardrailsResponseS3 | null | undefined;
+  s4?: DeleteResponseGuardrailsResponseS4 | null | undefined;
+  s5?: DeleteResponseGuardrailsResponseS5 | null | undefined;
+  s6?: DeleteResponseGuardrailsResponseS6 | null | undefined;
+  s7?: DeleteResponseGuardrailsResponseS7 | null | undefined;
+  s8?: DeleteResponseGuardrailsResponseS8 | null | undefined;
+  s9?: DeleteResponseGuardrailsResponseS9 | null | undefined;
 }
 export interface DeleteResponseGuardrails {
   prompt: DeleteResponseGuardrailsPrompt;
@@ -1549,8 +1574,8 @@ export type DeleteResponseOtelItemContentType = "json" | "protobuf";
 export interface DeleteResponseOtelItem {
   headers: DeleteResponseOtelItemHeadersMap;
   url: string;
-  authorization?: string | null;
-  contentType?: DeleteResponseOtelItemContentType | null;
+  authorization?: string | null | undefined;
+  contentType?: DeleteResponseOtelItemContentType | null | undefined;
 }
 export type DeleteResponseOtelList = Array<DeleteResponseOtelItem>;
 export type DeleteResponseRateLimitingTechnique = "fixed" | "sliding";
@@ -1575,17 +1600,17 @@ export interface DeleteResponseSpendLimitsRulesItem {
   limitType: DeleteResponseSpendLimitsRulesItemLimitType;
   /** exclusiveMinimum */
   window: number;
-  id?: string | null;
-  enabled?: boolean | null;
-  metadata?: UntypedMetadataMap | null;
-  model?: DeleteResponseSpendLimitsRulesItemModel | null;
-  provider?: DeleteResponseSpendLimitsRulesItemProvider | null;
-  technique?: DeleteResponseSpendLimitsRulesItemTechnique | null;
+  id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  metadata?: UntypedMetadataMap | null | undefined;
+  model?: DeleteResponseSpendLimitsRulesItemModel | null | undefined;
+  provider?: DeleteResponseSpendLimitsRulesItemProvider | null | undefined;
+  technique?: DeleteResponseSpendLimitsRulesItemTechnique | null | undefined;
 }
 export type DeleteResponseSpendLimitsRulesList = Array<DeleteResponseSpendLimitsRulesItem>;
 export interface DeleteResponseSpendLimits {
-  enabled?: boolean | null;
-  rules?: DeleteResponseSpendLimitsRulesList | null;
+  enabled?: boolean | null | undefined;
+  rules?: DeleteResponseSpendLimitsRulesList | null | undefined;
 }
 export type DeleteResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type DeleteResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -1605,36 +1630,37 @@ export interface DeleteAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
-  authentication?: boolean | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean | null;
-  dlp?: DeleteResponseDlp | null;
+  byokOnly?: boolean | null | undefined;
+  dlp?: DeleteResponseDlp | null | undefined;
   /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
-  fedrampLevel?: DeleteResponseFedrampLevel | null;
+  fedrampLevel?: DeleteResponseFedrampLevel | null | undefined;
   /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
-  fedrampMode?: DeleteResponseFedrampMode | null;
-  guardrails?: DeleteResponseGuardrails | null;
-  isDefault?: boolean | null;
-  logClassification?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: DeleteResponseLogManagementStrategy | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?: DeleteResponseOtelList | null;
-  rateLimitingTechnique?: DeleteResponseRateLimitingTechnique | null;
+  fedrampMode?: DeleteResponseFedrampMode | null | undefined;
+  guardrails?: DeleteResponseGuardrails | null | undefined;
+  isDefault?: boolean | null | undefined;
+  logClassification?: boolean | null | undefined;
+  logManagement?: number | null | undefined;
+  logManagementStrategy?: DeleteResponseLogManagementStrategy | null | undefined;
+  logpush?: boolean | null | undefined;
+  logpushPublicKey?: string | null | undefined;
+  otel?: DeleteResponseOtelList | null | undefined;
+  rateLimitingTechnique?: DeleteResponseRateLimitingTechnique | null | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: DeleteResponseRetryBackoff | null;
+  retryBackoff?: DeleteResponseRetryBackoff | null | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number | null;
-  spendLimits?: DeleteResponseSpendLimits | null;
+  retryMaxAttempts?: number | null | undefined;
+  spendLimits?: DeleteResponseSpendLimits | null | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string | null;
-  stripe?: DeleteResponseStripe | null;
+  storeId?: string | null | undefined;
+  stripe?: DeleteResponseStripe | null | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: DeleteResponseWorkersAiBillingMode | null;
-  zdr?: boolean | null;
+  workersAiBillingMode?: DeleteResponseWorkersAiBillingMode | null | undefined;
+  zdr?: boolean | null | undefined;
 }
 export interface DeleteBillingSpendingLimitRequest {
   accountId: string;
@@ -1656,16 +1682,16 @@ export interface DeleteCustomProviderResponse {
   modifiedAt: string;
   name: string;
   slug: string;
-  beta?: boolean | null;
-  curlExample?: string | null;
-  description?: string | null;
-  enable?: boolean | null;
+  beta?: boolean | null | undefined;
+  curlExample?: string | null | undefined;
+  description?: string | null | undefined;
+  enable?: boolean | null | undefined;
   /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
-  headers?: string | null;
-  jsExample?: string | null;
-  link?: string | null;
-  logo?: string | null;
-  position?: number | null;
+  headers?: string | null | undefined;
+  jsExample?: string | null | undefined;
+  link?: string | null | undefined;
+  logo?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export interface DeleteDatasetRequest {
   accountId: string;
@@ -1890,10 +1916,10 @@ export interface DeleteLogRequest {
   accountId: string;
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
-  filters?: LogsDeleteRequestFiltersList;
-  limit?: number;
-  orderBy?: LogsDeleteRequestOrderBy | (string & {});
-  orderByDirection?: LogsDeleteRequestOrderByDirection | (string & {});
+  filters?: LogsDeleteRequestFiltersList | undefined;
+  limit?: number | undefined;
+  orderBy?: LogsDeleteRequestOrderBy | (string & {}) | undefined;
+  orderByDirection?: LogsDeleteRequestOrderByDirection | (string & {}) | undefined;
 }
 export interface DeleteLogResponse {}
 export interface DeleteProviderConfigRequest {
@@ -1941,6 +1967,7 @@ export type GetResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type GetResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -1950,20 +1977,21 @@ export type GetResponseGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface GetResponseGuardrailsPrompt {
-  p1?: GetResponseGuardrailsPromptP1 | null;
-  s1?: GetResponseGuardrailsPromptS1 | null;
-  s10?: GetResponseGuardrailsPromptS10 | null;
-  s11?: GetResponseGuardrailsPromptS11 | null;
-  s12?: GetResponseGuardrailsPromptS12 | null;
-  s13?: GetResponseGuardrailsPromptS13 | null;
-  s2?: GetResponseGuardrailsPromptS2 | null;
-  s3?: GetResponseGuardrailsPromptS3 | null;
-  s4?: GetResponseGuardrailsPromptS4 | null;
-  s5?: GetResponseGuardrailsPromptS5 | null;
-  s6?: GetResponseGuardrailsPromptS6 | null;
-  s7?: GetResponseGuardrailsPromptS7 | null;
-  s8?: GetResponseGuardrailsPromptS8 | null;
-  s9?: GetResponseGuardrailsPromptS9 | null;
+  p1?: GetResponseGuardrailsPromptP1 | null | undefined;
+  s1?: GetResponseGuardrailsPromptS1 | null | undefined;
+  s10?: GetResponseGuardrailsPromptS10 | null | undefined;
+  s11?: GetResponseGuardrailsPromptS11 | null | undefined;
+  s12?: GetResponseGuardrailsPromptS12 | null | undefined;
+  s13?: GetResponseGuardrailsPromptS13 | null | undefined;
+  s14?: GetResponseGuardrailsPromptS14 | null | undefined;
+  s2?: GetResponseGuardrailsPromptS2 | null | undefined;
+  s3?: GetResponseGuardrailsPromptS3 | null | undefined;
+  s4?: GetResponseGuardrailsPromptS4 | null | undefined;
+  s5?: GetResponseGuardrailsPromptS5 | null | undefined;
+  s6?: GetResponseGuardrailsPromptS6 | null | undefined;
+  s7?: GetResponseGuardrailsPromptS7 | null | undefined;
+  s8?: GetResponseGuardrailsPromptS8 | null | undefined;
+  s9?: GetResponseGuardrailsPromptS9 | null | undefined;
 }
 export type GetResponseGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -1971,6 +1999,7 @@ export type GetResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type GetResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -1980,20 +2009,21 @@ export type GetResponseGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface GetResponseGuardrailsResponse {
-  p1?: GetResponseGuardrailsResponseP1 | null;
-  s1?: GetResponseGuardrailsResponseS1 | null;
-  s10?: GetResponseGuardrailsResponseS10 | null;
-  s11?: GetResponseGuardrailsResponseS11 | null;
-  s12?: GetResponseGuardrailsResponseS12 | null;
-  s13?: GetResponseGuardrailsResponseS13 | null;
-  s2?: GetResponseGuardrailsResponseS2 | null;
-  s3?: GetResponseGuardrailsResponseS3 | null;
-  s4?: GetResponseGuardrailsResponseS4 | null;
-  s5?: GetResponseGuardrailsResponseS5 | null;
-  s6?: GetResponseGuardrailsResponseS6 | null;
-  s7?: GetResponseGuardrailsResponseS7 | null;
-  s8?: GetResponseGuardrailsResponseS8 | null;
-  s9?: GetResponseGuardrailsResponseS9 | null;
+  p1?: GetResponseGuardrailsResponseP1 | null | undefined;
+  s1?: GetResponseGuardrailsResponseS1 | null | undefined;
+  s10?: GetResponseGuardrailsResponseS10 | null | undefined;
+  s11?: GetResponseGuardrailsResponseS11 | null | undefined;
+  s12?: GetResponseGuardrailsResponseS12 | null | undefined;
+  s13?: GetResponseGuardrailsResponseS13 | null | undefined;
+  s14?: GetResponseGuardrailsResponseS14 | null | undefined;
+  s2?: GetResponseGuardrailsResponseS2 | null | undefined;
+  s3?: GetResponseGuardrailsResponseS3 | null | undefined;
+  s4?: GetResponseGuardrailsResponseS4 | null | undefined;
+  s5?: GetResponseGuardrailsResponseS5 | null | undefined;
+  s6?: GetResponseGuardrailsResponseS6 | null | undefined;
+  s7?: GetResponseGuardrailsResponseS7 | null | undefined;
+  s8?: GetResponseGuardrailsResponseS8 | null | undefined;
+  s9?: GetResponseGuardrailsResponseS9 | null | undefined;
 }
 export interface GetResponseGuardrails {
   prompt: GetResponseGuardrailsPrompt;
@@ -2005,8 +2035,8 @@ export type GetResponseOtelItemContentType = "json" | "protobuf";
 export interface GetResponseOtelItem {
   headers: GetResponseOtelItemHeadersMap;
   url: string;
-  authorization?: string | null;
-  contentType?: GetResponseOtelItemContentType | null;
+  authorization?: string | null | undefined;
+  contentType?: GetResponseOtelItemContentType | null | undefined;
 }
 export type GetResponseOtelList = Array<GetResponseOtelItem>;
 export type GetResponseRateLimitingTechnique = "fixed" | "sliding";
@@ -2031,17 +2061,17 @@ export interface GetResponseSpendLimitsRulesItem {
   limitType: GetResponseSpendLimitsRulesItemLimitType;
   /** exclusiveMinimum */
   window: number;
-  id?: string | null;
-  enabled?: boolean | null;
-  metadata?: UntypedMetadataMap | null;
-  model?: GetResponseSpendLimitsRulesItemModel | null;
-  provider?: GetResponseSpendLimitsRulesItemProvider | null;
-  technique?: GetResponseSpendLimitsRulesItemTechnique | null;
+  id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  metadata?: UntypedMetadataMap | null | undefined;
+  model?: GetResponseSpendLimitsRulesItemModel | null | undefined;
+  provider?: GetResponseSpendLimitsRulesItemProvider | null | undefined;
+  technique?: GetResponseSpendLimitsRulesItemTechnique | null | undefined;
 }
 export type GetResponseSpendLimitsRulesList = Array<GetResponseSpendLimitsRulesItem>;
 export interface GetResponseSpendLimits {
-  enabled?: boolean | null;
-  rules?: GetResponseSpendLimitsRulesList | null;
+  enabled?: boolean | null | undefined;
+  rules?: GetResponseSpendLimitsRulesList | null | undefined;
 }
 export type GetResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type GetResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -2061,36 +2091,37 @@ export interface GetAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
-  authentication?: boolean | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean | null;
-  dlp?: GetResponseDlp | null;
+  byokOnly?: boolean | null | undefined;
+  dlp?: GetResponseDlp | null | undefined;
   /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
-  fedrampLevel?: GetResponseFedrampLevel | null;
+  fedrampLevel?: GetResponseFedrampLevel | null | undefined;
   /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
-  fedrampMode?: GetResponseFedrampMode | null;
-  guardrails?: GetResponseGuardrails | null;
-  isDefault?: boolean | null;
-  logClassification?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: GetResponseLogManagementStrategy | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?: GetResponseOtelList | null;
-  rateLimitingTechnique?: GetResponseRateLimitingTechnique | null;
+  fedrampMode?: GetResponseFedrampMode | null | undefined;
+  guardrails?: GetResponseGuardrails | null | undefined;
+  isDefault?: boolean | null | undefined;
+  logClassification?: boolean | null | undefined;
+  logManagement?: number | null | undefined;
+  logManagementStrategy?: GetResponseLogManagementStrategy | null | undefined;
+  logpush?: boolean | null | undefined;
+  logpushPublicKey?: string | null | undefined;
+  otel?: GetResponseOtelList | null | undefined;
+  rateLimitingTechnique?: GetResponseRateLimitingTechnique | null | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: GetResponseRetryBackoff | null;
+  retryBackoff?: GetResponseRetryBackoff | null | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number | null;
-  spendLimits?: GetResponseSpendLimits | null;
+  retryMaxAttempts?: number | null | undefined;
+  spendLimits?: GetResponseSpendLimits | null | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string | null;
-  stripe?: GetResponseStripe | null;
+  storeId?: string | null | undefined;
+  stripe?: GetResponseStripe | null | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: GetResponseWorkersAiBillingMode | null;
-  zdr?: boolean | null;
+  workersAiBillingMode?: GetResponseWorkersAiBillingMode | null | undefined;
+  zdr?: boolean | null | undefined;
 }
 export interface GetBillingSpendingLimitRequest {
   accountId: string;
@@ -2112,9 +2143,9 @@ export interface GetBillingTopupConfigRequest {
 export interface GetBillingTopupConfigResponse {
   amount: number;
   threshold: number;
-  disabledReason?: string | null;
-  error?: string | null;
-  lastFailedAt?: number | null;
+  disabledReason?: string | null | undefined;
+  error?: string | null | undefined;
+  lastFailedAt?: number | null | undefined;
 }
 export interface GetCustomProviderRequest {
   accountId: string;
@@ -2128,16 +2159,16 @@ export interface GetCustomProviderResponse {
   modifiedAt: string;
   name: string;
   slug: string;
-  beta?: boolean | null;
-  curlExample?: string | null;
-  description?: string | null;
-  enable?: boolean | null;
+  beta?: boolean | null | undefined;
+  curlExample?: string | null | undefined;
+  description?: string | null | undefined;
+  enable?: boolean | null | undefined;
   /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
-  headers?: string | null;
-  jsExample?: string | null;
-  link?: string | null;
-  logo?: string | null;
-  position?: number | null;
+  headers?: string | null | undefined;
+  jsExample?: string | null | undefined;
+  link?: string | null | undefined;
+  logo?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export interface GetDatasetRequest {
   accountId: string;
@@ -2278,7 +2309,7 @@ export interface DynamicRoutingGetResponseVersion {
   createdAt: string;
   data: DynamicRoutingCreateRequestElementsList;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDynamicRoutingResponse {
@@ -2368,21 +2399,23 @@ export interface GetLogResponse {
   success: boolean;
   tokensIn: number;
   tokensOut: number;
-  cost?: number | null;
-  customCost?: boolean | null;
-  metadata?: string | null;
-  modelType?: string | null;
-  requestContentType?: string | null;
-  requestHead?: string | null;
-  requestHeadComplete?: boolean | null;
-  requestSize?: number | null;
-  requestType?: string | null;
-  responseContentType?: string | null;
-  responseHead?: string | null;
-  responseHeadComplete?: boolean | null;
-  responseSize?: number | null;
-  statusCode?: number | null;
-  step?: number | null;
+  /** Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging was off, or the gateway does not store bodies for the request. Null for logs written before this field existed. */
+  collectLogPayload?: boolean | null | undefined;
+  cost?: number | null | undefined;
+  customCost?: boolean | null | undefined;
+  metadata?: string | null | undefined;
+  modelType?: string | null | undefined;
+  requestContentType?: string | null | undefined;
+  requestHead?: string | null | undefined;
+  requestHeadComplete?: boolean | null | undefined;
+  requestSize?: number | null | undefined;
+  requestType?: string | null | undefined;
+  responseContentType?: string | null | undefined;
+  responseHead?: string | null | undefined;
+  responseHeadComplete?: boolean | null | undefined;
+  responseSize?: number | null | undefined;
+  statusCode?: number | null | undefined;
+  step?: number | null | undefined;
 }
 export interface GetUrlRequest {
   accountId: string;
@@ -2496,29 +2529,29 @@ export interface GetVersionDynamicRoutingResponse {
   modifiedAt: string;
   name: string;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 export type BillingInvoiceHistoryRequestType = "auto" | "all" | "manual";
 export interface InvoiceHistoryBillingRequest {
   accountId: string;
   /** Filter invoice type: auto, manual, or all. */
-  type?: BillingInvoiceHistoryRequestType | (string & {});
+  type?: BillingInvoiceHistoryRequestType | (string & {}) | undefined;
 }
 export interface BillingInvoiceHistoryResponseInvoicesItem {
   amountDue: number;
   amountPaid: number;
   amountRemaining: number;
   currency: string;
-  id?: string | null;
-  attemptCount?: number | null;
-  attempted?: boolean | null;
-  autoAdvance?: boolean | null;
-  created?: number | null;
-  createdBy?: string | null;
-  description?: string | null;
-  invoiceOrigin?: string | null;
-  invoicePdf?: string | null;
-  status?: string | null;
+  id?: string | null | undefined;
+  attemptCount?: number | null | undefined;
+  attempted?: boolean | null | undefined;
+  autoAdvance?: boolean | null | undefined;
+  created?: number | null | undefined;
+  createdBy?: string | null | undefined;
+  description?: string | null | undefined;
+  invoiceOrigin?: string | null | undefined;
+  invoicePdf?: string | null | undefined;
+  status?: string | null | undefined;
 }
 export type BillingInvoiceHistoryResponseInvoicesList =
   Array<BillingInvoiceHistoryResponseInvoicesItem>;
@@ -2546,8 +2579,8 @@ export interface BillingInvoicePreviewResponseInvoiceLinesItemPricing {
 export interface BillingInvoicePreviewResponseInvoiceLinesItemPretaxCreditAmountsItem {
   amount: number;
   type: string;
-  creditBalanceTransaction?: string | null;
-  discount?: string | null;
+  creditBalanceTransaction?: string | null | undefined;
+  discount?: string | null | undefined;
 }
 export type BillingInvoicePreviewResponseInvoiceLinesItemPretaxCreditAmountsList =
   Array<BillingInvoicePreviewResponseInvoiceLinesItemPretaxCreditAmountsItem>;
@@ -2558,7 +2591,10 @@ export interface BillingInvoicePreviewResponseInvoiceLinesItem {
   period: BillingInvoicePreviewResponseInvoiceLinesItemPeriod;
   pricing: BillingInvoicePreviewResponseInvoiceLinesItemPricing;
   quantity: number;
-  pretaxCreditAmounts?: BillingInvoicePreviewResponseInvoiceLinesItemPretaxCreditAmountsList | null;
+  pretaxCreditAmounts?:
+    | BillingInvoicePreviewResponseInvoiceLinesItemPretaxCreditAmountsList
+    | null
+    | undefined;
 }
 export type BillingInvoicePreviewResponseInvoiceLinesList =
   Array<BillingInvoicePreviewResponseInvoiceLinesItem>;
@@ -2582,10 +2618,10 @@ export interface InvoicePreviewBillingResponse {
 }
 export interface ListAiGatewaysRequest {
   accountId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Search by id */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListResultItemDlpCase0Action = "BLOCK" | "FLAG";
 export type ListResultItemDlpCase0ProfilesList = Array<string>;
@@ -2620,6 +2656,7 @@ export type ListResultItemGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type ListResultItemGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -2629,20 +2666,21 @@ export type ListResultItemGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface ListResultItemGuardrailsPrompt {
-  p1?: ListResultItemGuardrailsPromptP1 | null;
-  s1?: ListResultItemGuardrailsPromptS1 | null;
-  s10?: ListResultItemGuardrailsPromptS10 | null;
-  s11?: ListResultItemGuardrailsPromptS11 | null;
-  s12?: ListResultItemGuardrailsPromptS12 | null;
-  s13?: ListResultItemGuardrailsPromptS13 | null;
-  s2?: ListResultItemGuardrailsPromptS2 | null;
-  s3?: ListResultItemGuardrailsPromptS3 | null;
-  s4?: ListResultItemGuardrailsPromptS4 | null;
-  s5?: ListResultItemGuardrailsPromptS5 | null;
-  s6?: ListResultItemGuardrailsPromptS6 | null;
-  s7?: ListResultItemGuardrailsPromptS7 | null;
-  s8?: ListResultItemGuardrailsPromptS8 | null;
-  s9?: ListResultItemGuardrailsPromptS9 | null;
+  p1?: ListResultItemGuardrailsPromptP1 | null | undefined;
+  s1?: ListResultItemGuardrailsPromptS1 | null | undefined;
+  s10?: ListResultItemGuardrailsPromptS10 | null | undefined;
+  s11?: ListResultItemGuardrailsPromptS11 | null | undefined;
+  s12?: ListResultItemGuardrailsPromptS12 | null | undefined;
+  s13?: ListResultItemGuardrailsPromptS13 | null | undefined;
+  s14?: ListResultItemGuardrailsPromptS14 | null | undefined;
+  s2?: ListResultItemGuardrailsPromptS2 | null | undefined;
+  s3?: ListResultItemGuardrailsPromptS3 | null | undefined;
+  s4?: ListResultItemGuardrailsPromptS4 | null | undefined;
+  s5?: ListResultItemGuardrailsPromptS5 | null | undefined;
+  s6?: ListResultItemGuardrailsPromptS6 | null | undefined;
+  s7?: ListResultItemGuardrailsPromptS7 | null | undefined;
+  s8?: ListResultItemGuardrailsPromptS8 | null | undefined;
+  s9?: ListResultItemGuardrailsPromptS9 | null | undefined;
 }
 export type ListResultItemGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -2650,6 +2688,7 @@ export type ListResultItemGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type ListResultItemGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -2659,20 +2698,21 @@ export type ListResultItemGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface ListResultItemGuardrailsResponse {
-  p1?: ListResultItemGuardrailsResponseP1 | null;
-  s1?: ListResultItemGuardrailsResponseS1 | null;
-  s10?: ListResultItemGuardrailsResponseS10 | null;
-  s11?: ListResultItemGuardrailsResponseS11 | null;
-  s12?: ListResultItemGuardrailsResponseS12 | null;
-  s13?: ListResultItemGuardrailsResponseS13 | null;
-  s2?: ListResultItemGuardrailsResponseS2 | null;
-  s3?: ListResultItemGuardrailsResponseS3 | null;
-  s4?: ListResultItemGuardrailsResponseS4 | null;
-  s5?: ListResultItemGuardrailsResponseS5 | null;
-  s6?: ListResultItemGuardrailsResponseS6 | null;
-  s7?: ListResultItemGuardrailsResponseS7 | null;
-  s8?: ListResultItemGuardrailsResponseS8 | null;
-  s9?: ListResultItemGuardrailsResponseS9 | null;
+  p1?: ListResultItemGuardrailsResponseP1 | null | undefined;
+  s1?: ListResultItemGuardrailsResponseS1 | null | undefined;
+  s10?: ListResultItemGuardrailsResponseS10 | null | undefined;
+  s11?: ListResultItemGuardrailsResponseS11 | null | undefined;
+  s12?: ListResultItemGuardrailsResponseS12 | null | undefined;
+  s13?: ListResultItemGuardrailsResponseS13 | null | undefined;
+  s14?: ListResultItemGuardrailsResponseS14 | null | undefined;
+  s2?: ListResultItemGuardrailsResponseS2 | null | undefined;
+  s3?: ListResultItemGuardrailsResponseS3 | null | undefined;
+  s4?: ListResultItemGuardrailsResponseS4 | null | undefined;
+  s5?: ListResultItemGuardrailsResponseS5 | null | undefined;
+  s6?: ListResultItemGuardrailsResponseS6 | null | undefined;
+  s7?: ListResultItemGuardrailsResponseS7 | null | undefined;
+  s8?: ListResultItemGuardrailsResponseS8 | null | undefined;
+  s9?: ListResultItemGuardrailsResponseS9 | null | undefined;
 }
 export interface ListResultItemGuardrails {
   prompt: ListResultItemGuardrailsPrompt;
@@ -2684,8 +2724,8 @@ export type ListResultItemOtelItemContentType = "json" | "protobuf";
 export interface ListResultItemOtelItem {
   headers: ListResultItemOtelItemHeadersMap;
   url: string;
-  authorization?: string | null;
-  contentType?: ListResultItemOtelItemContentType | null;
+  authorization?: string | null | undefined;
+  contentType?: ListResultItemOtelItemContentType | null | undefined;
 }
 export type ListResultItemOtelList = Array<ListResultItemOtelItem>;
 export type ListResultItemRateLimitingTechnique = "fixed" | "sliding";
@@ -2710,17 +2750,17 @@ export interface ListResultItemSpendLimitsRulesItem {
   limitType: ListResultItemSpendLimitsRulesItemLimitType;
   /** exclusiveMinimum */
   window: number;
-  id?: string | null;
-  enabled?: boolean | null;
-  metadata?: UntypedMetadataMap | null;
-  model?: ListResultItemSpendLimitsRulesItemModel | null;
-  provider?: ListResultItemSpendLimitsRulesItemProvider | null;
-  technique?: ListResultItemSpendLimitsRulesItemTechnique | null;
+  id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  metadata?: UntypedMetadataMap | null | undefined;
+  model?: ListResultItemSpendLimitsRulesItemModel | null | undefined;
+  provider?: ListResultItemSpendLimitsRulesItemProvider | null | undefined;
+  technique?: ListResultItemSpendLimitsRulesItemTechnique | null | undefined;
 }
 export type ListResultItemSpendLimitsRulesList = Array<ListResultItemSpendLimitsRulesItem>;
 export interface ListResultItemSpendLimits {
-  enabled?: boolean | null;
-  rules?: ListResultItemSpendLimitsRulesList | null;
+  enabled?: boolean | null | undefined;
+  rules?: ListResultItemSpendLimitsRulesList | null | undefined;
 }
 export type ListResultItemStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type ListResultItemStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -2739,52 +2779,53 @@ export interface ListResultItem {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
-  authentication?: boolean | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean | null;
-  dlp?: ListResultItemDlp | null;
+  byokOnly?: boolean | null | undefined;
+  dlp?: ListResultItemDlp | null | undefined;
   /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
-  fedrampLevel?: ListResultItemFedrampLevel | null;
+  fedrampLevel?: ListResultItemFedrampLevel | null | undefined;
   /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
-  fedrampMode?: ListResultItemFedrampMode | null;
-  guardrails?: ListResultItemGuardrails | null;
-  isDefault?: boolean | null;
-  logClassification?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: ListResultItemLogManagementStrategy | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?: ListResultItemOtelList | null;
-  rateLimitingTechnique?: ListResultItemRateLimitingTechnique | null;
+  fedrampMode?: ListResultItemFedrampMode | null | undefined;
+  guardrails?: ListResultItemGuardrails | null | undefined;
+  isDefault?: boolean | null | undefined;
+  logClassification?: boolean | null | undefined;
+  logManagement?: number | null | undefined;
+  logManagementStrategy?: ListResultItemLogManagementStrategy | null | undefined;
+  logpush?: boolean | null | undefined;
+  logpushPublicKey?: string | null | undefined;
+  otel?: ListResultItemOtelList | null | undefined;
+  rateLimitingTechnique?: ListResultItemRateLimitingTechnique | null | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: ListResultItemRetryBackoff | null;
+  retryBackoff?: ListResultItemRetryBackoff | null | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number | null;
-  spendLimits?: ListResultItemSpendLimits | null;
+  retryMaxAttempts?: number | null | undefined;
+  spendLimits?: ListResultItemSpendLimits | null | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string | null;
-  stripe?: ListResultItemStripe | null;
+  storeId?: string | null | undefined;
+  stripe?: ListResultItemStripe | null | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: ListResultItemWorkersAiBillingMode | null;
-  zdr?: boolean | null;
+  workersAiBillingMode?: ListResultItemWorkersAiBillingMode | null | undefined;
+  zdr?: boolean | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListAiGatewaysResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCustomProvidersRequest {
   accountId: string;
-  beta?: boolean;
-  enable?: boolean;
-  page?: number;
-  perPage?: number;
+  beta?: boolean | undefined;
+  enable?: boolean | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Search by id, name, slug */
-  search?: string;
+  search?: string | undefined;
 }
 export interface CustomProvidersListResultItem {
   id: string;
@@ -2793,34 +2834,34 @@ export interface CustomProvidersListResultItem {
   modifiedAt: string;
   name: string;
   slug: string;
-  beta?: boolean | null;
-  curlExample?: string | null;
-  description?: string | null;
-  enable?: boolean | null;
+  beta?: boolean | null | undefined;
+  curlExample?: string | null | undefined;
+  description?: string | null | undefined;
+  enable?: boolean | null | undefined;
   /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
-  headers?: string | null;
-  jsExample?: string | null;
-  link?: string | null;
-  logo?: string | null;
-  position?: number | null;
+  headers?: string | null | undefined;
+  jsExample?: string | null | undefined;
+  link?: string | null | undefined;
+  logo?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export type CustomProvidersListResultList = Array<CustomProvidersListResultItem>;
 export interface ListCustomProvidersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CustomProvidersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDatasetsRequest {
   accountId: string;
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
-  enable?: boolean;
-  name?: string;
-  page?: number;
-  perPage?: number;
+  enable?: boolean | undefined;
+  name?: string | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Search by id, name, filters */
-  search?: string;
+  search?: string | undefined;
 }
 export type DatasetsListResultItemFiltersItemKey =
   | "created_at"
@@ -2861,7 +2902,7 @@ export interface ListDatasetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatasetsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDeploymentsDynamicRoutingRequest {
   accountId: string;
@@ -2887,9 +2928,9 @@ export interface ListDynamicRoutingsRequest {
   accountId: string;
   gatewayId: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of routes per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type DynamicRoutingListResponseDataRoutesItemDeployment =
   DynamicRoutingCreateResponseDeployment;
@@ -2988,7 +3029,7 @@ export interface DynamicRoutingListResponseDataRoutesItemVersion {
   createdAt: string;
   data: DynamicRoutingCreateRequestElementsList;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 export interface DynamicRoutingListResponseDataRoutesItem {
   id: string;
@@ -3018,12 +3059,12 @@ export interface ListEvaluationsRequest {
   accountId: string;
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
-  name?: string;
-  page?: number;
-  perPage?: number;
-  processed?: boolean;
+  name?: string | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  processed?: boolean | undefined;
   /** Search by id, name */
-  search?: string;
+  search?: string | undefined;
 }
 export type EvaluationsListResultItemDatasetsItemFiltersItemKey =
   | "created_at"
@@ -3086,15 +3127,15 @@ export interface ListEvaluationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EvaluationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type EvaluationTypesListRequestOrderByDirection = "asc" | "desc";
 export interface ListEvaluationTypesRequest {
   accountId: string;
-  orderBy?: string;
-  orderByDirection?: EvaluationTypesListRequestOrderByDirection | (string & {});
-  page?: number;
-  perPage?: number;
+  orderBy?: string | undefined;
+  orderByDirection?: EvaluationTypesListRequestOrderByDirection | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface EvaluationTypesListResultItem {
   id: string;
@@ -3111,7 +3152,7 @@ export interface ListEvaluationTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EvaluationTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type LogsListRequestDirection = "asc" | "desc";
 export type LogsListRequestFiltersList = Array<string>;
@@ -3127,36 +3168,36 @@ export interface ListLogsRequest {
   accountId: string;
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
-  cached?: boolean;
-  direction?: LogsListRequestDirection | (string & {});
-  endDate?: string;
-  feedback?: string;
-  filters?: LogsListRequestFiltersList;
-  maxCost?: number;
-  maxDuration?: number;
-  maxTokensIn?: number;
-  maxTokensOut?: number;
-  maxTotalTokens?: number;
-  metaInfo?: boolean;
-  minCost?: number;
-  minDuration?: number;
-  minTokensIn?: number;
-  minTokensOut?: number;
-  minTotalTokens?: number;
+  cached?: boolean | undefined;
+  direction?: LogsListRequestDirection | (string & {}) | undefined;
+  endDate?: string | undefined;
+  feedback?: string | undefined;
+  filters?: LogsListRequestFiltersList | undefined;
+  maxCost?: number | undefined;
+  maxDuration?: number | undefined;
+  maxTokensIn?: number | undefined;
+  maxTokensOut?: number | undefined;
+  maxTotalTokens?: number | undefined;
+  metaInfo?: boolean | undefined;
+  minCost?: number | undefined;
+  minDuration?: number | undefined;
+  minTokensIn?: number | undefined;
+  minTokensOut?: number | undefined;
+  minTotalTokens?: number | undefined;
   /** Model filter. */
-  model?: string;
-  modelType?: string;
-  orderBy?: LogsListRequestOrderBy | (string & {});
-  orderByDirection?: LogsListRequestOrderByDirection | (string & {});
-  page?: number;
-  perPage?: number;
-  provider?: string;
-  requestContentType?: string;
-  responseContentType?: string;
+  model?: string | undefined;
+  modelType?: string | undefined;
+  orderBy?: LogsListRequestOrderBy | (string & {}) | undefined;
+  orderByDirection?: LogsListRequestOrderByDirection | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  provider?: string | undefined;
+  requestContentType?: string | undefined;
+  responseContentType?: string | undefined;
   /** Free-text search over log metadata. */
-  search?: string;
-  startDate?: string;
-  success?: boolean;
+  search?: string | undefined;
+  startDate?: string | undefined;
+  success?: boolean | undefined;
 }
 export interface LogsListResultItem {
   id: string;
@@ -3169,29 +3210,31 @@ export interface LogsListResultItem {
   success: boolean;
   tokensIn: number;
   tokensOut: number;
-  cost?: number | null;
-  customCost?: boolean | null;
-  metadata?: string | null;
-  modelType?: string | null;
-  requestContentType?: string | null;
-  requestType?: string | null;
-  responseContentType?: string | null;
-  statusCode?: number | null;
-  step?: number | null;
+  /** Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging was off, or the gateway does not store bodies for the request. Null for logs written before this field existed. */
+  collectLogPayload?: boolean | null | undefined;
+  cost?: number | null | undefined;
+  customCost?: boolean | null | undefined;
+  metadata?: string | null | undefined;
+  modelType?: string | null | undefined;
+  requestContentType?: string | null | undefined;
+  requestType?: string | null | undefined;
+  responseContentType?: string | null | undefined;
+  statusCode?: number | null | undefined;
+  step?: number | null | undefined;
 }
 export type LogsListResultList = Array<LogsListResultItem>;
 export interface ListLogsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProviderConfigsRequest {
   accountId: string;
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface ProviderConfigsListResultItem {
   id: string;
@@ -3203,15 +3246,17 @@ export interface ProviderConfigsListResultItem {
   providerSlug: string;
   secretId: string;
   secretPreview: string;
-  rateLimit?: number | null;
-  rateLimitPeriod?: number | null;
+  /** UTC date (YYYY-MM-DD) the gateway last selected this key to authenticate a request to the provider, whether or not the request succeeded. Updated at most once a day. Null if the gateway has not used the key since this field was introduced. */
+  lastUsedAt?: string | null | undefined;
+  rateLimit?: number | null | undefined;
+  rateLimitPeriod?: number | null | undefined;
 }
 export type ProviderConfigsListResultList = Array<ProviderConfigsListResultItem>;
 export interface ListProviderConfigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProviderConfigsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListVersionsDynamicRoutingRequest {
   accountId: string;
@@ -3224,7 +3269,7 @@ export interface DynamicRoutingListVersionsResponseDataVersionsItem {
   createdAt: string;
   data: DynamicRoutingCreateRequestElementsList;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 export type DynamicRoutingListVersionsResponseDataVersionsList =
   Array<DynamicRoutingListVersionsResponseDataVersionsItem>;
@@ -3341,7 +3386,7 @@ export interface DynamicRoutingUpdateResponseRouteVersion {
   createdAt: string;
   data: DynamicRoutingCreateRequestElementsList;
   versionId: string;
-  isValid?: boolean | null;
+  isValid?: boolean | null | undefined;
 }
 export interface DynamicRoutingUpdateResponseRoute {
   id: string;
@@ -3367,9 +3412,9 @@ export interface PatchLogRequest {
   /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
-  feedback?: number;
-  metadata?: LogsEditRequestMetadataMap;
-  score?: number;
+  feedback?: number | undefined;
+  metadata?: LogsEditRequestMetadataMap | undefined;
+  score?: number | undefined;
 }
 export type PatchLogResponse = unknown;
 export interface RequestLogRequest {
@@ -3429,6 +3474,7 @@ export type UpdateRequestGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type UpdateRequestGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -3438,20 +3484,21 @@ export type UpdateRequestGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface UpdateRequestGuardrailsPrompt {
-  p1?: UpdateRequestGuardrailsPromptP1 | (string & {});
-  s1?: UpdateRequestGuardrailsPromptS1 | (string & {});
-  s10?: UpdateRequestGuardrailsPromptS10 | (string & {});
-  s11?: UpdateRequestGuardrailsPromptS11 | (string & {});
-  s12?: UpdateRequestGuardrailsPromptS12 | (string & {});
-  s13?: UpdateRequestGuardrailsPromptS13 | (string & {});
-  s2?: UpdateRequestGuardrailsPromptS2 | (string & {});
-  s3?: UpdateRequestGuardrailsPromptS3 | (string & {});
-  s4?: UpdateRequestGuardrailsPromptS4 | (string & {});
-  s5?: UpdateRequestGuardrailsPromptS5 | (string & {});
-  s6?: UpdateRequestGuardrailsPromptS6 | (string & {});
-  s7?: UpdateRequestGuardrailsPromptS7 | (string & {});
-  s8?: UpdateRequestGuardrailsPromptS8 | (string & {});
-  s9?: UpdateRequestGuardrailsPromptS9 | (string & {});
+  p1?: UpdateRequestGuardrailsPromptP1 | (string & {}) | undefined;
+  s1?: UpdateRequestGuardrailsPromptS1 | (string & {}) | undefined;
+  s10?: UpdateRequestGuardrailsPromptS10 | (string & {}) | undefined;
+  s11?: UpdateRequestGuardrailsPromptS11 | (string & {}) | undefined;
+  s12?: UpdateRequestGuardrailsPromptS12 | (string & {}) | undefined;
+  s13?: UpdateRequestGuardrailsPromptS13 | (string & {}) | undefined;
+  s14?: UpdateRequestGuardrailsPromptS14 | (string & {}) | undefined;
+  s2?: UpdateRequestGuardrailsPromptS2 | (string & {}) | undefined;
+  s3?: UpdateRequestGuardrailsPromptS3 | (string & {}) | undefined;
+  s4?: UpdateRequestGuardrailsPromptS4 | (string & {}) | undefined;
+  s5?: UpdateRequestGuardrailsPromptS5 | (string & {}) | undefined;
+  s6?: UpdateRequestGuardrailsPromptS6 | (string & {}) | undefined;
+  s7?: UpdateRequestGuardrailsPromptS7 | (string & {}) | undefined;
+  s8?: UpdateRequestGuardrailsPromptS8 | (string & {}) | undefined;
+  s9?: UpdateRequestGuardrailsPromptS9 | (string & {}) | undefined;
 }
 export type UpdateRequestGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -3459,6 +3506,7 @@ export type UpdateRequestGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type UpdateRequestGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -3468,20 +3516,21 @@ export type UpdateRequestGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface UpdateRequestGuardrailsResponse {
-  p1?: UpdateRequestGuardrailsResponseP1 | (string & {});
-  s1?: UpdateRequestGuardrailsResponseS1 | (string & {});
-  s10?: UpdateRequestGuardrailsResponseS10 | (string & {});
-  s11?: UpdateRequestGuardrailsResponseS11 | (string & {});
-  s12?: UpdateRequestGuardrailsResponseS12 | (string & {});
-  s13?: UpdateRequestGuardrailsResponseS13 | (string & {});
-  s2?: UpdateRequestGuardrailsResponseS2 | (string & {});
-  s3?: UpdateRequestGuardrailsResponseS3 | (string & {});
-  s4?: UpdateRequestGuardrailsResponseS4 | (string & {});
-  s5?: UpdateRequestGuardrailsResponseS5 | (string & {});
-  s6?: UpdateRequestGuardrailsResponseS6 | (string & {});
-  s7?: UpdateRequestGuardrailsResponseS7 | (string & {});
-  s8?: UpdateRequestGuardrailsResponseS8 | (string & {});
-  s9?: UpdateRequestGuardrailsResponseS9 | (string & {});
+  p1?: UpdateRequestGuardrailsResponseP1 | (string & {}) | undefined;
+  s1?: UpdateRequestGuardrailsResponseS1 | (string & {}) | undefined;
+  s10?: UpdateRequestGuardrailsResponseS10 | (string & {}) | undefined;
+  s11?: UpdateRequestGuardrailsResponseS11 | (string & {}) | undefined;
+  s12?: UpdateRequestGuardrailsResponseS12 | (string & {}) | undefined;
+  s13?: UpdateRequestGuardrailsResponseS13 | (string & {}) | undefined;
+  s14?: UpdateRequestGuardrailsResponseS14 | (string & {}) | undefined;
+  s2?: UpdateRequestGuardrailsResponseS2 | (string & {}) | undefined;
+  s3?: UpdateRequestGuardrailsResponseS3 | (string & {}) | undefined;
+  s4?: UpdateRequestGuardrailsResponseS4 | (string & {}) | undefined;
+  s5?: UpdateRequestGuardrailsResponseS5 | (string & {}) | undefined;
+  s6?: UpdateRequestGuardrailsResponseS6 | (string & {}) | undefined;
+  s7?: UpdateRequestGuardrailsResponseS7 | (string & {}) | undefined;
+  s8?: UpdateRequestGuardrailsResponseS8 | (string & {}) | undefined;
+  s9?: UpdateRequestGuardrailsResponseS9 | (string & {}) | undefined;
 }
 export interface UpdateRequestGuardrails {
   prompt: UpdateRequestGuardrailsPrompt;
@@ -3493,8 +3542,8 @@ export type UpdateRequestOtelItemContentType = "json" | "protobuf";
 export interface UpdateRequestOtelItem {
   headers: UpdateRequestOtelItemHeadersMap;
   url: string;
-  authorization?: string;
-  contentType?: UpdateRequestOtelItemContentType | (string & {});
+  authorization?: string | undefined;
+  contentType?: UpdateRequestOtelItemContentType | (string & {}) | undefined;
 }
 export type UpdateRequestOtelList = Array<UpdateRequestOtelItem>;
 export type UpdateRequestRateLimitingTechnique = "fixed" | "sliding";
@@ -3519,17 +3568,17 @@ export interface UpdateRequestSpendLimitsRulesItem {
   limitType: UpdateRequestSpendLimitsRulesItemLimitType | (string & {});
   /** exclusiveMinimum */
   window: number;
-  id?: string;
-  enabled?: boolean;
-  metadata?: UntypedMetadataMap;
-  model?: UpdateRequestSpendLimitsRulesItemModel;
-  provider?: UpdateRequestSpendLimitsRulesItemProvider;
-  technique?: UpdateRequestSpendLimitsRulesItemTechnique | (string & {});
+  id?: string | undefined;
+  enabled?: boolean | undefined;
+  metadata?: UntypedMetadataMap | undefined;
+  model?: UpdateRequestSpendLimitsRulesItemModel | undefined;
+  provider?: UpdateRequestSpendLimitsRulesItemProvider | undefined;
+  technique?: UpdateRequestSpendLimitsRulesItemTechnique | (string & {}) | undefined;
 }
 export type UpdateRequestSpendLimitsRulesList = Array<UpdateRequestSpendLimitsRulesItem>;
 export interface UpdateRequestSpendLimits {
-  enabled?: boolean;
-  rules?: UpdateRequestSpendLimitsRulesList;
+  enabled?: boolean | undefined;
+  rules?: UpdateRequestSpendLimitsRulesList | undefined;
 }
 export type UpdateRequestStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type UpdateRequestStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -3547,31 +3596,32 @@ export interface UpdateAiGatewayRequest {
   collectLogs: boolean;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
-  authentication?: boolean;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean;
-  dlp?: UpdateRequestDlp;
-  guardrails?: UpdateRequestGuardrails;
-  logClassification?: boolean;
-  logManagement?: number;
-  logManagementStrategy?: UpdateRequestLogManagementStrategy | (string & {});
-  logpush?: boolean;
-  logpushPublicKey?: string;
-  otel?: UpdateRequestOtelList;
-  rateLimitingTechnique?: UpdateRequestRateLimitingTechnique | (string & {});
+  byokOnly?: boolean | undefined;
+  dlp?: UpdateRequestDlp | undefined;
+  guardrails?: UpdateRequestGuardrails | undefined;
+  logClassification?: boolean | undefined;
+  logManagement?: number | undefined;
+  logManagementStrategy?: UpdateRequestLogManagementStrategy | (string & {}) | undefined;
+  logpush?: boolean | undefined;
+  logpushPublicKey?: string | undefined;
+  otel?: UpdateRequestOtelList | undefined;
+  rateLimitingTechnique?: UpdateRequestRateLimitingTechnique | (string & {}) | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: UpdateRequestRetryBackoff | (string & {});
+  retryBackoff?: UpdateRequestRetryBackoff | (string & {}) | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number;
+  retryDelay?: number | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number;
-  spendLimits?: UpdateRequestSpendLimits;
+  retryMaxAttempts?: number | undefined;
+  spendLimits?: UpdateRequestSpendLimits | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string;
-  stripe?: UpdateRequestStripe;
+  storeId?: string | undefined;
+  stripe?: UpdateRequestStripe | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: UpdateRequestWorkersAiBillingMode | (string & {});
-  zdr?: boolean;
+  workersAiBillingMode?: UpdateRequestWorkersAiBillingMode | (string & {}) | undefined;
+  zdr?: boolean | undefined;
 }
 export type UpdateResponseDlpCase0Action = "BLOCK" | "FLAG";
 export type UpdateResponseDlpCase0ProfilesList = Array<string>;
@@ -3606,6 +3656,7 @@ export type UpdateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type UpdateResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -3615,20 +3666,21 @@ export type UpdateResponseGuardrailsPromptS7 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS8 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS9 = "FLAG" | "BLOCK";
 export interface UpdateResponseGuardrailsPrompt {
-  p1?: UpdateResponseGuardrailsPromptP1 | null;
-  s1?: UpdateResponseGuardrailsPromptS1 | null;
-  s10?: UpdateResponseGuardrailsPromptS10 | null;
-  s11?: UpdateResponseGuardrailsPromptS11 | null;
-  s12?: UpdateResponseGuardrailsPromptS12 | null;
-  s13?: UpdateResponseGuardrailsPromptS13 | null;
-  s2?: UpdateResponseGuardrailsPromptS2 | null;
-  s3?: UpdateResponseGuardrailsPromptS3 | null;
-  s4?: UpdateResponseGuardrailsPromptS4 | null;
-  s5?: UpdateResponseGuardrailsPromptS5 | null;
-  s6?: UpdateResponseGuardrailsPromptS6 | null;
-  s7?: UpdateResponseGuardrailsPromptS7 | null;
-  s8?: UpdateResponseGuardrailsPromptS8 | null;
-  s9?: UpdateResponseGuardrailsPromptS9 | null;
+  p1?: UpdateResponseGuardrailsPromptP1 | null | undefined;
+  s1?: UpdateResponseGuardrailsPromptS1 | null | undefined;
+  s10?: UpdateResponseGuardrailsPromptS10 | null | undefined;
+  s11?: UpdateResponseGuardrailsPromptS11 | null | undefined;
+  s12?: UpdateResponseGuardrailsPromptS12 | null | undefined;
+  s13?: UpdateResponseGuardrailsPromptS13 | null | undefined;
+  s14?: UpdateResponseGuardrailsPromptS14 | null | undefined;
+  s2?: UpdateResponseGuardrailsPromptS2 | null | undefined;
+  s3?: UpdateResponseGuardrailsPromptS3 | null | undefined;
+  s4?: UpdateResponseGuardrailsPromptS4 | null | undefined;
+  s5?: UpdateResponseGuardrailsPromptS5 | null | undefined;
+  s6?: UpdateResponseGuardrailsPromptS6 | null | undefined;
+  s7?: UpdateResponseGuardrailsPromptS7 | null | undefined;
+  s8?: UpdateResponseGuardrailsPromptS8 | null | undefined;
+  s9?: UpdateResponseGuardrailsPromptS9 | null | undefined;
 }
 export type UpdateResponseGuardrailsResponseP1 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS1 = "FLAG" | "BLOCK";
@@ -3636,6 +3688,7 @@ export type UpdateResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type UpdateResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -3645,20 +3698,21 @@ export type UpdateResponseGuardrailsResponseS7 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS8 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS9 = "FLAG" | "BLOCK";
 export interface UpdateResponseGuardrailsResponse {
-  p1?: UpdateResponseGuardrailsResponseP1 | null;
-  s1?: UpdateResponseGuardrailsResponseS1 | null;
-  s10?: UpdateResponseGuardrailsResponseS10 | null;
-  s11?: UpdateResponseGuardrailsResponseS11 | null;
-  s12?: UpdateResponseGuardrailsResponseS12 | null;
-  s13?: UpdateResponseGuardrailsResponseS13 | null;
-  s2?: UpdateResponseGuardrailsResponseS2 | null;
-  s3?: UpdateResponseGuardrailsResponseS3 | null;
-  s4?: UpdateResponseGuardrailsResponseS4 | null;
-  s5?: UpdateResponseGuardrailsResponseS5 | null;
-  s6?: UpdateResponseGuardrailsResponseS6 | null;
-  s7?: UpdateResponseGuardrailsResponseS7 | null;
-  s8?: UpdateResponseGuardrailsResponseS8 | null;
-  s9?: UpdateResponseGuardrailsResponseS9 | null;
+  p1?: UpdateResponseGuardrailsResponseP1 | null | undefined;
+  s1?: UpdateResponseGuardrailsResponseS1 | null | undefined;
+  s10?: UpdateResponseGuardrailsResponseS10 | null | undefined;
+  s11?: UpdateResponseGuardrailsResponseS11 | null | undefined;
+  s12?: UpdateResponseGuardrailsResponseS12 | null | undefined;
+  s13?: UpdateResponseGuardrailsResponseS13 | null | undefined;
+  s14?: UpdateResponseGuardrailsResponseS14 | null | undefined;
+  s2?: UpdateResponseGuardrailsResponseS2 | null | undefined;
+  s3?: UpdateResponseGuardrailsResponseS3 | null | undefined;
+  s4?: UpdateResponseGuardrailsResponseS4 | null | undefined;
+  s5?: UpdateResponseGuardrailsResponseS5 | null | undefined;
+  s6?: UpdateResponseGuardrailsResponseS6 | null | undefined;
+  s7?: UpdateResponseGuardrailsResponseS7 | null | undefined;
+  s8?: UpdateResponseGuardrailsResponseS8 | null | undefined;
+  s9?: UpdateResponseGuardrailsResponseS9 | null | undefined;
 }
 export interface UpdateResponseGuardrails {
   prompt: UpdateResponseGuardrailsPrompt;
@@ -3670,8 +3724,8 @@ export type UpdateResponseOtelItemContentType = "json" | "protobuf";
 export interface UpdateResponseOtelItem {
   headers: UpdateResponseOtelItemHeadersMap;
   url: string;
-  authorization?: string | null;
-  contentType?: UpdateResponseOtelItemContentType | null;
+  authorization?: string | null | undefined;
+  contentType?: UpdateResponseOtelItemContentType | null | undefined;
 }
 export type UpdateResponseOtelList = Array<UpdateResponseOtelItem>;
 export type UpdateResponseRateLimitingTechnique = "fixed" | "sliding";
@@ -3696,17 +3750,17 @@ export interface UpdateResponseSpendLimitsRulesItem {
   limitType: UpdateResponseSpendLimitsRulesItemLimitType;
   /** exclusiveMinimum */
   window: number;
-  id?: string | null;
-  enabled?: boolean | null;
-  metadata?: UntypedMetadataMap | null;
-  model?: UpdateResponseSpendLimitsRulesItemModel | null;
-  provider?: UpdateResponseSpendLimitsRulesItemProvider | null;
-  technique?: UpdateResponseSpendLimitsRulesItemTechnique | null;
+  id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  metadata?: UntypedMetadataMap | null | undefined;
+  model?: UpdateResponseSpendLimitsRulesItemModel | null | undefined;
+  provider?: UpdateResponseSpendLimitsRulesItemProvider | null | undefined;
+  technique?: UpdateResponseSpendLimitsRulesItemTechnique | null | undefined;
 }
 export type UpdateResponseSpendLimitsRulesList = Array<UpdateResponseSpendLimitsRulesItem>;
 export interface UpdateResponseSpendLimits {
-  enabled?: boolean | null;
-  rules?: UpdateResponseSpendLimitsRulesList | null;
+  enabled?: boolean | null | undefined;
+  rules?: UpdateResponseSpendLimitsRulesList | null | undefined;
 }
 export type UpdateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 export type UpdateResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
@@ -3726,36 +3780,37 @@ export interface UpdateAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
-  authentication?: boolean | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
+  authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
-  byokOnly?: boolean | null;
-  dlp?: UpdateResponseDlp | null;
+  byokOnly?: boolean | null | undefined;
+  dlp?: UpdateResponseDlp | null | undefined;
   /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
-  fedrampLevel?: UpdateResponseFedrampLevel | null;
+  fedrampLevel?: UpdateResponseFedrampLevel | null | undefined;
   /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
-  fedrampMode?: UpdateResponseFedrampMode | null;
-  guardrails?: UpdateResponseGuardrails | null;
-  isDefault?: boolean | null;
-  logClassification?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: UpdateResponseLogManagementStrategy | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?: UpdateResponseOtelList | null;
-  rateLimitingTechnique?: UpdateResponseRateLimitingTechnique | null;
+  fedrampMode?: UpdateResponseFedrampMode | null | undefined;
+  guardrails?: UpdateResponseGuardrails | null | undefined;
+  isDefault?: boolean | null | undefined;
+  logClassification?: boolean | null | undefined;
+  logManagement?: number | null | undefined;
+  logManagementStrategy?: UpdateResponseLogManagementStrategy | null | undefined;
+  logpush?: boolean | null | undefined;
+  logpushPublicKey?: string | null | undefined;
+  otel?: UpdateResponseOtelList | null | undefined;
+  rateLimitingTechnique?: UpdateResponseRateLimitingTechnique | null | undefined;
   /** Backoff strategy for retry delays */
-  retryBackoff?: UpdateResponseRetryBackoff | null;
+  retryBackoff?: UpdateResponseRetryBackoff | null | undefined;
   /** Delay between retry attempts in milliseconds (0-60000) */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** Maximum number of retry attempts for failed requests (1-5) */
-  retryMaxAttempts?: number | null;
-  spendLimits?: UpdateResponseSpendLimits | null;
+  retryMaxAttempts?: number | null | undefined;
+  spendLimits?: UpdateResponseSpendLimits | null | undefined;
   /** Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it. */
-  storeId?: string | null;
-  stripe?: UpdateResponseStripe | null;
+  storeId?: string | null | undefined;
+  stripe?: UpdateResponseStripe | null | undefined;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
-  workersAiBillingMode?: UpdateResponseWorkersAiBillingMode | null;
-  zdr?: boolean | null;
+  workersAiBillingMode?: UpdateResponseWorkersAiBillingMode | null | undefined;
+  zdr?: boolean | null | undefined;
 }
 export type DatasetsUpdateRequestFiltersItemKey =
   | "created_at"
@@ -3831,9 +3886,9 @@ export interface UsageHistoryBillingRequest {
   /** Grouping window for usage data. */
   valueGroupingWindow: BillingUsageHistoryRequestValueGroupingWindow | (string & {});
   /** End time as Unix timestamp in milliseconds. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** Start time as Unix timestamp in milliseconds. */
-  startTime?: number;
+  startTime?: number | undefined;
 }
 export interface BillingUsageHistoryResponseHistoryItem {
   id: string;
@@ -3847,7 +3902,10 @@ export type BillingUsageHistoryResponseHistoryList = Array<BillingUsageHistoryRe
 export interface UsageHistoryBillingResponse {
   history: BillingUsageHistoryResponseHistoryList;
 }
-export type CreateAiGatewayError = GatewayAlreadyExists | CloudflareOpError;
+export type CreateAiGatewayError =
+  | GatewayAlreadyExists
+  | GatewayAuthenticationRequired
+  | CloudflareOpError;
 /** Creates an AI Gateway in the account with the specified caching, rate limiting, logging, and authentication settings. The gateway ID appears in request URLs and must be unique within the account. */
 export const createAiGateway: API.OperationMethod<
   CreateAiGatewayRequest,
@@ -3857,7 +3915,12 @@ export const createAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9, __c0, 9) as any as S.Schema<CreateAiGatewayRequest>,
   output: __S(11, __c0, 11) as any as S.Schema<CreateAiGatewayResponse>,
-  errors: [GatewayAlreadyExists, CloudflareRateLimited, CloudflareError],
+  errors: [
+    GatewayAlreadyExists,
+    GatewayAuthenticationRequired,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4989,6 +5052,7 @@ function __c2(j: number): any {
           s11: S.optional(S.NullOr(S.String).pipe(T.Body("S11"))),
           s12: S.optional(S.NullOr(S.String).pipe(T.Body("S12"))),
           s13: S.optional(S.NullOr(S.String).pipe(T.Body("S13"))),
+          s14: S.optional(S.NullOr(S.String).pipe(T.Body("S14"))),
           s2: S.optional(S.NullOr(S.String).pipe(T.Body("S2"))),
           s3: S.optional(S.NullOr(S.String).pipe(T.Body("S3"))),
           s4: S.optional(S.NullOr(S.String).pipe(T.Body("S4"))),
@@ -5055,6 +5119,7 @@ function __c3(j: number): any {
           s11: S.optional(S.String.pipe(T.Body("S11"))),
           s12: S.optional(S.String.pipe(T.Body("S12"))),
           s13: S.optional(S.String.pipe(T.Body("S13"))),
+          s14: S.optional(S.String.pipe(T.Body("S14"))),
           s2: S.optional(S.String.pipe(T.Body("S2"))),
           s3: S.optional(S.String.pipe(T.Body("S3"))),
           s4: S.optional(S.String.pipe(T.Body("S4"))),
@@ -5549,6 +5614,7 @@ function __c18(j: number): any {
           providerSlug: S.String.pipe(T.Body("provider_slug")),
           secretId: S.String.pipe(T.Body("secret_id")),
           secretPreview: S.String.pipe(T.Body("secret_preview")),
+          lastUsedAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_at"))),
           rateLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit"))),
           rateLimitPeriod: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit_period"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -6332,6 +6398,7 @@ function __c38(j: number): any {
           success: S.Boolean,
           tokensIn: S.Number.pipe(T.Body("tokens_in")),
           tokensOut: S.Number.pipe(T.Body("tokens_out")),
+          collectLogPayload: S.optional(S.NullOr(S.Boolean).pipe(T.Body("collect_log_payload"))),
           cost: S.optional(S.NullOr(S.Number)),
           customCost: S.optional(S.NullOr(S.Boolean).pipe(T.Body("custom_cost"))),
           metadata: S.optional(S.NullOr(S.String)),
@@ -7034,6 +7101,7 @@ function __c50(j: number): any {
           success: S.Boolean,
           tokensIn: S.Number.pipe(T.Body("tokens_in")),
           tokensOut: S.Number.pipe(T.Body("tokens_out")),
+          collectLogPayload: S.optional(S.NullOr(S.Boolean).pipe(T.Body("collect_log_payload"))),
           cost: S.optional(S.NullOr(S.Number)),
           customCost: S.optional(S.NullOr(S.Boolean).pipe(T.Body("custom_cost"))),
           metadata: S.optional(S.NullOr(S.String)),
@@ -7086,6 +7154,7 @@ function __c51(j: number): any {
           providerSlug: S.String.pipe(T.Body("provider_slug")),
           secretId: S.String.pipe(T.Body("secret_id")),
           secretPreview: S.String.pipe(T.Body("secret_preview")),
+          lastUsedAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_at"))),
           rateLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit"))),
           rateLimitPeriod: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit_period"))),
         }),

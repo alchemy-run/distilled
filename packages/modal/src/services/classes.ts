@@ -23,6 +23,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The class doesn't exist in the deployed app (gRPC NOT_FOUND). */
+export class ClassNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ClassNotFound>()("ClassNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export type FunctionFunctionType =
   | "FUNCTION_TYPE_UNSPECIFIED"
   | "FUNCTION_TYPE_GENERATOR"
@@ -44,36 +54,38 @@ export type ParameterType =
   | "PARAM_TYPE_BOOL";
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
-  baseType?: ParameterType | (string & {});
-  subTypes?: GenericPayloadTypeList;
+  baseType?: ParameterType | (string & {}) | undefined;
+  /** sub-type for generic types like lists */
+  subTypes?: GenericPayloadTypeList | undefined;
 }
+/** TODO: rename into NamedPayloadType or similar */
 export interface ClassParameterSpec {
-  /** TODO: rename into NamedPayloadType or similar */
-  name?: string;
-  type?: ParameterType | (string & {});
+  name?: string | undefined;
   /** TODO: deprecate - use full_type instead */
-  hasDefault?: boolean;
+  type?: ParameterType | (string & {}) | undefined;
+  hasDefault?: boolean | undefined;
   /** Default *values* are only registered for class parameters */
-  stringDefault?: string;
-  intDefault?: string;
-  pickleDefault?: string;
-  bytesDefault?: string;
-  boolDefault?: boolean;
-  fullType?: GenericPayloadType;
+  stringDefault?: string | undefined;
+  intDefault?: string | undefined;
+  pickleDefault?: string | undefined;
+  bytesDefault?: string | undefined;
+  boolDefault?: boolean | undefined;
+  /** supersedes `type` */
+  fullType?: GenericPayloadType | undefined;
 }
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
-  /** new format using api.FunctionParameterSet */
-  format?: ClassParameterInfoParameterSerializationFormat | (string & {});
-  schema?: ClassParameterSpecList;
+  format?: ClassParameterInfoParameterSerializationFormat | (string & {}) | undefined;
+  /** only set for PARAM_SERIALIZATION_FORMAT_PROTO */
+  schema?: ClassParameterSpecList | undefined;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType?: FunctionSchemaFunctionSchemaType | (string & {});
   /** allows easy disambiguation between empty schema and no schema collection etc. */
-  arguments?: ClassParameterSpecList;
-  returnType?: GenericPayloadType;
+  schemaType?: FunctionSchemaFunctionSchemaType | (string & {}) | undefined;
+  arguments?: ClassParameterSpecList | undefined;
+  returnType?: GenericPayloadType | undefined;
 }
 export type StringList = Array<string>;
 /** Which data format a binary message is encoded with. */
@@ -86,63 +98,60 @@ export type DataFormat =
 export type DataFormatList = Array<DataFormat | (string & {})>;
 export interface FunctionHandleMetadata {
   /** contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above */
-  functionName?: string;
-  functionType?: FunctionFunctionType | (string & {});
-  webUrl?: string;
-  isMethod?: boolean;
-  /** use_function_id, pre-0.67 class method placeholders */
-  useMethodName?: string;
+  functionName?: string | undefined;
+  functionType?: FunctionFunctionType | (string & {}) | undefined;
+  webUrl?: string | undefined;
+  isMethod?: boolean | undefined;
   /** used for methods */
-  definitionId?: string;
-  classParameterInfo?: ClassParameterInfo;
+  useMethodName?: string | undefined;
+  definitionId?: string | undefined;
+  classParameterInfo?: ClassParameterInfo | undefined;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
-  methodHandleMetadata?: FunctionHandleMetadataMap;
-  functionSchema?: FunctionSchema;
-  inputPlaneUrl?: string;
-  inputPlaneRegion?: string;
+  methodHandleMetadata?: FunctionHandleMetadataMap | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  inputPlaneUrl?: string | undefined;
+  inputPlaneRegion?: string | undefined;
   /** Use optional to ensure unset values default to None instead of 0 */
-  maxObjectSizeBytes?: string;
-  maxAsyncObjectSizeBytes?: string;
-  ExperimentalFlashUrls?: StringList;
+  maxObjectSizeBytes?: string | undefined;
+  maxAsyncObjectSizeBytes?: string | undefined;
   /** (Optional) urls for flash services */
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
-  appId?: string;
+  ExperimentalFlashUrls?: StringList | undefined;
+  supportedInputFormats?: DataFormatList | undefined;
+  supportedOutputFormats?: DataFormatList | undefined;
+  appId?: string | undefined;
   /** The base Function ID for a variant, or the Function's own ID otherwise. */
-  baseFunctionId?: string;
+  baseFunctionId?: string | undefined;
 }
 export interface ClassMethod {
-  functionName?: string;
-  functionId?: string;
+  functionName?: string | undefined;
+  functionId?: string | undefined;
   /** Class methods need to hydrate all functions on the class */
-  functionHandleMetadata?: FunctionHandleMetadata;
+  functionHandleMetadata?: FunctionHandleMetadata | undefined;
 }
 export type ClassMethodList = Array<ClassMethod>;
 export interface CreateClassRequest {
-  appId?: string;
-  existingClassId?: string;
-  methods?: ClassMethodList;
-  /** removed class_function_id */
-  onlyClassFunction?: boolean;
+  appId?: string | undefined;
+  existingClassId?: string | undefined;
+  methods?: ClassMethodList | undefined;
+  /** True starting with 0.67.x clients, which don't create method placeholder functions */
+  onlyClassFunction?: boolean | undefined;
 }
 export interface ClassHandleMetadata {
-  methods?: ClassMethodList;
-  classFunctionId?: string;
-  classFunctionMetadata?: FunctionHandleMetadata;
+  methods: ClassMethodList;
+  classFunctionId: string;
+  classFunctionMetadata?: FunctionHandleMetadata | undefined;
 }
 export interface CreateClassResponse {
-  classId?: string;
-  handleMetadata?: ClassHandleMetadata;
+  classId: string;
+  handleMetadata?: ClassHandleMetadata | undefined;
 }
 export interface GetClassRequest {
-  appName?: string;
-  objectTag?: string;
-  /** removed namespace */
-  environmentName?: string;
-  /** workspace_name */
-  onlyClassFunction?: boolean;
+  appName?: string | undefined;
+  objectTag?: string | undefined;
+  environmentName?: string | undefined;
   /** True starting with 0.67.x clients, which don't create method placeholder functions */
-  appVersion?: number;
+  onlyClassFunction?: boolean | undefined;
+  appVersion?: number | undefined;
 }
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -150,14 +159,14 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface GetClassResponse {
-  classId?: string;
-  handleMetadata?: ClassHandleMetadata;
-  serverWarnings?: WarningList;
+  classId: string;
+  handleMetadata?: ClassHandleMetadata | undefined;
+  serverWarnings: WarningList;
 }
 export type CreateClassError = ModalOpError;
 /** Classes */
@@ -176,7 +185,7 @@ export const createClass: API.OperationMethod<
   span: "CreateClass",
 }));
 
-export type GetClassError = ModalOpError;
+export type GetClassError = ClassNotFound | ModalOpError;
 export const getClass: API.OperationMethod<
   GetClassRequest,
   GetClassResponse,
@@ -185,7 +194,7 @@ export const getClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetClassRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<GetClassResponse>,
-  errors: [UnknownModalError],
+  errors: [ClassNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -209,7 +218,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          classId: S.optional(S.String),
+          classId: S.String,
           handleMetadata: S.optional(__S(28, __c1, 12)),
         }),
       ).annotate({ identifier: "CreateClassResponse" });
@@ -302,8 +311,8 @@ function __c1(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          methods: S.optional(__S(27, __c1, 11)),
-          classFunctionId: S.optional(S.String),
+          methods: __S(27, __c1, 11),
+          classFunctionId: S.String,
           classFunctionMetadata: S.optional(__S(25, __c1, 9)),
         }),
       ).annotate({ identifier: "ClassHandleMetadata" });
@@ -324,8 +333,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 2:
@@ -333,9 +342,9 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          classId: S.optional(S.String),
+          classId: S.String,
           handleMetadata: S.optional(__S(28, __c1, 12)),
-          serverWarnings: S.optional(__S(34, __c2, 2)),
+          serverWarnings: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "GetClassResponse" });
   }

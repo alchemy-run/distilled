@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -159,7 +160,7 @@ export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   ResourceTagKey: string;
-  ResourceTagValue?: string;
+  ResourceTagValue?: string | undefined;
 }
 export type ResourceTags = ResourceTag[];
 export type UnlockDelayValue = number;
@@ -174,29 +175,29 @@ export interface LockConfiguration {
 export type ExcludeResourceTags = ResourceTag[];
 export interface CreateRuleRequest {
   RetentionPeriod: RetentionPeriod;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
   ResourceType: ResourceType;
-  ResourceTags?: ResourceTag[];
-  LockConfiguration?: LockConfiguration;
-  ExcludeResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type RuleIdentifier = string;
 export type RuleStatus = "pending" | "available" | (string & {});
 export type LockState = "locked" | "pending_unlock" | "unlocked" | (string & {});
 export type RuleArn = string;
 export interface CreateRuleResponse {
-  Identifier?: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  Tags?: Tag[];
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface DeleteRuleRequest {
   Identifier: string;
@@ -206,61 +207,61 @@ export interface GetRuleRequest {
   Identifier: string;
 }
 export interface GetRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ResourceType: ResourceType;
-  ResourceTags?: ResourceTag[];
-  LockState?: LockState;
-  ExcludeResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
+  LockState?: LockState | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface RuleSummary {
-  Identifier?: string;
-  Description?: string;
-  RetentionPeriod?: RetentionPeriod;
-  LockState?: LockState;
-  RuleArn?: string;
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
 }
 export type RuleSummaryList = RuleSummary[];
 export interface ListRulesResponse {
-  Rules?: RuleSummary[];
-  NextToken?: string;
+  Rules?: RuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface LockRuleRequest {
   Identifier: string;
   LockConfiguration: LockConfiguration;
 }
 export interface LockRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -271,17 +272,17 @@ export interface UnlockRuleRequest {
   Identifier: string;
 }
 export interface UnlockRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -291,23 +292,23 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateRuleRequest {
   Identifier: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  ExcludeResourceTags?: ResourceTag[];
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface UpdateRuleResponse {
-  Identifier?: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type ErrorMessage = string;
 export type ServiceQuotaExceededExceptionReason = "SERVICE_QUOTA_EXCEEDED" | (string & {});
@@ -341,7 +342,7 @@ export type CreateRuleError =
  * Create Recycle Bin retention rules in the *Amazon EBS User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -367,7 +368,7 @@ export type DeleteRuleError =
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -396,7 +397,7 @@ export type GetRuleError =
  * Gets information about a Recycle Bin retention rule.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +417,7 @@ export type ListRulesError = InternalServerException | ValidationException | Com
  * Lists the Recycle Bin retention rules in the Region.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -447,7 +448,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a retention rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -476,7 +477,7 @@ export type LockRuleError =
  * have exclusion tags.
  */
 export const lockRule: API.OperationMethod<
-  LockRuleRequest,
+  LockRuleRequest & RegionInput,
   LockRuleResponse,
   LockRuleError,
   Credentials | HttpClient.HttpClient
@@ -506,7 +507,7 @@ export type TagResourceError =
  * Assigns tags to the specified retention rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -537,7 +538,7 @@ export type UnlockRuleError =
  * only after the unlock delay period expires.
  */
 export const unlockRule: API.OperationMethod<
-  UnlockRuleRequest,
+  UnlockRuleRequest & RegionInput,
   UnlockRuleResponse,
   UnlockRuleError,
   Credentials | HttpClient.HttpClient
@@ -566,7 +567,7 @@ export type UntagResourceError =
  * Unassigns a tag from a retention rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -595,7 +596,7 @@ export type UpdateRuleError =
  * Update Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient

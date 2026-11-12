@@ -38,6 +38,7 @@ import {
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { getErrorMatchers, httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
@@ -65,7 +66,7 @@ import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } f
  * AcmeOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError | SdkError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;

@@ -1,9 +1,12 @@
 /**
- * The `Credentials` service every operation signs with, the errors resolving
- * it can fail with, and `createLazyProvider`, which turns a credential source
- * into a cached `Credentials` layer. Each provider under
- * `credential-providers/` builds its layer from this module.
+ * The `Credentials` service every operation signs with (from
+ * `@distilled.cloud/s3`), the errors AWS's providers can fail with, and
+ * `createLazyProvider`, which turns a credential source into a cached
+ * `Credentials` layer. Each provider under `credential-providers/` builds its
+ * layer from this module.
  */
+import { Credentials, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
+import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -14,6 +17,8 @@ import * as Redacted from "effect/Redacted";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
 import { MissingRegion, fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
+
+export * from "@distilled.cloud/s3/Credentials";
 
 /**
  * AWS credentials as a credential source returns them -- the same shape as
@@ -37,27 +42,6 @@ export interface AwsCredentials {
 }
 
 /**
- * Resolved credential values ready for request signing.
- *
- * `region` is not optional. Authenticating always establishes one -- from the
- * environment, the profile, or the SSO session -- and carrying it here is what
- * lets operations drop `Region` from their requirements: the region an
- * operation uses is the one its credentials came with, unless a `Region`
- * override says otherwise.
- */
-export interface ResolvedCredentials {
-  readonly accessKeyId: Redacted.Redacted<string>;
-  readonly secretAccessKey: Redacted.Redacted<string>;
-  readonly sessionToken: Redacted.Redacted<string> | undefined;
-  readonly region: RegionName;
-  readonly expiration?: number;
-}
-
-/**
- * The requirements for resolving credentials (HttpClient for SSO, FileSystem for cache).
- */
-
-/**
  * Error types that can occur during credential resolution.
  */
 export type CredentialsError =
@@ -74,11 +58,13 @@ export type CredentialsError =
   | HttpClientError
   | PlatformError;
 
-export class Credentials
-  extends /*@__PURE__*/ Context.Service<
-    Credentials,
-    Effect.Effect<ResolvedCredentials, CredentialsError>
-  >()("AWS::Credentials") {}
+// Every operation's error type includes these in programs that use this
+// package (see `ProviderErrors` in @distilled.cloud/s3).
+declare module "@distilled.cloud/s3/Credentials" {
+  interface ProviderErrors {
+    aws: CredentialsError | SourceError;
+  }
+}
 
 export const mock = /*@__PURE__*/ Layer.succeed(
   Credentials,

@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/modal",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.19",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -28,6 +28,12 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./AuthToken": {
+      "types": "./lib/auth-token.d.ts",
+      "bun": "./src/auth-token.ts",
+      "worker": "./src/auth-token.ts",
+      "default": "./lib/auth-token.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
@@ -51,6 +57,12 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./ClassParameters": {
+      "types": "./lib/class-parameters.d.ts",
+      "bun": "./src/class-parameters.ts",
+      "worker": "./src/class-parameters.ts",
+      "default": "./lib/class-parameters.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -79,7 +91,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-03"
+    "generatedAt": "2026-11-11",
+    "specUpdatedAt": "2026-11-08"
   }
 }

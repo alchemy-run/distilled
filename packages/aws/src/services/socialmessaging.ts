@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -149,7 +150,7 @@ export class ThrottledRequestException
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export interface WhatsAppSignupCallback {
   accessToken: string | redacted.Redacted<string>;
-  callbackUrl?: string;
+  callbackUrl?: string | undefined;
 }
 export type AssociateInProgressToken = string | redacted.Redacted<string>;
 export type WhatsAppPhoneNumber = string;
@@ -157,14 +158,14 @@ export type TwoFactorPin = string | redacted.Redacted<string>;
 export type IsoCountryCode = string;
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface WabaPhoneNumberSetupFinalization {
   id: string;
   twoFactorPin: string | redacted.Redacted<string>;
-  dataLocalizationRegion?: string;
-  tags?: Tag[];
+  dataLocalizationRegion?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type WabaPhoneNumberSetupFinalizationList = WabaPhoneNumberSetupFinalization[];
 export type LinkedWhatsAppBusinessAccountId = string;
@@ -173,23 +174,23 @@ export type EventDestinationArn = string;
 export type RoleArn = string;
 export interface WhatsAppBusinessAccountEventDestination {
   eventDestinationArn: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export type WhatsAppBusinessAccountEventDestinations = WhatsAppBusinessAccountEventDestination[];
 export interface WabaSetupFinalization {
-  id?: string;
-  eventDestinations?: WhatsAppBusinessAccountEventDestination[];
-  tags?: Tag[];
+  id?: string | undefined;
+  eventDestinations?: WhatsAppBusinessAccountEventDestination[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface WhatsAppSetupFinalization {
   associateInProgressToken: string | redacted.Redacted<string>;
   phoneNumbers: WabaPhoneNumberSetupFinalization[];
-  phoneNumberParent?: string;
-  waba?: WabaSetupFinalization;
+  phoneNumberParent?: string | undefined;
+  waba?: WabaSetupFinalization | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountInput {
-  signupCallback?: WhatsAppSignupCallback;
-  setupFinalization?: WhatsAppSetupFinalization;
+  signupCallback?: WhatsAppSignupCallback | undefined;
+  setupFinalization?: WhatsAppSetupFinalization | undefined;
 }
 export type WhatsAppBusinessAccountName = string;
 export type RegistrationStatus = "COMPLETE" | "INCOMPLETE" | (string & {});
@@ -207,28 +208,28 @@ export interface WhatsAppPhoneNumberDetail {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberDetailList = WhatsAppPhoneNumberDetail[];
 export interface LinkedWhatsAppBusinessAccountIdMetaData {
-  accountName?: string;
-  registrationStatus?: RegistrationStatus;
-  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[];
-  wabaId?: string;
+  accountName?: string | undefined;
+  registrationStatus?: RegistrationStatus | undefined;
+  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[] | undefined;
+  wabaId?: string | undefined;
 }
 export type LinkedAccountWithIncompleteSetup = {
   [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
 };
 export interface WhatsAppSignupCallbackResult {
-  associateInProgressToken?: string | redacted.Redacted<string>;
-  linkedAccountsWithIncompleteSetup?: {
-    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
-  };
+  associateInProgressToken?: string | redacted.Redacted<string> | undefined;
+  linkedAccountsWithIncompleteSetup?:
+    | { [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined }
+    | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountOutput {
-  signupCallbackResult?: WhatsAppSignupCallbackResult;
-  statusCode?: number;
-  linkedWhatsAppBusinessAccountId?: string;
+  signupCallbackResult?: WhatsAppSignupCallbackResult | undefined;
+  statusCode?: number | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
 }
 export interface CreateWhatsAppDatasetInput {
   id: string;
@@ -257,16 +258,16 @@ export interface CreateWhatsAppFlowInput {
   id: string;
   flowName: string;
   categories: MetaFlowCategory[];
-  flowJson?: Uint8Array;
-  publish?: boolean;
-  cloneFlowId?: string;
-  endpointUri?: string;
+  flowJson?: Uint8Array | undefined;
+  publish?: boolean | undefined;
+  cloneFlowId?: string | undefined;
+  endpointUri?: string | undefined;
 }
 export type MetaFlowValidationError = string;
 export type ValidationErrorList = string[];
 export interface CreateWhatsAppFlowOutput {
-  flowId?: string;
-  validationErrors?: string[];
+  flowId?: string | undefined;
+  validationErrors?: string[] | undefined;
 }
 export type MetaTemplateDefinition = Uint8Array;
 export interface CreateWhatsAppMessageTemplateInput {
@@ -276,9 +277,9 @@ export interface CreateWhatsAppMessageTemplateInput {
 export type MetaTemplateId = string;
 export type MetaTemplateCategory = string;
 export interface CreateWhatsAppMessageTemplateOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export type MetaTemplateName = string;
 export type MetaTemplateLanguage = string;
@@ -289,12 +290,12 @@ export type ZeroTapTermsAccepted = boolean;
 export type SupportedApp = { [key: string]: string | undefined };
 export type SupportedApps = { [key: string]: string | undefined }[];
 export interface LibraryTemplateButtonInput {
-  type?: string;
-  phoneNumber?: string;
-  url?: { [key: string]: string | undefined };
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: { [key: string]: string | undefined } | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonInputs = LibraryTemplateButtonInput[];
 export type AddContactNumber = boolean;
@@ -303,28 +304,28 @@ export type AddSecurityRecommendation = boolean;
 export type AddTrackPackageLink = boolean;
 export type CodeExpirationMinutes = number;
 export interface LibraryTemplateBodyInputs {
-  addContactNumber?: boolean;
-  addLearnMoreLink?: boolean;
-  addSecurityRecommendation?: boolean;
-  addTrackPackageLink?: boolean;
-  codeExpirationMinutes?: number;
+  addContactNumber?: boolean | undefined;
+  addLearnMoreLink?: boolean | undefined;
+  addSecurityRecommendation?: boolean | undefined;
+  addTrackPackageLink?: boolean | undefined;
+  codeExpirationMinutes?: number | undefined;
 }
 export interface MetaLibraryTemplate {
   templateName: string;
   libraryTemplateName: string;
   templateCategory: string;
   templateLanguage: string;
-  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
-  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
+  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[] | undefined;
+  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs | undefined;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryInput {
   metaLibraryTemplate: MetaLibraryTemplate;
   id: string;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export interface S3File {
   bucketName: string;
@@ -332,10 +333,10 @@ export interface S3File {
 }
 export interface CreateWhatsAppMessageTemplateMediaInput {
   id: string;
-  sourceS3File?: S3File;
+  sourceS3File?: S3File | undefined;
 }
 export interface CreateWhatsAppMessageTemplateMediaOutput {
-  metaHeaderHandle?: string;
+  metaHeaderHandle?: string | undefined;
 }
 export interface DeleteWhatsAppFlowInput {
   id: string;
@@ -348,12 +349,12 @@ export interface DeleteWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
 }
 export interface DeleteWhatsAppMessageMediaOutput {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type DeleteAllLanguages = boolean;
 export interface DeleteWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
-  deleteAllLanguages?: boolean;
+  metaTemplateId?: string | undefined;
+  deleteAllLanguages?: boolean | undefined;
   id: string;
   templateName: string;
 }
@@ -373,6 +374,8 @@ export interface GetLinkedWhatsAppBusinessAccountInput {
 export type LinkedWhatsAppBusinessAccountArn = string;
 export type WhatsAppBusinessAccountLinkDate = Date;
 export type WhatsAppBusinessAccountMarketingMessagesOnboardingStatus = string;
+export type DirectSendEnforcementStatus = string;
+export type DirectSendEnforcementStatusExpiresAt = Date;
 export interface WhatsAppPhoneNumberSummary {
   arn: string;
   phoneNumber: string;
@@ -381,7 +384,7 @@ export interface WhatsAppPhoneNumberSummary {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberSummaryList = WhatsAppPhoneNumberSummary[];
 export interface LinkedWhatsAppBusinessAccount {
@@ -392,12 +395,14 @@ export interface LinkedWhatsAppBusinessAccount {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
+  datasetId?: string | undefined;
   phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
 export interface GetLinkedWhatsAppBusinessAccountOutput {
-  account?: LinkedWhatsAppBusinessAccount;
+  account?: LinkedWhatsAppBusinessAccount | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -433,20 +438,20 @@ export interface WhatsAppCallHours {
   enabled: boolean;
   timezone: string;
   weeklyOperatingHours: WhatsAppWeeklyOperatingHoursEntry[];
-  holidaySchedule?: WhatsAppHolidayScheduleEntry[];
+  holidaySchedule?: WhatsAppHolidayScheduleEntry[] | undefined;
 }
 export type WhatsAppCallIconVisibility = string;
 export type WhatsAppCallbackPermissionStatus = string;
 export interface WhatsAppCallSettings {
   callEnabled: boolean;
-  callHours?: WhatsAppCallHours;
-  callIconVisibility?: string;
-  callbackPermissionStatus?: string;
+  callHours?: WhatsAppCallHours | undefined;
+  callIconVisibility?: string | undefined;
+  callbackPermissionStatus?: string | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
-  phoneNumber?: WhatsAppPhoneNumberDetail;
-  linkedWhatsAppBusinessAccountId?: string;
-  callSettings?: WhatsAppCallSettings;
+  phoneNumber?: WhatsAppPhoneNumberDetail | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
+  callSettings?: WhatsAppCallSettings | undefined;
 }
 export interface GetWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
@@ -454,20 +459,20 @@ export interface GetWhatsAppBusinessPublicKeyInput {
 export type BusinessPublicKeyPem = string;
 export type BusinessPublicKeySignatureStatus = string;
 export interface GetWhatsAppBusinessPublicKeyOutput {
-  businessPublicKey?: string;
-  businessPublicKeySignatureStatus?: string;
+  businessPublicKey?: string | undefined;
+  businessPublicKeySignatureStatus?: string | undefined;
 }
 export type WhatsAppDestinationPhoneNumber = string | redacted.Redacted<string>;
 export type WhatsAppBusinessScopedUserId = string | redacted.Redacted<string>;
 export interface GetWhatsAppCallPermissionInput {
   originationPhoneNumberId: string;
-  destinationPhoneNumber?: string | redacted.Redacted<string>;
-  endUserBsuid?: string | redacted.Redacted<string>;
+  destinationPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  endUserBsuid?: string | redacted.Redacted<string> | undefined;
 }
 export type WhatsAppCallPermissionStatus = string;
 export interface WhatsAppCallPermission {
   status: string;
-  expirationTime?: Date;
+  expirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionActionName = string;
 export type Iso8601Duration = string;
@@ -475,7 +480,7 @@ export interface WhatsAppCallPermissionLimit {
   timePeriod: string;
   maxAllowed: number;
   currentUsage: number;
-  limitExpirationTime?: Date;
+  limitExpirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionLimitList = WhatsAppCallPermissionLimit[];
 export interface WhatsAppCallPermissionAction {
@@ -507,15 +512,15 @@ export type MetaFlowWabaTemplateNamespace = string;
 export interface MetaFlowWhatsAppBusinessAccountInfo {
   id: string;
   name: string;
-  currency?: string;
-  timezoneId?: string;
-  messageTemplateNamespace?: string;
+  currency?: string | undefined;
+  timezoneId?: string | undefined;
+  messageTemplateNamespace?: string | undefined;
 }
 export type MetaFlowApplicationLink = string;
 export type MetaFlowApplicationName = string;
 export type MetaFlowApplicationId = string;
 export interface MetaFlowApplicationInfo {
-  link?: string;
+  link?: string | undefined;
   name: string;
   id: string;
 }
@@ -529,26 +534,26 @@ export interface MetaFlowHealthEntity {
 export type MetaFlowHealthEntityList = MetaFlowHealthEntity[];
 export interface MetaFlowHealthStatus {
   canSendMessage: string;
-  entities?: MetaFlowHealthEntity[];
+  entities?: MetaFlowHealthEntity[] | undefined;
 }
 export interface GetWhatsAppFlowOutput {
   flowId: string;
   flowName: string;
   flowStatus: string;
-  categories?: MetaFlowCategory[];
-  validationErrors?: string[];
-  jsonVersion?: string;
-  dataApiVersion?: string;
-  endpointUri?: string;
-  preview?: MetaFlowPreviewInfo;
-  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo;
-  application?: MetaFlowApplicationInfo;
-  healthStatus?: MetaFlowHealthStatus;
+  categories?: MetaFlowCategory[] | undefined;
+  validationErrors?: string[] | undefined;
+  jsonVersion?: string | undefined;
+  dataApiVersion?: string | undefined;
+  endpointUri?: string | undefined;
+  preview?: MetaFlowPreviewInfo | undefined;
+  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo | undefined;
+  application?: MetaFlowApplicationInfo | undefined;
+  healthStatus?: MetaFlowHealthStatus | undefined;
 }
 export interface GetWhatsAppFlowPreviewInput {
   id: string;
   flowId: string;
-  invalidate?: boolean;
+  invalidate?: boolean | undefined;
 }
 export interface GetWhatsAppFlowPreviewOutput {
   flowId: string;
@@ -562,29 +567,29 @@ export interface S3PresignedUrl {
 export interface GetWhatsAppMessageMediaInput {
   mediaId: string;
   originationPhoneNumberId: string;
-  metadataOnly?: boolean;
-  destinationS3PresignedUrl?: S3PresignedUrl;
-  destinationS3File?: S3File;
+  metadataOnly?: boolean | undefined;
+  destinationS3PresignedUrl?: S3PresignedUrl | undefined;
+  destinationS3File?: S3File | undefined;
 }
 export interface GetWhatsAppMessageMediaOutput {
-  mimeType?: string;
-  fileSize?: number;
+  mimeType?: string | undefined;
+  fileSize?: number | undefined;
 }
 export interface GetWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
+  metaTemplateId?: string | undefined;
   id: string;
-  templateName?: string;
-  templateLanguageCode?: string;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
 }
 export type MetaTemplate = string;
 export interface GetWhatsAppMessageTemplateOutput {
-  template?: string;
+  template?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListLinkedWhatsAppBusinessAccountsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LinkedWhatsAppBusinessAccountSummary {
   arn: string;
@@ -594,27 +599,29 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
+  datasetId?: string | undefined;
 }
 export type LinkedWhatsAppBusinessAccountSummaryList = LinkedWhatsAppBusinessAccountSummary[];
 export interface ListLinkedWhatsAppBusinessAccountsOutput {
-  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[];
-  nextToken?: string;
+  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  statusCode?: number;
-  tags?: Tag[];
+  statusCode?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ListWhatsAppFlowAssetsInput {
   id: string;
   flowId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaFlowAssetName = string;
 export type MetaFlowAssetType = string;
@@ -627,12 +634,12 @@ export interface MetaFlowAsset {
 export type MetaFlowAssetList = MetaFlowAsset[];
 export interface ListWhatsAppFlowAssetsOutput {
   flowAssets: MetaFlowAsset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppFlowsInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MetaFlowSummary {
   flowId: string;
@@ -644,34 +651,37 @@ export interface MetaFlowSummary {
 export type MetaFlowSummaryList = MetaFlowSummary[];
 export interface ListWhatsAppFlowsOutput {
   flows: MetaFlowSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppMessageTemplatesInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaTemplateStatus = string;
 export type MetaTemplateQualityScore = string;
+export type MetaTemplateSource = string;
 export interface TemplateSummary {
-  templateName?: string;
-  metaTemplateId?: string;
-  templateStatus?: string;
-  templateQualityScore?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
+  templateName?: string | undefined;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  templateQualityScore?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
+  templateSource?: string | undefined;
+  correctCategory?: string | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListWhatsAppMessageTemplatesOutput {
-  templates?: TemplateSummary[];
-  nextToken?: string;
+  templates?: TemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Filter = { [key: string]: string | undefined };
 export interface ListWhatsAppTemplateLibraryInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   id: string;
-  filters?: { [key: string]: string | undefined };
+  filters?: { [key: string]: string | undefined } | undefined;
 }
 export type MetaTemplateTopic = string;
 export type MetaTemplateUseCase = string;
@@ -682,41 +692,41 @@ export type MetaTemplateBody = string;
 export type MetaText = string;
 export type MetaUrl = string;
 export interface LibraryTemplateButtonList {
-  type?: string;
-  text?: string;
-  phoneNumber?: string;
-  url?: string;
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  text?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: string | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonList = LibraryTemplateButtonList[];
 export type MetaTemplateBodyExampleParams = string[];
 export interface MetaLibraryTemplateDefinition {
-  templateName?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
-  templateTopic?: string;
-  templateUseCase?: string;
-  templateIndustry?: string[];
-  templateHeader?: string;
-  templateBody?: string;
-  templateButtons?: LibraryTemplateButtonList[];
-  templateId?: string;
-  templateBodyExampleParams?: string[];
+  templateName?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
+  templateTopic?: string | undefined;
+  templateUseCase?: string | undefined;
+  templateIndustry?: string[] | undefined;
+  templateHeader?: string | undefined;
+  templateBody?: string | undefined;
+  templateButtons?: LibraryTemplateButtonList[] | undefined;
+  templateId?: string | undefined;
+  templateBodyExampleParams?: string[] | undefined;
 }
 export type MetaLibraryTemplatesList = MetaLibraryTemplateDefinition[];
 export interface ListWhatsAppTemplateLibraryOutput {
-  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
-  nextToken?: string;
+  metaLibraryTemplates?: MetaLibraryTemplateDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PostWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
-  sourceS3PresignedUrl?: S3PresignedUrl;
-  sourceS3File?: S3File;
+  sourceS3PresignedUrl?: S3PresignedUrl | undefined;
+  sourceS3File?: S3File | undefined;
 }
 export interface PostWhatsAppMessageMediaOutput {
-  mediaId?: string;
+  mediaId?: string | undefined;
 }
 export interface PublishWhatsAppFlowInput {
   id: string;
@@ -731,8 +741,8 @@ export interface PutWhatsAppBusinessAccountEventDestinationsOutput {}
 export type KmsKeyArn = string;
 export interface PutWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
-  businessPublicKey?: string;
-  kmsKeyArn?: string;
+  businessPublicKey?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface PutWhatsAppBusinessPublicKeyOutput {}
 export type WhatsAppCallEventBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -760,14 +770,14 @@ export interface SendWhatsAppMessageInput {
   metaApiVersion: string;
 }
 export interface SendWhatsAppMessageOutput {
-  messageId?: string;
+  messageId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
   tags: Tag[];
 }
 export interface TagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type StringList = string[];
 export interface UntagResourceInput {
@@ -775,7 +785,7 @@ export interface UntagResourceInput {
   tagKeys: string[];
 }
 export interface UntagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -787,10 +797,10 @@ export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
 export interface UpdateWhatsAppFlowInput {
   id: string;
   flowId: string;
-  flowName?: string;
-  categories?: MetaFlowCategory[];
-  endpointUri?: string;
-  metaAppId?: string;
+  flowName?: string | undefined;
+  categories?: MetaFlowCategory[] | undefined;
+  endpointUri?: string | undefined;
+  metaAppId?: string | undefined;
 }
 export interface UpdateWhatsAppFlowOutput {}
 export interface UpdateWhatsAppFlowAssetsInput {
@@ -799,20 +809,20 @@ export interface UpdateWhatsAppFlowAssetsInput {
   flowJson: Uint8Array;
 }
 export interface UpdateWhatsAppFlowAssetsOutput {
-  validationErrors?: string[];
+  validationErrors?: string[] | undefined;
 }
 export type MetaParameterFormat = string;
 export type MetaTemplateComponents = Uint8Array;
 export type MetaTemplateCtaLinkTrackingOptedOut = boolean;
 export interface UpdateWhatsAppMessageTemplateInput {
   id: string;
-  metaTemplateId?: string;
-  templateName?: string;
-  templateLanguageCode?: string;
-  parameterFormat?: string;
-  templateCategory?: string;
-  templateComponents?: Uint8Array;
-  ctaUrlLinkTrackingOptedOut?: boolean;
+  metaTemplateId?: string | undefined;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
+  parameterFormat?: string | undefined;
+  templateCategory?: string | undefined;
+  templateComponents?: Uint8Array | undefined;
+  ctaUrlLinkTrackingOptedOut?: boolean | undefined;
 }
 export interface UpdateWhatsAppMessageTemplateOutput {}
 export type ErrorMessage = string;
@@ -826,7 +836,7 @@ export type AssociateWhatsAppBusinessAccountError =
  * This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
  */
 export const associateWhatsAppBusinessAccount: API.OperationMethod<
-  AssociateWhatsAppBusinessAccountInput,
+  AssociateWhatsAppBusinessAccountInput & RegionInput,
   AssociateWhatsAppBusinessAccountOutput,
   AssociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +868,7 @@ export type CreateWhatsAppDatasetError =
  * Creates a Meta Conversions API dataset for a WhatsApp Business Account.
  */
 export const createWhatsAppDataset: API.OperationMethod<
-  CreateWhatsAppDatasetInput,
+  CreateWhatsAppDatasetInput & RegionInput,
   CreateWhatsAppDatasetOutput,
   CreateWhatsAppDatasetError,
   Credentials | HttpClient.HttpClient
@@ -894,7 +904,7 @@ export type CreateWhatsAppFlowError =
  * is set to `true` and a valid `flowJson` is provided, the Flow is published immediately.
  */
 export const createWhatsAppFlow: API.OperationMethod<
-  CreateWhatsAppFlowInput,
+  CreateWhatsAppFlowInput & RegionInput,
   CreateWhatsAppFlowOutput,
   CreateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +940,7 @@ export type CreateWhatsAppMessageTemplateError =
  * Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
  */
 export const createWhatsAppMessageTemplate: API.OperationMethod<
-  CreateWhatsAppMessageTemplateInput,
+  CreateWhatsAppMessageTemplateInput & RegionInput,
   CreateWhatsAppMessageTemplateOutput,
   CreateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +974,7 @@ export type CreateWhatsAppMessageTemplateFromLibraryError =
  * Creates a new WhatsApp message template using a template from Meta's template library.
  */
 export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
-  CreateWhatsAppMessageTemplateFromLibraryInput,
+  CreateWhatsAppMessageTemplateFromLibraryInput & RegionInput,
   CreateWhatsAppMessageTemplateFromLibraryOutput,
   CreateWhatsAppMessageTemplateFromLibraryError,
   Credentials | HttpClient.HttpClient
@@ -998,7 +1008,7 @@ export type CreateWhatsAppMessageTemplateMediaError =
  * Uploads media for use in a WhatsApp message template.
  */
 export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
-  CreateWhatsAppMessageTemplateMediaInput,
+  CreateWhatsAppMessageTemplateMediaInput & RegionInput,
   CreateWhatsAppMessageTemplateMediaOutput,
   CreateWhatsAppMessageTemplateMediaError,
   Credentials | HttpClient.HttpClient
@@ -1032,7 +1042,7 @@ export type DeleteWhatsAppFlowError =
  * Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.
  */
 export const deleteWhatsAppFlow: API.OperationMethod<
-  DeleteWhatsAppFlowInput,
+  DeleteWhatsAppFlowInput & RegionInput,
   DeleteWhatsAppFlowOutput,
   DeleteWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1066,7 +1076,7 @@ export type DeleteWhatsAppMessageMediaError =
  * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
  */
 export const deleteWhatsAppMessageMedia: API.OperationMethod<
-  DeleteWhatsAppMessageMediaInput,
+  DeleteWhatsAppMessageMediaInput & RegionInput,
   DeleteWhatsAppMessageMediaOutput,
   DeleteWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1100,7 +1110,7 @@ export type DeleteWhatsAppMessageTemplateError =
  * Deletes a WhatsApp message template.
  */
 export const deleteWhatsAppMessageTemplate: API.OperationMethod<
-  DeleteWhatsAppMessageTemplateInput,
+  DeleteWhatsAppMessageTemplateInput & RegionInput,
   DeleteWhatsAppMessageTemplateOutput,
   DeleteWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1134,7 +1144,7 @@ export type DeprecateWhatsAppFlowError =
  * Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.
  */
 export const deprecateWhatsAppFlow: API.OperationMethod<
-  DeprecateWhatsAppFlowInput,
+  DeprecateWhatsAppFlowInput & RegionInput,
   DeprecateWhatsAppFlowOutput,
   DeprecateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1176,7 @@ export type DisassociateWhatsAppBusinessAccountError =
  * Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
  */
 export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
-  DisassociateWhatsAppBusinessAccountInput,
+  DisassociateWhatsAppBusinessAccountInput & RegionInput,
   DisassociateWhatsAppBusinessAccountOutput,
   DisassociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -1197,7 +1207,7 @@ export type GetLinkedWhatsAppBusinessAccountError =
  * Get the details of your linked WhatsApp Business Account.
  */
 export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
-  GetLinkedWhatsAppBusinessAccountInput,
+  GetLinkedWhatsAppBusinessAccountInput & RegionInput,
   GetLinkedWhatsAppBusinessAccountOutput,
   GetLinkedWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -1229,7 +1239,7 @@ export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
  * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
  */
 export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
-  GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  GetLinkedWhatsAppBusinessAccountPhoneNumberInput & RegionInput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1263,7 +1273,7 @@ export type GetWhatsAppBusinessPublicKeyError =
  * Retrieves the business public key for a phone number and its signature status.
  */
 export const getWhatsAppBusinessPublicKey: API.OperationMethod<
-  GetWhatsAppBusinessPublicKeyInput,
+  GetWhatsAppBusinessPublicKeyInput & RegionInput,
   GetWhatsAppBusinessPublicKeyOutput,
   GetWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1298,7 +1308,7 @@ export type GetWhatsAppCallPermissionError =
  * Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
  */
 export const getWhatsAppCallPermission: API.OperationMethod<
-  GetWhatsAppCallPermissionInput,
+  GetWhatsAppCallPermissionInput & RegionInput,
   GetWhatsAppCallPermissionOutput,
   GetWhatsAppCallPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1342,7 @@ export type GetWhatsAppFlowError =
  * Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
  */
 export const getWhatsAppFlow: API.OperationMethod<
-  GetWhatsAppFlowInput,
+  GetWhatsAppFlowInput & RegionInput,
   GetWhatsAppFlowOutput,
   GetWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1366,7 +1376,7 @@ export type GetWhatsAppFlowPreviewError =
  * Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.
  */
 export const getWhatsAppFlowPreview: API.OperationMethod<
-  GetWhatsAppFlowPreviewInput,
+  GetWhatsAppFlowPreviewInput & RegionInput,
   GetWhatsAppFlowPreviewOutput,
   GetWhatsAppFlowPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1404,7 +1414,7 @@ export type GetWhatsAppMessageMediaError =
  * returned.
  */
 export const getWhatsAppMessageMedia: API.OperationMethod<
-  GetWhatsAppMessageMediaInput,
+  GetWhatsAppMessageMediaInput & RegionInput,
   GetWhatsAppMessageMediaOutput,
   GetWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1448,7 @@ export type GetWhatsAppMessageTemplateError =
  * Retrieves a specific WhatsApp message template.
  */
 export const getWhatsAppMessageTemplate: API.OperationMethod<
-  GetWhatsAppMessageTemplateInput,
+  GetWhatsAppMessageTemplateInput & RegionInput,
   GetWhatsAppMessageTemplateOutput,
   GetWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1470,7 +1480,7 @@ export type ListLinkedWhatsAppBusinessAccountsError =
  * List all WhatsApp Business Accounts linked to your Amazon Web Services account.
  */
 export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
-  ListLinkedWhatsAppBusinessAccountsInput,
+  ListLinkedWhatsAppBusinessAccountsInput & RegionInput,
   ListLinkedWhatsAppBusinessAccountsOutput,
   ListLinkedWhatsAppBusinessAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1506,7 +1516,7 @@ export type ListTagsForResourceError =
  * List all tags associated with a resource, such as a phone number or WABA.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1533,7 +1543,7 @@ export type ListWhatsAppFlowAssetsError =
  * Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.
  */
 export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
-  ListWhatsAppFlowAssetsInput,
+  ListWhatsAppFlowAssetsInput & RegionInput,
   ListWhatsAppFlowAssetsOutput,
   ListWhatsAppFlowAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1574,7 +1584,7 @@ export type ListWhatsAppFlowsError =
  * Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.
  */
 export const listWhatsAppFlows: API.PaginatedOperationMethod<
-  ListWhatsAppFlowsInput,
+  ListWhatsAppFlowsInput & RegionInput,
   ListWhatsAppFlowsOutput,
   ListWhatsAppFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -1615,7 +1625,7 @@ export type ListWhatsAppMessageTemplatesError =
  * Lists WhatsApp message templates for a specific WhatsApp Business Account.
  */
 export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
-  ListWhatsAppMessageTemplatesInput,
+  ListWhatsAppMessageTemplatesInput & RegionInput,
   ListWhatsAppMessageTemplatesOutput,
   ListWhatsAppMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1656,7 +1666,7 @@ export type ListWhatsAppTemplateLibraryError =
  * Lists templates available in Meta's template library for WhatsApp messaging.
  */
 export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
-  ListWhatsAppTemplateLibraryInput,
+  ListWhatsAppTemplateLibraryInput & RegionInput,
   ListWhatsAppTemplateLibraryOutput,
   ListWhatsAppTemplateLibraryError,
   Credentials | HttpClient.HttpClient,
@@ -1701,7 +1711,7 @@ export type PostWhatsAppMessageMediaError =
  * `InvalidParameterException` is returned.
  */
 export const postWhatsAppMessageMedia: API.OperationMethod<
-  PostWhatsAppMessageMediaInput,
+  PostWhatsAppMessageMediaInput & RegionInput,
   PostWhatsAppMessageMediaOutput,
   PostWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1745,7 @@ export type PublishWhatsAppFlowError =
  * Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.
  */
 export const publishWhatsAppFlow: API.OperationMethod<
-  PublishWhatsAppFlowInput,
+  PublishWhatsAppFlowInput & RegionInput,
   PublishWhatsAppFlowOutput,
   PublishWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1766,7 +1776,7 @@ export type PutWhatsAppBusinessAccountEventDestinationsError =
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
  */
 export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
-  PutWhatsAppBusinessAccountEventDestinationsInput,
+  PutWhatsAppBusinessAccountEventDestinationsInput & RegionInput,
   PutWhatsAppBusinessAccountEventDestinationsOutput,
   PutWhatsAppBusinessAccountEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1804,7 @@ export type PutWhatsAppBusinessPublicKeyError =
  * Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
  */
 export const putWhatsAppBusinessPublicKey: API.OperationMethod<
-  PutWhatsAppBusinessPublicKeyInput,
+  PutWhatsAppBusinessPublicKeyInput & RegionInput,
   PutWhatsAppBusinessPublicKeyOutput,
   PutWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1830,7 +1840,7 @@ export type SendWhatsAppCallEventError =
  * Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
  */
 export const sendWhatsAppCallEvent: API.OperationMethod<
-  SendWhatsAppCallEventInput,
+  SendWhatsAppCallEventInput & RegionInput,
   SendWhatsAppCallEventOutput,
   SendWhatsAppCallEventError,
   Credentials | HttpClient.HttpClient
@@ -1865,7 +1875,7 @@ export type SendWhatsAppConversionEventError =
  * Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
  */
 export const sendWhatsAppConversionEvent: API.OperationMethod<
-  SendWhatsAppConversionEventInput,
+  SendWhatsAppConversionEventInput & RegionInput,
   SendWhatsAppConversionEventOutput,
   SendWhatsAppConversionEventError,
   Credentials | HttpClient.HttpClient
@@ -1903,7 +1913,7 @@ export type SendWhatsAppMessageError =
  * .
  */
 export const sendWhatsAppMessage: API.OperationMethod<
-  SendWhatsAppMessageInput,
+  SendWhatsAppMessageInput & RegionInput,
   SendWhatsAppMessageOutput,
   SendWhatsAppMessageError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1945,7 @@ export type TagResourceError =
  * an existing tag key, the value is overwritten with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1959,7 +1969,7 @@ export type UntagResourceError =
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1986,7 +1996,7 @@ export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
  * Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
  */
 export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
-  UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput & RegionInput,
   UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   UpdateLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2024,7 +2034,7 @@ export type UpdateWhatsAppFlowError =
  * Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
  */
 export const updateWhatsAppFlow: API.OperationMethod<
-  UpdateWhatsAppFlowInput,
+  UpdateWhatsAppFlowInput & RegionInput,
   UpdateWhatsAppFlowOutput,
   UpdateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2068,7 @@ export type UpdateWhatsAppFlowAssetsError =
  * Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.
  */
 export const updateWhatsAppFlowAssets: API.OperationMethod<
-  UpdateWhatsAppFlowAssetsInput,
+  UpdateWhatsAppFlowAssetsInput & RegionInput,
   UpdateWhatsAppFlowAssetsOutput,
   UpdateWhatsAppFlowAssetsError,
   Credentials | HttpClient.HttpClient
@@ -2092,7 +2102,7 @@ export type UpdateWhatsAppMessageTemplateError =
  * Updates an existing WhatsApp message template.
  */
 export const updateWhatsAppMessageTemplate: API.OperationMethod<
-  UpdateWhatsAppMessageTemplateInput,
+  UpdateWhatsAppMessageTemplateInput & RegionInput,
   UpdateWhatsAppMessageTemplateOutput,
   UpdateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2430,6 +2440,10 @@ function __c17(j: number): any {
           wabaName: S.String,
           eventDestinations: __S(817, __c51, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
           phoneNumbers: __S(784, __c49, 0),
         }),
@@ -2759,6 +2773,10 @@ function __c28(j: number): any {
           wabaName: S.String,
           eventDestinations: __S(817, __c51, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedWhatsAppBusinessAccountSummary" });
@@ -2884,6 +2902,8 @@ function __c32(j: number): any {
           templateQualityScore: S.optional(S.String),
           templateLanguage: S.optional(S.String),
           templateCategory: S.optional(S.String),
+          templateSource: S.optional(S.String),
+          correctCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSummary" });
     case 2:

@@ -33,19 +33,19 @@ const TELEMETRY = {
 
 export interface CheckProviderActionNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckProviderActionNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckProviderActionNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckProviderActionNameAvailabilityResponseReason;
+  reason?: CheckProviderActionNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEvidenceRequest {
   /** Report Name. */
@@ -60,9 +60,9 @@ export interface DeleteReportRequest {
 }
 export interface DeleteReportResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteScopingConfigurationRequest {
   /** Report Name. */
@@ -84,19 +84,19 @@ export interface DownloadEvidenceRequest {
   /** The evidence name. */
   evidenceName: string;
   /** Tenant id. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
 }
 /** The uri of evidence file */
 export interface EvidenceFileDownloadResponseEvidenceFile {
   /** The url of evidence file */
-  url?: string;
+  url?: string | undefined;
 }
 /** Object that includes all the possible response for the evidence file download operation. */
 export interface EvidenceFileDownloadResponse {
   /** The uri of evidence file */
-  evidenceFile?: EvidenceFileDownloadResponseEvidenceFile;
+  evidenceFile?: EvidenceFileDownloadResponseEvidenceFile | undefined;
 }
 /** Indicates the download type. */
 export type DownloadType =
@@ -110,22 +110,22 @@ export interface DownloadSnapshotRequest {
   /** Snapshot Name. */
   snapshotName: string;
   /** Tenant id. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
   /** Indicates the download type. */
   downloadType: DownloadType | (string & {});
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
 }
 /** Resource Id. */
 export interface ResourceItem {
   /** The subscription Id of this resource. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The resource group name of this resource. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The resource type of this resource. e.g. "Microsoft.SignalRService/SignalR" */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1". */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Resource list of the report */
 export type DownloadResponseResourceListList = Array<ResourceItem>;
@@ -138,71 +138,71 @@ export type ResourceStatus = "Healthy" | "Unhealthy";
 /** Object that includes all the content for single compliance result. */
 export interface ComplianceReportItem {
   /** The category name. */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** The control family name. */
-  controlFamilyName?: string;
+  controlFamilyName?: string | undefined;
   /** The control Id - e.g. "1". */
-  controlId?: string;
+  controlId?: string | undefined;
   /** The control name. */
-  controlName?: string;
+  controlName?: string | undefined;
   /** Control status. */
-  controlStatus?: ControlStatus;
+  controlStatus?: ControlStatus | undefined;
   /** The title of the customer responsibility. */
-  responsibilityTitle?: string;
+  responsibilityTitle?: string | undefined;
   /** The description of the customer responsibility. */
-  responsibilityDescription?: string;
+  responsibilityDescription?: string | undefined;
   /** The Id of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The type of the resource. e.g. "Microsoft.SignalRService/SignalR" */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource origin. */
-  resourceOrigin?: ResourceOrigin;
+  resourceOrigin?: ResourceOrigin | undefined;
   /** Resource status. */
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
   /** The status change date for the resource. */
-  resourceStatusChangeDate?: string;
+  resourceStatusChangeDate?: string | undefined;
 }
 /** List of the compliance result */
 export type DownloadResponseComplianceReportList = Array<ComplianceReportItem>;
 /** Compliance pdf report */
 export interface DownloadResponseCompliancePdfReport {
   /** The uri of compliance pdf report */
-  sasUri?: string;
+  sasUri?: string | undefined;
 }
 /** The detailed compliance pdf report */
 export interface DownloadResponseComplianceDetailedPdfReport {
   /** The uri of detailed compliance pdf report */
-  sasUri?: string;
+  sasUri?: string | undefined;
 }
 /** Object that includes all the possible response for the download operation. */
 export interface DownloadResponse {
   /** Resource list of the report */
-  resourceList?: DownloadResponseResourceListList;
+  resourceList?: DownloadResponseResourceListList | undefined;
   /** List of the compliance result */
-  complianceReport?: DownloadResponseComplianceReportList;
+  complianceReport?: DownloadResponseComplianceReportList | undefined;
   /** Compliance pdf report */
-  compliancePdfReport?: DownloadResponseCompliancePdfReport;
+  compliancePdfReport?: DownloadResponseCompliancePdfReport | undefined;
   /** The detailed compliance pdf report */
-  complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReport;
+  complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReport | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Evidence type */
 export type EvidenceType = "File" | "AutoCollectedEvidence" | "Data";
 /** Evidence's properties. */
 export interface EvidencePropertiesInput {
   /** Evidence type. */
-  evidenceType?: EvidenceType | (string & {});
+  evidenceType?: EvidenceType | (string & {}) | undefined;
   /** The path of the file in storage. */
   filePath: string;
   /** Extra data considered as evidence. */
-  extraData?: string;
+  extraData?: string | undefined;
   /** Control id. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Responsibility id. */
-  responsibilityId?: string;
+  responsibilityId?: string | undefined;
 }
 export interface EvidenceCreateOrUpdateRequest {
   /** Report Name. */
@@ -210,9 +210,9 @@ export interface EvidenceCreateOrUpdateRequest {
   /** The evidence name. */
   evidenceName: string;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
   /** Evidence property. */
   properties: EvidencePropertiesInput;
 }
@@ -223,17 +223,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource provisioning states. */
 export type ProvisioningState =
@@ -248,27 +248,27 @@ export type ProvisioningState =
 /** Evidence's properties. */
 export interface EvidenceProperties {
   /** Evidence type. */
-  evidenceType?: EvidenceType;
+  evidenceType?: EvidenceType | undefined;
   /** The path of the file in storage. */
   filePath: string;
   /** Extra data considered as evidence. */
-  extraData?: string;
+  extraData?: string | undefined;
   /** Control id. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Responsibility id. */
-  responsibilityId?: string;
+  responsibilityId?: string | undefined;
   /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface EvidenceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Evidence property. */
   properties: EvidenceProperties;
 }
@@ -280,42 +280,42 @@ export interface GetEvidenceRequest {
 }
 export interface GetEvidenceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Evidence property. */
   properties: EvidenceProperties;
 }
 export interface GetProviderActionCollectionCountRequest {
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The get collection count response. */
 export interface GetCollectionCountResponse {
   /** The count of the specified resource. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface GetProviderActionOverviewStatusRequest {
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Single status. */
 export interface StatusItem {
   /** Status name - e.g. "Active", "Failed". */
-  statusName?: string;
+  statusName?: string | undefined;
   /** Status value. e.g. "100", or "100%". */
-  statusValue?: string;
+  statusValue?: string | undefined;
 }
 /** List of different status items. */
 export type GetOverviewStatusResponseStatusListList = Array<StatusItem>;
 /** The get overview status response. */
 export interface GetOverviewStatusResponse {
   /** List of different status items. */
-  statusList?: GetOverviewStatusResponseStatusListList;
+  statusList?: GetOverviewStatusResponseStatusListList | undefined;
 }
 export interface GetReportRequest {
   /** Report Name. */
@@ -326,13 +326,13 @@ export interface ResourceMetadata {
   /** Resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1". */
   resourceId: string;
   /** Resource type. e.g. "Microsoft.Compute/virtualMachines" */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource kind. */
-  resourceKind?: string;
+  resourceKind?: string | undefined;
   /** Resource Origin. */
-  resourceOrigin?: ResourceOrigin | (string & {});
+  resourceOrigin?: ResourceOrigin | (string & {}) | undefined;
   /** Account Id. For example - the AWS account id. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 /** List of resource data. */
 export type ReportPropertiesResourcesList = Array<ResourceMetadata>;
@@ -345,51 +345,51 @@ export type ReportPropertiesSubscriptionsList = Array<string>;
 /** The overview of the compliance result for one report. */
 export interface OverviewStatus {
   /** The count of all passed control. */
-  passedCount?: number;
+  passedCount?: number | undefined;
   /** The count of all failed control. */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** The count of all manual control. */
-  manualCount?: number;
+  manualCount?: number | undefined;
   /** The count of all not applicable control. */
-  notApplicableCount?: number;
+  notApplicableCount?: number | undefined;
   /** The count of all pending for approval control. */
-  pendingCount?: number;
+  pendingCount?: number | undefined;
 }
 /** A list which includes all the compliance result for one report. */
 export interface ReportComplianceStatus {
   /** The Microsoft 365 certification name. */
-  m365?: OverviewStatus;
+  m365?: OverviewStatus | undefined;
 }
 /** The information of 'bring your own storage' account binding to the report */
 export interface StorageInfo {
   /** The subscription id which 'bring your own storage' account belongs to */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The resourceGroup which 'bring your own storage' account belongs to */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** 'bring your own storage' account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The region of 'bring your own storage' account */
-  location?: string;
+  location?: string | undefined;
 }
 /** A class represent the control record synchronized from app compliance. */
 export interface ControlSyncRecord {
   /** The Id of the control. e.g. "Operational_Security_10" */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Control status synchronized from app compliance. */
-  controlStatus?: string;
+  controlStatus?: string | undefined;
 }
 /** The control records list to be synchronized. */
 export type CertSyncRecordControlsList = Array<ControlSyncRecord>;
 /** A class represent the certification record synchronized from app compliance. */
 export interface CertSyncRecord {
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** Indicates the status of certification process. */
-  certificationStatus?: string;
+  certificationStatus?: string | undefined;
   /** Indicates the status of compliance process. */
-  ingestionStatus?: string;
+  ingestionStatus?: string | undefined;
   /** The control records list to be synchronized. */
-  controls?: CertSyncRecordControlsList;
+  controls?: CertSyncRecordControlsList | undefined;
 }
 /** List of synchronized certification records. */
 export type ReportPropertiesCertRecordsList = Array<CertSyncRecord>;
@@ -402,37 +402,37 @@ export interface ReportProperties {
   /** List of resource data. */
   resources: ReportPropertiesResourcesList;
   /** Report status. */
-  status?: ReportStatus;
+  status?: ReportStatus | undefined;
   /** List of report error codes. */
-  errors?: ReportPropertiesErrorsList;
+  errors?: ReportPropertiesErrorsList | undefined;
   /** Report's tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** Report next collection trigger time. */
-  nextTriggerTime?: string;
+  nextTriggerTime?: string | undefined;
   /** Report last collection trigger time. */
-  lastTriggerTime?: string;
+  lastTriggerTime?: string | undefined;
   /** List of subscription Ids. */
-  subscriptions?: ReportPropertiesSubscriptionsList;
+  subscriptions?: ReportPropertiesSubscriptionsList | undefined;
   /** Report compliance status. */
-  complianceStatus?: ReportComplianceStatus;
+  complianceStatus?: ReportComplianceStatus | undefined;
   /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
+  storageInfo?: StorageInfo | undefined;
   /** List of synchronized certification records. */
-  certRecords?: ReportPropertiesCertRecordsList;
+  certRecords?: ReportPropertiesCertRecordsList | undefined;
   /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Report property. */
   properties: ReportProperties;
 }
@@ -485,7 +485,7 @@ export interface ScopingQuestion {
   /** Question id. */
   questionId: string;
   /** Superior question id. */
-  superiorQuestionId?: string;
+  superiorQuestionId?: string | undefined;
   /** Input type of the question answer. */
   inputType: InputType;
   /** Option id list. */
@@ -493,14 +493,14 @@ export interface ScopingQuestion {
   /** The rule of the question. */
   rules: ScopingQuestionRulesList;
   /** The answer value to show the sub questions. */
-  showSubQuestionsValue?: string;
+  showSubQuestionsValue?: string | undefined;
 }
 /** List of scoping questions. */
 export type ScopingQuestionsQuestionsList = Array<ScopingQuestion>;
 /** Scoping question list. */
 export interface ScopingQuestions {
   /** List of scoping questions. */
-  questions?: ScopingQuestionsQuestionsList;
+  questions?: ScopingQuestionsQuestionsList | undefined;
 }
 export interface GetScopingConfigurationRequest {
   /** Report Name. */
@@ -522,19 +522,19 @@ export type ScopingConfigurationPropertiesAnswersList = Array<ScopingAnswer>;
 /** ScopingConfiguration's properties. */
 export interface ScopingConfigurationProperties {
   /** List of scoping question answers. */
-  answers?: ScopingConfigurationPropertiesAnswersList;
+  answers?: ScopingConfigurationPropertiesAnswersList | undefined;
   /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetScopingConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ScopingConfiguration property. */
   properties: ScopingConfigurationProperties;
 }
@@ -559,17 +559,17 @@ export type SnapshotPropertiesReportSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SnapshotPropertiesReportSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SnapshotPropertiesReportSystemDataCreatedByType;
+  createdByType?: SnapshotPropertiesReportSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SnapshotPropertiesReportSystemDataLastModifiedByType;
+  lastModifiedByType?: SnapshotPropertiesReportSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Indicates the category status. */
 export type CategoryStatus = "Passed" | "Failed" | "NotApplicable" | "PendingApproval";
@@ -588,19 +588,19 @@ export type ResponsibilityResourceRecommendationIdsList = Array<string>;
 /** A class represent the resource. */
 export interface ResponsibilityResource {
   /** The Id of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Account Id. For example - AWS account Id. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The type of the resource. e.g. "Microsoft.SignalRService/SignalR" */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource origin. */
-  resourceOrigin?: ResourceOrigin;
+  resourceOrigin?: ResourceOrigin | undefined;
   /** Resource status. */
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
   /** The status change date for the resource. */
-  resourceStatusChangeDate?: string;
+  resourceStatusChangeDate?: string | undefined;
   /** List of recommendation id. */
-  recommendationIds?: ResponsibilityResourceRecommendationIdsList;
+  recommendationIds?: ResponsibilityResourceRecommendationIdsList | undefined;
 }
 /** List of resource. */
 export type ResponsibilityResourceListList = Array<ResponsibilityResource>;
@@ -609,22 +609,22 @@ export type IsRecommendSolution = "true" | "false";
 /** A class represent the recommendation solution. */
 export interface RecommendationSolution {
   /** The index of the recommendation solution. */
-  recommendationSolutionIndex?: string;
+  recommendationSolutionIndex?: string | undefined;
   /** The detail steps of the recommendation solution. */
-  recommendationSolutionContent?: string;
+  recommendationSolutionContent?: string | undefined;
   /** Indicates whether this solution is the recommended. */
-  isRecommendSolution?: IsRecommendSolution;
+  isRecommendSolution?: IsRecommendSolution | undefined;
 }
 /** List of recommendation solutions. */
 export type RecommendationRecommendationSolutionsList = Array<RecommendationSolution>;
 /** A class represent the recommendation. */
 export interface Recommendation {
   /** The Id of the recommendation. */
-  recommendationId?: string;
+  recommendationId?: string | undefined;
   /** The short name of the recommendation. e.g. "Invalid TLS config" */
-  recommendationShortName?: string;
+  recommendationShortName?: string | undefined;
   /** List of recommendation solutions. */
-  recommendationSolutions?: RecommendationRecommendationSolutionsList;
+  recommendationSolutions?: RecommendationRecommendationSolutionsList | undefined;
 }
 /** List of recommendation. */
 export type ResponsibilityRecommendationListList = Array<Recommendation>;
@@ -633,112 +633,112 @@ export type ResponsibilityEvidenceFilesList = Array<string>;
 /** A class represent the customer responsibility. */
 export interface Responsibility {
   /** The id of the customer responsibility. */
-  responsibilityId?: string;
+  responsibilityId?: string | undefined;
   /** The title of the customer responsibility. */
-  responsibilityTitle?: string;
+  responsibilityTitle?: string | undefined;
   /** The description of the customer responsibility. */
-  responsibilityDescription?: string;
+  responsibilityDescription?: string | undefined;
   /** The type of customer responsibility. */
-  responsibilityType?: ResponsibilityType;
+  responsibilityType?: ResponsibilityType | undefined;
   /** The severity level of this customer responsibility. */
-  responsibilitySeverity?: ResponsibilitySeverity;
+  responsibilitySeverity?: ResponsibilitySeverity | undefined;
   /** The status of this customer responsibility. */
-  responsibilityStatus?: ResponsibilityStatus;
+  responsibilityStatus?: ResponsibilityStatus | undefined;
   /** The supported cloud environment of this customer responsibility. */
-  responsibilityEnvironment?: ResponsibilityEnvironment;
+  responsibilityEnvironment?: ResponsibilityEnvironment | undefined;
   /** The count of all failed resources. */
-  failedResourceCount?: number;
+  failedResourceCount?: number | undefined;
   /** The count of all resources. */
-  totalResourceCount?: number;
+  totalResourceCount?: number | undefined;
   /** List of resource. */
-  resourceList?: ResponsibilityResourceListList;
+  resourceList?: ResponsibilityResourceListList | undefined;
   /** List of recommendation. */
-  recommendationList?: ResponsibilityRecommendationListList;
+  recommendationList?: ResponsibilityRecommendationListList | undefined;
   /** The evidence upload guidance description. */
-  guidance?: string;
+  guidance?: string | undefined;
   /** The justification given by the user to clarify the reason. */
-  justification?: string;
+  justification?: string | undefined;
   /** List of evidence file url. */
-  evidenceFiles?: ResponsibilityEvidenceFilesList;
+  evidenceFiles?: ResponsibilityEvidenceFilesList | undefined;
 }
 /** List of customer responsibility. */
 export type ControlResponsibilitiesList = Array<Responsibility>;
 /** A class represent the control. */
 export interface Control {
   /** The Id of the control. e.g. "Operational_Security_10" */
-  controlId?: string;
+  controlId?: string | undefined;
   /** The name of the control. e.g. "Unsupported OS and Software." */
-  controlName?: string;
+  controlName?: string | undefined;
   /** The full name of the control. e.g. "Validate that unsupported operating systems and software components are not in use." */
-  controlFullName?: string;
+  controlFullName?: string | undefined;
   /** The control's description */
-  controlDescription?: string;
+  controlDescription?: string | undefined;
   /** The hyper link to the control's description'. */
-  controlDescriptionHyperLink?: string;
+  controlDescriptionHyperLink?: string | undefined;
   /** Control status. */
-  controlStatus?: ControlStatus;
+  controlStatus?: ControlStatus | undefined;
   /** List of customer responsibility. */
-  responsibilities?: ControlResponsibilitiesList;
+  responsibilities?: ControlResponsibilitiesList | undefined;
 }
 /** List of controls. */
 export type ControlFamilyControlsList = Array<Control>;
 /** A class represent the control family. */
 export interface ControlFamily {
   /** The name of the control family. e.g. "Malware Protection - Anti-Virus" */
-  controlFamilyName?: string;
+  controlFamilyName?: string | undefined;
   /** The control family status */
-  controlFamilyStatus?: ControlFamilyStatus;
+  controlFamilyStatus?: ControlFamilyStatus | undefined;
   /** List of controls. */
-  controls?: ControlFamilyControlsList;
+  controls?: ControlFamilyControlsList | undefined;
 }
 /** List of control families. */
 export type CategoryControlFamiliesList = Array<ControlFamily>;
 /** A class represent the compliance category. */
 export interface Category {
   /** The name of the compliance category. e.g. "Operational Security" */
-  categoryName?: string;
+  categoryName?: string | undefined;
   /** Category status. */
-  categoryStatus?: CategoryStatus;
+  categoryStatus?: CategoryStatus | undefined;
   /** List of control families. */
-  controlFamilies?: CategoryControlFamiliesList;
+  controlFamilies?: CategoryControlFamiliesList | undefined;
 }
 /** List of categories. */
 export type ComplianceResultCategoriesList = Array<Category>;
 /** A class represent the compliance result. */
 export interface ComplianceResult {
   /** The name of the compliance. e.g. "M365" */
-  complianceName?: string;
+  complianceName?: string | undefined;
   /** List of categories. */
-  categories?: ComplianceResultCategoriesList;
+  categories?: ComplianceResultCategoriesList | undefined;
 }
 /** List of compliance results. */
 export type SnapshotPropertiesComplianceResultsList = Array<ComplianceResult>;
 /** Snapshot's properties. */
 export interface SnapshotProperties {
   /** Snapshot name. */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The report essential info. */
-  reportProperties?: ReportProperties;
+  reportProperties?: ReportProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  reportSystemData?: SnapshotPropertiesReportSystemData;
+  reportSystemData?: SnapshotPropertiesReportSystemData | undefined;
   /** List of compliance results. */
-  complianceResults?: SnapshotPropertiesComplianceResultsList;
+  complianceResults?: SnapshotPropertiesComplianceResultsList | undefined;
 }
 export interface GetSnapshotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot's property. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 export interface GetWebhookRequest {
   /** Report Name. */
@@ -772,41 +772,41 @@ export type DeliveryStatus = "Succeeded" | "Failed" | "NotStarted";
 /** Webhook properties. */
 export interface WebhookProperties {
   /** Webhook id in database. */
-  webhookId?: string;
+  webhookId?: string | undefined;
   /** Webhook status. */
-  status?: WebhookStatus;
+  status?: WebhookStatus | undefined;
   /** Tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** whether to send notification under any event. */
-  sendAllEvents?: SendAllEvents;
+  sendAllEvents?: SendAllEvents | undefined;
   /** under which event notification should be sent. */
-  events?: WebhookPropertiesEventsList;
+  events?: WebhookPropertiesEventsList | undefined;
   /** webhook payload url */
-  payloadUrl?: string;
+  payloadUrl?: string | undefined;
   /** content type */
-  contentType?: ContentType;
+  contentType?: ContentType | undefined;
   /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
-  webhookKey?: string;
+  webhookKey?: string | undefined;
   /** whether to update webhookKey. */
-  updateWebhookKey?: UpdateWebhookKey;
+  updateWebhookKey?: UpdateWebhookKey | undefined;
   /** whether webhookKey is enabled. */
-  webhookKeyEnabled?: WebhookKeyEnabled;
+  webhookKeyEnabled?: WebhookKeyEnabled | undefined;
   /** whether to enable ssl verification */
-  enableSslVerification?: EnableSslVerification;
+  enableSslVerification?: EnableSslVerification | undefined;
   /** webhook deliveryStatus */
-  deliveryStatus?: DeliveryStatus;
+  deliveryStatus?: DeliveryStatus | undefined;
   /** Azure Resource Provisioning State */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Webhook property. */
   properties: WebhookProperties;
 }
@@ -814,30 +814,30 @@ export interface ListEvidenceByReportRequest {
   /** Report Name. */
   reportName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
+  _select?: string | undefined;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
 }
 /** A class represent an AppComplianceAutomation evidence resource. */
 export interface EvidenceResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Evidence property. */
   properties: EvidenceProperties;
 }
@@ -848,19 +848,19 @@ export interface EvidenceResourceListResult {
   /** The EvidenceResource items on this page */
   value: EvidenceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -869,63 +869,63 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
 export type ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList = Array<string>;
 export interface ListProviderActionInUseStorageAccountsRequest {
   /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
-  subscriptionIds?: ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList;
+  subscriptionIds?: ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList | undefined;
 }
 /** The storage account list which in use in related reports. */
 export type ListInUseStorageAccountsResponseStorageAccountListList = Array<StorageInfo>;
 /** Parameters for listing in use storage accounts operation. If subscription list is null, it will check the user's all subscriptions. */
 export interface ListInUseStorageAccountsResponse {
   /** The storage account list which in use in related reports. */
-  storageAccountList?: ListInUseStorageAccountsResponseStorageAccountListList;
+  storageAccountList?: ListInUseStorageAccountsResponseStorageAccountListList | undefined;
 }
 export interface ListReportRequest {
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
+  _select?: string | undefined;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
 }
 /** A class represent an AppComplianceAutomation report resource. */
 export interface ReportResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Report property. */
   properties: ReportProperties;
 }
@@ -936,7 +936,7 @@ export interface ReportResourceListResult {
   /** The ReportResource items on this page */
   value: ReportResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScopingConfigurationRequest {
   /** Report Name. */
@@ -945,13 +945,13 @@ export interface ListScopingConfigurationRequest {
 /** A class represent an AppComplianceAutomation scoping configuration resource. */
 export interface ScopingConfigurationResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ScopingConfiguration property. */
   properties: ScopingConfigurationProperties;
 }
@@ -962,38 +962,38 @@ export interface ScopingConfigurationResourceListResult {
   /** The ScopingConfigurationResource items on this page */
   value: ScopingConfigurationResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSnapshotRequest {
   /** Report Name. */
   reportName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
+  _select?: string | undefined;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
 }
 /** A class represent a AppComplianceAutomation snapshot resource. */
 export interface SnapshotResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot's property. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 /** The SnapshotResource items on this page */
 export type SnapshotResourceListResultValueList = Array<SnapshotResource>;
@@ -1002,36 +1002,36 @@ export interface SnapshotResourceListResult {
   /** The SnapshotResource items on this page */
   value: SnapshotResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebhookRequest {
   /** Report Name. */
   reportName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
+  _select?: string | undefined;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  reportCreatorTenantId?: string | undefined;
 }
 /** A class represent an AppComplianceAutomation webhook resource. */
 export interface WebhookResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Webhook property. */
   properties: WebhookProperties;
 }
@@ -1042,7 +1042,7 @@ export interface WebhookResourceListResult {
   /** The WebhookResource items on this page */
   value: WebhookResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of subscription ids to be onboarded */
 export type ProviderActionsOnboardRequestSubscriptionIdsList = Array<string>;
@@ -1055,11 +1055,11 @@ export type OnboardResponseSubscriptionIdsList = Array<string>;
 /** Success. The response indicates given subscriptions has been onboarded. */
 export interface OnboardResponse {
   /** List of subscription ids that are onboarded */
-  subscriptionIds?: OnboardResponseSubscriptionIdsList;
+  subscriptionIds?: OnboardResponseSubscriptionIdsList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource data. */
 export type ReportPropertiesInputResourcesList = Array<ResourceMetadata>;
@@ -1072,9 +1072,9 @@ export interface ReportPropertiesInput {
   /** List of resource data. */
   resources: ReportPropertiesInputResourcesList;
   /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
+  storageInfo?: StorageInfo | undefined;
 }
 export interface ReportCreateOrUpdateRequest {
   /** Report Name. */
@@ -1084,17 +1084,17 @@ export interface ReportCreateOrUpdateRequest {
 }
 export interface ReportCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Report property. */
   properties: ReportProperties;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ReportFixRequest {
   /** Report Name. */
@@ -1105,38 +1105,38 @@ export type Result = "Succeeded" | "Failed";
 /** Report fix result. */
 export interface ReportFixResult {
   /** Indicates whether the fix action is Succeeded or Failed. */
-  result?: Result;
+  result?: Result | undefined;
   /** If the report fix action failed, to indicate the detailed failed reason. */
-  reason?: string;
+  reason?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ReportNestedResourceCheckNameAvailabilityRequest {
   /** Report Name. */
   reportName: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type ReportNestedResourceCheckNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface ReportNestedResourceCheckNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: ReportNestedResourceCheckNameAvailabilityResponseReason;
+  reason?: ReportNestedResourceCheckNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** List of scoping question answers. */
 export type ScopingConfigurationPropertiesInputAnswersList = Array<ScopingAnswer>;
 /** ScopingConfiguration's properties. */
 export interface ScopingConfigurationPropertiesInput {
   /** List of scoping question answers. */
-  answers?: ScopingConfigurationPropertiesInputAnswersList;
+  answers?: ScopingConfigurationPropertiesInputAnswersList | undefined;
 }
 export interface ScopingConfigurationCreateOrUpdateRequest {
   /** Report Name. */
@@ -1148,13 +1148,13 @@ export interface ScopingConfigurationCreateOrUpdateRequest {
 }
 export interface ScopingConfigurationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ScopingConfiguration property. */
   properties: ScopingConfigurationProperties;
 }
@@ -1167,11 +1167,11 @@ export interface SyncReportCertRecordRequest {
 /** Synchronize certification record response. */
 export interface SyncCertRecordResponse {
   /** certification record synchronized. */
-  certRecord?: CertSyncRecord;
+  certRecord?: CertSyncRecord | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource ids to be evaluated */
 export type TriggerProviderActionEvaluationRequestResourceIdsList = Array<string>;
@@ -1184,99 +1184,99 @@ export type TriggerEvaluationPropertyResourceIdsList = Array<string>;
 /** A class represent the quick assessment. */
 export interface QuickAssessment {
   /** Resource id. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Responsibility id. */
-  responsibilityId?: string;
+  responsibilityId?: string | undefined;
   /** The timestamp of resource creation (UTC). */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Quick assessment status. */
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
   /** Quick assessment display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Quick assessment display name. */
-  description?: string;
+  description?: string | undefined;
   /** Link to remediation steps for this quick assessment. */
-  remediationLink?: string;
+  remediationLink?: string | undefined;
 }
 /** List of quick assessments */
 export type TriggerEvaluationPropertyQuickAssessmentsList = Array<QuickAssessment>;
 /** Trigger evaluation response. */
 export interface TriggerEvaluationProperty {
   /** The time when the evaluation is triggered. */
-  triggerTime?: string;
+  triggerTime?: string | undefined;
   /** The time when the evaluation is end. */
-  evaluationEndTime?: string;
+  evaluationEndTime?: string | undefined;
   /** List of resource ids to be evaluated */
-  resourceIds?: TriggerEvaluationPropertyResourceIdsList;
+  resourceIds?: TriggerEvaluationPropertyResourceIdsList | undefined;
   /** List of quick assessments */
-  quickAssessments?: TriggerEvaluationPropertyQuickAssessmentsList;
+  quickAssessments?: TriggerEvaluationPropertyQuickAssessmentsList | undefined;
 }
 /** Trigger evaluation response. */
 export interface TriggerEvaluationResponse {
   /** trigger evaluation property. */
-  properties?: TriggerEvaluationProperty;
+  properties?: TriggerEvaluationProperty | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource data. */
 export type ReportPatchPropertiesInputResourcesList = Array<ResourceMetadata>;
 /** Patch Report's properties. */
 export interface ReportPatchPropertiesInput {
   /** Report collection trigger time. */
-  triggerTime?: string;
+  triggerTime?: string | undefined;
   /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** List of resource data. */
-  resources?: ReportPatchPropertiesInputResourcesList;
+  resources?: ReportPatchPropertiesInputResourcesList | undefined;
   /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
+  offerGuid?: string | undefined;
   /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
+  storageInfo?: StorageInfo | undefined;
 }
 export interface UpdateReportRequest {
   /** Report Name. */
   reportName: string;
   /** Report property. */
-  properties?: ReportPatchPropertiesInput;
+  properties?: ReportPatchPropertiesInput | undefined;
 }
 export interface UpdateReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Report property. */
   properties: ReportProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** under which event notification should be sent. */
 export type WebhookPropertiesInputEventsList = Array<NotificationEvent | (string & {})>;
 /** Webhook properties. */
 export interface WebhookPropertiesInput {
   /** Webhook status. */
-  status?: WebhookStatus | (string & {});
+  status?: WebhookStatus | (string & {}) | undefined;
   /** whether to send notification under any event. */
-  sendAllEvents?: boolean;
+  sendAllEvents?: boolean | undefined;
   /** under which event notification should be sent. */
-  events?: WebhookPropertiesInputEventsList;
+  events?: WebhookPropertiesInputEventsList | undefined;
   /** webhook payload url */
-  payloadUrl?: string;
+  payloadUrl?: string | undefined;
   /** content type */
-  contentType?: ContentType | (string & {});
+  contentType?: ContentType | (string & {}) | undefined;
   /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
-  webhookKey?: string;
+  webhookKey?: string | undefined;
   /** whether to update webhookKey. */
-  updateWebhookKey?: boolean;
+  updateWebhookKey?: boolean | undefined;
   /** whether to enable ssl verification */
-  enableSslVerification?: boolean;
+  enableSslVerification?: boolean | undefined;
 }
 export interface UpdateWebhookRequest {
   /** Report Name. */
@@ -1284,17 +1284,17 @@ export interface UpdateWebhookRequest {
   /** Webhook Name. */
   webhookName: string;
   /** Webhook property. */
-  properties?: WebhookPropertiesInput;
+  properties?: WebhookPropertiesInput | undefined;
 }
 export interface UpdateWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Webhook property. */
   properties: WebhookProperties;
 }
@@ -1305,13 +1305,13 @@ export interface VerifyReportRequest {
 /** Report health status verification result. */
 export interface ReportVerificationResult {
   /** Indicates whether the report verification action is Succeeded or Failed. */
-  result?: Result;
+  result?: Result | undefined;
   /** If the report verification action failed, to indicate the detailed failed reason. */
-  reason?: string;
+  reason?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WebhookCreateOrUpdateRequest {
   /** Report Name. */
@@ -1323,13 +1323,13 @@ export interface WebhookCreateOrUpdateRequest {
 }
 export interface WebhookCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Webhook property. */
   properties: WebhookProperties;
 }

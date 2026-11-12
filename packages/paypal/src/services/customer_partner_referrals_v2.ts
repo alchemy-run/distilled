@@ -57,17 +57,17 @@ export class UnprocessableEntity
 export type PersonNameType = "LEGAL";
 export interface PersonName {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** The type of name. Currently supported values are: `LEGAL`. */
   type: PersonNameType | (string & {});
 }
@@ -76,39 +76,39 @@ export type PersonNameList = Array<PersonName>;
 /** The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export interface AddressDetails {
   /** The street number. */
-  street_number?: string;
+  street_number?: string | undefined;
   /** The street name. Just `Drury` in `Drury Lane`. */
-  street_name?: string;
+  street_name?: string | undefined;
   /** The street type. For example, avenue, boulevard, road, or expressway. */
-  street_type?: string;
+  street_type?: string | undefined;
   /** The delivery service. Post office box, bag number, or post office name. */
-  delivery_service?: string;
+  delivery_service?: string | undefined;
   /** A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>. */
-  building_name?: string;
+  building_name?: string | undefined;
   /** The first-order entity below a named building or location that represents the sub-premise. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment. */
-  sub_building?: string;
+  sub_building?: string | undefined;
 }
 /** The address type under which the provided address is tagged. */
 export type PersonAddressType = "HOME";
 export interface PersonAddressDetail {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
-  address_details?: AddressDetails;
+  address_details?: AddressDetails | undefined;
   /** The address type under which this is classified. */
   type: PersonAddressType | (string & {});
 }
@@ -122,7 +122,7 @@ export interface PersonPhoneDetail {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
   /** The type of phone number provided. For example, home, work, or mobile. */
   type: PhoneType | (string & {});
 }
@@ -138,15 +138,15 @@ export type LabelsList = Array<string>;
 /** The file reference. Can be a file in PayPal MediaServ, PayPal DMS, or another custom store. */
 export interface FileReference {
   /** The ID of the referenced file. */
-  id?: string;
+  id?: string | undefined;
   /** The reference URL for the file. */
-  reference_url?: string;
+  reference_url?: string | undefined;
   /** The [Internet Assigned Numbers Authority (IANA) media type of the file](https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The date and time when the file was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The size of the file, in bytes. */
-  size?: string;
+  size?: string | undefined;
 }
 /** The files contained in the document. For example, a document could be represented by a front page file and a back page file, etc. */
 export type FileReferenceList = Array<FileReference>;
@@ -163,36 +163,36 @@ export type PersonDocumentType =
   | "PAN"
   | "NATIONAL_ID_CARD";
 export interface PersonDocumentInput {
-  labels?: LabelsList;
+  labels?: LabelsList | undefined;
   /** The file name. */
-  name?: string;
+  name?: string | undefined;
   /** The number for the document. It is the ID number if the document is `ID CARD`, the passport number if the document is `PASSPORT`, etc. */
-  identification_number?: string;
+  identification_number?: string | undefined;
   /** The issue date of the document. */
-  issue_date?: string;
+  issue_date?: string | undefined;
   /** The expire data of the document. */
-  expiry_date?: string;
+  expiry_date?: string | undefined;
   /** The country code of the document. */
-  issuing_country_code?: string;
-  files?: FileReferenceList;
+  issuing_country_code?: string | undefined;
+  files?: FileReferenceList | undefined;
   /** The actual type of the document. It could be `ID_CARD`, `PASSPORT`, etc. */
-  type?: PersonDocumentType | (string & {});
+  type?: PersonDocumentType | (string & {}) | undefined;
 }
 /** A person's or party's related document data collected from the customer. For example SSN, ITIN, or business registration number collected from the user. <blockquote><strong>Note:</strong> This field is not applicable for POST [/v2/customer/partner-referrals](/docs/api/partner-referrals/v2/#partner-referrals_create) API calls.</blockquote> */
 export type PersonDocumentListInput = Array<PersonDocumentInput>;
 /** Role of the person party played in the account. */
 export type IndividualOwnerType = "PRIMARY";
 export interface IndividualOwnerInput {
-  names?: PersonNameList;
+  names?: PersonNameList | undefined;
   /** The citizenship country code of the person. */
-  citizenship?: string;
-  addresses?: PersonAddressDetailList;
-  phones?: PersonPhoneDetailList;
+  citizenship?: string | undefined;
+  addresses?: PersonAddressDetailList | undefined;
+  phones?: PersonPhoneDetailList | undefined;
   /** The person's birth details. */
-  birth_details?: BirthDetails;
-  documents?: PersonDocumentListInput;
+  birth_details?: BirthDetails | undefined;
+  documents?: PersonDocumentListInput | undefined;
   /** The actual role of this user on the account, PRIMARY/SECONDARY. */
-  type?: IndividualOwnerType | (string & {});
+  type?: IndividualOwnerType | (string & {}) | undefined;
 }
 /** List of owners in the account. There should be only one primary account owner which is mentioned in their role_type. */
 export type IndividualOwnerListInput = Array<IndividualOwnerInput>;
@@ -234,9 +234,9 @@ export type BusinessSubType =
 /** The type and subtype of the business. */
 export interface BusinessTypeInfo {
   /** Type of business entity like corporation, sole prop, governmental. */
-  type?: BusinessType | (string & {});
+  type?: BusinessType | (string & {}) | undefined;
   /** The sub classification of the business type. */
-  subtype?: BusinessSubType | (string & {});
+  subtype?: BusinessSubType | (string & {}) | undefined;
 }
 /** The category, subcategory and MCC code of the business. */
 export interface BusinessIndustry {
@@ -250,15 +250,15 @@ export interface BusinessIndustry {
 /** Business incorporation information. */
 export interface BusinessEntityInputBusinessIncorporation {
   /** The incorporation country code. */
-  incorporation_country_code?: string;
+  incorporation_country_code?: string | undefined;
   /** date of incorporation */
-  incorporation_date?: string;
+  incorporation_date?: string | undefined;
 }
 /** Business name type */
 export type BusinessNameType = "DOING_BUSINESS_AS" | "LEGAL_NAME";
 export interface BusinessNameDetail {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The type of business name. For example, trading name. */
   type: BusinessNameType | (string & {});
 }
@@ -278,23 +278,23 @@ export type EmailList = Array<Email>;
 export type BusinessAddressType = "WORK";
 export interface BusinessAddressDetail {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
-  address_details?: AddressDetails;
+  address_details?: AddressDetails | undefined;
   /** The address type under which this is classified. For example, shipping or dropoff. */
   type: BusinessAddressType | (string & {});
 }
@@ -308,7 +308,7 @@ export interface BusinessPhoneDetail {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
   /** The type of phone number provided. For example, home, work, or mobile. */
   type: BusinessPhoneType | (string & {});
 }
@@ -327,34 +327,34 @@ export type BusinessDocumentType =
   | "PAN"
   | "BUSINESS_REGISTRATION";
 export interface BusinessDocumentInput {
-  labels?: LabelsList;
+  labels?: LabelsList | undefined;
   /** The file name. */
-  name?: string;
+  name?: string | undefined;
   /** The number for the document. It is the ID number if the document is `ID CARD`, the passport number if the document is `PASSPORT`, etc. */
-  identification_number?: string;
+  identification_number?: string | undefined;
   /** The issue date of the document. */
-  issue_date?: string;
+  issue_date?: string | undefined;
   /** The expire data of the document. */
-  expiry_date?: string;
+  expiry_date?: string | undefined;
   /** The country code of the document. */
-  issuing_country_code?: string;
-  files?: FileReferenceList;
+  issuing_country_code?: string | undefined;
+  files?: FileReferenceList | undefined;
   /** The actual type of the document. */
-  type?: BusinessDocumentType | (string & {});
+  type?: BusinessDocumentType | (string & {}) | undefined;
 }
 /** Business Party related Document data collected from the customer.. For example SSN, ITIN, Business registration number that were collected from the user. */
 export type BusinessDocumentListInput = Array<BusinessDocumentInput>;
 export interface IndividualBeneficialOwnerInput {
-  names?: PersonNameList;
+  names?: PersonNameList | undefined;
   /** The citizenship country code of the person. */
-  citizenship?: string;
-  addresses?: PersonAddressDetailList;
-  phones?: PersonPhoneDetailList;
+  citizenship?: string | undefined;
+  addresses?: PersonAddressDetailList | undefined;
+  phones?: PersonPhoneDetailList | undefined;
   /** The person's birth details. */
-  birth_details?: BirthDetails;
-  documents?: PersonDocumentListInput;
+  birth_details?: BirthDetails | undefined;
+  documents?: PersonDocumentListInput | undefined;
   /** The percentage of shares this person owns in the company. */
-  percentage_of_ownership?: string;
+  percentage_of_ownership?: string | undefined;
 }
 /** Individual beneficial owners. */
 export type IndividualBeneficialOwnerListInput = Array<IndividualBeneficialOwnerInput>;
@@ -363,27 +363,27 @@ export type BusinessBeneficialOwnerInputBusinessIncorporation =
   BusinessEntityInputBusinessIncorporation;
 export interface BusinessBeneficialOwnerInput {
   /** Information related to the business like the nature of business, started date etc. */
-  business_type?: BusinessTypeInfo;
+  business_type?: BusinessTypeInfo | undefined;
   /** Information related to the business like the nature of business, started date etc. */
-  business_industry?: BusinessIndustry;
+  business_industry?: BusinessIndustry | undefined;
   /** Business incorporation information. */
-  business_incorporation?: BusinessEntityInputBusinessIncorporation;
-  names?: BusinessNameDetailList;
-  emails?: EmailList;
+  business_incorporation?: BusinessEntityInputBusinessIncorporation | undefined;
+  names?: BusinessNameDetailList | undefined;
+  emails?: EmailList | undefined;
   /** Website of the business. */
-  website?: string;
-  addresses?: BusinessAddressDetailList;
-  phones?: BusinessPhoneDetailList;
-  documents?: BusinessDocumentListInput;
+  website?: string | undefined;
+  addresses?: BusinessAddressDetailList | undefined;
+  phones?: BusinessPhoneDetailList | undefined;
+  documents?: BusinessDocumentListInput | undefined;
   /** The percentage of shares this person owns in the company. */
-  percentage_of_ownership?: string;
+  percentage_of_ownership?: string | undefined;
 }
 /** Business beneficial owners. */
 export type BusinessBeneficialOwnerListInput = Array<BusinessBeneficialOwnerInput>;
 /** Beneficial owners of the entity. */
 export interface BeneficialOwnersInput {
-  individual_beneficial_owners?: IndividualBeneficialOwnerListInput;
-  business_beneficial_owners?: BusinessBeneficialOwnerListInput;
+  individual_beneficial_owners?: IndividualBeneficialOwnerListInput | undefined;
+  business_beneficial_owners?: BusinessBeneficialOwnerListInput | undefined;
 }
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -394,43 +394,43 @@ export interface Money {
 /** The currency range, from the minimum inclusive amount to the maximum inclusive amount. */
 export interface CurrencyRange {
   /** The minimum inclusive amount for the range. */
-  minimum_amount?: Money;
+  minimum_amount?: Money | undefined;
   /** The maximum inclusive amount for the range. */
-  maximum_amount?: Money;
+  maximum_amount?: Money | undefined;
 }
 export interface BusinessEntityInput {
   /** Information related to the business like the nature of business, started date etc. */
-  business_type?: BusinessTypeInfo;
+  business_type?: BusinessTypeInfo | undefined;
   /** Information related to the business like the nature of business, started date etc. */
-  business_industry?: BusinessIndustry;
+  business_industry?: BusinessIndustry | undefined;
   /** Business incorporation information. */
-  business_incorporation?: BusinessEntityInputBusinessIncorporation;
-  names?: BusinessNameDetailList;
-  emails?: EmailList;
+  business_incorporation?: BusinessEntityInputBusinessIncorporation | undefined;
+  names?: BusinessNameDetailList | undefined;
+  emails?: EmailList | undefined;
   /** Website of the business. */
-  website?: string;
-  addresses?: BusinessAddressDetailList;
-  phones?: BusinessPhoneDetailList;
-  documents?: BusinessDocumentListInput;
+  website?: string | undefined;
+  addresses?: BusinessAddressDetailList | undefined;
+  phones?: BusinessPhoneDetailList | undefined;
+  documents?: BusinessDocumentListInput | undefined;
   /** List of beneficial owners part of the entity. They can be either a Person or a business entity. */
-  beneficial_owners?: BeneficialOwnersInput;
+  beneficial_owners?: BeneficialOwnersInput | undefined;
   /** The range for the total annual sales volume of the business. */
-  annual_sales_volume_range?: CurrencyRange;
+  annual_sales_volume_range?: CurrencyRange | undefined;
   /** The range for the average monthly volume of the business. */
-  average_monthly_volume_range?: CurrencyRange;
+  average_monthly_volume_range?: CurrencyRange | undefined;
   /** The account's purpose code. */
-  purpose_code?: unknown;
+  purpose_code?: unknown | undefined;
   /** The business goals description. For example, a mission statement. */
-  business_description?: string;
+  business_description?: string | undefined;
 }
 /** The preference to customize the web experience of the customer by overriding that is set at the Partner's Account. */
 export interface PartnerConfigOverride {
   /** The URL to which to redirect the customer upon completion of the onboarding process. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** The description of the return URL. */
-  return_url_description?: string;
+  return_url_description?: string | undefined;
   /** Indicates whether to show an add credit card page. */
-  show_add_credit_card?: boolean;
+  show_add_credit_card?: boolean | undefined;
 }
 /** The type of bank account. */
 export type BankAccountType = "CHECKING" | "SAVINGS";
@@ -452,24 +452,24 @@ export type IdentifierType =
 /** The bank account ID. An ID with `ROUTING_NUMBER_1` is required. */
 export interface Identifier {
   /** The bank account ID type. */
-  type?: IdentifierType | (string & {});
+  type?: IdentifierType | (string & {}) | undefined;
   /** The value of account identifier. */
-  value?: string;
+  value?: string | undefined;
 }
 /** An array of instrument institute attributes. Used with the account number to uniquely identify the instrument. Value is:<ul><li>For banks with IBAN information, the IBAN number.</li><li>For banks with BBAN information, the BBAN number.</li><li>For banks with both IBAN and BBAN information, the IBAN number.</li></ul> */
 export type IdentifierList = Array<Identifier>;
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface BankBranchLocation {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
 }
 /** Seller's consent to operate on this financial instrument. */
@@ -480,24 +480,24 @@ export interface Mandate {
 /** The bank account information. */
 export interface Bank {
   /** The user-provided short name for the user's bank account. */
-  nick_name?: string;
+  nick_name?: string | undefined;
   /** The bank account number. */
   account_number: string;
   /** The type of bank account. */
   account_type: BankAccountType | (string & {});
   /** The primary currency code of the bank account. */
-  currency_code?: string;
-  identifiers?: IdentifierList;
+  currency_code?: string | undefined;
+  identifiers?: IdentifierList | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  branch_location?: BankBranchLocation;
+  branch_location?: BankBranchLocation | undefined;
   /** Mandate for this bank account. */
-  mandate?: Mandate;
+  mandate?: Mandate | undefined;
 }
 /** An array of banks attached to this managed account. */
 export type BankList = Array<Bank>;
 /** Financial instruments attached to this account. */
 export interface FinancialInstruments {
-  banks?: BankList;
+  banks?: BankList | undefined;
 }
 /** The operation to enable for the customer. To enable the collection of the API permissions that you require to integrate with the customer, specify `API_INTEGRATION`. `BANK_ADDITION` is supported only for the US. */
 export type OperationOperation =
@@ -553,51 +553,51 @@ export type RestApiIntegrationRestEndpointFeaturesEnumList = Array<
 export type SignupMode = "VERIFY_WITH_PAYPAL";
 /** The integration details for PayPal REST endpoints. */
 export interface ThirdPartyDetails {
-  features?: RestApiIntegrationRestEndpointFeaturesEnumList;
-  signup_mode?: SignupMode | (string & {});
+  features?: RestApiIntegrationRestEndpointFeaturesEnumList | undefined;
+  signup_mode?: SignupMode | (string & {}) | undefined;
   /** The organization to which the account will belong in the partner's hierarchy, as a path. */
-  organization?: string;
+  organization?: string | undefined;
 }
 /** The integration details for PayPal REST endpoints. */
 export interface RestApiIntegration {
   /** The REST-credential integration method. */
-  integration_method?: RestApiIntegrationIntegrationMethod | (string & {});
+  integration_method?: RestApiIntegrationIntegrationMethod | (string & {}) | undefined;
   /** The type of REST-endpoint integration. To integrate with Braintree v.zero for PayPal REST endpoints, specify `third_party_details`. */
   integration_type: RestApiIntegrationIntegrationType | (string & {});
-  first_party_details?: FirstPartyDetails;
-  third_party_details?: ThirdPartyDetails;
+  first_party_details?: FirstPartyDetails | undefined;
+  third_party_details?: ThirdPartyDetails | undefined;
 }
 /** The integration details for the partner and customer relationship. Required if `operation` is `API_INTEGRATION`. */
 export interface IntegrationDetails {
-  classic_api_integration?: unknown;
-  rest_api_integration?: RestApiIntegration;
+  classic_api_integration?: unknown | undefined;
+  rest_api_integration?: RestApiIntegration | undefined;
 }
 /** The preference that customizes the billing experience of the customer. */
 export interface BillingExperiencePreference {
   /** The ID of the payment web experience profile. */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** Indicates whether the partner has already displayed the billing context to the seller. */
-  billing_context_set?: boolean;
+  billing_context_set?: boolean | undefined;
 }
 /** The details of the billing agreement between the partner and a seller. */
 export interface BillingAgreement {
   /** The billing agreement description. */
-  description?: string;
-  billing_experience_preference?: BillingExperiencePreference;
+  description?: string | undefined;
+  billing_experience_preference?: BillingExperiencePreference | undefined;
   /** The custom data for the billing agreement. */
-  merchant_custom_data?: string;
+  merchant_custom_data?: string | undefined;
   /** The URL to which to redirect seller to accept the billing agreement. */
-  approval_url?: string;
+  approval_url?: string | undefined;
   /** The billing agreement token for the agreement. */
-  ec_token?: string;
+  ec_token?: string | undefined;
 }
 /** The required operation to share data. */
 export interface Operation {
   /** The operation to enable for the customer. To enable the collection of the API permissions that you require to integrate with the customer, specify `API_INTEGRATION`. `BANK_ADDITION` is supported only for the US. */
   operation: OperationOperation | (string & {});
-  api_integration_preference?: IntegrationDetails;
-  offline_onboarding_preference?: unknown;
-  billing_agreement?: BillingAgreement;
+  api_integration_preference?: IntegrationDetails | undefined;
+  offline_onboarding_preference?: unknown | undefined;
+  billing_agreement?: BillingAgreement | undefined;
 }
 /** An array of operations to perform for the customer while they share their data. */
 export type OperationList = Array<Operation>;
@@ -654,16 +654,16 @@ export type CurrencyCodeList = Array<string>;
 /** Requested transfer method and currency for a country. */
 export interface TransferMethod {
   /** Transfer Method type. */
-  transfer_method_type?: TransferMethodTransferMethodType | (string & {});
-  currencies?: CurrencyCodeList;
+  transfer_method_type?: TransferMethodTransferMethodType | (string & {}) | undefined;
+  currencies?: CurrencyCodeList | undefined;
 }
 /** Requested transfer method and currency for a country. */
 export type TransferMethodList = Array<TransferMethod>;
 /** Requested country, transfer method and currency. */
 export interface CountryTransferMethodCurrencySelection {
   /** Country. */
-  country?: string;
-  transfer_methods?: TransferMethodList;
+  country?: string | undefined;
+  transfer_methods?: TransferMethodList | undefined;
 }
 /** Requested country, transfer method and currency. */
 export type CountryTransferMethodCurrencySelectionList =
@@ -671,34 +671,36 @@ export type CountryTransferMethodCurrencySelectionList =
 /** Payout specific attributes. */
 export interface PayoutAttributes {
   /** If `true`, specifies that the merchant or platform is offering goods or services on behalf of 3rd party sellers. */
-  marketplace?: boolean;
+  marketplace?: boolean | undefined;
   /** If `true`, specifies that the Kyc is required for the merchant. */
-  kyc_required?: boolean;
-  country_transfer_method_currency_selection?: CountryTransferMethodCurrencySelectionList;
+  kyc_required?: boolean | undefined;
+  country_transfer_method_currency_selection?:
+    | CountryTransferMethodCurrencySelectionList
+    | undefined;
 }
 export interface CreatePartnerReferralRequest {
-  individual_owners?: IndividualOwnerListInput;
+  individual_owners?: IndividualOwnerListInput | undefined;
   /** Business entity of the account. */
-  business_entity?: BusinessEntityInput;
+  business_entity?: BusinessEntityInput | undefined;
   /** Email address of the customer used to create the account. */
-  email?: string;
+  email?: string | undefined;
   /** The preferred [locale code](/docs/api/reference/locale-codes/) to use in the onboarding flow for the customer. */
-  preferred_language_code?: string;
+  preferred_language_code?: string | undefined;
   /** The partner's unique identifier for this customer in their system which can be used to track user in PayPal. */
-  tracking_id?: string;
+  tracking_id?: string | undefined;
   /** The configuration property that the partner intends to override for this onboarding request. */
-  partner_config_override?: PartnerConfigOverride;
+  partner_config_override?: PartnerConfigOverride | undefined;
   /** Array of financial instruments attached to the customer's account. */
-  financial_instruments?: FinancialInstruments;
+  financial_instruments?: FinancialInstruments | undefined;
   operations: OperationList;
-  products?: ProductList;
-  capabilities?: CapabilitiesList;
-  outside_process_dependencies?: DependentProcessList;
+  products?: ProductList | undefined;
+  capabilities?: CapabilitiesList | undefined;
+  outside_process_dependencies?: DependentProcessList | undefined;
   legal_consents: LegalConsentList;
   /** Payout specific attributes. */
-  payout_attributes?: PayoutAttributes;
+  payout_attributes?: PayoutAttributes | undefined;
   /** Legal Country Code. */
-  legal_country_code?: string;
+  legal_country_code?: string | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -717,13 +719,13 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The shared referral data. */
 export interface CreateReferralDataResponse {
-  links?: DefinitionsLinkDescriptionList;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export interface ReadPartnerReferralRequest {
   /** The ID of the partner-referrals data for which to show details. */
@@ -733,38 +735,38 @@ export interface ReadPartnerReferralRequest {
 export type LinkDescriptionList = Array<LinkDescription>;
 export interface PersonDocument {
   /** The encrypted identifier for the document. */
-  id?: string;
-  labels?: LabelsList;
+  id?: string | undefined;
+  labels?: LabelsList | undefined;
   /** The file name. */
-  name?: string;
+  name?: string | undefined;
   /** The number for the document. It is the ID number if the document is `ID CARD`, the passport number if the document is `PASSPORT`, etc. */
-  identification_number?: string;
+  identification_number?: string | undefined;
   /** The issue date of the document. */
-  issue_date?: string;
+  issue_date?: string | undefined;
   /** The expire data of the document. */
-  expiry_date?: string;
+  expiry_date?: string | undefined;
   /** The country code of the document. */
-  issuing_country_code?: string;
-  files?: FileReferenceList;
-  links?: LinkDescriptionList;
+  issuing_country_code?: string | undefined;
+  files?: FileReferenceList | undefined;
+  links?: LinkDescriptionList | undefined;
   /** The actual type of the document. It could be `ID_CARD`, `PASSPORT`, etc. */
-  type?: PersonDocumentType;
+  type?: PersonDocumentType | undefined;
 }
 /** A person's or party's related document data collected from the customer. For example SSN, ITIN, or business registration number collected from the user. <blockquote><strong>Note:</strong> This field is not applicable for POST [/v2/customer/partner-referrals](/docs/api/partner-referrals/v2/#partner-referrals_create) API calls.</blockquote> */
 export type PersonDocumentList = Array<PersonDocument>;
 export interface IndividualOwner {
   /** The encrypted party ID. */
-  id?: string;
-  names?: PersonNameList;
+  id?: string | undefined;
+  names?: PersonNameList | undefined;
   /** The citizenship country code of the person. */
-  citizenship?: string;
-  addresses?: PersonAddressDetailList;
-  phones?: PersonPhoneDetailList;
+  citizenship?: string | undefined;
+  addresses?: PersonAddressDetailList | undefined;
+  phones?: PersonPhoneDetailList | undefined;
   /** The person's birth details. */
-  birth_details?: BirthDetails;
-  documents?: PersonDocumentList;
+  birth_details?: BirthDetails | undefined;
+  documents?: PersonDocumentList | undefined;
   /** The actual role of this user on the account, PRIMARY/SECONDARY. */
-  type?: IndividualOwnerType;
+  type?: IndividualOwnerType | undefined;
 }
 /** List of owners in the account. There should be only one primary account owner which is mentioned in their role_type. */
 export type IndividualOwnerList = Array<IndividualOwner>;
@@ -772,38 +774,38 @@ export type IndividualOwnerList = Array<IndividualOwner>;
 export type BusinessEntityBusinessIncorporation = BusinessEntityInputBusinessIncorporation;
 export interface BusinessDocument {
   /** The encrypted identifier for the document. */
-  id?: string;
-  labels?: LabelsList;
+  id?: string | undefined;
+  labels?: LabelsList | undefined;
   /** The file name. */
-  name?: string;
+  name?: string | undefined;
   /** The number for the document. It is the ID number if the document is `ID CARD`, the passport number if the document is `PASSPORT`, etc. */
-  identification_number?: string;
+  identification_number?: string | undefined;
   /** The issue date of the document. */
-  issue_date?: string;
+  issue_date?: string | undefined;
   /** The expire data of the document. */
-  expiry_date?: string;
+  expiry_date?: string | undefined;
   /** The country code of the document. */
-  issuing_country_code?: string;
-  files?: FileReferenceList;
-  links?: LinkDescriptionList;
+  issuing_country_code?: string | undefined;
+  files?: FileReferenceList | undefined;
+  links?: LinkDescriptionList | undefined;
   /** The actual type of the document. */
-  type?: BusinessDocumentType;
+  type?: BusinessDocumentType | undefined;
 }
 /** Business Party related Document data collected from the customer.. For example SSN, ITIN, Business registration number that were collected from the user. */
 export type BusinessDocumentList = Array<BusinessDocument>;
 export interface IndividualBeneficialOwner {
   /** The encrypted party ID. */
-  id?: string;
-  names?: PersonNameList;
+  id?: string | undefined;
+  names?: PersonNameList | undefined;
   /** The citizenship country code of the person. */
-  citizenship?: string;
-  addresses?: PersonAddressDetailList;
-  phones?: PersonPhoneDetailList;
+  citizenship?: string | undefined;
+  addresses?: PersonAddressDetailList | undefined;
+  phones?: PersonPhoneDetailList | undefined;
   /** The person's birth details. */
-  birth_details?: BirthDetails;
-  documents?: PersonDocumentList;
+  birth_details?: BirthDetails | undefined;
+  documents?: PersonDocumentList | undefined;
   /** The percentage of shares this person owns in the company. */
-  percentage_of_ownership?: string;
+  percentage_of_ownership?: string | undefined;
 }
 /** Individual beneficial owners. */
 export type IndividualBeneficialOwnerList = Array<IndividualBeneficialOwner>;
@@ -811,90 +813,90 @@ export type IndividualBeneficialOwnerList = Array<IndividualBeneficialOwner>;
 export type BusinessBeneficialOwnerBusinessIncorporation = BusinessEntityInputBusinessIncorporation;
 export interface BusinessBeneficialOwner {
   /** Information related to the business like the nature of business, started date etc. */
-  business_type?: BusinessTypeInfo;
+  business_type?: BusinessTypeInfo | undefined;
   /** Information related to the business like the nature of business, started date etc. */
-  business_industry?: BusinessIndustry;
+  business_industry?: BusinessIndustry | undefined;
   /** Business incorporation information. */
-  business_incorporation?: BusinessEntityInputBusinessIncorporation;
-  names?: BusinessNameDetailList;
-  emails?: EmailList;
+  business_incorporation?: BusinessEntityInputBusinessIncorporation | undefined;
+  names?: BusinessNameDetailList | undefined;
+  emails?: EmailList | undefined;
   /** Website of the business. */
-  website?: string;
-  addresses?: BusinessAddressDetailList;
-  phones?: BusinessPhoneDetailList;
-  documents?: BusinessDocumentList;
+  website?: string | undefined;
+  addresses?: BusinessAddressDetailList | undefined;
+  phones?: BusinessPhoneDetailList | undefined;
+  documents?: BusinessDocumentList | undefined;
   /** The percentage of shares this person owns in the company. */
-  percentage_of_ownership?: string;
+  percentage_of_ownership?: string | undefined;
 }
 /** Business beneficial owners. */
 export type BusinessBeneficialOwnerList = Array<BusinessBeneficialOwner>;
 /** Beneficial owners of the entity. */
 export interface BeneficialOwners {
-  individual_beneficial_owners?: IndividualBeneficialOwnerList;
-  business_beneficial_owners?: BusinessBeneficialOwnerList;
+  individual_beneficial_owners?: IndividualBeneficialOwnerList | undefined;
+  business_beneficial_owners?: BusinessBeneficialOwnerList | undefined;
 }
 export interface BusinessEntity {
   /** Information related to the business like the nature of business, started date etc. */
-  business_type?: BusinessTypeInfo;
+  business_type?: BusinessTypeInfo | undefined;
   /** Information related to the business like the nature of business, started date etc. */
-  business_industry?: BusinessIndustry;
+  business_industry?: BusinessIndustry | undefined;
   /** Business incorporation information. */
-  business_incorporation?: BusinessEntityInputBusinessIncorporation;
-  names?: BusinessNameDetailList;
-  emails?: EmailList;
+  business_incorporation?: BusinessEntityInputBusinessIncorporation | undefined;
+  names?: BusinessNameDetailList | undefined;
+  emails?: EmailList | undefined;
   /** Website of the business. */
-  website?: string;
-  addresses?: BusinessAddressDetailList;
-  phones?: BusinessPhoneDetailList;
-  documents?: BusinessDocumentList;
+  website?: string | undefined;
+  addresses?: BusinessAddressDetailList | undefined;
+  phones?: BusinessPhoneDetailList | undefined;
+  documents?: BusinessDocumentList | undefined;
   /** List of beneficial owners part of the entity. They can be either a Person or a business entity. */
-  beneficial_owners?: BeneficialOwners;
+  beneficial_owners?: BeneficialOwners | undefined;
   /** The range for the total annual sales volume of the business. */
-  annual_sales_volume_range?: CurrencyRange;
+  annual_sales_volume_range?: CurrencyRange | undefined;
   /** The range for the average monthly volume of the business. */
-  average_monthly_volume_range?: CurrencyRange;
+  average_monthly_volume_range?: CurrencyRange | undefined;
   /** The account's purpose code. */
-  purpose_code?: unknown;
+  purpose_code?: unknown | undefined;
   /** The business goals description. For example, a mission statement. */
-  business_description?: string;
+  business_description?: string | undefined;
 }
 /** The customer's referral data that partners share with PayPal. */
 export interface ReferralData {
-  individual_owners?: IndividualOwnerList;
+  individual_owners?: IndividualOwnerList | undefined;
   /** Business entity of the account. */
-  business_entity?: BusinessEntity;
+  business_entity?: BusinessEntity | undefined;
   /** Email address of the customer used to create the account. */
-  email?: string;
+  email?: string | undefined;
   /** The preferred [locale code](/docs/api/reference/locale-codes/) to use in the onboarding flow for the customer. */
-  preferred_language_code?: string;
+  preferred_language_code?: string | undefined;
   /** The partner's unique identifier for this customer in their system which can be used to track user in PayPal. */
-  tracking_id?: string;
+  tracking_id?: string | undefined;
   /** The configuration property that the partner intends to override for this onboarding request. */
-  partner_config_override?: PartnerConfigOverride;
+  partner_config_override?: PartnerConfigOverride | undefined;
   /** Array of financial instruments attached to the customer's account. */
-  financial_instruments?: FinancialInstruments;
+  financial_instruments?: FinancialInstruments | undefined;
   operations: OperationList;
-  products?: ProductList;
-  capabilities?: CapabilitiesList;
-  outside_process_dependencies?: DependentProcessList;
+  products?: ProductList | undefined;
+  capabilities?: CapabilitiesList | undefined;
+  outside_process_dependencies?: DependentProcessList | undefined;
   legal_consents: LegalConsentList;
   /** Payout specific attributes. */
-  payout_attributes?: PayoutAttributes;
+  payout_attributes?: PayoutAttributes | undefined;
   /** Legal Country Code. */
-  legal_country_code?: string;
+  legal_country_code?: string | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links). */
 export type ReferralDataResponseDefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The share referral data response. */
 export interface ReferralDataResponse {
   /** The ID to access the customer's data shared by the partner with PayPal. */
-  partner_referral_id?: string;
+  partner_referral_id?: string | undefined;
   /** The payer ID of the partner who shared the referral data. */
-  submitter_payer_id?: string;
+  submitter_payer_id?: string | undefined;
   /** The client ID of the partner who shared the referral data. This cliend ID will be returned only when the caller is determined as an internal partner, which means the scope of the caller's security context only have "https://uri.paypal.com/services/customer/partner-referrals", For more information, see <a href="https://github.paypal.com/Customers-R/partnselleronbnodeserv/blob/b0a631c43e80a4dd43d34c01f479c272b3287796/src/helpers/securityContextHelpers.js#L143">Api Actor type in Typhoon service</a>. */
-  submitter_client_id?: string;
-  referral_data?: ReferralData;
-  links?: ReferralDataResponseDefinitionsLinkDescriptionList;
+  submitter_client_id?: string | undefined;
+  referral_data?: ReferralData | undefined;
+  links?: ReferralDataResponseDefinitionsLinkDescriptionList | undefined;
 }
 export type CreatePartnerReferralError =
   | BadRequest

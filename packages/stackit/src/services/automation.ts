@@ -54,43 +54,44 @@ export class NotFound
 
 export interface VolumeAutomationInput {
   kind: string;
+  [key: string]: unknown;
 }
 export interface AutomationScheduleTrigger {
   /** An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates */
   rrule: string;
 }
 export interface AutomationTriggers {
-  schedule?: AutomationScheduleTrigger | null;
+  schedule?: AutomationScheduleTrigger | null | undefined;
 }
 export interface CreateVolumeAutomationRequest {
   /** project Id */
   projectId: string;
   /** region */
   region: string;
-  description?: string | null;
-  input?: VolumeAutomationInput | null;
-  name?: string | null;
+  description?: string | null | undefined;
+  input?: VolumeAutomationInput | null | undefined;
+  name?: string | null | undefined;
   templateId: string;
-  triggers?: AutomationTriggers | null;
+  triggers?: AutomationTriggers | null | undefined;
 }
 export type VolumeOutputStepResult = VolumeAutomationInput;
 export interface VolumeOutputStep {
   name: string;
-  result?: VolumeAutomationInput;
+  result?: VolumeAutomationInput | undefined;
 }
 export type VolumeOutputStepsList = Array<VolumeOutputStep>;
 export interface VolumeOutput {
-  steps?: VolumeOutputStepsList;
+  steps?: VolumeOutputStepsList | undefined;
 }
 export interface VolumeAutomation {
   createTime: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  input?: VolumeAutomationInput | null;
-  name?: string;
-  output?: VolumeOutput;
-  templateId?: string;
-  triggers?: AutomationTriggers | null;
+  input?: VolumeAutomationInput | null | undefined;
+  name?: string | undefined;
+  output?: VolumeOutput | undefined;
+  templateId?: string | undefined;
+  triggers?: AutomationTriggers | null | undefined;
   updateTime: string;
 }
 export interface CreateVolumeExecutionRequest {
@@ -103,28 +104,28 @@ export interface CreateVolumeExecutionRequest {
 }
 export interface VolumeExecutionAutomation {
   createTime: string;
-  description?: string;
-  input?: VolumeAutomationInput | null;
-  name?: string;
-  output?: VolumeOutput;
-  templateId?: string;
-  triggers?: AutomationTriggers | null;
+  description?: string | undefined;
+  input?: VolumeAutomationInput | null | undefined;
+  name?: string | undefined;
+  output?: VolumeOutput | undefined;
+  templateId?: string | undefined;
+  triggers?: AutomationTriggers | null | undefined;
   updateTime: string;
 }
 export type VolumeExecutionOutputStepStatus = "PENDING" | "RUNNING" | "FAILED" | "SUCCESSFUL";
 export interface VolumeExecutionOutputStep {
-  message?: string;
+  message?: string | undefined;
   name: string;
-  result?: VolumeAutomationInput;
+  result?: VolumeAutomationInput | undefined;
   status: VolumeExecutionOutputStepStatus;
 }
 export type VolumeExecutionOutputStepsList = Array<VolumeExecutionOutputStep>;
 export interface VolumeExecutionOutput {
-  steps?: VolumeExecutionOutputStepsList;
+  steps?: VolumeExecutionOutputStepsList | undefined;
 }
 export interface VolumeExecutionDetails {
   config: VolumeExecutionAutomation;
-  output?: VolumeExecutionOutput;
+  output?: VolumeExecutionOutput | undefined;
 }
 export type VolumeExecutionResponseStatus =
   | "PENDING"
@@ -133,9 +134,9 @@ export type VolumeExecutionResponseStatus =
   | "FAILED"
   | "TERMINATED";
 export interface VolumeExecutionResponse {
-  automation?: VolumeExecutionDetails;
+  automation?: VolumeExecutionDetails | undefined;
   createTime: string;
-  endTime?: string;
+  endTime?: string | undefined;
   id: string;
   status: VolumeExecutionResponseStatus;
 }
@@ -182,9 +183,9 @@ export interface GetVolumeTemplateResponse {
   createTime: string;
   description: string;
   id: string;
-  input?: VolumeTemplateAutomationInput;
+  input?: VolumeTemplateAutomationInput | undefined;
   name: string;
-  output?: VolumeOutput;
+  output?: VolumeOutput | undefined;
 }
 export interface ListVolumeAutomationsRequest {
   /** project Id */
@@ -192,24 +193,24 @@ export interface ListVolumeAutomationsRequest {
   /** region */
   region: string;
   /** The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous list call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListAutomationsItem {
   createTime: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  name?: string;
-  templateId?: string;
-  triggers?: AutomationTriggers | null;
+  name?: string | undefined;
+  templateId?: string | undefined;
+  triggers?: AutomationTriggers | null | undefined;
   updateTime: string;
 }
 export type ListAutomationsResponseItemsList = Array<ListAutomationsItem>;
 export interface ListAutomationsResponse {
   items: ListAutomationsResponseItemsList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListVolumeExecutionsRequest {
   /** project Id */
@@ -219,9 +220,9 @@ export interface ListVolumeExecutionsRequest {
   /** automation Id */
   automationId: string;
   /** The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous list call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListExecutionsItemStatus =
   | "PENDING"
@@ -231,7 +232,7 @@ export type ListExecutionsItemStatus =
   | "TERMINATED";
 export interface ListExecutionsItem {
   createTime: string;
-  endTime?: string;
+  endTime?: string | undefined;
   id: string;
   status: ListExecutionsItemStatus;
 }
@@ -239,7 +240,7 @@ export type ListExecutionsResponseItemsList = Array<ListExecutionsItem>;
 export interface ListExecutionsResponse {
   items: ListExecutionsResponseItemsList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListVolumeTemplatesRequest {
   /** project Id */
@@ -247,9 +248,9 @@ export interface ListVolumeTemplatesRequest {
   /** region */
   region: string;
   /** The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous list call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface Template {
   createTime: string;
@@ -261,7 +262,7 @@ export type ListTemplatesResponseItemsList = Array<Template>;
 export interface ListTemplatesResponse {
   items: ListTemplatesResponseItemsList;
   /** A token that can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PartialUpdateVolumeAutomationRequest {
   /** project Id */
@@ -271,11 +272,11 @@ export interface PartialUpdateVolumeAutomationRequest {
   /** automation Id */
   automationId: string;
   /** A comma-separated list of fully qualified names of fields to be updated. Example: "name,triggers.schedule.rrule" */
-  updateMask?: string;
-  description?: string | null;
-  input?: VolumeAutomationInput | null;
-  name?: string | null;
-  triggers?: AutomationTriggers | null;
+  updateMask?: string | undefined;
+  description?: string | null | undefined;
+  input?: VolumeAutomationInput | null | undefined;
+  name?: string | null | undefined;
+  triggers?: AutomationTriggers | null | undefined;
 }
 export type CreateVolumeAutomationError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create volume automation Creates a new volume automation */
@@ -576,9 +577,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            kind: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "VolumeAutomationInput" });
     case 1:
       return S.suspend(() =>

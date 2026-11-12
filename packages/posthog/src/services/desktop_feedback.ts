@@ -56,23 +56,23 @@ export interface CreateDesktopFeedbackRequest {
   /** Desktop view that was active when the feedback form opened. */
   feedback_view: string;
   /** Feedback type selected by the user: bug, feature, or general. * `bug` - Bug * `feature` - Feature * `general` - General */
-  feedback_type?: DesktopFeedbackTypeEnum | (string & {});
+  feedback_type?: DesktopFeedbackTypeEnum | (string & {}) | undefined;
   /** Task that was active when the feedback form opened. */
-  feedback_task_id?: string;
+  feedback_task_id?: string | undefined;
   /** Folder that was active when the feedback form opened. */
-  feedback_folder_id?: string;
+  feedback_folder_id?: string | undefined;
   /** Recent Desktop logs that the user chose to include. */
-  feedback_app_logs?: string;
+  feedback_app_logs?: string | undefined;
   /** Version of PostHog Desktop that submitted the feedback. */
-  app_version?: string;
+  app_version?: string | undefined;
   /** PostHog session recording identifier for the Desktop session. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Screenshot that the user chose to include. */
-  screenshot?: string;
+  screenshot?: string | undefined;
   /** First image that the user attached. */
-  image_1?: string;
+  image_1?: string | undefined;
   /** Second image that the user attached. */
-  image_2?: string;
+  image_2?: string | undefined;
 }
 export interface DesktopFeedbackResponse {
   /** Whether the feedback response was accepted. */

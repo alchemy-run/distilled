@@ -110,7 +110,9 @@ export type DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkRe
   Array<string>;
 export interface DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkResolverIpsList;
+  resolverIps?:
+    | DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkResolverIpsList
+    | undefined;
 }
 export interface DirectoryServicesCreateRequestHostInfraHostnameHost {
   hostname: string;
@@ -125,6 +127,10 @@ export type DirectoryServicesCreateRequestType = "tcp" | "http";
 export interface DirectoryServicesCreateRequestTlsSettings {
   /** TLS certificate verification mode for the connection to the origin. */
   certVerificationMode: string;
+  /** UUID of the custom CA certificate or chain. */
+  certificateAuthority?: string | undefined;
+  /** UUID of the mTLS client certificate and private key. */
+  clientCertificate?: string | undefined;
 }
 export type DirectoryServicesCreateRequestAppProtocol = "postgresql" | "mysql";
 export interface CreateDirectoryServiceRequest {
@@ -133,15 +139,15 @@ export interface CreateDirectoryServiceRequest {
   host: DirectoryServicesCreateRequestHost;
   name: string;
   type: DirectoryServicesCreateRequestType | (string & {});
-  createdAt?: string;
-  httpPort?: number;
-  httpsPort?: number;
-  serviceId?: string;
+  createdAt?: string | undefined;
+  httpPort?: number | undefined;
+  httpsPort?: number | undefined;
+  serviceId?: string | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings;
-  updatedAt?: string;
-  appProtocol?: DirectoryServicesCreateRequestAppProtocol | (string & {});
-  tcpPort?: number;
+  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | undefined;
+  updatedAt?: string | undefined;
+  appProtocol?: DirectoryServicesCreateRequestAppProtocol | (string & {}) | undefined;
+  tcpPort?: number | undefined;
 }
 export type DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -159,7 +165,10 @@ export type DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostname
   Array<string>;
 export interface DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -171,22 +180,28 @@ export type DirectoryServicesCreateResultInfraHTTPServiceConfigHost =
   | DirectoryServicesCreateRequestHostInfraDualStackHost
   | DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHost;
 export type DirectoryServicesCreateResultType = "tcp" | "http";
-export type DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings =
-  DirectoryServicesCreateRequestTlsSettings;
+export interface DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings {
+  /** TLS certificate verification mode for the connection to the origin. */
+  certVerificationMode: string;
+  /** UUID of the custom CA certificate or chain. */
+  certificateAuthority?: string | null | undefined;
+  /** UUID of the mTLS client certificate and private key. */
+  clientCertificate?: string | null | undefined;
+}
 export type DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol = "postgresql" | "mysql";
 export interface DirectoryServicesCreateResult {
   host: DirectoryServicesCreateResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesCreateResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type CreateDirectoryServiceResponse = DirectoryServicesCreateResult;
 export interface DeleteDirectoryServiceRequest {
@@ -214,7 +229,10 @@ export type DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHos
   Array<string>;
 export interface DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -227,21 +245,21 @@ export type DirectoryServicesGetResultInfraHTTPServiceConfigHost =
   | DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHost;
 export type DirectoryServicesGetResultType = "tcp" | "http";
 export type DirectoryServicesGetResultInfraHTTPServiceConfigTlsSettings =
-  DirectoryServicesCreateRequestTlsSettings;
+  DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings;
 export type DirectoryServicesGetResultInfraTCPServiceConfigAppProtocol = "postgresql" | "mysql";
 export interface DirectoryServicesGetResult {
   host: DirectoryServicesGetResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesGetResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesGetResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesGetResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type GetDirectoryServiceResponse = DirectoryServicesGetResult;
 export type DirectoryServicesListRequestType = "tcp" | "http";
@@ -249,10 +267,10 @@ export interface ListDirectoryServicesRequest {
   /** Account identifier */
   accountId: string;
   /** Current page in the response */
-  page?: number;
+  page?: number | undefined;
   /** Max amount of entries returned per page */
-  perPage?: number;
-  type?: DirectoryServicesListRequestType | (string & {});
+  perPage?: number | undefined;
+  type?: DirectoryServicesListRequestType | (string & {}) | undefined;
 }
 export type DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -270,7 +288,10 @@ export type DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostna
   Array<string>;
 export interface DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -283,7 +304,7 @@ export type DirectoryServicesListResultItemInfraHTTPServiceConfigHost =
   | DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHost;
 export type DirectoryServicesListResultItemType = "tcp" | "http";
 export type DirectoryServicesListResultItemInfraHTTPServiceConfigTlsSettings =
-  DirectoryServicesCreateRequestTlsSettings;
+  DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings;
 export type DirectoryServicesListResultItemInfraTCPServiceConfigAppProtocol =
   | "postgresql"
   | "mysql";
@@ -291,22 +312,22 @@ export interface DirectoryServicesListResultItem {
   host: DirectoryServicesListResultItemInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesListResultItemType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesListResultItemInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesListResultItemInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type DirectoryServicesListResultList = Array<DirectoryServicesListResultItem>;
 export interface ListDirectoryServicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DirectoryServicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DirectoryServicesUpdateRequestHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -324,7 +345,9 @@ export type DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkRe
   Array<string>;
 export interface DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkResolverIpsList;
+  resolverIps?:
+    | DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkResolverIpsList
+    | undefined;
 }
 export interface DirectoryServicesUpdateRequestHostInfraHostnameHost {
   hostname: string;
@@ -344,14 +367,14 @@ export interface UpdateDirectoryServiceRequest {
   host: DirectoryServicesUpdateRequestHost;
   name: string;
   type: DirectoryServicesUpdateRequestType | (string & {});
-  createdAt?: string;
-  httpPort?: number;
-  httpsPort?: number;
+  createdAt?: string | undefined;
+  httpPort?: number | undefined;
+  httpsPort?: number | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings;
-  updatedAt?: string;
-  appProtocol?: DirectoryServicesUpdateRequestAppProtocol | (string & {});
-  tcpPort?: number;
+  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | undefined;
+  updatedAt?: string | undefined;
+  appProtocol?: DirectoryServicesUpdateRequestAppProtocol | (string & {}) | undefined;
+  tcpPort?: number | undefined;
 }
 export type DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -369,7 +392,10 @@ export type DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostname
   Array<string>;
 export interface DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -382,21 +408,21 @@ export type DirectoryServicesUpdateResultInfraHTTPServiceConfigHost =
   | DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHost;
 export type DirectoryServicesUpdateResultType = "tcp" | "http";
 export type DirectoryServicesUpdateResultInfraHTTPServiceConfigTlsSettings =
-  DirectoryServicesCreateRequestTlsSettings;
+  DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings;
 export type DirectoryServicesUpdateResultInfraTCPServiceConfigAppProtocol = "postgresql" | "mysql";
 export interface DirectoryServicesUpdateResult {
   host: DirectoryServicesUpdateResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesUpdateResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesUpdateResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesUpdateResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type UpdateDirectoryServiceResponse = DirectoryServicesUpdateResult;
 export type CreateDirectoryServiceError =
@@ -434,8 +460,8 @@ export const deleteDirectoryService: API.OperationMethod<
   DeleteDirectoryServiceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteDirectoryServiceRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<DeleteDirectoryServiceResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteDirectoryServiceRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<DeleteDirectoryServiceResponse>,
   errors: [VpcServiceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -451,8 +477,8 @@ export const getDirectoryService: API.OperationMethod<
   GetDirectoryServiceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetDirectoryServiceRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<GetDirectoryServiceResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetDirectoryServiceRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<GetDirectoryServiceResponse>,
   errors: [VpcServiceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -470,8 +496,8 @@ export const listDirectoryServices: API.PaginatedOperationMethod<
   DirectoryServicesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListDirectoryServicesRequest>,
-    output: __S(36, __c4, 4) as any as S.Schema<ListDirectoryServicesResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListDirectoryServicesRequest>,
+    output: __S(44, __c5, 4) as any as S.Schema<ListDirectoryServicesResponse>,
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -501,8 +527,8 @@ export const updateDirectoryService: API.OperationMethod<
   UpdateDirectoryServiceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<UpdateDirectoryServiceRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<UpdateDirectoryServiceResponse>,
+  input: __S(49, __c6, 1) as any as S.Schema<UpdateDirectoryServiceRequest>,
+  output: __S(52, __c6, 4) as any as S.Schema<UpdateDirectoryServiceResponse>,
   errors: [
     VpcServiceNotFound,
     VpcServiceNameAlreadyExists,
@@ -540,7 +566,7 @@ function __c0(j: number): any {
           httpPort: S.optional(S.Number.pipe(T.Body("http_port"))),
           httpsPort: S.optional(S.Number.pipe(T.Body("https_port"))),
           serviceId: S.optional(S.String.pipe(T.Body("service_id"))),
-          tlsSettings: S.optional(__S(8, __c1, 0).pipe(T.Body("tls_settings"))),
+          tlsSettings: S.optional(__S(16, __c2, 0).pipe(T.Body("tls_settings"))),
           updatedAt: S.optional(S.String.pipe(T.Body("updated_at"))),
           appProtocol: S.optional(S.String.pipe(T.Body("app_protocol"))),
           tcpPort: S.optional(S.Number.pipe(T.Body("tcp_port"))),
@@ -591,11 +617,27 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certVerificationMode: S.String.pipe(T.Body("cert_verification_mode")),
+          certificateAuthority: S.optional(
+            S.NullOr(S.String).pipe(T.Body("certificate_authority")),
+          ),
+          clientCertificate: S.optional(S.NullOr(S.String).pipe(T.Body("client_certificate"))),
+        }),
+      ).annotate({ identifier: "DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          certVerificationMode: S.String.pipe(T.Body("cert_verification_mode")),
+          certificateAuthority: S.optional(S.String.pipe(T.Body("certificate_authority"))),
+          clientCertificate: S.optional(S.String.pipe(T.Body("client_certificate"))),
         }),
       ).annotate({ identifier: "DirectoryServicesCreateRequestTlsSettings" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -618,7 +660,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -647,7 +689,7 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          host: __S(25, __c3, 1),
+          host: __S(33, __c4, 1),
           name: S.String,
           type: S.String,
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
@@ -662,11 +704,11 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DirectoryServicesGetResult" });
     case 3:
       return S.suspend(() =>
-        __S(26, __c3, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(34, __c4, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDirectoryServiceResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -697,7 +739,7 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          host: __S(33, __c4, 1),
+          host: __S(41, __c5, 1),
           name: S.String,
           type: S.String,
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
@@ -711,17 +753,17 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DirectoryServicesListResultItem" });
     case 3:
-      return S.Array(__S(34, __c4, 2));
+      return S.Array(__S(42, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(35, __c4, 3).pipe(T.EnvelopePayload()),
+          result: __S(43, __c5, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListDirectoryServicesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -737,13 +779,13 @@ function __c5(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           serviceId: S.String.pipe(T.Label("service_id")),
-          host: __S(40, __c5, 0),
+          host: __S(48, __c6, 0),
           name: S.String,
           type: S.String,
           createdAt: S.optional(S.String.pipe(T.Body("created_at"))),
           httpPort: S.optional(S.Number.pipe(T.Body("http_port"))),
           httpsPort: S.optional(S.Number.pipe(T.Body("https_port"))),
-          tlsSettings: S.optional(__S(8, __c1, 0).pipe(T.Body("tls_settings"))),
+          tlsSettings: S.optional(__S(16, __c2, 0).pipe(T.Body("tls_settings"))),
           updatedAt: S.optional(S.String.pipe(T.Body("updated_at"))),
           appProtocol: S.optional(S.String.pipe(T.Body("app_protocol"))),
           tcpPort: S.optional(S.Number.pipe(T.Body("tcp_port"))),
@@ -769,7 +811,7 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          host: __S(42, __c5, 2),
+          host: __S(50, __c6, 2),
           name: S.String,
           type: S.String,
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
@@ -784,7 +826,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DirectoryServicesUpdateResult" });
     case 4:
       return S.suspend(() =>
-        __S(43, __c5, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(51, __c6, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateDirectoryServiceResponse" });
   }
 }

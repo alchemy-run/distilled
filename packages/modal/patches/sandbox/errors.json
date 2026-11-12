@@ -1,0 +1,221 @@
+{
+  "description": "Typed not-found / already-exists errors for the sandbox RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The sandbox (or the named sandbox) doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A running sandbox already has this name in the app (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetFromNameV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTerminateV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxWaitV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetTunnelsV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxCreateConnectTokenV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetCommandRouterAccess/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxSnapshotFs/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxSnapshot/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTagsSetV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTagsGetV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetTaskIdV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxSetName/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxWaitUntilReady/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetResourceUsage/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetLogs/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxRestoreV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxStdinWrite/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxCreateV2/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxAlreadyExists"
+        }
+      ]
+    }
+  ]
+}

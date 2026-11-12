@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -159,11 +160,11 @@ export type S3Bucket = string;
 export type S3Key = string;
 export interface InputDataConfig {
   S3Bucket: string;
-  S3Key?: string;
+  S3Key?: string | undefined;
 }
 export interface OutputDataConfig {
   S3Bucket: string;
-  S3Key?: string;
+  S3Key?: string | undefined;
 }
 export type LanguageCode = "en" | (string & {});
 export type IamRoleArn = string;
@@ -171,47 +172,47 @@ export type ManifestFilePath = string;
 export type KMSKey = string;
 export type ModelVersion = string;
 export interface ComprehendMedicalAsyncJobProperties {
-  JobId?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  Message?: string;
-  SubmitTime?: Date;
-  EndTime?: Date;
-  ExpirationTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  LanguageCode?: LanguageCode;
-  DataAccessRoleArn?: string;
-  ManifestFilePath?: string;
-  KMSKey?: string;
-  ModelVersion?: string;
+  JobId?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  Message?: string | undefined;
+  SubmitTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  DataAccessRoleArn?: string | undefined;
+  ManifestFilePath?: string | undefined;
+  KMSKey?: string | undefined;
+  ModelVersion?: string | undefined;
 }
 export interface DescribeEntitiesDetectionV2JobResponse {
-  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
+  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties | undefined;
 }
 export interface DescribeICD10CMInferenceJobRequest {
   JobId: string;
 }
 export interface DescribeICD10CMInferenceJobResponse {
-  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
+  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties | undefined;
 }
 export interface DescribePHIDetectionJobRequest {
   JobId: string;
 }
 export interface DescribePHIDetectionJobResponse {
-  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
+  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties | undefined;
 }
 export interface DescribeRxNormInferenceJobRequest {
   JobId: string;
 }
 export interface DescribeRxNormInferenceJobResponse {
-  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
+  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties | undefined;
 }
 export interface DescribeSNOMEDCTInferenceJobRequest {
   JobId: string;
 }
 export interface DescribeSNOMEDCTInferenceJobResponse {
-  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties;
+  ComprehendMedicalAsyncJobProperties?: ComprehendMedicalAsyncJobProperties | undefined;
 }
 export type BoundedLengthString = string;
 export interface DetectEntitiesRequest {
@@ -285,8 +286,8 @@ export type AttributeName =
   | "FUTURE"
   | (string & {});
 export interface Trait {
-  Name?: AttributeName;
-  Score?: number;
+  Name?: AttributeName | undefined;
+  Score?: number | undefined;
 }
 export type TraitList = Trait[];
 export type RelationshipType =
@@ -314,39 +315,39 @@ export type RelationshipType =
   | "QUALITY"
   | (string & {});
 export interface Attribute {
-  Type?: EntitySubType;
-  Score?: number;
-  RelationshipScore?: number;
-  RelationshipType?: RelationshipType;
-  Id?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Text?: string;
-  Category?: EntityType;
-  Traits?: Trait[];
+  Type?: EntitySubType | undefined;
+  Score?: number | undefined;
+  RelationshipScore?: number | undefined;
+  RelationshipType?: RelationshipType | undefined;
+  Id?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Text?: string | undefined;
+  Category?: EntityType | undefined;
+  Traits?: Trait[] | undefined;
 }
 export type AttributeList = Attribute[];
 export interface Entity {
-  Id?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Score?: number;
-  Text?: string;
-  Category?: EntityType;
-  Type?: EntitySubType;
-  Traits?: Trait[];
-  Attributes?: Attribute[];
+  Id?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Score?: number | undefined;
+  Text?: string | undefined;
+  Category?: EntityType | undefined;
+  Type?: EntitySubType | undefined;
+  Traits?: Trait[] | undefined;
+  Attributes?: Attribute[] | undefined;
 }
 export type EntityList = Entity[];
 export interface UnmappedAttribute {
-  Type?: EntityType;
-  Attribute?: Attribute;
+  Type?: EntityType | undefined;
+  Attribute?: Attribute | undefined;
 }
 export type UnmappedAttributeList = UnmappedAttribute[];
 export interface DetectEntitiesResponse {
   Entities: Entity[];
-  UnmappedAttributes?: UnmappedAttribute[];
-  PaginationToken?: string;
+  UnmappedAttributes?: UnmappedAttribute[] | undefined;
+  PaginationToken?: string | undefined;
   ModelVersion: string;
 }
 export interface DetectEntitiesV2Request {
@@ -354,8 +355,8 @@ export interface DetectEntitiesV2Request {
 }
 export interface DetectEntitiesV2Response {
   Entities: Entity[];
-  UnmappedAttributes?: UnmappedAttribute[];
-  PaginationToken?: string;
+  UnmappedAttributes?: UnmappedAttribute[] | undefined;
+  PaginationToken?: string | undefined;
   ModelVersion: string;
 }
 export interface DetectPHIRequest {
@@ -363,7 +364,7 @@ export interface DetectPHIRequest {
 }
 export interface DetectPHIResponse {
   Entities: Entity[];
-  PaginationToken?: string;
+  PaginationToken?: string | undefined;
   ModelVersion: string;
 }
 export type OntologyLinkingBoundedLengthString = string;
@@ -391,47 +392,47 @@ export type ICD10CMTraitName =
   | "LOW_CONFIDENCE"
   | (string & {});
 export interface ICD10CMTrait {
-  Name?: ICD10CMTraitName;
-  Score?: number;
+  Name?: ICD10CMTraitName | undefined;
+  Score?: number | undefined;
 }
 export type ICD10CMTraitList = ICD10CMTrait[];
 export type ICD10CMRelationshipType = "OVERLAP" | "SYSTEM_ORGAN_SITE" | "QUALITY" | (string & {});
 export interface ICD10CMAttribute {
-  Type?: ICD10CMAttributeType;
-  Score?: number;
-  RelationshipScore?: number;
-  Id?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Text?: string;
-  Traits?: ICD10CMTrait[];
-  Category?: ICD10CMEntityType;
-  RelationshipType?: ICD10CMRelationshipType;
+  Type?: ICD10CMAttributeType | undefined;
+  Score?: number | undefined;
+  RelationshipScore?: number | undefined;
+  Id?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Text?: string | undefined;
+  Traits?: ICD10CMTrait[] | undefined;
+  Category?: ICD10CMEntityType | undefined;
+  RelationshipType?: ICD10CMRelationshipType | undefined;
 }
 export type ICD10CMAttributeList = ICD10CMAttribute[];
 export interface ICD10CMConcept {
-  Description?: string;
-  Code?: string;
-  Score?: number;
+  Description?: string | undefined;
+  Code?: string | undefined;
+  Score?: number | undefined;
 }
 export type ICD10CMConceptList = ICD10CMConcept[];
 export interface ICD10CMEntity {
-  Id?: number;
-  Text?: string;
-  Category?: ICD10CMEntityCategory;
-  Type?: ICD10CMEntityType;
-  Score?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Attributes?: ICD10CMAttribute[];
-  Traits?: ICD10CMTrait[];
-  ICD10CMConcepts?: ICD10CMConcept[];
+  Id?: number | undefined;
+  Text?: string | undefined;
+  Category?: ICD10CMEntityCategory | undefined;
+  Type?: ICD10CMEntityType | undefined;
+  Score?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Attributes?: ICD10CMAttribute[] | undefined;
+  Traits?: ICD10CMTrait[] | undefined;
+  ICD10CMConcepts?: ICD10CMConcept[] | undefined;
 }
 export type ICD10CMEntityList = ICD10CMEntity[];
 export interface InferICD10CMResponse {
   Entities: ICD10CMEntity[];
-  PaginationToken?: string;
-  ModelVersion?: string;
+  PaginationToken?: string | undefined;
+  ModelVersion?: string | undefined;
 }
 export interface InferRxNormRequest {
   Text: string;
@@ -449,44 +450,44 @@ export type RxNormAttributeType =
   | (string & {});
 export type RxNormTraitName = "NEGATION" | "PAST_HISTORY" | (string & {});
 export interface RxNormTrait {
-  Name?: RxNormTraitName;
-  Score?: number;
+  Name?: RxNormTraitName | undefined;
+  Score?: number | undefined;
 }
 export type RxNormTraitList = RxNormTrait[];
 export interface RxNormAttribute {
-  Type?: RxNormAttributeType;
-  Score?: number;
-  RelationshipScore?: number;
-  Id?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Text?: string;
-  Traits?: RxNormTrait[];
+  Type?: RxNormAttributeType | undefined;
+  Score?: number | undefined;
+  RelationshipScore?: number | undefined;
+  Id?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Text?: string | undefined;
+  Traits?: RxNormTrait[] | undefined;
 }
 export type RxNormAttributeList = RxNormAttribute[];
 export interface RxNormConcept {
-  Description?: string;
-  Code?: string;
-  Score?: number;
+  Description?: string | undefined;
+  Code?: string | undefined;
+  Score?: number | undefined;
 }
 export type RxNormConceptList = RxNormConcept[];
 export interface RxNormEntity {
-  Id?: number;
-  Text?: string;
-  Category?: RxNormEntityCategory;
-  Type?: RxNormEntityType;
-  Score?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Attributes?: RxNormAttribute[];
-  Traits?: RxNormTrait[];
-  RxNormConcepts?: RxNormConcept[];
+  Id?: number | undefined;
+  Text?: string | undefined;
+  Category?: RxNormEntityCategory | undefined;
+  Type?: RxNormEntityType | undefined;
+  Score?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Attributes?: RxNormAttribute[] | undefined;
+  Traits?: RxNormTrait[] | undefined;
+  RxNormConcepts?: RxNormConcept[] | undefined;
 }
 export type RxNormEntityList = RxNormEntity[];
 export interface InferRxNormResponse {
   Entities: RxNormEntity[];
-  PaginationToken?: string;
-  ModelVersion?: string;
+  PaginationToken?: string | undefined;
+  ModelVersion?: string | undefined;
 }
 export interface InferSNOMEDCTRequest {
   Text: string;
@@ -531,201 +532,201 @@ export type SNOMEDCTTraitName =
   | "FUTURE"
   | (string & {});
 export interface SNOMEDCTTrait {
-  Name?: SNOMEDCTTraitName;
-  Score?: number;
+  Name?: SNOMEDCTTraitName | undefined;
+  Score?: number | undefined;
 }
 export type SNOMEDCTTraitList = SNOMEDCTTrait[];
 export interface SNOMEDCTConcept {
-  Description?: string;
-  Code?: string;
-  Score?: number;
+  Description?: string | undefined;
+  Code?: string | undefined;
+  Score?: number | undefined;
 }
 export type SNOMEDCTConceptList = SNOMEDCTConcept[];
 export interface SNOMEDCTAttribute {
-  Category?: SNOMEDCTEntityCategory;
-  Type?: SNOMEDCTAttributeType;
-  Score?: number;
-  RelationshipScore?: number;
-  RelationshipType?: SNOMEDCTRelationshipType;
-  Id?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Text?: string;
-  Traits?: SNOMEDCTTrait[];
-  SNOMEDCTConcepts?: SNOMEDCTConcept[];
+  Category?: SNOMEDCTEntityCategory | undefined;
+  Type?: SNOMEDCTAttributeType | undefined;
+  Score?: number | undefined;
+  RelationshipScore?: number | undefined;
+  RelationshipType?: SNOMEDCTRelationshipType | undefined;
+  Id?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Text?: string | undefined;
+  Traits?: SNOMEDCTTrait[] | undefined;
+  SNOMEDCTConcepts?: SNOMEDCTConcept[] | undefined;
 }
 export type SNOMEDCTAttributeList = SNOMEDCTAttribute[];
 export interface SNOMEDCTEntity {
-  Id?: number;
-  Text?: string;
-  Category?: SNOMEDCTEntityCategory;
-  Type?: SNOMEDCTEntityType;
-  Score?: number;
-  BeginOffset?: number;
-  EndOffset?: number;
-  Attributes?: SNOMEDCTAttribute[];
-  Traits?: SNOMEDCTTrait[];
-  SNOMEDCTConcepts?: SNOMEDCTConcept[];
+  Id?: number | undefined;
+  Text?: string | undefined;
+  Category?: SNOMEDCTEntityCategory | undefined;
+  Type?: SNOMEDCTEntityType | undefined;
+  Score?: number | undefined;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Attributes?: SNOMEDCTAttribute[] | undefined;
+  Traits?: SNOMEDCTTrait[] | undefined;
+  SNOMEDCTConcepts?: SNOMEDCTConcept[] | undefined;
 }
 export type SNOMEDCTEntityList = SNOMEDCTEntity[];
 export interface SNOMEDCTDetails {
-  Edition?: string;
-  Language?: string;
-  VersionDate?: string;
+  Edition?: string | undefined;
+  Language?: string | undefined;
+  VersionDate?: string | undefined;
 }
 export interface Characters {
-  OriginalTextCharacters?: number;
+  OriginalTextCharacters?: number | undefined;
 }
 export interface InferSNOMEDCTResponse {
   Entities: SNOMEDCTEntity[];
-  PaginationToken?: string;
-  ModelVersion?: string;
-  SNOMEDCTDetails?: SNOMEDCTDetails;
-  Characters?: Characters;
+  PaginationToken?: string | undefined;
+  ModelVersion?: string | undefined;
+  SNOMEDCTDetails?: SNOMEDCTDetails | undefined;
+  Characters?: Characters | undefined;
 }
 export interface ComprehendMedicalAsyncJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmitTimeBefore?: Date;
-  SubmitTimeAfter?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmitTimeBefore?: Date | undefined;
+  SubmitTimeAfter?: Date | undefined;
 }
 export type MaxResultsInteger = number;
 export interface ListEntitiesDetectionV2JobsRequest {
-  Filter?: ComprehendMedicalAsyncJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ComprehendMedicalAsyncJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ComprehendMedicalAsyncJobPropertiesList = ComprehendMedicalAsyncJobProperties[];
 export interface ListEntitiesDetectionV2JobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
-  NextToken?: string;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListICD10CMInferenceJobsRequest {
-  Filter?: ComprehendMedicalAsyncJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ComprehendMedicalAsyncJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListICD10CMInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
-  NextToken?: string;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPHIDetectionJobsRequest {
-  Filter?: ComprehendMedicalAsyncJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ComprehendMedicalAsyncJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListPHIDetectionJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
-  NextToken?: string;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRxNormInferenceJobsRequest {
-  Filter?: ComprehendMedicalAsyncJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ComprehendMedicalAsyncJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListRxNormInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
-  NextToken?: string;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSNOMEDCTInferenceJobsRequest {
-  Filter?: ComprehendMedicalAsyncJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ComprehendMedicalAsyncJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListSNOMEDCTInferenceJobsResponse {
-  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[];
-  NextToken?: string;
+  ComprehendMedicalAsyncJobPropertiesList?: ComprehendMedicalAsyncJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ClientRequestTokenString = string;
 export interface StartEntitiesDetectionV2JobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  KMSKey?: string;
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  KMSKey?: string | undefined;
   LanguageCode: LanguageCode;
 }
 export interface StartEntitiesDetectionV2JobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartICD10CMInferenceJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  KMSKey?: string;
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  KMSKey?: string | undefined;
   LanguageCode: LanguageCode;
 }
 export interface StartICD10CMInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartPHIDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  KMSKey?: string;
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  KMSKey?: string | undefined;
   LanguageCode: LanguageCode;
 }
 export interface StartPHIDetectionJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartRxNormInferenceJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  KMSKey?: string;
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  KMSKey?: string | undefined;
   LanguageCode: LanguageCode;
 }
 export interface StartRxNormInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartSNOMEDCTInferenceJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
-  JobName?: string;
-  ClientRequestToken?: string;
-  KMSKey?: string;
+  JobName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  KMSKey?: string | undefined;
   LanguageCode: LanguageCode;
 }
 export interface StartSNOMEDCTInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopEntitiesDetectionV2JobRequest {
   JobId: string;
 }
 export interface StopEntitiesDetectionV2JobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopICD10CMInferenceJobRequest {
   JobId: string;
 }
 export interface StopICD10CMInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopPHIDetectionJobRequest {
   JobId: string;
 }
 export interface StopPHIDetectionJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopRxNormInferenceJobRequest {
   JobId: string;
 }
 export interface StopRxNormInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopSNOMEDCTInferenceJobRequest {
   JobId: string;
 }
 export interface StopSNOMEDCTInferenceJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type DescribeEntitiesDetectionV2JobError =
   | InternalServerException
@@ -738,7 +739,7 @@ export type DescribeEntitiesDetectionV2JobError =
  * to get the status of a detection job.
  */
 export const describeEntitiesDetectionV2Job: API.OperationMethod<
-  DescribeEntitiesDetectionV2JobRequest,
+  DescribeEntitiesDetectionV2JobRequest & RegionInput,
   DescribeEntitiesDetectionV2JobResponse,
   DescribeEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -769,7 +770,7 @@ export type DescribeICD10CMInferenceJobError =
  * status of an inference job.
  */
 export const describeICD10CMInferenceJob: API.OperationMethod<
-  DescribeICD10CMInferenceJobRequest,
+  DescribeICD10CMInferenceJobRequest & RegionInput,
   DescribeICD10CMInferenceJobResponse,
   DescribeICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type DescribePHIDetectionJobError =
  * Use this operation to get the status of a detection job.
  */
 export const describePHIDetectionJob: API.OperationMethod<
-  DescribePHIDetectionJobRequest,
+  DescribePHIDetectionJobRequest & RegionInput,
   DescribePHIDetectionJobResponse,
   DescribePHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +832,7 @@ export type DescribeRxNormInferenceJobError =
  * status of an inference job.
  */
 export const describeRxNormInferenceJob: API.OperationMethod<
-  DescribeRxNormInferenceJobRequest,
+  DescribeRxNormInferenceJobRequest & RegionInput,
   DescribeRxNormInferenceJobResponse,
   DescribeRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +862,7 @@ export type DescribeSNOMEDCTInferenceJobError =
  * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
  */
 export const describeSNOMEDCTInferenceJob: API.OperationMethod<
-  DescribeSNOMEDCTInferenceJobRequest,
+  DescribeSNOMEDCTInferenceJobRequest & RegionInput,
   DescribeSNOMEDCTInferenceJobResponse,
   DescribeSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type DetectEntitiesError =
  * information.
  */
 export const detectEntities: API.OperationMethod<
-  DetectEntitiesRequest,
+  DetectEntitiesRequest & RegionInput,
   DetectEntitiesResponse,
   DetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DetectEntitiesV2Error =
  * `Direction` entities as attributes instead of types.
  */
 export const detectEntitiesV2: API.OperationMethod<
-  DetectEntitiesV2Request,
+  DetectEntitiesV2Request & RegionInput,
   DetectEntitiesV2Response,
   DetectEntitiesV2Error,
   Credentials | HttpClient.HttpClient
@@ -978,7 +979,7 @@ export type DetectPHIError =
  * only detects entities in English language texts.
  */
 export const detectPHI: API.OperationMethod<
-  DetectPHIRequest,
+  DetectPHIRequest & RegionInput,
   DetectPHIResponse,
   DetectPHIError,
   Credentials | HttpClient.HttpClient
@@ -1015,7 +1016,7 @@ export type InferICD10CMError =
  * English language texts.
  */
 export const inferICD10CM: API.OperationMethod<
-  InferICD10CMRequest,
+  InferICD10CMRequest & RegionInput,
   InferICD10CMResponse,
   InferICD10CMError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type InferRxNormError =
  * Amazon Comprehend Medical only detects medical entities in English language texts.
  */
 export const inferRxNorm: API.OperationMethod<
-  InferRxNormRequest,
+  InferRxNormRequest & RegionInput,
   InferRxNormResponse,
   InferRxNormError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1086,7 @@ export type InferSNOMEDCTError =
  * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
  */
 export const inferSNOMEDCT: API.OperationMethod<
-  InferSNOMEDCTRequest,
+  InferSNOMEDCTRequest & RegionInput,
   InferSNOMEDCTResponse,
   InferSNOMEDCTError,
   Credentials | HttpClient.HttpClient
@@ -1117,7 +1118,7 @@ export type ListEntitiesDetectionV2JobsError =
  * Gets a list of medical entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionV2Jobs: API.OperationMethod<
-  ListEntitiesDetectionV2JobsRequest,
+  ListEntitiesDetectionV2JobsRequest & RegionInput,
   ListEntitiesDetectionV2JobsResponse,
   ListEntitiesDetectionV2JobsError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type ListICD10CMInferenceJobsError =
  * Gets a list of InferICD10CM jobs that you have submitted.
  */
 export const listICD10CMInferenceJobs: API.OperationMethod<
-  ListICD10CMInferenceJobsRequest,
+  ListICD10CMInferenceJobsRequest & RegionInput,
   ListICD10CMInferenceJobsResponse,
   ListICD10CMInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type ListPHIDetectionJobsError =
  * submitted.
  */
 export const listPHIDetectionJobs: API.OperationMethod<
-  ListPHIDetectionJobsRequest,
+  ListPHIDetectionJobsRequest & RegionInput,
   ListPHIDetectionJobsResponse,
   ListPHIDetectionJobsError,
   Credentials | HttpClient.HttpClient
@@ -1208,7 +1209,7 @@ export type ListRxNormInferenceJobsError =
  * Gets a list of InferRxNorm jobs that you have submitted.
  */
 export const listRxNormInferenceJobs: API.OperationMethod<
-  ListRxNormInferenceJobsRequest,
+  ListRxNormInferenceJobsRequest & RegionInput,
   ListRxNormInferenceJobsResponse,
   ListRxNormInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1238,7 +1239,7 @@ export type ListSNOMEDCTInferenceJobsError =
  * Gets a list of InferSNOMEDCT jobs a user has submitted.
  */
 export const listSNOMEDCTInferenceJobs: API.OperationMethod<
-  ListSNOMEDCTInferenceJobsRequest,
+  ListSNOMEDCTInferenceJobsRequest & RegionInput,
   ListSNOMEDCTInferenceJobsResponse,
   ListSNOMEDCTInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1269,7 +1270,7 @@ export type StartEntitiesDetectionV2JobError =
  * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
  */
 export const startEntitiesDetectionV2Job: API.OperationMethod<
-  StartEntitiesDetectionV2JobRequest,
+  StartEntitiesDetectionV2JobRequest & RegionInput,
   StartEntitiesDetectionV2JobResponse,
   StartEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type StartICD10CMInferenceJobError =
  * job.
  */
 export const startICD10CMInferenceJob: API.OperationMethod<
-  StartICD10CMInferenceJobRequest,
+  StartICD10CMInferenceJobRequest & RegionInput,
   StartICD10CMInferenceJobResponse,
   StartICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1332,7 +1333,7 @@ export type StartPHIDetectionJobError =
  * `DescribePHIDetectionJob` operation to track the status of a job.
  */
 export const startPHIDetectionJob: API.OperationMethod<
-  StartPHIDetectionJobRequest,
+  StartPHIDetectionJobRequest & RegionInput,
   StartPHIDetectionJobResponse,
   StartPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type StartRxNormInferenceJobError =
  * job.
  */
 export const startRxNormInferenceJob: API.OperationMethod<
-  StartRxNormInferenceJobRequest,
+  StartRxNormInferenceJobRequest & RegionInput,
   StartRxNormInferenceJobResponse,
   StartRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1394,7 +1395,7 @@ export type StartSNOMEDCTInferenceJobError =
  * Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
  */
 export const startSNOMEDCTInferenceJob: API.OperationMethod<
-  StartSNOMEDCTInferenceJobRequest,
+  StartSNOMEDCTInferenceJobRequest & RegionInput,
   StartSNOMEDCTInferenceJobResponse,
   StartSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1423,7 +1424,7 @@ export type StopEntitiesDetectionV2JobError =
  * Stops a medical entities detection job in progress.
  */
 export const stopEntitiesDetectionV2Job: API.OperationMethod<
-  StopEntitiesDetectionV2JobRequest,
+  StopEntitiesDetectionV2JobRequest & RegionInput,
   StopEntitiesDetectionV2JobResponse,
   StopEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type StopICD10CMInferenceJobError =
  * Stops an InferICD10CM inference job in progress.
  */
 export const stopICD10CMInferenceJob: API.OperationMethod<
-  StopICD10CMInferenceJobRequest,
+  StopICD10CMInferenceJobRequest & RegionInput,
   StopICD10CMInferenceJobResponse,
   StopICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1471,7 +1472,7 @@ export type StopPHIDetectionJobError =
  * Stops a protected health information (PHI) detection job in progress.
  */
 export const stopPHIDetectionJob: API.OperationMethod<
-  StopPHIDetectionJobRequest,
+  StopPHIDetectionJobRequest & RegionInput,
   StopPHIDetectionJobResponse,
   StopPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type StopRxNormInferenceJobError =
  * Stops an InferRxNorm inference job in progress.
  */
 export const stopRxNormInferenceJob: API.OperationMethod<
-  StopRxNormInferenceJobRequest,
+  StopRxNormInferenceJobRequest & RegionInput,
   StopRxNormInferenceJobResponse,
   StopRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1521,7 @@ export type StopSNOMEDCTInferenceJobError =
  * Stops an InferSNOMEDCT inference job in progress.
  */
 export const stopSNOMEDCTInferenceJob: API.OperationMethod<
-  StopSNOMEDCTInferenceJobRequest,
+  StopSNOMEDCTInferenceJobRequest & RegionInput,
   StopSNOMEDCTInferenceJobResponse,
   StopSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
