@@ -151,6 +151,10 @@ export { InvalidInput } from "./protocol-http.ts";
 // the operation runtime that fail with it.
 export { SdkError } from "./sdk-error.ts";
 
+// Defined in the `base` bundle group (`unknown-error.ts`), so AWS spreads
+// them without importing the REST modules.
+export { UnknownErrorFields, type UnknownErrorProps } from "./unknown-error.ts";
+
 // ============================================================================
 // Error Maps
 // ============================================================================

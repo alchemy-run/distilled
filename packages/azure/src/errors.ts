@@ -34,6 +34,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ---------------------------------------------------------------------------
@@ -2887,11 +2888,9 @@ export const matchAzureErrorMessage = (arm: {
 /** Unknown Azure error -- returned when an error code is not recognized. */
 export class UnknownAzureError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownAzureError>()("UnknownAzureError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     target: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** Schema parse error wrapper for Azure responses. */
 export class AzureParseError

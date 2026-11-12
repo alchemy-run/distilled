@@ -171,7 +171,12 @@ const GLOBAL_RATE_LIMIT_MESSAGE = /\b(rate ?limit(ed|ing)?|throttl(ed|ing) your 
  */
 const GLOBAL_ERROR_CODE_MAP: Record<
   number,
-  (message: string, headers?: Record<string, string | undefined>) => unknown
+  (
+    message: string,
+    headers: Record<string, string | undefined>,
+    status: number,
+    body: unknown,
+  ) => unknown
 > = {
   // "Please wait and consider throttling your request speed" -- returned
   // inside envelopes with arbitrary HTTP status (often 200).
@@ -214,14 +219,14 @@ const GLOBAL_ERROR_CODE_MAP: Record<
   7003: (message) => new InvalidRoute({ code: 7003, message }),
   // Dual-use code 1000: several unrelated conditions, each unambiguous from
   // the message.
-  1000: (message) => {
+  1000: (message, _headers, status, body) => {
     if (/\btimeout\b/i.test(message)) {
       return new GatewayTimeout({ message });
     }
     if (/internal (server )?error/i.test(message)) {
       return new InternalServerError({ message });
     }
-    return new UnknownCloudflareError({ code: 1000, message });
+    return new UnknownCloudflareError({ status, code: 1000, message, body });
   },
 };
 
@@ -544,7 +549,16 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
 
           // 2. Global/infrastructure error codes (any endpoint, any status).
           if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
-            return fail(tagBlip(GLOBAL_ERROR_CODE_MAP[errorCode]!(errorMessage, headers)));
+            return fail(
+              tagBlip(
+                GLOBAL_ERROR_CODE_MAP[errorCode]!(
+                  errorMessage,
+                  headers,
+                  status,
+                  nonJson ? text : json,
+                ),
+              ),
+            );
           }
 
           // 3. Throttling -- 429 or the global rate-limit message (Cloudflare
@@ -579,8 +593,10 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
           // 5. Unknown envelope error.
           return fail(
             new UnknownCloudflareError({
+              status,
               code: errorCode,
               message: errorMessage,
+              body: nonJson ? text : json,
             }),
           );
         }

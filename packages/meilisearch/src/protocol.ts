@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MeilisearchProtocol -- hand-written.
@@ -55,11 +55,6 @@ export const MeilisearchProtocol: Layer.Layer<API.Protocol> =
     }),
     // Meilisearch's error body is `{ message, code, type, link }` -- the
     // factory's default lenient envelope covers `code`/`message`.
-    unknownError: ({ code, message, body }) =>
-      new UnknownMeilisearchError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownMeilisearchError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new MeilisearchParseError({ body, cause }),
   });

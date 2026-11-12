@@ -62,7 +62,6 @@ export interface ContainerExecGetOutputStream {
   /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
   items: RuntimeOutputBatchList;
 }
-/** Leave thread-count env vars (OMP_NUM_THREADS, ...) unset so libraries size themselves from the visible CPUs. Ignored on runc. */
 export interface RuntimeInputMessage {
   message?: string | undefined;
   messageIndex?: string | undefined;
@@ -82,8 +81,8 @@ export interface ContainerExecWaitResponse {
   completed: boolean;
 }
 export interface ContainerHeartbeatRequest {
-  canceledInputsReturnOutputs?: boolean | undefined;
   /** Bad client version. */
+  canceledInputsReturnOutputs?: boolean | undefined;
   canceledInputsReturnOutputsV2?: boolean | undefined;
 }
 export type StringList = Array<string>;
@@ -142,14 +141,13 @@ export interface ContainerServerLifecycleReadyRequest {}
 export interface ContainerServerLifecycleReadyResponse {}
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean | undefined;
   /** Soon deprecated */
+  enabled?: boolean | undefined;
   winszRows?: number | undefined;
   winszCols?: number | undefined;
   envTerm?: string | undefined;
   envColorterm?: string | undefined;
   envTermProgram?: string | undefined;
-  /** Replace function with shell */
   ptyType?: PTYInfoPTYType | (string & {}) | undefined;
   noTerminateOnIdleStdin?: boolean | undefined;
 }
@@ -165,8 +163,8 @@ export interface ExecContainerRequest {
   ptyInfo?: PTYInfo | undefined;
   /** Send SIGTERM to running container on exit of exec command. */
   terminateContainerOnExit?: boolean | undefined;
-  runtimeDebug?: boolean | undefined;
   /** For internal debugging use only. */
+  runtimeDebug?: boolean | undefined;
   stdoutOutput?: ExecOutputOption | (string & {}) | undefined;
   stderrOutput?: ExecOutputOption | (string & {}) | undefined;
   timeoutSecs?: number | undefined;
@@ -251,6 +249,7 @@ export interface ExecContainerFilesystemResponse {
 }
 export interface StopContainerRequest {
   taskId?: string | undefined;
+  /** Let a Function container finish processing any inputs before exiting. */
   graceful?: boolean | undefined;
 }
 export interface StopContainerResponse {}

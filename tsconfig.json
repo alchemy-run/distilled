@@ -141,6 +141,13 @@
       "path": "./packages/neon/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/netbird/tsconfig.json"
+    },
+    { "path": "./packages/netbird/tsconfig.test.json" },
+    {
+      "path": "./packages/netbird/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/planetscale/tsconfig.json"
     },
     {
@@ -238,6 +245,12 @@
       "path": "./packages/adyen/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/convex/tsconfig.json"
+    },
+    {
+      "path": "./packages/convex/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/coolify/tsconfig.json"
     },
     {
@@ -302,6 +315,12 @@
     },
     {
       "path": "./packages/resend/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/revenuecat/tsconfig.json"
+    },
+    {
+      "path": "./packages/revenuecat/tsconfig.scripts.json"
     },
     {
       "path": "./packages/surrealdb/tsconfig.json"
@@ -412,6 +431,19 @@
       "path": "./packages/launchdarkly/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/linear/tsconfig.json"
+    },
+    { "path": "./packages/linear/tsconfig.test.json" },
+    {
+      "path": "./packages/linear/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/mailchimp/tsconfig.json"
+    },
+    {
+      "path": "./packages/mailchimp/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/meilisearch/tsconfig.json"
     },
     {
@@ -465,6 +497,12 @@
     },
     {
       "path": "./packages/squarespace/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/tailscale/tsconfig.json"
+    },
+    {
+      "path": "./packages/tailscale/tsconfig.scripts.json"
     },
     {
       "path": "./packages/temporal/tsconfig.json"
@@ -594,6 +632,12 @@
     },
     { "path": "./packages/e2b/tsconfig.test.json" },
     {
+      "path": "./packages/steel/tsconfig.json"
+    },
+    {
+      "path": "./packages/steel/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/boat-dev/tsconfig.json"
     },
     {
@@ -616,6 +660,12 @@
     },
     {
       "path": "./packages/anthropic/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/entire/tsconfig.json"
+    },
+    {
+      "path": "./packages/entire/tsconfig.scripts.json"
     }
   ]
 }

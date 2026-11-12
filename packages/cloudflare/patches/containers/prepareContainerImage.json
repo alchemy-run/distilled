@@ -1,0 +1,56 @@
+{
+  "description": "Keep the SDK's name prepareContainerImage and its typed image errors (see _errors.json).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ImagesPrepareResponse/members/status/target",
+      "value": "com.cloudflare.containers#ContainerImagePreparationStatus"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ImagesPrepareResponseStatus",
+      "path": "/shapes/com.cloudflare.containers#ContainerImagePreparationStatus"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ImagesPrepare/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#ContainerImagePreparationInvalidImage"
+        },
+        {
+          "target": "com.cloudflare.containers#BadRequest"
+        },
+        {
+          "target": "com.cloudflare.containers#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ImagesPrepare",
+      "path": "/shapes/com.cloudflare.containers#PrepareContainerImage"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#PrepareContainerImage/input/target",
+      "value": "com.cloudflare.containers#PrepareContainerImageRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ImagesPrepareRequest",
+      "path": "/shapes/com.cloudflare.containers#PrepareContainerImageRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#PrepareContainerImage/output/target",
+      "value": "com.cloudflare.containers#PrepareContainerImageResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ImagesPrepareResponse",
+      "path": "/shapes/com.cloudflare.containers#PrepareContainerImageResponse"
+    }
+  ]
+}

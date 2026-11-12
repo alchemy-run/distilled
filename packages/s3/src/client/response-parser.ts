@@ -404,8 +404,9 @@ export const makeResponseParser = <A>(
     }
 
     return yield* new UnknownAwsError({
-      errorTag: errorCode,
-      errorData: data,
+      status: response.status,
+      code: errorCode,
+      body: data,
       service: options?.service,
       operation: options?.operation,
       message: typeof data?.message === "string" ? data.message : errorCode,

@@ -75,9 +75,9 @@ test("decodeWatchDirEvent decodes filesystem events", () => {
 });
 
 test("connectError maps Connect codes onto the SDK's error classes", () => {
-  expect(connectError({ code: "not_found", message: "no process" }, {})._tag).toBe("NotFound");
-  expect(connectError({ code: "unauthenticated" }, {})._tag).toBe("Unauthorized");
-  expect(connectError({ code: "resource_exhausted", message: "x" }, {})._tag).toBe(
+  expect(connectError({ code: "not_found", message: "no process" }, {}, 200)._tag).toBe("NotFound");
+  expect(connectError({ code: "unauthenticated" }, {}, 200)._tag).toBe("Unauthorized");
+  expect(connectError({ code: "resource_exhausted", message: "x" }, {}, 200)._tag).toBe(
     "UnknownE2BError",
   );
 });

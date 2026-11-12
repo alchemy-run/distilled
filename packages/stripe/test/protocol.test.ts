@@ -458,16 +458,16 @@ describe("Error envelope decoding", () => {
   });
 
   test("a body without the envelope is UnknownStripeError with the raw body", async () => {
+    const other = await runError(call(), () => json({ message: "nope" }, 400));
+    expect(other).toBeInstanceOf(UnknownStripeError);
+    expect(other).toMatchObject({ status: 400, body: { message: "nope" } });
+
+    // A 5xx without the envelope (a proxy page) is a retryable server error.
     const html = await runError(
       call(),
       () => new Response("<html>bad gateway</html>", { status: 502 }),
     );
-    expect(html).toBeInstanceOf(UnknownStripeError);
-    expect(html).toMatchObject({ body: "<html>bad gateway</html>" });
-
-    const other = await runError(call(), () => json({ message: "nope" }, 400));
-    expect(other).toBeInstanceOf(UnknownStripeError);
-    expect(other).toMatchObject({ body: { message: "nope" } });
+    expect(html).toBeInstanceOf(InternalServerError);
   });
 
   test("per-operation matchers win over the envelope type", async () => {

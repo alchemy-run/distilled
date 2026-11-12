@@ -145,6 +145,7 @@ const decode = ({
       }
       return yield* fail(
         new UnknownZeroSslError({
+          status,
           code: envelope.error?.code,
           type,
           message,

@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * CoinflowProtocol -- the shared REST protocol instantiated for the Coinflow
@@ -64,6 +64,6 @@ export const CoinflowProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
     Authorization: Redacted.value(creds.apiKey),
   }),
   errorEnvelope,
-  unknownError: ({ status, message, body }) => new UnknownCoinflowError({ status, message, body }),
+  unknownError: (info) => new UnknownCoinflowError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new CoinflowParseError({ body, cause }),
 });

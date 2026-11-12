@@ -80,6 +80,7 @@ export interface CreateEnvironmentRequest {
   settings?: EnvironmentSettings | undefined;
   environmentType?: EnvironmentType | (string & {}) | undefined;
   defaultMemberRole?: EnvironmentRole | (string & {}) | undefined;
+  /** String representation; parsed when the enum is unspecified. */
   defaultMemberRoleStr?: string | undefined;
 }
 export interface CreateEnvironmentResponse {}
@@ -224,8 +225,8 @@ export interface EnvironmentListItem {
   maxConcurrentGpus?: number | undefined;
   currentConcurrentTasks: number;
   currentConcurrentGpus: number;
-  cycleBudgetDollars?: number | undefined;
   /** manager-set */
+  cycleBudgetDollars?: number | undefined;
   effectiveCycleSpendLimit: number;
   currentCycleUsage: number;
   spendLimitReached: boolean;
@@ -244,11 +245,12 @@ export interface SetEnvironmentRoleRequest {
   userId?: string | undefined;
   serviceUserId?: string | undefined;
   role?: EnvironmentRole | (string & {}) | undefined;
-  roleStr?: string | undefined;
   /** String representation from the CLI; parsed when role is unspecified */
+  roleStr?: string | undefined;
   serviceUserName?: string | undefined;
+  /** Sent by the client when an environment ID is unavailable */
   environmentName?: string | undefined;
-  /** Sent by the client when an environment ID is unavailable Custom role (`rd-`). */
+  /** Custom role (`rd-`). */
   environmentRoleDefinitionId?: string | undefined;
 }
 export interface SetEnvironmentRoleResponse {}
@@ -281,8 +283,8 @@ export interface UpdateEnvironmentResponse {
   maxConcurrentGpus?: number | undefined;
   currentConcurrentTasks: number;
   currentConcurrentGpus: number;
-  cycleBudgetDollars?: number | undefined;
   /** manager-set */
+  cycleBudgetDollars?: number | undefined;
   effectiveCycleSpendLimit: number;
   currentCycleUsage: number;
   spendLimitReached: boolean;

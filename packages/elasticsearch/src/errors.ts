@@ -28,18 +28,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Elasticsearch error -- returned when nothing else matches the failure. */
 export class UnknownElasticsearchError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownElasticsearchError>()(
     "UnknownElasticsearchError",
-    {
-      code: /*@__PURE__*/ Schema.optional(Schema.String),
-      message: /*@__PURE__*/ Schema.optional(Schema.String),
-      body: Schema.Unknown,
-    },
-  ).pipe(Category.withServerError) {}
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class ElasticsearchParseError

@@ -85,7 +85,6 @@ export interface ListVolumeRequest {
   environmentName?: string | undefined;
   pagination?: ListPagination | undefined;
 }
-/** HTTP/2 tunnel */
 export type VolumeFsVersion =
   | "VOLUME_FS_VERSION_UNSPECIFIED"
   | "VOLUME_FS_VERSION_V1"
@@ -93,7 +92,7 @@ export type VolumeFsVersion =
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface VolumeMetadata {
@@ -102,11 +101,11 @@ export interface VolumeMetadata {
   creationInfo?: CreationInfo | undefined;
 }
 export interface VolumeListItem {
-  label: string;
   /** app name of object entity app */
+  label: string;
   volumeId: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   metadata?: VolumeMetadata | undefined;
 }
 export type VolumeListItemList = Array<VolumeListItem>;
@@ -145,31 +144,35 @@ export interface VolumeGetFileRequest {
   volumeId?: string | undefined;
   path?: string | undefined;
   start?: string | undefined;
+  /** 0 is interpreted as 'read to end' */
   len?: string | undefined;
 }
 export interface VolumeGetFileResponse {
   data?: string | undefined;
   dataBlobId?: string | undefined;
-  size: string;
   /** total file size */
-  start: string;
+  size: string;
   /** file position of first byte returned */
+  start: string;
+  /** number of bytes returned */
   len: string;
 }
 export interface VolumeGetFile2Request {
   volumeId?: string | undefined;
   path?: string | undefined;
   start?: string | undefined;
+  /** 0 is interpreted as 'read to end' */
   len?: string | undefined;
-  /** 0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes. */
+  /** The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes. */
   clientPadsBlocks?: boolean | undefined;
 }
 export interface VolumeGetFile2Response {
   getUrls: StringList;
-  size: string;
   /** total file size */
-  start: string;
+  size: string;
   /** file position of first byte returned */
+  start: string;
+  /** number of bytes returned */
   len: string;
 }
 export type ObjectCreationType =
@@ -185,18 +188,17 @@ export interface VolumeCreateOptions {
 }
 export interface VolumeGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
-  appId?: string | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
+  appId?: string | undefined;
   version?: VolumeFsVersion | (string & {}) | undefined;
   createOptions?: VolumeCreateOptions | undefined;
 }
 export interface VolumeGetOrCreateResponse {
   volumeId: string;
-  version: VolumeFsVersion;
   /** Not used directly; version is part of the metadata */
+  version: VolumeFsVersion;
   metadata?: VolumeMetadata | undefined;
 }
 export interface VolumeHeartbeatRequest {
@@ -244,13 +246,13 @@ export interface VolumeListFiles2Stream {
   /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
   items: VolumeListFiles2ResponseList;
 }
-/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
   filename?: string | undefined;
-  sha256Hex?: string | undefined;
   /** SHA-256 checksum of the file. */
-  size?: string | undefined;
+  sha256Hex?: string | undefined;
   /** Size of the file in bytes -- ignored in MountBuild(). */
+  size?: string | undefined;
+  /** Unix file permission bits `st_mode`. */
   mode?: number | undefined;
 }
 export type MountFileList = Array<MountFile>;

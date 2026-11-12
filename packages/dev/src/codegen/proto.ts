@@ -275,6 +275,31 @@ class Parser {
     return d || undefined;
   }
 
+  trailingComment(): string | undefined {
+    let j = this.i;
+    while (this.src[j] === " " || this.src[j] === "\t") j++;
+    if (this.src[j] !== "/" || (this.src[j + 1] !== "/" && this.src[j + 1] !== "*")) {
+      return undefined;
+    }
+    const block = this.src[j + 1] === "*";
+    const end = block ? this.src.indexOf("*/", j + 2) : this.src.indexOf("\n", j + 2);
+    if (block && end === -1) return undefined;
+    const stop = end === -1 ? this.src.length : end;
+    const text = this.src.slice(j + 2, stop).trim();
+    while (this.i < (block ? stop + 2 : stop)) this.bump();
+    return text || undefined;
+  }
+
+  endStatement(): string | undefined {
+    this.expect(";");
+    return this.trailingComment();
+  }
+
+  openBlock(): string | undefined {
+    this.expect("{");
+    return this.trailingComment();
+  }
+
   peekIdent(): boolean {
     this.skipTrivia();
     const ch = this.peekChar();
@@ -427,7 +452,7 @@ class Parser {
     this.expect("=");
     const number = this.number();
     const opts = this.parseOptions();
-    this.expect(";");
+    const trailing = this.endStatement();
     return {
       name,
       number,
@@ -438,7 +463,7 @@ class Parser {
       mapValue,
       jsonName: opts.jsonName,
       deprecated: opts.deprecated,
-      documentation,
+      documentation: documentation ?? trailing,
     };
   }
 
@@ -446,14 +471,14 @@ class Parser {
     const documentation = this.takeDoc();
     const name = this.ident();
     const fullName = prefix ? `${prefix}.${name}` : `${pkg}.${name}`;
-    this.expect("{");
+    const trailing = this.openBlock();
     const values: ProtoEnumValue[] = [];
     while (true) {
       this.skipTrivia();
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       const vdoc = this.takeDoc();
@@ -461,24 +486,24 @@ class Parser {
       this.expect("=");
       const number = this.number();
       const opts = this.parseOptions();
-      this.expect(";");
+      const trailing = this.endStatement();
       values.push({
         name: vname,
         number,
         deprecated: opts.deprecated,
-        documentation: vdoc,
+        documentation: vdoc ?? trailing,
       });
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName, values, documentation };
+    return { name, fullName, values, documentation: documentation ?? trailing };
   }
 
   parseMessage(pkg: string, prefix: string): ProtoMessage {
     const documentation = this.takeDoc();
     const name = this.ident();
     const fullName = prefix ? `${prefix}.${name}` : `${pkg}.${name}`;
-    this.expect("{");
+    const trailing = this.openBlock();
     const fields: ProtoField[] = [];
     let oneofs = 0;
     const messages: ProtoMessage[] = [];
@@ -488,7 +513,7 @@ class Parser {
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved") || this.tryIdent("extensions")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("message")) {
@@ -501,14 +526,14 @@ class Parser {
       }
       if (this.tryIdent("oneof")) {
         this.ident();
-        this.expect("{");
+        this.openBlock();
         const oneof = oneofs++;
         while (true) {
           this.skipTrivia();
           if (this.peekChar() === "}") break;
           if (this.tryIdent("option")) {
             this.skipUntil(";");
-            this.expect(";");
+            this.endStatement();
             continue;
           }
           fields.push({ ...this.parseField(), optional: true, oneof });
@@ -524,7 +549,7 @@ class Parser {
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName, fields, messages, enums, documentation };
+    return { name, fullName, fields, messages, enums, documentation: documentation ?? trailing };
   }
 
   parseRpc(): ProtoRpc {
@@ -540,7 +565,9 @@ class Parser {
     const responseType = this.dotted();
     this.expect(")");
     let deprecated = false;
+    let trailing: string | undefined;
     if (this.tryChar("{")) {
+      trailing = this.trailingComment();
       while (true) {
         this.skipTrivia();
         if (this.peekChar() === "}") break;
@@ -549,14 +576,14 @@ class Parser {
           this.skipUntil(";");
           const body = this.src.slice(start, this.i);
           if (/deprecated\s*=\s*true/.test(body)) deprecated = true;
-          this.expect(";");
+          this.endStatement();
           continue;
         }
         this.skipUntil("}");
       }
       this.expect("}");
     } else {
-      this.expect(";");
+      trailing = this.endStatement();
     }
     return {
       name,
@@ -565,21 +592,21 @@ class Parser {
       requestStream,
       responseStream,
       deprecated,
-      documentation,
+      documentation: documentation ?? trailing,
     };
   }
 
   parseService(pkg: string): ProtoService {
     const documentation = this.takeDoc();
     const name = this.ident();
-    this.expect("{");
+    const trailing = this.openBlock();
     const rpcs: ProtoRpc[] = [];
     while (true) {
       this.skipTrivia();
       if (this.peekChar() === "}") break;
       if (this.tryIdent("option") || this.tryIdent("reserved")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("rpc")) {
@@ -590,7 +617,7 @@ class Parser {
     }
     this.expect("}");
     this.tryChar(";");
-    return { name, fullName: `${pkg}.${name}`, rpcs, documentation };
+    return { name, fullName: `${pkg}.${name}`, rpcs, documentation: documentation ?? trailing };
   }
 
   parseFile(): ProtoFile {
@@ -607,24 +634,24 @@ class Parser {
       if (this.tryIdent("syntax")) {
         this.expect("=");
         syntax = this.stringLit();
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("package")) {
         pkg = this.dotted();
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("import")) {
         this.tryIdent("public");
         this.tryIdent("weak");
         imports.push(this.stringLit());
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("option")) {
         this.skipUntil(";");
-        this.expect(";");
+        this.endStatement();
         continue;
       }
       if (this.tryIdent("message")) {

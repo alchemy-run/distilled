@@ -37,6 +37,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -54,11 +55,10 @@ export class PayloadTooLarge
  * body has one.
  */
 export class UnknownPolymarketError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownPolymarketError>()("UnknownPolymarketError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownPolymarketError>()(
+    "UnknownPolymarketError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class PolymarketParseError

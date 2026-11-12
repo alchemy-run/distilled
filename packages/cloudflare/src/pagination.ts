@@ -24,7 +24,8 @@ export interface ResultInfoCursors {
  * The v4 envelope's `result_info` block (camelCased by the paginated
  * protocol). Cloudflare varies the exact fields per endpoint -- page-mode
  * endpoints report `page`/`perPage`/`totalCount`, cursor-mode endpoints
- * report `cursor` or `cursors` -- so all fields are optional here.
+ * report `cursor`, `cursors`, or `nextPageToken` with the `pageToken` the
+ * request sent -- so all fields are optional here.
  */
 export interface ResultInfo {
   readonly count?: number | null;
@@ -35,6 +36,7 @@ export interface ResultInfo {
   readonly cursor?: string | null;
   readonly cursors?: ResultInfoCursors | null;
   readonly nextPageToken?: string | null;
+  readonly pageToken?: string | null;
 }
 
 export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
@@ -45,6 +47,7 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
   totalPages: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
   cursor: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
   nextPageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  pageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
   cursors: /*@__PURE__*/ S.optional(
     /*@__PURE__*/ S.NullOr(
       /*@__PURE__*/ S.Struct({
