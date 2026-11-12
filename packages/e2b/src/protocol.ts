@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorInfo,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * E2B protocols -- the shared REST protocol instantiated once per E2B host.
@@ -58,20 +62,7 @@ export type EnvdOpContext = SandboxConnection | HttpClient.HttpClient;
 /** Context (requirements) of a volume-content operation: the volume token, not the team key. */
 export type VolumeContentOpContext = VolumeConnection | HttpClient.HttpClient;
 
-const unknownError = ({
-  code,
-  message,
-  body,
-}: {
-  code?: unknown;
-  message?: string;
-  body: unknown;
-}) =>
-  new UnknownE2BError({
-    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-    message,
-    body,
-  });
+const unknownError = (info: RestErrorInfo) => new UnknownE2BError(unknownErrorProps(info));
 
 const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
   new E2BParseError({ body, cause });

@@ -36,6 +36,7 @@ import {
   Conflict,
   E2BParseError,
   Forbidden,
+  InternalServerError,
   NotFound,
   SandboxNotRunning,
   Unauthorized,
@@ -126,6 +127,7 @@ export type ConnectStreamError =
   | Forbidden
   | NotFound
   | Conflict
+  | InternalServerError
   | SandboxNotRunning
   | UnknownE2BError
   | E2BParseError
@@ -197,10 +199,15 @@ export const takeEnvelopes = (
   return [data, envelopes];
 };
 
-/** Maps a Connect error code onto the SDK's error classes. */
+/**
+ * Maps a Connect error code onto the SDK's error classes. `status` is the
+ * HTTP status of the response: the error status before the stream starts,
+ * 200 for an error in the stream's end message.
+ */
 export const connectError = (
   error: { readonly code?: string; readonly message?: string },
   body: unknown,
+  status: number,
 ) => {
   const message = error.message ?? error.code ?? "envd call failed";
   switch (error.code) {
@@ -218,7 +225,7 @@ export const connectError = (
     case "aborted":
       return new Conflict({ message });
     default:
-      return new UnknownE2BError({ code: error.code, message: error.message, body });
+      return new UnknownE2BError({ status, code: error.code, message: error.message, body });
   }
 };
 
@@ -289,10 +296,19 @@ export const serverStream = (
             }),
           );
         }
+        // An unmapped 5xx is a server fault worth a retry, as in core's REST
+        // protocol.
+        if (response.status >= 500 && error.code === undefined) {
+          return yield* Effect.fail(
+            new InternalServerError({
+              message: error.message ?? messageOf(body) ?? `HTTP ${response.status}`,
+            }),
+          );
+        }
         return yield* Effect.fail(
           error.code === undefined && response.status === 404
             ? new NotFound({ message: `envd ${method} not found` })
-            : connectError(error, body),
+            : connectError(error, body, response.status),
         );
       }
       return response.stream.pipe(
@@ -304,7 +320,7 @@ export const serverStream = (
           const error = errorOf(envelope.json);
           return error === undefined
             ? Effect.succeed([] as ReadonlyArray<unknown>)
-            : Effect.fail(connectError(error, envelope.json));
+            : Effect.fail(connectError(error, envelope.json, 200));
         }),
         Stream.flatMap((messages) => Stream.fromIterable(messages)),
       );

@@ -186,6 +186,9 @@ const decode = ({
       // 4. Unknown Atlas error (carries the envelope for cataloging).
       return yield* fail(
         new UnknownMongodbAtlasError({
+          status,
+          code: env.errorCode,
+          message,
           errorCode: env.errorCode,
           reason: env.reason,
           detail: env.detail,

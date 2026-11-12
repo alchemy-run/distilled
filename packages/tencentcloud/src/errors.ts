@@ -48,6 +48,7 @@ import {
   type NotFound as CoreNotFound,
   type UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Fields of every error built from a response envelope. */
@@ -237,11 +238,9 @@ export class UnsupportedRegion
  */
 export class UnknownTencentCloudError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownTencentCloudError>()("UnknownTencentCloudError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     message: Schema.String,
     requestId: /*@__PURE__*/ Schema.optional(Schema.String),
-    status: Schema.Number,
-    body: Schema.Unknown,
   }) {}
 
 /** A 2xx body that failed response validation, or that was not JSON. */

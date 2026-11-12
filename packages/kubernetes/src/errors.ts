@@ -33,6 +33,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -42,10 +43,9 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  */
 export class UnknownKubernetesError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownKubernetesError>()("UnknownKubernetesError", {
+    ...UnknownErrorFields,
     reason: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /**
  * Returned when a Kubernetes API response cannot be decoded

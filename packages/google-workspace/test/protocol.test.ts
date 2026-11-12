@@ -217,14 +217,14 @@ describe("Google error envelope decoding", () => {
     const { layer } = fakeGoogle(418, JSON.stringify(body));
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(UnknownGoogleWorkspaceError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", status: "UNKNOWN", body });
+    expect(error).toMatchObject({ status: 418, code: "UNKNOWN", message: "teapot", body });
   });
 
-  test("UnknownGoogleWorkspaceError falls back to the HTTP status as code and text as body", async () => {
+  test("UnknownGoogleWorkspaceError without an envelope carries the status and the text as body", async () => {
     const { layer } = fakeGoogle(418, "teapot");
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(UnknownGoogleWorkspaceError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", body: "teapot" });
+    expect(error).toMatchObject({ status: 418, message: "teapot", body: "teapot" });
   });
 });
 

@@ -19,16 +19,14 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-export class UnknownTailscaleError extends Schema.TaggedError<UnknownTailscaleError>()(
-  "UnknownTailscaleError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownTailscaleError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownTailscaleError>()(
+    "UnknownTailscaleError",
+    UnknownErrorFields,
+  ) {}
 
 export class TailscaleParseError extends Schema.TaggedError<TailscaleParseError>()(
   "TailscaleParseError",

@@ -506,7 +506,15 @@ const matchStripeError = (
   // v0 parity: an unparseable envelope (no `error.type` string) is an
   // UnknownStripeError carrying the raw body.
   if (!err || typeof err.type !== "string") {
-    return new UnknownStripeError({ body: errorBody });
+    // A 5xx without an envelope (a proxy page) is a server fault worth a
+    // retry, as below.
+    if (status >= 500) {
+      return new InternalServerError({
+        message: `HTTP ${status}`,
+        retryAfter: parseRetryAfterForStatus(status, headers),
+      });
+    }
+    return new UnknownStripeError({ status, body: errorBody });
   }
 
   const common = {
@@ -570,6 +578,7 @@ const matchStripeError = (
   }
 
   return new UnknownStripeError({
+    status,
     type: str(err.type),
     code: common.code,
     message: common.message,

@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * LaunchDarklyProtocol -- hand-written.
@@ -57,11 +57,6 @@ export const LaunchDarklyProtocol: Layer.Layer<API.Protocol> =
     }),
     // LaunchDarkly's error body is `{ code?: string, message: string, id?:
     // string }` -- the factory's default lenient envelope covers it.
-    unknownError: ({ code, message, body }) =>
-      new UnknownLaunchDarklyError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownLaunchDarklyError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new LaunchDarklyParseError({ body, cause }),
   });

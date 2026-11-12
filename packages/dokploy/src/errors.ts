@@ -35,6 +35,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -43,11 +44,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * tRPC error code from the body.
  */
 export class UnknownDokployError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownDokployError>()("UnknownDokployError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownDokployError>()(
+    "UnknownDokployError",
+    UnknownErrorFields,
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class DokployParseError

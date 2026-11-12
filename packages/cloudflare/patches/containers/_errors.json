@@ -1,0 +1,289 @@
+{
+  "description": "Errors shared by the containers operations, observed on the live API while the SDK used a hand-written containers model (2026-09-30 to 2026-11-02). Codes: 7003 Could not route; 1609 APPLICATION_NOT_FOUND; 1607 DURABLE_OBJECT_NOT_CONTAINER_ENABLED; 1608 DURABLE_OBJECT_ALREADY_HAS_APPLICATION; 1000 while checking the application Durable Object; HTTP 400 when a just-created Durable Object namespace is not yet visible; `can't create application at this time` on create, which succeeds when retried. Image preparation: POST /accounts/{account_id}/containers/image-preparations rejects an unpinned image with HTTP 400, code 1000, message {\"error\":\"image must be digest-pinned and hosted in a supported managed registry\"}; a nonexistent managed digest returns HTTP 400, code 1000, message {\"error\":\"image does not exist in this account\"}; a missing image field returns HTTP 400, code 1602, VALIDATE_INPUT, which stays BadRequest. ContainerImagePreparationsService documents HTTP 403 with no code, so it stays Forbidden (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/services/ContainerImagePreparationsService.ts).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#InvalidRoute",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 7003,
+              "message": {
+                "includes": "Could not route"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ContainerApplicationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1609,
+              "message": {
+                "includes": "Container application not found"
+              }
+            },
+            {
+              "code": 1609,
+              "message": {
+                "includes": "APPLICATION_NOT_FOUND"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#DurableObjectAlreadyHasApplication",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1608,
+              "message": {
+                "includes": "DURABLE_OBJECT_ALREADY_HAS_APPLICATION"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#DurableObjectNotContainerEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1607,
+              "message": {
+                "includes": "DURABLE_OBJECT_NOT_CONTAINER_ENABLED"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#DurableObjectCheckError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1000,
+              "message": {
+                "includes": "checking the application durable object"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#DurableObjectNamespaceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The Durable Object namespace is not visible to the containers API. Right after a Worker upload creates the namespace this is transient; retry.",
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Durable Object namespace was not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ContainerApplicationCreateUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Cloudflare temporarily refuses to create an application (`can't create application at this time`); the same request succeeds when retried.",
+          "smithy.api#error": "server",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "message": {
+                "includes": "can't create application at this time"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ContainerImagePreparationInvalidImage",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The image is invalid or does not exist in this account.",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "code": 1000,
+              "message": {
+                "includes": "image must be digest-pinned and hosted in a supported managed registry"
+              }
+            },
+            {
+              "status": 400,
+              "code": 1000,
+              "message": {
+                "includes": "image does not exist in this account"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The image preparation request is invalid.",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The image preparation request is forbidden.",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

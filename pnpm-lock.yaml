@@ -1766,6 +1766,22 @@ importers:
         specifier: 'catalog:'
         version: 26.6.5
 
+  packages/proxmox:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
   packages/questrade:
     dependencies:
       '@distilled.cloud/core':
@@ -1862,22 +1878,6 @@ importers:
         specifier: 'catalog:'
         version: 26.6.5
 
-  packages/rivet:
-    dependencies:
-      '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
-      effect:
-        specifier: 'catalog:'
-        version: 4.1.2
-    devDependencies:
-      '@distilled.cloud/dev':
-        specifier: workspace:*
-        version: link:../dev
-      '@types/node':
-        specifier: 'catalog:'
-        version: 26.6.5
-
   packages/revenuecat:
     dependencies:
       '@distilled.cloud/core':
@@ -1896,6 +1896,22 @@ importers:
       yaml:
         specifier: 'catalog:'
         version: 2.9.1
+
+  packages/rivet:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
 
   packages/s2:
     dependencies:
@@ -2077,6 +2093,22 @@ importers:
         version: 26.6.5
 
   packages/tailscale:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
+  packages/technitium:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

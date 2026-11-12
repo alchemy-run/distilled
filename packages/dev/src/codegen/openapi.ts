@@ -180,6 +180,25 @@ export interface OpenApiConvertOptions {
    */
   readonly successStatuses?: readonly string[];
   /**
+   * Names for the hosts an OpenAPI 3 operation (or its path item) declares
+   * in its own `servers`, keyed by that URL. An operation on a named host
+   * carries the name as `smithy.api#http.server` (`T.Http({ server })`), and
+   * the protocol maps the name to a base URL from its credentials. The spec
+   * URL only identifies the host; requests never go to it directly, so a
+   * configured base URL always wins and a spec change cannot send the
+   * credentials to a new host.
+   *
+   * DigitalOcean serves Serverless Inference from
+   * `https://inference.do-ai.run` next to `https://api.digitalocean.com`:
+   * `{ "https://inference.do-ai.run": "inference" }`.
+   *
+   * `null` keeps an operation on the document's host, for a server the
+   * caller has to supply (`https://{agent_url}`). Once set, a server that is
+   * neither the document's first server nor in the map fails the
+   * conversion. Default: operation `servers` are ignored.
+   */
+  readonly servers?: Readonly<Record<string, string | null>>;
+  /**
    * Response headers (matched case-insensitively) to add to an operation's
    * output as optional `smithy.api#httpHeader` members wherever one of its
    * 2xx responses declares them -- bodiless ones such as `202 Accepted`
@@ -1579,6 +1598,25 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
     (options.responseHeaders ?? []).map((name) => name.toLowerCase()),
   );
 
+  // ---- Operation hosts (`servers` option) ----
+  const trimUrl = (url: unknown): string =>
+    typeof url === "string" ? url.replace(/\/+$/, "") : "";
+  const documentServer = trimUrl(doc.servers?.[0]?.url);
+  const serverNames = new Map(
+    Object.entries(options.servers ?? {}).map(([url, name]) => [trimUrl(url), name] as const),
+  );
+  const unnamedServers = new Set<string>();
+  /** The `servers` option's name for an operation's own server, if any. */
+  const serverName = (servers: unknown): string | undefined => {
+    if (options.servers === undefined || !Array.isArray(servers)) return undefined;
+    if (servers.length === 0) return undefined;
+    const url = trimUrl(servers[0]?.url);
+    if (url === documentServer) return undefined;
+    const name = serverNames.get(url);
+    if (name === undefined) unnamedServers.add(url);
+    return name ?? undefined;
+  };
+
   for (const [rawPath, pathItem] of Object.entries(doc.paths ?? {})) {
     if (!pathItem || typeof pathItem !== "object") continue;
     for (const method of httpMethods) {
@@ -1907,6 +1945,8 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         code: 200,
       };
       if (contentType === "multipart") httpTrait.contentType = "multipart";
+      const server = serverName(op.servers ?? (pathItem as any).servers);
+      if (server !== undefined) httpTrait.server = server;
       const traits: Record<string, any> = { "smithy.api#http": httpTrait };
       const documentation = opDoc(op);
       if (documentation) traits["smithy.api#documentation"] = documentation;
@@ -1928,6 +1968,12 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         componentHeaders.push({ opId, opName, members: pendingHeaders });
       }
     }
+  }
+
+  if (unnamedServers.size > 0) {
+    throw new Error(
+      `${options.namespace}: operations declare servers the \`servers\` option does not name: ${[...unnamedServers].join(", ")}. Name each one, or map it to null to keep its operations on ${documentServer || "the document's host"}.`,
+    );
   }
 
   // ---- Response headers on named components ----

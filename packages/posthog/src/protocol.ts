@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 /**
@@ -83,11 +87,6 @@ export const PosthogProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope: drfErrorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownPosthogError({
-      code: typeof code === "string" ? code : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownPosthogError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new PosthogParseError({ body, cause }),
 });

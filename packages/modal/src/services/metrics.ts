@@ -31,36 +31,40 @@ export type StringList = Array<string>;
 export interface MetricsGetInfoRequest {
   /** Required; unspecified and unrecognized targets are rejected. */
   targetType?: MetricsGetInfoRequestMetricsTargetType | (string & {}) | undefined;
-  since?: string | undefined;
   /** Required; rounded down to a UTC bucket boundary. */
+  since?: string | undefined;
+  /** Required; rounded down; at most 31 days after since. */
   until?: string | undefined;
-  /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. */
+  /** If omitted, choose a supported width targeting approximately 100 buckets. */
   bucketSecs?: number | undefined;
   groups?: StringList | undefined;
 }
 export interface MetricDefinition {
-  name: string;
   /** Exact series name returned by the metrics RPC. */
-  unit: string;
+  name: string;
   /** Matches FunctionMetricSeries.unit. */
+  unit: string;
+  /** Meaning and aggregation semantics of the series. */
   description: string;
 }
 export type MetricDefinitionList = Array<MetricDefinition>;
-/** Meaning and aggregation semantics of the series. */
 export interface MetricGroupDefinition {
   /** Group selector, such as "calls". Multiple catalogue rows can share this name. */
   name: string;
+  /** Shared description of this catalogue row's series. */
   description: string;
-  /** Shared description of this catalogue row's series. Individual series represented by this row, ordered by name; all have the same unit. */
+  /** Individual series represented by this row, ordered by name; all have the same unit. */
   metrics: MetricDefinitionList;
+  /** Display label, such as "execution_time_{p50,p90,p99}". */
   displayName: string;
 }
 export type MetricGroupDefinitionList = Array<MetricGroupDefinition>;
 export interface MetricsGetInfoResponse {
   /** Catalogue rows for the requested target type, ordered by name then display_name. Rows sharing a name belong under the same group heading. Each series appears once per group. Describes the catalog; individual exports may omit unavailable series. */
   groups: MetricGroupDefinitionList;
-  bucketSecs: number;
   /** Resolved bucket width. */
+  bucketSecs: number;
+  /** Projected buckets per series, not observed sample count. */
   bucketCount: number;
 }
 export type MetricsGetInfoError = ModalOpError;

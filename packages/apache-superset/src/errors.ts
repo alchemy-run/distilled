@@ -28,18 +28,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Apache Superset error -- returned when nothing else matches. */
 export class UnknownApacheSupersetError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownApacheSupersetError>()(
     "UnknownApacheSupersetError",
-    {
-      code: /*@__PURE__*/ Schema.optional(Schema.String),
-      message: /*@__PURE__*/ Schema.optional(Schema.String),
-      body: Schema.Unknown,
-    },
-  ).pipe(Category.withServerError) {}
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class ApacheSupersetParseError

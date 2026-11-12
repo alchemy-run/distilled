@@ -27,16 +27,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 const ProblemFields = {
-  status: Schema.Number,
+  ...UnknownErrorFields,
   /** Problem type URI, e.g. `https://mailchimp.com/developer/marketing/docs/errors/`. */
   type: /*@__PURE__*/ Schema.optional(Schema.String),
   title: /*@__PURE__*/ Schema.optional(Schema.String),
-  message: /*@__PURE__*/ Schema.optional(Schema.String),
   instance: /*@__PURE__*/ Schema.optional(Schema.String),
-  body: Schema.Unknown,
 };
 
 /**
@@ -54,7 +53,7 @@ export class UnknownMailchimpError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownMailchimpError>()(
     "UnknownMailchimpError",
     ProblemFields,
-  ).pipe(Category.withServerError) {}
+  ) {}
 
 /** A 2xx response that does not match the operation's output schema. */
 export class MailchimpParseError

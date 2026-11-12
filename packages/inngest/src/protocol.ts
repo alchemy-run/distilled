@@ -1,6 +1,10 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * InngestProtocol -- hand-written.
@@ -85,11 +89,6 @@ export const InngestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownInngestError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownInngestError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new InngestParseError({ body, cause }),
 });

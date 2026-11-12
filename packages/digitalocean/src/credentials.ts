@@ -13,6 +13,10 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
 export const DEFAULT_API_BASE_URL = "https://api.digitalocean.com";
+/** Host of the Serverless Inference operations (`T.Http({ server: "inference" })`). */
+export const DEFAULT_INFERENCE_BASE_URL = "https://inference.do-ai.run";
+/** Host of the Action Gateway operations (`T.Http({ server: "actions" })`). */
+export const DEFAULT_ACTIONS_BASE_URL = "https://actions.do-ai.run";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -21,6 +25,10 @@ export interface Config {
   readonly spacesAccessKeyId?: Redacted.Redacted<string> | undefined;
   /** Spaces secret access key, for the S3-compatible API. */
   readonly spacesSecretAccessKey?: Redacted.Redacted<string> | undefined;
+  /** Serverless Inference base URL. Default {@link DEFAULT_INFERENCE_BASE_URL}. */
+  readonly inferenceBaseUrl?: string | undefined;
+  /** Action Gateway base URL. Default {@link DEFAULT_ACTIONS_BASE_URL}. */
+  readonly actionsBaseUrl?: string | undefined;
 }
 
 export class Credentials
@@ -28,12 +36,14 @@ export class Credentials
     "DigitalOceanCredentials",
   ) {}
 
-/** Layer from a redacted API token + optional base URL. */
+/** Layer from a redacted API token + optional base URLs. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly spacesAccessKeyId?: Redacted.Redacted<string>;
   readonly spacesSecretAccessKey?: Redacted.Redacted<string>;
+  readonly inferenceBaseUrl?: string;
+  readonly actionsBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
@@ -42,6 +52,8 @@ export const fromApiKey = (config: {
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       spacesAccessKeyId: config.spacesAccessKeyId,
       spacesSecretAccessKey: config.spacesSecretAccessKey,
+      inferenceBaseUrl: config.inferenceBaseUrl,
+      actionsBaseUrl: config.actionsBaseUrl,
     }),
   );
 

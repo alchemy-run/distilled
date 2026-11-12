@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DigitalOceanProtocol -- hand-written.
  *
@@ -12,7 +16,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.digitalocean.com), resolved from the
  *             calling fiber on every request. Generated operations carry
- *             `/v2/...` routes.
+ *             `/v2/...` routes; Serverless Inference and Action Gateway
+ *             operations name their own host (see `baseUrlFor`).
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ id, message, request_id? }` bodies
@@ -27,6 +32,8 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   Credentials,
+  DEFAULT_ACTIONS_BASE_URL,
+  DEFAULT_INFERENCE_BASE_URL,
   FunctionsCredentials,
   type Config,
   type FunctionsConfig,
@@ -66,14 +73,34 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
+/**
+ * The base URL for an operation's host. Serverless Inference and the Action
+ * Gateway run on their own hosts (`T.Http({ server })`, named from the
+ * spec's operation `servers` in scripts/convert.ts); every other operation
+ * runs on `apiBaseUrl`. The URL always comes from the credentials.
+ */
+const baseUrlFor = (creds: Config, server: string | undefined): string => {
+  switch (server) {
+    case undefined:
+      return creds.apiBaseUrl;
+    case "inference":
+      return creds.inferenceBaseUrl ?? DEFAULT_INFERENCE_BASE_URL;
+    case "actions":
+      return creds.actionsBaseUrl ?? DEFAULT_ACTIONS_BASE_URL;
+    default:
+      // Caught by makeRestProtocol and returned as the call's failure.
+      throw new SdkError({
+        message: `DigitalOcean operation runs on server "${server}", which has no base URL in the credentials`,
+      });
+  }
+};
+
 export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
   /*@__PURE__*/ makeRestProtocol<Config>({
     // The Credentials service holds an effect -- resolving it here (per
     // request, on the calling fiber) picks up context-provided credentials.
     credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    // Data-plane operations (Serverless Inference, the Action Gateway)
-    // carry their own host from the spec's operation `servers`.
-    baseUrl: (creds, target) => target.baseUrl ?? creds.apiBaseUrl,
+    baseUrl: (creds, target) => baseUrlFor(creds, target.server),
     // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
     // answers 415 without the header even though it carries no body.
     headers: (creds) => ({
@@ -81,12 +108,7 @@ export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
       "Content-Type": "application/json",
     }),
     errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownDigitalOceanError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
   });
 
@@ -114,11 +136,6 @@ export const FunctionsProtocol: Layer.Layer<API.Protocol> =
       "Content-Type": "application/json",
     }),
     errorEnvelope: functionsErrorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownDigitalOceanError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
   });

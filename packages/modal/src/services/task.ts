@@ -69,7 +69,6 @@ export interface TaskGetCommandRouterAccessResponse {
 export interface TaskGetInfoRequest {
   taskId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -82,24 +81,25 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status?: GenericResultGenericStatus | (string & {}) | undefined;
   /** Status of the task or function output. */
-  exception?: string | undefined;
+  status?: GenericResultGenericStatus | (string & {}) | undefined;
   /** Exception message for failures, if available. */
-  exitcode?: number | undefined;
+  exception?: string | undefined;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string | undefined;
+  exitcode?: number | undefined;
   /** String value of the Python traceback. */
-  serializedTb?: string | undefined;
+  traceback?: string | undefined;
   /** Pickled traceback object. */
-  tbLineCache?: string | undefined;
+  serializedTb?: string | undefined;
   /** Pickled line cache for traceback object. */
-  data?: string | undefined;
+  tbLineCache?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string | undefined;
+  data?: string | undefined;
   /** Blob ID for large data. */
+  dataBlobId?: string | undefined;
+  /** (?) */
   propagationReason?: string | undefined;
 }
 export type TaskSnapshotBehavior =
@@ -119,15 +119,15 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type: GPUType;
   /** Deprecated, at some point */
+  type: GPUType;
   count: number;
   gpuType: string;
 }
 export interface TaskInfo {
   id: string;
-  startedAt: number;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
+  startedAt: number;
   finishedAt: number;
   result?: GenericResult | undefined;
   enqueuedAt: number;

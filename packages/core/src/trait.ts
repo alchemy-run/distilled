@@ -87,12 +87,13 @@ export interface HttpTrait {
    */
   readonly accept?: string;
   /**
-   * The operation's own base URL, when the API serves it from a host other
-   * than the service's (an OpenAPI operation-level `servers` entry, such as
-   * a data plane beside a control plane). Protocols receive it as
-   * `target.baseUrl` and decide whether it wins over the configured one.
+   * Name of the host the operation runs on, when the API serves it from a
+   * host other than the service's main one (DigitalOcean's `"inference"`
+   * for `inference.do-ai.run`). It names a host and is never a URL: the
+   * protocol maps it to a base URL from its credentials, so the caller's
+   * configuration decides where the request and its credentials go.
    */
-  readonly baseUrl?: string;
+  readonly server?: string;
 }
 
 export const httpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http");

@@ -1,0 +1,47 @@
+{
+  "description": "Keep the SDK's name deleteContainerApplication. The docs promise a `message` in the result; Wrangler types the result as an empty object (EmptyResponse in https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/services/ApplicationsService.ts), so the message is optional.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsDeleteResponse/members/message/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsDelete/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsDelete",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerApplication"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerApplication/input/target",
+      "value": "com.cloudflare.containers#DeleteContainerApplicationRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsDeleteRequest",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerApplicationRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerApplication/output/target",
+      "value": "com.cloudflare.containers#DeleteContainerApplicationResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsDeleteResponse",
+      "path": "/shapes/com.cloudflare.containers#DeleteContainerApplicationResponse"
+    }
+  ]
+}

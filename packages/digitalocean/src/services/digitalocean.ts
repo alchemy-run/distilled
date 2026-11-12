@@ -42271,14 +42271,7 @@ function __c13(j: number): any {
           completion_window: S.String,
           request_id: S.String,
           metadata: S.optional(S.NullOr(__S(13504, __c422, 0))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/batches",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/batches", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceBatchRequest" });
   }
 }
@@ -42289,12 +42282,7 @@ function __c14(j: number): any {
         S.Struct({
           file_name: S.String,
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/batches/files",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/v1/batches/files", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "CreateInferenceBatchFileRequest" });
     case 1:
@@ -42334,12 +42322,7 @@ function __c15(j: number): any {
           top_p: S.optional(S.NullOr(S.Number)),
           user: S.optional(S.String),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/chat/completions",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/v1/chat/completions", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "CreateInferenceChatCompletionRequest" });
   }
@@ -42353,14 +42336,7 @@ function __c16(j: number): any {
           input: S.Unknown,
           user: S.optional(S.String),
           encoding_format: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/embeddings",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/embeddings", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceEmbeddingRequest" });
     case 1:
       return S.suspend(() =>
@@ -42408,12 +42384,7 @@ function __c17(j: number): any {
           partial_images: S.optional(S.NullOr(S.Number)),
           user: S.optional(S.NullOr(S.String)),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/images/generations",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/v1/images/generations", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "CreateInferenceImageRequest" });
     case 1:
@@ -42506,14 +42477,7 @@ function __c18(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           speed: S.optional(S.NullOr(S.String)),
           thinking: S.optional(S.NullOr(__S(581, __c18, 5))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/messages",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/messages", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceMessagesRequest" });
     case 7:
       return S.Array(S.Unknown);
@@ -42580,14 +42544,7 @@ function __c19(j: number): any {
           stop: S.optional(S.NullOr(S.Unknown)),
           metadata: S.optional(S.NullOr(__S(13504, __c422, 0))),
           user: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/responses",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/responses", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceResponseRequest" });
     case 5:
       return S.suspend(() =>
@@ -42659,12 +42616,7 @@ function __c20(j: number): any {
           response_format: S.optional(S.String),
           instructions: S.optional(S.String),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/audio/speech",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/v1/audio/speech", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "CreateInferenceSpeechRequest" });
     case 1:
@@ -42689,14 +42641,7 @@ function __c21(j: number): any {
           state: S.String,
           model: S.String,
           questions: __S(673, __c21, 1),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/systemone",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/systemone", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceSystemoneRequest" });
     case 3:
       return S.suspend(() =>
@@ -42738,14 +42683,7 @@ function __c22(j: number): any {
           prompt: S.String,
           size: S.optional(S.String),
           fps: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/videos",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/videos", code: 200, server: "inference" })),
       ).annotate({ identifier: "CreateInferenceVideoRequest" });
   }
 }
@@ -47326,14 +47264,7 @@ function __c300(j: number): any {
           providers: S.optional(__S(5248, __c164, 0)),
           tags: S.optional(__S(5248, __c164, 0)),
           limit: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/tools/search",
-            code: 200,
-            baseUrl: "https://actions.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/tools/search", code: 200, server: "actions" })),
       ).annotate({ identifier: "GatewayToolsListSearchRequest" });
     case 3:
       return S.suspend(() =>
@@ -52232,12 +52163,7 @@ function __c501(j: number): any {
         S.Struct({
           batch_id: S.String.pipe(T.Label()),
         }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/batches/{batch_id}",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "GET", uri: "/v1/batches/{batch_id}", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "GetInferenceBatchRequest" });
   }
@@ -52253,7 +52179,7 @@ function __c502(j: number): any {
             method: "GET",
             uri: "/v1/batches/{batch_id}/results",
             code: 200,
-            baseUrl: "https://inference.do-ai.run",
+            server: "inference",
           }),
         ),
       ).annotate({ identifier: "GetInferenceBatchResultsRequest" });
@@ -52293,12 +52219,7 @@ function __c504(j: number): any {
         S.Struct({
           video_id: S.String.pipe(T.Label()),
         }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/videos/{video_id}",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "GET", uri: "/v1/videos/{video_id}", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "GetInferenceVideoRequest" });
   }
@@ -52314,7 +52235,7 @@ function __c505(j: number): any {
             method: "GET",
             uri: "/v1/videos/{video_id}/content",
             code: 200,
-            baseUrl: "https://inference.do-ai.run",
+            server: "inference",
           }),
         ),
       ).annotate({ identifier: "GetInferenceVideoContentRequest" });
@@ -54118,7 +54039,7 @@ function __c598(j: number): any {
             method: "POST",
             uri: "/v1/batches/{batch_id}/cancel",
             code: 200,
-            baseUrl: "https://inference.do-ai.run",
+            server: "inference",
           }),
         ),
       ).annotate({ identifier: "CancelInferenceBatchRequest" });
@@ -56786,12 +56707,7 @@ function __c732(j: number): any {
           input: __S(23424, __c732, 0),
           tags: S.optional(S.NullOr(__S(23426, __c732, 2))),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/async-invoke",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/v1/async-invoke", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "InferenceCreateAsyncInvokeRequest" });
     case 4:
@@ -59179,9 +59095,7 @@ function __c831(j: number): any {
           xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
           xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/tools", code: 200, baseUrl: "https://actions.do-ai.run" }),
-        ),
+        }).pipe(T.Http({ method: "GET", uri: "/tools", code: 200, server: "actions" })),
       ).annotate({ identifier: "ListGatewayToolsRequest" });
     case 1:
       return S.suspend(() =>
@@ -60986,14 +60900,7 @@ function __c905(j: number): any {
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/batches",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/batches", code: 200, server: "inference" })),
       ).annotate({ identifier: "ListInferenceBatchesRequest" });
     case 1:
       return S.Array(__S(19171, __c599, 3));
@@ -61054,12 +60961,7 @@ function __c909(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/models",
-            code: 200,
-            baseUrl: "https://inference.do-ai.run",
-          }),
+          T.Http({ method: "GET", uri: "/v1/models", code: 200, server: "inference" }),
         ),
       ).annotate({ identifier: "ListInferenceModelsRequest" });
     case 1:
@@ -64689,14 +64591,7 @@ function __c1081(j: number): any {
           xEndpointId: S.optional(S.String.pipe(T.Header("X-Endpoint-Id"))),
           xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           code: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/code/execute",
-            code: 200,
-            baseUrl: "https://actions.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/code/execute", code: 200, server: "actions" })),
       ).annotate({ identifier: "RunGatewayCodeRequest" });
     case 1:
       return S.suspend(() =>
@@ -64749,14 +64644,7 @@ function __c1082(j: number): any {
           xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           rationale: S.optional(S.String),
           tools: __S(34626, __c1082, 2),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/tools/invoke",
-            code: 200,
-            baseUrl: "https://actions.do-ai.run",
-          }),
-        ),
+        }).pipe(T.Http({ method: "POST", uri: "/tools/invoke", code: 200, server: "actions" })),
       ).annotate({ identifier: "RunGatewayToolRequest" });
     case 4:
       return S.suspend(() =>
@@ -65620,12 +65508,7 @@ function __c1129(j: number): any {
           xActorId: S.optional(S.String.pipe(T.Header("X-Actor-Id"))),
           decision: S.String,
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/approvals/{approval_id}",
-            code: 200,
-            baseUrl: "https://actions.do-ai.run",
-          }),
+          T.Http({ method: "POST", uri: "/approvals/{approval_id}", code: 200, server: "actions" }),
         ),
       ).annotate({ identifier: "UpdateGatewayApprovalRequest" });
   }
@@ -65656,7 +65539,7 @@ function __c1131(j: number): any {
             method: "POST",
             uri: "/approvals/session/{session_id}/{approval_id}",
             code: 200,
-            baseUrl: "https://actions.do-ai.run",
+            server: "actions",
           }),
         ),
       ).annotate({ identifier: "UpdateGatewaySessionApprovalRequest" });

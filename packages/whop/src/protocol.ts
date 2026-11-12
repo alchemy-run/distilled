@@ -1,7 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * WhopProtocol -- the shared bearer-REST protocol instantiated for Whop.
@@ -91,11 +95,6 @@ export const WhopProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
   }),
   errorEnvelope,
   statusMap,
-  unknownError: ({ code, message, body }) =>
-    new UnknownWhopError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownWhopError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new WhopParseError({ body, cause }),
 });
