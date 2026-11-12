@@ -500,7 +500,7 @@ const thenSend = <A>(
 /**
  * Stamp a server-provided `retryAfterSeconds` hint (modeled on several AWS
  * throttling errors) as the `retryAfter` Duration that core's default retry
- * policy honors with precedence over its backoff.
+ * policy treats as the least it waits (RFC 9110).
  */
 const stampRetryAfter = (error: unknown): unknown => {
   if (typeof error !== "object" || error === null) return error;

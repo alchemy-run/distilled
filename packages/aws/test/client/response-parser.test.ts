@@ -53,7 +53,7 @@ const unstructuredBodies = [
 describe("REST-XML unstructured server errors", () => {
   for (const status of [500, 502, 503, 504]) {
     for (const [name, body] of unstructuredBodies) {
-      test(`${status} ${name} is retryable without retaining the response body`, async () => {
+      test(`${status} ${name} is a server error without retaining the response body`, async () => {
         const error = await Effect.runPromise(
           parsePutObject({
             status,
@@ -67,7 +67,8 @@ describe("REST-XML unstructured server errors", () => {
         } else {
           expect(error).toBeInstanceOf(InternalError);
         }
-        expect(isTransientError(error)).toBe(true);
+        // Only errors marked retryable retry; a status alone does not mark one.
+        expect(isTransientError(error)).toBe(false);
         expect(JSON.stringify(error)).not.toContain("SENSITIVE_SENTINEL");
       });
     }

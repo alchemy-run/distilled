@@ -74,10 +74,11 @@ export class RequestExpired
     message: ErrorMessage,
   }).pipe(Category.withBadRequestError, Category.withTimeoutError) {}
 
+/** A transient error code in the AWS SDKs' retry rules. */
 export class RequestTimeoutException
   extends /*@__PURE__*/ S.TaggedError<RequestTimeoutException>()("RequestTimeoutException", {
     message: ErrorMessage,
-  }).pipe(Category.withTimeoutError) {}
+  }).pipe(Category.withTimeoutError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class ServiceUnavailable
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()("ServiceUnavailable", {
@@ -167,7 +168,7 @@ export class TransientFetchError
   extends /*@__PURE__*/ S.TaggedError<TransientFetchError>()("TransientFetchError", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     cause: S.Any,
-  }).pipe(Category.withNetworkError) {}
+  }).pipe(Category.withNetworkError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class InternalError
   extends /*@__PURE__*/ S.TaggedError<InternalError>()("InternalError", {

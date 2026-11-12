@@ -1,5 +1,5 @@
 import * as Context from "effect/Context";
-import type * as Duration from "effect/Duration";
+import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -18,13 +18,14 @@ import { SingleShotGen } from "effect/Utils";
 import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
+import { takeLastRequest } from "./retry-state.ts";
 import {
   type Backoff,
+  BOUNDED_HINT_MAX_EXTRA_MS,
   defaultOptions,
   type Options as RetryOptions,
   type Policy as RetryPolicy,
   resolveServerRetryHintCapMs,
-  serverHintMillis,
 } from "./retry.ts";
 import { SdkError } from "./sdk-error.ts";
 import * as Telemetry from "./telemetry.ts";
@@ -291,21 +292,41 @@ export interface OperationConfig<
  * Wrap one operation call with the caller-provided retry policy, if the
  * operation declares a retry tag and the context carries a policy for it.
  */
-/** Delay before retry `attempt` (0-based) under `b`, in milliseconds. */
-const backoffDelay = (b: Backoff, attempt: number, error: unknown): Effect.Effect<number> => {
-  const base = Math.min(b.baseMs * b.factor ** attempt, b.capMs);
-  const jitter = () => Math.random() * (b.jitterMs ?? 0);
-  if (b.serverHint && (error as { retryAfter?: unknown } | null)?.retryAfter !== undefined) {
-    return Effect.map(resolveServerRetryHintCapMs(), (capMs) => {
-      const hint = serverHintMillis(error, capMs);
-      return (hint ?? base) + jitter();
-    });
+/**
+ * Delay before retry `attempt` (0-based) under `b`, in milliseconds, or
+ * `undefined` when the server asked for a wait over the hint cap.
+ * `boundedHintMs` is the response's `x-amz-retry-after` /
+ * `x-distilled-retry-after`.
+ */
+const backoffDelay = (
+  b: Backoff,
+  attempt: number,
+  error: unknown,
+  boundedHintMs: number | undefined,
+): Effect.Effect<number | undefined> => {
+  const throttling = isThrottling(error);
+  let t: number;
+  if (b.fullJitter) {
+    const base = throttling && b.throttlingBaseMs !== undefined ? b.throttlingBaseMs : b.baseMs;
+    t = Math.random() * Math.min(base * b.factor ** attempt, b.capMs);
+  } else {
+    const base = Math.min(b.baseMs * b.factor ** attempt, b.capMs);
+    const floored =
+      b.minThrottleMs !== undefined && base < b.minThrottleMs && throttling
+        ? b.minThrottleMs
+        : base;
+    t = floored + Math.random() * (b.jitterMs ?? 0);
   }
-  const floored =
-    b.minThrottleMs !== undefined && base < b.minThrottleMs && isThrottling(error)
-      ? b.minThrottleMs
-      : base;
-  return Effect.succeed(floored + jitter());
+  if (!b.serverHint) return Effect.succeed(t);
+  if (boundedHintMs !== undefined) {
+    return Effect.succeed(Math.min(Math.max(boundedHintMs, t), t + BOUNDED_HINT_MAX_EXTRA_MS));
+  }
+  const hint = (error as { retryAfter?: unknown } | null)?.retryAfter;
+  if (!Duration.isDuration(hint)) return Effect.succeed(t);
+  const hintMs = Duration.toMillis(hint);
+  return Effect.map(resolveServerRetryHintCapMs(), (capMs) =>
+    hintMs > capMs ? undefined : Math.max(t, hintMs),
+  );
 };
 
 const NO_BACKOFF: Backoff = { baseMs: 0, factor: 1, capMs: 0 };
@@ -403,14 +424,29 @@ const retryWith = (
     });
   }
   const b = opts.backoff ?? NO_BACKOFF;
-  const step = (e: unknown, n: number): Effect.Effect<any, any, any> =>
-    !keepGoing(e) || (b.maxRetries !== undefined && n >= b.maxRetries)
-      ? Effect.fail(e)
-      : Effect.flatMap(backoffDelay(b, n, e), (ms) =>
-          Effect.flatMap(backoffSleep(ms, n + 1, e), () =>
-            Effect.catch(again(n + 2), (next) => step(next, n + 1)),
-          ),
-        );
+  const budget = b.budget;
+  const step = (e: unknown, n: number): Effect.Effect<any, any, any> => {
+    if (!keepGoing(e) || (b.maxRetries !== undefined && n >= b.maxRetries)) {
+      return Effect.fail(e);
+    }
+    // Read now, on the fiber that sent the request that failed.
+    const last = takeLastRequest();
+    return Effect.flatMap(backoffDelay(b, n, e, last.hintMs), (ms) => {
+      if (ms === undefined) return Effect.fail(e);
+      const cost = budget?.withdraw(last.host, isThrottling(e));
+      if (budget !== undefined && cost === undefined) return Effect.fail(e);
+      const next =
+        cost === undefined
+          ? again(n + 2)
+          : Effect.map(again(n + 2), (value) => {
+              budget!.refund(last.host, cost);
+              return value;
+            });
+      return Effect.flatMap(backoffSleep(ms, n + 1, e), () =>
+        Effect.catch(next, (failed) => step(failed, n + 1)),
+      );
+    });
+  };
   return step(error, 0);
 };
 

@@ -95,7 +95,7 @@ export class Locked
   extends /*@__PURE__*/ Schema.TaggedError<Locked>()("Locked", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withLockedError, /*@__PURE__*/ Category.withRetryable()) {}
+  }).pipe(Category.withLockedError) {}
 
 /**
  * InternalServerError - Server error.
@@ -110,7 +110,7 @@ export class InternalServerError
     message: Schema.String,
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
+  }).pipe(Category.withServerError) {}
 
 /**
  * BadGateway - Bad gateway (502).
@@ -119,7 +119,7 @@ export class BadGateway
   extends /*@__PURE__*/ Schema.TaggedError<BadGateway>()("BadGateway", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
+  }).pipe(Category.withServerError) {}
 
 /**
  * ServiceUnavailable - Service unavailable (503).
@@ -137,7 +137,7 @@ export class GatewayTimeout
   extends /*@__PURE__*/ Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
+  }).pipe(Category.withServerError) {}
 
 // Defined with the config readers (core's `base` bundle group, which every
 // program loads) so they can fail with it without importing this module.
@@ -186,8 +186,8 @@ export const DEFAULT_ERROR_STATUSES = /*@__PURE__*/ new Set([401, 429, 500, 502,
 
 /**
  * HTTP status codes whose corresponding error class in {@link HTTP_STATUS_MAP}
- * declares a `retryAfter` field. The retry policy honors `error.retryAfter`
- * with precedence over the default backoff for these.
+ * declares a `retryAfter` field. The retry policy waits at least
+ * `error.retryAfter` for these.
  *
  * `matchError` implementations should only pass `retryAfter` into the
  * constructor when the status is in this set; passing it on non-retryable
