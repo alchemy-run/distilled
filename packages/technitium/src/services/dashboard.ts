@@ -32,144 +32,144 @@ export interface DeleteAllStatsRequest {
 export interface DeleteAllStatsResponse {}
 export interface GetMetricsJsonRequest {}
 export interface GetMetricsJsonResponseLifetimeCounters {
-  totalAuthoritative?: number;
-  totalBlocked?: number;
-  totalCached?: number;
-  totalClients?: number;
-  totalDropped?: number;
-  totalNoError?: number;
-  totalNxDomain?: number;
-  totalQueries?: number;
-  totalRecursive?: number;
-  totalRefused?: number;
-  totalServerFailure?: number;
+  totalAuthoritative?: number | undefined;
+  totalBlocked?: number | undefined;
+  totalCached?: number | undefined;
+  totalClients?: number | undefined;
+  totalDropped?: number | undefined;
+  totalNoError?: number | undefined;
+  totalNxDomain?: number | undefined;
+  totalQueries?: number | undefined;
+  totalRecursive?: number | undefined;
+  totalRefused?: number | undefined;
+  totalServerFailure?: number | undefined;
 }
 export interface GetMetricsJsonResponse {
-  lifetimeCounters?: GetMetricsJsonResponseLifetimeCounters;
-  uptimeSeconds?: number;
-  uptimestamp?: string;
+  lifetimeCounters?: GetMetricsJsonResponseLifetimeCounters | undefined;
+  uptimeSeconds?: number | undefined;
+  uptimestamp?: string | undefined;
 }
 export interface GetStatsRequest {
   node: string;
-  type?: string;
-  utc?: boolean;
-  dontTrimQueryTypeData?: boolean;
-  start?: string;
-  end?: string;
+  type?: string | undefined;
+  utc?: boolean | undefined;
+  dontTrimQueryTypeData?: boolean | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
 }
 export type GetStatsResponseMainChartDataDatasetsItemData = Array<number>;
 export interface GetStatsResponseMainChartDataDatasetsItem {
-  backgroundColor?: string;
-  borderColor?: string;
-  borderWidth?: number;
-  data?: GetStatsResponseMainChartDataDatasetsItemData;
-  fill?: boolean;
-  label?: string;
+  backgroundColor?: string | undefined;
+  borderColor?: string | undefined;
+  borderWidth?: number | undefined;
+  data?: GetStatsResponseMainChartDataDatasetsItemData | undefined;
+  fill?: boolean | undefined;
+  label?: string | undefined;
 }
 export type GetStatsResponseMainChartDataDatasets =
   Array<GetStatsResponseMainChartDataDatasetsItem>;
 export type GetStatsResponseMainChartDataLabels = Array<string>;
 export interface GetStatsResponseMainChartData {
-  datasets?: GetStatsResponseMainChartDataDatasets;
-  labelFormat?: string;
-  labels?: GetStatsResponseMainChartDataLabels;
+  datasets?: GetStatsResponseMainChartDataDatasets | undefined;
+  labelFormat?: string | undefined;
+  labels?: GetStatsResponseMainChartDataLabels | undefined;
 }
 export type GetStatsResponseProtocolTypeChartDataDatasetsItemBackgroundColor = Array<string>;
 export type GetStatsResponseProtocolTypeChartDataDatasetsItemData = Array<number>;
 export interface GetStatsResponseProtocolTypeChartDataDatasetsItem {
-  backgroundColor?: GetStatsResponseProtocolTypeChartDataDatasetsItemBackgroundColor;
-  data?: GetStatsResponseProtocolTypeChartDataDatasetsItemData;
+  backgroundColor?: GetStatsResponseProtocolTypeChartDataDatasetsItemBackgroundColor | undefined;
+  data?: GetStatsResponseProtocolTypeChartDataDatasetsItemData | undefined;
 }
 export type GetStatsResponseProtocolTypeChartDataDatasets =
   Array<GetStatsResponseProtocolTypeChartDataDatasetsItem>;
 export type GetStatsResponseProtocolTypeChartDataLabels = Array<string>;
 export interface GetStatsResponseProtocolTypeChartData {
-  datasets?: GetStatsResponseProtocolTypeChartDataDatasets;
-  labels?: GetStatsResponseProtocolTypeChartDataLabels;
+  datasets?: GetStatsResponseProtocolTypeChartDataDatasets | undefined;
+  labels?: GetStatsResponseProtocolTypeChartDataLabels | undefined;
 }
 export type GetStatsResponseQueryResponseChartDataDatasetsItemBackgroundColor = Array<string>;
 export type GetStatsResponseQueryResponseChartDataDatasetsItemData = Array<number>;
 export interface GetStatsResponseQueryResponseChartDataDatasetsItem {
-  backgroundColor?: GetStatsResponseQueryResponseChartDataDatasetsItemBackgroundColor;
-  data?: GetStatsResponseQueryResponseChartDataDatasetsItemData;
+  backgroundColor?: GetStatsResponseQueryResponseChartDataDatasetsItemBackgroundColor | undefined;
+  data?: GetStatsResponseQueryResponseChartDataDatasetsItemData | undefined;
 }
 export type GetStatsResponseQueryResponseChartDataDatasets =
   Array<GetStatsResponseQueryResponseChartDataDatasetsItem>;
 export type GetStatsResponseQueryResponseChartDataLabels = Array<string>;
 export interface GetStatsResponseQueryResponseChartData {
-  datasets?: GetStatsResponseQueryResponseChartDataDatasets;
-  labels?: GetStatsResponseQueryResponseChartDataLabels;
+  datasets?: GetStatsResponseQueryResponseChartDataDatasets | undefined;
+  labels?: GetStatsResponseQueryResponseChartDataLabels | undefined;
 }
 export type GetStatsResponseQueryTypeChartDataDatasetsItemBackgroundColor = Array<string>;
 export type GetStatsResponseQueryTypeChartDataDatasetsItemData = Array<number>;
 export interface GetStatsResponseQueryTypeChartDataDatasetsItem {
-  backgroundColor?: GetStatsResponseQueryTypeChartDataDatasetsItemBackgroundColor;
-  data?: GetStatsResponseQueryTypeChartDataDatasetsItemData;
+  backgroundColor?: GetStatsResponseQueryTypeChartDataDatasetsItemBackgroundColor | undefined;
+  data?: GetStatsResponseQueryTypeChartDataDatasetsItemData | undefined;
 }
 export type GetStatsResponseQueryTypeChartDataDatasets =
   Array<GetStatsResponseQueryTypeChartDataDatasetsItem>;
 export type GetStatsResponseQueryTypeChartDataLabels = Array<string>;
 export interface GetStatsResponseQueryTypeChartData {
-  datasets?: GetStatsResponseQueryTypeChartDataDatasets;
-  labels?: GetStatsResponseQueryTypeChartDataLabels;
+  datasets?: GetStatsResponseQueryTypeChartDataDatasets | undefined;
+  labels?: GetStatsResponseQueryTypeChartDataLabels | undefined;
 }
 export interface GetStatsResponseStats {
-  allowListZones?: number;
-  allowedZones?: number;
-  blockListZones?: number;
-  blockedZones?: number;
-  cachedEntries?: number;
-  totalAuthoritative?: number;
-  totalBlocked?: number;
-  totalCached?: number;
-  totalClients?: number;
-  totalDropped?: number;
-  totalNoError?: number;
-  totalNxDomain?: number;
-  totalQueries?: number;
-  totalRecursive?: number;
-  totalRefused?: number;
-  totalServerFailure?: number;
-  zones?: number;
+  allowListZones?: number | undefined;
+  allowedZones?: number | undefined;
+  blockListZones?: number | undefined;
+  blockedZones?: number | undefined;
+  cachedEntries?: number | undefined;
+  totalAuthoritative?: number | undefined;
+  totalBlocked?: number | undefined;
+  totalCached?: number | undefined;
+  totalClients?: number | undefined;
+  totalDropped?: number | undefined;
+  totalNoError?: number | undefined;
+  totalNxDomain?: number | undefined;
+  totalQueries?: number | undefined;
+  totalRecursive?: number | undefined;
+  totalRefused?: number | undefined;
+  totalServerFailure?: number | undefined;
+  zones?: number | undefined;
 }
 export interface GetStatsResponseTopBlockedDomainsItem {
-  hits?: number;
-  name?: string;
+  hits?: number | undefined;
+  name?: string | undefined;
 }
 export type GetStatsResponseTopBlockedDomains = Array<GetStatsResponseTopBlockedDomainsItem>;
 export interface GetStatsResponseTopClientsItem {
-  domain?: string;
-  hits?: number;
-  name?: string;
-  rateLimited?: boolean;
+  domain?: string | undefined;
+  hits?: number | undefined;
+  name?: string | undefined;
+  rateLimited?: boolean | undefined;
 }
 export type GetStatsResponseTopClients = Array<GetStatsResponseTopClientsItem>;
 export type GetStatsResponseTopDomainsItem = GetStatsResponseTopBlockedDomainsItem;
 export type GetStatsResponseTopDomains = Array<GetStatsResponseTopBlockedDomainsItem>;
 export interface GetStatsResponse {
-  mainChartData?: GetStatsResponseMainChartData;
-  protocolTypeChartData?: GetStatsResponseProtocolTypeChartData;
-  queryResponseChartData?: GetStatsResponseQueryResponseChartData;
-  queryTypeChartData?: GetStatsResponseQueryTypeChartData;
-  stats?: GetStatsResponseStats;
-  topBlockedDomains?: GetStatsResponseTopBlockedDomains;
-  topClients?: GetStatsResponseTopClients;
-  topDomains?: GetStatsResponseTopDomains;
+  mainChartData?: GetStatsResponseMainChartData | undefined;
+  protocolTypeChartData?: GetStatsResponseProtocolTypeChartData | undefined;
+  queryResponseChartData?: GetStatsResponseQueryResponseChartData | undefined;
+  queryTypeChartData?: GetStatsResponseQueryTypeChartData | undefined;
+  stats?: GetStatsResponseStats | undefined;
+  topBlockedDomains?: GetStatsResponseTopBlockedDomains | undefined;
+  topClients?: GetStatsResponseTopClients | undefined;
+  topDomains?: GetStatsResponseTopDomains | undefined;
 }
 export interface GetTopStatsRequest {
   node: string;
-  type?: string;
-  start?: string;
-  end?: string;
+  type?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
   statsType: string;
-  limit?: number;
-  noReverseLookup?: boolean;
-  onlyRateLimitedClients?: boolean;
+  limit?: number | undefined;
+  noReverseLookup?: boolean | undefined;
+  onlyRateLimitedClients?: boolean | undefined;
 }
 export type GetTopStatsResponseTopClientsItem = GetStatsResponseTopClientsItem;
 export type GetTopStatsResponseTopClients = Array<GetStatsResponseTopClientsItem>;
 export interface GetTopStatsResponse {
-  topClients?: GetTopStatsResponseTopClients;
+  topClients?: GetTopStatsResponseTopClients | undefined;
 }
 export type DeleteAllStatsError = TechnitiumOpError;
 /** POST /api/dashboard/stats/deleteAll. Permissions: Dashboard: Delete. */

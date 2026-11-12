@@ -31,25 +31,25 @@ export interface DownloadAndInstallAppRequest {
   url: string;
 }
 export interface DownloadAndInstallAppResponseInstalledAppDnsAppsItem {
-  classPath?: string;
-  description?: string;
-  isAppRecordRequestHandler?: boolean;
-  isAuthoritativeRequestHandler?: boolean;
-  isPostProcessor?: boolean;
-  isQueryLogger?: boolean;
-  isRequestBlockingHandler?: boolean;
-  isRequestController?: boolean;
-  recordDataTemplate?: unknown;
+  classPath?: string | undefined;
+  description?: string | undefined;
+  isAppRecordRequestHandler?: boolean | undefined;
+  isAuthoritativeRequestHandler?: boolean | undefined;
+  isPostProcessor?: boolean | undefined;
+  isQueryLogger?: boolean | undefined;
+  isRequestBlockingHandler?: boolean | undefined;
+  isRequestController?: boolean | undefined;
+  recordDataTemplate?: unknown | undefined;
 }
 export type DownloadAndInstallAppResponseInstalledAppDnsApps =
   Array<DownloadAndInstallAppResponseInstalledAppDnsAppsItem>;
 export interface DownloadAndInstallAppResponseInstalledApp {
-  dnsApps?: DownloadAndInstallAppResponseInstalledAppDnsApps;
-  name?: string;
-  version?: string;
+  dnsApps?: DownloadAndInstallAppResponseInstalledAppDnsApps | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
 }
 export interface DownloadAndInstallAppResponse {
-  installedApp?: DownloadAndInstallAppResponseInstalledApp;
+  installedApp?: DownloadAndInstallAppResponseInstalledApp | undefined;
 }
 export interface DownloadAndUpdateAppRequest {
   name: string;
@@ -60,52 +60,52 @@ export type DownloadAndUpdateAppResponseUpdatedAppDnsAppsItem =
 export type DownloadAndUpdateAppResponseUpdatedAppDnsApps =
   Array<DownloadAndInstallAppResponseInstalledAppDnsAppsItem>;
 export interface DownloadAndUpdateAppResponseUpdatedApp {
-  dnsApps?: DownloadAndUpdateAppResponseUpdatedAppDnsApps;
-  name?: string;
-  version?: string;
+  dnsApps?: DownloadAndUpdateAppResponseUpdatedAppDnsApps | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
 }
 export interface DownloadAndUpdateAppResponse {
-  updatedApp?: DownloadAndUpdateAppResponseUpdatedApp;
+  updatedApp?: DownloadAndUpdateAppResponseUpdatedApp | undefined;
 }
 export interface GetAppConfigRequest {
-  node?: string;
+  node?: string | undefined;
   name: string;
 }
 export interface GetAppConfigResponse {
-  config?: string;
+  config?: string | undefined;
 }
 export interface ListAppsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export type ListAppsResponseAppsItemDnsAppsItem =
   DownloadAndInstallAppResponseInstalledAppDnsAppsItem;
 export type ListAppsResponseAppsItemDnsApps =
   Array<DownloadAndInstallAppResponseInstalledAppDnsAppsItem>;
 export interface ListAppsResponseAppsItem {
-  dnsApps?: ListAppsResponseAppsItemDnsApps;
-  name?: string;
-  version?: string;
+  dnsApps?: ListAppsResponseAppsItemDnsApps | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
 }
 export type ListAppsResponseApps = Array<ListAppsResponseAppsItem>;
 export interface ListAppsResponse {
-  apps?: ListAppsResponseApps;
+  apps?: ListAppsResponseApps | undefined;
 }
 export interface ListStoreAppsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface ListStoreAppsResponseStoreAppsItem {
-  description?: string;
-  installed?: boolean;
-  installedVersion?: string;
-  name?: string;
-  size?: string;
-  updateAvailable?: boolean;
-  url?: string;
-  version?: string;
+  description?: string | undefined;
+  installed?: boolean | undefined;
+  installedVersion?: string | undefined;
+  name?: string | undefined;
+  size?: string | undefined;
+  updateAvailable?: boolean | undefined;
+  url?: string | undefined;
+  version?: string | undefined;
 }
 export type ListStoreAppsResponseStoreApps = Array<ListStoreAppsResponseStoreAppsItem>;
 export interface ListStoreAppsResponse {
-  storeApps?: ListStoreAppsResponseStoreApps;
+  storeApps?: ListStoreAppsResponseStoreApps | undefined;
 }
 export interface SetAppConfigRequest {
   name: string;

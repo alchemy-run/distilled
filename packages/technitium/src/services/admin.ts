@@ -32,57 +32,57 @@ export interface CreateApiTokenRequest {
   tokenName: string;
 }
 export interface CreateApiTokenResponse {
-  token?: Redacted.Redacted<string>;
-  tokenName?: string;
-  username?: string;
+  token?: Redacted.Redacted<string> | undefined;
+  tokenName?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateGroupRequest {
   group: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateGroupResponse {
-  description?: string;
-  name?: string;
+  description?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateSsoUserRequest {
   user: string;
-  displayName?: string;
+  displayName?: string | undefined;
   ssoIdentifier: string;
-  memberOfGroups?: string;
+  memberOfGroups?: string | undefined;
 }
 export interface CreateSsoUserResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateUserRequest {
   user: string;
   pass: string | Redacted.Redacted<string>;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateUserResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  username?: string | undefined;
 }
 export interface DeleteClusterRequest {
-  node?: string;
-  forceDelete?: boolean;
+  node?: string | undefined;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteClusterResponse {
-  clusterInitialized?: boolean;
-  dnsServerDomain?: string;
-  version?: string;
+  clusterInitialized?: boolean | undefined;
+  dnsServerDomain?: string | undefined;
+  version?: string | undefined;
 }
 export interface DeleteGroupRequest {
   group: string;
@@ -93,28 +93,28 @@ export interface DeleteSecondaryNodeRequest {
 }
 export type DeleteSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
 export interface DeleteSecondaryNodeResponseNodesItem {
-  id?: number;
-  ipAddresses?: DeleteSecondaryNodeResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: DeleteSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type DeleteSecondaryNodeResponseNodes = Array<DeleteSecondaryNodeResponseNodesItem>;
 export interface DeleteSecondaryNodeResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: DeleteSecondaryNodeResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: DeleteSecondaryNodeResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface DeleteSessionRequest {
-  node?: string;
+  node?: string | undefined;
   partialToken: string;
 }
 export interface DeleteSessionResponse {}
@@ -123,156 +123,156 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {}
 export interface GetClusterStateRequest {
-  node?: string;
-  includeServerIpAddresses?: boolean;
+  node?: string | undefined;
+  includeServerIpAddresses?: boolean | undefined;
 }
 export interface GetClusterStateResponseNodesItem {
-  id?: number;
-  ipAddress?: string;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddress?: string | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type GetClusterStateResponseNodes = Array<GetClusterStateResponseNodesItem>;
 export type GetClusterStateResponseServerIpAddresses = Array<string>;
 export interface GetClusterStateResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: GetClusterStateResponseNodes;
-  serverIpAddresses?: GetClusterStateResponseServerIpAddresses;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: GetClusterStateResponseNodes | undefined;
+  serverIpAddresses?: GetClusterStateResponseServerIpAddresses | undefined;
+  version?: string | undefined;
 }
 export interface GetGroupDetailsRequest {
-  node?: string;
+  node?: string | undefined;
   group: string;
-  includeUsers?: boolean;
+  includeUsers?: boolean | undefined;
 }
 export type GetGroupDetailsResponseMembers = Array<string>;
 export type GetGroupDetailsResponseUsers = Array<string>;
 export interface GetGroupDetailsResponse {
-  description?: string;
-  members?: GetGroupDetailsResponseMembers;
-  name?: string;
-  users?: GetGroupDetailsResponseUsers;
+  description?: string | undefined;
+  members?: GetGroupDetailsResponseMembers | undefined;
+  name?: string | undefined;
+  users?: GetGroupDetailsResponseUsers | undefined;
 }
 export interface GetPermissionDetailsRequest {
   section: string;
-  includeUsersAndGroups?: boolean;
+  includeUsersAndGroups?: boolean | undefined;
 }
 export interface GetPermissionDetailsResponseGroupPermissionsItem {
-  canDelete?: boolean;
-  canModify?: boolean;
-  canView?: boolean;
-  name?: string;
+  canDelete?: boolean | undefined;
+  canModify?: boolean | undefined;
+  canView?: boolean | undefined;
+  name?: string | undefined;
 }
 export type GetPermissionDetailsResponseGroupPermissions =
   Array<GetPermissionDetailsResponseGroupPermissionsItem>;
 export type GetPermissionDetailsResponseGroups = Array<string>;
 export interface GetPermissionDetailsResponseUserPermissionsItem {
-  canDelete?: boolean;
-  canModify?: boolean;
-  canView?: boolean;
-  username?: string;
+  canDelete?: boolean | undefined;
+  canModify?: boolean | undefined;
+  canView?: boolean | undefined;
+  username?: string | undefined;
 }
 export type GetPermissionDetailsResponseUserPermissions =
   Array<GetPermissionDetailsResponseUserPermissionsItem>;
 export type GetPermissionDetailsResponseUsers = Array<string>;
 export interface GetPermissionDetailsResponse {
-  groupPermissions?: GetPermissionDetailsResponseGroupPermissions;
-  groups?: GetPermissionDetailsResponseGroups;
-  section?: string;
-  userPermissions?: GetPermissionDetailsResponseUserPermissions;
-  users?: GetPermissionDetailsResponseUsers;
+  groupPermissions?: GetPermissionDetailsResponseGroupPermissions | undefined;
+  groups?: GetPermissionDetailsResponseGroups | undefined;
+  section?: string | undefined;
+  userPermissions?: GetPermissionDetailsResponseUserPermissions | undefined;
+  users?: GetPermissionDetailsResponseUsers | undefined;
 }
 export interface GetSsoConfigRequest {
-  includeGroups?: boolean;
+  includeGroups?: boolean | undefined;
 }
 export type GetSsoConfigResponseLocalGroups = Array<string>;
 export type GetSsoConfigResponseSsoGroupMap = Array<unknown>;
 export interface GetSsoConfigResponse {
-  localGroups?: GetSsoConfigResponseLocalGroups;
-  ssoAllowSignup?: boolean;
-  ssoAllowSignupOnlyForMappedUsers?: boolean;
-  ssoAuthority?: unknown;
-  ssoClientId?: unknown;
-  ssoClientSecret?: Redacted.Redacted<string>;
-  ssoEnabled?: boolean;
-  ssoGroupMap?: GetSsoConfigResponseSsoGroupMap;
-  ssoMetadataAddress?: unknown;
+  localGroups?: GetSsoConfigResponseLocalGroups | undefined;
+  ssoAllowSignup?: boolean | undefined;
+  ssoAllowSignupOnlyForMappedUsers?: boolean | undefined;
+  ssoAuthority?: unknown | undefined;
+  ssoClientId?: unknown | undefined;
+  ssoClientSecret?: Redacted.Redacted<string> | undefined;
+  ssoEnabled?: boolean | undefined;
+  ssoGroupMap?: GetSsoConfigResponseSsoGroupMap | undefined;
+  ssoMetadataAddress?: unknown | undefined;
 }
 export interface GetUserDetailsRequest {
-  node?: string;
+  node?: string | undefined;
   user: string;
-  includeGroups?: boolean;
+  includeGroups?: boolean | undefined;
 }
 export type GetUserDetailsResponseGroups = Array<string>;
 export type GetUserDetailsResponseMemberOfGroups = Array<string>;
 export interface GetUserDetailsResponseSessionsItem {
-  isCurrentSession?: boolean;
-  lastSeen?: string;
-  lastSeenRemoteAddress?: string;
-  lastSeenUserAgent?: string;
-  partialToken?: string;
-  tokenName?: string;
-  type?: string;
-  username?: string;
+  isCurrentSession?: boolean | undefined;
+  lastSeen?: string | undefined;
+  lastSeenRemoteAddress?: string | undefined;
+  lastSeenUserAgent?: string | undefined;
+  partialToken?: string | undefined;
+  tokenName?: string | undefined;
+  type?: string | undefined;
+  username?: string | undefined;
 }
 export type GetUserDetailsResponseSessions = Array<GetUserDetailsResponseSessionsItem>;
 export interface GetUserDetailsResponse {
-  disabled?: boolean;
-  displayName?: string;
-  groups?: GetUserDetailsResponseGroups;
-  isSsoUser?: boolean;
-  memberOfGroups?: GetUserDetailsResponseMemberOfGroups;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  sessionTimeoutSeconds?: number;
-  sessions?: GetUserDetailsResponseSessions;
-  totpEnabled?: boolean;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  groups?: GetUserDetailsResponseGroups | undefined;
+  isSsoUser?: boolean | undefined;
+  memberOfGroups?: GetUserDetailsResponseMemberOfGroups | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  sessions?: GetUserDetailsResponseSessions | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface InitializeAndJoinClusterRequest {
   secondaryNodeIpAddresses: string;
   primaryNodeUrl: string;
-  primaryNodeIpAddress?: string;
-  ignoreCertificateErrors?: boolean;
+  primaryNodeIpAddress?: string | undefined;
+  ignoreCertificateErrors?: boolean | undefined;
   primaryNodeUsername: string;
   primaryNodePassword: string | Redacted.Redacted<string>;
-  primaryNodeTotp?: string | Redacted.Redacted<string>;
+  primaryNodeTotp?: string | Redacted.Redacted<string> | undefined;
 }
 export type InitializeAndJoinClusterResponseNodesItemIpAddresses = Array<string>;
 export interface InitializeAndJoinClusterResponseNodesItem {
-  id?: number;
-  ipAddresses?: InitializeAndJoinClusterResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: InitializeAndJoinClusterResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type InitializeAndJoinClusterResponseNodes =
   Array<InitializeAndJoinClusterResponseNodesItem>;
 export interface InitializeAndJoinClusterResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: InitializeAndJoinClusterResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: InitializeAndJoinClusterResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface InitializeClusterRequest {
   clusterDomain: string;
@@ -280,25 +280,25 @@ export interface InitializeClusterRequest {
 }
 export type InitializeClusterResponseNodesItemIpAddresses = Array<string>;
 export interface InitializeClusterResponseNodesItem {
-  id?: number;
-  ipAddresses?: InitializeClusterResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: InitializeClusterResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type InitializeClusterResponseNodes = Array<InitializeClusterResponseNodesItem>;
 export interface InitializeClusterResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: InitializeClusterResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: InitializeClusterResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface JoinClusterRequest {
   secondaryNodeId: number;
@@ -308,49 +308,49 @@ export interface JoinClusterRequest {
 }
 export type JoinClusterResponseNodesItemIpAddresses = Array<string>;
 export interface JoinClusterResponseNodesItem {
-  id?: number;
-  ipAddresses?: JoinClusterResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: JoinClusterResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type JoinClusterResponseNodes = Array<JoinClusterResponseNodesItem>;
 export interface JoinClusterResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: JoinClusterResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: JoinClusterResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface LeaveClusterRequest {
-  node?: string;
-  forceLeave?: boolean;
+  node?: string | undefined;
+  forceLeave?: boolean | undefined;
 }
 export interface LeaveClusterResponse {
-  clusterInitialized?: boolean;
-  dnsServerDomain?: string;
-  version?: string;
+  clusterInitialized?: boolean | undefined;
+  dnsServerDomain?: string | undefined;
+  version?: string | undefined;
 }
 export interface ListGroupsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface ListGroupsResponseGroupsItem {
-  description?: string;
-  name?: string;
+  description?: string | undefined;
+  name?: string | undefined;
 }
 export type ListGroupsResponseGroups = Array<ListGroupsResponseGroupsItem>;
 export interface ListGroupsResponse {
-  groups?: ListGroupsResponseGroups;
+  groups?: ListGroupsResponseGroups | undefined;
 }
 export interface ListPermissionsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export type ListPermissionsResponsePermissionsItemGroupPermissionsItem =
   GetPermissionDetailsResponseGroupPermissionsItem;
@@ -358,38 +358,38 @@ export type ListPermissionsResponsePermissionsItemGroupPermissions =
   Array<GetPermissionDetailsResponseGroupPermissionsItem>;
 export type ListPermissionsResponsePermissionsItemUserPermissions = Array<unknown>;
 export interface ListPermissionsResponsePermissionsItem {
-  groupPermissions?: ListPermissionsResponsePermissionsItemGroupPermissions;
-  section?: string;
-  userPermissions?: ListPermissionsResponsePermissionsItemUserPermissions;
+  groupPermissions?: ListPermissionsResponsePermissionsItemGroupPermissions | undefined;
+  section?: string | undefined;
+  userPermissions?: ListPermissionsResponsePermissionsItemUserPermissions | undefined;
 }
 export type ListPermissionsResponsePermissions = Array<ListPermissionsResponsePermissionsItem>;
 export interface ListPermissionsResponse {
-  permissions?: ListPermissionsResponsePermissions;
+  permissions?: ListPermissionsResponsePermissions | undefined;
 }
 export interface ListSessionsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export type ListSessionsResponseSessionsItem = GetUserDetailsResponseSessionsItem;
 export type ListSessionsResponseSessions = Array<GetUserDetailsResponseSessionsItem>;
 export interface ListSessionsResponse {
-  sessions?: ListSessionsResponseSessions;
+  sessions?: ListSessionsResponseSessions | undefined;
 }
 export interface ListUsersRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface ListUsersResponseUsersItem {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  username?: string | undefined;
 }
 export type ListUsersResponseUsers = Array<ListUsersResponseUsersItem>;
 export interface ListUsersResponse {
-  users?: ListUsersResponseUsers;
+  users?: ListUsersResponseUsers | undefined;
 }
 export interface NotifyRequest {
   primaryNodeId: number;
@@ -398,108 +398,108 @@ export interface NotifyRequest {
 }
 export interface NotifyResponse {}
 export interface PromoteToPrimaryRequest {
-  node?: string;
-  forceDeletePrimary?: boolean;
+  node?: string | undefined;
+  forceDeletePrimary?: boolean | undefined;
 }
 export type PromoteToPrimaryResponseNodesItemIpAddresses = Array<string>;
 export interface PromoteToPrimaryResponseNodesItem {
-  id?: number;
-  ipAddresses?: PromoteToPrimaryResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: PromoteToPrimaryResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type PromoteToPrimaryResponseNodes = Array<PromoteToPrimaryResponseNodesItem>;
 export interface PromoteToPrimaryResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: PromoteToPrimaryResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: PromoteToPrimaryResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface RemoveSecondaryNodeRequest {
   secondaryNodeId: number;
 }
 export type RemoveSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
 export interface RemoveSecondaryNodeResponseNodesItem {
-  id?: number;
-  ipAddresses?: RemoveSecondaryNodeResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: RemoveSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type RemoveSecondaryNodeResponseNodes = Array<RemoveSecondaryNodeResponseNodesItem>;
 export interface RemoveSecondaryNodeResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: RemoveSecondaryNodeResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: RemoveSecondaryNodeResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface ResyncClusterRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface ResyncClusterResponse {}
 export interface SetClusterOptionsRequest {
-  node?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
+  node?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
 }
 export type SetClusterOptionsResponseNodesItemIpAddresses = Array<string>;
 export interface SetClusterOptionsResponseNodesItem {
-  id?: number;
-  ipAddresses?: SetClusterOptionsResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: SetClusterOptionsResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type SetClusterOptionsResponseNodes = Array<SetClusterOptionsResponseNodesItem>;
 export interface SetClusterOptionsResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: SetClusterOptionsResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: SetClusterOptionsResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface SetGroupDetailsRequest {
   group: string;
-  newGroup?: string;
-  description?: string;
-  members?: string;
+  newGroup?: string | undefined;
+  description?: string | undefined;
+  members?: string | undefined;
 }
 export type SetGroupDetailsResponseMembers = Array<string>;
 export interface SetGroupDetailsResponse {
-  description?: string;
-  members?: SetGroupDetailsResponseMembers;
-  name?: string;
+  description?: string | undefined;
+  members?: SetGroupDetailsResponseMembers | undefined;
+  name?: string | undefined;
 }
 export interface SetPermissionDetailsRequest {
-  node?: string;
+  node?: string | undefined;
   section: string;
-  userPermissions?: string;
-  groupPermissions?: string;
+  userPermissions?: string | undefined;
+  groupPermissions?: string | undefined;
 }
 export type SetPermissionDetailsResponseGroupPermissionsItem =
   GetPermissionDetailsResponseGroupPermissionsItem;
@@ -510,131 +510,131 @@ export type SetPermissionDetailsResponseUserPermissionsItem =
 export type SetPermissionDetailsResponseUserPermissions =
   Array<GetPermissionDetailsResponseUserPermissionsItem>;
 export interface SetPermissionDetailsResponse {
-  groupPermissions?: SetPermissionDetailsResponseGroupPermissions;
-  section?: string;
-  userPermissions?: SetPermissionDetailsResponseUserPermissions;
+  groupPermissions?: SetPermissionDetailsResponseGroupPermissions | undefined;
+  section?: string | undefined;
+  userPermissions?: SetPermissionDetailsResponseUserPermissions | undefined;
 }
 export interface SetSsoConfigRequest {
-  ssoEnabled?: boolean;
-  ssoAuthority?: string;
-  ssoClientId?: string;
-  ssoClientSecret?: string | Redacted.Redacted<string>;
-  ssoMetadataAddress?: string;
-  ssoAllowSignup?: boolean;
-  ssoAllowSignupOnlyForMappedUsers?: boolean;
-  ssoGroupMap?: string;
+  ssoEnabled?: boolean | undefined;
+  ssoAuthority?: string | undefined;
+  ssoClientId?: string | undefined;
+  ssoClientSecret?: string | Redacted.Redacted<string> | undefined;
+  ssoMetadataAddress?: string | undefined;
+  ssoAllowSignup?: boolean | undefined;
+  ssoAllowSignupOnlyForMappedUsers?: boolean | undefined;
+  ssoGroupMap?: string | undefined;
 }
 export type SetSsoConfigResponseLocalGroups = Array<string>;
 export type SetSsoConfigResponseSsoGroupMap = Array<unknown>;
 export interface SetSsoConfigResponse {
-  localGroups?: SetSsoConfigResponseLocalGroups;
-  ssoAllowSignup?: boolean;
-  ssoAllowSignupOnlyForMappedUsers?: boolean;
-  ssoAuthority?: unknown;
-  ssoClientId?: unknown;
-  ssoClientSecret?: Redacted.Redacted<string>;
-  ssoEnabled?: boolean;
-  ssoGroupMap?: SetSsoConfigResponseSsoGroupMap;
-  ssoMetadataAddress?: unknown;
+  localGroups?: SetSsoConfigResponseLocalGroups | undefined;
+  ssoAllowSignup?: boolean | undefined;
+  ssoAllowSignupOnlyForMappedUsers?: boolean | undefined;
+  ssoAuthority?: unknown | undefined;
+  ssoClientId?: unknown | undefined;
+  ssoClientSecret?: Redacted.Redacted<string> | undefined;
+  ssoEnabled?: boolean | undefined;
+  ssoGroupMap?: SetSsoConfigResponseSsoGroupMap | undefined;
+  ssoMetadataAddress?: unknown | undefined;
 }
 export interface SetSsoUserRequest {
   user: string;
-  newUser?: string;
-  displayName?: string;
-  memberOfGroups?: string;
+  newUser?: string | undefined;
+  displayName?: string | undefined;
+  memberOfGroups?: string | undefined;
 }
 export interface SetSsoUserResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  username?: string | undefined;
 }
 export interface SetUserDetailsRequest {
   user: string;
-  displayName?: string;
-  newUser?: string;
-  totpEnabled?: boolean;
-  disabled?: boolean;
-  sessionTimeoutSeconds?: number;
-  newPass?: string | Redacted.Redacted<string>;
-  iterations?: number;
-  memberOfGroups?: string;
+  displayName?: string | undefined;
+  newUser?: string | undefined;
+  totpEnabled?: boolean | undefined;
+  disabled?: boolean | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  newPass?: string | Redacted.Redacted<string> | undefined;
+  iterations?: number | undefined;
+  memberOfGroups?: string | undefined;
 }
 export type SetUserDetailsResponseMemberOfGroups = Array<string>;
 export type SetUserDetailsResponseSessionsItem = GetUserDetailsResponseSessionsItem;
 export type SetUserDetailsResponseSessions = Array<GetUserDetailsResponseSessionsItem>;
 export interface SetUserDetailsResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  memberOfGroups?: SetUserDetailsResponseMemberOfGroups;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  sessionTimeoutSeconds?: number;
-  sessions?: SetUserDetailsResponseSessions;
-  totpEnabled?: boolean;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  memberOfGroups?: SetUserDetailsResponseMemberOfGroups | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  sessions?: SetUserDetailsResponseSessions | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface UpdateNodeIpAddressesRequest {
-  node?: string;
+  node?: string | undefined;
   ipAddresses: string;
 }
 export type UpdateNodeIpAddressesResponseNodesItemIpAddresses = Array<string>;
 export interface UpdateNodeIpAddressesResponseNodesItem {
-  id?: number;
-  ipAddresses?: UpdateNodeIpAddressesResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: UpdateNodeIpAddressesResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type UpdateNodeIpAddressesResponseNodes = Array<UpdateNodeIpAddressesResponseNodesItem>;
 export interface UpdateNodeIpAddressesResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: UpdateNodeIpAddressesResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: UpdateNodeIpAddressesResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface UpdatePrimaryNodeRequest {
-  node?: string;
+  node?: string | undefined;
   primaryNodeUrl: string;
-  primaryNodeIpAddresses?: string;
+  primaryNodeIpAddresses?: string | undefined;
 }
 export type UpdatePrimaryNodeResponseNodesItemIpAddresses = Array<string>;
 export interface UpdatePrimaryNodeResponseNodesItem {
-  id?: number;
-  ipAddresses?: UpdatePrimaryNodeResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: UpdatePrimaryNodeResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type UpdatePrimaryNodeResponseNodes = Array<UpdatePrimaryNodeResponseNodesItem>;
 export interface UpdatePrimaryNodeResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: UpdatePrimaryNodeResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: UpdatePrimaryNodeResponseNodes | undefined;
+  version?: string | undefined;
 }
 export interface UpdateSecondaryNodeRequest {
   secondaryNodeId: number;
@@ -644,26 +644,26 @@ export interface UpdateSecondaryNodeRequest {
 }
 export type UpdateSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
 export interface UpdateSecondaryNodeResponseNodesItem {
-  id?: number;
-  ipAddresses?: UpdateSecondaryNodeResponseNodesItemIpAddresses;
-  lastSeen?: string;
-  name?: string;
-  state?: string;
-  type?: string;
-  url?: string;
+  id?: number | undefined;
+  ipAddresses?: UpdateSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  lastSeen?: string | undefined;
+  name?: string | undefined;
+  state?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type UpdateSecondaryNodeResponseNodes = Array<UpdateSecondaryNodeResponseNodesItem>;
 export interface UpdateSecondaryNodeResponse {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  configLastSynced?: string;
-  configRefreshIntervalSeconds?: number;
-  configRetryIntervalSeconds?: number;
-  dnsServerDomain?: string;
-  heartbeatRefreshIntervalSeconds?: number;
-  heartbeatRetryIntervalSeconds?: number;
-  nodes?: UpdateSecondaryNodeResponseNodes;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  configLastSynced?: string | undefined;
+  configRefreshIntervalSeconds?: number | undefined;
+  configRetryIntervalSeconds?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  heartbeatRefreshIntervalSeconds?: number | undefined;
+  heartbeatRetryIntervalSeconds?: number | undefined;
+  nodes?: UpdateSecondaryNodeResponseNodes | undefined;
+  version?: string | undefined;
 }
 export type CreateApiTokenError = TechnitiumOpError;
 /** POST /api/admin/sessions/createToken. Permissions: Administration: Modify. */

@@ -27,74 +27,74 @@ const TELEMETRY = {
 } as const;
 
 export interface HealthCheckRequest {
-  node?: string;
-  domain?: string;
+  node?: string | undefined;
+  domain?: string | undefined;
   type: string;
 }
 export interface HealthCheckResponse {}
 export type ResolveQueryRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export interface ResolveQueryRequest {
-  node?: string;
+  node?: string | undefined;
   server: string;
   domain: string;
   type: string;
-  protocol?: ResolveQueryRequestProtocol | (string & {});
-  dnssec?: boolean;
-  eDnsClientSubnet?: string;
-  import?: boolean;
+  protocol?: ResolveQueryRequestProtocol | (string & {}) | undefined;
+  dnssec?: boolean | undefined;
+  eDnsClientSubnet?: string | undefined;
+  import?: boolean | undefined;
 }
 export type ResolveQueryResponseRawResponses = Array<unknown>;
 export type ResolveQueryResponseResultAdditional = Array<unknown>;
 export interface ResolveQueryResponseResultAnswerItemRDATA {
-  IPAddress?: string;
+  IPAddress?: string | undefined;
 }
 export interface ResolveQueryResponseResultAnswerItem {
-  Class?: string;
-  Name?: string;
-  RDATA?: ResolveQueryResponseResultAnswerItemRDATA;
-  RDLENGTH?: string;
-  TTL?: string;
-  Type?: string;
+  Class?: string | undefined;
+  Name?: string | undefined;
+  RDATA?: ResolveQueryResponseResultAnswerItemRDATA | undefined;
+  RDLENGTH?: string | undefined;
+  TTL?: string | undefined;
+  Type?: string | undefined;
 }
 export type ResolveQueryResponseResultAnswer = Array<ResolveQueryResponseResultAnswerItem>;
 export type ResolveQueryResponseResultAuthority = Array<unknown>;
 export interface ResolveQueryResponseResultMetadata {
-  DatagramSize?: string;
-  NameServer?: string;
-  Protocol?: string;
-  RoundTripTime?: string;
+  DatagramSize?: string | undefined;
+  NameServer?: string | undefined;
+  Protocol?: string | undefined;
+  RoundTripTime?: string | undefined;
 }
 export interface ResolveQueryResponseResultQuestionItem {
-  Class?: string;
-  Name?: string;
-  Type?: string;
+  Class?: string | undefined;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type ResolveQueryResponseResultQuestion = Array<ResolveQueryResponseResultQuestionItem>;
 export interface ResolveQueryResponseResult {
-  ANCOUNT?: number;
-  ARCOUNT?: number;
-  Additional?: ResolveQueryResponseResultAdditional;
-  Answer?: ResolveQueryResponseResultAnswer;
-  AuthenticData?: boolean;
-  AuthoritativeAnswer?: boolean;
-  Authority?: ResolveQueryResponseResultAuthority;
-  CheckingDisabled?: boolean;
-  Identifier?: number;
-  IsResponse?: boolean;
-  Metadata?: ResolveQueryResponseResultMetadata;
-  NSCOUNT?: number;
-  OPCODE?: string;
-  QDCOUNT?: number;
-  Question?: ResolveQueryResponseResultQuestion;
-  RCODE?: string;
-  RecursionAvailable?: boolean;
-  RecursionDesired?: boolean;
-  Truncation?: boolean;
-  Z?: number;
+  ANCOUNT?: number | undefined;
+  ARCOUNT?: number | undefined;
+  Additional?: ResolveQueryResponseResultAdditional | undefined;
+  Answer?: ResolveQueryResponseResultAnswer | undefined;
+  AuthenticData?: boolean | undefined;
+  AuthoritativeAnswer?: boolean | undefined;
+  Authority?: ResolveQueryResponseResultAuthority | undefined;
+  CheckingDisabled?: boolean | undefined;
+  Identifier?: number | undefined;
+  IsResponse?: boolean | undefined;
+  Metadata?: ResolveQueryResponseResultMetadata | undefined;
+  NSCOUNT?: number | undefined;
+  OPCODE?: string | undefined;
+  QDCOUNT?: number | undefined;
+  Question?: ResolveQueryResponseResultQuestion | undefined;
+  RCODE?: string | undefined;
+  RecursionAvailable?: boolean | undefined;
+  RecursionDesired?: boolean | undefined;
+  Truncation?: boolean | undefined;
+  Z?: number | undefined;
 }
 export interface ResolveQueryResponse {
-  rawResponses?: ResolveQueryResponseRawResponses;
-  result?: ResolveQueryResponseResult;
+  rawResponses?: ResolveQueryResponseRawResponses | undefined;
+  result?: ResolveQueryResponseResult | undefined;
 }
 export type HealthCheckError = TechnitiumOpError;
 /** POST /api/dnsClient/healthCheck. Permissions: DnsClient: View. */

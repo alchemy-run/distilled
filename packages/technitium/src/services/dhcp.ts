@@ -30,20 +30,20 @@ export interface AddReservedLeaseRequest {
   name: string;
   hardwareAddress: string;
   ipAddress: string;
-  hostName?: string;
-  comments?: string;
+  hostName?: string | undefined;
+  comments?: string | undefined;
 }
 export interface AddReservedLeaseResponse {}
 export interface ConvertToDynamicLeaseRequest {
   name: string;
-  clientIdentifier?: string;
-  hardwareAddress?: string;
+  clientIdentifier?: string | undefined;
+  hardwareAddress?: string | undefined;
 }
 export interface ConvertToDynamicLeaseResponse {}
 export interface ConvertToReservedLeaseRequest {
   name: string;
-  clientIdentifier?: string;
-  hardwareAddress?: string;
+  clientIdentifier?: string | undefined;
+  hardwareAddress?: string | undefined;
 }
 export interface ConvertToReservedLeaseResponse {}
 export interface DeleteDhcpScopeRequest {
@@ -65,105 +65,105 @@ export type GetDhcpScopeResponseCapwapAcIpAddresses = Array<string>;
 export type GetDhcpScopeResponseDnsServers = Array<string>;
 export type GetDhcpScopeResponseDomainSearchList = Array<string>;
 export interface GetDhcpScopeResponseExclusionsItem {
-  endingAddress?: string;
-  startingAddress?: string;
+  endingAddress?: string | undefined;
+  startingAddress?: string | undefined;
 }
 export type GetDhcpScopeResponseExclusions = Array<GetDhcpScopeResponseExclusionsItem>;
 export interface GetDhcpScopeResponseGenericOptionsItem {
-  code?: number;
-  value?: string;
+  code?: number | undefined;
+  value?: string | undefined;
 }
 export type GetDhcpScopeResponseGenericOptions = Array<GetDhcpScopeResponseGenericOptionsItem>;
 export type GetDhcpScopeResponseNtpServers = Array<string>;
 export interface GetDhcpScopeResponseReservedLeasesItem {
-  address?: string;
-  comments?: string;
-  hardwareAddress?: string;
-  hostName?: unknown;
+  address?: string | undefined;
+  comments?: string | undefined;
+  hardwareAddress?: string | undefined;
+  hostName?: unknown | undefined;
 }
 export type GetDhcpScopeResponseReservedLeases = Array<GetDhcpScopeResponseReservedLeasesItem>;
 export interface GetDhcpScopeResponseStaticRoutesItem {
-  destination?: string;
-  router?: string;
-  subnetMask?: string;
+  destination?: string | undefined;
+  router?: string | undefined;
+  subnetMask?: string | undefined;
 }
 export type GetDhcpScopeResponseStaticRoutes = Array<GetDhcpScopeResponseStaticRoutesItem>;
 export type GetDhcpScopeResponseTftpServerAddresses = Array<string>;
 export interface GetDhcpScopeResponseVendorInfoItem {
-  identifier?: string;
-  information?: string;
+  identifier?: string | undefined;
+  information?: string | undefined;
 }
 export type GetDhcpScopeResponseVendorInfo = Array<GetDhcpScopeResponseVendorInfoItem>;
 export type GetDhcpScopeResponseWinsServers = Array<string>;
 export interface GetDhcpScopeResponse {
-  allowOnlyReservedLeases?: boolean;
-  blockLocallyAdministeredMacAddresses?: boolean;
-  bootFileName?: string;
-  capwapAcIpAddresses?: GetDhcpScopeResponseCapwapAcIpAddresses;
-  dnsOverwriteForDynamicLease?: boolean;
-  dnsServers?: GetDhcpScopeResponseDnsServers;
-  dnsTtl?: number;
-  dnsUpdates?: boolean;
-  domainName?: string;
-  domainSearchList?: GetDhcpScopeResponseDomainSearchList;
-  endingAddress?: string;
-  exclusions?: GetDhcpScopeResponseExclusions;
-  genericOptions?: GetDhcpScopeResponseGenericOptions;
-  ignoreClientIdentifierOption?: boolean;
-  leaseTimeDays?: number;
-  leaseTimeHours?: number;
-  leaseTimeMinutes?: number;
-  name?: string;
-  ntpServers?: GetDhcpScopeResponseNtpServers;
-  offerDelayTime?: number;
-  pingCheckEnabled?: boolean;
-  pingCheckRetries?: number;
-  pingCheckTimeout?: number;
-  reservedLeases?: GetDhcpScopeResponseReservedLeases;
-  routerAddress?: string;
-  serverAddress?: string;
-  serverHostName?: string;
-  startingAddress?: string;
-  staticRoutes?: GetDhcpScopeResponseStaticRoutes;
-  subnetMask?: string;
-  tftpServerAddresses?: GetDhcpScopeResponseTftpServerAddresses;
-  useThisDnsServer?: boolean;
-  vendorInfo?: GetDhcpScopeResponseVendorInfo;
-  winsServers?: GetDhcpScopeResponseWinsServers;
+  allowOnlyReservedLeases?: boolean | undefined;
+  blockLocallyAdministeredMacAddresses?: boolean | undefined;
+  bootFileName?: string | undefined;
+  capwapAcIpAddresses?: GetDhcpScopeResponseCapwapAcIpAddresses | undefined;
+  dnsOverwriteForDynamicLease?: boolean | undefined;
+  dnsServers?: GetDhcpScopeResponseDnsServers | undefined;
+  dnsTtl?: number | undefined;
+  dnsUpdates?: boolean | undefined;
+  domainName?: string | undefined;
+  domainSearchList?: GetDhcpScopeResponseDomainSearchList | undefined;
+  endingAddress?: string | undefined;
+  exclusions?: GetDhcpScopeResponseExclusions | undefined;
+  genericOptions?: GetDhcpScopeResponseGenericOptions | undefined;
+  ignoreClientIdentifierOption?: boolean | undefined;
+  leaseTimeDays?: number | undefined;
+  leaseTimeHours?: number | undefined;
+  leaseTimeMinutes?: number | undefined;
+  name?: string | undefined;
+  ntpServers?: GetDhcpScopeResponseNtpServers | undefined;
+  offerDelayTime?: number | undefined;
+  pingCheckEnabled?: boolean | undefined;
+  pingCheckRetries?: number | undefined;
+  pingCheckTimeout?: number | undefined;
+  reservedLeases?: GetDhcpScopeResponseReservedLeases | undefined;
+  routerAddress?: string | undefined;
+  serverAddress?: string | undefined;
+  serverHostName?: string | undefined;
+  startingAddress?: string | undefined;
+  staticRoutes?: GetDhcpScopeResponseStaticRoutes | undefined;
+  subnetMask?: string | undefined;
+  tftpServerAddresses?: GetDhcpScopeResponseTftpServerAddresses | undefined;
+  useThisDnsServer?: boolean | undefined;
+  vendorInfo?: GetDhcpScopeResponseVendorInfo | undefined;
+  winsServers?: GetDhcpScopeResponseWinsServers | undefined;
 }
 export interface ListDhcpLeasesRequest {}
 export interface ListDhcpLeasesResponseLeasesItem {
-  address?: string;
-  clientIdentifier?: string;
-  hardwareAddress?: string;
-  hostName?: string;
-  leaseExpires?: string;
-  leaseObtained?: string;
-  scope?: string;
-  type?: string;
+  address?: string | undefined;
+  clientIdentifier?: string | undefined;
+  hardwareAddress?: string | undefined;
+  hostName?: string | undefined;
+  leaseExpires?: string | undefined;
+  leaseObtained?: string | undefined;
+  scope?: string | undefined;
+  type?: string | undefined;
 }
 export type ListDhcpLeasesResponseLeases = Array<ListDhcpLeasesResponseLeasesItem>;
 export interface ListDhcpLeasesResponse {
-  leases?: ListDhcpLeasesResponseLeases;
+  leases?: ListDhcpLeasesResponseLeases | undefined;
 }
 export interface ListDhcpScopesRequest {}
 export interface ListDhcpScopesResponseScopesItem {
-  broadcastAddress?: string;
-  enabled?: boolean;
-  endingAddress?: string;
-  name?: string;
-  networkAddress?: string;
-  startingAddress?: string;
-  subnetMask?: string;
+  broadcastAddress?: string | undefined;
+  enabled?: boolean | undefined;
+  endingAddress?: string | undefined;
+  name?: string | undefined;
+  networkAddress?: string | undefined;
+  startingAddress?: string | undefined;
+  subnetMask?: string | undefined;
 }
 export type ListDhcpScopesResponseScopes = Array<ListDhcpScopesResponseScopesItem>;
 export interface ListDhcpScopesResponse {
-  scopes?: ListDhcpScopesResponseScopes;
+  scopes?: ListDhcpScopesResponseScopes | undefined;
 }
 export interface RemoveDhcpLeaseRequest {
   name: string;
-  clientIdentifier?: string;
-  hardwareAddress?: string;
+  clientIdentifier?: string | undefined;
+  hardwareAddress?: string | undefined;
 }
 export interface RemoveDhcpLeaseResponse {}
 export interface RemoveReservedLeaseRequest {
@@ -173,41 +173,41 @@ export interface RemoveReservedLeaseRequest {
 export interface RemoveReservedLeaseResponse {}
 export interface SetDhcpScopeRequest {
   name: string;
-  newName?: string;
-  startingAddress?: string;
-  endingAddress?: string;
-  subnetMask?: string;
-  leaseTimeDays?: number;
-  leaseTimeHours?: number;
-  leaseTimeMinutes?: number;
-  offerDelayTime?: number;
-  pingCheckEnabled?: boolean;
-  pingCheckTimeout?: number;
-  pingCheckRetries?: number;
-  domainName?: string;
-  domainSearchList?: string;
-  dnsUpdates?: boolean;
-  dnsOverwriteForDynamicLease?: boolean;
-  dnsTtl?: number;
-  serverAddress?: string;
-  serverHostName?: string;
-  bootFileName?: string;
-  routerAddress?: string;
-  useThisDnsServer?: boolean;
-  dnsServers?: string;
-  winsServers?: string;
-  ntpServers?: string;
-  ntpServerDomainNames?: string;
-  staticRoutes?: string;
-  vendorInfo?: string;
-  capwapAcIpAddresses?: string;
-  tftpServerAddresses?: string;
-  genericOptions?: string;
-  exclusions?: string;
-  reservedLeases?: string;
-  allowOnlyReservedLeases?: boolean;
-  blockLocallyAdministeredMacAddresses?: boolean;
-  ignoreClientIdentifierOption?: boolean;
+  newName?: string | undefined;
+  startingAddress?: string | undefined;
+  endingAddress?: string | undefined;
+  subnetMask?: string | undefined;
+  leaseTimeDays?: number | undefined;
+  leaseTimeHours?: number | undefined;
+  leaseTimeMinutes?: number | undefined;
+  offerDelayTime?: number | undefined;
+  pingCheckEnabled?: boolean | undefined;
+  pingCheckTimeout?: number | undefined;
+  pingCheckRetries?: number | undefined;
+  domainName?: string | undefined;
+  domainSearchList?: string | undefined;
+  dnsUpdates?: boolean | undefined;
+  dnsOverwriteForDynamicLease?: boolean | undefined;
+  dnsTtl?: number | undefined;
+  serverAddress?: string | undefined;
+  serverHostName?: string | undefined;
+  bootFileName?: string | undefined;
+  routerAddress?: string | undefined;
+  useThisDnsServer?: boolean | undefined;
+  dnsServers?: string | undefined;
+  winsServers?: string | undefined;
+  ntpServers?: string | undefined;
+  ntpServerDomainNames?: string | undefined;
+  staticRoutes?: string | undefined;
+  vendorInfo?: string | undefined;
+  capwapAcIpAddresses?: string | undefined;
+  tftpServerAddresses?: string | undefined;
+  genericOptions?: string | undefined;
+  exclusions?: string | undefined;
+  reservedLeases?: string | undefined;
+  allowOnlyReservedLeases?: boolean | undefined;
+  blockLocallyAdministeredMacAddresses?: boolean | undefined;
+  ignoreClientIdentifierOption?: boolean | undefined;
 }
 export interface SetDhcpScopeResponse {}
 export type AddReservedLeaseError = TechnitiumOpError;

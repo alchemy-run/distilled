@@ -44,7 +44,7 @@ describe("structure conversion", () => {
     expect(isApiStructure({ operations: [{ path: "/api/x" }] })).toBe(false);
   });
 
-  it("emits one POST operation per call, with typed and sensitive members", () => {
+  it("emits one POST operation per call, with typed members", () => {
     const { models, skipped } = convert(structure, "Invented 1.0");
     expect(skipped).toEqual([
       { path: "/api/widgets/export", reason: "downloads a file (text/plain)" },
@@ -58,12 +58,12 @@ describe("structure conversion", () => {
       name: { target: "smithy.api#String", traits: { "smithy.api#required": {} } },
       color: { target: "technitium.widgets#AddWidgetRequestColor" },
       size: { target: "smithy.api#Integer" },
-      pass: { target: "smithy.api#String", traits: { "smithy.api#sensitive": {} } },
+      pass: { target: "smithy.api#String" },
     });
     expect(shapes["technitium.widgets#AddWidgetRequestColor"]?.type).toBe("enum");
+    // Secrets are marked by the sensitive patches, not by the converter.
     expect(shapes["technitium.widgets#AddWidgetResponseWidget"]?.members?.token).toEqual({
       target: "smithy.api#String",
-      traits: { "smithy.api#sensitive": {}, "technitium.api#redactedOutput": {} },
     });
     expect(shapes["technitium.widgets#AddWidgetResponseOwners"]?.type).toBe("map");
   });

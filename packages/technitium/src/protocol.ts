@@ -30,13 +30,18 @@ import {
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Headers from "effect/http/Headers";
+import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 import * as Request from "effect/http/HttpClientRequest";
 import * as Response from "effect/http/HttpClientResponse";
+import * as UrlParams from "effect/http/UrlParams";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { type Config, Credentials } from "./credentials.ts";
@@ -158,7 +163,14 @@ export function withoutCredentials(
   error: HttpClientError.HttpClientError,
 ): HttpClientError.HttpClientError {
   const { reason } = error;
-  const request = Request.make(reason.request.method)(reason.request.url);
+  const request = Request.makeWith(
+    reason.request.method,
+    reason.request.url,
+    UrlParams.empty,
+    Option.none(),
+    Headers.empty,
+    HttpBody.empty,
+  );
   const fields = { request, cause: reason.cause, description: reason.description };
   const statusOnly = (response: Response.HttpClientResponse) =>
     Response.fromWeb(
@@ -214,19 +226,23 @@ const encode = (context: Context.Context<never>, input: unknown, inputAst: AST.A
   ).pipe(Effect.catch(fail));
 
 const decode = (response: Response.HttpClientResponse, outputAst: AST.AST) =>
-  Effect.flatMap(Effect.orDie(response.text), (body) => {
-    const withhold = hasSensitiveMember(outputAst);
-    const envelope = readEnvelope(response.status, body, withhold);
-    if (!envelope.ok) return fail(envelope.error);
-    const mapped = mapsVerbatim(outputAst, "decode")
-      ? envelope.payload
-      : mapKeys(outputAst, envelope.payload, "decode");
-    return validateSuccess(
-      outputAst,
-      { value: mapped, body: envelope.payload, nonJson: false },
-      (info) => new TechnitiumParseError(info),
-    ).pipe(Effect.catch(fail));
-  });
+  // A body read that fails (a reset mid-body) fails the call with its client error.
+  Effect.flatMap(
+    Effect.catch(response.text, (error) => fail(withoutCredentials(error))),
+    (body) => {
+      const withhold = hasSensitiveMember(outputAst);
+      const envelope = readEnvelope(response.status, body, withhold);
+      if (!envelope.ok) return fail(envelope.error);
+      const mapped = mapsVerbatim(outputAst, "decode")
+        ? envelope.payload
+        : mapKeys(outputAst, envelope.payload, "decode");
+      return validateSuccess(
+        outputAst,
+        { value: mapped, body: envelope.payload, nonJson: false },
+        (info) => new TechnitiumParseError(info),
+      ).pipe(Effect.catch(fail));
+    },
+  );
 
 export const TechnitiumProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
@@ -234,24 +250,21 @@ export const TechnitiumProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer
     encode: ({ input, inputAst }) =>
       Effect.withFiber((fiber) => encode(fiber.context, input, inputAst)),
     decode: ({ response, outputAst }) => decode(response, outputAst),
-    // Core's encode -> execute -> decode path, with credentials removed from client errors.
-    // Core turns a failed body read into a defect, hence `catchDefect`.
+    // Core's encode -> execute -> decode path (with its telemetry), with credentials removed
+    // from client errors.
     call: (operation, input) =>
-      Effect.withFiber((fiber) =>
-        Effect.flatMap(encode(fiber.context, input, operation.inputAst), (request) =>
-          Context.getUnsafe(fiber.context, HttpClient.HttpClient)
-            .execute(request)
-            .pipe(
-              Effect.catch((error) => fail(withoutCredentials(error))),
-              Effect.flatMap((response) => decode(response, operation.outputAst)),
-            ),
-        ).pipe(
-          Effect.catchDefect((defect) =>
-            Effect.die(
-              HttpClientError.isHttpClientError(defect) ? withoutCredentials(defect) : defect,
-            ),
+      Effect.withFiber((fiber) => {
+        const context = fiber.context as Context.Context<any>;
+        return Effect.flatMap(encode(context, input, operation.inputAst), (request) =>
+          Telemetry.execute(
+            context,
+            Context.getUnsafe(context, HttpClient.HttpClient),
+            request,
+          ).pipe(
+            Effect.catch((error) => fail(withoutCredentials(error))),
+            Effect.flatMap((response) => decode(response, operation.outputAst)),
           ),
-        ),
-      ),
+        );
+      }),
   }),
 );

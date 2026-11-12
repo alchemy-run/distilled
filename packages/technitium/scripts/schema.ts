@@ -78,32 +78,12 @@ export interface Model {
   readonly shapes: Record<string, SmithyShape>;
 }
 
-/**
- * Members that carry secrets, in requests and responses: passwords, one-time codes, API and
- * session tokens, TSIG and SSO secrets, private keys and the 2FA secret with its QR code. The
- * SDK returns them as `Redacted` values and accepts strings or `Redacted` values.
- */
-export const SENSITIVE: ReadonlySet<string> = new Set([
-  "pass",
-  "newPass",
-  "totp",
-  "primaryNodePassword",
-  "primaryNodeTotp",
-  "proxyPassword",
-  "dnsTlsCertificatePassword",
-  "webServiceTlsCertificatePassword",
-  "ssoClientSecret",
-  "tsigKeys",
-  "sharedSecret",
-  "token",
-  "secret",
-  "qrCodePngImage",
-  "pemPrivateKey",
-  "pemKskPrivateKey",
-  "pemZskPrivateKey",
-]);
+/** Secrets: inputs accept a string or a `Redacted` value. Set by the `sensitive` patches. */
 export const SENSITIVE_TRAIT = "smithy.api#sensitive";
-/** Marks a sensitive response member, which the protocol always returns as `Redacted`. */
+/**
+ * Marks a sensitive response member, which the protocol always returns as `Redacted`. Set by the
+ * `sensitive` patches next to `smithy.api#sensitive`.
+ */
 export const REDACTED_OUTPUT_TRAIT = "technitium.api#redactedOutput";
 
 const pascal = (text: string) =>
@@ -173,7 +153,7 @@ export function convert(structure: ApiStructure, source: string) {
             ),
           })
         : PRELUDE[parameter.type];
-    const shapeTarget = (shape: Shape, local: string, sensitive: boolean): string => {
+    const shapeTarget = (shape: Shape, local: string): string => {
       switch (shape.type) {
         case "object":
           return define(local, {
@@ -181,32 +161,24 @@ export function convert(structure: ApiStructure, source: string) {
             members: Object.fromEntries(
               Object.entries(shape.properties).map(([key, member]) => [
                 key,
-                responseMember(key, member, local + memberSuffix(key)),
+                { target: shapeTarget(member, local + memberSuffix(key)) },
               ]),
             ),
           });
         case "array":
           return define(local, {
             type: "list",
-            member: { target: shapeTarget(shape.items, `${local}Item`, sensitive) },
+            member: { target: shapeTarget(shape.items, `${local}Item`) },
           });
         case "map":
           return define(local, {
             type: "map",
             key: { target: PRELUDE.string },
-            value: { target: shapeTarget(shape.values, `${local}Value`, sensitive) },
+            value: { target: shapeTarget(shape.values, `${local}Value`) },
           });
         default:
-          // A secret documented with a `null` example is still a string.
-          return sensitive && shape.type === "unknown" ? PRELUDE.string : PRELUDE[shape.type];
+          return PRELUDE[shape.type];
       }
-    };
-    const responseMember = (key: string, shape: Shape, local: string): Member => {
-      const sensitive = SENSITIVE.has(key);
-      return {
-        target: shapeTarget(shape, local, sensitive),
-        ...(sensitive ? { traits: { [SENSITIVE_TRAIT]: {}, [REDACTED_OUTPUT_TRAIT]: {} } } : {}),
-      };
     };
 
     const input = define(`${name}Request`, {
@@ -215,7 +187,6 @@ export function convert(structure: ApiStructure, source: string) {
         operation.parameters.map((parameter) => {
           const traits: Record<string, unknown> = {};
           if (parameter.required) traits["smithy.api#required"] = {};
-          if (SENSITIVE.has(parameter.name)) traits[SENSITIVE_TRAIT] = {};
           return [
             parameter.name,
             {
@@ -228,7 +199,7 @@ export function convert(structure: ApiStructure, source: string) {
     });
     if (operation.response.shape.type !== "object")
       throw new Error(`${operation.path}: the response payload is not an object`);
-    const output = shapeTarget(operation.response.shape, `${name}Response`, false);
+    const output = shapeTarget(operation.response.shape, `${name}Response`);
     const permissions = operation.permissions.filter((p) => !p.endsWith(": None"));
     define(name, {
       type: "operation",

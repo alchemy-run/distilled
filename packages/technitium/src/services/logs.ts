@@ -27,24 +27,24 @@ const TELEMETRY = {
 } as const;
 
 export interface DeleteAllLogsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface DeleteAllLogsResponse {}
 export interface DeleteLogRequest {
-  node?: string;
+  node?: string | undefined;
   log: string;
 }
 export interface DeleteLogResponse {}
 export interface ListLogsRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export interface ListLogsResponseLogFilesItem {
-  fileName?: string;
-  size?: string;
+  fileName?: string | undefined;
+  size?: string | undefined;
 }
 export type ListLogsResponseLogFiles = Array<ListLogsResponseLogFilesItem>;
 export interface ListLogsResponse {
-  logFiles?: ListLogsResponseLogFiles;
+  logFiles?: ListLogsResponseLogFiles | undefined;
 }
 export type QueryLogsRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export type QueryLogsRequestResponseType =
@@ -55,41 +55,41 @@ export type QueryLogsRequestResponseType =
   | "UpstreamBlocked"
   | "CacheBlocked";
 export interface QueryLogsRequest {
-  node?: string;
+  node?: string | undefined;
   name: string;
   classPath: string;
-  pageNumber?: number;
-  entriesPerPage?: number;
-  descendingOrder?: boolean;
-  start?: string;
-  end?: string;
-  clientIpAddress?: string;
-  protocol?: QueryLogsRequestProtocol | (string & {});
-  responseType?: QueryLogsRequestResponseType | (string & {});
-  rcode?: string;
-  qname?: string;
-  qtype?: string;
-  qclass?: string;
+  pageNumber?: number | undefined;
+  entriesPerPage?: number | undefined;
+  descendingOrder?: boolean | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  clientIpAddress?: string | undefined;
+  protocol?: QueryLogsRequestProtocol | (string & {}) | undefined;
+  responseType?: QueryLogsRequestResponseType | (string & {}) | undefined;
+  rcode?: string | undefined;
+  qname?: string | undefined;
+  qtype?: string | undefined;
+  qclass?: string | undefined;
 }
 export interface QueryLogsResponseEntriesItem {
-  answer?: string;
-  clientIpAddress?: string;
-  protocol?: string;
-  qclass?: string;
-  qname?: string;
-  qtype?: string;
-  rcode?: string;
-  responseRtt?: number;
-  responseType?: string;
-  rowNumber?: number;
-  timestamp?: string;
+  answer?: string | undefined;
+  clientIpAddress?: string | undefined;
+  protocol?: string | undefined;
+  qclass?: string | undefined;
+  qname?: string | undefined;
+  qtype?: string | undefined;
+  rcode?: string | undefined;
+  responseRtt?: number | undefined;
+  responseType?: string | undefined;
+  rowNumber?: number | undefined;
+  timestamp?: string | undefined;
 }
 export type QueryLogsResponseEntries = Array<QueryLogsResponseEntriesItem>;
 export interface QueryLogsResponse {
-  entries?: QueryLogsResponseEntries;
-  pageNumber?: number;
-  totalEntries?: number;
-  totalPages?: number;
+  entries?: QueryLogsResponseEntries | undefined;
+  pageNumber?: number | undefined;
+  totalEntries?: number | undefined;
+  totalPages?: number | undefined;
 }
 export type DeleteAllLogsError = TechnitiumOpError;
 /** POST /api/logs/deleteAll. Permissions: Logs: Delete. */

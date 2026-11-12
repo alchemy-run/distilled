@@ -32,15 +32,15 @@ export type AddPrivateKeyRequestAlgorithm = "RSA" | "ECDSA" | "EDDSA";
 export type AddPrivateKeyRequestHashAlgorithm = "MD5" | "SHA1" | "SHA256" | "SHA512";
 export type AddPrivateKeyRequestCurve = "P256" | "P384";
 export interface AddPrivateKeyRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   keyType: AddPrivateKeyRequestKeyType | (string & {});
-  rolloverDays?: number;
+  rolloverDays?: number | undefined;
   algorithm: AddPrivateKeyRequestAlgorithm | (string & {});
-  pemPrivateKey?: string | Redacted.Redacted<string>;
-  hashAlgorithm?: AddPrivateKeyRequestHashAlgorithm | (string & {});
-  keySize?: number;
-  curve?: AddPrivateKeyRequestCurve | (string & {});
+  pemPrivateKey?: string | Redacted.Redacted<string> | undefined;
+  hashAlgorithm?: AddPrivateKeyRequestHashAlgorithm | (string & {}) | undefined;
+  keySize?: number | undefined;
+  curve?: AddPrivateKeyRequestCurve | (string & {}) | undefined;
 }
 export interface AddPrivateKeyResponse {}
 export type AddRecordRequestType =
@@ -85,80 +85,80 @@ export type AddRecordRequestTlsaMatchingType = "Full" | "SHA2-256" | "SHA2-512";
 export type AddRecordRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export type AddRecordRequestProxyType = "NoProxy" | "DefaultProxy" | "Http" | "Socks5";
 export interface AddRecordRequest {
-  node?: string;
+  node?: string | undefined;
   domain: string;
-  zone?: string;
+  zone?: string | undefined;
   type: AddRecordRequestType | (string & {});
-  ttl?: number;
-  overwrite?: boolean;
-  comments?: string;
-  expiryTtl?: number;
-  ipAddress?: string;
-  ptr?: boolean;
-  createPtrZone?: boolean;
-  updateSvcbHints?: boolean;
-  nameServer?: string;
-  glue?: string;
-  cname?: string;
-  ptrName?: string;
-  exchange?: string;
-  preference?: number;
-  characterStringsBase64?: string;
-  text?: string;
-  splitText?: boolean;
-  mailbox?: string;
-  txtDomain?: string;
-  priority?: number;
-  weight?: number;
-  port?: number;
-  target?: string;
-  naptrOrder?: number;
-  naptrPreference?: number;
-  naptrFlags?: string;
-  naptrServices?: string;
-  naptrRegexp?: string;
-  naptrReplacement?: string;
-  dname?: string;
-  keyTag?: number;
-  algorithm?: AddRecordRequestAlgorithm | (string & {});
-  digestType?: AddRecordRequestDigestType | (string & {});
-  digest?: string;
-  sshfpAlgorithm?: AddRecordRequestSshfpAlgorithm | (string & {});
-  sshfpFingerprintType?: AddRecordRequestSshfpFingerprintType | (string & {});
-  sshfpFingerprint?: string;
-  tlsaCertificateUsage?: AddRecordRequestTlsaCertificateUsage | (string & {});
-  tlsaSelector?: AddRecordRequestTlsaSelector | (string & {});
-  tlsaMatchingType?: AddRecordRequestTlsaMatchingType | (string & {});
-  tlsaCertificateAssociationData?: string;
-  svcPriority?: number;
-  svcTargetName?: string;
-  svcParams?: string;
-  autoIpv4Hint?: boolean;
-  autoIpv6Hint?: boolean;
-  uriPriority?: number;
-  uriWeight?: number;
-  uri?: string;
-  flags?: number;
-  tag?: string;
-  value?: string;
-  aname?: string;
-  protocol?: AddRecordRequestProtocol | (string & {});
-  forwarder?: string;
-  forwarderPriority?: number;
-  dnssecValidation?: boolean;
-  proxyType?: AddRecordRequestProxyType | (string & {});
-  proxyAddress?: string;
-  proxyPort?: number;
-  proxyUsername?: string;
-  proxyPassword?: string | Redacted.Redacted<string>;
-  appName?: string;
-  classPath?: string;
-  recordData?: string;
-  rdata?: string;
+  ttl?: number | undefined;
+  overwrite?: boolean | undefined;
+  comments?: string | undefined;
+  expiryTtl?: number | undefined;
+  ipAddress?: string | undefined;
+  ptr?: boolean | undefined;
+  createPtrZone?: boolean | undefined;
+  updateSvcbHints?: boolean | undefined;
+  nameServer?: string | undefined;
+  glue?: string | undefined;
+  cname?: string | undefined;
+  ptrName?: string | undefined;
+  exchange?: string | undefined;
+  preference?: number | undefined;
+  characterStringsBase64?: string | undefined;
+  text?: string | undefined;
+  splitText?: boolean | undefined;
+  mailbox?: string | undefined;
+  txtDomain?: string | undefined;
+  priority?: number | undefined;
+  weight?: number | undefined;
+  port?: number | undefined;
+  target?: string | undefined;
+  naptrOrder?: number | undefined;
+  naptrPreference?: number | undefined;
+  naptrFlags?: string | undefined;
+  naptrServices?: string | undefined;
+  naptrRegexp?: string | undefined;
+  naptrReplacement?: string | undefined;
+  dname?: string | undefined;
+  keyTag?: number | undefined;
+  algorithm?: AddRecordRequestAlgorithm | (string & {}) | undefined;
+  digestType?: AddRecordRequestDigestType | (string & {}) | undefined;
+  digest?: string | undefined;
+  sshfpAlgorithm?: AddRecordRequestSshfpAlgorithm | (string & {}) | undefined;
+  sshfpFingerprintType?: AddRecordRequestSshfpFingerprintType | (string & {}) | undefined;
+  sshfpFingerprint?: string | undefined;
+  tlsaCertificateUsage?: AddRecordRequestTlsaCertificateUsage | (string & {}) | undefined;
+  tlsaSelector?: AddRecordRequestTlsaSelector | (string & {}) | undefined;
+  tlsaMatchingType?: AddRecordRequestTlsaMatchingType | (string & {}) | undefined;
+  tlsaCertificateAssociationData?: string | undefined;
+  svcPriority?: number | undefined;
+  svcTargetName?: string | undefined;
+  svcParams?: string | undefined;
+  autoIpv4Hint?: boolean | undefined;
+  autoIpv6Hint?: boolean | undefined;
+  uriPriority?: number | undefined;
+  uriWeight?: number | undefined;
+  uri?: string | undefined;
+  flags?: number | undefined;
+  tag?: string | undefined;
+  value?: string | undefined;
+  aname?: string | undefined;
+  protocol?: AddRecordRequestProtocol | (string & {}) | undefined;
+  forwarder?: string | undefined;
+  forwarderPriority?: number | undefined;
+  dnssecValidation?: boolean | undefined;
+  proxyType?: AddRecordRequestProxyType | (string & {}) | undefined;
+  proxyAddress?: string | undefined;
+  proxyPort?: number | undefined;
+  proxyUsername?: string | undefined;
+  proxyPassword?: string | Redacted.Redacted<string> | undefined;
+  appName?: string | undefined;
+  classPath?: string | undefined;
+  recordData?: string | undefined;
+  rdata?: string | undefined;
 }
 export interface GetRecordsResponseRecordsItemRDataComputedDigestsItem {
-  digest?: string;
-  digestType?: string;
+  digest?: string | undefined;
+  digestType?: string | undefined;
 }
 export type GetRecordsResponseRecordsItemRDataComputedDigests =
   Array<GetRecordsResponseRecordsItemRDataComputedDigestsItem>;
@@ -177,107 +177,107 @@ export type GetRecordsResponseRecordsItemRDataAddressPrefixes =
   Array<GetRecordsResponseRecordsItemRDataAddressPrefixesItem>;
 export type GetRecordsResponseRecordsItemRDataSvcParams = { [key: string]: string | undefined };
 export interface GetRecordsResponseRecordsItemRData {
-  algorithm?: string;
-  cname?: string;
-  computedDigests?: GetRecordsResponseRecordsItemRDataComputedDigests;
-  computedKeyTag?: number;
-  digest?: string;
-  digestType?: string;
-  dnsKeyState?: string;
-  dnsKeyStateReadyBy?: string;
-  expire?: number;
-  flags?: GetRecordsResponseRecordsItemRDataFlags;
-  hashAlgorithm?: string;
-  ipAddress?: string;
-  iterations?: number;
-  keyTag?: number;
-  labels?: number;
-  minimum?: number;
-  nameServer?: string;
-  nextHashedOwnerName?: string;
-  originalTtl?: number;
-  primaryNameServer?: string;
-  protocol?: GetRecordsResponseRecordsItemRDataProtocol;
-  publicKey?: string;
-  refresh?: number;
-  responsiblePerson?: string;
-  retry?: number;
-  salt?: string;
-  serial?: number;
-  signature?: string;
-  signatureExpiration?: string;
-  signatureInception?: string;
-  signersName?: string;
-  typeCovered?: string;
-  types?: GetRecordsResponseRecordsItemRDataTypes;
-  dataType?: string;
-  data?: string;
-  nameServerIdn?: string;
-  cnameIdn?: string;
-  primaryNameServerIdn?: string;
-  refreshString?: string;
-  retryString?: string;
-  expireString?: string;
-  minimumString?: string;
-  useSerialDateScheme?: boolean;
-  ptrName?: string;
-  ptrNameIdn?: string;
-  preference?: number;
-  exchange?: string;
-  exchangeIdn?: string;
-  text?: string;
-  splitText?: boolean;
-  characterStrings?: GetRecordsResponseRecordsItemRDataCharacterStrings;
-  characterStringsBase64?: GetRecordsResponseRecordsItemRDataCharacterStringsBase64;
-  mailbox?: string;
-  txtDomain?: string;
-  txtDomainIdn?: string;
-  priority?: number;
-  weight?: number;
-  port?: number;
-  target?: string;
-  targetIdn?: string;
-  order?: number;
-  services?: string;
-  regexp?: string;
-  replacement?: string;
-  replacementIdn?: string;
-  dname?: string;
-  dnameIdn?: string;
-  addressPrefixes?: GetRecordsResponseRecordsItemRDataAddressPrefixes;
-  algorithmNumber?: number;
-  digestTypeNumber?: number;
-  fingerprintType?: string;
-  fingerprint?: string;
-  nextDomainName?: string;
-  dnsKeyStateActiveBy?: string;
-  certificateUsage?: string;
-  selector?: string;
-  matchingType?: string;
-  certificateAssociationData?: string;
-  scheme?: string;
-  svcPriority?: number;
-  svcTargetName?: string;
-  svcParams?: GetRecordsResponseRecordsItemRDataSvcParams;
-  autoIpv4Hint?: boolean;
-  autoIpv6Hint?: boolean;
-  uri?: string;
-  tag?: string;
-  value?: string;
-  aname?: string;
-  anameIdn?: string;
-  forwarder?: string;
-  dnssecValidation?: boolean;
-  proxyType?: string;
-  proxyAddress?: string;
-  proxyPort?: number;
-  proxyUsername?: string;
-  proxyPassword?: Redacted.Redacted<string>;
-  appName?: string;
-  classPath?: string;
-  type?: string;
-  alias?: string;
-  aliasIdn?: string;
+  algorithm?: string | undefined;
+  cname?: string | undefined;
+  computedDigests?: GetRecordsResponseRecordsItemRDataComputedDigests | undefined;
+  computedKeyTag?: number | undefined;
+  digest?: string | undefined;
+  digestType?: string | undefined;
+  dnsKeyState?: string | undefined;
+  dnsKeyStateReadyBy?: string | undefined;
+  expire?: number | undefined;
+  flags?: GetRecordsResponseRecordsItemRDataFlags | undefined;
+  hashAlgorithm?: string | undefined;
+  ipAddress?: string | undefined;
+  iterations?: number | undefined;
+  keyTag?: number | undefined;
+  labels?: number | undefined;
+  minimum?: number | undefined;
+  nameServer?: string | undefined;
+  nextHashedOwnerName?: string | undefined;
+  originalTtl?: number | undefined;
+  primaryNameServer?: string | undefined;
+  protocol?: GetRecordsResponseRecordsItemRDataProtocol | undefined;
+  publicKey?: string | undefined;
+  refresh?: number | undefined;
+  responsiblePerson?: string | undefined;
+  retry?: number | undefined;
+  salt?: string | undefined;
+  serial?: number | undefined;
+  signature?: string | undefined;
+  signatureExpiration?: string | undefined;
+  signatureInception?: string | undefined;
+  signersName?: string | undefined;
+  typeCovered?: string | undefined;
+  types?: GetRecordsResponseRecordsItemRDataTypes | undefined;
+  dataType?: string | undefined;
+  data?: string | undefined;
+  nameServerIdn?: string | undefined;
+  cnameIdn?: string | undefined;
+  primaryNameServerIdn?: string | undefined;
+  refreshString?: string | undefined;
+  retryString?: string | undefined;
+  expireString?: string | undefined;
+  minimumString?: string | undefined;
+  useSerialDateScheme?: boolean | undefined;
+  ptrName?: string | undefined;
+  ptrNameIdn?: string | undefined;
+  preference?: number | undefined;
+  exchange?: string | undefined;
+  exchangeIdn?: string | undefined;
+  text?: string | undefined;
+  splitText?: boolean | undefined;
+  characterStrings?: GetRecordsResponseRecordsItemRDataCharacterStrings | undefined;
+  characterStringsBase64?: GetRecordsResponseRecordsItemRDataCharacterStringsBase64 | undefined;
+  mailbox?: string | undefined;
+  txtDomain?: string | undefined;
+  txtDomainIdn?: string | undefined;
+  priority?: number | undefined;
+  weight?: number | undefined;
+  port?: number | undefined;
+  target?: string | undefined;
+  targetIdn?: string | undefined;
+  order?: number | undefined;
+  services?: string | undefined;
+  regexp?: string | undefined;
+  replacement?: string | undefined;
+  replacementIdn?: string | undefined;
+  dname?: string | undefined;
+  dnameIdn?: string | undefined;
+  addressPrefixes?: GetRecordsResponseRecordsItemRDataAddressPrefixes | undefined;
+  algorithmNumber?: number | undefined;
+  digestTypeNumber?: number | undefined;
+  fingerprintType?: string | undefined;
+  fingerprint?: string | undefined;
+  nextDomainName?: string | undefined;
+  dnsKeyStateActiveBy?: string | undefined;
+  certificateUsage?: string | undefined;
+  selector?: string | undefined;
+  matchingType?: string | undefined;
+  certificateAssociationData?: string | undefined;
+  scheme?: string | undefined;
+  svcPriority?: number | undefined;
+  svcTargetName?: string | undefined;
+  svcParams?: GetRecordsResponseRecordsItemRDataSvcParams | undefined;
+  autoIpv4Hint?: boolean | undefined;
+  autoIpv6Hint?: boolean | undefined;
+  uri?: string | undefined;
+  tag?: string | undefined;
+  value?: string | undefined;
+  aname?: string | undefined;
+  anameIdn?: string | undefined;
+  forwarder?: string | undefined;
+  dnssecValidation?: boolean | undefined;
+  proxyType?: string | undefined;
+  proxyAddress?: string | undefined;
+  proxyPort?: number | undefined;
+  proxyUsername?: string | undefined;
+  proxyPassword?: Redacted.Redacted<string> | undefined;
+  appName?: string | undefined;
+  classPath?: string | undefined;
+  type?: string | undefined;
+  alias?: string | undefined;
+  aliasIdn?: string | undefined;
 }
 export type GetRecordsResponseRecordsItemGlueRecords = Array<string>;
 export interface AddRecordResponseAddedRecord {
@@ -288,55 +288,55 @@ export interface AddRecordResponseAddedRecord {
   rData: GetRecordsResponseRecordsItemRData;
   ttl: number;
   type: string;
-  comments?: string;
+  comments?: string | undefined;
   expiryTtl: number;
   expiryTtlString: string;
   lastModified: string;
-  nameIdn?: string;
+  nameIdn?: string | undefined;
   ttlString: string;
-  glueRecords?: GetRecordsResponseRecordsItemGlueRecords;
+  glueRecords?: GetRecordsResponseRecordsItemGlueRecords | undefined;
 }
 export type ZoneNotifyFailedFor = Array<string>;
 export interface AddRecordResponseZone {
   disabled: boolean;
-  dnssecStatus?: string;
-  internal?: boolean;
+  dnssecStatus?: string | undefined;
+  internal?: boolean | undefined;
   name: string;
   type: string;
-  nameIdn?: string;
+  nameIdn?: string | undefined;
   lastModified: string;
   soaSerial: number;
-  catalog?: string | null;
-  hasDnssecPrivateKeys?: boolean;
-  validationFailed?: boolean;
-  expiry?: string;
-  isExpired?: boolean;
-  syncFailed?: boolean;
-  notifyFailed?: boolean;
-  notifyFailedFor?: ZoneNotifyFailedFor;
+  catalog?: string | null | undefined;
+  hasDnssecPrivateKeys?: boolean | undefined;
+  validationFailed?: boolean | undefined;
+  expiry?: string | undefined;
+  isExpired?: boolean | undefined;
+  syncFailed?: boolean | undefined;
+  notifyFailed?: boolean | undefined;
+  notifyFailedFor?: ZoneNotifyFailedFor | undefined;
 }
 export interface AddRecordResponse {
-  addedRecord?: AddRecordResponseAddedRecord;
-  zone?: AddRecordResponseZone;
+  addedRecord?: AddRecordResponseAddedRecord | undefined;
+  zone?: AddRecordResponseZone | undefined;
 }
 export interface CloneZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   sourceZone: string;
 }
 export interface CloneZoneResponse {}
 export interface ConvertToNsecRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface ConvertToNsecResponse {}
 export interface ConvertToNsec3Request {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface ConvertToNsec3Response {}
 export interface ConvertZoneTypeRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   type: string;
 }
@@ -353,135 +353,135 @@ export type CreateZoneRequestZoneTransferProtocol = "Tcp" | "Tls" | "Quic";
 export type CreateZoneRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export type CreateZoneRequestProxyType = "NoProxy" | "DefaultProxy" | "Http" | "Socks5";
 export interface CreateZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   type: CreateZoneRequestType | (string & {});
-  catalog?: string;
-  useSoaSerialDateScheme?: boolean;
-  primaryNameServerAddresses?: string;
-  zoneTransferProtocol?: CreateZoneRequestZoneTransferProtocol | (string & {});
-  tsigKeyName?: string;
-  validateZone?: boolean;
-  initializeForwarder?: boolean;
-  protocol?: CreateZoneRequestProtocol | (string & {});
-  forwarder?: string;
-  dnssecValidation?: boolean;
-  proxyType?: CreateZoneRequestProxyType | (string & {});
-  proxyAddress?: string;
-  proxyPort?: number;
-  proxyUsername?: string;
-  proxyPassword?: string | Redacted.Redacted<string>;
+  catalog?: string | undefined;
+  useSoaSerialDateScheme?: boolean | undefined;
+  primaryNameServerAddresses?: string | undefined;
+  zoneTransferProtocol?: CreateZoneRequestZoneTransferProtocol | (string & {}) | undefined;
+  tsigKeyName?: string | undefined;
+  validateZone?: boolean | undefined;
+  initializeForwarder?: boolean | undefined;
+  protocol?: CreateZoneRequestProtocol | (string & {}) | undefined;
+  forwarder?: string | undefined;
+  dnssecValidation?: boolean | undefined;
+  proxyType?: CreateZoneRequestProxyType | (string & {}) | undefined;
+  proxyAddress?: string | undefined;
+  proxyPort?: number | undefined;
+  proxyUsername?: string | undefined;
+  proxyPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateZoneResponse {
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface DeletePrivateKeyRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   keyTag: number;
 }
 export interface DeletePrivateKeyResponse {}
 export type DeleteRecordRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export interface DeleteRecordRequest {
-  node?: string;
+  node?: string | undefined;
   domain: string;
-  zone?: string;
+  zone?: string | undefined;
   type: string;
-  ipAddress?: string;
-  updateSvcbHints?: boolean;
-  nameServer?: string;
-  ptrName?: string;
-  preference?: number;
-  exchange?: string;
-  characterStringsBase64?: string;
-  text?: string;
-  splitText?: boolean;
-  mailbox?: string;
-  txtDomain?: string;
-  priority?: number;
-  weight?: number;
-  port?: number;
-  target?: string;
-  naptrOrder?: number;
-  naptrPreference?: number;
-  naptrFlags?: string;
-  naptrServices?: string;
-  naptrRegexp?: string;
-  naptrReplacement?: string;
-  keyTag?: number;
-  algorithm?: string;
-  digestType?: string;
-  digest?: string;
-  sshfpAlgorithm?: string;
-  sshfpFingerprintType?: string;
-  sshfpFingerprint?: string;
-  tlsaCertificateUsage?: string;
-  tlsaSelector?: string;
-  tlsaMatchingType?: string;
-  tlsaCertificateAssociationData?: string;
-  svcPriority?: number;
-  svcTargetName?: string;
-  svcParams?: string;
-  uriPriority?: number;
-  uriWeight?: number;
-  uri?: string;
-  flags?: number;
-  tag?: string;
-  value?: string;
-  aname?: string;
-  protocol?: DeleteRecordRequestProtocol | (string & {});
-  forwarder?: string;
-  rdata?: string;
+  ipAddress?: string | undefined;
+  updateSvcbHints?: boolean | undefined;
+  nameServer?: string | undefined;
+  ptrName?: string | undefined;
+  preference?: number | undefined;
+  exchange?: string | undefined;
+  characterStringsBase64?: string | undefined;
+  text?: string | undefined;
+  splitText?: boolean | undefined;
+  mailbox?: string | undefined;
+  txtDomain?: string | undefined;
+  priority?: number | undefined;
+  weight?: number | undefined;
+  port?: number | undefined;
+  target?: string | undefined;
+  naptrOrder?: number | undefined;
+  naptrPreference?: number | undefined;
+  naptrFlags?: string | undefined;
+  naptrServices?: string | undefined;
+  naptrRegexp?: string | undefined;
+  naptrReplacement?: string | undefined;
+  keyTag?: number | undefined;
+  algorithm?: string | undefined;
+  digestType?: string | undefined;
+  digest?: string | undefined;
+  sshfpAlgorithm?: string | undefined;
+  sshfpFingerprintType?: string | undefined;
+  sshfpFingerprint?: string | undefined;
+  tlsaCertificateUsage?: string | undefined;
+  tlsaSelector?: string | undefined;
+  tlsaMatchingType?: string | undefined;
+  tlsaCertificateAssociationData?: string | undefined;
+  svcPriority?: number | undefined;
+  svcTargetName?: string | undefined;
+  svcParams?: string | undefined;
+  uriPriority?: number | undefined;
+  uriWeight?: number | undefined;
+  uri?: string | undefined;
+  flags?: number | undefined;
+  tag?: string | undefined;
+  value?: string | undefined;
+  aname?: string | undefined;
+  protocol?: DeleteRecordRequestProtocol | (string & {}) | undefined;
+  forwarder?: string | undefined;
+  rdata?: string | undefined;
 }
 export interface DeleteRecordResponse {}
 export interface DeleteZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
-  zones?: string;
+  zones?: string | undefined;
 }
 export type DeleteZoneResponseDeleted = Array<string>;
 export type DeleteZoneResponseFailed = { [key: string]: string | undefined };
 export interface DeleteZoneResponse {
-  deleted?: DeleteZoneResponseDeleted;
-  failed?: DeleteZoneResponseFailed;
+  deleted?: DeleteZoneResponseDeleted | undefined;
+  failed?: DeleteZoneResponseFailed | undefined;
 }
 export interface DisableZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface DisableZoneResponse {}
 export interface EnableZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface EnableZoneResponse {}
 export interface GetDnssecPropertiesRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface GetDnssecPropertiesResponseDnssecPrivateKeysItem {
-  algorithm?: string;
-  isRetiring?: boolean;
-  keyTag?: number;
-  keyType?: string;
-  rolloverDays?: number;
-  state?: string;
-  stateChangedOn?: string;
-  stateReadyBy?: string;
+  algorithm?: string | undefined;
+  isRetiring?: boolean | undefined;
+  keyTag?: number | undefined;
+  keyType?: string | undefined;
+  rolloverDays?: number | undefined;
+  state?: string | undefined;
+  stateChangedOn?: string | undefined;
+  stateReadyBy?: string | undefined;
 }
 export type GetDnssecPropertiesResponseDnssecPrivateKeys =
   Array<GetDnssecPropertiesResponseDnssecPrivateKeysItem>;
 export interface GetDnssecPropertiesResponse {
-  disabled?: boolean;
-  dnsKeyTtl?: number;
-  dnssecPrivateKeys?: GetDnssecPropertiesResponseDnssecPrivateKeys;
-  dnssecStatus?: string;
-  internal?: boolean;
-  name?: string;
-  type?: string;
+  disabled?: boolean | undefined;
+  dnsKeyTtl?: number | undefined;
+  dnssecPrivateKeys?: GetDnssecPropertiesResponseDnssecPrivateKeys | undefined;
+  dnssecStatus?: string | undefined;
+  internal?: boolean | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface GetDsInfoRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export type GetDsInfoResponseDsRecordsItemDigestsItem =
@@ -489,37 +489,37 @@ export type GetDsInfoResponseDsRecordsItemDigestsItem =
 export type GetDsInfoResponseDsRecordsItemDigests =
   Array<GetRecordsResponseRecordsItemRDataComputedDigestsItem>;
 export interface GetDsInfoResponseDsRecordsItem {
-  algorithm?: string;
-  digests?: GetDsInfoResponseDsRecordsItemDigests;
-  dnsKeyState?: string;
-  dnsKeyStateReadyBy?: string;
-  keyTag?: number;
-  publicKey?: string;
+  algorithm?: string | undefined;
+  digests?: GetDsInfoResponseDsRecordsItemDigests | undefined;
+  dnsKeyState?: string | undefined;
+  dnsKeyStateReadyBy?: string | undefined;
+  keyTag?: number | undefined;
+  publicKey?: string | undefined;
 }
 export type GetDsInfoResponseDsRecords = Array<GetDsInfoResponseDsRecordsItem>;
 export interface GetDsInfoResponse {
-  disabled?: boolean;
-  dnssecStatus?: string;
-  dsRecords?: GetDsInfoResponseDsRecords;
-  internal?: boolean;
-  name?: string;
-  type?: string;
+  disabled?: boolean | undefined;
+  dnssecStatus?: string | undefined;
+  dsRecords?: GetDsInfoResponseDsRecords | undefined;
+  internal?: boolean | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface GetRecordsRequest {
-  node?: string;
+  node?: string | undefined;
   domain: string;
-  zone?: string;
-  listZone?: boolean;
+  zone?: string | undefined;
+  listZone?: boolean | undefined;
 }
 export type GetRecordsResponseRecordsItem = AddRecordResponseAddedRecord;
 export type GetRecordsResponseRecords = Array<AddRecordResponseAddedRecord>;
 export type GetRecordsResponseZone = AddRecordResponseZone;
 export interface GetRecordsResponse {
-  records?: GetRecordsResponseRecords;
-  zone?: AddRecordResponseZone;
+  records?: GetRecordsResponseRecords | undefined;
+  zone?: AddRecordResponseZone | undefined;
 }
 export interface GetZoneOptionsRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   includeAvailableCatalogZoneNames: boolean;
   includeAvailableTsigKeyNames: boolean;
@@ -532,76 +532,76 @@ export type GetZoneOptionsResponseQueryAccessNetworkACL = Array<unknown>;
 export type GetZoneOptionsResponseUpdateNetworkACL = Array<string>;
 export type GetZoneOptionsResponseUpdateSecurityPoliciesItemAllowedTypes = Array<string>;
 export interface GetZoneOptionsResponseUpdateSecurityPoliciesItem {
-  allowedTypes?: GetZoneOptionsResponseUpdateSecurityPoliciesItemAllowedTypes;
-  domain?: string;
-  tsigKeyName?: string;
+  allowedTypes?: GetZoneOptionsResponseUpdateSecurityPoliciesItemAllowedTypes | undefined;
+  domain?: string | undefined;
+  tsigKeyName?: string | undefined;
 }
 export type GetZoneOptionsResponseUpdateSecurityPolicies =
   Array<GetZoneOptionsResponseUpdateSecurityPoliciesItem>;
 export type GetZoneOptionsResponseZoneTransferNetworkACL = Array<unknown>;
 export type GetZoneOptionsResponseZoneTransferTsigKeyNames = Array<string>;
 export interface GetZoneOptionsResponse {
-  availableCatalogZoneNames?: GetZoneOptionsResponseAvailableCatalogZoneNames;
-  availableTsigKeyNames?: GetZoneOptionsResponseAvailableTsigKeyNames;
-  catalog?: string;
-  disabled?: boolean;
-  dnssecStatus?: string;
-  internal?: boolean;
-  name?: string;
-  notify?: string;
-  notifyFailed?: boolean;
-  notifyFailedFor?: GetZoneOptionsResponseNotifyFailedFor;
-  notifyNameServers?: GetZoneOptionsResponseNotifyNameServers;
-  overrideCatalogNotify?: boolean;
-  overrideCatalogQueryAccess?: boolean;
-  overrideCatalogZoneTransfer?: boolean;
-  queryAccess?: string;
-  queryAccessNetworkACL?: GetZoneOptionsResponseQueryAccessNetworkACL;
-  type?: string;
-  update?: string;
-  updateNetworkACL?: GetZoneOptionsResponseUpdateNetworkACL;
-  updateSecurityPolicies?: GetZoneOptionsResponseUpdateSecurityPolicies;
-  zoneTransfer?: string;
-  zoneTransferNetworkACL?: GetZoneOptionsResponseZoneTransferNetworkACL;
-  zoneTransferTsigKeyNames?: GetZoneOptionsResponseZoneTransferTsigKeyNames;
+  availableCatalogZoneNames?: GetZoneOptionsResponseAvailableCatalogZoneNames | undefined;
+  availableTsigKeyNames?: GetZoneOptionsResponseAvailableTsigKeyNames | undefined;
+  catalog?: string | undefined;
+  disabled?: boolean | undefined;
+  dnssecStatus?: string | undefined;
+  internal?: boolean | undefined;
+  name?: string | undefined;
+  notify?: string | undefined;
+  notifyFailed?: boolean | undefined;
+  notifyFailedFor?: GetZoneOptionsResponseNotifyFailedFor | undefined;
+  notifyNameServers?: GetZoneOptionsResponseNotifyNameServers | undefined;
+  overrideCatalogNotify?: boolean | undefined;
+  overrideCatalogQueryAccess?: boolean | undefined;
+  overrideCatalogZoneTransfer?: boolean | undefined;
+  queryAccess?: string | undefined;
+  queryAccessNetworkACL?: GetZoneOptionsResponseQueryAccessNetworkACL | undefined;
+  type?: string | undefined;
+  update?: string | undefined;
+  updateNetworkACL?: GetZoneOptionsResponseUpdateNetworkACL | undefined;
+  updateSecurityPolicies?: GetZoneOptionsResponseUpdateSecurityPolicies | undefined;
+  zoneTransfer?: string | undefined;
+  zoneTransferNetworkACL?: GetZoneOptionsResponseZoneTransferNetworkACL | undefined;
+  zoneTransferTsigKeyNames?: GetZoneOptionsResponseZoneTransferTsigKeyNames | undefined;
 }
 export interface GetZonePermissionsRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   includeUsersAndGroups: boolean;
 }
 export interface GetZonePermissionsResponseGroupPermissionsItem {
-  canDelete?: boolean;
-  canModify?: boolean;
-  canView?: boolean;
-  name?: string;
+  canDelete?: boolean | undefined;
+  canModify?: boolean | undefined;
+  canView?: boolean | undefined;
+  name?: string | undefined;
 }
 export type GetZonePermissionsResponseGroupPermissions =
   Array<GetZonePermissionsResponseGroupPermissionsItem>;
 export type GetZonePermissionsResponseGroups = Array<string>;
 export interface GetZonePermissionsResponseUserPermissionsItem {
-  canDelete?: boolean;
-  canModify?: boolean;
-  canView?: boolean;
-  username?: string;
+  canDelete?: boolean | undefined;
+  canModify?: boolean | undefined;
+  canView?: boolean | undefined;
+  username?: string | undefined;
 }
 export type GetZonePermissionsResponseUserPermissions =
   Array<GetZonePermissionsResponseUserPermissionsItem>;
 export type GetZonePermissionsResponseUsers = Array<string>;
 export interface GetZonePermissionsResponse {
-  groupPermissions?: GetZonePermissionsResponseGroupPermissions;
-  groups?: GetZonePermissionsResponseGroups;
-  section?: string;
-  subItem?: string;
-  userPermissions?: GetZonePermissionsResponseUserPermissions;
-  users?: GetZonePermissionsResponseUsers;
+  groupPermissions?: GetZonePermissionsResponseGroupPermissions | undefined;
+  groups?: GetZonePermissionsResponseGroups | undefined;
+  section?: string | undefined;
+  subItem?: string | undefined;
+  userPermissions?: GetZonePermissionsResponseUserPermissions | undefined;
+  users?: GetZonePermissionsResponseUsers | undefined;
 }
 export interface ListCatalogZonesRequest {
-  node?: string;
+  node?: string | undefined;
 }
 export type ListCatalogZonesResponseCatalogZoneNames = Array<string>;
 export interface ListCatalogZonesResponse {
-  catalogZoneNames?: ListCatalogZonesResponseCatalogZoneNames;
+  catalogZoneNames?: ListCatalogZonesResponseCatalogZoneNames | undefined;
 }
 export type ListZonesRequestFilterType =
   | "Primary"
@@ -612,52 +612,52 @@ export type ListZonesRequestFilterType =
   | "Catalog"
   | "SecondaryCatalog";
 export interface ListZonesRequest {
-  node?: string;
-  filterName?: string;
-  filterType?: ListZonesRequestFilterType | (string & {});
-  pageNumber?: number;
-  zonesPerPage?: number;
+  node?: string | undefined;
+  filterName?: string | undefined;
+  filterType?: ListZonesRequestFilterType | (string & {}) | undefined;
+  pageNumber?: number | undefined;
+  zonesPerPage?: number | undefined;
 }
 export type ListZonesResponseZonesItemNotifyFailedFor = Array<unknown>;
 export interface ListZonesResponseZonesItem {
-  disabled?: boolean;
-  dnssecStatus?: string;
-  expiry?: string;
-  internal?: boolean;
-  isExpired?: boolean;
-  lastModified?: string;
-  name?: string;
-  notifyFailed?: boolean;
-  notifyFailedFor?: ListZonesResponseZonesItemNotifyFailedFor;
-  soaSerial?: number;
-  syncFailed?: boolean;
-  type?: string;
+  disabled?: boolean | undefined;
+  dnssecStatus?: string | undefined;
+  expiry?: string | undefined;
+  internal?: boolean | undefined;
+  isExpired?: boolean | undefined;
+  lastModified?: string | undefined;
+  name?: string | undefined;
+  notifyFailed?: boolean | undefined;
+  notifyFailedFor?: ListZonesResponseZonesItemNotifyFailedFor | undefined;
+  soaSerial?: number | undefined;
+  syncFailed?: boolean | undefined;
+  type?: string | undefined;
 }
 export type ListZonesResponseZones = Array<ListZonesResponseZonesItem>;
 export interface ListZonesResponse {
-  pageNumber?: number;
-  totalPages?: number;
-  totalZones?: number;
-  zones?: ListZonesResponseZones;
+  pageNumber?: number | undefined;
+  totalPages?: number | undefined;
+  totalZones?: number | undefined;
+  zones?: ListZonesResponseZones | undefined;
 }
 export interface PublishAllPrivateKeysRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface PublishAllPrivateKeysResponse {}
 export interface ResyncZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface ResyncZoneResponse {}
 export interface RetireDnskeyRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   keyTag: number;
 }
 export interface RetireDnskeyResponse {}
 export interface RolloverDnskeyRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   keyTag: number;
 }
@@ -676,34 +676,34 @@ export type SetZoneOptionsRequestZoneTransfer =
   | "UseSpecifiedNetworkACL"
   | "AllowZoneNameServersAndUseSpecifiedNetworkACL";
 export interface SetZoneOptionsRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
-  disabled?: boolean;
-  catalog?: string;
-  overrideCatalogQueryAccess?: boolean;
-  overrideCatalogZoneTransfer?: boolean;
-  overrideCatalogNotify?: boolean;
-  primaryNameServerAddresses?: string;
-  primaryZoneTransferTsigKeyName?: string;
+  disabled?: boolean | undefined;
+  catalog?: string | undefined;
+  overrideCatalogQueryAccess?: boolean | undefined;
+  overrideCatalogZoneTransfer?: boolean | undefined;
+  overrideCatalogNotify?: boolean | undefined;
+  primaryNameServerAddresses?: string | undefined;
+  primaryZoneTransferTsigKeyName?: string | undefined;
   validateZone: boolean;
-  queryAccess?: SetZoneOptionsRequestQueryAccess | (string & {});
-  queryAccessNetworkACL?: string;
-  zoneTransfer?: SetZoneOptionsRequestZoneTransfer | (string & {});
-  zoneTransferNetworkACL?: string;
-  zoneTransferTsigKeyNames?: string;
-  notify?: string;
-  notifyNameServers?: string;
-  notifySecondaryCatalogsNameServers?: string;
-  update?: string;
-  updateNetworkACL?: string;
-  updateSecurityPolicies?: string;
+  queryAccess?: SetZoneOptionsRequestQueryAccess | (string & {}) | undefined;
+  queryAccessNetworkACL?: string | undefined;
+  zoneTransfer?: SetZoneOptionsRequestZoneTransfer | (string & {}) | undefined;
+  zoneTransferNetworkACL?: string | undefined;
+  zoneTransferTsigKeyNames?: string | undefined;
+  notify?: string | undefined;
+  notifyNameServers?: string | undefined;
+  notifySecondaryCatalogsNameServers?: string | undefined;
+  update?: string | undefined;
+  updateNetworkACL?: string | undefined;
+  updateSecurityPolicies?: string | undefined;
 }
 export interface SetZoneOptionsResponse {}
 export interface SetZonePermissionsRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
-  userPermissions?: string;
-  groupPermissions?: string;
+  userPermissions?: string | undefined;
+  groupPermissions?: string | undefined;
 }
 export type SetZonePermissionsResponseGroupPermissionsItem =
   GetZonePermissionsResponseGroupPermissionsItem;
@@ -714,52 +714,52 @@ export type SetZonePermissionsResponseUserPermissionsItem =
 export type SetZonePermissionsResponseUserPermissions =
   Array<GetZonePermissionsResponseUserPermissionsItem>;
 export interface SetZonePermissionsResponse {
-  groupPermissions?: SetZonePermissionsResponseGroupPermissions;
-  section?: string;
-  subItem?: string;
-  userPermissions?: SetZonePermissionsResponseUserPermissions;
+  groupPermissions?: SetZonePermissionsResponseGroupPermissions | undefined;
+  section?: string | undefined;
+  subItem?: string | undefined;
+  userPermissions?: SetZonePermissionsResponseUserPermissions | undefined;
 }
 export type SignZoneRequestAlgorithm = "RSA" | "ECDSA" | "EDDSA";
 export type SignZoneRequestHashAlgorithm = "MD5" | "SHA1" | "SHA256" | "SHA512";
 export type SignZoneRequestCurve = "P256" | "P384";
 export type SignZoneRequestNxProof = "NSEC" | "NSEC3";
 export interface SignZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   algorithm: SignZoneRequestAlgorithm | (string & {});
-  pemKskPrivateKey?: string | Redacted.Redacted<string>;
-  pemZskPrivateKey?: string | Redacted.Redacted<string>;
-  hashAlgorithm?: SignZoneRequestHashAlgorithm | (string & {});
-  kskKeySize?: number;
-  zskKeySize?: number;
-  curve?: SignZoneRequestCurve | (string & {});
-  dnsKeyTtl?: number;
-  zskRolloverDays?: number;
-  nxProof?: SignZoneRequestNxProof | (string & {});
-  iterations?: number;
-  saltLength?: number;
+  pemKskPrivateKey?: string | Redacted.Redacted<string> | undefined;
+  pemZskPrivateKey?: string | Redacted.Redacted<string> | undefined;
+  hashAlgorithm?: SignZoneRequestHashAlgorithm | (string & {}) | undefined;
+  kskKeySize?: number | undefined;
+  zskKeySize?: number | undefined;
+  curve?: SignZoneRequestCurve | (string & {}) | undefined;
+  dnsKeyTtl?: number | undefined;
+  zskRolloverDays?: number | undefined;
+  nxProof?: SignZoneRequestNxProof | (string & {}) | undefined;
+  iterations?: number | undefined;
+  saltLength?: number | undefined;
 }
 export interface SignZoneResponse {}
 export interface UnsignZoneRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
 }
 export interface UnsignZoneResponse {}
 export interface UpdateDnskeyTtlRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   ttl: number;
 }
 export interface UpdateDnskeyTtlResponse {}
 export interface UpdateNsec3ParametersRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
-  iterations?: number;
-  saltLength?: number;
+  iterations?: number | undefined;
+  saltLength?: number | undefined;
 }
 export interface UpdateNsec3ParametersResponse {}
 export interface UpdatePrivateKeyRequest {
-  node?: string;
+  node?: string | undefined;
   zone: string;
   keyTag: number;
   rolloverDays: number;
@@ -769,135 +769,135 @@ export type UpdateRecordRequestProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Qui
 export type UpdateRecordRequestNewProtocol = "Udp" | "Tcp" | "Tls" | "Https" | "Quic";
 export type UpdateRecordRequestProxyType = "NoProxy" | "DefaultProxy" | "Http" | "Socks5";
 export interface UpdateRecordRequest {
-  node?: string;
+  node?: string | undefined;
   domain: string;
-  zone?: string;
+  zone?: string | undefined;
   type: string;
-  newDomain?: string;
-  ttl?: number;
-  disable?: boolean;
-  comments?: string;
-  expiryTtl?: number;
-  ipAddress?: string;
-  newIpAddress?: string;
-  ptr?: boolean;
-  createPtrZone?: boolean;
-  updateSvcbHints?: boolean;
-  nameServer?: string;
-  newNameServer?: string;
-  glue?: string;
-  cname?: string;
-  primaryNameServer?: string;
-  responsiblePerson?: string;
-  serial?: number;
-  refresh?: number;
-  retry?: number;
-  expire?: number;
-  minimum?: number;
-  useSerialDateScheme?: boolean;
-  ptrName?: string;
-  newPtrName?: string;
-  preference?: number;
-  newPreference?: number;
-  exchange?: string;
-  newExchange?: string;
-  characterStringsBase64?: string;
-  newCharacterStringsBase64?: string;
-  text?: string;
-  newText?: string;
-  splitText?: boolean;
-  newSplitText?: boolean;
-  mailbox?: string;
-  newMailbox?: string;
-  txtDomain?: string;
-  newTxtDomain?: string;
-  priority?: number;
-  newPriority?: number;
-  weight?: number;
-  newWeight?: number;
-  port?: number;
-  newPort?: number;
-  target?: string;
-  newTarget?: string;
-  naptrOrder?: number;
-  naptrNewOrder?: number;
-  naptrPreference?: number;
-  naptrNewPreference?: number;
-  naptrFlags?: string;
-  naptrNewFlags?: string;
-  naptrServices?: string;
-  naptrNewServices?: string;
-  naptrRegexp?: string;
-  naptrNewRegexp?: string;
-  naptrReplacement?: string;
-  naptrNewReplacement?: string;
-  dname?: string;
-  keyTag?: number;
-  newKeyTag?: number;
-  algorithm?: string;
-  newAlgorithm?: string;
-  digestType?: string;
-  newDigestType?: string;
-  digest?: string;
-  newDigest?: string;
-  sshfpAlgorithm?: string;
-  newSshfpAlgorithm?: string;
-  sshfpFingerprintType?: string;
-  newSshfpFingerprintType?: string;
-  sshfpFingerprint?: string;
-  newSshfpFingerprint?: string;
-  tlsaCertificateUsage?: string;
-  newTlsaCertificateUsage?: string;
-  tlsaSelector?: string;
-  newTlsaSelector?: string;
-  tlsaMatchingType?: string;
-  newTlsaMatchingType?: string;
-  tlsaCertificateAssociationData?: string;
-  newTlsaCertificateAssociationData?: string;
-  svcPriority?: number;
-  newSvcPriority?: number;
-  svcTargetName?: string;
-  newSvcTargetName?: string;
-  svcParams?: string;
-  newSvcParams?: string;
-  autoIpv4Hint?: boolean;
-  autoIpv6Hint?: boolean;
-  uriPriority?: number;
-  newUriPriority?: number;
-  uriWeight?: number;
-  newUriWeight?: number;
-  uri?: string;
-  newUri?: string;
-  flags?: number;
-  newFlags?: number;
-  tag?: string;
-  newTag?: string;
-  value?: string;
-  newValue?: string;
-  aname?: string;
-  newAName?: string;
-  protocol?: UpdateRecordRequestProtocol | (string & {});
-  newProtocol?: UpdateRecordRequestNewProtocol | (string & {});
-  forwarder?: string;
-  newForwarder?: string;
-  forwarderPriority?: number;
-  dnssecValidation?: boolean;
-  proxyType?: UpdateRecordRequestProxyType | (string & {});
-  proxyAddress?: string;
-  proxyPort?: number;
-  proxyUsername?: string;
-  proxyPassword?: string | Redacted.Redacted<string>;
-  appName?: string;
-  classPath?: string;
-  recordData?: string;
-  rdata?: string;
-  newRData?: string;
+  newDomain?: string | undefined;
+  ttl?: number | undefined;
+  disable?: boolean | undefined;
+  comments?: string | undefined;
+  expiryTtl?: number | undefined;
+  ipAddress?: string | undefined;
+  newIpAddress?: string | undefined;
+  ptr?: boolean | undefined;
+  createPtrZone?: boolean | undefined;
+  updateSvcbHints?: boolean | undefined;
+  nameServer?: string | undefined;
+  newNameServer?: string | undefined;
+  glue?: string | undefined;
+  cname?: string | undefined;
+  primaryNameServer?: string | undefined;
+  responsiblePerson?: string | undefined;
+  serial?: number | undefined;
+  refresh?: number | undefined;
+  retry?: number | undefined;
+  expire?: number | undefined;
+  minimum?: number | undefined;
+  useSerialDateScheme?: boolean | undefined;
+  ptrName?: string | undefined;
+  newPtrName?: string | undefined;
+  preference?: number | undefined;
+  newPreference?: number | undefined;
+  exchange?: string | undefined;
+  newExchange?: string | undefined;
+  characterStringsBase64?: string | undefined;
+  newCharacterStringsBase64?: string | undefined;
+  text?: string | undefined;
+  newText?: string | undefined;
+  splitText?: boolean | undefined;
+  newSplitText?: boolean | undefined;
+  mailbox?: string | undefined;
+  newMailbox?: string | undefined;
+  txtDomain?: string | undefined;
+  newTxtDomain?: string | undefined;
+  priority?: number | undefined;
+  newPriority?: number | undefined;
+  weight?: number | undefined;
+  newWeight?: number | undefined;
+  port?: number | undefined;
+  newPort?: number | undefined;
+  target?: string | undefined;
+  newTarget?: string | undefined;
+  naptrOrder?: number | undefined;
+  naptrNewOrder?: number | undefined;
+  naptrPreference?: number | undefined;
+  naptrNewPreference?: number | undefined;
+  naptrFlags?: string | undefined;
+  naptrNewFlags?: string | undefined;
+  naptrServices?: string | undefined;
+  naptrNewServices?: string | undefined;
+  naptrRegexp?: string | undefined;
+  naptrNewRegexp?: string | undefined;
+  naptrReplacement?: string | undefined;
+  naptrNewReplacement?: string | undefined;
+  dname?: string | undefined;
+  keyTag?: number | undefined;
+  newKeyTag?: number | undefined;
+  algorithm?: string | undefined;
+  newAlgorithm?: string | undefined;
+  digestType?: string | undefined;
+  newDigestType?: string | undefined;
+  digest?: string | undefined;
+  newDigest?: string | undefined;
+  sshfpAlgorithm?: string | undefined;
+  newSshfpAlgorithm?: string | undefined;
+  sshfpFingerprintType?: string | undefined;
+  newSshfpFingerprintType?: string | undefined;
+  sshfpFingerprint?: string | undefined;
+  newSshfpFingerprint?: string | undefined;
+  tlsaCertificateUsage?: string | undefined;
+  newTlsaCertificateUsage?: string | undefined;
+  tlsaSelector?: string | undefined;
+  newTlsaSelector?: string | undefined;
+  tlsaMatchingType?: string | undefined;
+  newTlsaMatchingType?: string | undefined;
+  tlsaCertificateAssociationData?: string | undefined;
+  newTlsaCertificateAssociationData?: string | undefined;
+  svcPriority?: number | undefined;
+  newSvcPriority?: number | undefined;
+  svcTargetName?: string | undefined;
+  newSvcTargetName?: string | undefined;
+  svcParams?: string | undefined;
+  newSvcParams?: string | undefined;
+  autoIpv4Hint?: boolean | undefined;
+  autoIpv6Hint?: boolean | undefined;
+  uriPriority?: number | undefined;
+  newUriPriority?: number | undefined;
+  uriWeight?: number | undefined;
+  newUriWeight?: number | undefined;
+  uri?: string | undefined;
+  newUri?: string | undefined;
+  flags?: number | undefined;
+  newFlags?: number | undefined;
+  tag?: string | undefined;
+  newTag?: string | undefined;
+  value?: string | undefined;
+  newValue?: string | undefined;
+  aname?: string | undefined;
+  newAName?: string | undefined;
+  protocol?: UpdateRecordRequestProtocol | (string & {}) | undefined;
+  newProtocol?: UpdateRecordRequestNewProtocol | (string & {}) | undefined;
+  forwarder?: string | undefined;
+  newForwarder?: string | undefined;
+  forwarderPriority?: number | undefined;
+  dnssecValidation?: boolean | undefined;
+  proxyType?: UpdateRecordRequestProxyType | (string & {}) | undefined;
+  proxyAddress?: string | undefined;
+  proxyPort?: number | undefined;
+  proxyUsername?: string | undefined;
+  proxyPassword?: string | Redacted.Redacted<string> | undefined;
+  appName?: string | undefined;
+  classPath?: string | undefined;
+  recordData?: string | undefined;
+  rdata?: string | undefined;
+  newRData?: string | undefined;
 }
 export type UpdateRecordResponseUpdatedRecord = AddRecordResponseAddedRecord;
 export type UpdateRecordResponseZone = AddRecordResponseZone;
 export interface UpdateRecordResponse {
-  updatedRecord?: AddRecordResponseAddedRecord;
-  zone?: AddRecordResponseZone;
+  updatedRecord?: AddRecordResponseAddedRecord | undefined;
+  zone?: AddRecordResponseZone | undefined;
 }
 export type AddPrivateKeyError = TechnitiumOpError;
 /** POST /api/zones/dnssec/properties/addPrivateKey. Permissions: Zones: Modify, Zone: Delete. */

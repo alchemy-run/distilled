@@ -42,25 +42,25 @@ export interface ImportAllowedZonesRequest {
 export interface ImportAllowedZonesResponse {}
 export type ListAllowedZonesRequestDirection = "up" | "down";
 export interface ListAllowedZonesRequest {
-  node?: string;
-  domain?: string;
-  direction?: ListAllowedZonesRequestDirection | (string & {});
+  node?: string | undefined;
+  domain?: string | undefined;
+  direction?: ListAllowedZonesRequestDirection | (string & {}) | undefined;
 }
 export interface ListAllowedZonesResponseRecordsItemRData {
-  expire?: number;
-  minimum?: number;
-  primaryNameServer?: string;
-  refresh?: number;
-  responsiblePerson?: string;
-  retry?: number;
-  serial?: number;
-  nameServer?: string;
-  nameServerIdn?: string;
-  primaryNameServerIdn?: string;
-  refreshString?: string;
-  retryString?: string;
-  expireString?: string;
-  minimumString?: string;
+  expire?: number | undefined;
+  minimum?: number | undefined;
+  primaryNameServer?: string | undefined;
+  refresh?: number | undefined;
+  responsiblePerson?: string | undefined;
+  retry?: number | undefined;
+  serial?: number | undefined;
+  nameServer?: string | undefined;
+  nameServerIdn?: string | undefined;
+  primaryNameServerIdn?: string | undefined;
+  refreshString?: string | undefined;
+  retryString?: string | undefined;
+  expireString?: string | undefined;
+  minimumString?: string | undefined;
 }
 export interface ListAllowedZonesResponseRecordsItem {
   name: string;
@@ -74,7 +74,7 @@ export interface ListAllowedZonesResponseRecordsItem {
   lastModified: string;
   expiryTtl: number;
   expiryTtlString: string;
-  nameIdn?: string;
+  nameIdn?: string | undefined;
 }
 export type ListAllowedZonesResponseRecords = Array<ListAllowedZonesResponseRecordsItem>;
 export type ListAllowedZonesResponseZones = Array<string>;
@@ -82,7 +82,7 @@ export interface ListAllowedZonesResponse {
   domain: string;
   records: ListAllowedZonesResponseRecords;
   zones: ListAllowedZonesResponseZones;
-  domainIdn?: string;
+  domainIdn?: string | undefined;
 }
 export type AllowZoneError = TechnitiumOpError;
 /** POST /api/allowed/add. Permissions: Allowed: Modify. */

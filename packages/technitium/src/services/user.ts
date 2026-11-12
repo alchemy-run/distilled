@@ -30,36 +30,36 @@ const TELEMETRY = {
 export interface ChangePasswordRequest {
   pass: string | Redacted.Redacted<string>;
   newPass: string | Redacted.Redacted<string>;
-  totp?: string | Redacted.Redacted<string>;
-  iterations?: number;
+  totp?: string | Redacted.Redacted<string> | undefined;
+  iterations?: number | undefined;
 }
 export interface ChangePasswordResponse {}
 export interface CheckForUpdateRequest {}
 export interface CheckForUpdateResponse {
-  changeLogLink?: string;
-  currentVersion?: string;
-  downloadLink?: string;
-  instructionsLink?: string;
-  updateAvailable?: boolean;
-  updateMessage?: string;
-  updateTitle?: string;
-  updateVersion?: string;
+  changeLogLink?: string | undefined;
+  currentVersion?: string | undefined;
+  downloadLink?: string | undefined;
+  instructionsLink?: string | undefined;
+  updateAvailable?: boolean | undefined;
+  updateMessage?: string | undefined;
+  updateTitle?: string | undefined;
+  updateVersion?: string | undefined;
 }
 export interface CreateApiTokenRequest {
-  user?: string;
-  pass?: string | Redacted.Redacted<string>;
-  totp?: string | Redacted.Redacted<string>;
+  user?: string | undefined;
+  pass?: string | Redacted.Redacted<string> | undefined;
+  totp?: string | Redacted.Redacted<string> | undefined;
   tokenName: string;
 }
 export interface CreateApiTokenResponse {
-  token?: Redacted.Redacted<string>;
-  tokenName?: string;
-  username?: string;
+  token?: Redacted.Redacted<string> | undefined;
+  tokenName?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateSingleUseApiTokenRequest {}
 export interface CreateSingleUseApiTokenResponse {
-  token?: Redacted.Redacted<string>;
-  username?: string;
+  token?: Redacted.Redacted<string> | undefined;
+  username?: string | undefined;
 }
 export interface DeleteUserSessionRequest {
   partialToken: string;
@@ -73,9 +73,9 @@ export interface Enable2faRequest {
 export interface Enable2faResponse {}
 export interface GetSessionInfoRequest {}
 export interface GetSessionInfoResponseInfoPermissionsAdministration {
-  canDelete?: boolean;
-  canModify?: boolean;
-  canView?: boolean;
+  canDelete?: boolean | undefined;
+  canModify?: boolean | undefined;
+  canView?: boolean | undefined;
 }
 export type GetSessionInfoResponseInfoPermissionsAllowed =
   GetSessionInfoResponseInfoPermissionsAdministration;
@@ -98,76 +98,76 @@ export type GetSessionInfoResponseInfoPermissionsSettings =
 export type GetSessionInfoResponseInfoPermissionsZones =
   GetSessionInfoResponseInfoPermissionsAdministration;
 export interface GetSessionInfoResponseInfoPermissions {
-  Administration?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Allowed?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Apps?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Blocked?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Cache?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Dashboard?: GetSessionInfoResponseInfoPermissionsAdministration;
-  DhcpServer?: GetSessionInfoResponseInfoPermissionsAdministration;
-  DnsClient?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Logs?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Settings?: GetSessionInfoResponseInfoPermissionsAdministration;
-  Zones?: GetSessionInfoResponseInfoPermissionsAdministration;
+  Administration?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Allowed?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Apps?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Blocked?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Cache?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Dashboard?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  DhcpServer?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  DnsClient?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Logs?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Settings?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
+  Zones?: GetSessionInfoResponseInfoPermissionsAdministration | undefined;
 }
 export interface GetSessionInfoResponseInfo {
-  clusterDomain?: string;
-  clusterInitialized?: boolean;
-  defaultRecordTtl?: number;
-  dnsServerDomain?: string;
-  dnssecValidation?: boolean;
-  permissions?: GetSessionInfoResponseInfoPermissions;
-  uptimestamp?: string;
-  useSoaSerialDateScheme?: boolean;
-  version?: string;
+  clusterDomain?: string | undefined;
+  clusterInitialized?: boolean | undefined;
+  defaultRecordTtl?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  dnssecValidation?: boolean | undefined;
+  permissions?: GetSessionInfoResponseInfoPermissions | undefined;
+  uptimestamp?: string | undefined;
+  useSoaSerialDateScheme?: boolean | undefined;
+  version?: string | undefined;
 }
 export interface GetSessionInfoResponse {
-  displayName?: string;
-  info?: GetSessionInfoResponseInfo;
-  isSsoUser?: boolean;
-  token?: Redacted.Redacted<string>;
-  totpEnabled?: boolean;
-  username?: string;
+  displayName?: string | undefined;
+  info?: GetSessionInfoResponseInfo | undefined;
+  isSsoUser?: boolean | undefined;
+  token?: Redacted.Redacted<string> | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface GetUserProfileDetailsRequest {}
 export type GetUserProfileDetailsResponseMemberOfGroups = Array<string>;
 export interface GetUserProfileDetailsResponseSessionsItem {
-  isCurrentSession?: boolean;
-  lastSeen?: string;
-  lastSeenRemoteAddress?: string;
-  lastSeenUserAgent?: string;
-  partialToken?: string;
-  tokenName?: unknown;
-  type?: string;
-  username?: string;
+  isCurrentSession?: boolean | undefined;
+  lastSeen?: string | undefined;
+  lastSeenRemoteAddress?: string | undefined;
+  lastSeenUserAgent?: string | undefined;
+  partialToken?: string | undefined;
+  tokenName?: unknown | undefined;
+  type?: string | undefined;
+  username?: string | undefined;
 }
 export type GetUserProfileDetailsResponseSessions =
   Array<GetUserProfileDetailsResponseSessionsItem>;
 export interface GetUserProfileDetailsResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  memberOfGroups?: GetUserProfileDetailsResponseMemberOfGroups;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  sessionTimeoutSeconds?: number;
-  sessions?: GetUserProfileDetailsResponseSessions;
-  totpEnabled?: boolean;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  memberOfGroups?: GetUserProfileDetailsResponseMemberOfGroups | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  sessions?: GetUserProfileDetailsResponseSessions | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface Initialize2faRequest {}
 export interface Initialize2faResponse {
-  qrCodePngImage?: Redacted.Redacted<string>;
-  secret?: Redacted.Redacted<string>;
-  totpEnabled?: boolean;
+  qrCodePngImage?: Redacted.Redacted<string> | undefined;
+  secret?: Redacted.Redacted<string> | undefined;
+  totpEnabled?: boolean | undefined;
 }
 export interface LoginRequest {
   user: string;
   pass: string | Redacted.Redacted<string>;
-  totp?: string | Redacted.Redacted<string>;
-  includeInfo?: boolean;
+  totp?: string | Redacted.Redacted<string> | undefined;
+  includeInfo?: boolean | undefined;
 }
 export type LoginResponseInfoPermissionsAdministration =
   GetSessionInfoResponseInfoPermissionsAdministration;
@@ -189,44 +189,44 @@ export type LoginResponseInfoPermissionsSettings =
 export type LoginResponseInfoPermissionsZones = GetSessionInfoResponseInfoPermissionsAdministration;
 export type LoginResponseInfoPermissions = GetSessionInfoResponseInfoPermissions;
 export interface LoginResponseInfo {
-  defaultNsRecordTtl?: number;
-  defaultRecordTtl?: number;
-  defaultSoaRecordTtl?: number;
-  dnsServerDomain?: string;
-  permissions?: GetSessionInfoResponseInfoPermissions;
-  version?: string;
+  defaultNsRecordTtl?: number | undefined;
+  defaultRecordTtl?: number | undefined;
+  defaultSoaRecordTtl?: number | undefined;
+  dnsServerDomain?: string | undefined;
+  permissions?: GetSessionInfoResponseInfoPermissions | undefined;
+  version?: string | undefined;
 }
 export interface LoginResponse {
-  displayName?: string;
-  info?: LoginResponseInfo;
-  isSsoUser?: boolean;
-  token?: Redacted.Redacted<string>;
-  totpEnabled?: boolean;
-  username?: string;
+  displayName?: string | undefined;
+  info?: LoginResponseInfo | undefined;
+  isSsoUser?: boolean | undefined;
+  token?: Redacted.Redacted<string> | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface LogoutRequest {}
 export interface LogoutResponse {}
 export interface SetUserProfileDetailsRequest {
-  displayName?: string;
-  sessionTimeoutSeconds?: number;
+  displayName?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
 }
 export type SetUserProfileDetailsResponseMemberOfGroups = Array<string>;
 export type SetUserProfileDetailsResponseSessionsItem = GetUserProfileDetailsResponseSessionsItem;
 export type SetUserProfileDetailsResponseSessions =
   Array<GetUserProfileDetailsResponseSessionsItem>;
 export interface SetUserProfileDetailsResponse {
-  disabled?: boolean;
-  displayName?: string;
-  isSsoUser?: boolean;
-  memberOfGroups?: SetUserProfileDetailsResponseMemberOfGroups;
-  previousSessionLoggedOn?: string;
-  previousSessionRemoteAddress?: string;
-  recentSessionLoggedOn?: string;
-  recentSessionRemoteAddress?: string;
-  sessionTimeoutSeconds?: number;
-  sessions?: SetUserProfileDetailsResponseSessions;
-  totpEnabled?: boolean;
-  username?: string;
+  disabled?: boolean | undefined;
+  displayName?: string | undefined;
+  isSsoUser?: boolean | undefined;
+  memberOfGroups?: SetUserProfileDetailsResponseMemberOfGroups | undefined;
+  previousSessionLoggedOn?: string | undefined;
+  previousSessionRemoteAddress?: string | undefined;
+  recentSessionLoggedOn?: string | undefined;
+  recentSessionRemoteAddress?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  sessions?: SetUserProfileDetailsResponseSessions | undefined;
+  totpEnabled?: boolean | undefined;
+  username?: string | undefined;
 }
 export type ChangePasswordError = TechnitiumOpError;
 /** POST /api/user/changePassword */

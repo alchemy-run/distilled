@@ -28,8 +28,8 @@ const TELEMETRY = {
 
 export interface StatusRequest {}
 export interface StatusResponse {
-  hasDefaultCredentials?: boolean;
-  ssoEnabled?: boolean;
+  hasDefaultCredentials?: boolean | undefined;
+  ssoEnabled?: boolean | undefined;
 }
 export type StatusError = TechnitiumOpError;
 /** POST /api/status */

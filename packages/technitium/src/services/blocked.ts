@@ -42,25 +42,25 @@ export interface ImportBlockedZonesRequest {
 export interface ImportBlockedZonesResponse {}
 export type ListBlockedZonesRequestDirection = "up" | "down";
 export interface ListBlockedZonesRequest {
-  node?: string;
-  domain?: string;
-  direction?: ListBlockedZonesRequestDirection | (string & {});
+  node?: string | undefined;
+  domain?: string | undefined;
+  direction?: ListBlockedZonesRequestDirection | (string & {}) | undefined;
 }
 export interface ListBlockedZonesResponseRecordsItemRData {
-  expire?: number;
-  minimum?: number;
-  primaryNameServer?: string;
-  refresh?: number;
-  responsiblePerson?: string;
-  retry?: number;
-  serial?: number;
-  nameServer?: string;
-  nameServerIdn?: string;
-  primaryNameServerIdn?: string;
-  refreshString?: string;
-  retryString?: string;
-  expireString?: string;
-  minimumString?: string;
+  expire?: number | undefined;
+  minimum?: number | undefined;
+  primaryNameServer?: string | undefined;
+  refresh?: number | undefined;
+  responsiblePerson?: string | undefined;
+  retry?: number | undefined;
+  serial?: number | undefined;
+  nameServer?: string | undefined;
+  nameServerIdn?: string | undefined;
+  primaryNameServerIdn?: string | undefined;
+  refreshString?: string | undefined;
+  retryString?: string | undefined;
+  expireString?: string | undefined;
+  minimumString?: string | undefined;
 }
 export interface ListBlockedZonesResponseRecordsItem {
   name: string;
@@ -74,7 +74,7 @@ export interface ListBlockedZonesResponseRecordsItem {
   lastModified: string;
   expiryTtl: number;
   expiryTtlString: string;
-  nameIdn?: string;
+  nameIdn?: string | undefined;
 }
 export type ListBlockedZonesResponseRecords = Array<ListBlockedZonesResponseRecordsItem>;
 export type ListBlockedZonesResponseZones = Array<string>;
@@ -82,7 +82,7 @@ export interface ListBlockedZonesResponse {
   domain: string;
   records: ListBlockedZonesResponseRecords;
   zones: ListBlockedZonesResponseZones;
-  domainIdn?: string;
+  domainIdn?: string | undefined;
 }
 export type BlockZoneError = TechnitiumOpError;
 /** POST /api/blocked/add. Permissions: Blocked: Modify. */
