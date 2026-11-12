@@ -1,5 +1,5 @@
 {
-  "description": "Name the documented versions listing listContainerApplicationVersions, like the other containers operations. Its configuration is the full deployment configuration.",
+  "description": "Name the documented versions listing listContainerApplicationVersions, like the other containers operations. Its configuration is the full deployment configuration. GET …/applications/{application_id}/versions on a missing application returns HTTP 404, code 1609, message {\"error\":\"APPLICATION_NOT_FOUND\"} (live, 2026-11-12), typed ContainerApplicationNotFound.",
   "patches": [
     {
       "op": "replace",
@@ -25,6 +25,19 @@
       "op": "move",
       "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultList",
       "path": "/shapes/com.cloudflare.containers#ContainerApplicationVersionList"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
     },
     {
       "op": "move",

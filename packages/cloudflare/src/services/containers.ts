@@ -1119,7 +1119,10 @@ export const getContainerIdentity: API.OperationMethod<
   span: "GetContainerIdentity",
 }));
 
-export type ListContainerApplicationInstancesError = CloudflareOpError;
+export type ListContainerApplicationInstancesError =
+  | InvalidRoute
+  | ContainerApplicationNotFound
+  | CloudflareOpError;
 /** Lists container instances belonging to an application. */
 export const listContainerApplicationInstances: API.PaginatedOperationMethod<
   ListContainerApplicationInstancesRequest,
@@ -1131,7 +1134,7 @@ export const listContainerApplicationInstances: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c18, 0) as any as S.Schema<ListContainerApplicationInstancesRequest>,
     output: __S(291, __c18, 3) as any as S.Schema<ListContainerApplicationInstancesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1164,7 +1167,10 @@ export const listContainerApplications: API.OperationMethod<
   span: "ListContainerApplications",
 }));
 
-export type ListContainerApplicationVersionsError = CloudflareOpError;
+export type ListContainerApplicationVersionsError =
+  | InvalidRoute
+  | ContainerApplicationNotFound
+  | CloudflareOpError;
 /** Returns all versions for a scheduler-backed application with `scheduling_policy: "default"`. Versions and rollouts do not apply to applications with `scheduling_policy: "durable_object"`. */
 export const listContainerApplicationVersions: API.OperationMethod<
   ListContainerApplicationVersionsRequest,
@@ -1174,7 +1180,7 @@ export const listContainerApplicationVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListContainerApplicationVersionsRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<ListContainerApplicationVersionsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
