@@ -1034,7 +1034,7 @@ export interface UpdateTrailBySlugRequest {
   title?: string | undefined;
 }
 export type CreateChangeError = EntireOpError;
-/** Create a change by repo id **Accepted credentials:** User token. Creates a trail via the opaque repo id path; behaviour matches the wire-parity create (including the same status policy), and the Location header points back into this addressing scheme. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
+/** Create a change by repo id **Accepted credentials:** User token, Plugin installation token. Creates a trail via the opaque repo id path; behaviour matches the wire-parity create (including the same status policy), and the Location header points back into this addressing scheme. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
 export const createChange: API.OperationMethod<
   CreateChangeRequest,
   TrailCreateResponseBody,
@@ -1068,7 +1068,7 @@ export const createChangeCIPr: API.OperationMethod<
 }));
 
 export type CreateTrailError = EntireOpError;
-/** Create a trail by repo id **Accepted credentials:** User token. Creates a trail via the opaque repo id path; behaviour matches the wire-parity create (including the same status policy), and the Location header points back into this addressing scheme. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
+/** Create a trail by repo id **Accepted credentials:** User token, Plugin installation token. Creates a trail via the opaque repo id path; behaviour matches the wire-parity create (including the same status policy), and the Location header points back into this addressing scheme. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
 export const createTrail: API.OperationMethod<
   CreateTrailRequest,
   TrailCreateResponseBody,
@@ -1438,7 +1438,7 @@ export const restoreTrailBranch: API.OperationMethod<
 }));
 
 export type UpdateChangeError = EntireOpError;
-/** Update a change's metadata by repo id **Accepted credentials:** User token. Updates trail metadata via the opaque repo id path, with the same status policy and optional If-Match conditional behaviour. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
+/** Update a change's metadata by repo id **Accepted credentials:** User token, Plugin installation token. Updates trail metadata via the opaque repo id path, with the same status policy and optional If-Match conditional behaviour. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
 export const updateChange: API.OperationMethod<
   UpdateChangeRequest,
   TrailUpdateResponseBody,
@@ -1472,7 +1472,7 @@ export const updateChangeBranch: API.OperationMethod<
 }));
 
 export type UpdateTrailError = EntireOpError;
-/** Update a trail's metadata by repo id **Accepted credentials:** User token. Updates trail metadata via the opaque repo id path, with the same status policy and optional If-Match conditional behaviour. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. */
+/** Update a trail's metadata by repo id **Accepted credentials:** User token, Plugin installation token. Updates trail metadata via the opaque repo id path, with the same status policy and optional If-Match conditional behaviour. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
 export const updateTrail: API.OperationMethod<
   UpdateTrailRequest,
   TrailUpdateResponseBody,

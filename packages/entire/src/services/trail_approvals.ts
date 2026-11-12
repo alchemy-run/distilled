@@ -354,7 +354,7 @@ export const listTrailApprovalsBySlug: API.OperationMethod<
 }));
 
 export type MergeChangeError = EntireOpError;
-/** Merge a Change (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
+/** Merge a Change (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
 export const mergeChange: API.OperationMethod<
   MergeChangeRequest,
   TrailMergeSubmitResponse,
@@ -371,7 +371,7 @@ export const mergeChange: API.OperationMethod<
 }));
 
 export type MergeTrailError = EntireOpError;
-/** Merge a Trail (repo_id addressing) **Accepted credentials:** User token. Use an own-account bearer token (including supported service accounts). Plugin installation tokens are not accepted for this action. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission and an account subject; automation principals are rejected. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
+/** Merge a Trail (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. Merge additionally enforces current merge policy, gates and any bypass authorization. */
 export const mergeTrail: API.OperationMethod<
   MergeTrailRequest,
   TrailMergeSubmitResponse,
