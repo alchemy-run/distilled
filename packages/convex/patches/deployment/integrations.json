@@ -1,0 +1,66 @@
+{
+  "description": "Type the integration routes' log-stream errors. Convex moved log streams from /log_streams to /integrations and kept the error codes. Observed live on a free-plan team, 2026-11-12: POST /integrations and POST /integrations/{id}/rotate_webhook_secret answer 403 LogStreamingNotEnabled; GET, PATCH and DELETE /integrations/{id} with an unknown id answer 400 InvalidLogStreamId.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#LogStreamingNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [{ "body": { "/code": "LogStreamingNotEnabled" } }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#InvalidLogStreamId",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [{ "body": { "/code": "InvalidLogStreamId" } }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateIntegration/errors/-",
+      "value": { "target": "com.convex.deployment#LogStreamingNotEnabled" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateIntegration/errors/-",
+      "value": { "target": "com.convex.deployment#LogStreamingNotEnabled" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateIntegration/errors/-",
+      "value": { "target": "com.convex.deployment#InvalidLogStreamId" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateIntegrationWebhookSecret/errors/-",
+      "value": { "target": "com.convex.deployment#LogStreamingNotEnabled" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateIntegrationWebhookSecret/errors/-",
+      "value": { "target": "com.convex.deployment#InvalidLogStreamId" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetIntegration/errors/-",
+      "value": { "target": "com.convex.deployment#InvalidLogStreamId" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DeleteIntegration/errors/-",
+      "value": { "target": "com.convex.deployment#InvalidLogStreamId" }
+    }
+  ]
+}

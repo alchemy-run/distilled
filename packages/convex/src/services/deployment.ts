@@ -72,12 +72,28 @@ export class EnvironmentVariableNameInvalid
     [{ body: { "/code": "EnvironmentVariableNameInvalid" } }],
   ) {}
 
+export class InvalidLogStreamId
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidLogStreamId>()("InvalidLogStreamId", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/code": "InvalidLogStreamId" } }],
+  ) {}
+
 export class InvalidUsageLimitId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidUsageLimitId>()("InvalidUsageLimitId", {
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidId" } }],
+  ) {}
+
+export class LogStreamingNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<LogStreamingNotEnabled>()("LogStreamingNotEnabled", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ body: { "/code": "LogStreamingNotEnabled" } }],
   ) {}
 
 export class MalformedAccessToken
@@ -928,6 +944,7 @@ export type CreateIntegrationError =
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
+  | LogStreamingNotEnabled
   | ConvexOpError;
 /** Create integration Create a new integration for the deployment. Errors if a integration of the given type already exists. */
 export const createIntegration: API.OperationMethod<
@@ -938,7 +955,7 @@ export const createIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateIntegrationRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateIntegrationResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted, LogStreamingNotEnabled],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -971,6 +988,7 @@ export type DeleteIntegrationError =
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
+  | InvalidLogStreamId
   | ConvexOpError;
 /** Delete integration Delete the deployment's integration with the given id. */
 export const deleteIntegration: API.OperationMethod<
@@ -981,7 +999,7 @@ export const deleteIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteIntegrationRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<DeleteIntegrationResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted, InvalidLogStreamId],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1106,6 +1124,7 @@ export type GetIntegrationError =
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
+  | InvalidLogStreamId
   | ConvexOpError;
 /** Get integration Get the config for a specific integration by id. */
 export const getIntegration: API.OperationMethod<
@@ -1116,7 +1135,7 @@ export const getIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<GetIntegrationResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted, InvalidLogStreamId],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1266,6 +1285,8 @@ export type RotateIntegrationWebhookSecretError =
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
+  | LogStreamingNotEnabled
+  | InvalidLogStreamId
   | ConvexOpError;
 /** Rotate webhook integration secret Rotate the secret for the webhook integration. */
 export const rotateIntegrationWebhookSecret: API.OperationMethod<
@@ -1276,7 +1297,13 @@ export const rotateIntegrationWebhookSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<RotateIntegrationWebhookSecretRequest>,
   output: __S(162, __c20, 2) as any as S.Schema<RotateIntegrationWebhookSecretResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [
+    MalformedAccessToken,
+    BadDeployKey,
+    OperationNotPermitted,
+    LogStreamingNotEnabled,
+    InvalidLogStreamId,
+  ],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1381,6 +1408,8 @@ export type UpdateIntegrationError =
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
+  | LogStreamingNotEnabled
+  | InvalidLogStreamId
   | ConvexOpError;
 /** Update integration Update an existing integration for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. */
 export const updateIntegration: API.OperationMethod<
@@ -1391,7 +1420,13 @@ export const updateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<UpdateIntegrationRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateIntegrationResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [
+    MalformedAccessToken,
+    BadDeployKey,
+    OperationNotPermitted,
+    LogStreamingNotEnabled,
+    InvalidLogStreamId,
+  ],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
