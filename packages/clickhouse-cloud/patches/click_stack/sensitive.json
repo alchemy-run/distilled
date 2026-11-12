@@ -1,0 +1,45 @@
+{
+  "description": "A ClickStack webhook's `url` is where alerts are posted, and for an incoming webhook the URL is the credential: anyone holding it can post to the channel. The spec documents Slack's as 'Slack incoming webhook URL' (example https://hooks.slack.com/services/T\u2026/B\u2026/X\u2026), the Slack API variant with the same hooks.slack.com example, incident.io's as 'incident.io alert event HTTP source URL', the generic one as 'Webhook destination URL', and the create, update and validate requests' as 'Webhook destination URL.' with the Slack example; none carries a sensitive mark. PagerDuty's (`ClickStackPagerDutyAPIWebhook.url`, 'PagerDuty Events API endpoint URL', the fixed public https://events.pagerduty.com/v2/enqueue) is no credential, but it is marked too: every webhook response is the `ClickStackWebhook` union of the five kinds, and the protocol wraps a member that any arm of a union marks sensitive, so a PagerDuty `url` arrives Redacted either way and its type has to say so. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackSlackWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackSlackAPIWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackIncidentIOWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackGenericWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackPagerDutyAPIWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackCreateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackUpdateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackValidateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

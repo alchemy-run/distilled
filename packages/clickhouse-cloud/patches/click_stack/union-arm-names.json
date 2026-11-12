@@ -1,0 +1,15 @@
+{
+  "description": "A ClickStack MongoDB CASL permission condition is a plain value or a `$regex` match (oneOf a string and an inline object), and the object arm has no name in the spec, so the converter calls it ClickStackMongoDBCASLPermissionConditionsValueCase1. Name it for what it matches. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-12).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackMongoDBCASLPermissionConditionsValue/members/Case1/target",
+      "value": "com.clickhouse.cloud.click_stack#ClickStackMongoDBCASLRegexCondition"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.cloud.click_stack#ClickStackMongoDBCASLPermissionConditionsValueCase1",
+      "path": "/shapes/com.clickhouse.cloud.click_stack#ClickStackMongoDBCASLRegexCondition"
+    }
+  ]
+}

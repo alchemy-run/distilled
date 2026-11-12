@@ -1,0 +1,29 @@
+{
+  "description": "The CA certificate endpoint answers 200 with an application/x-pem-file body (a bare string schema), and the converter reads only application/json success bodies, so it came out with no output. Give it a string output: a sole raw `body` member, which the generator collapses to `string`; the REST protocol returns a non-JSON 2xx body as text. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-12).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.postgres#GetPostgresServiceCaCertificatesResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.cloud.postgres#PostgresServiceCertsGet/output/target",
+      "value": "com.clickhouse.cloud.postgres#GetPostgresServiceCaCertificatesResponse"
+    }
+  ]
+}
