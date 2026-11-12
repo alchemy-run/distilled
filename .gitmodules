@@ -538,3 +538,18 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-mailchimp.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/technitium/specs/spec-mirror-technitium"]
+	path = packages/technitium/specs/spec-mirror-technitium
+	url = https://github.com/distilled-mirror/spec-mirror-technitium.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/proxmox/specs/spec-mirror-proxmox"]
+	path = packages/proxmox/specs/spec-mirror-proxmox
+	url = https://github.com/distilled-mirror/spec-mirror-proxmox.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/namespacelabs/specs/spec-mirror-namespacelabs"]
+	path = packages/namespacelabs/specs/spec-mirror-namespacelabs
+	url = https://github.com/distilled-mirror/spec-mirror-namespacelabs.git
+	ignore = dirty
+	shallow = true

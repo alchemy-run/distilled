@@ -1,0 +1,30 @@
+{
+  "description": "The bearer tokens IssueTenantToken, IssueTenantTokenWithOIDC and CreateRevokableToken return, the OIDC ID token IssueIdToken returns, and the external OIDC token IssueTenantTokenWithOIDC takes carry no sensitive mark. proto/namespace/cloud/iam/v1beta/tokens.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenWithOIDCResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#CreateRevokableTokenResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueIdTokenResponse/members/idToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenWithOIDCRequest/members/oidcToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

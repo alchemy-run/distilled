@@ -101,6 +101,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
+  { package: "namespacelabs" },
   { package: "neon" },
   { package: "netbird" },
   { package: "notion" },
@@ -117,6 +118,8 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "porkbun" },
   { package: "posthog" },
   { package: "prisma", mirror: "prisma-postgres" },
+  // Only the structure of Proxmox's schema; the fetch script drops its documentation text.
+  { package: "proxmox" },
   // Questrade publishes no API description: the mirror transcribes its
   // documentation pages.
   { package: "questrade" },
@@ -140,6 +143,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "supabase" },
   { package: "surrealdb" },
   { package: "tailscale" },
+  { package: "technitium" },
   { package: "temporal" },
   { package: "tencentcloud" },
   { package: "trigger-dev" },

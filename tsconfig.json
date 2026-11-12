@@ -179,6 +179,8 @@
     {
       "path": "./packages/prisma/tsconfig.scripts.json"
     },
+    { "path": "./packages/proxmox/tsconfig.json" },
+    { "path": "./packages/proxmox/tsconfig.scripts.json" },
     {
       "path": "./packages/questrade/tsconfig.json"
     },
@@ -503,6 +505,13 @@
       "path": "./packages/tailscale/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/technitium/tsconfig.json"
+    },
+    { "path": "./packages/technitium/tsconfig.test.json" },
+    {
+      "path": "./packages/technitium/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/temporal/tsconfig.json"
     },
     {
@@ -551,6 +560,12 @@
     },
     {
       "path": "./packages/modrinth/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/namespacelabs/tsconfig.json"
+    },
+    {
+      "path": "./packages/namespacelabs/tsconfig.scripts.json"
     },
     {
       "path": "./packages/spacetimedb/tsconfig.json"

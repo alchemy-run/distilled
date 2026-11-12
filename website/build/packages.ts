@@ -70,6 +70,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "render",
       "fly-io",
       "modal",
+      "namespacelabs",
       "daytona",
       "e2b",
       "steel",
@@ -85,6 +86,8 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "remote",
       "tailscale",
       "netbird",
+      "technitium",
+      "proxmox",
     ],
   ],
   [
@@ -242,6 +245,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   exa: "ai web search crawl contents answer websets agents",
   "fly-io": "machines",
   modal: "ai gpu",
+  namespacelabs: "namespace nsc compute devbox ci runners",
   daytona: "sandboxes dev environments",
   e2b: "sandboxes agents code interpreter firecracker",
   steel: "headless browsers agents scraping captcha",
@@ -250,6 +254,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   rivet: "actors durable objects",
   dokploy: "paas self-hosted deploy docker compose traefik",
   kubernetes: "k8s",
+  proxmox: "pve virtualization vms lxc qemu kvm containers self-hosted",
   "expo-eas": "react native builds",
   "google-workspace": "gmail drive calendar",
   notion: "docs wiki pages databases blocks",
@@ -263,6 +268,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   modrinth: "minecraft mods",
   tailscale: "vpn wireguard tailnet zero trust",
   netbird: "vpn wireguard zero trust mesh",
+  technitium: "dns server zones records self-hosted",
   core: "runtime shared",
 };
 
