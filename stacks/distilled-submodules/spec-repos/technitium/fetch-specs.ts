@@ -16,8 +16,9 @@
  * documentation are dropped before anything is written; the downloaded files
  * are only held in memory.
  *
- * The release is pinned by tag and commit. Files are downloaded by commit,
- * so they cannot change, and the tag must still point at the commit.
+ * Each run mirrors the latest release: the tag GitHub's `releases/latest` page
+ * redirects to, resolved to its commit with `git ls-remote`. Files are
+ * downloaded by that commit, so one run reads one consistent tree.
  *
  * Usage:
  *   node fetch-specs.ts
@@ -26,15 +27,15 @@
  *   ../specs/api-structure.json   the API structure
  *   ../specs/provenance.json      the release, the commit and every file's SHA-256
  */
+import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
+import { promisify } from "node:util";
 
 const REPOSITORY = "TechnitiumSoftware/DnsServer";
-const TAG = "v15.5.0";
-const COMMIT = "68ef950e4d2999f3dc19d75e4e32383633adf3e5";
 const SPECS_DIR = "../specs";
 const STRUCTURE_FILE = "api-structure.json";
-/** Documented calls in v15.5.0. Fewer means the documentation did not parse. */
+/** Documented calls in v15.5.0 (139). Fewer means the documentation did not parse. */
 const MIN_OPERATIONS = 100;
 
 /** A value shape inferred from example JSON. Example values themselves are dropped. */
@@ -271,15 +272,16 @@ export function parseParameterLine(line: string): DocParameter | undefined {
 }
 
 /**
- * Parses an example response. Four examples in 15.5.0 are not valid JSON: three have a
- * trailing comma and one lacks a comma between two members. Both slips are repaired; anything
- * else fails.
+ * Parses an example response. Some examples are not valid JSON: in 15.5.0 three have a trailing
+ * comma and one lacks a comma between two members, and 15.6.2 has a string value that lacks its
+ * closing quote (`"version": "15.6,`). These slips are repaired; anything else fails.
  */
 export function parseExample(text: string): { value: unknown; repaired: boolean } {
   try {
     return { value: JSON.parse(text), repaired: false };
   } catch {
     const repairedText = text
+      .replace(/^(\s*"\w+":\s*"[^"\n]*),$/gm, '$1",')
       .replace(/,(\s*[}\]])/g, "$1")
       .replace(/("|\d|true|false|null)(\s*\n\s*")/g, "$1,$2");
     return { value: JSON.parse(repairedText), repaired: true };
@@ -576,23 +578,46 @@ const fetchOk = async (url: string) => {
   return response;
 };
 
+/** The latest release's tag, from the redirect of `releases/latest` (no API rate limit). */
+async function latestTag(): Promise<string> {
+  const response = await fetch(`https://github.com/${REPOSITORY}/releases/latest`, {
+    headers: { "User-Agent": "spec-mirror-technitium" },
+    redirect: "manual",
+  });
+  const tag = /\/releases\/tag\/([^/?#]+)$/.exec(response.headers.get("location") ?? "")?.[1];
+  if (tag === undefined)
+    throw new Error(`releases/latest: no release redirect (HTTP ${response.status})`);
+  return decodeURIComponent(tag);
+}
+
+/** The commit a tag points at; `^{}` peels an annotated tag. */
+async function commitOf(tag: string): Promise<string> {
+  const { stdout } = await promisify(execFile)("git", [
+    "ls-remote",
+    `https://github.com/${REPOSITORY}.git`,
+    `refs/tags/${tag}`,
+    `refs/tags/${tag}^{}`,
+  ]);
+  const lines = stdout.trim().split("\n").filter(Boolean);
+  const line = lines.find((l) => l.endsWith("^{}")) ?? lines[0];
+  const sha = line?.split("\t")[0];
+  if (sha === undefined || !/^[0-9a-f]{40}$/.test(sha)) throw new Error(`No commit for tag ${tag}`);
+  return sha;
+}
+
 async function main() {
-  const resolved = (
-    (await (await fetchOk(`https://api.github.com/repos/${REPOSITORY}/commits/${TAG}`)).json()) as {
-      sha: string;
-    }
-  ).sha;
-  if (resolved !== COMMIT) throw new Error(`${TAG} now points at ${resolved}, not ${COMMIT}`);
+  const tag = await latestTag();
+  const commit = await commitOf(tag);
 
   const download = async (path: string) => {
     const text = await (
-      await fetchOk(`https://raw.githubusercontent.com/${REPOSITORY}/${COMMIT}/${path}`)
+      await fetchOk(`https://raw.githubusercontent.com/${REPOSITORY}/${commit}/${path}`)
     ).text();
     return { path, sha256: sha256(text), text };
   };
   const license = await download("LICENSE");
   if (!/GNU GENERAL PUBLIC LICENSE\s+Version 3, 29 June 2007/.test(license.text))
-    throw new Error(`LICENSE at ${TAG} is no longer GPL-3.0; review what this mirror keeps`);
+    throw new Error(`LICENSE at ${tag} is no longer GPL-3.0; review what this mirror keeps`);
   const docs = await download("APIDOCS.md");
   const webService = await download("DnsServerCore/DnsWebService.cs");
   const classes = [
@@ -612,8 +637,8 @@ async function main() {
   const payload = `${JSON.stringify(structure, null, 2)}\n`;
   const provenance = {
     repository: REPOSITORY,
-    tag: TAG,
-    commit: COMMIT,
+    tag,
+    commit,
     license: "GPL-3.0",
     files: [license, docs, webService, ...handlers].map(({ path, sha256 }) => ({ path, sha256 })),
     structure: {
@@ -629,7 +654,7 @@ async function main() {
   await writeFile(`${SPECS_DIR}/${STRUCTURE_FILE}`, payload);
   await writeFile(`${SPECS_DIR}/provenance.json`, `${JSON.stringify(provenance, null, 2)}\n`);
   console.log(
-    `Technitium ${TAG}: ${structure.operations.length} operations, ` +
+    `Technitium ${tag}: ${structure.operations.length} operations, ` +
       `${structure.undocumentedRoutes.length} undocumented routes, ` +
       `${report.repairedExamples.length} repaired examples`,
   );

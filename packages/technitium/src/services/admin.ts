@@ -91,26 +91,27 @@ export interface DeleteGroupResponse {}
 export interface DeleteSecondaryNodeRequest {
   secondaryNodeId: number;
 }
-export type DeleteSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
-export interface DeleteSecondaryNodeResponseNodesItem {
+export type DeleteSecondaryNodeResponseClusterNodesItemIpAddresses = Array<string>;
+export interface DeleteSecondaryNodeResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: DeleteSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: DeleteSecondaryNodeResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type DeleteSecondaryNodeResponseNodes = Array<DeleteSecondaryNodeResponseNodesItem>;
+export type DeleteSecondaryNodeResponseClusterNodes =
+  Array<DeleteSecondaryNodeResponseClusterNodesItem>;
 export interface DeleteSecondaryNodeResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: DeleteSecondaryNodeResponseClusterNodes | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: DeleteSecondaryNodeResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface DeleteSessionRequest {
@@ -126,7 +127,7 @@ export interface GetClusterStateRequest {
   node?: string | undefined;
   includeServerIpAddresses?: boolean | undefined;
 }
-export interface GetClusterStateResponseNodesItem {
+export interface GetClusterStateResponseClusterNodesItem {
   id?: number | undefined;
   ipAddress?: string | undefined;
   lastSeen?: string | undefined;
@@ -134,19 +135,20 @@ export interface GetClusterStateResponseNodesItem {
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
+  version?: string | undefined;
 }
-export type GetClusterStateResponseNodes = Array<GetClusterStateResponseNodesItem>;
+export type GetClusterStateResponseClusterNodes = Array<GetClusterStateResponseClusterNodesItem>;
 export type GetClusterStateResponseServerIpAddresses = Array<string>;
 export interface GetClusterStateResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: GetClusterStateResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: GetClusterStateResponseNodes | undefined;
   serverIpAddresses?: GetClusterStateResponseServerIpAddresses | undefined;
   version?: string | undefined;
 }
@@ -250,54 +252,55 @@ export interface InitializeAndJoinClusterRequest {
   primaryNodePassword: string | Redacted.Redacted<string>;
   primaryNodeTotp?: string | Redacted.Redacted<string> | undefined;
 }
-export type InitializeAndJoinClusterResponseNodesItemIpAddresses = Array<string>;
-export interface InitializeAndJoinClusterResponseNodesItem {
+export type InitializeAndJoinClusterResponseClusterNodesItemIpAddresses = Array<string>;
+export interface InitializeAndJoinClusterResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: InitializeAndJoinClusterResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: InitializeAndJoinClusterResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type InitializeAndJoinClusterResponseNodes =
-  Array<InitializeAndJoinClusterResponseNodesItem>;
+export type InitializeAndJoinClusterResponseClusterNodes =
+  Array<InitializeAndJoinClusterResponseClusterNodesItem>;
 export interface InitializeAndJoinClusterResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: InitializeAndJoinClusterResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: InitializeAndJoinClusterResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface InitializeClusterRequest {
   clusterDomain: string;
   primaryNodeIpAddresses: string;
 }
-export type InitializeClusterResponseNodesItemIpAddresses = Array<string>;
-export interface InitializeClusterResponseNodesItem {
+export type InitializeClusterResponseClusterNodesItemIpAddresses = Array<string>;
+export interface InitializeClusterResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: InitializeClusterResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: InitializeClusterResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type InitializeClusterResponseNodes = Array<InitializeClusterResponseNodesItem>;
+export type InitializeClusterResponseClusterNodes =
+  Array<InitializeClusterResponseClusterNodesItem>;
 export interface InitializeClusterResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: InitializeClusterResponseClusterNodes | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: InitializeClusterResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface JoinClusterRequest {
@@ -306,27 +309,27 @@ export interface JoinClusterRequest {
   secondaryNodeIpAddresses: string;
   secondaryNodeCertificate: string;
 }
-export type JoinClusterResponseNodesItemIpAddresses = Array<string>;
-export interface JoinClusterResponseNodesItem {
+export type JoinClusterResponseClusterNodesItemIpAddresses = Array<string>;
+export interface JoinClusterResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: JoinClusterResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: JoinClusterResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type JoinClusterResponseNodes = Array<JoinClusterResponseNodesItem>;
+export type JoinClusterResponseClusterNodes = Array<JoinClusterResponseClusterNodesItem>;
 export interface JoinClusterResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: JoinClusterResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: JoinClusterResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface LeaveClusterRequest {
@@ -401,52 +404,53 @@ export interface PromoteToPrimaryRequest {
   node?: string | undefined;
   forceDeletePrimary?: boolean | undefined;
 }
-export type PromoteToPrimaryResponseNodesItemIpAddresses = Array<string>;
-export interface PromoteToPrimaryResponseNodesItem {
+export type PromoteToPrimaryResponseClusterNodesItemIpAddresses = Array<string>;
+export interface PromoteToPrimaryResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: PromoteToPrimaryResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: PromoteToPrimaryResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type PromoteToPrimaryResponseNodes = Array<PromoteToPrimaryResponseNodesItem>;
+export type PromoteToPrimaryResponseClusterNodes = Array<PromoteToPrimaryResponseClusterNodesItem>;
 export interface PromoteToPrimaryResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: PromoteToPrimaryResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: PromoteToPrimaryResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface RemoveSecondaryNodeRequest {
   secondaryNodeId: number;
 }
-export type RemoveSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
-export interface RemoveSecondaryNodeResponseNodesItem {
+export type RemoveSecondaryNodeResponseClusterNodesItemIpAddresses = Array<string>;
+export interface RemoveSecondaryNodeResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: RemoveSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: RemoveSecondaryNodeResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type RemoveSecondaryNodeResponseNodes = Array<RemoveSecondaryNodeResponseNodesItem>;
+export type RemoveSecondaryNodeResponseClusterNodes =
+  Array<RemoveSecondaryNodeResponseClusterNodesItem>;
 export interface RemoveSecondaryNodeResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: RemoveSecondaryNodeResponseClusterNodes | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: RemoveSecondaryNodeResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface ResyncClusterRequest {
@@ -460,27 +464,28 @@ export interface SetClusterOptionsRequest {
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
 }
-export type SetClusterOptionsResponseNodesItemIpAddresses = Array<string>;
-export interface SetClusterOptionsResponseNodesItem {
+export type SetClusterOptionsResponseClusterNodesItemIpAddresses = Array<string>;
+export interface SetClusterOptionsResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: SetClusterOptionsResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: SetClusterOptionsResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type SetClusterOptionsResponseNodes = Array<SetClusterOptionsResponseNodesItem>;
+export type SetClusterOptionsResponseClusterNodes =
+  Array<SetClusterOptionsResponseClusterNodesItem>;
 export interface SetClusterOptionsResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: SetClusterOptionsResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: SetClusterOptionsResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface SetGroupDetailsRequest {
@@ -585,27 +590,28 @@ export interface UpdateNodeIpAddressesRequest {
   node?: string | undefined;
   ipAddresses: string;
 }
-export type UpdateNodeIpAddressesResponseNodesItemIpAddresses = Array<string>;
-export interface UpdateNodeIpAddressesResponseNodesItem {
+export type UpdateNodeIpAddressesResponseClusterNodesItemIpAddresses = Array<string>;
+export interface UpdateNodeIpAddressesResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: UpdateNodeIpAddressesResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: UpdateNodeIpAddressesResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type UpdateNodeIpAddressesResponseNodes = Array<UpdateNodeIpAddressesResponseNodesItem>;
+export type UpdateNodeIpAddressesResponseClusterNodes =
+  Array<UpdateNodeIpAddressesResponseClusterNodesItem>;
 export interface UpdateNodeIpAddressesResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: UpdateNodeIpAddressesResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: UpdateNodeIpAddressesResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface UpdatePrimaryNodeRequest {
@@ -613,27 +619,28 @@ export interface UpdatePrimaryNodeRequest {
   primaryNodeUrl: string;
   primaryNodeIpAddresses?: string | undefined;
 }
-export type UpdatePrimaryNodeResponseNodesItemIpAddresses = Array<string>;
-export interface UpdatePrimaryNodeResponseNodesItem {
+export type UpdatePrimaryNodeResponseClusterNodesItemIpAddresses = Array<string>;
+export interface UpdatePrimaryNodeResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: UpdatePrimaryNodeResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: UpdatePrimaryNodeResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type UpdatePrimaryNodeResponseNodes = Array<UpdatePrimaryNodeResponseNodesItem>;
+export type UpdatePrimaryNodeResponseClusterNodes =
+  Array<UpdatePrimaryNodeResponseClusterNodesItem>;
 export interface UpdatePrimaryNodeResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: UpdatePrimaryNodeResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: UpdatePrimaryNodeResponseNodes | undefined;
   version?: string | undefined;
 }
 export interface UpdateSecondaryNodeRequest {
@@ -642,27 +649,28 @@ export interface UpdateSecondaryNodeRequest {
   secondaryNodeIpAddresses: string;
   secondaryNodeCertificate: string;
 }
-export type UpdateSecondaryNodeResponseNodesItemIpAddresses = Array<string>;
-export interface UpdateSecondaryNodeResponseNodesItem {
+export type UpdateSecondaryNodeResponseClusterNodesItemIpAddresses = Array<string>;
+export interface UpdateSecondaryNodeResponseClusterNodesItem {
   id?: number | undefined;
-  ipAddresses?: UpdateSecondaryNodeResponseNodesItemIpAddresses | undefined;
+  ipAddresses?: UpdateSecondaryNodeResponseClusterNodesItemIpAddresses | undefined;
   lastSeen?: string | undefined;
   name?: string | undefined;
   state?: string | undefined;
   type?: string | undefined;
   url?: string | undefined;
 }
-export type UpdateSecondaryNodeResponseNodes = Array<UpdateSecondaryNodeResponseNodesItem>;
+export type UpdateSecondaryNodeResponseClusterNodes =
+  Array<UpdateSecondaryNodeResponseClusterNodesItem>;
 export interface UpdateSecondaryNodeResponse {
   clusterDomain?: string | undefined;
   clusterInitialized?: boolean | undefined;
+  clusterNodes?: UpdateSecondaryNodeResponseClusterNodes | undefined;
   configLastSynced?: string | undefined;
   configRefreshIntervalSeconds?: number | undefined;
   configRetryIntervalSeconds?: number | undefined;
   dnsServerDomain?: string | undefined;
   heartbeatRefreshIntervalSeconds?: number | undefined;
   heartbeatRetryIntervalSeconds?: number | undefined;
-  nodes?: UpdateSecondaryNodeResponseNodes | undefined;
   version?: string | undefined;
 }
 export type CreateApiTokenError = TechnitiumOpError;
@@ -1494,13 +1502,13 @@ function __c13(j: number): any {
         S.Struct({
           clusterDomain: S.optional(S.String),
           clusterInitialized: S.optional(S.Boolean),
+          clusterNodes: S.optional(__S(169, __c42, 1)),
           configLastSynced: S.optional(S.String),
           configRefreshIntervalSeconds: S.optional(S.Number),
           configRetryIntervalSeconds: S.optional(S.Number),
           dnsServerDomain: S.optional(S.String),
           heartbeatRefreshIntervalSeconds: S.optional(S.Number),
           heartbeatRetryIntervalSeconds: S.optional(S.Number),
-          nodes: S.optional(__S(169, __c42, 1)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitializeAndJoinClusterResponse" });
@@ -2098,7 +2106,7 @@ function __c42(j: number): any {
           type: S.optional(S.String),
           url: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteSecondaryNodeResponseNodesItem" });
+      ).annotate({ identifier: "DeleteSecondaryNodeResponseClusterNodesItem" });
     case 1:
       return S.Array(__S(168, __c42, 0));
   }
@@ -2110,12 +2118,12 @@ function __c43(j: number): any {
         S.Struct({
           clusterDomain: S.optional(S.String),
           clusterInitialized: S.optional(S.Boolean),
+          clusterNodes: S.optional(__S(169, __c42, 1)),
           configRefreshIntervalSeconds: S.optional(S.Number),
           configRetryIntervalSeconds: S.optional(S.Number),
           dnsServerDomain: S.optional(S.String),
           heartbeatRefreshIntervalSeconds: S.optional(S.Number),
           heartbeatRetryIntervalSeconds: S.optional(S.Number),
-          nodes: S.optional(__S(169, __c42, 1)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteSecondaryNodeResponse" });
@@ -2188,8 +2196,9 @@ function __c47(j: number): any {
           state: S.optional(S.String),
           type: S.optional(S.String),
           url: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GetClusterStateResponseNodesItem" });
+      ).annotate({ identifier: "GetClusterStateResponseClusterNodesItem" });
     case 2:
       return S.Array(__S(189, __c47, 1));
     case 3:
@@ -2197,13 +2206,13 @@ function __c47(j: number): any {
         S.Struct({
           clusterDomain: S.optional(S.String),
           clusterInitialized: S.optional(S.Boolean),
+          clusterNodes: S.optional(__S(190, __c47, 2)),
           configLastSynced: S.optional(S.String),
           configRefreshIntervalSeconds: S.optional(S.Number),
           configRetryIntervalSeconds: S.optional(S.Number),
           dnsServerDomain: S.optional(S.String),
           heartbeatRefreshIntervalSeconds: S.optional(S.Number),
           heartbeatRetryIntervalSeconds: S.optional(S.Number),
-          nodes: S.optional(__S(190, __c47, 2)),
           serverIpAddresses: S.optional(__S(176, __c44, 0)),
           version: S.optional(S.String),
         }),
