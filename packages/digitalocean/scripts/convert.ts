@@ -33,5 +33,16 @@ await runOpenApiConvert({
     // Without it the converter finds no success schema and emits an empty
     // response struct, so the created id is unreachable.
     successStatuses: ["200", "201", "202", "204"],
+    // Operations the spec serves from another host. The protocol maps each
+    // name to a base URL from the credentials (src/protocol.ts `baseUrlFor`).
+    servers: {
+      "https://inference.do-ai.run": "inference",
+      "https://actions.do-ai.run": "actions",
+      // An agent's own endpoint and a presigned batch upload URL: only the
+      // caller knows these hosts, so the operations keep the API host as on
+      // main (where they cannot succeed).
+      "https://{agent_url}": null,
+      "https://": null,
+    },
   },
 });
