@@ -1,0 +1,61 @@
+{
+  "description": "Name the documented instance lookup getContainerApplicationInstance and share the instance's status, resources and location shapes with listContainerApplicationInstances.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponse/members/status/target",
+      "value": "com.cloudflare.containers#ContainerInstanceStatus"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponse/members/configuration/target",
+      "value": "com.cloudflare.containers#ContainerInstanceResources"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponse/members/location/target",
+      "value": "com.cloudflare.containers#ContainerInstanceLocation"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesGet",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationInstance"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationInstance/input/target",
+      "value": "com.cloudflare.containers#GetContainerApplicationInstanceRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetRequest",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationInstanceRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationInstance/output/target",
+      "value": "com.cloudflare.containers#GetContainerApplicationInstanceResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponse",
+      "path": "/shapes/com.cloudflare.containers#GetContainerApplicationInstanceResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponseStatusState"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponseStatus"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponseConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesGetResponseLocation"
+    }
+  ]
+}

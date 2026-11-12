@@ -1,0 +1,151 @@
+{
+  "description": "Name the documented instances listing (GET …/applications/{application_id}/instances-v2) listContainerApplicationInstances, like the other containers operations, and page it with the documented cursor: page_token and per_page (default 100, max 1000) in the request, result_info.next_page_token in the response. Drop the deprecated GET …/applications/{application_id}/instances: the docs mark it deprecated in favour of instances-v2, which returns the same instances.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultList/member/target",
+      "value": "com.cloudflare.containers#ContainerInstance"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultItem",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstance"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstance/members/status/target",
+      "value": "com.cloudflare.containers#ContainerInstanceStatus"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultItemStatus",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceStatus"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceStatus/members/state/target",
+      "value": "com.cloudflare.containers#ContainerInstanceState"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultItemStatusState",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceState"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstance/members/configuration/target",
+      "value": "com.cloudflare.containers#ContainerInstanceResources"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultItemConfiguration",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceResources"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstance/members/location/target",
+      "value": "com.cloudflare.containers#ContainerInstanceLocation"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultItemLocation",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceLocation"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResponse/members/result/target",
+      "value": "com.cloudflare.containers#ContainerInstanceList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResultList",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListRequest/members/state/target",
+      "value": "com.cloudflare.containers#ContainerInstanceStateFilter"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListRequestState",
+      "path": "/shapes/com.cloudflare.containers#ContainerInstanceStateFilter"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "pageToken",
+        "outputToken": "resultInfo.nextPageToken",
+        "items": "result",
+        "pageSize": "perPage"
+      }
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesList",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationInstances"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationInstances/input/target",
+      "value": "com.cloudflare.containers#ListContainerApplicationInstancesRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListRequest",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationInstancesRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationInstances/output/target",
+      "value": "com.cloudflare.containers#ListContainerApplicationInstancesResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListResponse",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationInstancesResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1RequestState"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1Request"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesItemStatusState"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesItemStatus"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesItemConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesItemLocation"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1ResponseInstancesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesListV1Response"
+    }
+  ]
+}
