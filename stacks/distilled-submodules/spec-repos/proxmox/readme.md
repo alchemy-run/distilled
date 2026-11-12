@@ -8,8 +8,7 @@ Proxmox publishes its API schema in the
 [`apidoc.js`](https://pve.proxmox.com/pve-docs/api-viewer/apidoc.js), which documents the
 current release. The fetch script extracts the schema without running any JavaScript.
 
-`pve-docs` licenses its `*.js` files under AGPL-3.0-or-later and its documentation under
-GFDL-1.3. This mirror holds only the structure of that schema: paths, methods, operation names,
+This mirror holds only the structure of that schema: paths, methods, operation names,
 parameter names, types, formats, enums, defaults, constraints and flags. It holds no Proxmox
 documentation text. Descriptions, type texts, titles, permission texts and defaults written as
 prose are dropped before anything is written.

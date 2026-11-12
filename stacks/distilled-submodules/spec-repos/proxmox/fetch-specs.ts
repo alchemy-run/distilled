@@ -10,9 +10,8 @@
  *
  * The schema mixes interface structure (paths, methods, parameter names,
  * types, formats, enums, constraints, flags) with documentation text
- * (descriptions, type texts, titles, permission texts). The `pve-docs`
- * package licenses `*.js` under AGPL-3.0-or-later and its documentation
- * under GFDL-1.3, so the mirror stores the structure and none of the text.
+ * (descriptions, type texts, titles, permission texts). The mirror stores
+ * the structure and none of the text.
  *
  * Usage:
  *   node fetch-specs.ts
