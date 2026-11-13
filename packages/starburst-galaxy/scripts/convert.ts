@@ -293,10 +293,11 @@ const mergeV2 = (v1: any, v2: any): { renamed: string[] } => {
  *
  * Each subtype becomes a standalone object — the base's properties, then its
  * own, with the discriminator property pinned to its mapping key — and each
- * discriminated node (a component, or an inline copy of one inside another
- * schema) becomes a `oneOf` over those subtypes. Subtypes no longer `$ref`
- * their base, which also breaks the subtype → base → subtype cycle. A shape
- * outside what Galaxy publishes fails the run rather than converting half.
+ * discriminated node (a component, an inline copy of one inside another
+ * schema, or one inside a subtype's own properties) becomes a `oneOf` over
+ * those subtypes. Subtypes no longer `$ref` their base, which also breaks
+ * the subtype → base → subtype cycle. A shape outside what Galaxy publishes
+ * fails the run rather than converting half.
  */
 const flattenDiscriminators = (spec: any): { bases: number; subtypes: number } => {
   const schemas: Record<string, any> = spec.components.schemas;
@@ -400,7 +401,9 @@ const flattenDiscriminators = (spec: any): { bases: number; subtypes: number } =
   };
   spec.paths = toOneOf(spec.paths);
   spec.components = toOneOf(spec.components);
-  for (const [name, { schema }] of flattened) spec.components.schemas[name] = schema;
+  // A subtype is built from its original properties, so a discriminated node
+  // inside them (`NewSchemaNewJsonSchema.columns`) is rewritten here too.
+  for (const [name, { schema }] of flattened) spec.components.schemas[name] = toOneOf(schema);
   return { bases, subtypes: flattened.size };
 };
 
