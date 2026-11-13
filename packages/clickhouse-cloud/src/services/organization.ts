@@ -155,7 +155,7 @@ export type ByocConfigRegionId =
 export type ByocConfigCloudProvider = "gcp" | "aws" | "azure";
 export interface ByocConfig {
   /** Unique identifier of the BYOC configuration */
-  id?: string | undefined;
+  id: string;
   /** State of the infrastructure */
   state?: ByocConfigState | undefined;
   /** Cloud account ID the BYOC infrastructure is bound to: AWS account ID, GCP project ID, or Azure subscription ID */
@@ -1156,7 +1156,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           state: S.optional(S.String),
           accountId: S.optional(S.String),
           accountName: S.optional(S.String),
