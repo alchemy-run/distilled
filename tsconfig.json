@@ -681,7 +681,6 @@
       "path": "./packages/entire/tsconfig.scripts.json"
     },
     { "path": "./packages/starburst-galaxy/tsconfig.json" },
-    { "path": "./packages/starburst-galaxy/tsconfig.test.json" },
     { "path": "./packages/starburst-galaxy/tsconfig.scripts.json" }
   ]
 }
