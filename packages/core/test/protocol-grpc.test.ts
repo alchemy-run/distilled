@@ -167,13 +167,63 @@ const h1Server = http.createServer((req, res) => {
   });
 });
 
+/** gRPC-Web over HTTP/1.1, as `tonic-web` answers: the status in a trailer frame. */
+const webSeen: Array<Record<string, unknown>> = [];
+const trailerFrame = (trailers: Record<string, string>): Uint8Array => {
+  const out = frame(
+    new TextEncoder().encode(
+      Object.entries(trailers)
+        .map(([k, v]) => `${k}: ${v}\r\n`)
+        .join(""),
+    ),
+  );
+  out[0] = 0x80;
+  return out;
+};
+const webServer = http.createServer((req, res) => {
+  webSeen.push({ ...req.headers });
+  const chunks: Buffer[] = [];
+  req.on("data", (chunk: Buffer) => chunks.push(chunk));
+  req.on("end", () => {
+    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
+    const request = decodeMessage(descriptors, "test.EchoRequest", payload!) as Request;
+    const reply = (index: number) =>
+      frame(encodeMessage(descriptors, "test.EchoReply", { text: request.text, index }));
+    if (request.text === "missing") {
+      res.writeHead(200, {
+        "content-type": "application/grpc-web+proto",
+        "grpc-status": "5",
+        "grpc-message": "Thing%20'missing'%20not%20found",
+      });
+      return res.end();
+    }
+    res.writeHead(200, { "content-type": "application/grpc-web+proto" });
+    if (req.url === "/test.Echo/Count") {
+      for (let i = 1; i <= request.count; i++) res.write(reply(i));
+    } else if (request.text !== "late-error" && request.text !== "no-status") {
+      res.write(reply(1));
+    }
+    if (request.text === "no-status") return res.end();
+    res.end(
+      trailerFrame(
+        request.text === "late-error" || request.text === "boom"
+          ? { "grpc-status": "9", "grpc-message": "precondition%20failed" }
+          : { "grpc-status": "0" },
+      ),
+    );
+  });
+});
+
 let h2Url = "";
 let h1Url = "";
+let webUrl = "";
 
 beforeAll(async () => {
   await new Promise<void>((resolve) => h2Server.listen(0, "127.0.0.1", resolve));
   await new Promise<void>((resolve) => h1Server.listen(0, "127.0.0.1", resolve));
   await new Promise<void>((resolve) => socketServer.listen(socketPath, resolve));
+  await new Promise<void>((resolve) => webServer.listen(0, "127.0.0.1", resolve));
+  webUrl = `http://127.0.0.1:${(webServer.address() as AddressInfo).port}`;
   h2Url = `http://127.0.0.1:${(h2Server.address() as AddressInfo).port}`;
   h1Url = `http://127.0.0.1:${(h1Server.address() as AddressInfo).port}`;
 });
@@ -182,6 +232,7 @@ afterAll(async () => {
   await new Promise((resolve) => h2Server.close(resolve));
   await new Promise((resolve) => h1Server.close(resolve));
   await new Promise((resolve) => socketServer.close(resolve));
+  await new Promise((resolve) => webServer.close(resolve));
 });
 
 // =============================================================================
@@ -217,6 +268,18 @@ const Protocol = makeGrpcProtocol({
   headers: () => ({ "x-test": "1" }),
   unknownError: (info) => new TestUnknownError({ info }),
   parseError: (info) => new TestParseError({ info }),
+});
+
+const WebProtocol = makeGrpcProtocol({
+  descriptors,
+  credentials: Effect.gen(function* () {
+    return yield* Endpoint;
+  }),
+  baseUrl: (endpoint) => endpoint.url,
+  headers: () => ({}),
+  unknownError: (info) => new TestUnknownError({ info }),
+  parseError: (info) => new TestParseError({ info }),
+  web: true,
 });
 
 const Reply = S.Struct({
@@ -261,6 +324,25 @@ const count: API.StreamingOperationMethod<
   protocol: Protocol,
 })) as any;
 
+const webSay: API.OperationMethod<EchoRequest, EchoReply, any, Endpoint> = API.make(() => ({
+  input: EchoInput("/test.Echo/Say"),
+  output: Reply,
+  errors: [ThingNotFound, PreconditionFailed] as const,
+  protocol: WebProtocol,
+})) as any;
+
+const webCount: API.StreamingOperationMethod<
+  EchoRequest,
+  { readonly items: ReadonlyArray<EchoReply> },
+  any,
+  Endpoint
+> = API.makeStreaming(() => ({
+  input: EchoInput("/test.Echo/Count"),
+  output: S.Struct({ items: S.Array(Reply) }),
+  errors: [PreconditionFailed] as const,
+  protocol: WebProtocol,
+})) as any;
+
 const overHttp2 = () =>
   Layer.mergeAll(Layer.succeed(Endpoint, { url: h2Url }), NodeHttp2.layer, FetchHttpClient.layer);
 const overSocket = () =>
@@ -272,6 +354,9 @@ const overSocket = () =>
   );
 const overFetch = () =>
   Layer.mergeAll(Layer.succeed(Endpoint, { url: h1Url }), FetchHttpClient.layer);
+
+const overWeb = () =>
+  Layer.mergeAll(Layer.succeed(Endpoint, { url: webUrl }), FetchHttpClient.layer);
 
 const run = <A, E>(effect: Effect.Effect<A, E, any>, layer: Layer.Layer<any>) =>
   Effect.runPromise(
@@ -426,5 +511,42 @@ describe("gRPC over the caller's HttpClient (HTTP/1.1, no trailers)", () => {
   test("reads a status the proxy put in the headers", async () => {
     const error = await fail(say({ text: "missing" }), overFetch());
     expect(error._tag).toBe("ThingNotFound");
+  });
+});
+
+describe("gRPC-Web over the caller's HttpClient", () => {
+  test("sends gRPC-Web and reads the OK status from the trailer frame", async () => {
+    expect(await succeed(webSay({ text: "hi" }), overWeb())).toEqual({
+      text: "hi",
+      index: 1,
+      tags: [],
+    });
+    expect(webSeen.at(-1)).toMatchObject({
+      "content-type": "application/grpc-web+proto",
+      "x-grpc-web": "1",
+    });
+  });
+
+  test("a status in the trailer frame is the operation's typed error", async () => {
+    const error = await fail(webSay({ text: "late-error" }), overWeb());
+    expect(error._tag).toBe("PreconditionFailed");
+    expect(error.message).toBe("precondition failed");
+  });
+
+  test("a trailers-only reply is the operation's typed error", async () => {
+    const error = await fail(webSay({ text: "missing" }), overWeb());
+    expect(error._tag).toBe("ThingNotFound");
+  });
+
+  test("a reply with a message and no trailer frame fails", async () => {
+    const error = await fail(webSay({ text: "no-status" }), overWeb());
+    expect(error._tag).toBe("InternalServerError");
+  });
+
+  test("a stream collects every message, and fails on an error trailer", async () => {
+    const ok = await succeed(webCount({ text: "x", count: 3 }), overWeb());
+    expect(ok.items.map((i) => i.index)).toEqual([1, 2, 3]);
+    const error = await fail(webCount({ text: "boom", count: 2 }), overWeb());
+    expect(error._tag).toBe("PreconditionFailed");
   });
 });

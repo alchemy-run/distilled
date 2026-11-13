@@ -13,6 +13,10 @@
  *   `GrpcTransport` reference holds, or the caller's `HttpClient` when it
  *   holds none (see `@distilled.cloud/core/grpc-transport`). Plain `fetch`
  *   works where a proxy bridges HTTP/1.1 to gRPC (envoy).
+ * - **gRPC-Web**: with `web: true` the request is sent as
+ *   `application/grpc-web+proto`, which servers such as `tonic-web` answer
+ *   over HTTP/1.1. The reply's trailers arrive as the last frame of its body,
+ *   so plain `fetch` sees every status.
  * - **Status**: the call's `grpc-status` is read from the trailers, or from
  *   the headers of a trailers-only reply. A transport that can't see
  *   trailers (`fetch`) leaves only the headers; a reply with message frames
@@ -126,6 +130,12 @@ export interface GrpcProtocolOptions<C> extends RestProtocolOptions<C> {
    * `BadRequest`).
    */
   readonly statusError?: (info: StatusInfo) => unknown;
+  /**
+   * Send gRPC-Web (`application/grpc-web+proto`) instead of gRPC, for a
+   * server that answers HTTP/1.1 only that way (`tonic-web`). The reply
+   * carries its trailers in its body, so `fetch` sees every status.
+   */
+  readonly web?: boolean;
 }
 
 /** A non-OK gRPC status, as `statusError` receives it. */
@@ -235,6 +245,10 @@ const plainHeaders = (headers: Headers) => {
   return out;
 };
 
+/** A gRPC-Web reply, whose trailers are the last frame of its body. */
+const isWeb = (headers: Headers): boolean =>
+  (headers["content-type"] ?? "").startsWith("application/grpc-web");
+
 const statusOf = (value: string | undefined): number | undefined =>
   value === undefined || value === "" ? undefined : Number(value);
 
@@ -294,10 +308,15 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
             ) as unknown as Effect.Effect<HttpClientRequest.HttpClientRequest>;
           }
           return Effect.succeed(
-            request.pipe(
-              HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc"),
-              HttpClientRequest.setHeader("te", "trailers"),
-            ),
+            options.web
+              ? request.pipe(
+                  HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc-web+proto"),
+                  HttpClientRequest.setHeader("x-grpc-web", "1"),
+                )
+              : request.pipe(
+                  HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc"),
+                  HttpClientRequest.setHeader("te", "trailers"),
+                ),
           );
         });
 
@@ -343,8 +362,9 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
        * The call's failure, if any, once its body has ended. The status is in
        * the trailers, or in the headers of a trailers-only reply (one with no
        * body); a status in the headers of a reply with a body is ignored. A
-       * transport that reads trailers must deliver one; over `fetch`, which
-       * can't, a reply with messages and no status is OK.
+       * transport that reads trailers must deliver one, and so must a
+       * gRPC-Web reply, in its trailer frame; over `fetch`, which can't read
+       * trailers, a gRPC reply with messages and no status is OK.
        */
       const endOf = (
         args: DecodeArgs,
@@ -353,7 +373,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         sawBody: boolean,
       ): Effect.Effect<void> => {
         const headers = response.headers as Headers;
-        const readsTrailers = hasTrailers(response);
+        const readsTrailers = hasTrailers(response) || isWeb(headers);
         const source =
           trailers["grpc-status"] !== undefined
             ? trailers
@@ -501,7 +521,8 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 badFrame(args, response, cause),
               );
             }
-            return Effect.flatMap(endOf(args, response, trailers, buffer.byteLength > 0), () => {
+            const all = { ...trailers, ...reader.trailers };
+            return Effect.flatMap(endOf(args, response, all, buffer.byteLength > 0), () => {
               if (reader.rest !== 0) return badFrame(args, response, "truncated gRPC frame");
               const [, responseType, stream] = method;
               if (!stream && frames.length !== 1) {
@@ -631,7 +652,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         );
         let sawBody = false;
         const end = Effect.flatMap(trailersOf(response), (trailers) =>
-          Effect.flatMap(endOf(args, response, trailers, sawBody), () =>
+          Effect.flatMap(endOf(args, response, { ...trailers, ...reader.trailers }, sawBody), () =>
             reader.rest !== 0 ? badFrame(args, response, "truncated gRPC frame") : Effect.void,
           ),
         );

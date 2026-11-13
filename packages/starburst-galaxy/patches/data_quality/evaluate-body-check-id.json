@@ -1,0 +1,40 @@
+{
+  "description": "`evaluateDataQualityCheck` takes the check ID twice: in the path and, required, in the JSON body (`EvaluateDataQualityCheck` requires `dataQualityCheckId`). convert merges the body into the input and the path label wins, so the request body went out without it and Galaxy answered 400 \"One or more fields in DataQualityCheckId were null\" (live call, 2026-11-12). The body becomes its own payload shape, sent as `body`, so callers pass the ID in both places. It is the only operation in either spec whose body repeats a path parameter.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.data_quality#EvaluateDataQualityCheckBody",
+      "value": {
+        "type": "structure",
+        "members": {
+          "dataQualityCheckId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Data quality check ID; the same as the path's"
+            }
+          },
+          "clusterId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Cluster ID where data quality check is executed (SQL quality checks only)"
+            }
+          }
+        },
+        "traits": { "smithy.api#documentation": "Data quality check evaluation request" }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.starburst.galaxy.data_quality#EvaluateDataQualityCheckRequest/members/clusterId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.data_quality#EvaluateDataQualityCheckRequest/members/body",
+      "value": {
+        "target": "com.starburst.galaxy.data_quality#EvaluateDataQualityCheckBody",
+        "traits": { "smithy.api#httpPayload": {}, "smithy.api#required": {} }
+      }
+    }
+  ]
+}
