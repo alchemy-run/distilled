@@ -34,7 +34,9 @@ import {
   Credentials,
   DEFAULT_ACTIONS_BASE_URL,
   DEFAULT_INFERENCE_BASE_URL,
+  FunctionsCredentials,
   type Config,
+  type FunctionsConfig,
 } from "./credentials.ts";
 import { UnknownDigitalOceanError, DigitalOceanParseError } from "./errors.ts";
 
@@ -99,10 +101,41 @@ export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
     // request, on the calling fiber) picks up context-provided credentials.
     credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
     baseUrl: (creds, target) => baseUrlFor(creds, target.server),
+    // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
+    // answers 415 without the header even though it carries no body.
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "Content-Type": "application/json",
     }),
     errorEnvelope,
+    unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
+  });
+
+/** Context (requirements) of the generated Functions (OpenWhisk) operations. */
+export type FunctionsOpContext = FunctionsCredentials | HttpClient.HttpClient;
+
+// OpenWhisk error bodies are `{ error, code }`; `code` is a request id.
+const functionsErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const b = body as Record<string, unknown>;
+  return typeof b.error === "string" ? { message: b.error } : undefined;
+};
+
+/**
+ * The OpenWhisk REST API a Functions namespace serves at its `api_host`,
+ * signed with HTTP basic auth: a namespace access key (`<id>:<secret>`) or
+ * the namespace's own `<uuid>:<key>`.
+ */
+export const FunctionsProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<FunctionsConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(FunctionsCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiHost,
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.user}:${Redacted.value(creds.secret)}`)}`,
+      "Content-Type": "application/json",
+    }),
+    errorEnvelope: functionsErrorEnvelope,
     unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
   });

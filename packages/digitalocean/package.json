@@ -63,6 +63,18 @@
       "worker": "./src/services/*.ts",
       "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
+    },
+    "./Spaces": {
+      "types": "./lib/spaces.d.ts",
+      "bun": "./src/spaces.ts",
+      "worker": "./src/spaces.ts",
+      "default": "./lib/spaces.js"
+    },
+    "./Functions": {
+      "types": "./lib/functions.d.ts",
+      "bun": "./src/functions.ts",
+      "worker": "./src/functions.ts",
+      "default": "./lib/functions.js"
     }
   },
   "scripts": {
@@ -74,7 +86,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-digitalocean"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",
@@ -84,7 +97,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-12",
-    "specUpdatedAt": "2026-11-07"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-11-13"
   }
 }

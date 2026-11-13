@@ -21,6 +21,10 @@ export const DEFAULT_ACTIONS_BASE_URL = "https://actions.do-ai.run";
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /** Spaces access key id, for the S3-compatible API (`Spaces.layerS3`). */
+  readonly spacesAccessKeyId?: Redacted.Redacted<string> | undefined;
+  /** Spaces secret access key, for the S3-compatible API. */
+  readonly spacesSecretAccessKey?: Redacted.Redacted<string> | undefined;
   /** Serverless Inference base URL. Default {@link DEFAULT_INFERENCE_BASE_URL}. */
   readonly inferenceBaseUrl?: string | undefined;
   /** Action Gateway base URL. Default {@link DEFAULT_ACTIONS_BASE_URL}. */
@@ -36,6 +40,8 @@ export class Credentials
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  readonly spacesAccessKeyId?: Redacted.Redacted<string>;
+  readonly spacesSecretAccessKey?: Redacted.Redacted<string>;
   readonly inferenceBaseUrl?: string;
   readonly actionsBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
@@ -44,6 +50,8 @@ export const fromApiKey = (config: {
     Effect.succeed({
       apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+      spacesAccessKeyId: config.spacesAccessKeyId,
+      spacesSecretAccessKey: config.spacesSecretAccessKey,
       inferenceBaseUrl: config.inferenceBaseUrl,
       actionsBaseUrl: config.actionsBaseUrl,
     }),
@@ -52,7 +60,8 @@ export const fromApiKey = (config: {
 /**
  * Reads the API token from DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or
  * DIGITALOCEAN_API_KEY (first set wins; one is required) and
- * DIGITALOCEAN_API_BASE_URL (optional). DIGITALOCEAN_TOKEN is what the
+ * DIGITALOCEAN_API_BASE_URL (optional), and the Spaces keys from
+ * SPACES_ACCESS_KEY_ID and SPACES_SECRET_ACCESS_KEY (optional). DIGITALOCEAN_TOKEN is what the
  * Terraform provider reads; `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
@@ -70,9 +79,36 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       });
     }
 
+    const spacesAccessKeyId = process.env.SPACES_ACCESS_KEY_ID;
+    const spacesSecretAccessKey = process.env.SPACES_SECRET_ACCESS_KEY;
     return {
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: process.env.DIGITALOCEAN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      spacesAccessKeyId: spacesAccessKeyId ? Redacted.make(spacesAccessKeyId) : undefined,
+      spacesSecretAccessKey: spacesSecretAccessKey
+        ? Redacted.make(spacesSecretAccessKey)
+        : undefined,
     };
   }),
 );
+
+/**
+ * Credentials for one Functions namespace's OpenWhisk API: its `api_host`
+ * and a basic-auth pair, either a namespace access key (`id` + `secret`
+ * from `createFunctionsAccessKey`) or the namespace's `uuid` + `key`.
+ */
+export interface FunctionsConfig {
+  readonly apiHost: string;
+  readonly user: string;
+  readonly secret: Redacted.Redacted<string>;
+}
+
+export class FunctionsCredentials
+  extends /*@__PURE__*/ Context.Service<
+    FunctionsCredentials,
+    Effect.Effect<FunctionsConfig, ConfigError>
+  >()("DigitalOceanFunctionsCredentials") {}
+
+/** Layer for one namespace's OpenWhisk API. */
+export const fromFunctionsKey = (config: FunctionsConfig): Layer.Layer<FunctionsCredentials> =>
+  Layer.succeed(FunctionsCredentials, Effect.succeed(config));
