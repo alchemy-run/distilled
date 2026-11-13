@@ -1,11 +1,11 @@
 #!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the Smithy JSON model in .generated-specs into the Clerk
- * Effect SDK.
+ * generate — turn the separate Backend and Platform Smithy models into
+ * the Clerk Effect SDK.
  *
- * Input:  .generated-specs/clerk.json  (written by scripts/convert.ts)
- * Output: src/services/clerk.ts  +  src/services/index.ts
+ * Input:  .generated-specs/{clerk,platform}.json (converted in-process)
+ * Output: src/services/{clerk,platform,index}.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Clerk's provider spec.
@@ -13,6 +13,7 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/dev/codegen/prelude";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -74,12 +75,33 @@ const clerkSpec: SdkSpec = {
       : code,
 };
 
+const PLATFORM_SERVICE = "com.clerk.platform#ClerkPlatform";
+
+/** Platform operations share Clerk's wire format but require separate credentials. */
+const platformSpec: SdkSpec = {
+  ...clerkSpec,
+  // Multipart image uploads use core's existing binary form-part support.
+  prelude: {
+    ...JSON_PRELUDE,
+    Blob: "S.Union([S.instanceOf(Blob), S.instanceOf(Uint8Array), S.instanceOf(ArrayBuffer)])",
+  },
+  tsPrelude: {
+    ...TS_JSON_PRELUDE,
+    Blob: "Blob | Uint8Array | ArrayBuffer",
+  },
+  operationDecl: {
+    ...clerkSpec.operationDecl!,
+    contextType: "ClerkPlatformOpContext",
+    protocol: "ClerkPlatformProtocol",
+  },
+};
+
 runGeneratorCli({
-  description: "Generate the Clerk Effect SDK from the Smithy model",
+  description: "Generate the Clerk Effect SDK from the Backend and Platform models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
-  // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
-  // there is no smithy-model patch chain.
+  // Convert finalizes the Smithy patches; generation only compiles the models.
   patchesDir: false,
-  spec: () => clerkSpec,
+  spec: (model) =>
+    model.shapes?.[PLATFORM_SERVICE]?.type === "service" ? platformSpec : clerkSpec,
 });

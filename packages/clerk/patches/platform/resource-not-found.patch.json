@@ -1,0 +1,474 @@
+{
+  "description": "Expose ResourceNotFound for HTTP 404 responses whose errors[0].code is resource_not_found. Clerk's official error catalogue (https://clerk.com/docs/guides/development/errors/platform-api) documents this envelope for ResourceNotFound and resource-specific not-found errors. The current pinned official spec (https://github.com/clerk/openapi-specs/blob/94753d1d8a648806e4dc529beec8bb76daa13859/platform/beta.yml) references components/responses/ResourceNotFound on exactly the 64 operations patched here; no association is inferred for operations without a documented 404. The body-matcher approach follows the #702 maintainer guidance (https://github.com/alchemy-run/distilled/pull/702#issuecomment-6345622952), without its rejected string-code forwarding changes. Existing generic NotFound remains the fallback for other 404 bodies, and code retains the generator's numeric type. No live resource probes were performed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#ResourceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The requested resource was not found (Clerk resource_not_found, HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/errors/0/code": "resource_not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListInstanceLogs/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListInstanceLogGroupEvents/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListUserOrganizationMemberships/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListInstanceOrganizationMemberships/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListInstanceOrganizations/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUploadApplicationLogo/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteApplicationLogo/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUploadApplicationFavicon/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteApplicationFavicon/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateApplicationDomain/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListApplicationDomains/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateApplicationDomain/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetApplicationDomain/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteApplicationDomain/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetApplicationDomainStatus/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformTriggerDNSCheck/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetDomain/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetDomainIntent/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCancelDomainIntent/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetApplicationTransfer/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCancelApplicationTransfer/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformRotateSecretKeys/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformRotateInstanceSecretKeys/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetInstanceUsage/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListInstanceUsers/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateInstanceUser/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateInstanceUser/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteUser/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateUserMetadata/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformSetUserProfileImage/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteUserProfileImage/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformBanUser/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUnbanUser/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListJWTTemplates/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateJWTTemplate/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetJWTTemplate/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateJWTTemplate/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteJWTTemplate/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListRedirectURLs/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateRedirectURL/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetRedirectURL/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteRedirectURL/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListOAuthResources/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateOAuthResource/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetOAuthResource/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateOAuthResource/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformDeleteOAuthResource/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetOAuthApplicationSettings/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateOAuthApplicationSettings/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetNativeSettings/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformUpdateNativeSettings/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListAndroidApplications/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateAndroidApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformListIOSApplications/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateIOSApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetConfig/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformPatchConfig/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformPutConfig/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformGetConfigSchema/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateInstance/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformClaimAccountlessApplication/errors/-",
+      "value": {
+        "target": "com.clerk.platform#ResourceNotFound"
+      }
+    }
+  ]
+}

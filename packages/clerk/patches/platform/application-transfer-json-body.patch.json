@@ -1,0 +1,32 @@
+{
+  "description": "Give PlatformCreateApplicationTransfer an optional JSON object body. The current official spec (https://github.com/clerk/openapi-specs/blob/94753d1d8a648806e4dc529beec8bb76daa13859/platform/beta.yml) still declares no requestBody for POST /platform/applications/{applicationID}/transfers. Historical live evidence from 2026-10-02 recorded in #701 (https://github.com/wyattjoh/distilled/blob/29a40f857b7b23c789c75a3b139d238c1c493c46/packages/clerk/patches/platform/application-transfer-json-body.patch.json) reports that a bodiless POST without Content-Type returned 415 unsupported_content_type (\"You should use application/json instead\"), while the same POST with Content-Type: application/json, with or without a {} body, returned 201. This historical behavior was not newly verified. Clerk reads no fields from this body; declaring an optional payload member makes the existing REST request builder send {} with application/json when the caller leaves it unset, without a provider-wide protocol change.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+      "before": "com.clerk.platform#PlatformCreateApplicationTransferRequest",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Unused by Clerk. Leave unset; the SDK sends an empty JSON object with Content-Type: application/json."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PlatformCreateApplicationTransferRequest/members/body",
+      "value": {
+        "target": "com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {}
+        }
+      }
+    }
+  ]
+}
