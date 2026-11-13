@@ -1504,7 +1504,7 @@ export interface ExecuteSandboxCommandRequest {
   timeoutSeconds?: number | undefined;
   /** Start the command in the background and return a process id immediately instead of waiting for it to finish. Output goes to a log file on the sandbox; poll the status endpoint for it. */
   detached?: boolean | undefined;
-  /** Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. */
+  /** Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. `executeSandboxCommand.stream(input)` sends it for you and emits each frame; a plain call with it set fails to decode the stream. */
   stream?: boolean | undefined;
 }
 export interface CommandResponse {
@@ -1547,6 +1547,30 @@ export interface CommandStartedResponse {
 }
 export type ExecuteSandboxCommandResponseBody = CommandResponse | CommandStartedResponse;
 export type ExecuteSandboxCommandResponse = ExecuteSandboxCommandResponseBody;
+export type CommandStreamFrameType = "started" | "stdout" | "stderr" | "exit" | "error";
+/** One line of a streamed command (`POST /sandboxes/{sandboxId}/commands` with `stream: true`, application/x-ndjson). - `started`: first line. `commandId`. - `stdout` / `stderr`: a chunk of output in `data`. - `exit`: last line when the command ended. The synchronous result without stdout/stderr: `success`, `exitCode`, `signal`, `oomKilled`, `timedOut`, ... - `error`: last line on a failure. `error`, `message`, `retryable`. */
+export interface CommandStreamFrame {
+  type: CommandStreamFrameType;
+  /** started: the command's record in the command history. */
+  commandId?: string | undefined;
+  /** stdout/stderr: the chunk of output, UTF-8. */
+  data?: string | undefined;
+  exitCode?: number | null | undefined;
+  signal?: string | null | undefined;
+  /** True when the memory ceiling killed the command or one of its processes and the command failed. */
+  oomKilled?: boolean | undefined;
+  success?: boolean | undefined;
+  timedOut?: boolean | undefined;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
+  cwd?: string | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
+  /** error: true when the command provably never ran (the sandbox is still restoring its disk), so sending it again is safe. */
+  retryable?: boolean | undefined;
+}
 export interface FindInFilesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
@@ -4429,20 +4453,24 @@ export type ExecuteSandboxCommandError =
   | SandboxNotRunning
   | BoatOpError;
 /** Execute a command in a sandbox Runs the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. With `stream: true` the output arrives as the command writes it, as newline-delimited JSON (`application/x-ndjson`): `{"type":"started"}`, then `{"type":"stdout"|"stderr","data":"..."}` per chunk, and last `{"type":"exit",...}` (the synchronous result without stdout/stderr) or `{"type":"error","error":"...","message":"..."}`. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. A command sent while the sandbox is still starting (right after a resume) waits up to 60s for it to be ready instead of failing; 409 boat_starting (retryable) is returned only if it is still not ready by then. A sandbox that is not starting (`error`, `stopped`) returns 409 sandbox_not_ready with `retryable: false` and its `state` at once: resume or recover it first. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox. Every command and its output are kept 90 days in the command history (`/sandboxes/{sandboxId}/command-history`), readable while the sandbox is stopped. */
-export const executeSandboxCommand: API.OperationMethod<
+export const executeSandboxCommand: API.StreamingOperationMethod<
   ExecuteSandboxCommandRequest,
   ExecuteSandboxCommandResponse,
   ExecuteSandboxCommandError,
-  BoatOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  BoatOpContext,
+  CommandStreamFrame
+> = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
   output: __S(3905, __c122, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  framing: T.ndjson,
+  items: __S(3906, __c122, 2),
+  streamInput: { stream: true },
   telemetry: TELEMETRY,
   span: "ExecuteSandboxCommand",
-}));
+})) as any;
 
 export type FindInFilesError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
 /** Find text in sandbox files Every line under `path` that contains `pattern`. `pattern` is plain text; with `regex=true` it is an extended regular expression. Binary files are skipped and symlinks are not followed. Needs `file.read`. */
@@ -8546,6 +8574,27 @@ function __c122(j: number): any {
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "ExecuteSandboxCommandResponse",
       });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          commandId: S.optional(S.String),
+          data: S.optional(S.String),
+          exitCode: S.optional(S.NullOr(S.Number)),
+          signal: S.optional(S.NullOr(S.String)),
+          oomKilled: S.optional(S.Boolean),
+          success: S.optional(S.Boolean),
+          timedOut: S.optional(S.Boolean),
+          stdoutTruncated: S.optional(S.Boolean),
+          stderrTruncated: S.optional(S.Boolean),
+          cwd: S.optional(S.String),
+          startedAt: S.optional(S.String),
+          finishedAt: S.optional(S.String),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CommandStreamFrame" });
   }
 }
 function __c123(j: number): any {

@@ -15,8 +15,9 @@ import {
   ADDITIONAL_PROPERTIES_TRAIT,
   DEFAULT_TRAIT,
   memberBases,
-  SERVER_STREAMING_TRAIT,
   smithyWireName,
+  STREAM_WHEN_TRAIT,
+  streamsOutput,
 } from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
@@ -511,7 +512,19 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   if (selected.length === 0 && extraRoots.length === 0) return { code: "", operations: 0 };
 
   // 2. Reachability + dependencies-first order (cycles suspend at refs).
-  const roots = [...selected.flatMap((op) => [op.def.__input, op.def.__output]), ...extraRoots];
+  // An operation that streams only when its input asks also roots its frame.
+  const streamWhenOf = (
+    op: OpEntry,
+  ): { input: Record<string, unknown>; items: string } | undefined =>
+    op.def.traits?.[STREAM_WHEN_TRAIT];
+  const roots = [
+    ...selected.flatMap((op) => [
+      op.def.__input,
+      op.def.__output,
+      ...(streamWhenOf(op) ? [streamWhenOf(op)!.items] : []),
+    ]),
+    ...extraRoots,
+  ];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
   const order = topoOrder(shapes, reachable, shapeDeps);
   const indexOf = orderIndex(order);
@@ -1159,16 +1172,43 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
-      const streaming = !paginated && SERVER_STREAMING_TRAIT in (ctx.op.def.traits ?? {});
+      const streaming = !paginated && streamsOutput(ctx.op.def.traits);
       if (streaming && !spec.streams) {
         throw new Error(
           `${ctx.op.id}: a server-streaming operation needs a protocol that streams; ` +
             "set `streams: true` on the SdkSpec only if its protocol implements `stream`",
         );
       }
+      const streamWhen = streaming ? streamWhenOf(ctx.op) : undefined;
+      const streamLines: string[] = [];
+      if (streamWhen !== undefined) {
+        if (shapes[streamWhen.items] === undefined) {
+          throw new Error(
+            `${ctx.op.id}: ${STREAM_WHEN_TRAIT} items ${streamWhen.items} is not a shape`,
+          );
+        }
+        const inputMembers = memberInfos(shapes[ctx.op.def.__input] ?? {});
+        const fixed = Object.fromEntries(
+          Object.entries(streamWhen.input).map(([name, value]) => {
+            const member = inputMembers.find((m) => m.name === name);
+            if (member === undefined) {
+              throw new Error(
+                `${ctx.op.id}: ${STREAM_WHEN_TRAIT} input member ${name} is not in the input`,
+              );
+            }
+            return [member.tsName, value];
+          }),
+        );
+        streamLines.push(
+          `items: ${ref(streamWhen.items, indexOf.size)}`,
+          `streamInput: ${JSON.stringify(fixed)}`,
+        );
+      }
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
-        : undefined;
+        : streamWhen !== undefined
+          ? tsRef(streamWhen.items)
+          : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
@@ -1189,6 +1229,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
+        streamLines.map((l) => `  ${l},\n`).join("") +
         ctx.telemetry.map((l) => `  ${l},\n`).join("") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
