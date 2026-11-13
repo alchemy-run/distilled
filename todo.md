@@ -12,6 +12,15 @@
     package's models into `packages/<pkg>/.generated-specs/`
   - not GitHub Actions artifacts or a mirror repo; `pnpm convert <pkg>` stays
     the local fallback
+- extract OpenWhisk into `@distilled.cloud/openwhisk`, the way S3 left aws
+  - DigitalOcean Functions is the generic Apache OpenWhisk API at each
+    namespace's `api_host` with basic auth; `@distilled.cloud/digitalocean/Functions`
+    generates it from Apache's `apiv1swagger.json` in the DigitalOcean mirror
+  - the package would own the generated client and its protocol, and take
+    `{ apiHost, user, secret }` through a layer; DigitalOcean keeps a layer
+    that fills it from a namespace (`uuid` + `key`), like `R2.layerS3()`
+  - other OpenWhisk hosts (self-hosted OpenWhisk, Adobe I/O Runtime) could
+    use it; the spec then moves to its own `spec-mirror-openwhisk`
 - rethink github webhooks
   - #936 generates `@distilled.cloud/github/webhooks`: one type per payload
     in the spec's `x-webhooks` plus a `WebhookEvents` map. It is types only,
