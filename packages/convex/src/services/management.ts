@@ -34,14 +34,6 @@ export class AccessTokenInvalid
     [{ body: { "/code": "AccessTokenInvalid" } }],
   ) {}
 
-export class DeployKeyNotAccepted
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<DeployKeyNotAccepted>()("DeployKeyNotAccepted", {
-      message: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ body: { "/code": "UnexpectedAuthHeaderFormat" } }],
-  ) {}
-
 export class DeployKeyNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeployKeyNotFound>()("DeployKeyNotFound", {
@@ -93,20 +85,20 @@ export class InvalidProjectTag
     [{ body: { "/code": "InvalidProjectTag" } }],
   ) {}
 
+export class NotAllowed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotAllowed>()("NotAllowed", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ body: { "/code": "NotAllowed" } }],
+  ) {}
+
 export class OperationNotPermitted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OperationNotPermitted>()("OperationNotPermitted", {
       message: S.String,
     }).pipe(C.withAuthError),
     [{ body: { "/code": "OperationNotPermitted" } }],
-  ) {}
-
-export class PreviewDeployKeyNotAllowed
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<PreviewDeployKeyNotAllowed>()("PreviewDeployKeyNotAllowed", {
-      message: S.String,
-    }).pipe(C.withAuthError),
-    [{ body: { "/code": "NotAllowed" } }],
   ) {}
 
 export class PreviewDeployKeyNotFound
@@ -123,6 +115,14 @@ export class ProjectNotFound
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "ProjectNotFound" } }],
+  ) {}
+
+export class UnexpectedAuthHeaderFormat
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnexpectedAuthHeaderFormat>()("UnexpectedAuthHeaderFormat", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/code": "UnexpectedAuthHeaderFormat" } }],
   ) {}
 
 export class VanityDomainsDisabled
@@ -1282,6 +1282,7 @@ export interface UpdateTeamMemberRoleResponse {}
 export type CancelTeamMemberInviteError =
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Cancel a pending team invitation */
 export const cancelTeamMemberInvite: API.OperationMethod<
@@ -1292,7 +1293,7 @@ export const cancelTeamMemberInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelTeamMemberInviteRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CancelTeamMemberInviteResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1304,6 +1305,7 @@ export type CreateCustomDomainError =
   | VanityDomainsDisabled
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create custom domain */
 export const createCustomDomain: API.OperationMethod<
@@ -1314,14 +1316,24 @@ export const createCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateCustomDomainRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CreateCustomDomainResponse>,
-  errors: [DeploymentNotFound, VanityDomainsDisabled, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    VanityDomainsDisabled,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCustomDomain",
 }));
 
-export type CreateCustomRoleError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type CreateCustomRoleError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Create a custom role Creates a new custom role for the team with the specified name, description, and permission statements. */
 export const createCustomRole: API.OperationMethod<
   CreateCustomRoleRequest,
@@ -1331,7 +1343,7 @@ export const createCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreateCustomRoleRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<CustomRoleResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1342,7 +1354,8 @@ export type CreateDeployKeyError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
-  | PreviewDeployKeyNotAllowed
+  | NotAllowed
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create deploy key Create a deploy key like "dev:happy-animal-123|ey..." which can be used with the Convex CLI to develop against or deploy code. When access to the deployment is granted through an OAuth token this deploy key will use the same OAuth-granted token. When access to the deployment is granted any other way a new token will be created which grants access only to this deployment. */
 export const createDeployKey: API.OperationMethod<
@@ -1357,7 +1370,8 @@ export const createDeployKey: API.OperationMethod<
     DeploymentNotFound,
     AccessTokenInvalid,
     OperationNotPermitted,
-    PreviewDeployKeyNotAllowed,
+    NotAllowed,
+    UnexpectedAuthHeaderFormat,
   ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
@@ -1372,6 +1386,7 @@ export type CreateDeploymentError =
   | InvalidDeploymentReference
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create deployment Create a new deployment for a project. */
 export const createDeployment: API.OperationMethod<
@@ -1389,6 +1404,7 @@ export const createDeployment: API.OperationMethod<
     InvalidDeploymentReference,
     AccessTokenInvalid,
     OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
   ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
@@ -1399,6 +1415,7 @@ export const createDeployment: API.OperationMethod<
 export type CreatePersonalAccessTokenError =
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create personal access token Creates a new personal access token for the authenticated user. */
 export const createPersonalAccessToken: API.OperationMethod<
@@ -1409,7 +1426,7 @@ export const createPersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<CreatePersonalAccessTokenRequest>,
   output: __S(37, __c9, 1) as any as S.Schema<CreatePersonalAccessTokenResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1420,6 +1437,7 @@ export type CreatePreviewDeployKeyError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create preview deploy key Create a preview deploy key like "preview:team-slug:project-slug|ey..." which can be used with the Convex CLI to create and manage preview deployments within the project. When access to the project is granted through an OAuth token this preview deploy key will use the same OAuth-granted token. When access to the project is granted any other way a new token scoped to preview deployments in this project will be created. */
 export const createPreviewDeployKey: API.OperationMethod<
@@ -1430,7 +1448,7 @@ export const createPreviewDeployKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<CreatePreviewDeployKeyRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<PlatformCreatePreviewDeployKeyResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1441,6 +1459,7 @@ export type CreateProjectError =
   | InvalidProjectTag
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Create project Create a new project on a team, optionally provisioning a dev or prod deployment. */
 export const createProject: API.OperationMethod<
@@ -1451,14 +1470,23 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<PlatformCreateProjectResponse>,
-  errors: [InvalidProjectTag, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    InvalidProjectTag,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
 
-export type CreateTeamError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type CreateTeamError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Create a team This endpoint is not publicly accessible. It is reserved for specific integrations that have been granted permission to create teams on behalf of users. To request access, contact platforms@convex.dev. */
 export const createTeam: API.OperationMethod<
   CreateTeamRequest,
@@ -1468,14 +1496,18 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<CreateTeamRequest>,
   output: __S(53, __c13, 1) as any as S.Schema<TeamResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTeam",
 }));
 
-export type CreateTeamAccessTokenError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type CreateTeamAccessTokenError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Create a team access token */
 export const createTeamAccessToken: API.OperationMethod<
   CreateTeamAccessTokenRequest,
@@ -1485,7 +1517,7 @@ export const createTeamAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57, __c14, 1) as any as S.Schema<CreateTeamAccessTokenRequest>,
   output: __S(58, __c14, 2) as any as S.Schema<CreateTeamAccessTokenResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1496,6 +1528,7 @@ export type DeleteCustomDomainError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete custom domain Remove a custom domain from a deployment. */
 export const deleteCustomDomain: API.OperationMethod<
@@ -1506,14 +1539,23 @@ export const deleteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<DeleteCustomDomainRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteCustomDomainResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCustomDomain",
 }));
 
-export type DeleteCustomRoleError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type DeleteCustomRoleError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Delete a custom role Deletes a custom role from the team. Fails with `CustomRoleInUse` if the role is still attached to any team members; reassign those members (e.g. via `update_team_member_role`) before retrying. */
 export const deleteCustomRole: API.OperationMethod<
   DeleteCustomRoleRequest,
@@ -1523,7 +1565,7 @@ export const deleteCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<DeleteCustomRoleRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteCustomRoleResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1535,6 +1577,7 @@ export type DeleteDeployKeyError =
   | DeployKeyNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete deploy key Deletes a deploy key for the specified deployment. The `id` in the request body can be the full deploy key (with prefix), encoded token, or the name of the deploy key. */
 export const deleteDeployKey: API.OperationMethod<
@@ -1545,7 +1588,13 @@ export const deleteDeployKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<DeleteDeployKeyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteDeployKeyResponse>,
-  errors: [DeploymentNotFound, DeployKeyNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    DeployKeyNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1556,6 +1605,7 @@ export type DeleteDeploymentError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete deployment Delete a deployment. This will delete all data and files in the deployment, so we recommend creating and downloading a backup before calling this endpoint. This does not delete the project itself. */
 export const deleteDeployment: API.OperationMethod<
@@ -1566,7 +1616,12 @@ export const deleteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<DeleteDeploymentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteDeploymentResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1576,6 +1631,7 @@ export const deleteDeployment: API.OperationMethod<
 export type DeletePersonalAccessTokenError =
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete personal access token Deletes a personal access token for the authenticated user. The `id` in the request body can be the encoded token secret or the name of the token. */
 export const deletePersonalAccessToken: API.OperationMethod<
@@ -1586,7 +1642,7 @@ export const deletePersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeletePersonalAccessTokenRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeletePersonalAccessTokenResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1598,6 +1654,7 @@ export type DeletePreviewDeployKeyError =
   | PreviewDeployKeyNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete preview deploy key Deletes a preview deploy key for the specified project. The `id` in the request body can be the full preview deploy key (with prefix), encoded token, or the name of the preview deploy key. */
 export const deletePreviewDeployKey: API.OperationMethod<
@@ -1608,7 +1665,13 @@ export const deletePreviewDeployKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeletePreviewDeployKeyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeletePreviewDeployKeyResponse>,
-  errors: [ProjectNotFound, PreviewDeployKeyNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    ProjectNotFound,
+    PreviewDeployKeyNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1619,6 +1682,7 @@ export type DeleteProjectError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Delete project Delete a project. Deletes all deployments in the project as well. */
 export const deleteProject: API.OperationMethod<
@@ -1629,14 +1693,18 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
 
-export type DeleteTeamAccessTokenError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type DeleteTeamAccessTokenError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Delete a team access token Deletes a team access token, identified by its secret value or name. */
 export const deleteTeamAccessToken: API.OperationMethod<
   DeleteTeamAccessTokenRequest,
@@ -1646,7 +1714,7 @@ export const deleteTeamAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<DeleteTeamAccessTokenRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteTeamAccessTokenResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1657,7 +1725,7 @@ export type GetDeploymentError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
-  | DeployKeyNotAccepted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Get deployment Get details about a cloud deployment. */
 export const getDeployment: API.OperationMethod<
@@ -1668,7 +1736,12 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<GetDeploymentResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted, DeployKeyNotAccepted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1679,6 +1752,7 @@ export type GetProjectError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Get project by ID Get a project by its ID. */
 export const getProject: API.OperationMethod<
@@ -1689,7 +1763,7 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ProjectResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1700,6 +1774,7 @@ export type GetProjectBySlugError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Get project by slug Get a project by its slug. */
 export const getProjectBySlug: API.OperationMethod<
@@ -1710,7 +1785,7 @@ export const getProjectBySlug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<GetProjectBySlugRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ProjectResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1722,6 +1797,7 @@ export type GetProjectDeploymentError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Get deployment in project by id Get a deployment within a project by reference, default production deployment, or default dev deployment for the calling user. */
 export const getProjectDeployment: API.OperationMethod<
@@ -1732,7 +1808,13 @@ export const getProjectDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<GetProjectDeploymentRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<GetProjectDeploymentResponse>,
-  errors: [ProjectNotFound, DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    ProjectNotFound,
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1744,6 +1826,7 @@ export type GetProjectDeploymentBySlugError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Get deployment in project by slug Get a deployment within a project identified by team and project slug, by reference, default production deployment, or default dev deployment for the calling user. */
 export const getProjectDeploymentBySlug: API.OperationMethod<
@@ -1754,14 +1837,24 @@ export const getProjectDeploymentBySlug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<GetProjectDeploymentBySlugRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<GetProjectDeploymentBySlugResponse>,
-  errors: [ProjectNotFound, DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    ProjectNotFound,
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectDeploymentBySlug",
 }));
 
-export type GetTokenDetailsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type GetTokenDetailsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Get token details Returns the team ID for team tokens. Especially useful after receiving a team token from an OAuth flow since most endpoints require team ID. */
 export const getTokenDetails: API.OperationMethod<
   GetTokenDetailsRequest,
@@ -1771,14 +1864,18 @@ export const getTokenDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<GetTokenDetailsRequest>,
   output: __S(117, __c29, 1) as any as S.Schema<GetTokenDetailsResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTokenDetails",
 }));
 
-export type InviteTeamMemberError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type InviteTeamMemberError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Invite a team member Invite a member to the given team by email. `role` is required and must be one of `admin`, `developer`, or `custom`. Pass `custom` together with a non-empty `customRoles` list to invite a member into a custom role; for `admin` and `developer`, `customRoles` must be omitted. */
 export const inviteTeamMember: API.OperationMethod<
   InviteTeamMemberRequest,
@@ -1788,14 +1885,18 @@ export const inviteTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<InviteTeamMemberRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<InviteTeamMemberResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InviteTeamMember",
 }));
 
-export type ListAuditLogEventsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListAuditLogEventsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List audit log events List a team's audit log events within a time range, with optional filters. */
 export const listAuditLogEvents: API.PaginatedOperationMethod<
   ListAuditLogEventsRequest,
@@ -1807,7 +1908,7 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(128, __c32, 0) as any as S.Schema<ListAuditLogEventsRequest>,
     output: __S(131, __c32, 3) as any as S.Schema<ListAuditLogEventsResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1828,6 +1929,7 @@ export type ListCustomDomainsError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List custom domains Get all custom domains configured for a deployment. */
 export const listCustomDomains: API.OperationMethod<
@@ -1838,14 +1940,24 @@ export const listCustomDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<ListCustomDomainsRequest>,
   output: __S(139, __c34, 3) as any as S.Schema<PlatformListCustomDomainsResponse>,
-  errors: [VanityDomainsDisabled, DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    VanityDomainsDisabled,
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomDomains",
 }));
 
-export type ListCustomRolesError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListCustomRolesError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List custom roles Lists all custom roles for the team with cursor-based pagination. */
 export const listCustomRoles: API.PaginatedOperationMethod<
   ListCustomRolesRequest,
@@ -1857,7 +1969,7 @@ export const listCustomRoles: API.PaginatedOperationMethod<
   () => ({
     input: __S(140, __c35, 0) as any as S.Schema<ListCustomRolesRequest>,
     output: __S(142, __c35, 2) as any as S.Schema<ListCustomRolesResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1877,6 +1989,7 @@ export type ListDefaultEnvironmentVariablesError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List default environment variables Lists all default environment variables for the specified project, with optional filtering by name and deployment type. */
 export const listDefaultEnvironmentVariables: API.OperationMethod<
@@ -1887,7 +2000,7 @@ export const listDefaultEnvironmentVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<ListDefaultEnvironmentVariablesRequest>,
   output: __S(147, __c36, 3) as any as S.Schema<PaginatedDefaultEnvironmentVariablesResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1898,6 +2011,7 @@ export type ListDeployKeysError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List deploy keys Lists all deploy keys for the specified deployment. */
 export const listDeployKeys: API.OperationMethod<
@@ -1908,14 +2022,23 @@ export const listDeployKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<ListDeployKeysRequest>,
   output: __S(149, __c37, 1) as any as S.Schema<ListDeployKeysResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployKeys",
 }));
 
-export type ListDeploymentClassesError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListDeploymentClassesError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List deployment classes Lists the available deployment classes for a team. */
 export const listDeploymentClasses: API.OperationMethod<
   ListDeploymentClassesRequest,
@@ -1925,14 +2048,18 @@ export const listDeploymentClasses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<ListDeploymentClassesRequest>,
   output: __S(159, __c39, 3) as any as S.Schema<ListDeploymentClassesResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeploymentClasses",
 }));
 
-export type ListDeploymentRegionsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListDeploymentRegionsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List deployment regions Lists the available deployment regions for a team. */
 export const listDeploymentRegions: API.OperationMethod<
   ListDeploymentRegionsRequest,
@@ -1942,7 +2069,7 @@ export const listDeploymentRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c40, 0) as any as S.Schema<ListDeploymentRegionsRequest>,
   output: __S(163, __c40, 3) as any as S.Schema<ListDeploymentRegionsResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1953,6 +2080,7 @@ export type ListDeploymentsError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List deployments List deployments for a projects. */
 export const listDeployments: API.OperationMethod<
@@ -1963,14 +2091,18 @@ export const listDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<ListDeploymentsRequest>,
   output: __S(165, __c41, 1) as any as S.Schema<ListDeploymentsResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
 }));
 
-export type ListLocalDeploymentsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListLocalDeploymentsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List local deployments Lists the local deployments for a team. */
 export const listLocalDeployments: API.OperationMethod<
   ListLocalDeploymentsRequest,
@@ -1980,7 +2112,7 @@ export const listLocalDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(172, __c43, 0) as any as S.Schema<ListLocalDeploymentsRequest>,
   output: __S(173, __c43, 1) as any as S.Schema<ListLocalDeploymentsResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1990,6 +2122,7 @@ export const listLocalDeployments: API.OperationMethod<
 export type ListPendingTeamInvitesError =
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List pending team invitations List the pending invitations for the given team. */
 export const listPendingTeamInvites: API.OperationMethod<
@@ -2000,7 +2133,7 @@ export const listPendingTeamInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c44, 0) as any as S.Schema<ListPendingTeamInvitesRequest>,
   output: __S(179, __c44, 3) as any as S.Schema<PlatformListInvitationsResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2010,6 +2143,7 @@ export const listPendingTeamInvites: API.OperationMethod<
 export type ListPersonalAccessTokensError =
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List personal access tokens Lists all personal access tokens for the authenticated user. */
 export const listPersonalAccessTokens: API.PaginatedOperationMethod<
@@ -2022,7 +2156,7 @@ export const listPersonalAccessTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(184, __c46, 0) as any as S.Schema<ListPersonalAccessTokensRequest>,
     output: __S(187, __c46, 3) as any as S.Schema<PaginatedPersonalAccessTokensResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2042,6 +2176,7 @@ export type ListPreviewDeployKeysError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** List preview deploy keys Lists all preview deploy keys for the specified project. */
 export const listPreviewDeployKeys: API.OperationMethod<
@@ -2052,14 +2187,18 @@ export const listPreviewDeployKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<ListPreviewDeployKeysRequest>,
   output: __S(189, __c47, 1) as any as S.Schema<PlatformListPreviewDeployKeysResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPreviewDeployKeys",
 }));
 
-export type ListProjectsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListProjectsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List projects List a page of projects for a team, ordered by descending project ID. Pass `limit` to set the page size and the `nextCursor` from the previous response as `cursor` to fetch the next page. */
 export const listProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
@@ -2071,7 +2210,7 @@ export const listProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(192, __c48, 0) as any as S.Schema<ListProjectsRequest>,
     output: __S(194, __c48, 2) as any as S.Schema<PlatformPaginatedProjectsResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2087,7 +2226,11 @@ export const listProjects: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListProjectTagsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListProjectTagsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List project tags List a page of the distinct tags used by a team's projects, ordered by tag name. Pass the `nextCursor` from the previous response as `cursor` to fetch the next page. */
 export const listProjectTags: API.PaginatedOperationMethod<
   ListProjectTagsRequest,
@@ -2099,7 +2242,7 @@ export const listProjectTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(196, __c49, 0) as any as S.Schema<ListProjectTagsRequest>,
     output: __S(199, __c49, 3) as any as S.Schema<ProjectTagsResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2115,7 +2258,11 @@ export const listProjectTags: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListTeamAccessTokensError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListTeamAccessTokensError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List team access tokens Lists the team access tokens created by the authenticated member for the given team. */
 export const listTeamAccessTokens: API.PaginatedOperationMethod<
   ListTeamAccessTokensRequest,
@@ -2127,7 +2274,7 @@ export const listTeamAccessTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(200, __c50, 0) as any as S.Schema<ListTeamAccessTokensRequest>,
     output: __S(203, __c50, 3) as any as S.Schema<ListTeamAccessTokensResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2143,7 +2290,11 @@ export const listTeamAccessTokens: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListTeamDeploymentsError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListTeamDeploymentsError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List deployments for team Lists deployments for a team with pagination, sorting, and filtering. */
 export const listTeamDeployments: API.PaginatedOperationMethod<
   ListTeamDeploymentsRequest,
@@ -2155,7 +2306,7 @@ export const listTeamDeployments: API.PaginatedOperationMethod<
   () => ({
     input: __S(204, __c51, 0) as any as S.Schema<ListTeamDeploymentsRequest>,
     output: __S(205, __c51, 1) as any as S.Schema<PaginatedDeploymentsResponse>,
-    errors: [AccessTokenInvalid, OperationNotPermitted],
+    errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     protocol: ConvexProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2171,7 +2322,11 @@ export const listTeamDeployments: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListTeamMembersError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type ListTeamMembersError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** List team members List the members of the given team. */
 export const listTeamMembers: API.OperationMethod<
   ListTeamMembersRequest,
@@ -2181,7 +2336,7 @@ export const listTeamMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c52, 0) as any as S.Schema<ListTeamMembersRequest>,
   output: __S(211, __c52, 3) as any as S.Schema<PlatformListTeamMembersResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2192,6 +2347,7 @@ export type MintAiGatewayJwtError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Mint an AI gateway JWT Mints a short-lived AI gateway JWT for a local deployment. */
 export const mintAiGatewayJwt: API.OperationMethod<
@@ -2202,7 +2358,12 @@ export const mintAiGatewayJwt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(213, __c53, 1) as any as S.Schema<MintAiGatewayJwtRequest>,
   output: __S(214, __c53, 2) as any as S.Schema<MintLocalAiGatewayJwtResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2214,6 +2375,7 @@ export type TransferDeploymentError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Transfer deployment Transfer a deployment from its current project to another project within the same team. For production deployments, the caller must be a project admin on both the source and destination projects. For other deployment types, any team member can transfer deployments they created, or project admins can transfer any deployment. */
 export const transferDeployment: API.OperationMethod<
@@ -2224,14 +2386,24 @@ export const transferDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c54, 0) as any as S.Schema<TransferDeploymentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<TransferDeploymentResponse>,
-  errors: [ProjectNotFound, DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    ProjectNotFound,
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TransferDeployment",
 }));
 
-export type UpdateCustomRoleError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type UpdateCustomRoleError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Update a custom role Updates an existing custom role's name, description, and permission statements. */
 export const updateCustomRole: API.OperationMethod<
   UpdateCustomRoleRequest,
@@ -2241,7 +2413,7 @@ export const updateCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(220, __c55, 0) as any as S.Schema<UpdateCustomRoleRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<CustomRoleResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2252,6 +2424,7 @@ export type UpdateDefaultEnvironmentVariablesError =
   | ProjectNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Update default environment variables Creates, updates, or deletes default environment variables for the specified project. When `value` is a string, the variable is upserted. When `value` is null, the variable is deleted. Each item in `changes` can set `applyToExistingDeployments` to true to asynchronously upsert or delete the variable on every existing cloud deployment of that item's `deploymentType`. */
 export const updateDefaultEnvironmentVariables: API.OperationMethod<
@@ -2262,7 +2435,7 @@ export const updateDefaultEnvironmentVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(226, __c56, 2) as any as S.Schema<UpdateDefaultEnvironmentVariablesRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateDefaultEnvironmentVariablesResponse>,
-  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2275,6 +2448,7 @@ export type UpdateDeploymentError =
   | InvalidDeploymentReference
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Update deployment Updates properties of an existing deployment. Only the fields provided in the request body are modified; omitted fields are left unchanged. */
 export const updateDeployment: API.OperationMethod<
@@ -2291,6 +2465,7 @@ export const updateDeployment: API.OperationMethod<
     InvalidDeploymentReference,
     AccessTokenInvalid,
     OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
   ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
@@ -2303,6 +2478,7 @@ export type UpdateProjectError =
   | InvalidProjectTag
   | AccessTokenInvalid
   | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
   | ConvexOpError;
 /** Update project Update a project's name, slug, and/or tags. Returns the updated project. */
 export const updateProject: API.OperationMethod<
@@ -2313,14 +2489,24 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c58, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ProjectResponse>,
-  errors: [ProjectNotFound, InvalidProjectTag, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    ProjectNotFound,
+    InvalidProjectTag,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    UnexpectedAuthHeaderFormat,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
 
-export type UpdateTeamMemberRoleError = AccessTokenInvalid | OperationNotPermitted | ConvexOpError;
+export type UpdateTeamMemberRoleError =
+  | AccessTokenInvalid
+  | OperationNotPermitted
+  | UnexpectedAuthHeaderFormat
+  | ConvexOpError;
 /** Update a team member's role Sets either the member's built-in `role` (admin/developer) or their `customRoles`. The two fields are mutually exclusive: setting `role` clears `customRoles`, and setting `customRoles` (must be non-empty) puts the member in the `custom` role. */
 export const updateTeamMemberRole: API.OperationMethod<
   UpdateTeamMemberRoleRequest,
@@ -2330,7 +2516,7 @@ export const updateTeamMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(236, __c59, 0) as any as S.Schema<UpdateTeamMemberRoleRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateTeamMemberRoleResponse>,
-  errors: [AccessTokenInvalid, OperationNotPermitted],
+  errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
