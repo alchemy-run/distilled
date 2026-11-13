@@ -1231,6 +1231,8 @@ export interface CreateAccountRequest {
   tos_acceptance?: CreateAccountRequestTosAcceptance | undefined;
   /** The `type` parameter is deprecated. Use [`controller`](/api/accounts/create#create_account-controller) instead to configure dashboard access, fee payer, loss liability, and requirement collection. */
   type?: CreateAccountRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface AccountAnnualRevenue {
   /** A non-negative integer representing the amount in the [smallest currency unit](/currencies#zero-decimal). */
@@ -13199,6 +13201,8 @@ export interface CreateAccountExternalAccountRequest {
   external_account: string;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateAccountExternalAccountRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateAccountExternalAccountResponse = ExternalAccount;
 /** The collect parameter is deprecated. Use `collection_options` instead. */
@@ -13236,6 +13240,8 @@ export interface CreateAccountLinkRequest {
   return_url?: string | undefined;
   /** The type of account link the user is requesting. You can create Account Links of type `account_update` only for connected accounts where your platform is responsible for collecting requirements, including Custom accounts. You can't create them for accounts that have access to a Stripe-hosted Dashboard. If you use [Connect embedded components](/connect/get-started-connect-embedded-components), you can include components that allow your connected accounts to update their own information. For an account without Stripe-hosted Dashboard access where Stripe is liable for negative balances, you must use embedded components. */
   type: CreateAccountLinkRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type AccountLinkObject = "account_link";
@@ -13257,6 +13263,8 @@ export interface CreateAccountLoginLinkRequest {
   account: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateAccountLoginLinkRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type LoginLinkObject = "login_link";
@@ -13521,6 +13529,8 @@ export interface CreateAccountPersonRequest {
   us_cfpb_data?: CreateAccountPersonRequestUsCfpbData | undefined;
   /** The person's verification status. */
   verification?: CreateAccountRequestIndividualVerification | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateAccountRejectRequestExpandList = Array<string>;
@@ -13544,6 +13554,8 @@ export interface CreateAccountRejectRequest {
   payouts_action?: CreateAccountRejectRequestPayoutsAction | (string & {}) | undefined;
   /** The reason for rejecting the account. Can be `fraud_payment_method_casher`, `fraud_payment_method_tester`, `fraud_no_intent_to_fulfill`, `fraud_other`, `credit`, `terms_of_service`, or `other`. */
   reason: CreateAccountRejectRequestReason | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The list of features enabled in the embedded component. */
 export interface CreateAccountSessionRequestComponentsAccountManagementFeatures {
@@ -13843,6 +13855,8 @@ export interface CreateAccountSessionRequest {
   components: CreateAccountSessionRequestComponents;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateAccountSessionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface ConnectEmbeddedAccountFeaturesClaim {
   /** Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`. */
@@ -14040,6 +14054,8 @@ export interface CreateAccountUnrejectRequest {
   account: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateAccountUnrejectRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateApplePayDomainRequestExpandList = Array<string>;
@@ -14047,6 +14063,8 @@ export interface CreateApplePayDomainRequest {
   domain_name: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateApplePayDomainRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ApplePayDomainObject = "apple_pay_domain";
@@ -14074,6 +14092,8 @@ export interface CreateApplicationFeeRefundRequest {
   expand?: CreateApplicationFeeRefundRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateApplicationFeeRefundRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The distribution channel to install from. Defaults to `public`, which only app developers and embedding platforms can use. An account installing its own private app must pass `private_test` or `private_live`, matching the mode of the API key. */
 export type CreateAppsInstallRequestChannel =
@@ -14094,6 +14114,8 @@ export interface CreateAppsInstallRequest {
   code_challenge_method?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateAppsInstallRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The distribution channel associated with the app install. */
 export type AppsInstallChannel = "private_live" | "private_test" | "public" | "review" | "testing";
@@ -14166,6 +14188,8 @@ export interface CreateAppsInstallUninstallRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateAppsInstallUninstallRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateAppsSecretRequestExpandList = Array<string>;
@@ -14189,6 +14213,8 @@ export interface CreateAppsSecretRequest {
   payload: string;
   /** Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user. */
   scope: CreateAppsSecretRequestScope;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type AppsSecretObject = "apps.secret";
@@ -14238,6 +14264,8 @@ export interface CreateAppsSecretsDeleteRequest {
   name: string;
   /** Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user. */
   scope: CreateAppsSecretsDeleteRequestScope;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBalanceSettingsRequestExpandList = Array<string>;
@@ -14377,6 +14405,8 @@ export interface CreateBalanceSettingsRequest {
   expand?: CreateBalanceSettingsRequestExpandList | undefined;
   /** Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance). */
   payments?: CreateBalanceSettingsRequestPayments | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type BalanceSettingsObject = "balance_settings";
@@ -14509,6 +14539,8 @@ export interface CreateBillingAlertRequest {
   title: string;
   /** The configuration of the usage threshold. */
   usage_threshold?: CreateBillingAlertRequestUsageThreshold | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Defines the type of the alert. */
 export type BillingAlertAlertType = "usage_threshold";
@@ -14619,6 +14651,8 @@ export interface CreateBillingAlertActivateRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingAlertActivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingAlertArchiveRequestExpandList = Array<string>;
@@ -14627,6 +14661,8 @@ export interface CreateBillingAlertArchiveRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingAlertArchiveRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingAlertDeactivateRequestExpandList = Array<string>;
@@ -14635,6 +14671,8 @@ export interface CreateBillingAlertDeactivateRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingAlertDeactivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The monetary amount. */
 export interface CreateBillingCreditGrantRequestAmountMonetary {
@@ -14705,6 +14743,8 @@ export interface CreateBillingCreditGrantRequest {
   name?: string | undefined;
   /** The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100. */
   priority?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingCreditGrantExpireRequestExpandList = Array<string>;
@@ -14713,6 +14753,8 @@ export interface CreateBillingCreditGrantExpireRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingCreditGrantExpireRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingCreditGrantVoidRequestExpandList = Array<string>;
@@ -14721,6 +14763,8 @@ export interface CreateBillingCreditGrantVoidRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingCreditGrantVoidRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingFeedbackOptionRequestExpandList = Array<string>;
@@ -14729,6 +14773,8 @@ export interface CreateBillingFeedbackOptionRequest {
   description: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingFeedbackOptionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingFeedbackOptionDeactivateRequestExpandList = Array<string>;
@@ -14737,6 +14783,8 @@ export interface CreateBillingFeedbackOptionDeactivateRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingFeedbackOptionDeactivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The method for mapping a meter event to a customer. Must be `by_id`. */
 export type CreateBillingMeterRequestCustomerMappingType = "by_id";
@@ -14778,6 +14826,8 @@ export interface CreateBillingMeterRequest {
   expand?: CreateBillingMeterRequestExpandList | undefined;
   /** Fields that specify how to calculate a meter event's value. */
   value_settings?: CreateBillingMeterRequestValueSettings | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingMeterDeactivateRequestExpandList = Array<string>;
@@ -14786,6 +14836,8 @@ export interface CreateBillingMeterDeactivateRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingMeterDeactivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateBillingMeterEventRequestExpandList = Array<string>;
@@ -14802,6 +14854,8 @@ export interface CreateBillingMeterEventRequest {
   payload: CreateBillingMeterEventRequestPayloadMap;
   /** The time of the event. Measured in seconds since the Unix epoch. Must be within the past 35 calendar days or up to 5 minutes in the future. Defaults to current timestamp if not specified. */
   timestamp?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type BillingMeterEventObject = "billing.meter_event";
@@ -14835,6 +14889,8 @@ export interface CreateBillingMeterEventRequest2 {
   payload: CreateBillingMeterEventRequestPayloadMap2;
   /** The time of the event. Must be within the past 35 calendar days or up to 5 minutes in the future. Defaults to current timestamp if not specified. */
   timestamp?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2BillingMeterEventObject = "v2.billing.meter_event";
@@ -14875,6 +14931,8 @@ export interface CreateBillingMeterEventAdjustmentRequest {
   expand?: CreateBillingMeterEventAdjustmentRequestExpandList | undefined;
   /** Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. */
   type: CreateBillingMeterEventAdjustmentRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface BillingMeterResourceBillingMeterEventAdjustmentCancel {
   /** Unique identifier for the event. */
@@ -14915,6 +14973,8 @@ export interface CreateBillingMeterEventAdjustmentRequest2 {
   event_name: string;
   /** Specifies the type of cancellation. Currently supports canceling a single event. */
   type: CreateBillingMeterEventAdjustmentRequestType2 | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which event to cancel. */
 export type V2BillingMeterEventAdjustmentCancel = CreateBillingMeterEventAdjustmentRequestCancel2;
@@ -14943,7 +15003,10 @@ export interface V2BillingMeterEventAdjustment {
   /** Open Enum. Specifies the type of cancellation. Currently supports canceling a single event. */
   type: V2BillingMeterEventAdjustmentType;
 }
-export interface CreateBillingMeterEventSessionRequest {}
+export interface CreateBillingMeterEventSessionRequest {
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
+}
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2BillingMeterEventSessionObject = "v2.billing.meter_event_session";
 /** A Meter Event Session is an authentication session for the high-throughput meter event API. Meter Event Sessions provide temporary authentication tokens with expiration times, enabling secure and efficient bulk submission of usage events. */
@@ -14981,6 +15044,8 @@ export type CreateBillingMeterEventStreamRequestEventsList =
 export interface CreateBillingMeterEventStreamRequest {
   /** List of meter events to include in the request. Supports up to 100 events per request. */
   events: CreateBillingMeterEventStreamRequestEventsList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateBillingMeterEventStreamResponse = unknown;
 /** Specifies which fields in the response should be expanded. */
@@ -14990,6 +15055,8 @@ export interface CreateBillingMeterReactivateRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateBillingMeterReactivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateBillingPortalConfigurationRequestBusinessProfileHeadlineCase1 = "";
 /** The messaging shown to customers in the portal. */
@@ -15326,6 +15393,8 @@ export interface CreateBillingPortalConfigurationRequest {
   metadata?: CreateBillingPortalConfigurationRequestMetadataMap | undefined;
   /** The name of the configuration. */
   name?: CreateBillingPortalConfigurationRequestName | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** ID of the Connect Application that created the configuration. */
 export type BillingPortalConfigurationApplication = string | Application | DeletedApplication;
@@ -15734,6 +15803,8 @@ export interface CreateBillingPortalSessionRequest {
   on_behalf_of?: string | undefined;
   /** The default URL to redirect customers to when they click on the portal's link to return to your website. */
   return_url?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface PortalAfterExpirationCustomerLogin {
   /** The time after which the customer can no longer recover this session. */
@@ -15996,6 +16067,8 @@ export interface CreateChargeRequest {
   transfer_data?: CreateChargeRequestTransferData | undefined;
   /** A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options). */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateChargeCaptureRequestExpandList = Array<string>;
@@ -16025,6 +16098,8 @@ export interface CreateChargeCaptureRequest {
   transfer_data?: CreateChargeCaptureRequestTransferData | undefined;
   /** A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details. */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). */
 export interface CreateCheckoutSessionRequestAdaptivePricing {
@@ -18872,6 +18947,8 @@ export interface CreateCheckoutSessionRequest {
   ui_mode?: CreateCheckoutSessionRequestUiMode | (string & {}) | undefined;
   /** Wallet-specific configuration. */
   wallet_options?: CreateCheckoutSessionRequestWalletOptions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface PaymentPagesCheckoutSessionAdaptivePricing {
   /** If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). */
@@ -21304,6 +21381,8 @@ export interface CreateCheckoutSessionExpireRequest {
   session: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateCheckoutSessionExpireRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set. */
 export interface CreateClimateOrderRequestBeneficiary {
@@ -21329,6 +21408,8 @@ export interface CreateClimateOrderRequest {
   metric_tons?: string | undefined;
   /** Unique identifier of the Climate product. */
   product: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type ClimateRemovalsBeneficiary = CreateClimateOrderRequestBeneficiary;
 /** Reason for the cancellation of this order. */
@@ -21484,6 +21565,8 @@ export interface CreateClimateOrderCancelRequest {
   order: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateClimateOrderCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of catalog data to import. */
 export type CreateCommerceProductCatalogImportRequestFeedType =
@@ -21504,6 +21587,8 @@ export interface CreateCommerceProductCatalogImportRequest {
   metadata: CreateCommerceProductCatalogImportRequestMetadataMap;
   /** The strategy for handling existing catalog data during import. */
   mode: CreateCommerceProductCatalogImportRequestMode | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of feed data being imported into the product catalog. */
 export type V2CommerceProductCatalogImportFeedType =
@@ -23347,6 +23432,8 @@ export interface CreateCoreAccountRequest {
   include?: CreateCoreAccountRequestIncludeList | undefined;
   /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
   metadata?: CreateCoreAccountRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type V2CoreAccountAppliedConfigurationsItem = "customer" | "merchant" | "recipient";
 /** The configurations that have been applied to this account. */
@@ -28358,6 +28445,8 @@ export interface CreateCoreAccountCloseRequest {
   id: string;
   /** Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed. */
   applied_configurations?: CreateCoreAccountCloseRequestAppliedConfigurationsList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due. */
 export type CreateCoreAccountLinkRequestUseCaseAccountOnboardingCollectionOptionsFields =
@@ -28439,6 +28528,8 @@ export interface CreateCoreAccountLinkRequest {
   account: string;
   /** Specifies the Stripe-hosted flow for this Account Link. Set `type` and the matching options hash--for example, `account_onboarding`--to configure the flow, including which Account configurations to collect information for and any flow-specific collection or redirect options. */
   use_case: CreateCoreAccountLinkRequestUseCase;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2CoreAccountLinkObject = "v2.core.account_link";
@@ -28818,6 +28909,8 @@ export interface CreateCoreAccountPersonRequest {
   script_names?: CreateCoreAccountRequestIdentityIndividualScriptNames | undefined;
   /** The person's last name. */
   surname?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Purpose of additional address. */
 export type V2CoreAccountPersonAdditionalAddressesItemPurpose = "registered";
@@ -29405,6 +29498,8 @@ export interface CreateCoreAccountPersonTokenRequest {
   script_names?: CreateCoreAccountRequestIdentityIndividualScriptNames | undefined;
   /** The person's last name. */
   surname?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2CoreAccountPersonTokenObject = "v2.core.account_person_token";
@@ -30274,6 +30369,8 @@ export interface CreateCoreAccountTokenRequest {
   display_name?: string | undefined;
   /** Information about the company, individual, and business represented by the Account. */
   identity?: CreateCoreAccountTokenRequestIdentity | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2CoreAccountTokenObject = "v2.core.account_token";
@@ -30358,6 +30455,8 @@ export interface CreateCoreEventDestinationRequest {
   type: CreateCoreEventDestinationRequestType | (string & {});
   /** Delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP. */
   webhook_endpoint?: CreateCoreEventDestinationRequestWebhookEndpoint | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The AWS-reported lifecycle state of the partner event source. */
 export type V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus =
@@ -30474,14 +30573,20 @@ export interface V2CoreEventDestination {
 export interface CreateCoreEventDestinationDisableRequest {
   /** Identifier for the event destination to disable. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCoreEventDestinationEnableRequest {
   /** Identifier for the event destination to enable. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCoreEventDestinationPingRequest {
   /** Identifier for the event destination to ping. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2CoreEventObject = "v2.core.event";
@@ -30538,6 +30643,8 @@ export interface CreateCoreVaultGbBankAccountRequest {
   iban?: string | undefined;
   /** The Sort Code of the bank account. */
   sort_code?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Closed Enum. The type of the bank account (checking or savings). */
 export type V2CoreVaultGbBankAccountBankAccountType = "checking" | "savings";
@@ -30573,10 +30680,14 @@ export interface V2CoreVaultGbBankAccount {
 export interface CreateCoreVaultGbBankAccountArchiveRequest {
   /** The ID of the GBBankAccount object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCoreVaultGbBankAccountUnarchiveRequest {
   /** The ID of the GBBankAccount object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Closed Enum. The type of the bank account (checking or savings). */
 export type CreateCoreVaultUsBankAccountRequestBankAccountType = "checking" | "savings";
@@ -30594,6 +30705,8 @@ export interface CreateCoreVaultUsBankAccountRequest {
   fedwire_routing_number?: string | undefined;
   /** The ACH routing number of the bank account. Note that certain banks have the same ACH and wire routing number. */
   routing_number?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Closed Enum. The type of bank account (checking or savings). */
 export type V2CoreVaultUsBankAccountBankAccountType = "checking" | "savings";
@@ -30663,6 +30776,8 @@ export interface V2CoreVaultUsBankAccount {
 export interface CreateCoreVaultUsBankAccountArchiveRequest {
   /** The ID of the USBankAccount object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Two amounts received through Send Microdeposits must match the input to Confirm Microdeposits to verify US Bank Account. */
 export type CreateCoreVaultUsBankAccountConfirmMicrodepositRequestAmountsList = Array<number>;
@@ -30673,14 +30788,20 @@ export interface CreateCoreVaultUsBankAccountConfirmMicrodepositRequest {
   amounts?: CreateCoreVaultUsBankAccountConfirmMicrodepositRequestAmountsList | undefined;
   /** Descriptor code received through Send Microdeposits must match the input to Confirm Microdeposits to verify US Bank Account. */
   descriptor_code?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCoreVaultUsBankAccountSendMicrodepositRequest {
   /** The ID of the USBankAccount object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCoreVaultUsBankAccountUnarchiveRequest {
   /** The ID of the USBankAccount object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** An array of Product IDs that this Coupon will apply to. */
 export type CreateCouponRequestAppliesToProductsList = Array<string>;
@@ -30734,6 +30855,8 @@ export interface CreateCouponRequest {
   percent_off?: number | undefined;
   /** Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers. */
   redeem_by?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`. */
 export type CreateCreditNoteRequestEmailType = "credit_note" | "none";
@@ -30851,6 +30974,8 @@ export interface CreateCreditNoteRequest {
   refunds?: CreateCreditNoteRequestRefundsList | undefined;
   /** When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided. */
   shipping_cost?: CreateCreditNoteRequestShippingCost | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** ID of the customer. */
 export type CreditNoteCustomer = string | Customer | DeletedCustomer;
@@ -31119,6 +31244,8 @@ export interface CreateCreditNoteVoidRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateCreditNoteVoidRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateCustomerRequestAddressCase0 {
   /** City, district, suburb, town, or village. */
@@ -31430,6 +31557,8 @@ export interface CreateCustomerRequest {
   /** ID of the test clock to attach to the customer. */
   test_clock?: string | undefined;
   validate?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateCustomerBalanceTransactionRequestExpandList = Array<string>;
@@ -31454,6 +31583,8 @@ export interface CreateCustomerBalanceTransactionRequest {
   expand?: CreateCustomerBalanceTransactionRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateCustomerBalanceTransactionRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateCustomerCashBalanceRequestExpandList = Array<string>;
@@ -31477,6 +31608,8 @@ export interface CreateCustomerCashBalanceRequest {
   expand?: CreateCustomerCashBalanceRequestExpandList | undefined;
   /** A hash of settings for this cash balance. */
   settings?: CreateCustomerCashBalanceRequestSettings | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Configuration for eu_bank_transfer funding type. */
 export type CreateCustomerFundingInstructionRequestBankTransferEuBankTransfer =
@@ -31525,6 +31658,8 @@ export interface CreateCustomerFundingInstructionRequest {
   expand?: CreateCustomerFundingInstructionRequestExpandList | undefined;
   /** The `funding_type` to get the instructions for. */
   funding_type: CreateCustomerFundingInstructionRequestFundingType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** A list of financial addresses that can be used to fund a particular balance */
 export type FundingInstructionsBankTransferFinancialAddressesList =
@@ -31759,6 +31894,8 @@ export interface CreateCustomerSessionRequest {
   customer_account?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateCustomerSessionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** This hash contains whether the active entitlements is enabled. */
 export type CustomerSessionResourceComponentsResourceActiveEntitlements =
@@ -31932,6 +32069,8 @@ export interface CreateCustomerSourceRequest {
   /** Please refer to full [documentation](https://api.stripe.com) instead. */
   source: string;
   validate?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateCustomerSourceResponse = PaymentSource;
 /** Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account. */
@@ -31946,6 +32085,8 @@ export interface CreateCustomerSourceVerifyRequest {
   amounts?: CreateCustomerSourceVerifyRequestAmountsList | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateCustomerSourceVerifyRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateCustomerTaxIdsRequestExpandList = Array<string>;
@@ -32095,6 +32236,8 @@ export interface CreateCustomerTaxIdsRequest {
   type: CreateCustomerTaxIdsRequestType | (string & {});
   /** Value of the tax ID. */
   value: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateDisputeCloseRequestExpandList = Array<string>;
@@ -32103,6 +32246,8 @@ export interface CreateDisputeCloseRequest {
   dispute: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateDisputeCloseRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute. */
 export type DisputeBalanceTransactionsList = Array<BalanceTransaction>;
@@ -32441,6 +32586,8 @@ export interface CreateEntitlementsFeatureRequest {
   metadata?: CreateEntitlementsFeatureRequestMetadataMap | undefined;
   /** The feature's name, for your own purpose, not meant to be displayable to the customer. */
   name: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type EntitlementsFeatureMetadataMap = { [key: string]: string | undefined };
@@ -32476,6 +32623,8 @@ export interface CreateEphemeralKeyRequest {
   nonce?: string | undefined;
   /** The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key */
   verification_session?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type EphemeralKeyObject = "ephemeral_key";
@@ -32537,6 +32686,8 @@ export interface CreateFileRequest {
   file_link_data?: CreateFileRequestFileLinkData | undefined;
   /** The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file. */
   purpose: CreateFileRequestPurpose | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateFileLinkRequestExpandList = Array<string>;
@@ -32555,6 +32706,8 @@ export interface CreateFileLinkRequest {
   file: string;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateFileLinkRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateFinancialConnectionsAccountDisconnectRequestExpandList = Array<string>;
@@ -32563,6 +32716,8 @@ export interface CreateFinancialConnectionsAccountDisconnectRequest {
   account: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateFinancialConnectionsAccountDisconnectRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`. */
 export type BankConnectionsResourceAccountholderAccount = string | Account;
@@ -32831,6 +32986,8 @@ export interface CreateFinancialConnectionsAccountRefreshRequest {
   expand?: CreateFinancialConnectionsAccountRefreshRequestExpandList | undefined;
   /** The list of account features that you would like to refresh. */
   features: CreateFinancialConnectionsAccountRefreshRequestFeaturesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateFinancialConnectionsAccountSubscribeRequestExpandList = Array<string>;
@@ -32846,6 +33003,8 @@ export interface CreateFinancialConnectionsAccountSubscribeRequest {
   expand?: CreateFinancialConnectionsAccountSubscribeRequestExpandList | undefined;
   /** The list of account features to which you would like to subscribe. */
   features: CreateFinancialConnectionsAccountSubscribeRequestFeaturesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateFinancialConnectionsAccountUnsubscribeRequestExpandList = Array<string>;
@@ -32861,6 +33020,8 @@ export interface CreateFinancialConnectionsAccountUnsubscribeRequest {
   expand?: CreateFinancialConnectionsAccountUnsubscribeRequestExpandList | undefined;
   /** The list of account features from which you would like to unsubscribe. */
   features: CreateFinancialConnectionsAccountUnsubscribeRequestFeaturesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Type of account holder to collect accounts for. */
 export type CreateFinancialConnectionsSessionRequestAccountHolderType = "account" | "customer";
@@ -32957,6 +33118,8 @@ export interface CreateFinancialConnectionsSessionRequest {
   prefetch?: CreateFinancialConnectionsSessionRequestPrefetchList | undefined;
   /** For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. */
   return_url?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Details about each object. */
 export type FinancialConnectionsSessionAccountsDataList = Array<FinancialConnectionsAccount>;
@@ -33110,6 +33273,8 @@ export interface CreateForwardingRequestRequest {
   request?: CreateForwardingRequestRequestRequest | undefined;
   /** The destination URL for the forwarded request. Must be supported by the config. */
   url: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type ForwardingRequestMetadataMap = { [key: string]: string | undefined };
@@ -33258,6 +33423,8 @@ export interface CreateIdentityVerificationSessionRequest {
   type?: CreateIdentityVerificationSessionRequestType | (string & {}) | undefined;
   /** The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows. */
   verification_flow?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** A short machine-readable string giving the reason for the verification or user-session failure. */
 export type GelatoSessionLastErrorCode =
@@ -33647,6 +33814,8 @@ export interface CreateIdentityVerificationSessionCancelRequest {
   session: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateIdentityVerificationSessionCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateIdentityVerificationSessionRedactRequestExpandList = Array<string>;
@@ -33655,6 +33824,8 @@ export interface CreateIdentityVerificationSessionRedactRequest {
   session: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateIdentityVerificationSessionRedactRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateInvoiceRequestAccountTaxIdsCase0List = Array<string>;
 export type CreateInvoiceRequestAccountTaxIdsCase1 = "";
@@ -34439,6 +34610,8 @@ export interface CreateInvoiceRequest {
   subscription?: string | undefined;
   /** If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. */
   transfer_data?: CreateInvoiceRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceAddLineRequestExpandList = Array<string>;
@@ -34679,6 +34852,8 @@ export interface CreateInvoiceAddLineRequest {
   invoice_metadata?: CreateInvoiceAddLineRequestInvoiceMetadata | undefined;
   /** The line items to add. */
   lines: CreateInvoiceAddLineRequestLinesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceAttachPaymentRequestExpandList = Array<string>;
@@ -34691,6 +34866,8 @@ export interface CreateInvoiceAttachPaymentRequest {
   payment_intent?: string | undefined;
   /** The ID of the PaymentRecord to attach to the invoice. */
   payment_record?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceFinalizeRequestExpandList = Array<string>;
@@ -34701,6 +34878,8 @@ export interface CreateInvoiceFinalizeRequest {
   auto_advance?: boolean | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceFinalizeRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateInvoiceitemRequestDiscountsCase0Item = CreateInvoiceRequestDiscountsCase0Item;
 export type CreateInvoiceitemRequestDiscountsCase0List =
@@ -34788,6 +34967,8 @@ export interface CreateInvoiceitemRequest {
   tax_rates?: CreateInvoiceitemRequestTaxRatesList | undefined;
   /** The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places. */
   unit_amount_decimal?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The ID of the customer to bill for this invoice item. */
 export type InvoiceitemCustomer = string | Customer | DeletedCustomer;
@@ -34912,6 +35093,8 @@ export interface CreateInvoiceMarkUncollectibleRequest {
   invoice: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceMarkUncollectibleRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoicePayRequestExpandList = Array<string>;
@@ -34935,6 +35118,8 @@ export interface CreateInvoicePayRequest {
   payment_method?: string | undefined;
   /** A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid. */
   source?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceRemoveLineRequestExpandList = Array<string>;
@@ -34966,6 +35151,8 @@ export interface CreateInvoiceRemoveLineRequest {
   invoice_metadata?: CreateInvoiceRemoveLineRequestInvoiceMetadata | undefined;
   /** The line items to remove. */
   lines: CreateInvoiceRemoveLineRequestLinesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceRenderingTemplateArchiveRequestExpandList = Array<string>;
@@ -34974,6 +35161,8 @@ export interface CreateInvoiceRenderingTemplateArchiveRequest {
   template: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceRenderingTemplateArchiveRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type InvoiceRenderingTemplateMetadataMap = { [key: string]: string | undefined };
@@ -35007,6 +35196,8 @@ export interface CreateInvoiceRenderingTemplateUnarchiveRequest {
   template: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceRenderingTemplateUnarchiveRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Type of the account referenced in the request. */
 export type CreateInvoicesCreatePreviewRequestAutomaticTaxLiabilityType = "account" | "self";
@@ -36355,6 +36546,8 @@ export interface CreateInvoicesCreatePreviewRequest {
   subscription?: string | undefined;
   /** The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields. */
   subscription_details?: CreateInvoicesCreatePreviewRequestSubscriptionDetails | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceSendRequestExpandList = Array<string>;
@@ -36363,6 +36556,8 @@ export interface CreateInvoiceSendRequest {
   invoice: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceSendRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceUpdateLineRequestExpandList = Array<string>;
@@ -36604,6 +36799,8 @@ export interface CreateInvoiceUpdateLineRequest {
   invoice_metadata?: CreateInvoiceUpdateLineRequestInvoiceMetadata | undefined;
   /** The line items to update. */
   lines: CreateInvoiceUpdateLineRequestLinesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateInvoiceVoidRequestExpandList = Array<string>;
@@ -36612,6 +36809,8 @@ export interface CreateInvoiceVoidRequest {
   invoice: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateInvoiceVoidRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateIssuingCardRequestExpandList = Array<string>;
@@ -37693,6 +37892,8 @@ export interface CreateIssuingCardRequest {
   status?: CreateIssuingCardRequestStatus | (string & {}) | undefined;
   /** The type of card to issue. Possible values are `physical` or `virtual`. */
   type: CreateIssuingCardRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The reason why the card was canceled. */
 export type IssuingCardCancellationReason =
@@ -41092,6 +41293,8 @@ export interface CreateIssuingCardholderRequest {
   status?: CreateIssuingCardholderRequestStatus | (string & {}) | undefined;
   /** One of `individual` or `company`. See [Choose a cardholder type](https://docs.stripe.com/issuing/other/choose-cardholder) for more details. */
   type?: CreateIssuingCardholderRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateIssuingDisputeRequestEvidenceCanceledCase0AdditionalDocumentationCase1 = "";
 /** (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. */
@@ -41535,6 +41738,8 @@ export interface CreateIssuingDisputeRequest {
   transaction?: string | undefined;
   /** Params for disputes related to Treasury FinancialAccounts */
   treasury?: CreateIssuingDisputeRequestTreasury | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** List of balance transactions associated with the dispute. */
 export type IssuingDisputeBalanceTransactionsList = Array<BalanceTransaction>;
@@ -42478,6 +42683,8 @@ export interface CreateIssuingDisputeSubmitRequest {
   expand?: CreateIssuingDisputeSubmitRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateIssuingDisputeSubmitRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateIssuingPersonalizationDesignRequestCarrierTextFooterBodyCase1 = "";
 /** The footer body text of the carrier letter. */
@@ -42540,6 +42747,8 @@ export interface CreateIssuingPersonalizationDesignRequest {
   preferences?: CreateIssuingPersonalizationDesignRequestPreferences | undefined;
   /** If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design. */
   transfer_lookup_key?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The currency of the bank account to provision. Available currencies depend on your account's enabled features and rollout access; `eur` requires the Financial Address Global Payouts EU preview. */
 export type CreateMoneyManagementFinancialAddressRequestBankAccountCurrency = "eur" | "gbp" | "usd";
@@ -42559,6 +42768,8 @@ export interface CreateMoneyManagementFinancialAddressRequest {
   financial_account: string;
   /** The type of FinancialAddress to create. Must agree with which branch of financial_address_type_properties is set. */
   type: CreateMoneyManagementFinancialAddressRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The address of the account holder. */
 export interface V2MoneyManagementFinancialAddressBankAccountAbaAddress {
@@ -42677,6 +42888,8 @@ export interface CreateMoneyManagementInboundTransferRequest {
   from: CreateMoneyManagementInboundTransferRequestFrom;
   /** The FinancialAccount and currency to credit with the transferred funds. */
   to: CreateMoneyManagementInboundTransferRequestTo;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The amount in specified currency that will land in the FinancialAccount balance. */
 export type V2MoneyManagementInboundTransferAmount =
@@ -42902,6 +43115,8 @@ export interface CreateMoneyManagementOutboundPaymentRequest {
   statement_descriptor?: string | undefined;
   /** To which payout method to send the OutboundPayment. */
   to: CreateMoneyManagementOutboundPaymentRequestTo;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The amount and currency requested for this OutboundPayment. */
 export type V2MoneyManagementOutboundPaymentAmount =
@@ -43132,6 +43347,8 @@ export interface V2MoneyManagementOutboundPayment {
 export interface CreateMoneyManagementOutboundPaymentCancelRequest {
   /** The ID of the OutboundPayment to cancel. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Closed Enum. The type of the bank account (checking or savings). */
 export type CreateMoneyManagementOutboundSetupIntentRequestPayoutMethodDataBankAccountBankAccountType =
@@ -43184,6 +43401,8 @@ export interface CreateMoneyManagementOutboundSetupIntentRequest {
     | CreateMoneyManagementOutboundSetupIntentRequestUsageIntent
     | (string & {})
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2MoneyManagementOutboundSetupIntentObject =
@@ -43309,6 +43528,8 @@ export interface V2MoneyManagementOutboundSetupIntent {
 export interface CreateMoneyManagementOutboundSetupIntentCancelRequest {
   /** ID of the OutboundSetupIntent object. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The monetary amount to be sent. */
 export type CreateMoneyManagementPayoutIntentRequestAmount =
@@ -43433,6 +43654,8 @@ export interface CreateMoneyManagementPayoutIntentRequest {
   statement_descriptor?: string | undefined;
   /** To which payout method the payout is sent. */
   to: CreateMoneyManagementPayoutIntentRequestTo;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The monetary amount to be sent. */
 export type V2MoneyManagementPayoutIntentAmount =
@@ -43798,32 +44021,46 @@ export interface V2MoneyManagementPayoutIntent {
 export interface CreateMoneyManagementPayoutIntentCancelRequest {
   /** The ID of the PayoutIntent to cancel. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementPayoutIntentConfirmRequest {
   /** The ID of the PayoutIntent to confirm. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementPayoutIntentRefreshFxQuoteRequest {
   /** The ID of the PayoutIntent. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementPayoutIntentRefreshRecipientVerificationRequest {
   /** The ID of the PayoutIntent. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementPayoutMethodArchiveRequest {
   /** ID of the payout method. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementPayoutMethodUnarchiveRequest {
   /** ID of the Payout Method. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateMoneyManagementRecipientVerificationRequest {
   /** ID of the payout method. */
   payout_method: string;
   /** ID of the recipient account. Required if the recipient is different from the sender. Omit for payouts to your own account. */
   recipient?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of resource that consumed the RecipientVerification. */
 export type V2MoneyManagementRecipientVerificationConsumedByType = "outbound_payment";
@@ -43918,6 +44155,8 @@ export interface V2MoneyManagementRecipientVerification {
 export interface CreateMoneyManagementRecipientVerificationAcknowledgeRequest {
   /** The ID of the RecipientVerification to acknowledge. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Object containing the amount value and currency to credit. */
 export type CreateMoneyManagementTestHelpersFinancialAddressCreditRequestAmount =
@@ -43939,6 +44178,8 @@ export interface CreateMoneyManagementTestHelpersFinancialAddressCreditRequest {
   network: CreateMoneyManagementTestHelpersFinancialAddressCreditRequestNetwork | (string & {});
   /** String explaining funds flow. Use this field to populate the statement descriptor of the ReceivedCredit created as an eventual result of this simulation. */
   statement_descriptor?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value of the object field. */
 export type V2MoneyManagementFinancialAddressCreditSimulationObject =
@@ -43955,6 +44196,8 @@ export interface V2MoneyManagementFinancialAddressCreditSimulation {
 export interface CreateMoneyManagementTransactionRefreshRegulatoryReceiptRequest {
   /** The ID of the Transaction whose regulatory receipt URL should be refreshed. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The amount of the Transaction. */
 export type V2MoneyManagementTransactionAmount =
@@ -47284,6 +47527,8 @@ export interface CreatePaymentIntentRequest {
   transfer_group?: string | undefined;
   /** Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions. */
   use_stripe_sdk?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentIntentApplyCustomerBalanceRequestExpandList = Array<string>;
@@ -47296,6 +47541,8 @@ export interface CreatePaymentIntentApplyCustomerBalanceRequest {
   currency?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentIntentApplyCustomerBalanceRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned` */
 export type CreatePaymentIntentCancelRequestCancellationReason =
@@ -47315,6 +47562,8 @@ export interface CreatePaymentIntentCancelRequest {
     | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentIntentCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreatePaymentIntentCaptureRequestAmountDetailsDiscountAmountCase1 = "";
 /** The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0. This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field. */
@@ -47531,6 +47780,8 @@ export interface CreatePaymentIntentCaptureRequest {
   statement_descriptor_suffix?: string | undefined;
   /** The parameters that you can use to automatically create a transfer after the payment is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts). */
   transfer_data?: CreatePaymentIntentCaptureRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreatePaymentIntentConfirmRequestAllowedPaymentMethodTypesItem =
   | "acss_debit"
@@ -50701,6 +50952,8 @@ export interface CreatePaymentIntentConfirmRequest {
   shipping?: CreatePaymentIntentConfirmRequestShipping | undefined;
   /** Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions. */
   use_stripe_sdk?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreatePaymentIntentIncrementAuthorizationRequestAmountDetailsDiscountAmountCase1 = "";
 /** The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0. This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field. */
@@ -50915,6 +51168,8 @@ export interface CreatePaymentIntentIncrementAuthorizationRequest {
   statement_descriptor?: string | undefined;
   /** The parameters used to automatically create a transfer after the payment is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts). */
   transfer_data?: CreatePaymentIntentCaptureRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account. */
 export type CreatePaymentIntentVerifyMicrodepositRequestAmountsList = Array<number>;
@@ -50929,6 +51184,8 @@ export interface CreatePaymentIntentVerifyMicrodepositRequest {
   descriptor_code?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentIntentVerifyMicrodepositRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Configuration when `type=hosted_confirmation`. */
 export interface CreatePaymentLinkRequestAfterCompletionHostedConfirmation {
@@ -51851,6 +52108,8 @@ export interface CreatePaymentLinkRequest {
   tax_id_collection?: CreatePaymentLinkRequestTaxIdCollection | undefined;
   /** The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to. */
   transfer_data?: CreateCheckoutSessionRequestPaymentIntentDataTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method. */
 export type CreatePaymentMethodRequestAcssDebit =
@@ -52328,6 +52587,8 @@ export interface CreatePaymentMethodRequest {
   wechat_pay?: unknown | undefined;
   /** If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method. */
   zip?: unknown | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentMethodAttachRequestExpandList = Array<string>;
@@ -52340,6 +52601,8 @@ export interface CreatePaymentMethodAttachRequest {
   customer_account?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentMethodAttachRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The account's preference for whether or not to display this payment method. */
 export type CreatePaymentMethodConfigurationRequestAcssDebitDisplayPreferencePreference =
@@ -53632,6 +53895,8 @@ export interface CreatePaymentMethodConfigurationRequest {
   wechat_pay?: CreatePaymentMethodConfigurationRequestWechatPay | undefined;
   /** Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability. */
   zip?: CreatePaymentMethodConfigurationRequestZip | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The account's display preference. */
 export type PaymentMethodConfigResourceDisplayPreferencePreference = "none" | "off" | "on";
@@ -53738,6 +54003,8 @@ export interface CreatePaymentMethodDetachRequest {
   payment_method: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentMethodDetachRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentMethodDomainRequestExpandList = Array<string>;
@@ -53748,6 +54015,8 @@ export interface CreatePaymentMethodDomainRequest {
   enabled?: boolean | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentMethodDomainRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The status of the payment method on the domain. */
 export type PaymentMethodDomainResourcePaymentMethodStatusStatus = "active" | "inactive";
@@ -53792,6 +54061,8 @@ export interface CreatePaymentMethodDomainValidateRequest {
   payment_method_domain: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePaymentMethodDomainValidateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Information about the payment attempt cancelation. */
 export interface CreatePaymentRecordReportPaymentAttemptRequestCanceled {
@@ -53899,6 +54170,8 @@ export interface CreatePaymentRecordReportPaymentAttemptRequest {
     | undefined;
   /** Shipping information for this payment. */
   shipping_details?: CreatePaymentRecordReportPaymentAttemptRequestShippingDetails | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentRecordReportPaymentAttemptCanceledRequestExpandList = Array<string>;
@@ -53919,6 +54192,8 @@ export interface CreatePaymentRecordReportPaymentAttemptCanceledRequest {
   expand?: CreatePaymentRecordReportPaymentAttemptCanceledRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreatePaymentRecordReportPaymentAttemptCanceledRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentRecordReportPaymentAttemptFailedRequestExpandList = Array<string>;
@@ -53939,6 +54214,8 @@ export interface CreatePaymentRecordReportPaymentAttemptFailedRequest {
   failed_at: number;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreatePaymentRecordReportPaymentAttemptFailedRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePaymentRecordReportPaymentAttemptGuaranteedRequestExpandList = Array<string>;
@@ -53959,6 +54236,8 @@ export interface CreatePaymentRecordReportPaymentAttemptGuaranteedRequest {
   guaranteed_at: number;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreatePaymentRecordReportPaymentAttemptGuaranteedRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Customer information for this payment. */
 export interface CreatePaymentRecordReportPaymentAttemptInformationalRequestCustomerDetails {
@@ -54013,6 +54292,8 @@ export interface CreatePaymentRecordReportPaymentAttemptInformationalRequest {
   shipping_details?:
     | CreatePaymentRecordReportPaymentAttemptInformationalRequestShippingDetails
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment. */
 export type CreatePaymentRecordReportRefundRequestAmount =
@@ -54065,6 +54346,8 @@ export interface CreatePaymentRecordReportRefundRequest {
   processor_details: CreatePaymentRecordReportRefundRequestProcessorDetails;
   /** Information about the payment attempt refund. */
   refunded?: CreatePaymentRecordReportRefundRequestRefunded | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The amount you initially requested for this payment. */
 export type CreatePaymentRecordsReportPaymentRequestAmountRequested =
@@ -54176,6 +54459,8 @@ export interface CreatePaymentRecordsReportPaymentRequest {
   processor_details?: CreatePaymentRecordsReportPaymentRequestProcessorDetails | undefined;
   /** Shipping information for this payment. */
   shipping_details?: CreatePaymentRecordReportPaymentAttemptRequestShippingDetails | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePayoutRequestExpandList = Array<string>;
@@ -54206,6 +54491,8 @@ export interface CreatePayoutRequest {
   source_type?: CreatePayoutRequestSourceType | (string & {}) | undefined;
   /** A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. For US ACH payouts, this maps to the ACH Company Entry Description field, which the NACHA standard limits to 10 characters. Stripe truncates descriptors longer than 10 characters for US ACH payouts. */
   statement_descriptor?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The application fee (if any) for the payout. [See the Connect documentation](https://docs.stripe.com/connect/instant-payouts#monetization-and-fees) for details. */
 export type PayoutApplicationFee = string | ApplicationFee;
@@ -54298,6 +54585,8 @@ export interface CreatePayoutCancelRequest {
   payout: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreatePayoutCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreatePayoutReverseRequestExpandList = Array<string>;
@@ -54310,6 +54599,8 @@ export interface CreatePayoutReverseRequest {
   expand?: CreatePayoutReverseRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreatePayoutReverseRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes. */
 export type CreatePlanRequestBillingScheme = "per_unit" | "tiered";
@@ -54423,6 +54714,8 @@ export interface CreatePlanRequest {
   trial_period_days?: number | undefined;
   /** Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`. */
   usage_type?: CreatePlanRequestUsageType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes. */
 export type CreatePriceRequestBillingScheme = "per_unit" | "tiered";
@@ -54604,6 +54897,8 @@ export interface CreatePriceRequest {
   unit_amount?: number | undefined;
   /** Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. */
   unit_amount_decimal?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links. */
 export type CreateProductRequestDefaultPriceDataCurrencyOptionsValueCustomUnitAmount =
@@ -54767,6 +55062,8 @@ export interface CreateProductRequest {
   unit_label?: string | undefined;
   /** A URL of a publicly-accessible webpage for this product. */
   url?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The relative duration of the trial period computed as the number of recurring price intervals. */
 export interface CreateProductCatalogTrialOfferRequestDurationRelative {
@@ -54807,6 +55104,8 @@ export interface CreateProductCatalogTrialOfferRequest {
   nickname?: string | undefined;
   /** Price configuration during the trial period (amount, billing scheme, etc). */
   price: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface ProductCatalogImplEndpointsTrialOfferResourceRelativeDuration {
   /** The number of iterations of the price's interval for this trial offer. */
@@ -54865,6 +55164,8 @@ export interface CreateProductFeatureRequest {
   entitlement_feature: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateProductFeatureRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ProductFeatureObject = "product_feature";
@@ -54931,6 +55232,8 @@ export interface CreatePromotionCodeRequest {
   promotion: CreatePromotionCodeRequestPromotion;
   /** Settings that restrict the redemption of the promotion code. */
   restrictions?: CreatePromotionCodeRequestRestrictions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateQuoteRequestApplicationFeeAmountCase1 = "";
 /** The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field. */
@@ -55203,6 +55506,8 @@ export interface CreateQuoteRequest {
   test_clock?: string | undefined;
   /** The data with which to automatically create a Transfer for each of the invoices. */
   transfer_data?: CreateQuoteRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** ID of the Connect Application that created the quote. */
 export type QuoteApplication = string | Application | DeletedApplication;
@@ -55459,6 +55764,8 @@ export interface CreateQuoteAcceptRequest {
   quote: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateQuoteAcceptRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateQuoteCancelRequestExpandList = Array<string>;
@@ -55467,6 +55774,8 @@ export interface CreateQuoteCancelRequest {
   quote: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateQuoteCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateQuoteFinalizeRequestExpandList = Array<string>;
@@ -55477,6 +55786,8 @@ export interface CreateQuoteFinalizeRequest {
   expand?: CreateQuoteFinalizeRequestExpandList | undefined;
   /** A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. */
   expires_at?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Details about the Client Device Metadata to associate with the payment evaluation. */
 export interface CreateRadarPaymentEvaluationRequestClientDeviceMetadataDetails {
@@ -55602,6 +55913,8 @@ export interface CreateRadarPaymentEvaluationRequest {
   metadata?: CreateRadarPaymentEvaluationRequestMetadataMap | undefined;
   /** Details about the payment. */
   payment_details: CreateRadarPaymentEvaluationRequestPaymentDetails;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Client device metadata attached to this payment evaluation. */
 export interface InsightsResourcesPaymentEvaluationClientDeviceMetadata {
@@ -55990,6 +56303,8 @@ export interface CreateRadarValueListRequest {
   metadata?: CreateRadarValueListRequestMetadataMap | undefined;
   /** The human-readable name of the value list. */
   name: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. */
 export type RadarValueListItemType =
@@ -56075,6 +56390,8 @@ export interface CreateRadarValueListItemRequest {
   value: string;
   /** The identifier of the value list which the created item will be added to. */
   value_list: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateRefundRequestExpandList = Array<string>;
@@ -56112,6 +56429,8 @@ export interface CreateRefundRequest {
   refund_application_fee?: boolean | undefined;
   /** Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).<br><br>A transfer can be reversed only by the application that created the charge. */
   reverse_transfer?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateRefundCancelRequestExpandList = Array<string>;
@@ -56120,6 +56439,8 @@ export interface CreateRefundCancelRequest {
   refund: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateRefundCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateReportingReportRunRequestExpandList = Array<string>;
@@ -56794,6 +57115,8 @@ export interface CreateReportingReportRunRequest {
   parameters?: CreateReportingReportRunRequestParameters | undefined;
   /** The ID of the [report type](https://docs.stripe.com/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`. */
   report_type: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ReportingReportRunObject = "reporting.report_run";
@@ -56846,6 +57169,8 @@ export interface CreateReviewApproveRequest {
   review: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateReviewApproveRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateSetupIntentRequestAllowedPaymentMethodTypesItem =
   | "acss_debit"
@@ -58286,6 +58611,8 @@ export interface CreateSetupIntentRequest {
   usage?: CreateSetupIntentRequestUsage | (string & {}) | undefined;
   /** Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions. */
   use_stripe_sdk?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate` */
 export type CreateSetupIntentCancelRequestCancellationReason =
@@ -58304,6 +58631,8 @@ export interface CreateSetupIntentCancelRequest {
     | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateSetupIntentCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateSetupIntentConfirmRequestAllowedPaymentMethodTypesItem =
   | "acss_debit"
@@ -59672,6 +60001,8 @@ export interface CreateSetupIntentConfirmRequest {
   return_url?: string | undefined;
   /** Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions. */
   use_stripe_sdk?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account. */
 export type CreateSetupIntentVerifyMicrodepositRequestAmountsList = Array<number>;
@@ -59686,6 +60017,8 @@ export interface CreateSetupIntentVerifyMicrodepositRequest {
   descriptor_code?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateSetupIntentVerifyMicrodepositRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** A unit of time. */
 export type CreateShippingRateRequestDeliveryEstimateMaximumUnit =
@@ -59774,6 +60107,8 @@ export interface CreateShippingRateRequest {
   tax_code?: string | undefined;
   /** The type of calculation to use on the shipping rate. */
   type?: CreateShippingRateRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateSourceRequestExpandList = Array<string>;
@@ -59941,6 +60276,8 @@ export interface CreateSourceRequest {
   /** The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://docs.stripe.com/sources/connect#cloning-card-sources) guide) */
   type?: string | undefined;
   usage?: CreateSourceRequestUsage | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateSourceVerifyRequestExpandList = Array<string>;
@@ -59952,6 +60289,8 @@ export interface CreateSourceVerifyRequest {
   expand?: CreateSourceVerifyRequestExpandList | undefined;
   /** The values needed to verify the source. */
   values: CreateSourceVerifyRequestValuesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateSubscriptionRequestAddInvoiceItemsItemDiscountsItem =
   CreateInvoiceRequestDiscountsCase0Item;
@@ -60914,6 +61253,8 @@ export interface CreateSubscriptionRequest {
   trial_period_days?: number | undefined;
   /** Settings related to subscription trials. */
   trial_settings?: CreateSubscriptionRequestTrialSettings | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateSubscriptionItemRequestBillingThresholdsCase0 =
   CreateInvoicesCreatePreviewRequestScheduleDetailsPhasesItemItemsItemBillingThresholdsCase0;
@@ -61019,6 +61360,8 @@ export interface CreateSubscriptionItemRequest {
   subscription: string;
   /** A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates. */
   tax_rates?: CreateSubscriptionItemRequestTaxRates | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Controls how invoices and invoice items display proration amounts and discount amounts. */
 export type CreateSubscriptionMigrateRequestBillingModeFlexibleProrationDiscounts =
@@ -61050,6 +61393,8 @@ export interface CreateSubscriptionMigrateRequest {
   billing_mode: CreateSubscriptionMigrateRequestBillingMode;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateSubscriptionMigrateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** When to bill metered usage in the current period. */
 export type CreateSubscriptionPauseRequestBillForOutstandingUsageThroughType = "none" | "now";
@@ -61094,6 +61439,8 @@ export interface CreateSubscriptionPauseRequest {
   invoicing_behavior?: CreateSubscriptionPauseRequestInvoicingBehavior | (string & {}) | undefined;
   /** The type of pause to apply. Defaults to `subscription`. */
   type?: CreateSubscriptionPauseRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Determines how the billing cycle anchor changes when the subscription resumes. */
 export type CreateSubscriptionResumeRequestBillingCycleAnchorType = "now" | "unchanged";
@@ -61125,6 +61472,8 @@ export interface CreateSubscriptionResumeRequest {
   proration_behavior?: CreateSubscriptionResumeRequestProrationBehavior | (string & {}) | undefined;
   /** If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. */
   proration_date?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Controls how invoices and invoice items display proration amounts and discount amounts. */
 export type CreateSubscriptionScheduleRequestBillingModeFlexibleProrationDiscounts =
@@ -61843,6 +62192,8 @@ export interface CreateSubscriptionScheduleRequest {
   phases?: CreateSubscriptionScheduleRequestPhasesList | undefined;
   /** When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately, and to avoid unexpected behavior due to request delays or clock skew resulting in a slightly backdated or postdated start. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on. */
   start_date?: CreateSubscriptionScheduleRequestStartDate | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateSubscriptionScheduleCancelRequestExpandList = Array<string>;
@@ -61855,6 +62206,8 @@ export interface CreateSubscriptionScheduleCancelRequest {
   invoice_now?: boolean | undefined;
   /** If the subscription schedule is `active`, indicates if the cancellation should be prorated. Defaults to `true`. */
   prorate?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateSubscriptionScheduleReleaseRequestExpandList = Array<string>;
@@ -61865,6 +62218,8 @@ export interface CreateSubscriptionScheduleReleaseRequest {
   expand?: CreateSubscriptionScheduleReleaseRequestExpandList | undefined;
   /** Keep any cancellation on the subscription that the schedule has set */
   preserve_cancel_date?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateTaxCalculationRequestCustomerDetailsAddressCityCase1 = "";
 /** City, district, suburb, town, or village. */
@@ -62182,6 +62537,8 @@ export interface CreateTaxCalculationRequest {
   shipping_cost?: CreateTaxCalculationRequestShippingCost | undefined;
   /** The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window. */
   tax_date?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface TaxProductResourcePostalAddress {
   /** City, district, suburb, town, or village. */
@@ -62800,6 +63157,8 @@ export interface CreateTaxIdsRequest {
   type: CreateTaxIdsRequestType | (string & {});
   /** Value of the tax ID. */
   value: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateTaxLocationRequestAddressCityCase1 = "";
 /** City, district, suburb, town, or village. */
@@ -62852,6 +63211,8 @@ export interface CreateTaxLocationRequest {
   expand?: CreateTaxLocationRequestExpandList | undefined;
   /** The type of tax location. The only supported value is "performance". */
   type: CreateTaxLocationRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type TaxLocationObject = "tax.location";
@@ -62928,6 +63289,8 @@ export interface CreateTaxRateRequest {
   state?: string | undefined;
   /** The high-level tax type, such as `vat` or `sales_tax`. */
   tax_type?: CreateTaxRateRequestTaxType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateTaxRegistrationRequestActiveFromCase0 = "now";
 /** Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a future timestamp measured in seconds since the Unix epoch. */
@@ -64944,6 +65307,8 @@ export interface CreateTaxRegistrationRequest {
   expand?: CreateTaxRegistrationRequestExpandList | undefined;
   /** If set, the Tax Registration stops being active at this time. If not set, the Tax Registration will be active indefinitely. Timestamp measured in seconds since the Unix epoch. */
   expires_at?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Place of supply scheme used in an Default standard registration. */
 export type TaxProductRegistrationsResourceCountryOptionsDefaultStandardPlaceOfSupplyScheme =
@@ -65304,6 +65669,8 @@ export interface CreateTaxSettingsRequest {
   expand?: CreateTaxSettingsRequestExpandList | undefined;
   /** The place where your business is located. */
   head_office?: CreateTaxSettingsRequestHeadOffice | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The tax calculation provider this account uses. Defaults to `stripe` when not using a [third-party provider](/tax/third-party-apps). */
 export type TaxProductResourceTaxSettingsDefaultsProvider =
@@ -65370,6 +65737,8 @@ export interface CreateTaxTransactionsCreateFromCalculationRequest {
   posted_at?: number | undefined;
   /** A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals. */
   reference: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type TaxTransactionLineItemMetadataMap = { [key: string]: string | undefined };
@@ -65543,6 +65912,8 @@ export interface CreateTaxTransactionsCreateReversalRequest {
   reference: string;
   /** The shipping cost to reverse. */
   shipping_cost?: CreateTaxTransactionsCreateReversalRequestShippingCost | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateTerminalConfigurationRequestBbposWisepad3SplashscreenCase1 = "";
 /** A File ID representing an image you want to display on the reader. */
@@ -66097,6 +66468,8 @@ export interface CreateTerminalConfigurationRequest {
   verifone_v660p?: CreateTerminalConfigurationRequestVerifoneV660p | undefined;
   /** Configurations for connecting to a WiFi network. */
   wifi?: CreateTerminalConfigurationRequestWifi | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** A File ID representing an image to display on the reader */
 export type TerminalConfigurationConfigurationResourceDeviceTypeSpecificConfigSplashscreen =
@@ -66221,6 +66594,8 @@ export interface CreateTerminalConnectionTokenRequest {
   expand?: CreateTerminalConnectionTokenRequestExpandList | undefined;
   /** The id of the location that this connection token is scoped to. If specified the connection token will only be usable with readers assigned to that location, otherwise the connection token will be usable with all readers. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https://docs.stripe.com/terminal/fleet/locations-and-zones?dashboard-or-api=api#connection-tokens). */
   location?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type TerminalConnectionTokenObject = "terminal.connection_token";
@@ -66281,6 +66656,8 @@ export interface CreateTerminalLocationRequest {
   metadata?: CreateTerminalLocationRequestMetadata | undefined;
   /** The phone number for the location. */
   phone?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type AddressApiResourceTerminal = Address;
 /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
@@ -66338,6 +66715,8 @@ export interface CreateTerminalOnboardingLinkRequest {
   link_type: CreateTerminalOnboardingLinkRequestLinkType | (string & {});
   /** Stripe account ID to generate the link for. */
   on_behalf_of?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Options associated with the Apple Terms and Conditions link type. */
 export interface TerminalOnboardingLinkAppleTermsAndConditions {
@@ -66384,6 +66763,8 @@ export interface CreateTerminalReaderRequest {
   metadata?: CreateTerminalReaderRequestMetadata | undefined;
   /** A code generated by the reader used for registering to an account. */
   registration_code: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Represents custom text to be displayed when collecting the input using a reader */
 export interface TerminalReaderReaderResourceCustomText {
@@ -66768,6 +67149,8 @@ export interface CreateTerminalReaderCancelActionRequest {
   reader: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTerminalReaderCancelActionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Device type of the reader. */
 export type DeletedTerminalReaderDeviceType =
@@ -66898,6 +67281,8 @@ export interface CreateTerminalReaderCollectInputRequest {
   inputs: CreateTerminalReaderCollectInputRequestInputsList;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateTerminalReaderCollectInputRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. */
 export type CreateTerminalReaderCollectPaymentMethodRequestCollectConfigAllowRedisplay =
@@ -66932,6 +67317,8 @@ export interface CreateTerminalReaderCollectPaymentMethodRequest {
   expand?: CreateTerminalReaderCollectPaymentMethodRequestExpandList | undefined;
   /** The ID of the PaymentIntent to collect a payment method for. */
   payment_intent: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Configuration overrides for this confirmation, such as surcharge settings and return URL. */
 export interface CreateTerminalReaderConfirmPaymentIntentRequestConfirmConfig {
@@ -66949,6 +67336,8 @@ export interface CreateTerminalReaderConfirmPaymentIntentRequest {
   expand?: CreateTerminalReaderConfirmPaymentIntentRequestExpandList | undefined;
   /** The ID of the PaymentIntent to confirm. */
   payment_intent: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTerminalReaderProcessPaymentIntentRequestExpandList = Array<string>;
@@ -66985,6 +67374,8 @@ export interface CreateTerminalReaderProcessPaymentIntentRequest {
   payment_intent: string;
   /** Configuration overrides for this transaction, such as tipping and customer cancellation settings. */
   process_config?: CreateTerminalReaderProcessPaymentIntentRequestProcessConfig | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. */
 export type CreateTerminalReaderProcessSetupIntentRequestAllowRedisplay =
@@ -67009,6 +67400,8 @@ export interface CreateTerminalReaderProcessSetupIntentRequest {
   process_config?: CreateTerminalReaderProcessSetupIntentRequestProcessConfig | undefined;
   /** The ID of the SetupIntent to process on the reader. */
   setup_intent: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTerminalReaderRefundPaymentRequestExpandList = Array<string>;
@@ -67038,6 +67431,8 @@ export interface CreateTerminalReaderRefundPaymentRequest {
   refund_payment_config?: CreateTerminalReaderProcessSetupIntentRequestProcessConfig | undefined;
   /** Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge. */
   reverse_transfer?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface CreateTerminalReaderSetReaderDisplayRequestCartLineItemsItem {
   /** The price of the item in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). */
@@ -67074,6 +67469,8 @@ export interface CreateTerminalReaderSetReaderDisplayRequest {
   expand?: CreateTerminalReaderSetReaderDisplayRequestExpandList | undefined;
   /** Type of information to display. Only `cart` is currently supported. */
   type: CreateTerminalReaderSetReaderDisplayRequestType | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersConfirmationTokenRequestExpandList = Array<string>;
@@ -67645,6 +68042,8 @@ export interface CreateTestHelpersConfirmationTokenRequest {
     | undefined;
   /** Shipping information for this ConfirmationToken. */
   shipping?: CreateTestHelpersConfirmationTokenRequestShipping | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** This hash contains details about the online acceptance. */
 export interface ConfirmationTokensResourceMandateDataResourceCustomerAcceptanceResourceOnline {
@@ -67877,6 +68276,8 @@ export interface CreateTestHelpersCustomerFundCashBalanceRequest {
   expand?: CreateTestHelpersCustomerFundCashBalanceRequestExpandList | undefined;
   /** A description of the test funding. This simulates free-text references supplied by customers when making bank transfers to their cash balance. You can use this to test how Stripe's [reconciliation algorithm](https://docs.stripe.com/payments/customer-balance/reconciliation) applies to different user inputs. */
   reference?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The [Balance Transaction](https://docs.stripe.com/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance. */
 export type CustomerBalanceResourceCashBalanceTransactionResourceAdjustedForOverdraftBalanceTransaction =
@@ -68686,6 +69087,8 @@ export interface CreateTestHelpersIssuingAuthorizationRequest {
   verification_data?: CreateTestHelpersIssuingAuthorizationRequestVerificationData | undefined;
   /** The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized. */
   wallet?: CreateTestHelpersIssuingAuthorizationRequestWallet | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationCaptureRequestExpandList = Array<string>;
@@ -68847,6 +69250,8 @@ export interface CreateTestHelpersIssuingAuthorizationCaptureRequest {
   expand?: CreateTestHelpersIssuingAuthorizationCaptureRequestExpandList | undefined;
   /** Additional purchase information that is optionally provided by the merchant. */
   purchase_details?: CreateTestHelpersIssuingAuthorizationCaptureRequestPurchaseDetails | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationExpireRequestExpandList = Array<string>;
@@ -68855,6 +69260,8 @@ export interface CreateTestHelpersIssuingAuthorizationExpireRequest {
   authorization: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingAuthorizationExpireRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationFinalizeAmountRequestExpandList = Array<string>;
@@ -68951,6 +69358,8 @@ export interface CreateTestHelpersIssuingAuthorizationFinalizeAmountRequest {
   fleet?: CreateTestHelpersIssuingAuthorizationFinalizeAmountRequestFleet | undefined;
   /** Information about fuel that was purchased with this transaction. */
   fuel?: CreateTestHelpersIssuingAuthorizationFinalizeAmountRequestFuel | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationFraudChallengesRespondRequestExpandList =
@@ -68962,6 +69371,8 @@ export interface CreateTestHelpersIssuingAuthorizationFraudChallengesRespondRequ
   confirmed: boolean;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingAuthorizationFraudChallengesRespondRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationIncrementRequestExpandList = Array<string>;
@@ -68974,6 +69385,8 @@ export interface CreateTestHelpersIssuingAuthorizationIncrementRequest {
   increment_amount: number;
   /** If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization. */
   is_amount_controllable?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingAuthorizationReverseRequestExpandList = Array<string>;
@@ -68984,6 +69397,8 @@ export interface CreateTestHelpersIssuingAuthorizationReverseRequest {
   expand?: CreateTestHelpersIssuingAuthorizationReverseRequestExpandList | undefined;
   /** The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). */
   reverse_amount?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingCardShippingDeliverRequestExpandList = Array<string>;
@@ -68992,6 +69407,8 @@ export interface CreateTestHelpersIssuingCardShippingDeliverRequest {
   card: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingCardShippingDeliverRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingCardShippingFailRequestExpandList = Array<string>;
@@ -69000,6 +69417,8 @@ export interface CreateTestHelpersIssuingCardShippingFailRequest {
   card: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingCardShippingFailRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingCardShippingReturnRequestExpandList = Array<string>;
@@ -69008,6 +69427,8 @@ export interface CreateTestHelpersIssuingCardShippingReturnRequest {
   card: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingCardShippingReturnRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingCardShippingShipRequestExpandList = Array<string>;
@@ -69016,6 +69437,8 @@ export interface CreateTestHelpersIssuingCardShippingShipRequest {
   card: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingCardShippingShipRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingCardShippingSubmitRequestExpandList = Array<string>;
@@ -69024,6 +69447,8 @@ export interface CreateTestHelpersIssuingCardShippingSubmitRequest {
   card: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingCardShippingSubmitRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingPersonalizationDesignActivateRequestExpandList = Array<string>;
@@ -69032,6 +69457,8 @@ export interface CreateTestHelpersIssuingPersonalizationDesignActivateRequest {
   personalization_design: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingPersonalizationDesignActivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingPersonalizationDesignDeactivateRequestExpandList =
@@ -69041,6 +69468,8 @@ export interface CreateTestHelpersIssuingPersonalizationDesignDeactivateRequest 
   personalization_design: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersIssuingPersonalizationDesignDeactivateRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingPersonalizationDesignRejectRequestExpandList = Array<string>;
@@ -69091,6 +69520,8 @@ export interface CreateTestHelpersIssuingPersonalizationDesignRejectRequest {
   expand?: CreateTestHelpersIssuingPersonalizationDesignRejectRequestExpandList | undefined;
   /** The reason(s) the personalization design was rejected. */
   rejection_reasons: CreateTestHelpersIssuingPersonalizationDesignRejectRequestRejectionReasons;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingTransactionRefundRequestExpandList = Array<string>;
@@ -69101,6 +69532,8 @@ export interface CreateTestHelpersIssuingTransactionRefundRequest {
   expand?: CreateTestHelpersIssuingTransactionRefundRequestExpandList | undefined;
   /** The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). */
   refund_amount?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingTransactionsCreateForceCaptureRequestExpandList = Array<string>;
@@ -69574,6 +70007,8 @@ export interface CreateTestHelpersIssuingTransactionsCreateForceCaptureRequest {
   purchase_details?:
     | CreateTestHelpersIssuingTransactionsCreateForceCaptureRequestPurchaseDetails
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersIssuingTransactionsCreateUnlinkedRefundRequestExpandList =
@@ -70048,6 +70483,8 @@ export interface CreateTestHelpersIssuingTransactionsCreateUnlinkedRefundRequest
   purchase_details?:
     | CreateTestHelpersIssuingTransactionsCreateUnlinkedRefundRequestPurchaseDetails
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Expected match level of the RecipientVerification to be created: `match`, `close_match`, `no_match`, `unavailable`. For `close_match`, the simulated response appends "close_match" to the provided name in match_result_details.matched_name. */
 export type CreateTestHelpersMoneyManagementRecipientVerificationRequestMatchResult =
@@ -70064,6 +70501,8 @@ export interface CreateTestHelpersMoneyManagementRecipientVerificationRequest {
   payout_method: string;
   /** ID of the recipient account. Required if the recipient is different from the sender. Omit for payouts to your own account. */
   recipient?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersRefundExpireRequestExpandList = Array<string>;
@@ -70072,6 +70511,8 @@ export interface CreateTestHelpersRefundExpireRequest {
   refund: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersRefundExpireRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Simulated data for the card payment method. */
 export interface CreateTestHelpersTerminalReaderPresentPaymentMethodRequestCard {
@@ -70118,6 +70559,8 @@ export interface CreateTestHelpersTerminalReaderPresentPaymentMethodRequest {
     | undefined;
   /** Simulated payment type. */
   type?: CreateTestHelpersTerminalReaderPresentPaymentMethodRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTerminalReaderSucceedInputCollectionRequestExpandList = Array<string>;
@@ -70135,6 +70578,8 @@ export interface CreateTestHelpersTerminalReaderSucceedInputCollectionRequest {
     | CreateTestHelpersTerminalReaderSucceedInputCollectionRequestSkipNonRequiredInputs
     | (string & {})
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTerminalReaderTimeoutInputCollectionRequestExpandList = Array<string>;
@@ -70143,6 +70588,8 @@ export interface CreateTestHelpersTerminalReaderTimeoutInputCollectionRequest {
   reader: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTerminalReaderTimeoutInputCollectionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTestClockRequestExpandList = Array<string>;
@@ -70155,6 +70602,8 @@ export interface CreateTestHelpersTestClockRequest {
   frozen_time: number;
   /** The name for this test clock. */
   name?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTestClockAdvanceRequestExpandList = Array<string>;
@@ -70165,6 +70614,8 @@ export interface CreateTestHelpersTestClockAdvanceRequest {
   expand?: CreateTestHelpersTestClockAdvanceRequestExpandList | undefined;
   /** The time to advance the test clock. Must be after the test clock's current frozen time. Cannot be more than two intervals in the future from the shortest subscription in this test clock. If there are no subscriptions in this test clock, it cannot be more than two years in the future. */
   frozen_time: number;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryInboundTransferFailRequestExpandList = Array<string>;
@@ -70198,6 +70649,8 @@ export interface CreateTestHelpersTreasuryInboundTransferFailRequest {
   expand?: CreateTestHelpersTreasuryInboundTransferFailRequestExpandList | undefined;
   /** Details about a failed InboundTransfer. */
   failure_details?: CreateTestHelpersTreasuryInboundTransferFailRequestFailureDetails | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Reason for the failure. */
 export type TreasuryInboundTransfersResourceFailureDetailsCode =
@@ -71109,6 +71562,8 @@ export interface CreateTestHelpersTreasuryInboundTransferReturnRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryInboundTransferReturnRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryInboundTransferSucceedRequestExpandList = Array<string>;
@@ -71117,6 +71572,8 @@ export interface CreateTestHelpersTreasuryInboundTransferSucceedRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryInboundTransferSucceedRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundPaymentFailRequestExpandList = Array<string>;
@@ -71125,6 +71582,8 @@ export interface CreateTestHelpersTreasuryOutboundPaymentFailRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryOutboundPaymentFailRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundPaymentPostRequestExpandList = Array<string>;
@@ -71133,6 +71592,8 @@ export interface CreateTestHelpersTreasuryOutboundPaymentPostRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryOutboundPaymentPostRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundPaymentReturnRequestExpandList = Array<string>;
@@ -71165,6 +71626,8 @@ export interface CreateTestHelpersTreasuryOutboundPaymentReturnRequest {
   returned_details?:
     | CreateTestHelpersTreasuryOutboundPaymentReturnRequestReturnedDetails
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundTransferFailRequestExpandList = Array<string>;
@@ -71173,6 +71636,8 @@ export interface CreateTestHelpersTreasuryOutboundTransferFailRequest {
   outbound_transfer: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryOutboundTransferFailRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundTransferPostRequestExpandList = Array<string>;
@@ -71181,6 +71646,8 @@ export interface CreateTestHelpersTreasuryOutboundTransferPostRequest {
   outbound_transfer: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTestHelpersTreasuryOutboundTransferPostRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryOutboundTransferReturnRequestExpandList = Array<string>;
@@ -71213,6 +71680,8 @@ export interface CreateTestHelpersTreasuryOutboundTransferReturnRequest {
   returned_details?:
     | CreateTestHelpersTreasuryOutboundTransferReturnRequestReturnedDetails
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryReceivedCreditRequestExpandList = Array<string>;
@@ -71261,6 +71730,8 @@ export interface CreateTestHelpersTreasuryReceivedCreditRequest {
     | undefined;
   /** Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type. */
   network: CreateTestHelpersTreasuryReceivedCreditRequestNetwork | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTestHelpersTreasuryReceivedDebitRequestExpandList = Array<string>;
@@ -71300,6 +71771,8 @@ export interface CreateTestHelpersTreasuryReceivedDebitRequest {
     | undefined;
   /** Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type. */
   network: CreateTestHelpersTreasuryReceivedDebitRequestNetwork | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Contains additional details about the acquirer for this 3DS Authentication. Refer to the [Pass acquirer details and directory server section of the standalone 3DS guide](/payments/3d-secure/standalone-3d-secure#pass-acquirer-details-and-directory-server) for more information. */
 export interface CreateThreeDSecureAuthenticationRequestAcquirerDetails {
@@ -71602,6 +72075,8 @@ export interface CreateThreeDSecureAuthenticationRequest {
     | undefined;
   /** Set to `always` to skip the fingerprinting step and submit this Authentication immediately or `if_fingerprinting_not_supported` to submit this Authentication only if fingerprinting is not available. This parameter defaults to `never`. Refer to the [Submit at creation section of the standalone 3DS guide](/payments/3d-secure/standalone-3d-secure#submit-at-creation) for more information. */
   submit?: CreateThreeDSecureAuthenticationRequestSubmit | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Contains additional details about the acquirer for a 3DS Authentication. */
 export interface ThreeDSecureStandaloneResourceAcquirerDetails {
@@ -71918,6 +72393,8 @@ export interface CreateThreeDSecureAuthenticationCancelRequest {
   expand?: CreateThreeDSecureAuthenticationCancelRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateThreeDSecureAuthenticationCancelRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateThreeDSecureAuthenticationSubmitRequestExpandList = Array<string>;
@@ -71938,6 +72415,8 @@ export interface CreateThreeDSecureAuthenticationSubmitRequest {
   fingerprinting_result?: string | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: CreateThreeDSecureAuthenticationSubmitRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The business type. */
 export type CreateTokenRequestAccountBusinessType =
@@ -72534,6 +73013,8 @@ export interface CreateTokenRequest {
   person?: CreateTokenRequestPerson | undefined;
   /** The PII this token represents. */
   pii?: CreateTokenRequestPii | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTopupRequestExpandList = Array<string>;
@@ -72572,6 +73053,8 @@ export interface CreateTopupRequest {
   statement_descriptor?: string | undefined;
   /** A string that identifies this top-up as part of a group. */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** ID of the balance transaction that describes the impact of this top-up on your account balance. May not be specified depending on status of top-up. */
 export type TopupBalanceTransaction = string | BalanceTransaction;
@@ -72643,6 +73126,8 @@ export interface CreateTopupCancelRequest {
   topup: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTopupCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTransferRequestExpandList = Array<string>;
@@ -72669,6 +73154,8 @@ export interface CreateTransferRequest {
   source_type?: CreateTransferRequestSourceType | (string & {}) | undefined;
   /** A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details. */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTransferReversalRequestExpandList = Array<string>;
@@ -72691,6 +73178,8 @@ export interface CreateTransferReversalRequest {
   metadata?: CreateTransferReversalRequestMetadata | undefined;
   /** Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed. */
   refund_application_fee?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryCreditReversalRequestExpandList = Array<string>;
@@ -72703,6 +73192,8 @@ export interface CreateTreasuryCreditReversalRequest {
   metadata?: CreateTreasuryCreditReversalRequestMetadataMap | undefined;
   /** The ReceivedCredit to reverse. */
   received_credit: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryDebitReversalRequestExpandList = Array<string>;
@@ -72715,6 +73206,8 @@ export interface CreateTreasuryDebitReversalRequest {
   metadata?: CreateTreasuryDebitReversalRequestMetadataMap | undefined;
   /** The ReceivedDebit to reverse. */
   received_debit: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryFinancialAccountRequestExpandList = Array<string>;
@@ -72833,6 +73326,8 @@ export interface CreateTreasuryFinancialAccountRequest {
   platform_restrictions?: CreateTreasuryFinancialAccountRequestPlatformRestrictions | undefined;
   /** The currencies the FinancialAccount can hold a balance in. */
   supported_currencies: CreateTreasuryFinancialAccountRequestSupportedCurrenciesList;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type TreasuryFinancialAccountActiveFeaturesItem =
   | "card_issuing"
@@ -73155,6 +73650,8 @@ export interface CreateTreasuryFinancialAccountCloseRequest {
   expand?: CreateTreasuryFinancialAccountCloseRequestExpandList | undefined;
   /** A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0 */
   forwarding_settings?: CreateTreasuryFinancialAccountCloseRequestForwardingSettings | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount. */
 export type CreateTreasuryFinancialAccountFeatureRequestCardIssuing =
@@ -73216,6 +73713,8 @@ export interface CreateTreasuryFinancialAccountFeatureRequest {
   outbound_payments?: CreateTreasuryFinancialAccountRequestFeaturesOutboundPayments | undefined;
   /** Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner. */
   outbound_transfers?: CreateTreasuryFinancialAccountRequestFeaturesOutboundTransfers | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryInboundTransferRequestExpandList = Array<string>;
@@ -73238,6 +73737,8 @@ export interface CreateTreasuryInboundTransferRequest {
   origin_payment_method: string;
   /** The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters. */
   statement_descriptor?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryInboundTransferCancelRequestExpandList = Array<string>;
@@ -73246,6 +73747,8 @@ export interface CreateTreasuryInboundTransferCancelRequest {
   inbound_transfer: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTreasuryInboundTransferCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateTreasuryOutboundPaymentRequestDestinationPaymentMethodDataBillingDetailsAddressCase0 =
   CreateAccountRequestBusinessProfileSupportAddress;
@@ -73410,6 +73913,8 @@ export interface CreateTreasuryOutboundPaymentRequest {
   metadata?: CreateTreasuryOutboundPaymentRequestMetadataMap | undefined;
   /** The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `us_domestic_wire` payments, or 500 characters for `stripe` network transfers. Can only include -#.$&*, spaces, and alphanumeric characters. The default value is "payment". */
   statement_descriptor?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryOutboundPaymentCancelRequestExpandList = Array<string>;
@@ -73418,6 +73923,8 @@ export interface CreateTreasuryOutboundPaymentCancelRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTreasuryOutboundPaymentCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of the destination. */
 export type CreateTreasuryOutboundTransferRequestDestinationPaymentMethodDataType =
@@ -73484,6 +73991,8 @@ export interface CreateTreasuryOutboundTransferRequest {
   metadata?: CreateTreasuryOutboundTransferRequestMetadataMap | undefined;
   /** Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer". Can only include -#.$&*, spaces, and alphanumeric characters. */
   statement_descriptor?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type CreateTreasuryOutboundTransferCancelRequestExpandList = Array<string>;
@@ -73492,6 +74001,8 @@ export interface CreateTreasuryOutboundTransferCancelRequest {
   outbound_transfer: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: CreateTreasuryOutboundTransferCancelRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version. */
 export type CreateWebhookEndpointRequestApiVersion =
@@ -73933,6 +74444,8 @@ export interface CreateWebhookEndpointRequest {
   metadata?: CreateWebhookEndpointRequestMetadata | undefined;
   /** The URL of the webhook endpoint. */
   url: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The list of events to enable for this endpoint. `['*']` indicates that all events are enabled, except those that require explicit selection. */
 export type WebhookEndpointEnabledEventsList = Array<string>;
@@ -74020,6 +74533,8 @@ export interface DeleteCoreAccountPersonRequest {
   account_id: string;
   /** The ID of the Person to delete. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface V2DeletedObject {
   /** The ID of the object that's being deleted. */
@@ -74030,6 +74545,8 @@ export interface V2DeletedObject {
 export interface DeleteCoreEventDestinationRequest {
   /** Identifier for the event destination to delete. */
   id: string;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface DeleteCouponRequest {
   /** Unique identifier for the object. */
@@ -82389,6 +82906,8 @@ export interface UpdateAccountRequest {
   settings?: UpdateAccountRequestSettings | undefined;
   /** Details on the account's acceptance of the [Stripe Services Agreement](/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty. */
   tos_acceptance?: CreateAccountRequestTosAcceptance | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateAccountCapabilityRequestExpandList = Array<string>;
@@ -82400,6 +82919,8 @@ export interface UpdateAccountCapabilityRequest {
   expand?: UpdateAccountCapabilityRequestExpandList | undefined;
   /** To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays. If a capability isn't permanent, you can remove it from the account by passing false. Some capabilities are permanent after they've been requested. Attempting to remove a permanent capability returns an error. */
   requested?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of entity that holds the account. This can be either `individual` or `company`. */
 export type UpdateAccountExternalAccountRequestAccountHolderType = "" | "company" | "individual";
@@ -82474,6 +82995,8 @@ export interface UpdateAccountExternalAccountRequest {
   metadata?: UpdateAccountExternalAccountRequestMetadata | undefined;
   /** Cardholder name. */
   name?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateAccountExternalAccountResponse = ExternalAccount;
 export type UpdateAccountPersonRequestAdditionalTosAcceptancesAccountUserAgentCase1 = "";
@@ -82730,6 +83253,8 @@ export interface UpdateAccountPersonRequest {
   us_cfpb_data?: UpdateAccountPersonRequestUsCfpbData | undefined;
   /** The person's verification status. */
   verification?: CreateAccountRequestIndividualVerification | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateApplicationFeeRefundRequestExpandList = Array<string>;
@@ -82749,6 +83274,8 @@ export interface UpdateApplicationFeeRefundRequest {
   expand?: UpdateApplicationFeeRefundRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateApplicationFeeRefundRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateAppsInstallRequestExpandList = Array<string>;
@@ -82757,6 +83284,8 @@ export interface UpdateAppsInstallRequest {
   id: string;
   /** Specifies which fields in the response should be expanded. */
   expand?: UpdateAppsInstallRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateBillingCreditGrantRequestExpandList = Array<string>;
@@ -82776,6 +83305,8 @@ export interface UpdateBillingCreditGrantRequest {
   expires_at?: UpdateBillingCreditGrantRequestExpiresAt | undefined;
   /** Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format. */
   metadata?: UpdateBillingCreditGrantRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateBillingFeedbackOptionRequestExpandList = Array<string>;
@@ -82786,6 +83317,8 @@ export interface UpdateBillingFeedbackOptionRequest {
   description?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: UpdateBillingFeedbackOptionRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateBillingMeterRequestExpandList = Array<string>;
@@ -82796,6 +83329,8 @@ export interface UpdateBillingMeterRequest {
   display_name?: string | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: UpdateBillingMeterRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateBillingPortalConfigurationRequestBusinessProfileHeadlineCase1 = "";
 /** The messaging shown to customers in the portal. */
@@ -83153,6 +83688,8 @@ export interface UpdateBillingPortalConfigurationRequest {
   metadata?: UpdateBillingPortalConfigurationRequestMetadata | undefined;
   /** The name of the configuration. */
   name?: UpdateBillingPortalConfigurationRequestName | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateChargeRequestExpandList = Array<string>;
@@ -83191,6 +83728,8 @@ export interface UpdateChargeRequest {
   shipping?: CreateChargeRequestShipping | undefined;
   /** A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details. */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The address of the customer */
 export interface UpdateCheckoutSessionRequestCollectedInformationShippingDetailsAddress {
@@ -83539,6 +84078,8 @@ export interface UpdateCheckoutSessionRequest {
   payment_intent_data?: UpdateCheckoutSessionRequestPaymentIntentData | undefined;
   /** The shipping rate options to apply to this Session. Up to a maximum of 5. */
   shipping_options?: UpdateCheckoutSessionRequestShippingOptions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateClimateOrderRequestBeneficiaryCase0PublicNameCase1 = "";
 /** Publicly displayable name for the end beneficiary of carbon removal. */
@@ -83567,6 +84108,8 @@ export interface UpdateClimateOrderRequest {
   expand?: UpdateClimateOrderRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateClimateOrderRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The customer account's tax exemption status: `none`, `exempt`, or `reverse`. When `reverse`, invoice and receipt PDFs include "Reverse charge". */
 export type UpdateCoreAccountRequestConfigurationCustomerAutomaticIndirectTaxExempt =
@@ -85150,6 +85693,8 @@ export interface UpdateCoreAccountRequest {
   include?: UpdateCoreAccountRequestIncludeList | undefined;
   /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
   metadata?: UpdateCoreAccountRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Purpose of additional address. */
 export type UpdateCoreAccountPersonRequestAdditionalAddressesItemPurpose = "registered";
@@ -85432,6 +85977,8 @@ export interface UpdateCoreAccountPersonRequest {
   script_names?: CreateCoreAccountRequestIdentityIndividualScriptNames | undefined;
   /** The person's last name. */
   surname?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The list of event types enabled for delivery to this destination. Event scopes are configured when the destination is created. */
 export type UpdateCoreEventDestinationRequestEnabledEventsList = Array<string>;
@@ -85462,6 +86009,8 @@ export interface UpdateCoreEventDestinationRequest {
   name?: string | undefined;
   /** New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP. */
   webhook_endpoint?: CreateCoreEventDestinationRequestWebhookEndpoint | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export interface UpdateCoreVaultUsBankAccountRequest {
   /** The ID of the USBankAccount object. */
@@ -85470,6 +86019,8 @@ export interface UpdateCoreVaultUsBankAccountRequest {
   fedwire_routing_number?: string | undefined;
   /** The bank account's ACH routing number can be provided for update if it was empty previously. */
   routing_number?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateCouponRequestCurrencyOptionsValue = CreateCouponRequestCurrencyOptionsValue;
 /** Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). */
@@ -85495,6 +86046,8 @@ export interface UpdateCouponRequest {
   metadata?: UpdateCouponRequestMetadata | undefined;
   /** Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set. */
   name?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateCreditNoteRequestExpandList = Array<string>;
@@ -85509,6 +86062,8 @@ export interface UpdateCreditNoteRequest {
   memo?: string | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateCreditNoteRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateCustomerRequestAddressCase0 = CreateCustomerRequestAddressCase0;
 export type UpdateCustomerRequestAddressCase1 = "";
@@ -85659,6 +86214,8 @@ export interface UpdateCustomerRequest {
   /** The customer's tax exemption. One of `none`, `exempt`, or `reverse`. */
   tax_exempt?: UpdateCustomerRequestTaxExempt | (string & {}) | undefined;
   validate?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateCustomerBalanceTransactionRequestExpandList = Array<string>;
@@ -85680,6 +86237,8 @@ export interface UpdateCustomerBalanceTransactionRequest {
   expand?: UpdateCustomerBalanceTransactionRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateCustomerBalanceTransactionRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The type of entity that holds the account. This can be either `individual` or `company`. */
 export type UpdateCustomerSourceRequestAccountHolderType = "company" | "individual";
@@ -85725,6 +86284,8 @@ export interface UpdateCustomerSourceRequest {
   /** Cardholder name. */
   name?: string | undefined;
   owner?: CreateSourceRequestOwner | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateCustomerSourceResponseBody = Card | BankAccount | Source;
 export type UpdateCustomerSourceResponse = UpdateCustomerSourceResponseBody;
@@ -86162,6 +86723,8 @@ export interface UpdateDisputeRequest {
   metadata?: UpdateDisputeRequestMetadata | undefined;
   /** Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default). */
   submit?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateEntitlementsFeatureRequestExpandList = Array<string>;
@@ -86184,6 +86747,8 @@ export interface UpdateEntitlementsFeatureRequest {
   metadata?: UpdateEntitlementsFeatureRequestMetadata | undefined;
   /** The feature's name, for your own purpose, not meant to be displayable to the customer. */
   name?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateFileLinkRequestExpandList = Array<string>;
@@ -86209,6 +86774,8 @@ export interface UpdateFileLinkRequest {
   expires_at?: UpdateFileLinkRequestExpiresAt | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateFileLinkRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateIdentityVerificationSessionRequestExpandList = Array<string>;
@@ -86264,6 +86831,8 @@ export interface UpdateIdentityVerificationSessionRequest {
   provided_details?: CreateIdentityVerificationSessionRequestProvidedDetails | undefined;
   /** The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. */
   type?: UpdateIdentityVerificationSessionRequestType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateInvoiceRequestAccountTaxIdsCase0List = Array<string>;
 export type UpdateInvoiceRequestAccountTaxIdsCase1 = "";
@@ -87026,6 +87595,8 @@ export interface UpdateInvoiceRequest {
   statement_descriptor?: string | undefined;
   /** If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value. */
   transfer_data?: UpdateInvoiceRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateInvoiceitemRequestDiscountsCase0Item = CreateInvoiceRequestDiscountsCase0Item;
 export type UpdateInvoiceitemRequestDiscountsCase0List =
@@ -87112,6 +87683,8 @@ export interface UpdateInvoiceitemRequest {
   tax_rates?: UpdateInvoiceitemRequestTaxRates | undefined;
   /** The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places. */
   unit_amount_decimal?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateInvoiceLineRequestDiscountsCase0Item = CreateInvoiceRequestDiscountsCase0Item;
 export type UpdateInvoiceLineRequestDiscountsCase0List =
@@ -87327,6 +87900,8 @@ export interface UpdateInvoiceLineRequest {
   tax_amounts?: UpdateInvoiceLineRequestTaxAmounts | undefined;
   /** The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates. */
   tax_rates?: UpdateInvoiceLineRequestTaxRates | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateIssuingAuthorizationRequestExpandList = Array<string>;
@@ -87345,6 +87920,8 @@ export interface UpdateIssuingAuthorizationRequest {
   expand?: UpdateIssuingAuthorizationRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateIssuingAuthorizationRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Reason why the `status` of this card is `canceled`. */
 export type UpdateIssuingCardRequestCancellationReason = "lost" | "stolen";
@@ -88381,6 +88958,8 @@ export interface UpdateIssuingCardRequest {
   spending_controls?: UpdateIssuingCardRequestSpendingControls | undefined;
   /** Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`. */
   status?: UpdateIssuingCardRequestStatus | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The cardholder's billing address. */
 export type UpdateIssuingCardholderRequestBillingAddress = CreateIssuingCardRequestShippingAddress;
@@ -89441,6 +90020,8 @@ export interface UpdateIssuingCardholderRequest {
   spending_controls?: UpdateIssuingCardholderRequestSpendingControls | undefined;
   /** Specifies whether to permit authorizations on this cardholder's cards. */
   status?: UpdateIssuingCardholderRequestStatus | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateIssuingDisputeRequestEvidenceCanceledCase0AdditionalDocumentationCase1 = "";
 /** (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. */
@@ -89881,6 +90462,8 @@ export interface UpdateIssuingDisputeRequest {
   expand?: UpdateIssuingDisputeRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateIssuingDisputeRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateIssuingPersonalizationDesignRequestCardLogoCase1 = "";
 /** The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`. */
@@ -89962,6 +90545,8 @@ export interface UpdateIssuingPersonalizationDesignRequest {
   preferences?: CreateIssuingPersonalizationDesignRequestPreferences | undefined;
   /** If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design. */
   transfer_lookup_key?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateIssuingTokenRequestExpandList = Array<string>;
@@ -89974,6 +90559,8 @@ export interface UpdateIssuingTokenRequest {
   expand?: UpdateIssuingTokenRequestExpandList | undefined;
   /** Specifies which status the token should be updated to. */
   status: UpdateIssuingTokenRequestStatus | (string & {});
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateIssuingTransactionRequestExpandList = Array<string>;
@@ -89990,6 +90577,8 @@ export interface UpdateIssuingTransactionRequest {
   expand?: UpdateIssuingTransactionRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateIssuingTransactionRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting null to them. */
 export type UpdateMoneyManagementFinancialAccountRequestMetadataMap = {
@@ -90002,6 +90591,8 @@ export interface UpdateMoneyManagementFinancialAccountRequest {
   display_name?: string | undefined;
   /** Set of key-value pairs that you can attach to the FinancialAccount. Individual keys can be unset by posting null to them. */
   metadata?: UpdateMoneyManagementFinancialAccountRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Closed Enum. The type of the bank account (checking or savings). */
 export type UpdateMoneyManagementOutboundSetupIntentRequestPayoutMethodDataBankAccountBankAccountType =
@@ -90049,6 +90640,8 @@ export interface UpdateMoneyManagementOutboundSetupIntentRequest {
   payout_method?: string | undefined;
   /** If no payout_method provided, used to create the underlying credential that is set up for outbound money movement. If a payout_method provided, used to update data on the credential linked to this setup intent. Only card expiry (exp_month, exp_year) can be updated in the case where payout_method is provided. */
   payout_method_data?: UpdateMoneyManagementOutboundSetupIntentRequestPayoutMethodData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type UpdateMoneyManagementPayoutIntentRequestMetadataMap = {
@@ -90152,6 +90745,8 @@ export interface UpdateMoneyManagementPayoutIntentRequest {
   statement_descriptor?: string | undefined;
   /** To which payout method the payout is sent. */
   to?: UpdateMoneyManagementPayoutIntentRequestTo | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Set of key-value pairs that you can attach to the Transaction. Individual keys can be unset by posting null to them. */
 export type UpdateMoneyManagementTransactionRequestMetadataMap = {
@@ -90164,6 +90759,8 @@ export interface UpdateMoneyManagementTransactionRequest {
   description?: string | undefined;
   /** Set of key-value pairs that you can attach to the Transaction. Individual keys can be unset by posting null to them. */
   metadata?: UpdateMoneyManagementTransactionRequestMetadataMap | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdatePaymentIntentRequestAllowedPaymentMethodTypesItem =
   | "acss_debit"
@@ -93244,6 +93841,8 @@ export interface UpdatePaymentIntentRequest {
   transfer_data?: UpdatePaymentIntentRequestTransferData | undefined;
   /** A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts). */
   transfer_group?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Configuration when `type=hosted_confirmation`. */
 export type UpdatePaymentLinkRequestAfterCompletionHostedConfirmation =
@@ -94151,6 +94750,8 @@ export interface UpdatePaymentLinkRequest {
   tax_id_collection?: UpdatePaymentLinkRequestTaxIdCollection | undefined;
   /** The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to. */
   transfer_data?: UpdatePaymentLinkRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`. */
 export type UpdatePaymentMethodRequestAllowRedisplay = "always" | "limited" | "unspecified";
@@ -94246,6 +94847,8 @@ export interface UpdatePaymentMethodRequest {
   metadata?: UpdatePaymentMethodRequestMetadata | undefined;
   /** If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method. */
   us_bank_account?: UpdatePaymentMethodRequestUsBankAccount | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** The account's preference for whether or not to display this payment method. */
 export type UpdatePaymentMethodConfigurationRequestAcssDebitDisplayPreferencePreference =
@@ -95540,6 +96143,8 @@ export interface UpdatePaymentMethodConfigurationRequest {
   wechat_pay?: UpdatePaymentMethodConfigurationRequestWechatPay | undefined;
   /** Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability. */
   zip?: UpdatePaymentMethodConfigurationRequestZip | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdatePaymentMethodDomainRequestExpandList = Array<string>;
@@ -95550,6 +96155,8 @@ export interface UpdatePaymentMethodDomainRequest {
   enabled?: boolean | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: UpdatePaymentMethodDomainRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdatePayoutRequestExpandList = Array<string>;
@@ -95566,6 +96173,8 @@ export interface UpdatePayoutRequest {
   expand?: UpdatePayoutRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdatePayoutRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdatePlanRequestExpandList = Array<string>;
@@ -95590,6 +96199,8 @@ export interface UpdatePlanRequest {
   product?: string | undefined;
   /** Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan). */
   trial_period_days?: number | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links. */
 export type UpdatePriceRequestCurrencyOptionsCase0ValueCustomUnitAmount =
@@ -95668,6 +96279,8 @@ export interface UpdatePriceRequest {
   tax_behavior?: UpdatePriceRequestTaxBehavior | (string & {}) | undefined;
   /** If set to true, will atomically remove the lookup key from the existing price, and assign it to this price. */
   transfer_lookup_key?: boolean | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateProductRequestDescriptionCase1 = "";
 /** The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. */
@@ -95759,6 +96372,8 @@ export interface UpdateProductRequest {
   unit_label?: UpdateProductRequestUnitLabel | undefined;
   /** A URL of a publicly-accessible webpage for this product. */
   url?: UpdateProductRequestUrl | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateProductCatalogTrialOfferRequestExpandList = Array<string>;
@@ -95769,6 +96384,8 @@ export interface UpdateProductCatalogTrialOfferRequest {
   active?: boolean | undefined;
   /** Specifies which fields in the response should be expanded. */
   expand?: UpdateProductCatalogTrialOfferRequestExpandList | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdatePromotionCodeRequestExpandList = Array<string>;
@@ -95800,6 +96417,8 @@ export interface UpdatePromotionCodeRequest {
   metadata?: UpdatePromotionCodeRequestMetadata | undefined;
   /** Settings that restrict the redemption of the promotion code. */
   restrictions?: UpdatePromotionCodeRequestRestrictions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateQuoteRequestApplicationFeeAmountCase1 = "";
 /** The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field. */
@@ -96040,6 +96659,8 @@ export interface UpdateQuoteRequest {
   subscription_data?: UpdateQuoteRequestSubscriptionData | undefined;
   /** The data with which to automatically create a Transfer for each of the invoices. */
   transfer_data?: UpdateQuoteRequestTransferData | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateRadarValueListRequestExpandList = Array<string>;
@@ -96056,6 +96677,8 @@ export interface UpdateRadarValueListRequest {
   metadata?: UpdateRadarValueListRequestMetadataMap | undefined;
   /** The human-readable name of the value list. */
   name?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateRefundRequestExpandList = Array<string>;
@@ -96072,6 +96695,8 @@ export interface UpdateRefundRequest {
   expand?: UpdateRefundRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateRefundRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateSetupIntentRequestAllowedPaymentMethodTypesCase0Item =
   | "acss_debit"
@@ -97450,6 +98075,8 @@ export interface UpdateSetupIntentRequest {
   payment_method_data?: UpdateSetupIntentRequestPaymentMethodData | undefined;
   /** Payment method-specific configuration for this SetupIntent. */
   payment_method_options?: UpdateSetupIntentRequestPaymentMethodOptions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateShippingRateRequestExpandList = Array<string>;
@@ -97497,6 +98124,8 @@ export interface UpdateShippingRateRequest {
   metadata?: UpdateShippingRateRequestMetadata | undefined;
   /** Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. */
   tax_behavior?: UpdateShippingRateRequestTaxBehavior | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateSourceRequestExpandList = Array<string>;
@@ -97606,6 +98235,8 @@ export interface UpdateSourceRequest {
   owner?: CreateSourceRequestOwner | undefined;
   /** Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it. */
   source_order?: UpdateSourceRequestSourceOrder | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateSubscriptionRequestAddInvoiceItemsItemDiscountsItem =
   CreateInvoiceRequestDiscountsCase0Item;
@@ -98629,6 +99260,8 @@ export interface UpdateSubscriptionRequest {
   trial_from_plan?: boolean | undefined;
   /** Settings related to subscription trials. */
   trial_settings?: UpdateSubscriptionRequestTrialSettings | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateSubscriptionItemRequestBillingThresholdsCase0 =
   CreateInvoicesCreatePreviewRequestScheduleDetailsPhasesItemItemsItemBillingThresholdsCase0;
@@ -98740,6 +99373,8 @@ export interface UpdateSubscriptionItemRequest {
   quantity?: number | undefined;
   /** A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates. */
   tax_rates?: UpdateSubscriptionItemRequestTaxRates | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Type of the account referenced in the request. */
 export type UpdateSubscriptionScheduleRequestDefaultSettingsAutomaticTaxLiabilityType =
@@ -99469,6 +100104,8 @@ export interface UpdateSubscriptionScheduleRequest {
     | UpdateSubscriptionScheduleRequestProrationBehavior
     | (string & {})
     | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTaxRateRequestExpandList = Array<string>;
@@ -99529,6 +100166,8 @@ export interface UpdateTaxRateRequest {
   state?: string | undefined;
   /** The high-level tax type, such as `vat` or `sales_tax`. */
   tax_type?: UpdateTaxRateRequestTaxType | (string & {}) | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateTaxRegistrationRequestActiveFromCase0 = "now";
 /** Time at which the registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch. */
@@ -99553,6 +100192,8 @@ export interface UpdateTaxRegistrationRequest {
   expand?: UpdateTaxRegistrationRequestExpandList | undefined;
   /** If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch. */
   expires_at?: UpdateTaxRegistrationRequestExpiresAt | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateTerminalConfigurationRequestBbposWisepad3Case0SplashscreenCase1 = "";
 /** A File ID representing an image you want to display on the reader. */
@@ -100123,6 +100764,8 @@ export interface UpdateTerminalConfigurationRequest {
   verifone_v660p?: UpdateTerminalConfigurationRequestVerifoneV660p | undefined;
   /** Configurations for connecting to a WiFi network. */
   wifi?: UpdateTerminalConfigurationRequestWifi | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateTerminalConfigurationResponseBody =
   | TerminalConfiguration
@@ -100189,6 +100832,8 @@ export interface UpdateTerminalLocationRequest {
   metadata?: UpdateTerminalLocationRequestMetadata | undefined;
   /** The phone number for the location. */
   phone?: UpdateTerminalLocationRequestPhone | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateTerminalLocationResponseBody = TerminalLocation | DeletedTerminalLocation;
 export type UpdateTerminalLocationResponse = UpdateTerminalLocationResponseBody;
@@ -100212,6 +100857,8 @@ export interface UpdateTerminalReaderRequest {
   label?: UpdateTerminalReaderRequestLabel | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateTerminalReaderRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateTerminalReaderResponseBody = TerminalReader | DeletedTerminalReader;
 export type UpdateTerminalReaderResponse = UpdateTerminalReaderResponseBody;
@@ -100253,6 +100900,8 @@ export interface UpdateTestHelpersTreasuryOutboundPaymentRequest {
   expand?: UpdateTestHelpersTreasuryOutboundPaymentRequestExpandList | undefined;
   /** Details about network-specific tracking information. */
   tracking_details: UpdateTestHelpersTreasuryOutboundPaymentRequestTrackingDetails;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTestHelpersTreasuryOutboundTransferRequestExpandList = Array<string>;
@@ -100284,6 +100933,8 @@ export interface UpdateTestHelpersTreasuryOutboundTransferRequest {
   expand?: UpdateTestHelpersTreasuryOutboundTransferRequestExpandList | undefined;
   /** Details about network-specific tracking information. */
   tracking_details: UpdateTestHelpersTreasuryOutboundTransferRequestTrackingDetails;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTopupRequestExpandList = Array<string>;
@@ -100302,6 +100953,8 @@ export interface UpdateTopupRequest {
   expand?: UpdateTopupRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateTopupRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTransferRequestExpandList = Array<string>;
@@ -100320,6 +100973,8 @@ export interface UpdateTransferRequest {
   expand?: UpdateTransferRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateTransferRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTransferReversalRequestExpandList = Array<string>;
@@ -100337,6 +100992,8 @@ export interface UpdateTransferReversalRequest {
   expand?: UpdateTransferReversalRequestExpandList | undefined;
   /** Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. */
   metadata?: UpdateTransferReversalRequestMetadata | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 /** Specifies which fields in the response should be expanded. */
 export type UpdateTreasuryFinancialAccountRequestExpandList = Array<string>;
@@ -100440,6 +101097,8 @@ export interface UpdateTreasuryFinancialAccountRequest {
   nickname?: UpdateTreasuryFinancialAccountRequestNickname | undefined;
   /** The set of functionalities that the platform can restrict on the FinancialAccount. */
   platform_restrictions?: UpdateTreasuryFinancialAccountRequestPlatformRestrictions | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type UpdateWebhookEndpointRequestDescriptionCase1 = "";
 /** An optional description of what the webhook is used for. */
@@ -100750,6 +101409,8 @@ export interface UpdateWebhookEndpointRequest {
   metadata?: UpdateWebhookEndpointRequestMetadata | undefined;
   /** The URL of the webhook endpoint. */
   url?: string | undefined;
+  /** A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests. */
+  idempotencyKey?: string | undefined;
 }
 export type CreateAccountError = StripeOpError;
 /** Create an account <p>With <a href="/docs/connect">Connect</a>, you can create Stripe accounts for your users. To do this, you'll first need to <a href="https://dashboard.stripe.com/account/applications/settings">register your platform</a>.</p> <p>If you've already collected information for your connected accounts, you <a href="/connect/marketplace/tasks/create#prefill-account-information">can prefill that information</a> when creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding. You can prefill any information on the account.</p> */
@@ -111981,6 +112642,7 @@ function __c0(j: number): any {
         S.Struct({
           domain_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112013,6 +112675,7 @@ function __c2(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112046,6 +112709,7 @@ function __c3(j: number): any {
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112378,6 +113042,7 @@ function __c9(j: number): any {
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112449,6 +113114,7 @@ function __c11(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           transaction: S.optional(S.String),
           treasury: S.optional(__S(353, __c11, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112591,6 +113257,7 @@ function __c13(j: number): any {
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112625,6 +113292,7 @@ function __c14(j: number): any {
           physical_bundle: S.String,
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -112706,6 +113374,7 @@ function __c17(j: number): any {
           bank_account: S.optional(__S(544, __c17, 0)),
           financial_account: S.String,
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/financial_addresses", code: 200 }),
         ),
@@ -112795,6 +113464,7 @@ function __c19(j: number): any {
           description: S.optional(S.String),
           from: __S(608, __c19, 0),
           to: __S(640, __c20, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/inbound_transfers", code: 200 }),
         ),
@@ -112909,6 +113579,7 @@ function __c23(j: number): any {
           recipient_verification: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           to: __S(736, __c23, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_payments", code: 200 }),
         ),
@@ -113051,6 +113722,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113070,6 +113742,7 @@ function __c27(j: number): any {
           amount: S.optional(S.Number),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113106,6 +113779,7 @@ function __c29(j: number): any {
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
           usage_intent: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/outbound_setup_intents", code: 200 }),
         ),
@@ -113210,6 +113884,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113234,6 +113909,7 @@ function __c34(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: __S(1184, __c37, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/money_management/payout_intents", code: 200 })),
       ).annotate({ identifier: "CreateMoneyManagementPayoutIntentRequest" });
   }
@@ -113425,6 +114101,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113441,6 +114118,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113457,6 +114135,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113473,6 +114152,7 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113491,6 +114171,7 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113507,6 +114188,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113524,6 +114206,7 @@ function __c44(j: number): any {
         S.Struct({
           payout_method: S.String,
           recipient: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113580,6 +114263,7 @@ function __c46(j: number): any {
           code_challenge: S.optional(S.String),
           code_challenge_method: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113630,6 +114314,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113649,6 +114334,7 @@ function __c49(j: number): any {
           amount: __S(7680, __c240, 0),
           network: S.String,
           statement_descriptor: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113673,6 +114359,7 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -113998,6 +114685,7 @@ function __c54(j: number): any {
           transfer_data: S.optional(__S(1738, __c54, 10)),
           transfer_group: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114114,6 +114802,7 @@ function __c57(j: number): any {
           amount: S.optional(S.Number),
           currency: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114133,6 +114822,7 @@ function __c58(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114189,6 +114879,7 @@ function __c59(j: number): any {
           statement_descriptor: S.optional(S.String),
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114394,6 +115085,7 @@ function __c60(j: number): any {
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(S.Unknown),
           use_stripe_sdk: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114456,6 +115148,7 @@ function __c61(j: number): any {
           payment_details: S.optional(__S(1956, __c61, 4)),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114476,6 +115169,7 @@ function __c62(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114494,6 +115188,7 @@ function __c63(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114678,6 +115373,7 @@ function __c64(j: number): any {
           subscription_data: S.optional(__S(2064, __c64, 16)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(__S(17376, __c543, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -114974,6 +115670,7 @@ function __c67(j: number): any {
           us_bank_account: S.optional(__S(1760, __c55, 0)),
           wechat_pay: S.optional(S.Unknown),
           zip: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115004,6 +115701,7 @@ function __c69(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115085,6 +115783,7 @@ function __c70(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115213,6 +115912,7 @@ function __c73(j: number): any {
         S.Struct({
           payment_method: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115232,6 +115932,7 @@ function __c74(j: number): any {
           domain_name: S.String,
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115284,6 +115985,7 @@ function __c76(j: number): any {
         S.Struct({
           payment_method_domain: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115311,6 +116013,7 @@ function __c77(j: number): any {
           outcome: S.optional(S.String),
           payment_method_details: S.optional(__S(2596, __c81, 4)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115692,6 +116395,7 @@ function __c83(j: number): any {
           canceled_at: S.Number,
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115712,6 +116416,7 @@ function __c84(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           failed_at: S.Number,
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115733,6 +116438,7 @@ function __c85(j: number): any {
           name: S.String,
           payload: S.String,
           scope: __S(2752, __c86, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115778,6 +116484,7 @@ function __c87(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           guaranteed_at: S.Number,
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115800,6 +116507,7 @@ function __c88(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           shipping_details: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115858,6 +116566,7 @@ function __c90(j: number): any {
           outcome: S.String,
           processor_details: __S(2881, __c90, 1),
           refunded: S.optional(__S(2882, __c90, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115901,6 +116610,7 @@ function __c91(j: number): any {
           payment_method_details: __S(2596, __c81, 4),
           processor_details: S.optional(__S(2913, __c91, 1)),
           shipping_details: S.optional(__S(19808, __c619, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -115927,6 +116637,7 @@ function __c92(j: number): any {
           payout_method: S.optional(S.String),
           source_type: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/payouts", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -115983,6 +116694,7 @@ function __c94(j: number): any {
         S.Struct({
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116002,6 +116714,7 @@ function __c95(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116048,6 +116761,7 @@ function __c96(j: number): any {
           transform_usage: S.optional(__S(16930, __c529, 2)),
           trial_period_days: S.optional(S.Number),
           usage_type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/plans", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116144,6 +116858,7 @@ function __c97(j: number): any {
           transform_quantity: S.optional(__S(16930, __c529, 2)),
           unit_amount: S.optional(S.Number),
           unit_amount_decimal: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/prices", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116239,6 +116954,7 @@ function __c99(j: number): any {
           type: S.optional(S.String),
           unit_label: S.optional(S.String),
           url: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116305,6 +117021,7 @@ function __c101(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           name: S.String,
           scope: __S(2752, __c86, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116339,6 +117056,7 @@ function __c102(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           nickname: S.optional(S.String),
           price: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116403,6 +117121,7 @@ function __c104(j: number): any {
           product: S.String.pipe(T.Label()),
           entitlement_feature: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116458,6 +117177,7 @@ function __c106(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           promotion: __S(3392, __c106, 0),
           restrictions: S.optional(__S(3393, __c106, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116593,6 +117313,7 @@ function __c109(j: number): any {
           subscription_data: S.optional(__S(3492, __c109, 4)),
           test_clock: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/quotes", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -116739,6 +117460,7 @@ function __c112(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116757,6 +117479,7 @@ function __c113(j: number): any {
         S.Struct({
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116776,6 +117499,7 @@ function __c114(j: number): any {
           quote: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116852,6 +117576,7 @@ function __c115(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           payment_details: __S(3685, __c115, 5),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117031,6 +117756,7 @@ function __c116(j: number): any {
           item_type: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117100,6 +117826,7 @@ function __c120(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           value: S.String,
           value_list: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117150,6 +117877,7 @@ function __c121(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           payments: S.optional(__S(3875, __c121, 3)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117249,6 +117977,7 @@ function __c124(j: number): any {
           reason: S.optional(S.String),
           refund_application_fee: S.optional(S.Boolean),
           reverse_transfer: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/refunds", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -117262,6 +117991,7 @@ function __c125(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117294,6 +118024,7 @@ function __c126(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           parameters: S.optional(__S(4032, __c126, 0)),
           report_type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117344,6 +118075,7 @@ function __c128(j: number): any {
         S.Struct({
           review: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117595,6 +118327,7 @@ function __c130(j: number): any {
           single_use: S.optional(__S(6912, __c216, 0)),
           usage: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117736,6 +118469,7 @@ function __c132(j: number): any {
           intent: S.String.pipe(T.Label()),
           cancellation_reason: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117935,6 +118669,7 @@ function __c133(j: number): any {
           payment_method_options: S.optional(__S(4267, __c133, 11)),
           return_url: S.optional(S.String),
           use_stripe_sdk: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117955,6 +118690,7 @@ function __c134(j: number): any {
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -117979,6 +118715,7 @@ function __c135(j: number): any {
           tax_behavior: S.optional(S.String),
           tax_code: S.optional(S.String),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118072,6 +118809,7 @@ function __c137(j: number): any {
           token: S.optional(S.String),
           type: S.optional(S.String),
           usage: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/sources", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -118537,6 +119275,7 @@ function __c140(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           title: S.String,
           usage_threshold: S.optional(__S(4482, __c140, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118590,6 +119329,7 @@ function __c142(j: number): any {
           source: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           values: __S(6176, __c193, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118730,6 +119470,7 @@ function __c143(j: number): any {
           trial_from_plan: S.optional(S.Boolean),
           trial_period_days: S.optional(S.Number),
           trial_settings: S.optional(__S(4641, __c145, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118792,6 +119533,7 @@ function __c146(j: number): any {
           quantity: S.optional(S.Number),
           subscription: S.String,
           tax_rates: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118811,6 +119553,7 @@ function __c147(j: number): any {
           subscription: S.String.pipe(T.Label()),
           billing_mode: __S(17536, __c548, 0),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118832,6 +119575,7 @@ function __c148(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoicing_behavior: S.optional(S.String),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -118854,6 +119598,7 @@ function __c149(j: number): any {
           payment_behavior: S.optional(S.String),
           proration_behavior: S.optional(S.String),
           proration_date: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119032,6 +119777,7 @@ function __c150(j: number): any {
           pause_schedules: S.optional(__S(4808, __c150, 8)),
           phases: S.optional(__S(4815, __c150, 15)),
           start_date: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119279,6 +120025,7 @@ function __c152(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_now: S.optional(S.Boolean),
           prorate: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119298,6 +120045,7 @@ function __c153(j: number): any {
           schedule: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           preserve_cancel_date: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119384,6 +120132,7 @@ function __c154(j: number): any {
           ship_from_details: S.optional(__S(4933, __c154, 5)),
           shipping_cost: S.optional(__S(4934, __c154, 6)),
           tax_date: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119558,6 +120307,7 @@ function __c159(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119578,6 +120328,7 @@ function __c160(j: number): any {
           owner: S.optional(__S(30464, __c952, 0)),
           type: S.String,
           value: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tax_ids", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -119604,6 +120355,7 @@ function __c161(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119646,6 +120398,7 @@ function __c163(j: number): any {
           percentage: S.Number,
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -119817,6 +120570,7 @@ function __c164(j: number): any {
           country_options: __S(5252, __c164, 4),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120047,6 +120801,7 @@ function __c166(j: number): any {
           defaults: S.optional(__S(5312, __c166, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           head_office: S.optional(__S(5313, __c166, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120104,6 +120859,7 @@ function __c168(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           posted_at: S.optional(S.Number),
           reference: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120218,6 +120974,7 @@ function __c171(j: number): any {
           original_transaction: S.String,
           reference: S.String,
           shipping_cost: S.optional(__S(5474, __c171, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120312,6 +121069,7 @@ function __c172(j: number): any {
           verifone_ux700: S.optional(__S(5512, __c172, 8)),
           verifone_v660p: S.optional(__S(5513, __c172, 9)),
           wifi: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120452,6 +121210,7 @@ function __c174(j: number): any {
         S.Struct({
           expand: S.optional(__S(6176, __c193, 0)),
           location: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120497,6 +121256,7 @@ function __c175(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120536,6 +121296,7 @@ function __c177(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120571,6 +121332,7 @@ function __c178(j: number): any {
           link_options: __S(5697, __c178, 1),
           link_type: S.String,
           on_behalf_of: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120615,6 +121377,7 @@ function __c179(j: number): any {
           location: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           registration_code: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120863,6 +121626,7 @@ function __c181(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120936,6 +121700,7 @@ function __c182(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           inputs: __S(5831, __c182, 7),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120965,6 +121730,7 @@ function __c183(j: number): any {
           collect_config: S.optional(__S(5856, __c183, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -120985,6 +121751,7 @@ function __c184(j: number): any {
           confirm_config: S.optional(__S(5773, __c180, 13)),
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121015,6 +121782,7 @@ function __c185(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.String,
           process_config: S.optional(__S(5920, __c185, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121036,6 +121804,7 @@ function __c186(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           process_config: S.optional(__S(5779, __c180, 19)),
           setup_intent: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121061,6 +121830,7 @@ function __c187(j: number): any {
           refund_application_fee: S.optional(S.Boolean),
           refund_payment_config: S.optional(__S(5779, __c180, 19)),
           reverse_transfer: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121090,6 +121860,7 @@ function __c188(j: number): any {
           cart: S.optional(__S(6016, __c188, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -121329,6 +122100,7 @@ function __c189(j: number): any {
           settings: S.optional(__S(6065, __c189, 17)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122261,6 +123033,7 @@ function __c218(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122403,6 +123176,7 @@ function __c219(j: number): any {
           return_url: S.optional(S.String),
           setup_future_usage: S.optional(S.String),
           shipping: S.optional(__S(7014, __c219, 6)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122569,6 +123343,7 @@ function __c222(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           reference: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -122796,6 +123571,7 @@ function __c224(j: number): any {
           risk_assessment: S.optional(__S(7173, __c224, 5)),
           verification_data: S.optional(__S(7174, __c224, 6)),
           wallet: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123221,6 +123997,7 @@ function __c229(j: number): any {
           close_authorization: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123306,6 +124083,7 @@ function __c231(j: number): any {
         S.Struct({
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123327,6 +124105,7 @@ function __c232(j: number): any {
           final_amount: S.Number,
           fleet: S.optional(__S(7268, __c227, 4)),
           fuel: S.optional(__S(7269, __c227, 5)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123346,6 +124125,7 @@ function __c233(j: number): any {
           authorization: S.String.pipe(T.Label()),
           confirmed: S.Boolean,
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123368,6 +124148,7 @@ function __c234(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           increment_amount: S.Number,
           is_amount_controllable: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123387,6 +124168,7 @@ function __c235(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           reverse_amount: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123405,6 +124187,7 @@ function __c236(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123445,6 +124228,7 @@ function __c237(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
           priority: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123553,6 +124337,7 @@ function __c242(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123571,6 +124356,7 @@ function __c243(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123589,6 +124375,7 @@ function __c244(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123607,6 +124394,7 @@ function __c245(j: number): any {
         S.Struct({
           card: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123625,6 +124413,7 @@ function __c246(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123643,6 +124432,7 @@ function __c247(j: number): any {
         S.Struct({
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123671,6 +124461,7 @@ function __c248(j: number): any {
           personalization_design: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           rejection_reasons: __S(7936, __c248, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123690,6 +124481,7 @@ function __c249(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           refund_amount: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123712,6 +124504,7 @@ function __c250(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123734,6 +124527,7 @@ function __c251(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           merchant_data: S.optional(__S(7296, __c228, 0)),
           purchase_details: S.optional(__S(7366, __c230, 6)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123752,6 +124546,7 @@ function __c252(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123771,6 +124566,7 @@ function __c253(j: number): any {
           match_result: S.String,
           payout_method: S.String,
           recipient: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123788,6 +124584,7 @@ function __c254(j: number): any {
         S.Struct({
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123828,6 +124625,7 @@ function __c255(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           interac_present: S.optional(__S(8161, __c255, 1)),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123847,6 +124645,7 @@ function __c256(j: number): any {
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           skip_non_required_inputs: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123865,6 +124664,7 @@ function __c257(j: number): any {
         S.Struct({
           reader: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123885,6 +124685,7 @@ function __c258(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
           name: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123934,6 +124735,7 @@ function __c260(j: number): any {
           test_clock: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           frozen_time: S.Number,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -123953,6 +124755,7 @@ function __c261(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           failure_details: S.optional(__S(8448, __c264, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124063,6 +124866,7 @@ function __c265(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124081,6 +124885,7 @@ function __c266(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124099,6 +124904,7 @@ function __c267(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124117,6 +124923,7 @@ function __c268(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124254,6 +125061,7 @@ function __c272(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124273,6 +125081,7 @@ function __c273(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124291,6 +125100,7 @@ function __c274(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124367,6 +125177,7 @@ function __c276(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124386,6 +125197,7 @@ function __c277(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           returned_details: S.optional(__S(8448, __c264, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124409,6 +125221,7 @@ function __c278(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124566,6 +125379,7 @@ function __c283(j: number): any {
           financial_account: S.String,
           initiating_payment_method_details: S.optional(__S(8929, __c279, 1)),
           network: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124703,6 +125517,7 @@ function __c285(j: number): any {
           reason: S.optional(S.String),
           shipping_address: S.optional(__S(6432, __c201, 0)),
           submit: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124869,6 +125684,7 @@ function __c287(j: number): any {
           authentication: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124887,6 +125703,7 @@ function __c288(j: number): any {
         S.Struct({
           description: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -124932,6 +125749,7 @@ function __c291(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           fingerprinting_result: S.optional(S.String),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125151,6 +125969,7 @@ function __c292(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           person: S.optional(__S(9360, __c292, 16)),
           pii: S.optional(__S(9361, __c292, 17)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/tokens", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -125178,6 +125997,7 @@ function __c293(j: number): any {
           source: S.optional(S.String),
           statement_descriptor: S.optional(S.String),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/topups", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -125231,6 +126051,7 @@ function __c295(j: number): any {
         S.Struct({
           topup: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125256,6 +126077,7 @@ function __c296(j: number): any {
           source_transaction: S.optional(S.String),
           source_type: S.optional(S.String),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125278,6 +126100,7 @@ function __c297(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           refund_application_fee: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125316,6 +126139,7 @@ function __c299(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_credit: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125335,6 +126159,7 @@ function __c300(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           received_debit: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125393,6 +126218,7 @@ function __c302(j: number): any {
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
           supported_currencies: __S(6176, __c193, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125586,6 +126412,7 @@ function __c307(j: number): any {
           financial_account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           forwarding_settings: S.optional(__S(9856, __c308, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125616,6 +126443,7 @@ function __c309(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125641,6 +126469,7 @@ function __c310(j: number): any {
           intra_stripe_flows: S.optional(__S(19776, __c618, 0)),
           outbound_payments: S.optional(__S(9762, __c305, 2)),
           outbound_transfers: S.optional(__S(9762, __c305, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125665,6 +126494,7 @@ function __c311(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           origin_payment_method: S.String,
           statement_descriptor: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125683,6 +126513,7 @@ function __c312(j: number): any {
         S.Struct({
           inbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125750,6 +126581,7 @@ function __c313(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125768,6 +126600,7 @@ function __c314(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125811,6 +126644,7 @@ function __c315(j: number): any {
           financial_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           statement_descriptor: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125829,6 +126663,7 @@ function __c316(j: number): any {
         S.Struct({
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125852,6 +126687,7 @@ function __c317(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -125947,6 +126783,7 @@ function __c322(j: number): any {
           event_time_window: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           value_settings: S.optional(__S(10338, __c323, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126041,6 +126878,7 @@ function __c326(j: number): any {
         S.Struct({
           account_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -126068,6 +126906,7 @@ function __c328(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreEventDestinationRequest" });
   }
@@ -126211,6 +127050,7 @@ function __c336(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126419,6 +127259,7 @@ function __c347(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -126671,6 +127512,7 @@ function __c359(j: number): any {
           identifier: S.optional(S.String),
           payload: __S(6208, __c194, 0),
           timestamp: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_events", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventRequest2" });
     case 1:
@@ -126983,6 +127825,7 @@ function __c372(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           external_account: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127017,6 +127860,7 @@ function __c374(j: number): any {
           event_name: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -127363,6 +128207,7 @@ function __c385(j: number): any {
           cancel: __S(12320, __c385, 0),
           event_name: S.String,
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_adjustments", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventAdjustmentRequest2" });
     case 2:
@@ -127734,9 +128579,9 @@ function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/v2/billing/meter_event_session", code: 200 }),
-        ),
+        S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_session", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventSessionRequest" });
     case 1:
       return S.suspend(() =>
@@ -128013,6 +128858,7 @@ function __c409(j: number): any {
       return S.suspend(() =>
         S.Struct({
           events: __S(13089, __c409, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/billing/meter_event_stream", code: 200 })),
       ).annotate({ identifier: "CreateBillingMeterEventStreamRequest" });
     case 3:
@@ -128309,6 +129155,7 @@ function __c422(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -128605,6 +129452,7 @@ function __c434(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -129097,6 +129945,7 @@ function __c450(j: number): any {
           locale: S.optional(S.String),
           on_behalf_of: S.optional(S.String),
           return_url: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -129598,6 +130447,7 @@ function __c467(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(14945, __c467, 1)),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/charges", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -130888,6 +131738,7 @@ function __c495(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(15872, __c496, 0)),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -131684,6 +132535,7 @@ function __c510(j: number): any {
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           ui_mode: S.optional(S.String),
           wallet_options: S.optional(__S(16771, __c524, 3)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -133396,6 +134248,7 @@ function __c563(j: number): any {
           refresh_url: S.optional(S.String),
           return_url: S.optional(S.String),
           type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -133434,6 +134287,7 @@ function __c565(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -133708,6 +134562,7 @@ function __c576(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           metric_tons: S.optional(S.String),
           product: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134085,6 +134940,7 @@ function __c590(j: number): any {
         S.Struct({
           order: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -134612,6 +135468,7 @@ function __c603(j: number): any {
           feed_type: S.String,
           metadata: __S(6208, __c194, 0),
           mode: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/product_catalog/imports", code: 200 })),
       ).annotate({ identifier: "CreateCommerceProductCatalogImportRequest" });
   }
@@ -135207,6 +136064,7 @@ function __c617(j: number): any {
           identity: S.optional(__S(19760, __c617, 16)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountRequest" });
   }
@@ -136424,6 +137282,7 @@ function __c643(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           applied_configurations: S.optional(__S(6560, __c205, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}/close", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountCloseRequest" });
   }
@@ -136739,6 +137598,7 @@ function __c657(j: number): any {
         S.Struct({
           account: S.String,
           use_case: __S(21025, __c657, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_links", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountLinkRequest" });
     case 3:
@@ -137013,6 +137873,7 @@ function __c668(j: number): any {
           script_addresses: S.optional(__S(20099, __c628, 3)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons", code: 200 }),
         ),
@@ -137334,6 +138195,7 @@ function __c681(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -137707,6 +138569,7 @@ function __c697(j: number): any {
           contact_phone: S.optional(S.String),
           display_name: S.optional(S.String),
           identity: S.optional(__S(22306, __c697, 2)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/account_tokens", code: 200 })),
       ).annotate({ identifier: "CreateCoreAccountTokenRequest" });
   }
@@ -138025,6 +138888,7 @@ function __c710(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -138076,6 +138940,7 @@ function __c711(j: number): any {
           snapshot_api_version: S.optional(S.String),
           type: S.String,
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations", code: 200 })),
       ).annotate({ identifier: "CreateCoreEventDestinationRequest" });
   }
@@ -138572,6 +139437,7 @@ function __c726(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/disable", code: 200 }),
         ),
@@ -138909,6 +139775,7 @@ function __c738(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/enable", code: 200 }),
         ),
@@ -139197,6 +140064,7 @@ function __c750(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}/ping", code: 200 }),
         ),
@@ -139487,6 +140355,7 @@ function __c762(j: number): any {
           currency: S.String,
           iban: S.optional(S.String),
           sort_code: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/gb_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultGbBankAccountRequest" });
   }
@@ -139763,6 +140632,7 @@ function __c774(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140032,6 +140902,7 @@ function __c785(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140316,6 +141187,7 @@ function __c796(j: number): any {
           currency: S.String,
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts", code: 200 })),
       ).annotate({ identifier: "CreateCoreVaultUsBankAccountRequest" });
   }
@@ -140853,6 +141725,7 @@ function __c809(j: number): any {
           metadata: S.optional(S.Unknown),
           settings: S.optional(__S(25902, __c809, 14)),
           tos_acceptance: S.optional(__S(6313, __c197, 9)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140873,6 +141746,7 @@ function __c810(j: number): any {
           capability: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           requested: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140890,6 +141764,7 @@ function __c811(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -140929,6 +141804,7 @@ function __c812(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141035,6 +141911,7 @@ function __c813(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141055,6 +141932,7 @@ function __c814(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141073,6 +141951,7 @@ function __c815(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141093,6 +141972,7 @@ function __c816(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141112,6 +141992,7 @@ function __c817(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141131,6 +142012,7 @@ function __c818(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141254,6 +142136,7 @@ function __c819(j: number): any {
           login_page: S.optional(__S(13952, __c436, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141285,6 +142168,7 @@ function __c820(j: number): any {
           receipt_email: S.optional(S.String),
           shipping: S.optional(__S(14976, __c468, 0)),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141391,6 +142275,7 @@ function __c821(j: number): any {
           metadata: S.optional(S.Unknown),
           payment_intent_data: S.optional(__S(26280, __c821, 8)),
           shipping_options: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141410,6 +142295,7 @@ function __c822(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           descriptor_code: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141429,6 +142315,7 @@ function __c823(j: number): any {
           beneficiary: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141642,6 +142529,7 @@ function __c824(j: number): any {
           identity: S.optional(__S(26382, __c824, 14)),
           include: S.optional(__S(6560, __c205, 0)),
           metadata: S.optional(__S(21920, __c685, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreAccountRequest" });
   }
@@ -141672,6 +142560,7 @@ function __c825(j: number): any {
           script_addresses: S.optional(__S(20039, __c626, 7)),
           script_names: S.optional(__S(20038, __c626, 6)),
           surname: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/core/accounts/{account_id}/persons/{id}", code: 200 }),
         ),
@@ -141690,6 +142579,7 @@ function __c826(j: number): any {
           metadata: S.optional(__S(21920, __c685, 0)),
           name: S.optional(S.String),
           webhook_endpoint: S.optional(__S(22784, __c712, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/event_destinations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreEventDestinationRequest" });
   }
@@ -141702,6 +142592,7 @@ function __c827(j: number): any {
           id: S.String.pipe(T.Label()),
           fedwire_routing_number: S.optional(S.String),
           routing_number: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/core/vault/us_bank_accounts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCoreVaultUsBankAccountRequest" });
   }
@@ -141716,6 +142607,7 @@ function __c828(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141736,6 +142628,7 @@ function __c829(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           memo: S.optional(S.String),
           metadata: S.optional(__S(6208, __c194, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141790,6 +142683,7 @@ function __c830(j: number): any {
           tax: S.optional(__S(26561, __c830, 1)),
           tax_exempt: S.optional(S.String),
           validate: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141811,6 +142705,7 @@ function __c831(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141843,6 +142738,7 @@ function __c832(j: number): any {
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
           owner: S.optional(__S(2624, __c82, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141952,6 +142848,7 @@ function __c833(j: number): any {
           ssn_last_4: S.optional(S.String),
           us_cfpb_data: S.optional(__S(26690, __c834, 2)),
           verification: S.optional(__S(6400, __c200, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -141995,6 +142892,7 @@ function __c835(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142050,6 +142948,7 @@ function __c836(j: number): any {
           intended_submission_method: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           submit: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142071,6 +142970,7 @@ function __c837(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           name: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142091,6 +142991,7 @@ function __c838(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142119,6 +143020,7 @@ function __c839(j: number): any {
           options: S.optional(__S(26848, __c839, 0)),
           provided_details: S.optional(__S(30720, __c960, 0)),
           type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142197,6 +143099,7 @@ function __c840(j: number): any {
           shipping_details: S.optional(S.Unknown),
           statement_descriptor: S.optional(S.String),
           transfer_data: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142230,6 +143133,7 @@ function __c841(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
           unit_amount_decimal: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142291,6 +143195,7 @@ function __c842(j: number): any {
           quantity_decimal: S.optional(S.String),
           tax_amounts: S.optional(S.Unknown),
           tax_rates: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142310,6 +143215,7 @@ function __c843(j: number): any {
           authorization: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142336,6 +143242,7 @@ function __c844(j: number): any {
           shipping: S.optional(__S(259, __c8, 3)),
           spending_controls: S.optional(__S(260, __c8, 4)),
           status: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142389,6 +143296,7 @@ function __c845(j: number): any {
           preferred_locales: S.optional(__S(6560, __c205, 0)),
           spending_controls: S.optional(__S(322, __c10, 2)),
           status: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142406,6 +143314,7 @@ function __c846(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142440,6 +143349,7 @@ function __c847(j: number): any {
           evidence: S.optional(__S(27104, __c847, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142466,6 +143376,7 @@ function __c848(j: number): any {
           physical_bundle: S.optional(S.String),
           preferences: S.optional(__S(512, __c16, 0)),
           transfer_lookup_key: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142485,6 +143396,7 @@ function __c849(j: number): any {
           token: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           status: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142504,6 +143416,7 @@ function __c850(j: number): any {
           transaction: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142523,6 +143436,7 @@ function __c851(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142541,6 +143455,7 @@ function __c852(j: number): any {
           id: S.String.pipe(T.Label()),
           payout_method: S.optional(S.String),
           payout_method_data: S.optional(__S(1025, __c32, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142563,6 +143478,7 @@ function __c853(j: number): any {
           schedule_options: S.optional(__S(1152, __c36, 0)),
           statement_descriptor: S.optional(S.String),
           to: S.optional(__S(1184, __c37, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/payout_intents/{id}", code: 200 }),
         ),
@@ -142577,6 +143493,7 @@ function __c854(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           metadata: S.optional(__S(21920, __c685, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/money_management/transactions/{id}", code: 200 }),
         ),
@@ -142787,6 +143704,7 @@ function __c855(j: number): any {
           statement_descriptor_suffix: S.optional(S.String),
           transfer_data: S.optional(__S(27367, __c855, 7)),
           transfer_group: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142903,6 +143821,7 @@ function __c856(j: number): any {
           subscription_data: S.optional(__S(27399, __c856, 7)),
           tax_id_collection: S.optional(__S(16481, __c515, 1)),
           transfer_data: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -142938,6 +143857,7 @@ function __c857(j: number): any {
           name: S.optional(S.String),
           percent_off: S.optional(S.Number),
           redeem_by: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/coupons", code: 200, contentType: "form-urlencoded" }),
         ),
@@ -143027,6 +143947,7 @@ function __c859(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           us_bank_account: S.optional(__S(27491, __c859, 3)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143109,6 +144030,7 @@ function __c860(j: number): any {
           us_bank_account: S.optional(__S(2305, __c72, 1)),
           wechat_pay: S.optional(__S(2305, __c72, 1)),
           zip: S.optional(__S(2305, __c72, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143128,6 +144050,7 @@ function __c861(j: number): any {
           payment_method_domain: S.String.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143147,6 +144070,7 @@ function __c862(j: number): any {
           payout: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143170,6 +144094,7 @@ function __c863(j: number): any {
           nickname: S.optional(S.String),
           product: S.optional(S.String),
           trial_period_days: S.optional(S.Number),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143195,6 +144120,7 @@ function __c864(j: number): any {
           nickname: S.optional(S.String),
           tax_behavior: S.optional(S.String),
           transfer_lookup_key: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143227,6 +144153,7 @@ function __c865(j: number): any {
           tax_details: S.optional(S.Unknown),
           unit_label: S.optional(S.Unknown),
           url: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143246,6 +144173,7 @@ function __c866(j: number): any {
           id: S.String.pipe(T.Label()),
           active: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143273,6 +144201,7 @@ function __c867(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           restrictions: S.optional(__S(27744, __c867, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143341,6 +144270,7 @@ function __c868(j: number): any {
           on_behalf_of: S.optional(S.Unknown),
           subscription_data: S.optional(__S(27779, __c868, 3)),
           transfer_data: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143388,6 +144318,7 @@ function __c869(j: number): any {
           refund_amount: S.optional(S.Number),
           refunds: S.optional(__S(27873, __c871, 1)),
           shipping_cost: S.optional(__S(27840, __c870, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143602,6 +144533,7 @@ function __c879(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143621,6 +144553,7 @@ function __c880(j: number): any {
           refund: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143822,6 +144755,7 @@ function __c881(j: number): any {
           payment_method_configuration: S.optional(S.String),
           payment_method_data: S.optional(__S(28193, __c881, 1)),
           payment_method_options: S.optional(__S(28203, __c881, 11)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143859,6 +144793,7 @@ function __c882(j: number): any {
           fixed_amount: S.optional(__S(28226, __c882, 2)),
           metadata: S.optional(S.Unknown),
           tax_behavior: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -143892,6 +144827,7 @@ function __c883(j: number): any {
           metadata: S.optional(S.Unknown),
           owner: S.optional(__S(2624, __c82, 0)),
           source_order: S.optional(__S(4453, __c139, 5)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144018,6 +144954,7 @@ function __c884(j: number): any {
           trial_end: S.optional(S.Unknown),
           trial_from_plan: S.optional(S.Boolean),
           trial_settings: S.optional(__S(4641, __c145, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144049,6 +144986,7 @@ function __c885(j: number): any {
           proration_date: S.optional(S.Number),
           quantity: S.optional(S.Number),
           tax_rates: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144169,6 +145107,7 @@ function __c886(j: number): any {
           pause_schedules: S.optional(S.Unknown),
           phases: S.optional(__S(28360, __c886, 8)),
           proration_behavior: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144195,6 +145134,7 @@ function __c887(j: number): any {
           metadata: S.optional(S.Unknown),
           state: S.optional(S.String),
           tax_type: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144215,6 +145155,7 @@ function __c888(j: number): any {
           active_from: S.optional(S.Unknown),
           expand: S.optional(__S(6176, __c193, 0)),
           expires_at: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144233,6 +145174,7 @@ function __c889(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144268,6 +145210,7 @@ function __c890(j: number): any {
           verifone_ux700: S.optional(S.Unknown),
           verifone_v660p: S.optional(S.Unknown),
           wifi: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144299,6 +145242,7 @@ function __c891(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           phone: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144323,6 +145267,7 @@ function __c892(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           label: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144346,6 +145291,7 @@ function __c893(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144387,6 +145333,7 @@ function __c895(j: number): any {
           outbound_transfer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           tracking_details: __S(28609, __c894, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144407,6 +145354,7 @@ function __c896(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144427,6 +145375,7 @@ function __c897(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144447,6 +145396,7 @@ function __c898(j: number): any {
           id: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144470,6 +145420,7 @@ function __c899(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           nickname: S.optional(S.Unknown),
           platform_restrictions: S.optional(__S(9793, __c306, 1)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144493,6 +145444,7 @@ function __c900(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
           url: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -144548,6 +145500,7 @@ function __c901(j: number): any {
           tax_id_data: S.optional(__S(20129, __c629, 1)),
           test_clock: S.optional(S.String),
           validate: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145227,6 +146180,7 @@ function __c919(j: number): any {
           description: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145270,6 +146224,7 @@ function __c921(j: number): any {
           customer: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           settings: S.optional(__S(29280, __c915, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145291,6 +146246,7 @@ function __c922(j: number): any {
           currency: S.String,
           expand: S.optional(__S(6176, __c193, 0)),
           funding_type: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145481,6 +146437,7 @@ function __c924(j: number): any {
           customer: S.optional(S.String),
           customer_account: S.optional(S.String),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145581,6 +146538,7 @@ function __c925(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payouts_action: S.optional(S.String),
           reason: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145602,6 +146560,7 @@ function __c926(j: number): any {
           metadata: S.optional(__S(6208, __c194, 0)),
           source: S.String,
           validate: S.optional(S.Boolean),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145630,6 +146589,7 @@ function __c928(j: number): any {
           id: S.String.pipe(T.Label()),
           amounts: S.optional(__S(6784, __c212, 0)),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145687,6 +146647,7 @@ function __c930(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           type: S.String,
           value: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145705,6 +146666,7 @@ function __c931(j: number): any {
         S.Struct({
           dispute: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145957,6 +146919,7 @@ function __c935(j: number): any {
           lookup_key: S.String,
           metadata: S.optional(__S(6208, __c194, 0)),
           name: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -145994,6 +146957,7 @@ function __c937(j: number): any {
           issuing_card: S.optional(S.String),
           nonce: S.optional(S.String),
           verification_session: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146037,6 +147001,7 @@ function __c939(j: number): any {
           file: S.String,
           file_link_data: S.optional(__S(30048, __c939, 0)),
           purpose: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/v1/files", code: 200, contentType: "multipart" })),
       ).annotate({ identifier: "CreateFileRequest" });
   }
@@ -146103,6 +147068,7 @@ function __c943(j: number): any {
           expires_at: S.optional(S.Number),
           file: S.String,
           metadata: S.optional(S.Unknown),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146121,6 +147087,7 @@ function __c944(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146245,6 +147212,7 @@ function __c946(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146463,6 +147431,7 @@ function __c947(j: number): any {
           account: S.String,
           components: __S(30325, __c947, 21),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146688,6 +147657,7 @@ function __c949(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146707,6 +147677,7 @@ function __c950(j: number): any {
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
           features: __S(6560, __c205, 0),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146745,6 +147716,7 @@ function __c951(j: number): any {
           permissions: __S(6560, __c205, 0),
           prefetch: S.optional(__S(6560, __c205, 0)),
           return_url: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146907,6 +147879,7 @@ function __c956(j: number): any {
           replacements: __S(6560, __c205, 0),
           request: S.optional(__S(30592, __c956, 0)),
           url: S.String,
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -146983,6 +147956,7 @@ function __c958(j: number): any {
           return_url: S.optional(S.String),
           type: S.optional(S.String),
           verification_flow: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147103,6 +148077,7 @@ function __c961(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147121,6 +148096,7 @@ function __c962(j: number): any {
         S.Struct({
           session: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -147219,6 +148195,7 @@ function __c963(j: number): any {
           statement_descriptor: S.optional(S.String),
           subscription: S.optional(S.String),
           transfer_data: S.optional(__S(17376, __c543, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149069,6 +150046,7 @@ function __c981(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31396, __c981, 4),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149099,6 +150077,7 @@ function __c983(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           payment_intent: S.optional(S.String),
           payment_record: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149117,6 +150096,7 @@ function __c984(j: number): any {
         S.Struct({
           account: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149136,6 +150116,7 @@ function __c985(j: number): any {
           invoice: S.String.pipe(T.Label()),
           auto_advance: S.optional(S.Boolean),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149172,6 +150153,7 @@ function __c986(j: number): any {
           tax_code: S.optional(S.Unknown),
           tax_rates: S.optional(__S(6176, __c193, 0)),
           unit_amount_decimal: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149271,6 +150253,7 @@ function __c989(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149295,6 +150278,7 @@ function __c990(j: number): any {
           paid_out_of_band: S.optional(S.Boolean),
           payment_method: S.optional(S.String),
           source: S.optional(S.String),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149324,6 +150308,7 @@ function __c991(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(31713, __c991, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149342,6 +150327,7 @@ function __c992(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149377,6 +150363,7 @@ function __c994(j: number): any {
         S.Struct({
           template: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149579,6 +150566,7 @@ function __c995(j: number): any {
           schedule_details: S.optional(__S(31851, __c995, 11)),
           subscription: S.optional(S.String),
           subscription_details: S.optional(__S(31855, __c995, 15)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149671,6 +150659,7 @@ function __c1001(j: number): any {
         S.Struct({
           invoice: S.String.pipe(T.Label()),
           expand: S.optional(__S(6176, __c193, 0)),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -149743,6 +150732,7 @@ function __c1002(j: number): any {
           expand: S.optional(__S(6176, __c193, 0)),
           invoice_metadata: S.optional(S.Unknown),
           lines: __S(32068, __c1002, 4),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
           T.Http({
             method: "POST",
