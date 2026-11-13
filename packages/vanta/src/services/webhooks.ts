@@ -272,6 +272,11 @@ export type V1QuestionnaireStatusChangedRequestQuestionnaireStatus =
   | "IN_PROGRESS"
   | "IN_REVIEW"
   | "EXTRACTING_QUESTIONS"
+  | "QUEUED_FOR_SECTION_EXTRACTION"
+  | "EXTRACTING_SECTIONS"
+  | "MAPPING_SECTIONS"
+  | "QUEUED_FOR_ANSWERING"
+  | "GENERATING_ANSWERS"
   | "QUEUED_FOR_EXTRACTION"
   | "PROCESSING"
   | "QUEUED_FOR_PROCESSING"
@@ -340,7 +345,7 @@ export interface V1VendorDecisionCreatedRequestVendorDecision {
   /** When the decision was last updated (ISO 8601). */
   lastUpdatedAt: string;
   /** Optional comments on the decision. */
-  comments?: string;
+  comments?: string | undefined;
 }
 export interface V1VendorDecisionCreatedRequestVendor {
   /** The vendor ID. */

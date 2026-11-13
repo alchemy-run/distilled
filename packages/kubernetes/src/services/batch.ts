@@ -69,19 +69,19 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap = {
 /** ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to. */
 export interface IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry {
   /** APIVersion defines the version of this resource that this field set applies to. The format is "group/version" just like the top-level APIVersion field. It is necessary to track the version of a field set because it cannot be automatically converted. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** FieldsType is the discriminator for the different fields format and version. There is currently only one possible value: "FieldsV1" */
-  fieldsType?: string;
+  fieldsType?: string | undefined;
   /** FieldsV1 holds the first JSON version format as described in the "FieldsV1" type. */
-  fieldsV1?: unknown;
+  fieldsV1?: unknown | undefined;
   /** Manager is an identifier of the workflow managing these fields. */
-  manager?: string;
+  manager?: string | undefined;
   /** Operation is the type of operation which lead to this ManagedFieldsEntry being created. The only valid values for this field are 'Apply' and 'Update'. */
-  operation?: string;
+  operation?: string | undefined;
   /** Subresource is the name of the subresource used to update that object, or empty string if the object was updated through the main resource. The value of this field is used to distinguish between managers, even if they share the same name. For example, a status update will be distinct from a regular update using the same manager name. Note that the APIVersion field is not related to the Subresource field and it always corresponds to the version of the main resource. */
-  subresource?: string;
+  subresource?: string | undefined;
   /** Time is the timestamp of when the ManagedFields entry was added. The timestamp will also be updated if a field is added, the manager changes any of the owned fields value or removes a field. The timestamp does not update when a field is removed from the entry because another manager took it over. */
-  time?: string;
+  time?: string | undefined;
 }
 /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
 export type IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList =
@@ -91,9 +91,9 @@ export interface IoK8sApimachineryPkgApisMetaV1OwnerReference {
   /** API version of the referent. */
   apiVersion: string;
   /** If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned. */
-  blockOwnerDeletion?: boolean;
+  blockOwnerDeletion?: boolean | undefined;
   /** If true, this reference points to the managing controller. */
-  controller?: boolean;
+  controller?: boolean | undefined;
   /** Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind: string;
   /** Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
@@ -107,42 +107,42 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList =
 /** ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. */
 export interface IoK8sApimachineryPkgApisMetaV1ObjectMeta {
   /** Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations */
-  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap;
+  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap | undefined;
   /** CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  creationTimestamp?: string;
+  creationTimestamp?: string | undefined;
   /** Number of seconds allowed for this object to gracefully terminate before it will be removed from the system. Only set when deletionTimestamp is also set. May only be shortened. Read-only. */
-  deletionGracePeriodSeconds?: number;
+  deletionGracePeriodSeconds?: number | undefined;
   /** DeletionTimestamp is RFC 3339 date and time at which this resource will be deleted. This field is set by the server when a graceful deletion is requested by the user, and is not directly settable by a client. The resource is expected to be deleted (no longer visible from resource lists, and not reachable by name) after the time in this field, once the finalizers list is empty. As long as the finalizers list contains items, deletion is blocked. Once the deletionTimestamp is set, this value may not be unset or be set further into the future, although it may be shortened or the resource may be deleted prior to this time. For example, a user may request that a pod is deleted in 30 seconds. The Kubelet will react by sending a graceful termination signal to the containers in the pod. After that 30 seconds, the Kubelet will send a hard termination signal (SIGKILL) to the container and after cleanup, remove the pod from the API. In the presence of network partitions, this object may still exist after this timestamp, until an administrator or automated process can determine the resource is fully terminated. If not set, graceful deletion of the object has not been requested. Populated by the system when a graceful deletion is requested. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  deletionTimestamp?: string;
+  deletionTimestamp?: string | undefined;
   /** Must be empty before the object is deleted from the registry. Each entry is an identifier for the responsible component that will remove the entry from the list. If the deletionTimestamp of the object is non-nil, entries in this list can only be removed. Finalizers may be processed and removed in any order. Order is NOT enforced because it introduces significant risk of stuck finalizers. finalizers is a shared field, any actor with permission can reorder it. If the finalizer list is processed in order, then this can lead to a situation in which the component responsible for the first finalizer in the list is waiting for a signal (field value, external system, or other) produced by a component responsible for a finalizer later in the list, resulting in a deadlock. Without enforced ordering finalizers are free to order amongst themselves and are not vulnerable to ordering changes in the list. */
-  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList;
+  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList | undefined;
   /** GenerateName is an optional prefix, used by the server, to generate a unique name ONLY IF the Name field has not been provided. If this field is used, the name returned to the client will be different than the name passed. This value will also be combined with a unique suffix. The provided value has the same validation rules as the Name field, and may be truncated by the length of the suffix required to make the value unique on the server. If this field is specified and the generated name exists, the server will return a 409. Applied only if Name is not specified. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#idempotency */
-  generateName?: string;
+  generateName?: string | undefined;
   /** A sequence number representing a specific generation of the desired state. Populated by the system. Read-only. */
-  generation?: number;
+  generation?: number | undefined;
   /** Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels */
-  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap;
+  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap | undefined;
   /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
-  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList;
+  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList | undefined;
   /** Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
-  name?: string;
+  name?: string | undefined;
   /** Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces */
-  namespace?: string;
+  namespace?: string | undefined;
   /** List of objects depended by this object. If ALL objects in the list have been deleted, this object will be garbage collected. If this object is managed by a controller, then an entry in this list will point to this controller, with the controller field set to true. There cannot be more than one managing controller. */
-  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList;
+  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList | undefined;
   /** An opaque value that represents the internal version of this object that can be used by clients to determine when objects have changed. May be used for optimistic concurrency, change detection, and the watch operation on a resource or set of resources. Clients must treat these values as opaque and passed unmodified back to the server. They may only be valid for a particular resource or set of resources. Populated by the system. Read-only. Value must be treated as opaque by clients and . More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
 export type IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList = Array<number>;
 /** PodFailurePolicyOnExitCodesRequirement describes the requirement for handling a failed pod based on its container exit codes. In particular, it lookups the .state.terminated.exitCode for each app container and init container status, represented by the .status.containerStatuses and .status.initContainerStatuses fields in the Pod status, respectively. Containers completed with success (exit code 0) are excluded from the requirement check. */
 export interface IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement {
   /** containerName restricts the check for exit codes to the container with the specified name. When null, the rule applies to all containers. When specified, it should match one the container or initContainer names in the pod template. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** operator represents the relationship between the container exit code(s) and the specified values. Containers completed with success (exit code 0) are excluded from the requirement check. Possible values are: - In: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is in the set of specified values. - NotIn: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is not in the set of specified values. Additional values are considered to be added in the future. Clients should react to an unknown operator by assuming the requirement is not satisfied. */
   operator: string;
   /** values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
@@ -151,7 +151,7 @@ export interface IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement {
 /** PodFailurePolicyOnPodConditionsPattern describes a pattern for matching an actual pod condition type. */
 export interface IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern {
   /** status specifies the required Pod condition status. To match a pod condition it is required that the specified status equals the pod condition status. Defaults to True. */
-  status?: string;
+  status?: string | undefined;
   /** type specifies the required Pod condition type. To match a pod condition it is required that specified type equals the pod condition type. */
   type: string;
 }
@@ -162,72 +162,74 @@ export type IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList =
 export interface IoK8sApiBatchV1PodFailurePolicyRule {
   /** action specifies the action taken on a pod failure when the requirements are satisfied. Possible values are: - FailJob: indicates that the pod's job is marked as Failed and all running pods are terminated. - FailIndex: indicates that the pod's index is marked as Failed and will not be restarted. - Ignore: indicates that the counter towards the .backoffLimit is not incremented and a replacement pod is created. - Count: indicates that the pod is handled in the default way - the counter towards the .backoffLimit is incremented. Additional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule. */
   action: string;
+  /** name of the pod failure policy rule. When a rule with the FailJob action fails the Job, its name is included in the Job failure condition message. The condition reason remains PodFailurePolicy. Unnamed rules are identified by their zero-based index in the message. The name must be a non-empty DNS label of at most 63 characters, containing only lowercase alphanumeric characters or hyphens, starting and ending with an alphanumeric character, and must be unique within the Job. This field is alpha-level and is only honored by servers that enable the PodFailurePolicyName feature gate. */
+  name?: string | undefined;
   /** onExitCodes represents the requirement on the container exit codes. */
-  onExitCodes?: IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement;
+  onExitCodes?: IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement | undefined;
   /** onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
-  onPodConditions?: IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList;
+  onPodConditions?: IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList | undefined;
 }
 /** rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
 export type IoK8sApiBatchV1PodFailurePolicyRulesList = Array<IoK8sApiBatchV1PodFailurePolicyRule>;
 /** PodFailurePolicy describes how failed pods influence the backoffLimit. */
 export interface IoK8sApiBatchV1PodFailurePolicy {
   /** rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
-  rules?: IoK8sApiBatchV1PodFailurePolicyRulesList;
+  rules?: IoK8sApiBatchV1PodFailurePolicyRulesList | undefined;
 }
 /** WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode {
   /** all specifies that all pods in the group must be disrupted together. */
-  all?: unknown;
+  all?: unknown | undefined;
   /** single specifies that pods can be disrupted independently from each other. */
-  single?: unknown;
+  single?: unknown | undefined;
 }
 /** WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim {
   /** name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL. */
   name: string;
   /** resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain. */
-  resourceClaimName?: string;
+  resourceClaimName?: string | undefined;
   /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain. */
-  resourceClaimTemplateName?: string;
+  resourceClaimTemplateName?: string | undefined;
 }
 /** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
 export type IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList =
-  Array<IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim>;
-/** TopologyConstraint defines a topology constraint for a PodGroup. */
-export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
-  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
+  Array<IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim>;
+/** WorkloadTopologyConstraint defines a topology constraint for a group of pods managed by a workload controller. */
+export interface IoK8sApiSchedulingV1WorkloadTopologyConstraint {
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup (or CompositePodGroup) must be colocated within the same domain instance. Different groups can land on different domain instances even if they derive from the same template. Nodes where this label is missing or has an empty value do not belong to any domain instance, so pods within the PodGroup/CompositePodGroup cannot be scheduled onto them. Examples: "topology.kubernetes.io/rack" */
   key: string;
 }
 /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
-export type IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList =
-  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export type IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1WorkloadTopologyConstraint>;
 /** WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints {
   /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
-  topology?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList;
+  topology?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList | undefined;
 }
 /** WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy {
   /** minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer. */
-  minCount?: number;
+  minCount?: number | undefined;
 }
 /** WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy {
   /** basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used. */
-  basic?: unknown;
+  basic?: unknown | undefined;
   /** gang specifies all-or-nothing scheduling semantics. */
-  gang?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy;
+  gang?: IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy | undefined;
 }
 /** JobSchedulingConfiguration composes the reusable workload-aware scheduling building blocks. */
 export interface IoK8sApiBatchV1JobSchedulingConfiguration {
   /** disruptionMode defines the mode in which the Job's pods can be disrupted. One of Single, All. This field is immutable after creation: it may not be added or removed, and the selected mode may not be changed. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode | undefined;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
-  resourceClaims?: IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList;
+  resourceClaims?: IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList | undefined;
   /** schedulingConstraints defines scheduling constraints (e.g. topology) for the Job's pods. This field is immutable after creation. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints | undefined;
   /** schedulingPolicy defines the scheduling policy for this Job. Exactly one of Basic or Gang must be set. This field is immutable after creation: the policy may not be added or removed. The policy variant (basic/gang) is frozen by hand-written validation; only schedulingPolicy.gang.minCount may be changed. */
-  schedulingPolicy?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy;
+  schedulingPolicy?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy | undefined;
 }
 /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
 export type IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList = Array<string>;
@@ -238,7 +240,7 @@ export interface IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
   operator: string;
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
-  values?: IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList;
+  values?: IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList | undefined;
 }
 /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
 export type IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchExpressionsList =
@@ -250,16 +252,16 @@ export type IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchLabelsMap = {
 /** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
 export interface IoK8sApimachineryPkgApisMetaV1LabelSelector {
   /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
-  matchExpressions?: IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchExpressionsList;
+  matchExpressions?: IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchExpressionsList | undefined;
   /** matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
-  matchLabels?: IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchLabelsMap;
+  matchLabels?: IoK8sApimachineryPkgApisMetaV1LabelSelectorMatchLabelsMap | undefined;
 }
 /** SuccessPolicyRule describes rule for declaring a Job as succeeded. Each rule must have at least one of the "succeededIndexes" or "succeededCount" specified. */
 export interface IoK8sApiBatchV1SuccessPolicyRule {
   /** succeededCount specifies the minimal required size of the actual set of the succeeded indexes for the Job. When succeededCount is used along with succeededIndexes, the check is constrained only to the set of indexes specified by succeededIndexes. For example, given that succeededIndexes is "1-4", succeededCount is "3", and completed indexes are "1", "3", and "5", the Job isn't declared as succeeded because only "1" and "3" indexes are considered in that rules. When this field is null, this doesn't default to any value and is never evaluated at any time. When specified it needs to be a positive integer. */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** succeededIndexes specifies the set of indexes which need to be contained in the actual set of the succeeded indexes for the Job. The list of indexes must be within 0 to ".spec.completions-1" and must not contain duplicates. At least one element is required. The indexes are represented as intervals separated by commas. The intervals can be a decimal integer or a pair of decimal integers separated by a hyphen. The number are listed in represented by the first and last element of the series, separated by a hyphen. For example, if the completed indexes are 1, 3, 4, 5 and 7, they are represented as "1,3-5,7". When this field is null, this field doesn't default to any value and is never evaluated at any time. */
-  succeededIndexes?: string;
+  succeededIndexes?: string | undefined;
 }
 /** rules represents the list of alternative rules for the declaring the Jobs as successful before `.status.succeeded >= .spec.completions`. Once any of the rules are met, the "SuccessCriteriaMet" condition is added, and the lingering pods are removed. The terminal state for such a Job has the "Complete" condition. Additionally, these rules are evaluated in order; Once the Job meets one of the rules, other rules are ignored. At most 20 elements are allowed. */
 export type IoK8sApiBatchV1SuccessPolicyRulesList = Array<IoK8sApiBatchV1SuccessPolicyRule>;
@@ -277,7 +279,7 @@ export interface IoK8sApiCoreV1NodeSelectorRequirement {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt. */
   operator: string;
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch. */
-  values?: IoK8sApiCoreV1NodeSelectorRequirementValuesList;
+  values?: IoK8sApiCoreV1NodeSelectorRequirementValuesList | undefined;
 }
 /** matchExpressions is a list of node selector requirements by node's labels. */
 export type IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList =
@@ -288,9 +290,9 @@ export type IoK8sApiCoreV1NodeSelectorTermMatchFieldsList =
 /** A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm. */
 export interface IoK8sApiCoreV1NodeSelectorTerm {
   /** matchExpressions is a list of node selector requirements by node's labels. */
-  matchExpressions?: IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList;
+  matchExpressions?: IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList | undefined;
   /** matchFields is a list of node selector requirements by node's fields. */
-  matchFields?: IoK8sApiCoreV1NodeSelectorTermMatchFieldsList;
+  matchFields?: IoK8sApiCoreV1NodeSelectorTermMatchFieldsList | undefined;
 }
 /** An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op). */
 export interface IoK8sApiCoreV1PreferredSchedulingTerm {
@@ -312,9 +314,11 @@ export interface IoK8sApiCoreV1NodeSelector {
 /** Node affinity is a group of node affinity scheduling rules. */
 export interface IoK8sApiCoreV1NodeAffinity {
   /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred. */
-  preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
+  preferredDuringSchedulingIgnoredDuringExecution?:
+    | IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList
+    | undefined;
   /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node. */
-  requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1NodeSelector;
+  requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1NodeSelector | undefined;
 }
 /** matchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
 export type IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList = Array<string>;
@@ -325,15 +329,15 @@ export type IoK8sApiCoreV1PodAffinityTermNamespacesList = Array<string>;
 /** Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running */
 export interface IoK8sApiCoreV1PodAffinityTerm {
   /** labelSelector is a label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods. */
-  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** matchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
-  matchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList;
+  matchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList | undefined;
   /** mismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both mismatchLabelKeys and labelSelector. Also, mismatchLabelKeys cannot be set when labelSelector isn't set. */
-  mismatchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMismatchLabelKeysList;
+  mismatchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMismatchLabelKeysList | undefined;
   /** namespaceSelector is a label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. */
-  namespaceSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  namespaceSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace". */
-  namespaces?: IoK8sApiCoreV1PodAffinityTermNamespacesList;
+  namespaces?: IoK8sApiCoreV1PodAffinityTermNamespacesList | undefined;
   /** topologyKey is the key of the node label that the system uses to denote such a topology domain. This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed. */
   topologyKey: string;
 }
@@ -353,9 +357,13 @@ export type IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecut
 /** Pod affinity is a group of inter pod affinity scheduling rules. */
 export interface IoK8sApiCoreV1PodAffinity {
   /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
-  preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
+  preferredDuringSchedulingIgnoredDuringExecution?:
+    | IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList
+    | undefined;
   /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
-  requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecutionList;
+  requiredDuringSchedulingIgnoredDuringExecution?:
+    | IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecutionList
+    | undefined;
 }
 /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
 export type IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
@@ -366,18 +374,22 @@ export type IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringEx
 /** Pod anti affinity is a group of inter pod anti affinity scheduling rules. */
 export interface IoK8sApiCoreV1PodAntiAffinity {
   /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
-  preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
+  preferredDuringSchedulingIgnoredDuringExecution?:
+    | IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList
+    | undefined;
   /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
-  requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionList;
+  requiredDuringSchedulingIgnoredDuringExecution?:
+    | IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionList
+    | undefined;
 }
 /** Affinity is a group of affinity scheduling rules. */
 export interface IoK8sApiCoreV1Affinity {
   /** nodeAffinity describes node affinity scheduling rules for the pod. */
-  nodeAffinity?: IoK8sApiCoreV1NodeAffinity;
+  nodeAffinity?: IoK8sApiCoreV1NodeAffinity | undefined;
   /** podAffinity describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)). */
-  podAffinity?: IoK8sApiCoreV1PodAffinity;
+  podAffinity?: IoK8sApiCoreV1PodAffinity | undefined;
   /** podAntiAffinity describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)). */
-  podAntiAffinity?: IoK8sApiCoreV1PodAntiAffinity;
+  podAntiAffinity?: IoK8sApiCoreV1PodAntiAffinity | undefined;
 }
 /** args are the arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1ContainerArgsList = Array<string>;
@@ -388,14 +400,14 @@ export interface IoK8sApiCoreV1ConfigMapKeySelector {
   /** key is the key to select from the ConfigMap's Data field. Keys in the BinaryData field are not currently propagated to container env vars. */
   key: string;
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specifies whether the ConfigMap or its key must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** ObjectFieldSelector selects an APIVersioned field of an object. */
 export interface IoK8sApiCoreV1ObjectFieldSelector {
   /** apiVersion is the version of the schema the FieldPath is written in terms of, defaults to "v1". */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** fieldPath is the path of the field to select in the specified API version. */
   fieldPath: string;
 }
@@ -404,7 +416,7 @@ export interface IoK8sApiCoreV1FileKeySelector {
   /** key is the key within the env file. An invalid key will prevent the pod from starting. The keys defined within a source may consist of any printable ASCII characters except '='. During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters. */
   key: string;
   /** optional specifies whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers. If optional is set to false and the specified key does not exist, an error will be returned during Pod creation. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** path is the path within the volume from which to select the file. Must be relative and may not contain the '..' path or start with '..'. */
   path: string;
   /** volumeName is the name of the volume mount containing the env file. */
@@ -413,9 +425,9 @@ export interface IoK8sApiCoreV1FileKeySelector {
 /** ResourceFieldSelector represents container resources (cpu, memory) and their output format */
 export interface IoK8sApiCoreV1ResourceFieldSelector {
   /** containerName is the name of the container: required for volumes, optional for env vars */
-  containerName?: string;
+  containerName?: string | undefined;
   /** divisor optionally indicates how the resource from the container should be scaled. If unset or 0, the resource is not scaled (divisor is treated as 1). */
-  divisor?: string;
+  divisor?: string | undefined;
   /** resource is the resource to select */
   resource: string;
 }
@@ -424,56 +436,56 @@ export interface IoK8sApiCoreV1SecretKeySelector {
   /** key is the key of the secret to select from. Must be a valid secret key. */
   key: string;
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specifies whether the Secret or its key must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** EnvVarSource represents a source for the value of an EnvVar. */
 export interface IoK8sApiCoreV1EnvVarSource {
   /** configMapKeyRef selects a key of a ConfigMap. */
-  configMapKeyRef?: IoK8sApiCoreV1ConfigMapKeySelector;
+  configMapKeyRef?: IoK8sApiCoreV1ConfigMapKeySelector | undefined;
   /** fieldRef selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels['<KEY>']`, `metadata.annotations['<KEY>']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs. */
-  fieldRef?: IoK8sApiCoreV1ObjectFieldSelector;
+  fieldRef?: IoK8sApiCoreV1ObjectFieldSelector | undefined;
   /** fileKeyRef selects a key of the env file. Requires the EnvFiles feature gate to be enabled. */
-  fileKeyRef?: IoK8sApiCoreV1FileKeySelector;
+  fileKeyRef?: IoK8sApiCoreV1FileKeySelector | undefined;
   /** resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported. */
-  resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
+  resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector | undefined;
   /** secretKeyRef selects a key of a secret in the pod's namespace */
-  secretKeyRef?: IoK8sApiCoreV1SecretKeySelector;
+  secretKeyRef?: IoK8sApiCoreV1SecretKeySelector | undefined;
 }
 /** EnvVar represents an environment variable present in a Container. */
 export interface IoK8sApiCoreV1EnvVar {
   /** name is the name of the environment variable. May consist of any printable ASCII characters except '='. */
   name: string;
   /** value is the value of the environment variable. Variable references $(VAR_NAME) are expanded using the previously defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to "". */
-  value?: string;
+  value?: string | undefined;
   /** valueFrom is the source for the environment variable's value. Cannot be used if value is not empty. */
-  valueFrom?: IoK8sApiCoreV1EnvVarSource;
+  valueFrom?: IoK8sApiCoreV1EnvVarSource | undefined;
 }
 /** env is the list of environment variables to set in the container. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerEnvList = Array<IoK8sApiCoreV1EnvVar>;
 /** ConfigMapEnvSource selects a ConfigMap to populate the environment variables with. The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables. Keys in the BinaryData field are not currently propagated to container env vars. */
 export interface IoK8sApiCoreV1ConfigMapEnvSource {
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specifies whether the ConfigMap must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** SecretEnvSource selects a Secret to populate the environment variables with. The contents of the target Secret's Data field will represent the key-value pairs as environment variables. */
 export interface IoK8sApiCoreV1SecretEnvSource {
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specifies whether the Secret must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** EnvFromSource represents the source of a set of ConfigMaps or Secrets */
 export interface IoK8sApiCoreV1EnvFromSource {
   /** configMapRef is the ConfigMap to select from */
-  configMapRef?: IoK8sApiCoreV1ConfigMapEnvSource;
+  configMapRef?: IoK8sApiCoreV1ConfigMapEnvSource | undefined;
   /** prefix is the text to prepend to the name of each environment variable. May consist of any printable ASCII characters except '='. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** secretRef is the Secret to select from */
-  secretRef?: IoK8sApiCoreV1SecretEnvSource;
+  secretRef?: IoK8sApiCoreV1SecretEnvSource | undefined;
 }
 /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerEnvFromList = Array<IoK8sApiCoreV1EnvFromSource>;
@@ -482,7 +494,7 @@ export type IoK8sApiCoreV1ExecActionCommandList = Array<string>;
 /** ExecAction describes a "run in container" action. */
 export interface IoK8sApiCoreV1ExecAction {
   /** command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy. */
-  command?: IoK8sApiCoreV1ExecActionCommandList;
+  command?: IoK8sApiCoreV1ExecActionCommandList | undefined;
 }
 /** HTTPHeader describes a custom header to be used in HTTP probes */
 export interface IoK8sApiCoreV1HTTPHeader {
@@ -496,17 +508,17 @@ export type IoK8sApiCoreV1HTTPGetActionHttpHeadersList = Array<IoK8sApiCoreV1HTT
 /** HTTPGetAction describes an action based on HTTP Get requests. */
 export interface IoK8sApiCoreV1HTTPGetAction {
   /** host is the host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
-  host?: string;
+  host?: string | undefined;
   /** httpHeaders are the custom headers to set in the request. HTTP allows repeated headers. */
-  httpHeaders?: IoK8sApiCoreV1HTTPGetActionHttpHeadersList;
+  httpHeaders?: IoK8sApiCoreV1HTTPGetActionHttpHeadersList | undefined;
   /** path is the path to access on the HTTP server. */
-  path?: string;
+  path?: string | undefined;
   /** port is the name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
   /** protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
-  protocol?: string;
+  protocol?: string | undefined;
   /** scheme is the scheme to use for connecting to the host. Defaults to HTTP. */
-  scheme?: string;
+  scheme?: string | undefined;
 }
 /** SleepAction describes a "sleep" action. */
 export interface IoK8sApiCoreV1SleepAction {
@@ -516,74 +528,74 @@ export interface IoK8sApiCoreV1SleepAction {
 /** TCPSocketAction describes an action based on opening a socket */
 export interface IoK8sApiCoreV1TCPSocketAction {
   /** host is the optional host name to connect to, defaults to the pod IP. */
-  host?: string;
+  host?: string | undefined;
   /** port is the number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
 }
 /** LifecycleHandler defines a specific action that should be taken in a lifecycle hook. One and only one of the fields, except TCPSocket must be specified. */
 export interface IoK8sApiCoreV1LifecycleHandler {
   /** exec specifies a command to execute in the container. */
-  exec?: IoK8sApiCoreV1ExecAction;
+  exec?: IoK8sApiCoreV1ExecAction | undefined;
   /** httpGet specifies an HTTP GET request to perform. */
-  httpGet?: IoK8sApiCoreV1HTTPGetAction;
+  httpGet?: IoK8sApiCoreV1HTTPGetAction | undefined;
   /** sleep represents a duration that the container should sleep. */
-  sleep?: IoK8sApiCoreV1SleepAction;
+  sleep?: IoK8sApiCoreV1SleepAction | undefined;
   /** tcpSocket is NOT supported as a LifecycleHandler and kept for backward compatibility. There is no validation of this field and lifecycle hooks will fail at runtime when it is specified. Deprecated. */
-  tcpSocket?: IoK8sApiCoreV1TCPSocketAction;
+  tcpSocket?: IoK8sApiCoreV1TCPSocketAction | undefined;
 }
 /** Lifecycle describes actions that the management system should take in response to container lifecycle events. For the PostStart and PreStop lifecycle handlers, management of the container blocks until the action is complete, unless the container process fails, in which case the handler is aborted. */
 export interface IoK8sApiCoreV1Lifecycle {
   /** postStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
-  postStart?: IoK8sApiCoreV1LifecycleHandler;
+  postStart?: IoK8sApiCoreV1LifecycleHandler | undefined;
   /** preStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
-  preStop?: IoK8sApiCoreV1LifecycleHandler;
+  preStop?: IoK8sApiCoreV1LifecycleHandler | undefined;
   /** stopSignal defines which signal will be sent to a container when it is being stopped. If not specified, the default is defined by the container runtime in use. StopSignal can only be set for Pods with a non-empty .spec.os.name */
-  stopSignal?: string;
+  stopSignal?: string | undefined;
 }
 /** GRPCAction specifies an action involving a GRPC service. */
 export interface IoK8sApiCoreV1GRPCAction {
   /** mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection. */
-  mode?: string;
+  mode?: string | undefined;
   /** port is the number of the gRPC service. Number must be in the range 1 to 65535. */
   port: number;
   /** service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
-  service?: string;
+  service?: string | undefined;
 }
 /** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
 export interface IoK8sApiCoreV1Probe {
   /** exec specifies a command to execute in the container. */
-  exec?: IoK8sApiCoreV1ExecAction;
+  exec?: IoK8sApiCoreV1ExecAction | undefined;
   /** failureThreshold is the minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** grpc specifies a GRPC HealthCheckRequest. */
-  grpc?: IoK8sApiCoreV1GRPCAction;
+  grpc?: IoK8sApiCoreV1GRPCAction | undefined;
   /** httpGet specifies an HTTP GET request to perform. */
-  httpGet?: IoK8sApiCoreV1HTTPGetAction;
+  httpGet?: IoK8sApiCoreV1HTTPGetAction | undefined;
   /** initialDelaySeconds is the number of seconds after the container has started before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** periodSeconds is how often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** successThreshold is the minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
   /** tcpSocket specifies a connection to a TCP port. */
-  tcpSocket?: IoK8sApiCoreV1TCPSocketAction;
+  tcpSocket?: IoK8sApiCoreV1TCPSocketAction | undefined;
   /** terminationGracePeriodSeconds is the optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is a beta field and requires enabling ProbeTerminationGracePeriod feature gate. Minimum value is 1. spec.terminationGracePeriodSeconds is used if unset. */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** timeoutSeconds is the number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 /** ContainerPort represents a network port in a single container. */
 export interface IoK8sApiCoreV1ContainerPort {
   /** containerPort is the number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536. */
   containerPort: number;
   /** hostIP is the host IP to bind the external port to. */
-  hostIP?: string;
+  hostIP?: string | undefined;
   /** hostPort is the number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this. */
-  hostPort?: number;
+  hostPort?: number | undefined;
   /** name is the name of the port. If specified, this must be an IANA_SVC_NAME and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services. */
-  name?: string;
+  name?: string | undefined;
   /** protocol is the protocol for port. Must be UDP, TCP, or SCTP. Defaults to "TCP". */
-  protocol?: string;
+  protocol?: string | undefined;
 }
 /** ports is the list of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerPortsList = Array<IoK8sApiCoreV1ContainerPort>;
@@ -601,22 +613,22 @@ export interface IoK8sApiCoreV1ResourceClaim {
   /** name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container. */
   name: string;
   /** request is the name chosen for a request in the referenced claim. If empty, everything from the claim is made available, otherwise only the result of this request. */
-  request?: string;
+  request?: string | undefined;
 }
 /** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
 export type IoK8sApiCoreV1ResourceRequirementsClaimsList = Array<IoK8sApiCoreV1ResourceClaim>;
-/** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+/** limits describes the maximum amount of compute resources allowed. For kubelet cgroup enforcement: - cpu and memory: a limit of 0 is treated the same as an unspecified limit. If neither the container nor the pod specifies a limit, the resource is not limited. - hugepages: an unspecified limit is treated the same as a limit of 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1ResourceRequirementsLimitsMap = { [key: string]: string | undefined };
 /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1ResourceRequirementsRequestsMap = { [key: string]: string | undefined };
 /** ResourceRequirements describes the compute resource requirements. */
 export interface IoK8sApiCoreV1ResourceRequirements {
   /** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
-  claims?: IoK8sApiCoreV1ResourceRequirementsClaimsList;
-  /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  limits?: IoK8sApiCoreV1ResourceRequirementsLimitsMap;
+  claims?: IoK8sApiCoreV1ResourceRequirementsClaimsList | undefined;
+  /** limits describes the maximum amount of compute resources allowed. For kubelet cgroup enforcement: - cpu and memory: a limit of 0 is treated the same as an unspecified limit. If neither the container nor the pod specifies a limit, the resource is not limited. - hugepages: an unspecified limit is treated the same as a limit of 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  limits?: IoK8sApiCoreV1ResourceRequirementsLimitsMap | undefined;
   /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  requests?: IoK8sApiCoreV1ResourceRequirementsRequestsMap;
+  requests?: IoK8sApiCoreV1ResourceRequirementsRequestsMap | undefined;
 }
 /** values specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
 export type IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList = Array<number>;
@@ -625,14 +637,14 @@ export interface IoK8sApiCoreV1ContainerRestartRuleOnExitCodes {
   /** operator represents the relationship between the container exit code(s) and the specified values. Possible values are: - In: the requirement is satisfied if the container exit code is in the set of specified values. - NotIn: the requirement is satisfied if the container exit code is not in the set of specified values. */
   operator: string;
   /** values specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
-  values?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList;
+  values?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList | undefined;
 }
 /** ContainerRestartRule describes how a container exit is handled. */
 export interface IoK8sApiCoreV1ContainerRestartRule {
   /** action specifies the action taken on a container exit if the requirements are satisfied. The only possible value is "Restart" to restart the container. */
   action: string;
   /** exitCodes represents the exit codes to check on container exits. */
-  exitCodes?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodes;
+  exitCodes?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodes | undefined;
 }
 /** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
 export type IoK8sApiCoreV1ContainerRestartPolicyRulesList =
@@ -640,7 +652,7 @@ export type IoK8sApiCoreV1ContainerRestartPolicyRulesList =
 /** AppArmorProfile defines a pod or container's AppArmor settings. */
 export interface IoK8sApiCoreV1AppArmorProfile {
   /** localhostProfile indicates a profile loaded on the node that should be used. The profile must be preconfigured on the node to work. Must match the loaded name of the profile. Must be set if and only if type is "Localhost". */
-  localhostProfile?: string;
+  localhostProfile?: string | undefined;
   /** type indicates which kind of AppArmor profile will be applied. Valid options are: Localhost - a profile pre-loaded on the node. RuntimeDefault - the container runtime's default profile. Unconfined - no AppArmor enforcement. */
   type: string;
 }
@@ -651,65 +663,81 @@ export type IoK8sApiCoreV1CapabilitiesDropList = Array<string>;
 /** Adds and removes POSIX capabilities from running containers. */
 export interface IoK8sApiCoreV1Capabilities {
   /** add lists the capabilities to add to the container. */
-  add?: IoK8sApiCoreV1CapabilitiesAddList;
+  add?: IoK8sApiCoreV1CapabilitiesAddList | undefined;
   /** drop lists the capabilities to remove from the container. */
-  drop?: IoK8sApiCoreV1CapabilitiesDropList;
+  drop?: IoK8sApiCoreV1CapabilitiesDropList | undefined;
 }
 /** SELinuxOptions are the labels to be applied to the container */
 export interface IoK8sApiCoreV1SELinuxOptions {
   /** level is SELinux level label that applies to the container. */
-  level?: string;
+  level?: string | undefined;
   /** role is a SELinux role label that applies to the container. */
-  role?: string;
+  role?: string | undefined;
   /** type is a SELinux type label that applies to the container. */
-  type?: string;
+  type?: string | undefined;
   /** user is a SELinux user label that applies to the container. */
-  user?: string;
+  user?: string | undefined;
+}
+/** SecurityProfileOCIBase specifies the base profile of an OCI security profile. */
+export interface IoK8sApiCoreV1SecurityProfileOCIBase {
+  /** localhostProfile indicates a base profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a non-empty descending path, relative to the kubelet's configured seccomp profile location, of at most 4096 characters. Must be set if type is "Localhost". Must NOT be set for any other type. */
+  localhostProfile?: string | undefined;
+  /** type indicates which kind of base profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. */
+  type: string;
+}
+/** SecurityProfileOCI references a security profile stored as an artifact in an OCI registry, with an optional base profile. */
+export interface IoK8sApiCoreV1SecurityProfileOCI {
+  /** baseProfile optionally specifies the base profile that the container runtime merges with the OCI profile. The effective profile permits an operation only if both permit it. When omitted, the container runtime default profile is the base; a Localhost base profile takes its place. */
+  baseProfile?: IoK8sApiCoreV1SecurityProfileOCIBase | undefined;
+  /** ref is the OCI reference of the profile. It must be a digest-pinned reference in canonical form, registry/repository@<algorithm>:<digest>, with the registry spelled out (for example docker.io/library/profile, not profile or docker.io/profile). Tags are rejected. The digest algorithm must be sha256, sha384, or sha512. The maximum length is 1024 characters. Pull secrets are assembled in the same way as for the container image by looking up node credentials, service account image pull secrets, and pod spec image pull secrets. */
+  ref: string;
 }
 /** SeccompProfile defines a pod/container's seccomp profile settings. Only one profile source may be set. */
 export interface IoK8sApiCoreV1SeccompProfile {
   /** localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type. */
-  localhostProfile?: string;
-  /** type indicates which kind of seccomp profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied. */
+  localhostProfile?: string | undefined;
+  /** oci specifies a seccomp profile stored as an artifact in an OCI registry. The container runtime merges the profile with a base profile, so the effective profile permits an operation only if both permit it. Must be set if type is "OCI". Must NOT be set for any other type. This is an alpha field and requires enabling the SecurityProfileOCI feature gate. */
+  oci?: IoK8sApiCoreV1SecurityProfileOCI | undefined;
+  /** type indicates which kind of seccomp profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied. OCI - a profile pulled from an OCI registry should be used, merged with a base profile (see oci.baseProfile). Privileged containers cannot use it, whether it is set on the container or inherited from the pod. This is an alpha value and requires enabling the SecurityProfileOCI feature gate. */
   type: string;
 }
 /** WindowsSecurityContextOptions contain Windows-specific options and credentials. */
 export interface IoK8sApiCoreV1WindowsSecurityContextOptions {
   /** gmsaCredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field. */
-  gmsaCredentialSpec?: string;
+  gmsaCredentialSpec?: string | undefined;
   /** gmsaCredentialSpecName is the name of the GMSA credential spec to use. */
-  gmsaCredentialSpecName?: string;
+  gmsaCredentialSpecName?: string | undefined;
   /** hostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true. */
-  hostProcess?: boolean;
+  hostProcess?: boolean | undefined;
   /** runAsUserName is the UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
-  runAsUserName?: string;
+  runAsUserName?: string | undefined;
 }
 /** SecurityContext holds security configuration that will be applied to a container. Some fields are present in both SecurityContext and PodSecurityContext. When both are set, the values in SecurityContext take precedence. */
 export interface IoK8sApiCoreV1SecurityContext {
   /** allowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows. */
-  allowPrivilegeEscalation?: boolean;
+  allowPrivilegeEscalation?: boolean | undefined;
   /** appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod's appArmorProfile. Note that this field cannot be set when spec.os.name is windows. */
-  appArmorProfile?: IoK8sApiCoreV1AppArmorProfile;
+  appArmorProfile?: IoK8sApiCoreV1AppArmorProfile | undefined;
   /** capabilities is the capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows. */
-  capabilities?: IoK8sApiCoreV1Capabilities;
+  capabilities?: IoK8sApiCoreV1Capabilities | undefined;
   /** privileged indicates whether to run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows. */
-  privileged?: boolean;
+  privileged?: boolean | undefined;
   /** procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. Note that this field cannot be set when spec.os.name is windows. */
-  procMount?: string;
+  procMount?: string | undefined;
   /** readOnlyRootFilesystem indicates whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows. */
-  readOnlyRootFilesystem?: boolean;
+  readOnlyRootFilesystem?: boolean | undefined;
   /** runAsGroup is the GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
-  runAsGroup?: number;
+  runAsGroup?: number | undefined;
   /** runAsNonRoot indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
-  runAsNonRoot?: boolean;
+  runAsNonRoot?: boolean | undefined;
   /** runAsUser is the UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
-  runAsUser?: number;
+  runAsUser?: number | undefined;
   /** seLinuxOptions is the SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
-  seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions;
+  seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions | undefined;
   /** seccompProfile is the seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows. */
-  seccompProfile?: IoK8sApiCoreV1SeccompProfile;
+  seccompProfile?: IoK8sApiCoreV1SeccompProfile | undefined;
   /** windowsOptions is the Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
-  windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions;
+  windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions | undefined;
 }
 /** volumeDevice describes a mapping of a raw block device within a container. */
 export interface IoK8sApiCoreV1VolumeDevice {
@@ -725,76 +753,76 @@ export type IoK8sApiCoreV1VolumeMountBindMountOptionsList = Array<string>;
 /** VolumeMount describes a mounting of a Volume within a container. */
 export interface IoK8sApiCoreV1VolumeMount {
   /** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
-  bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList;
+  bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList | undefined;
   /** mountPath is the path within the container at which the volume should be mounted. */
   mountPath: string;
   /** mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None). */
-  mountPropagation?: string;
+  mountPropagation?: string | undefined;
   /** name must match the Name of a Volume. */
   name: string;
   /** readOnly mounted read-only if true, read-write otherwise (false or unspecified). Defaults to false. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** recursiveReadOnly specifies whether read-only mounts should be handled recursively. If ReadOnly is false, this field has no meaning and must be unspecified. If ReadOnly is true, and this field is set to Disabled, the mount is not made recursively read-only. If this field is set to IfPossible, the mount is made recursively read-only, if it is supported by the container runtime. If this field is set to Enabled, the mount is made recursively read-only if it is supported by the container runtime, otherwise the pod will not be started and an error will be generated to indicate the reason. If this field is set to IfPossible or Enabled, MountPropagation must be set to None (or be unspecified, which defaults to None). If this field is not specified, it is treated as an equivalent of Disabled. */
-  recursiveReadOnly?: string;
+  recursiveReadOnly?: string | undefined;
   /** subPath is the path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root). */
-  subPath?: string;
+  subPath?: string | undefined;
   /** subPathExpr is the expanded path within the volume from which the container's volume should be mounted. Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment. Defaults to "" (volume's root). SubPathExpr and SubPath are mutually exclusive. */
-  subPathExpr?: string;
+  subPathExpr?: string | undefined;
 }
 /** volumeMounts are the pod volumes to mount into the container's filesystem. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerVolumeMountsList = Array<IoK8sApiCoreV1VolumeMount>;
 /** A single application container that you want to run within a pod. */
 export interface IoK8sApiCoreV1Container {
   /** args are the arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
-  args?: IoK8sApiCoreV1ContainerArgsList;
+  args?: IoK8sApiCoreV1ContainerArgsList | undefined;
   /** command is the entrypoint array. Not executed within a shell. The container image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
-  command?: IoK8sApiCoreV1ContainerCommandList;
+  command?: IoK8sApiCoreV1ContainerCommandList | undefined;
   /** env is the list of environment variables to set in the container. Cannot be updated. */
-  env?: IoK8sApiCoreV1ContainerEnvList;
+  env?: IoK8sApiCoreV1ContainerEnvList | undefined;
   /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
-  envFrom?: IoK8sApiCoreV1ContainerEnvFromList;
+  envFrom?: IoK8sApiCoreV1ContainerEnvFromList | undefined;
   /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
-  image?: string;
+  image?: string | undefined;
   /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
-  imagePullPolicy?: string;
+  imagePullPolicy?: string | undefined;
   /** lifecycle are the actions that the management system should take in response to container lifecycle events. Cannot be updated. */
-  lifecycle?: IoK8sApiCoreV1Lifecycle;
+  lifecycle?: IoK8sApiCoreV1Lifecycle | undefined;
   /** livenessProbe is the periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  livenessProbe?: IoK8sApiCoreV1Probe;
+  livenessProbe?: IoK8sApiCoreV1Probe | undefined;
   /** name of the container specified as a DNS_LABEL. Each container in a pod must have a unique name (DNS_LABEL). Cannot be updated. */
   name: string;
   /** ports is the list of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
-  ports?: IoK8sApiCoreV1ContainerPortsList;
+  ports?: IoK8sApiCoreV1ContainerPortsList | undefined;
   /** readinessProbe is the periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  readinessProbe?: IoK8sApiCoreV1Probe;
+  readinessProbe?: IoK8sApiCoreV1Probe | undefined;
   /** resizePolicy is the resize policy for the container. This field cannot be set on ephemeral containers. */
-  resizePolicy?: IoK8sApiCoreV1ContainerResizePolicyList;
+  resizePolicy?: IoK8sApiCoreV1ContainerResizePolicyList | undefined;
   /** resources is the compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  resources?: IoK8sApiCoreV1ResourceRequirements;
+  resources?: IoK8sApiCoreV1ResourceRequirements | undefined;
   /** restartPolicy defines the restart behavior of individual containers in a pod. This overrides the pod-level restart policy. When this field is not specified, the restart behavior is defined by the Pod's restart policy and the container type. Additionally, setting the RestartPolicy as "Always" for the init container will have the following effect: this init container will be continually restarted on exit until all regular containers have terminated. Once all regular containers have completed, all init containers with restartPolicy "Always" will be shut down. This lifecycle differs from normal init containers and is often referred to as a "sidecar" container. Although this init container still starts in the init container sequence, it does not wait for the container to complete before proceeding to the next init container. Instead, the next init container starts immediately after this init container is started, or after any startupProbe has successfully completed. */
-  restartPolicy?: string;
+  restartPolicy?: string | undefined;
   /** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
-  restartPolicyRules?: IoK8sApiCoreV1ContainerRestartPolicyRulesList;
+  restartPolicyRules?: IoK8sApiCoreV1ContainerRestartPolicyRulesList | undefined;
   /** securityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ */
-  securityContext?: IoK8sApiCoreV1SecurityContext;
+  securityContext?: IoK8sApiCoreV1SecurityContext | undefined;
   /** startupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a Pod's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
-  startupProbe?: IoK8sApiCoreV1Probe;
+  startupProbe?: IoK8sApiCoreV1Probe | undefined;
   /** stdin indicates whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** stdinOnce indicates whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
-  stdinOnce?: boolean;
+  stdinOnce?: boolean | undefined;
   /** terminationMessagePath is the optional path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
-  terminationMessagePath?: string;
+  terminationMessagePath?: string | undefined;
   /** terminationMessagePolicy indicates how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
-  terminationMessagePolicy?: string;
+  terminationMessagePolicy?: string | undefined;
   /** tty indicates whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
-  tty?: boolean;
+  tty?: boolean | undefined;
   /** volumeDevices is the list of block devices to be used by the container. */
-  volumeDevices?: IoK8sApiCoreV1ContainerVolumeDevicesList;
+  volumeDevices?: IoK8sApiCoreV1ContainerVolumeDevicesList | undefined;
   /** volumeMounts are the pod volumes to mount into the container's filesystem. Cannot be updated. */
-  volumeMounts?: IoK8sApiCoreV1ContainerVolumeMountsList;
+  volumeMounts?: IoK8sApiCoreV1ContainerVolumeMountsList | undefined;
   /** workingDir is the Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
-  workingDir?: string;
+  workingDir?: string | undefined;
 }
 /** containers is the list of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
 export type IoK8sApiCoreV1PodSpecContainersList = Array<IoK8sApiCoreV1Container>;
@@ -803,9 +831,9 @@ export type IoK8sApiCoreV1PodDNSConfigNameserversList = Array<string>;
 /** PodDNSConfigOption defines DNS resolver options of a pod. */
 export interface IoK8sApiCoreV1PodDNSConfigOption {
   /** name is this DNS resolver option's name. Required. */
-  name?: string;
+  name?: string | undefined;
   /** value is this DNS resolver option's value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** options is a list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
 export type IoK8sApiCoreV1PodDNSConfigOptionsList = Array<IoK8sApiCoreV1PodDNSConfigOption>;
@@ -814,11 +842,11 @@ export type IoK8sApiCoreV1PodDNSConfigSearchesList = Array<string>;
 /** PodDNSConfig defines the DNS parameters of a pod in addition to those generated from DNSPolicy. */
 export interface IoK8sApiCoreV1PodDNSConfig {
   /** nameservers is a list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed. */
-  nameservers?: IoK8sApiCoreV1PodDNSConfigNameserversList;
+  nameservers?: IoK8sApiCoreV1PodDNSConfigNameserversList | undefined;
   /** options is a list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
-  options?: IoK8sApiCoreV1PodDNSConfigOptionsList;
+  options?: IoK8sApiCoreV1PodDNSConfigOptionsList | undefined;
   /** searches is a list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed. */
-  searches?: IoK8sApiCoreV1PodDNSConfigSearchesList;
+  searches?: IoK8sApiCoreV1PodDNSConfigSearchesList | undefined;
 }
 /** args are the arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1EphemeralContainerArgsList = Array<string>;
@@ -843,57 +871,57 @@ export type IoK8sApiCoreV1EphemeralContainerVolumeMountsList = Array<IoK8sApiCor
 /** An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation. To add an ephemeral container, use the ephemeralcontainers subresource of an existing Pod. Ephemeral containers may not be removed or restarted. */
 export interface IoK8sApiCoreV1EphemeralContainer {
   /** args are the arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
-  args?: IoK8sApiCoreV1EphemeralContainerArgsList;
+  args?: IoK8sApiCoreV1EphemeralContainerArgsList | undefined;
   /** command is the entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
-  command?: IoK8sApiCoreV1EphemeralContainerCommandList;
+  command?: IoK8sApiCoreV1EphemeralContainerCommandList | undefined;
   /** env is the list of environment variables to set in the container. Cannot be updated. */
-  env?: IoK8sApiCoreV1EphemeralContainerEnvList;
+  env?: IoK8sApiCoreV1EphemeralContainerEnvList | undefined;
   /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
-  envFrom?: IoK8sApiCoreV1EphemeralContainerEnvFromList;
+  envFrom?: IoK8sApiCoreV1EphemeralContainerEnvFromList | undefined;
   /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images */
-  image?: string;
+  image?: string | undefined;
   /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
-  imagePullPolicy?: string;
+  imagePullPolicy?: string | undefined;
   /** lifecycle is not allowed for ephemeral containers. */
-  lifecycle?: IoK8sApiCoreV1Lifecycle;
+  lifecycle?: IoK8sApiCoreV1Lifecycle | undefined;
   /** livenessProbe is not allowed for ephemeral containers. */
-  livenessProbe?: IoK8sApiCoreV1Probe;
+  livenessProbe?: IoK8sApiCoreV1Probe | undefined;
   /** name of the ephemeral container specified as a DNS_LABEL. This name must be unique among all containers, init containers and ephemeral containers. */
   name: string;
   /** ports are not allowed for ephemeral containers. */
-  ports?: IoK8sApiCoreV1EphemeralContainerPortsList;
+  ports?: IoK8sApiCoreV1EphemeralContainerPortsList | undefined;
   /** readinessProbe is not allowed for ephemeral containers. */
-  readinessProbe?: IoK8sApiCoreV1Probe;
+  readinessProbe?: IoK8sApiCoreV1Probe | undefined;
   /** resizePolicy is the resources resize policy for the container. */
-  resizePolicy?: IoK8sApiCoreV1EphemeralContainerResizePolicyList;
+  resizePolicy?: IoK8sApiCoreV1EphemeralContainerResizePolicyList | undefined;
   /** resources are not allowed for ephemeral containers. Ephemeral containers use spare resources already allocated to the pod. */
-  resources?: IoK8sApiCoreV1ResourceRequirements;
+  resources?: IoK8sApiCoreV1ResourceRequirements | undefined;
   /** restartPolicy is the restart policy for the container to manage the restart behavior of each container within a pod. You cannot set this field on ephemeral containers. */
-  restartPolicy?: string;
+  restartPolicy?: string | undefined;
   /** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. You cannot set this field on ephemeral containers. */
-  restartPolicyRules?: IoK8sApiCoreV1EphemeralContainerRestartPolicyRulesList;
+  restartPolicyRules?: IoK8sApiCoreV1EphemeralContainerRestartPolicyRulesList | undefined;
   /** securityContext is optional: SecurityContext defines the security options the ephemeral container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. */
-  securityContext?: IoK8sApiCoreV1SecurityContext;
+  securityContext?: IoK8sApiCoreV1SecurityContext | undefined;
   /** startupProbe is not allowed for ephemeral containers. */
-  startupProbe?: IoK8sApiCoreV1Probe;
+  startupProbe?: IoK8sApiCoreV1Probe | undefined;
   /** stdin indicates whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** stdinOnce indicates whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
-  stdinOnce?: boolean;
+  stdinOnce?: boolean | undefined;
   /** targetContainerName if set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec. The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined. */
-  targetContainerName?: string;
+  targetContainerName?: string | undefined;
   /** terminationMessagePath is the optional path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
-  terminationMessagePath?: string;
+  terminationMessagePath?: string | undefined;
   /** terminationMessagePolicy indicates how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
-  terminationMessagePolicy?: string;
+  terminationMessagePolicy?: string | undefined;
   /** tty indicates whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
-  tty?: boolean;
+  tty?: boolean | undefined;
   /** volumeDevices is the list of block devices to be used by the container. */
-  volumeDevices?: IoK8sApiCoreV1EphemeralContainerVolumeDevicesList;
+  volumeDevices?: IoK8sApiCoreV1EphemeralContainerVolumeDevicesList | undefined;
   /** volumeMounts are the pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated. */
-  volumeMounts?: IoK8sApiCoreV1EphemeralContainerVolumeMountsList;
+  volumeMounts?: IoK8sApiCoreV1EphemeralContainerVolumeMountsList | undefined;
   /** workingDir is the container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
-  workingDir?: string;
+  workingDir?: string | undefined;
 }
 /** ephemeralContainers is the list of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
 export type IoK8sApiCoreV1PodSpecEphemeralContainersList = Array<IoK8sApiCoreV1EphemeralContainer>;
@@ -911,7 +939,7 @@ export type IoK8sApiCoreV1HostAliasHostnamesList = Array<string>;
 /** HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file. */
 export interface IoK8sApiCoreV1HostAlias {
   /** hostnames for the above IP address. */
-  hostnames?: IoK8sApiCoreV1HostAliasHostnamesList;
+  hostnames?: IoK8sApiCoreV1HostAliasHostnamesList | undefined;
   /** ip address of the host file entry. */
   ip: string;
 }
@@ -920,7 +948,7 @@ export type IoK8sApiCoreV1PodSpecHostAliasesList = Array<IoK8sApiCoreV1HostAlias
 /** LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace. */
 export interface IoK8sApiCoreV1LocalObjectReference {
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
 }
 /** imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
 export type IoK8sApiCoreV1PodSpecImagePullSecretsList = Array<IoK8sApiCoreV1LocalObjectReference>;
@@ -947,9 +975,9 @@ export interface IoK8sApiCoreV1PodResourceClaim {
   /** name uniquely identifies this resource claim inside the pod. This must be a DNS_LABEL. */
   name: string;
   /** resourceClaimName is the name of a ResourceClaim object in the same namespace as this pod. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
-  resourceClaimName?: string;
+  resourceClaimName?: string | undefined;
   /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this pod. The template will be used to create a new ResourceClaim, which will be bound to this pod. When this pod is deleted, the ResourceClaim will also be deleted. The pod name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in pod.status.resourceClaimStatuses. When the DRAWorkloadResourceClaims feature gate is enabled and the pod belongs to a PodGroup that defines a PodGroupResourceClaim with the same Name and ResourceClaimTemplateName, this PodResourceClaim resolves to the ResourceClaim generated for the PodGroup. All pods in the group that define an equivalent PodResourceClaim matching the PodGroupResourceClaim's Name and ResourceClaimTemplateName share the same generated ResourceClaim. ResourceClaims generated for a PodGroup are owned by the PodGroup and their lifecycles are tied to the PodGroup instead of any individual pod. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
-  resourceClaimTemplateName?: string;
+  resourceClaimTemplateName?: string | undefined;
 }
 /** resourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable. */
 export type IoK8sApiCoreV1PodSpecResourceClaimsList = Array<IoK8sApiCoreV1PodResourceClaim>;
@@ -963,7 +991,7 @@ export type IoK8sApiCoreV1PodSpecSchedulingGatesList = Array<IoK8sApiCoreV1PodSc
 /** PodSchedulingGroup identifies the runtime scheduling group instance that a Pod belongs to. The scheduler uses this information to apply workload-aware scheduling semantics. Exactly one field must be specified. */
 export interface IoK8sApiCoreV1PodSchedulingGroup {
   /** podGroupName specifies the name of the standalone PodGroup object that represents the runtime instance of this group. Must be a DNS subdomain. */
-  podGroupName?: string;
+  podGroupName?: string | undefined;
 }
 /** supplementalGroups is a list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
 export type IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList = Array<number>;
@@ -979,44 +1007,44 @@ export type IoK8sApiCoreV1PodSecurityContextSysctlsList = Array<IoK8sApiCoreV1Sy
 /** PodSecurityContext holds pod-level security attributes and common container settings. Some fields are also present in container.securityContext. Field values of container.securityContext take precedence over field values of PodSecurityContext. */
 export interface IoK8sApiCoreV1PodSecurityContext {
   /** appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows. */
-  appArmorProfile?: IoK8sApiCoreV1AppArmorProfile;
+  appArmorProfile?: IoK8sApiCoreV1AppArmorProfile | undefined;
   /** fsGroup is a special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod: 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw---- If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows. */
-  fsGroup?: number;
+  fsGroup?: number | undefined;
   /** fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows. */
-  fsGroupChangePolicy?: string;
+  fsGroupChangePolicy?: string | undefined;
   /** runAsGroup is the GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
-  runAsGroup?: number;
+  runAsGroup?: number | undefined;
   /** runAsNonRoot indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
-  runAsNonRoot?: boolean;
+  runAsNonRoot?: boolean | undefined;
   /** runAsUser is the UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
-  runAsUser?: number;
+  runAsUser?: number | undefined;
   /** seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod. It has no effect on nodes that do not support SELinux or to volumes does not support SELinux. Valid values are "MountOption" and "Recursive". "Recursive" means relabeling of all files on all Pod volumes by the container runtime. This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node. "MountOption" mounts all eligible Pod volumes with `-o context` mount option. This requires all Pods that share the same volume to use the same SELinux label. It is not possible to share the same volume among privileged and unprivileged Pods. Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their CSIDriver instance. Other volumes are always re-labelled recursively. If not specified, "MountOption" is used. This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers. All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state. Note that this field cannot be set when spec.os.name is windows. */
-  seLinuxChangePolicy?: string;
+  seLinuxChangePolicy?: string | undefined;
   /** seLinuxOptions is the SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
-  seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions;
+  seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions | undefined;
   /** seccompProfile is the seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows. */
-  seccompProfile?: IoK8sApiCoreV1SeccompProfile;
+  seccompProfile?: IoK8sApiCoreV1SeccompProfile | undefined;
   /** supplementalGroups is a list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
-  supplementalGroups?: IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList;
-  /** supplementalGroupsPolicy defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
-  supplementalGroupsPolicy?: string;
+  supplementalGroups?: IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList | undefined;
+  /** supplementalGroupsPolicy defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. The container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
+  supplementalGroupsPolicy?: string | undefined;
   /** sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
-  sysctls?: IoK8sApiCoreV1PodSecurityContextSysctlsList;
+  sysctls?: IoK8sApiCoreV1PodSecurityContextSysctlsList | undefined;
   /** windowsOptions is the Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
-  windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions;
+  windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions | undefined;
 }
 /** The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>. */
 export interface IoK8sApiCoreV1Toleration {
   /** effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute. */
-  effect?: string;
+  effect?: string | undefined;
   /** key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
-  key?: string;
+  key?: string | undefined;
   /** operator represents a key's relationship to the value. Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category. Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators). */
-  operator?: string;
+  operator?: string | undefined;
   /** tolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. */
-  tolerationSeconds?: number;
+  tolerationSeconds?: number | undefined;
   /** value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
-  value?: string;
+  value?: string | undefined;
 }
 /** tolerations specifies the pod's tolerations. */
 export type IoK8sApiCoreV1PodSpecTolerationsList = Array<IoK8sApiCoreV1Toleration>;
@@ -1025,17 +1053,17 @@ export type IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList = Array<str
 /** TopologySpreadConstraint specifies how to spread matching pods among the given topology. */
 export interface IoK8sApiCoreV1TopologySpreadConstraint {
   /** labelSelector is used to find matching pods. Pods that match this label selector are counted to determine the number of pods in their corresponding topology domain. */
-  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** matchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn't set. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector. This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default). */
-  matchLabelKeys?: IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList;
+  matchLabelKeys?: IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList | undefined;
   /** maxSkew describes the degree to which pods may be unevenly distributed. When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | | P P | P P | P | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed. */
   maxSkew: number;
   /** minDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats "global minimum" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | | P P | P P | P P | The number of domains is less than 5(MinDomains), so "global minimum" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. */
-  minDomains?: number;
+  minDomains?: number | undefined;
   /** nodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. If this value is nil, the behavior is equivalent to the Honor policy. */
-  nodeAffinityPolicy?: string;
+  nodeAffinityPolicy?: string | undefined;
   /** nodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. If this value is nil, the behavior is equivalent to the Ignore policy. */
-  nodeTaintsPolicy?: string;
+  nodeTaintsPolicy?: string | undefined;
   /** topologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a "bucket", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is "kubernetes.io/hostname", each Node is a domain of that topology. And, if TopologyKey is "topology.kubernetes.io/zone", each zone is a domain of that topology. It's a required field. */
   topologyKey: string;
   /** whenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location, but giving higher precedence to topologies that would help reduce the skew. A constraint is considered "Unsatisfiable" for an incoming pod if and only if every possible node assignment for that pod would violate "MaxSkew" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P | P | P | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field. */
@@ -1047,33 +1075,33 @@ export type IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList =
 /** Represents a Persistent Disk resource in AWS. An AWS EBS disk must exist before mounting to a container. The disk must also be in the same AWS zone as the kubelet. An AWS EBS disk can only be mounted as read/write once. AWS EBS volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource {
   /** fsType is the filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore */
-  fsType?: string;
+  fsType?: string | undefined;
   /** partition is the partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as "1". Similarly, the volume partition for /dev/sda is "0" (or you can leave the property empty). */
-  partition?: number;
+  partition?: number | undefined;
   /** readOnly value true will force the readOnly setting in VolumeMounts. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** volumeID is unique ID of the persistent disk resource in AWS (Amazon EBS volume). More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore */
   volumeID: string;
 }
 /** AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod. */
 export interface IoK8sApiCoreV1AzureDiskVolumeSource {
   /** cachingMode is the Host Caching mode: None, Read Only, Read Write. */
-  cachingMode?: string;
+  cachingMode?: string | undefined;
   /** diskName is the Name of the data disk in the blob storage */
   diskName: string;
   /** diskURI is the URI of data disk in the blob storage */
   diskURI: string;
   /** fsType is Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** kind expected values are Shared: multiple blob disks per storage account Dedicated: single blob disk per storage account Managed: azure managed data disk (only in managed availability set). defaults to shared */
-  kind?: string;
+  kind?: string | undefined;
   /** readOnly Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** AzureFile represents an Azure File Service mount on the host and bind mount to the pod. */
 export interface IoK8sApiCoreV1AzureFileVolumeSource {
   /** readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretName is the name of secret that contains Azure Storage Account Name and Key */
   secretName: string;
   /** shareName is the azure share Name */
@@ -1086,24 +1114,24 @@ export interface IoK8sApiCoreV1CephFSVolumeSource {
   /** monitors is Required: Monitors is a collection of Ceph monitors More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it */
   monitors: IoK8sApiCoreV1CephFSVolumeSourceMonitorsList;
   /** path is Optional: Used as the mounted root, rather than the full Ceph tree, default is / */
-  path?: string;
+  path?: string | undefined;
   /** readOnly is Optional: Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretFile is Optional: SecretFile is the path to key ring for User, default is /etc/ceph/user.secret More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it */
-  secretFile?: string;
+  secretFile?: string | undefined;
   /** secretRef is Optional: SecretRef is reference to the authentication secret for User, default is empty. More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** user is optional: User is the rados user name, default is admin More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it */
-  user?: string;
+  user?: string | undefined;
 }
 /** Represents a cinder volume resource in Openstack. A Cinder volume must exist before mounting to a container. The volume must also be in the same region as the kubelet. Cinder volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1CinderVolumeSource {
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://examples.k8s.io/mysql-cinder-pd/README.md */
-  fsType?: string;
+  fsType?: string | undefined;
   /** readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. More info: https://examples.k8s.io/mysql-cinder-pd/README.md */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef is optional: points to a secret object containing parameters used to connect to OpenStack. */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** volumeID used to identify the volume in cinder. More info: https://examples.k8s.io/mysql-cinder-pd/README.md */
   volumeID: string;
 }
@@ -1112,26 +1140,26 @@ export interface IoK8sApiCoreV1KeyToPath {
   /** key is the key to project. */
   key: string;
   /** mode is Optional: mode bits used to set permissions on this file. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  mode?: number;
+  mode?: number | undefined;
   /** path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'. */
   path: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  user?: number;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number | undefined;
 }
 /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
 export type IoK8sApiCoreV1ConfigMapVolumeSourceItemsList = Array<IoK8sApiCoreV1KeyToPath>;
 /** Adapts a ConfigMap into a volume. The contents of the target ConfigMap's Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. ConfigMap volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   /** defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  defaultUser?: number;
+  defaultMode?: number | undefined;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number | undefined;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
-  items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
+  items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList | undefined;
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specify whether the ConfigMap or its keys must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** volumeAttributes stores driver-specific properties that are passed to the CSI driver. Consult your driver's documentation for supported values. */
 export type IoK8sApiCoreV1CSIVolumeSourceVolumeAttributesMap = {
@@ -1142,26 +1170,26 @@ export interface IoK8sApiCoreV1CSIVolumeSource {
   /** driver is the name of the CSI driver that handles this volume. Consult with your admin for the correct name as registered in the cluster. */
   driver: string;
   /** fsType to mount. Ex. "ext4", "xfs", "ntfs". If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** nodePublishSecretRef is a reference to the secret object containing sensitive information to pass to the CSI driver to complete the CSI NodePublishVolume and NodeUnpublishVolume calls. This field is optional, and may be empty if no secret is required. If the secret object contains more than one secret, all secret references are passed. */
-  nodePublishSecretRef?: IoK8sApiCoreV1LocalObjectReference;
+  nodePublishSecretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** readOnly specifies a read-only configuration for the volume. Defaults to false (read/write). */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** volumeAttributes stores driver-specific properties that are passed to the CSI driver. Consult your driver's documentation for supported values. */
-  volumeAttributes?: IoK8sApiCoreV1CSIVolumeSourceVolumeAttributesMap;
+  volumeAttributes?: IoK8sApiCoreV1CSIVolumeSourceVolumeAttributesMap | undefined;
 }
 /** DownwardAPIVolumeFile represents information to create the file containing the pod field */
 export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
   /** fieldRef selects a field of the pod: only annotations, labels, name, namespace and uid are supported. Required. */
-  fieldRef?: IoK8sApiCoreV1ObjectFieldSelector;
+  fieldRef?: IoK8sApiCoreV1ObjectFieldSelector | undefined;
   /** mode is optional: mode bits used to set permissions on this file, must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  mode?: number;
+  mode?: number | undefined;
   /** path is the relative path name of the file to be created. Must not be absolute or contain the '..' path. Must be utf-8 encoded. The first item of the relative path must not start with '..' */
   path: string;
   /** resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
-  resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  user?: number;
+  resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector | undefined;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number | undefined;
 }
 /** items is a list of downward API volume file */
 export type IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
@@ -1169,27 +1197,27 @@ export type IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
 /** DownwardAPIVolumeSource represents a volume containing downward API info. Downward API volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
   /** defaultMode is mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  defaultUser?: number;
+  defaultMode?: number | undefined;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number | undefined;
   /** items is a list of downward API volume file */
-  items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
+  items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList | undefined;
 }
 /** Represents an empty directory for a pod. Empty directory volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1EmptyDirVolumeSource {
   /** medium represents what type of storage medium should back this directory. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
-  medium?: string;
+  medium?: string | undefined;
   /** mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. */
-  mode?: number;
+  mode?: number | undefined;
   /** sizeLimit is the total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
-  sizeLimit?: string;
+  sizeLimit?: string | undefined;
 }
 /** accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
 export type IoK8sApiCoreV1PersistentVolumeClaimSpecAccessModesList = Array<string>;
 /** TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace. */
 export interface IoK8sApiCoreV1TypedLocalObjectReference {
   /** apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** kind is the type of resource being referenced */
   kind: string;
   /** name is the name of resource being referenced */
@@ -1198,13 +1226,13 @@ export interface IoK8sApiCoreV1TypedLocalObjectReference {
 /** TypedObjectReference contains enough information to let you locate the typed referenced object */
 export interface IoK8sApiCoreV1TypedObjectReference {
   /** apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** kind is the type of resource being referenced */
   kind: string;
   /** name is the name of resource being referenced */
   name: string;
   /** namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap = {
@@ -1217,35 +1245,35 @@ export type IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap = {
 /** VolumeResourceRequirements describes the storage resource requirements for a volume. */
 export interface IoK8sApiCoreV1VolumeResourceRequirements {
   /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  limits?: IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap;
+  limits?: IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap | undefined;
   /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  requests?: IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap;
+  requests?: IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap | undefined;
 }
 /** PersistentVolumeClaimSpec describes the common attributes of storage devices and allows a Source for provider-specific attributes */
 export interface IoK8sApiCoreV1PersistentVolumeClaimSpec {
   /** accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
-  accessModes?: IoK8sApiCoreV1PersistentVolumeClaimSpecAccessModesList;
+  accessModes?: IoK8sApiCoreV1PersistentVolumeClaimSpecAccessModesList | undefined;
   /** dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified. If the namespace is specified, then dataSourceRef will not be copied to dataSource. */
-  dataSource?: IoK8sApiCoreV1TypedLocalObjectReference;
+  dataSource?: IoK8sApiCoreV1TypedLocalObjectReference | undefined;
   /** dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While dataSource ignores disallowed values (dropping them), dataSourceRef preserves all values, and generates an error if a disallowed value is specified. * While dataSource only allows local objects, dataSourceRef allows objects in any namespaces. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled. */
-  dataSourceRef?: IoK8sApiCoreV1TypedObjectReference;
+  dataSourceRef?: IoK8sApiCoreV1TypedObjectReference | undefined;
   /** resources represents the minimum resources the volume should have. Users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources */
-  resources?: IoK8sApiCoreV1VolumeResourceRequirements;
+  resources?: IoK8sApiCoreV1VolumeResourceRequirements | undefined;
   /** selector is a label query over volumes to consider for binding. */
-  selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1 */
-  storageClassName?: string;
+  storageClassName?: string | undefined;
   /** volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim. If specified, the CSI driver will create or update the volume with the attributes defined in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName, it can be changed after the claim is created. An empty string or nil value indicates that no VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state, this field can be reset to its previous value (including nil) to cancel the modification. If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource exists. More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/ */
-  volumeAttributesClassName?: string;
+  volumeAttributesClassName?: string | undefined;
   /** volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec. */
-  volumeMode?: string;
+  volumeMode?: string | undefined;
   /** volumeName is the binding reference to the PersistentVolume backing this claim. */
-  volumeName?: string;
+  volumeName?: string | undefined;
 }
 /** PersistentVolumeClaimTemplate is used to produce PersistentVolumeClaim objects as part of an EphemeralVolumeSource. */
 export interface IoK8sApiCoreV1PersistentVolumeClaimTemplate {
   /** metadata may contain labels and annotations that will be copied into the PVC when creating it. No other fields are allowed and will be rejected during validation. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification for the PersistentVolumeClaim. The entire content is copied unchanged into the PVC that gets created from this template. The same fields as in a PersistentVolumeClaim are also valid here. */
   spec: IoK8sApiCoreV1PersistentVolumeClaimSpec;
 }
@@ -1261,15 +1289,15 @@ export type IoK8sApiCoreV1FCVolumeSourceWwidsList = Array<string>;
 /** Represents a Fibre Channel volume. Fibre Channel volumes can only be mounted as read/write once. Fibre Channel volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1FCVolumeSource {
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** lun is Optional: FC target lun number */
-  lun?: number;
+  lun?: number | undefined;
   /** readOnly is Optional: Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** targetWWNs is Optional: FC target worldwide names (WWNs) */
-  targetWWNs?: IoK8sApiCoreV1FCVolumeSourceTargetWWNsList;
+  targetWWNs?: IoK8sApiCoreV1FCVolumeSourceTargetWWNsList | undefined;
   /** wwids Optional: FC volume world wide identifiers (wwids) Either wwids or combination of targetWWNs and lun must be set, but not both simultaneously. */
-  wwids?: IoK8sApiCoreV1FCVolumeSourceWwidsList;
+  wwids?: IoK8sApiCoreV1FCVolumeSourceWwidsList | undefined;
 }
 /** options is Optional: this field holds extra command options if any. */
 export type IoK8sApiCoreV1FlexVolumeSourceOptionsMap = { [key: string]: string | undefined };
@@ -1278,40 +1306,40 @@ export interface IoK8sApiCoreV1FlexVolumeSource {
   /** driver is the name of the driver to use for this volume. */
   driver: string;
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". The default filesystem depends on FlexVolume script. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** options is Optional: this field holds extra command options if any. */
-  options?: IoK8sApiCoreV1FlexVolumeSourceOptionsMap;
+  options?: IoK8sApiCoreV1FlexVolumeSourceOptionsMap | undefined;
   /** readOnly is Optional: defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef is Optional: secretRef is reference to the secret object containing sensitive information to pass to the plugin scripts. This may be empty if no secret object is specified. If the secret object contains more than one secret, all secrets are passed to the plugin scripts. */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
 }
 /** Represents a Flocker volume mounted by the Flocker agent. One and only one of datasetName and datasetUUID should be set. Flocker volumes do not support ownership management or SELinux relabeling. */
 export interface IoK8sApiCoreV1FlockerVolumeSource {
   /** datasetName is Name of the dataset stored as metadata -> name on the dataset for Flocker should be considered as deprecated */
-  datasetName?: string;
+  datasetName?: string | undefined;
   /** datasetUUID is the UUID of the dataset. This is unique identifier of a Flocker dataset */
-  datasetUUID?: string;
+  datasetUUID?: string | undefined;
 }
 /** Represents a Persistent Disk resource in Google Compute Engine. A GCE PD must exist before mounting to a container. The disk must also be in the same GCE project and zone as the kubelet. A GCE PD can only be mounted as read/write once or read-only many times. GCE PDs support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1GCEPersistentDiskVolumeSource {
   /** fsType is filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
-  fsType?: string;
+  fsType?: string | undefined;
   /** partition is the partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as "1". Similarly, the volume partition for /dev/sda is "0" (or you can leave the property empty). More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
-  partition?: number;
+  partition?: number | undefined;
   /** pdName is unique name of the PD resource in GCE. Used to identify the disk in GCE. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
   pdName: string;
   /** readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
-/** Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling. DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container. */
+/** Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling. Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container. */
 export interface IoK8sApiCoreV1GitRepoVolumeSource {
   /** directory is the target directory name. Must not contain or start with '..'. If '.' is supplied, the volume directory will be the git repository. Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name. */
-  directory?: string;
+  directory?: string | undefined;
   /** repository is the URL */
   repository: string;
   /** revision is the commit hash for the specified revision. */
-  revision?: string;
+  revision?: string | undefined;
 }
 /** Represents a Glusterfs mount that lasts the lifetime of a pod. Glusterfs volumes do not support ownership management or SELinux relabeling. */
 export interface IoK8sApiCoreV1GlusterfsVolumeSource {
@@ -1320,46 +1348,46 @@ export interface IoK8sApiCoreV1GlusterfsVolumeSource {
   /** path is the Glusterfs volume path. More info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod */
   path: string;
   /** readOnly here will force the Glusterfs volume to be mounted with read-only permissions. Defaults to false. More info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** Represents a host path mapped into a pod. Host path volumes do not support ownership management or SELinux relabeling. */
 export interface IoK8sApiCoreV1HostPathVolumeSource {
   /** path of the directory on the host. If the path is a symlink, it will follow the link to the real path. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath */
   path: string;
   /** type for HostPath Volume Defaults to "" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath */
-  type?: string;
+  type?: string | undefined;
 }
 /** ImageVolumeSource represents a image volume resource. */
 export interface IoK8sApiCoreV1ImageVolumeSource {
   /** pullPolicy is the policy for pulling OCI objects. Possible values are: Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails. Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present. IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. */
-  pullPolicy?: string;
+  pullPolicy?: string | undefined;
   /** reference is required: Image or artifact reference to be used. Behaves in the same way as pod.spec.containers[*].image. Pull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
-  reference?: string;
+  reference?: string | undefined;
 }
 /** portals is the iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260). */
 export type IoK8sApiCoreV1ISCSIVolumeSourcePortalsList = Array<string>;
 /** Represents an ISCSI disk. ISCSI volumes can only be mounted as read/write once. ISCSI volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1ISCSIVolumeSource {
   /** chapAuthDiscovery defines whether support iSCSI Discovery CHAP authentication */
-  chapAuthDiscovery?: boolean;
+  chapAuthDiscovery?: boolean | undefined;
   /** chapAuthSession defines whether support iSCSI Session CHAP authentication */
-  chapAuthSession?: boolean;
+  chapAuthSession?: boolean | undefined;
   /** fsType is the filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#iscsi */
-  fsType?: string;
+  fsType?: string | undefined;
   /** initiatorName is the custom iSCSI Initiator Name. If initiatorName is specified with iscsiInterface simultaneously, new iSCSI interface <target portal>:<volume name> will be created for the connection. */
-  initiatorName?: string;
+  initiatorName?: string | undefined;
   /** iqn is the target iSCSI Qualified Name. */
   iqn: string;
   /** iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to 'default' (tcp). */
-  iscsiInterface?: string;
+  iscsiInterface?: string | undefined;
   /** lun represents iSCSI Target Lun number. */
-  lun?: number;
+  lun?: number | undefined;
   /** portals is the iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260). */
-  portals?: IoK8sApiCoreV1ISCSIVolumeSourcePortalsList;
+  portals?: IoK8sApiCoreV1ISCSIVolumeSourcePortalsList | undefined;
   /** readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef is the CHAP Secret for iSCSI target and initiator authentication */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** targetPortal is iSCSI Target Portal. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260). */
   targetPortal: string;
 }
@@ -1368,7 +1396,7 @@ export interface IoK8sApiCoreV1NFSVolumeSource {
   /** path that is exported by the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs */
   path: string;
   /** readOnly here will force the NFS export to be mounted with read-only permissions. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** server is the hostname or IP address of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs */
   server: string;
 }
@@ -1377,49 +1405,49 @@ export interface IoK8sApiCoreV1PersistentVolumeClaimVolumeSource {
   /** claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims */
   claimName: string;
   /** readOnly Will force the ReadOnly setting in VolumeMounts. Default false. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** Represents a Photon Controller persistent disk resource. */
 export interface IoK8sApiCoreV1PhotonPersistentDiskVolumeSource {
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** pdID is the ID that identifies Photon Controller persistent disk */
   pdID: string;
 }
 /** PortworxVolumeSource represents a Portworx volume resource. */
 export interface IoK8sApiCoreV1PortworxVolumeSource {
   /** fsType represents the filesystem type to mount Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** volumeID uniquely identifies a Portworx volume */
   volumeID: string;
 }
 /** ClusterTrustBundleProjection describes how to select a set of ClusterTrustBundle objects and project their contents into the pod filesystem. */
 export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
   /** labelSelector selects all ClusterTrustBundles that match this label selector. Only has effect if signerName is set. Mutually-exclusive with name. If unset, interpreted as "match nothing". If set but empty, interpreted as "match everything". */
-  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** name selects a single ClusterTrustBundle by object name. Mutually-exclusive with signerName and labelSelector. */
-  name?: string;
+  name?: string | undefined;
   /** optional indicates that if true, don't block pod startup if the referenced ClusterTrustBundle(s) aren't available. If using name, then the named ClusterTrustBundle is allowed not to exist. If using signerName, then the combination of signerName and labelSelector is allowed to match zero ClusterTrustBundles. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** path is the relative path from the volume root to write the bundle. */
   path: string;
   /** signerName selects all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
-  signerName?: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  user?: number;
+  signerName?: string | undefined;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number | undefined;
 }
 /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
 export type IoK8sApiCoreV1ConfigMapProjectionItemsList = Array<IoK8sApiCoreV1KeyToPath>;
 /** Adapts a ConfigMap into a projected volume. The contents of the target ConfigMap's Data field will be presented in a projected volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. Note that this is identical to a configmap volume source without the default mode. */
 export interface IoK8sApiCoreV1ConfigMapProjection {
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
-  items?: IoK8sApiCoreV1ConfigMapProjectionItemsList;
+  items?: IoK8sApiCoreV1ConfigMapProjectionItemsList | undefined;
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional specify whether the ConfigMap or its keys must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** items is a list of DownwardAPIVolume file */
 export type IoK8sApiCoreV1DownwardAPIProjectionItemsList =
@@ -1427,7 +1455,7 @@ export type IoK8sApiCoreV1DownwardAPIProjectionItemsList =
 /** Represents downward API info for projecting into a projected volume. Note that this is identical to a downwardAPI volume source without the default mode. */
 export interface IoK8sApiCoreV1DownwardAPIProjection {
   /** items is a list of DownwardAPIVolume file */
-  items?: IoK8sApiCoreV1DownwardAPIProjectionItemsList;
+  items?: IoK8sApiCoreV1DownwardAPIProjectionItemsList | undefined;
 }
 /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
 export type IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap = {
@@ -1436,82 +1464,82 @@ export type IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap = {
 /** PodCertificateProjection provides a private key and X.509 certificate in the pod filesystem. */
 export interface IoK8sApiCoreV1PodCertificateProjection {
   /** certificateChainPath is the path to write the certificate chain at this path in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
-  certificateChainPath?: string;
+  certificateChainPath?: string | undefined;
   /** credentialBundlePath is the path to write the credential bundle at in the projected volume. The credential bundle is a single file that contains multiple PEM blocks. The first PEM block is a PRIVATE KEY block, containing a PKCS#8 private key. The remaining blocks are CERTIFICATE blocks, containing the issued certificate chain from the signer (leaf and any intermediates). Using credentialBundlePath lets your Pod's application code make a single atomic read that retrieves a consistent key and certificate chain. If you project them to separate files, your application code will need to additionally check that the leaf certificate was issued to the key. */
-  credentialBundlePath?: string;
+  credentialBundlePath?: string | undefined;
   /** keyPath is the path to write the key at in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
-  keyPath?: string;
+  keyPath?: string | undefined;
   /** keyType is the type of keypair Kubelet will generate for the pod. Valid values are "RSA3072", "RSA4096", "ECDSAP256", "ECDSAP384", "ECDSAP521", "ED25519", "MLDSA44", "MLDSA65", and "MLDSA87". MLDSA key types are only allowed when the PodCertificateMLDSA feature gate is enabled. */
   keyType: string;
   /** maxExpirationSeconds is the maximum lifetime permitted for the certificate. Kubelet copies this value verbatim into the PodCertificateRequests it generates for this projection. If omitted, kube-apiserver will set it to 86400(24 hours). kube-apiserver will reject values shorter than 3600 (1 hour). The maximum allowable value is 7862400 (91 days). The signer implementation is then free to issue a certificate with any lifetime *shorter* than MaxExpirationSeconds, but no shorter than 3600 seconds (1 hour). This constraint is enforced by kube-apiserver. `kubernetes.io` signers will never issue certificates with a lifetime longer than 24 hours. */
-  maxExpirationSeconds?: number;
+  maxExpirationSeconds?: number | undefined;
   /** signerName is the name of the signer. Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  user?: number;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number | undefined;
   /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
-  userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap;
+  userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap | undefined;
 }
 /** items if unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
 export type IoK8sApiCoreV1SecretProjectionItemsList = Array<IoK8sApiCoreV1KeyToPath>;
 /** Adapts a secret into a projected volume. The contents of the target Secret's Data field will be presented in a projected volume as files using the keys in the Data field as the file names. Note that this is identical to a secret volume source without the default mode. */
 export interface IoK8sApiCoreV1SecretProjection {
   /** items if unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
-  items?: IoK8sApiCoreV1SecretProjectionItemsList;
+  items?: IoK8sApiCoreV1SecretProjectionItemsList | undefined;
   /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** optional field specify whether the Secret or its key must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** ServiceAccountTokenProjection represents a projected service account token volume. This projection can be used to insert a service account token into the pods runtime filesystem for use against APIs (Kubernetes API Server or otherwise). */
 export interface IoK8sApiCoreV1ServiceAccountTokenProjection {
   /** audience is the intended audience of the token. A recipient of a token must identify itself with an identifier specified in the audience of the token, and otherwise should reject the token. The audience defaults to the identifier of the apiserver. */
-  audience?: string;
+  audience?: string | undefined;
   /** expirationSeconds is the requested duration of validity of the service account token. As the token approaches expiration, the kubelet volume plugin will proactively rotate the service account token. The kubelet will start trying to rotate the token if the token is older than 80 percent of its time to live or if the token is older than 24 hours.Defaults to 1 hour and must be at least 10 minutes. */
-  expirationSeconds?: number;
+  expirationSeconds?: number | undefined;
   /** path is the path relative to the mount point of the file to project the token into. */
   path: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  user?: number;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number | undefined;
 }
 /** Projection that may be projected along with other supported volume types. Exactly one of these fields must be set. */
 export interface IoK8sApiCoreV1VolumeProjection {
   /** clusterTrustBundle allows a pod to access the `.spec.trustBundle` field of ClusterTrustBundle objects in an auto-updating file. Alpha, gated by the ClusterTrustBundleProjection feature gate. ClusterTrustBundle objects can either be selected by name, or by the combination of signer name and a label selector. Kubelet performs aggressive normalization of the PEM contents written into the pod filesystem. Esoteric PEM features such as inter-block comments and block headers are stripped. Certificates are deduplicated. The ordering of certificates within the file is arbitrary, and Kubelet may change the order over time. */
-  clusterTrustBundle?: IoK8sApiCoreV1ClusterTrustBundleProjection;
+  clusterTrustBundle?: IoK8sApiCoreV1ClusterTrustBundleProjection | undefined;
   /** configMap information about the configMap data to project */
-  configMap?: IoK8sApiCoreV1ConfigMapProjection;
+  configMap?: IoK8sApiCoreV1ConfigMapProjection | undefined;
   /** downwardAPI information about the downwardAPI data to project */
-  downwardAPI?: IoK8sApiCoreV1DownwardAPIProjection;
+  downwardAPI?: IoK8sApiCoreV1DownwardAPIProjection | undefined;
   /** podCertificate projects an auto-rotating credential bundle (private key and certificate chain) that the pod can use either as a TLS client or server. Kubelet generates a private key and uses it to send a PodCertificateRequest to the named signer. Once the signer approves the request and issues a certificate chain, Kubelet writes the key and certificate chain to the pod filesystem. The pod does not start until certificates have been issued for each podCertificate projected volume source in its spec. Kubelet will begin trying to rotate the certificate at the time indicated by the signer using the PodCertificateRequest.Status.BeginRefreshAt timestamp. Kubelet can write a single file, indicated by the credentialBundlePath field, or separate files, indicated by the keyPath and certificateChainPath fields. The credential bundle is a single file in PEM format. The first PEM entry is the private key (in PKCS#8 format), and the remaining PEM entries are the certificate chain issued by the signer (typically, signers will return their certificate chain in leaf-to-root order). Prefer using the credential bundle format, since your application code can read it atomically. If you use keyPath and certificateChainPath, your application must make two separate file reads. If these coincide with a certificate rotation, it is possible that the private key and leaf certificate you read may not correspond to each other. Your application will need to check for this condition, and re-read until they are consistent. The named signer controls chooses the format of the certificate it issues; consult the signer implementation's documentation to learn how to use the certificates it issues. */
-  podCertificate?: IoK8sApiCoreV1PodCertificateProjection;
+  podCertificate?: IoK8sApiCoreV1PodCertificateProjection | undefined;
   /** secret information about the secret data to project */
-  secret?: IoK8sApiCoreV1SecretProjection;
+  secret?: IoK8sApiCoreV1SecretProjection | undefined;
   /** serviceAccountToken is information about the serviceAccountToken data to project */
-  serviceAccountToken?: IoK8sApiCoreV1ServiceAccountTokenProjection;
+  serviceAccountToken?: IoK8sApiCoreV1ServiceAccountTokenProjection | undefined;
 }
 /** sources is the list of volume projections. Each entry in this list handles one source. */
 export type IoK8sApiCoreV1ProjectedVolumeSourceSourcesList = Array<IoK8sApiCoreV1VolumeProjection>;
 /** Represents a projected volume source */
 export interface IoK8sApiCoreV1ProjectedVolumeSource {
   /** defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  defaultUser?: number;
+  defaultMode?: number | undefined;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number | undefined;
   /** sources is the list of volume projections. Each entry in this list handles one source. */
-  sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList;
+  sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList | undefined;
 }
 /** Represents a Quobyte mount that lasts the lifetime of a pod. Quobyte volumes do not support ownership management or SELinux relabeling. */
 export interface IoK8sApiCoreV1QuobyteVolumeSource {
   /** group to map volume access to Default is no group */
-  group?: string;
+  group?: string | undefined;
   /** readOnly here will force the Quobyte volume to be mounted with read-only permissions. Defaults to false. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** registry represents a single or multiple Quobyte Registry services specified as a string as host:port pair (multiple entries are separated with commas) which acts as the central registry for volumes */
   registry: string;
   /** tenant owning the given Quobyte volume in the Backend Used with dynamically provisioned Quobyte volumes, value is set by the plugin */
-  tenant?: string;
+  tenant?: string | undefined;
   /** user to map volume access to Defaults to serivceaccount user */
-  user?: string;
+  user?: string | undefined;
   /** volume is a string that references an already created Quobyte volume by name. */
   volume: string;
 }
@@ -1520,40 +1548,40 @@ export type IoK8sApiCoreV1RBDVolumeSourceMonitorsList = Array<string>;
 /** Represents a Rados Block Device mount that lasts the lifetime of a pod. RBD volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1RBDVolumeSource {
   /** fsType is the filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#rbd */
-  fsType?: string;
+  fsType?: string | undefined;
   /** image is the rados image name. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
   image: string;
   /** keyring is the path to key ring for RBDUser. Default is /etc/ceph/keyring. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
-  keyring?: string;
+  keyring?: string | undefined;
   /** monitors is a collection of Ceph monitors. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
   monitors: IoK8sApiCoreV1RBDVolumeSourceMonitorsList;
   /** pool is the rados pool name. Default is rbd. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
-  pool?: string;
+  pool?: string | undefined;
   /** readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef is name of the authentication secret for RBDUser. If provided overrides keyring. Default is nil. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** user is the rados user name. Default is admin. More info: https://examples.k8s.io/volumes/rbd/README.md#how-to-use-it */
-  user?: string;
+  user?: string | undefined;
 }
 /** ScaleIOVolumeSource represents a persistent ScaleIO volume */
 export interface IoK8sApiCoreV1ScaleIOVolumeSource {
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Default is "xfs". */
-  fsType?: string;
+  fsType?: string | undefined;
   /** gateway is the host address of the ScaleIO API Gateway. */
   gateway: string;
   /** protectionDomain is the name of the ScaleIO Protection Domain for the configured storage. */
-  protectionDomain?: string;
+  protectionDomain?: string | undefined;
   /** readOnly Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail. */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** sslEnabled Flag enable/disable SSL communication with Gateway, default false */
-  sslEnabled?: boolean;
+  sslEnabled?: boolean | undefined;
   /** storageMode indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned. Default is ThinProvisioned. */
-  storageMode?: string;
+  storageMode?: string | undefined;
   /** storagePool is the ScaleIO Storage Pool associated with the protection domain. */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** system is the name of the storage system as configured in ScaleIO. */
   system: string;
   /** volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source. */
@@ -1564,343 +1592,343 @@ export type IoK8sApiCoreV1SecretVolumeSourceItemsList = Array<IoK8sApiCoreV1KeyT
 /** Adapts a Secret into a volume. The contents of the target Secret's Data field will be presented in a volume as files using the keys in the Data field as the file names. Secret volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1SecretVolumeSource {
   /** defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
-  defaultUser?: number;
+  defaultMode?: number | undefined;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number | undefined;
   /** items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
-  items?: IoK8sApiCoreV1SecretVolumeSourceItemsList;
+  items?: IoK8sApiCoreV1SecretVolumeSourceItemsList | undefined;
   /** optional field specify whether the Secret or its keys must be defined */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** secretName is the name of the secret in the pod's namespace to use. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret */
-  secretName?: string;
+  secretName?: string | undefined;
 }
 /** Represents a StorageOS persistent volume resource. */
 export interface IoK8sApiCoreV1StorageOSVolumeSource {
   /** fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** secretRef specifies the secret to use for obtaining the StorageOS API credentials. If not specified, default values will be attempted. */
-  secretRef?: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference | undefined;
   /** volumeName is the human-readable name of the StorageOS volume. Volume names are only unique within a namespace. */
   volumeName: string;
   /** volumeNamespace specifies the scope of the volume within StorageOS. If no namespace is specified then the Pod's namespace will be used. This allows the Kubernetes name scoping to be mirrored within StorageOS for tighter integration. Set VolumeName to any name to override the default behaviour. Set to "default" if you are not using namespaces within StorageOS. Namespaces that do not pre-exist within StorageOS will be created. */
-  volumeNamespace?: string;
+  volumeNamespace?: string | undefined;
 }
 /** Represents a vSphere volume resource. */
 export interface IoK8sApiCoreV1VsphereVirtualDiskVolumeSource {
   /** fsType is filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. */
-  fsType?: string;
+  fsType?: string | undefined;
   /** storagePolicyID is the storage Policy Based Management (SPBM) profile ID associated with the StoragePolicyName. */
-  storagePolicyID?: string;
+  storagePolicyID?: string | undefined;
   /** storagePolicyName is the storage Policy Based Management (SPBM) profile name. */
-  storagePolicyName?: string;
+  storagePolicyName?: string | undefined;
   /** volumePath is the path that identifies vSphere volume vmdk */
   volumePath: string;
 }
 /** Volume represents a named volume in a pod that may be accessed by any container in the pod. */
 export interface IoK8sApiCoreV1Volume {
   /** awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore */
-  awsElasticBlockStore?: IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource;
+  awsElasticBlockStore?: IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource | undefined;
   /** azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod. Deprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type are redirected to the disk.csi.azure.com CSI driver. */
-  azureDisk?: IoK8sApiCoreV1AzureDiskVolumeSource;
+  azureDisk?: IoK8sApiCoreV1AzureDiskVolumeSource | undefined;
   /** azureFile represents an Azure File Service mount on the host and bind mount to the pod. Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver. */
-  azureFile?: IoK8sApiCoreV1AzureFileVolumeSource;
+  azureFile?: IoK8sApiCoreV1AzureFileVolumeSource | undefined;
   /** cephfs represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported. */
-  cephfs?: IoK8sApiCoreV1CephFSVolumeSource;
+  cephfs?: IoK8sApiCoreV1CephFSVolumeSource | undefined;
   /** cinder represents a cinder volume attached and mounted on kubelets host machine. Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md */
-  cinder?: IoK8sApiCoreV1CinderVolumeSource;
+  cinder?: IoK8sApiCoreV1CinderVolumeSource | undefined;
   /** configMap represents a configMap that should populate this volume */
-  configMap?: IoK8sApiCoreV1ConfigMapVolumeSource;
+  configMap?: IoK8sApiCoreV1ConfigMapVolumeSource | undefined;
   /** csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers. */
-  csi?: IoK8sApiCoreV1CSIVolumeSource;
+  csi?: IoK8sApiCoreV1CSIVolumeSource | undefined;
   /** downwardAPI represents downward API about the pod that should populate this volume */
-  downwardAPI?: IoK8sApiCoreV1DownwardAPIVolumeSource;
+  downwardAPI?: IoK8sApiCoreV1DownwardAPIVolumeSource | undefined;
   /** emptyDir represents a temporary directory that shares a pod's lifetime. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
-  emptyDir?: IoK8sApiCoreV1EmptyDirVolumeSource;
+  emptyDir?: IoK8sApiCoreV1EmptyDirVolumeSource | undefined;
   /** ephemeral represents a volume that is handled by a cluster storage driver. The volume's lifecycle is tied to the pod that defines it - it will be created before the pod starts, and deleted when the pod is removed. Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through a PersistentVolumeClaim (see EphemeralVolumeSource for more information on the connection between this volume type and PersistentVolumeClaim). Use PersistentVolumeClaim or one of the vendor-specific APIs for volumes that persist for longer than the lifecycle of an individual pod. Use CSI for light-weight local ephemeral volumes if the CSI driver is meant to be used that way - see the documentation of the driver for more information. A pod can use both types of ephemeral volumes and persistent volumes at the same time. */
-  ephemeral?: IoK8sApiCoreV1EphemeralVolumeSource;
+  ephemeral?: IoK8sApiCoreV1EphemeralVolumeSource | undefined;
   /** fc represents a Fibre Channel resource that is attached to a kubelet's host machine and then exposed to the pod. */
-  fc?: IoK8sApiCoreV1FCVolumeSource;
+  fc?: IoK8sApiCoreV1FCVolumeSource | undefined;
   /** flexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin. Deprecated: FlexVolume is deprecated. Consider using a CSIDriver instead. */
-  flexVolume?: IoK8sApiCoreV1FlexVolumeSource;
+  flexVolume?: IoK8sApiCoreV1FlexVolumeSource | undefined;
   /** flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running. Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported. */
-  flocker?: IoK8sApiCoreV1FlockerVolumeSource;
+  flocker?: IoK8sApiCoreV1FlockerVolumeSource | undefined;
   /** gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
-  gcePersistentDisk?: IoK8sApiCoreV1GCEPersistentDiskVolumeSource;
+  gcePersistentDisk?: IoK8sApiCoreV1GCEPersistentDiskVolumeSource | undefined;
   /** gitRepo represents a git repository at a particular revision. Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container. */
-  gitRepo?: IoK8sApiCoreV1GitRepoVolumeSource;
+  gitRepo?: IoK8sApiCoreV1GitRepoVolumeSource | undefined;
   /** glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime. Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported. */
-  glusterfs?: IoK8sApiCoreV1GlusterfsVolumeSource;
+  glusterfs?: IoK8sApiCoreV1GlusterfsVolumeSource | undefined;
   /** hostPath represents a pre-existing file or directory on the host machine that is directly exposed to the container. This is generally used for system agents or other privileged things that are allowed to see the host machine. Most containers will NOT need this. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath */
-  hostPath?: IoK8sApiCoreV1HostPathVolumeSource;
+  hostPath?: IoK8sApiCoreV1HostPathVolumeSource | undefined;
   /** image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine. The volume is resolved at pod startup depending on which PullPolicy value is provided: - Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails. - Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present. - IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails. The volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation. A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message. The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field. The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images. The volume will be mounted read-only (ro). Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33. The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type. */
-  image?: IoK8sApiCoreV1ImageVolumeSource;
+  image?: IoK8sApiCoreV1ImageVolumeSource | undefined;
   /** iscsi represents an ISCSI Disk resource that is attached to a kubelet's host machine and then exposed to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes/#iscsi */
-  iscsi?: IoK8sApiCoreV1ISCSIVolumeSource;
+  iscsi?: IoK8sApiCoreV1ISCSIVolumeSource | undefined;
   /** name of the volume. Must be a DNS_LABEL and unique within the pod. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name: string;
   /** nfs represents an NFS mount on the host that shares a pod's lifetime More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs */
-  nfs?: IoK8sApiCoreV1NFSVolumeSource;
+  nfs?: IoK8sApiCoreV1NFSVolumeSource | undefined;
   /** persistentVolumeClaim represents a reference to a PersistentVolumeClaim in the same namespace. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims */
-  persistentVolumeClaim?: IoK8sApiCoreV1PersistentVolumeClaimVolumeSource;
+  persistentVolumeClaim?: IoK8sApiCoreV1PersistentVolumeClaimVolumeSource | undefined;
   /** photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported. */
-  photonPersistentDisk?: IoK8sApiCoreV1PhotonPersistentDiskVolumeSource;
+  photonPersistentDisk?: IoK8sApiCoreV1PhotonPersistentDiskVolumeSource | undefined;
   /** portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver. */
-  portworxVolume?: IoK8sApiCoreV1PortworxVolumeSource;
+  portworxVolume?: IoK8sApiCoreV1PortworxVolumeSource | undefined;
   /** projected items for all in one resources secrets, configmaps, and downward API */
-  projected?: IoK8sApiCoreV1ProjectedVolumeSource;
+  projected?: IoK8sApiCoreV1ProjectedVolumeSource | undefined;
   /** quobyte represents a Quobyte mount on the host that shares a pod's lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported. */
-  quobyte?: IoK8sApiCoreV1QuobyteVolumeSource;
+  quobyte?: IoK8sApiCoreV1QuobyteVolumeSource | undefined;
   /** rbd represents a Rados Block Device mount on the host that shares a pod's lifetime. Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported. */
-  rbd?: IoK8sApiCoreV1RBDVolumeSource;
+  rbd?: IoK8sApiCoreV1RBDVolumeSource | undefined;
   /** scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes. Deprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported. */
-  scaleIO?: IoK8sApiCoreV1ScaleIOVolumeSource;
+  scaleIO?: IoK8sApiCoreV1ScaleIOVolumeSource | undefined;
   /** secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret */
-  secret?: IoK8sApiCoreV1SecretVolumeSource;
+  secret?: IoK8sApiCoreV1SecretVolumeSource | undefined;
   /** storageos represents a StorageOS volume attached and mounted on Kubernetes nodes. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. */
-  storageos?: IoK8sApiCoreV1StorageOSVolumeSource;
+  storageos?: IoK8sApiCoreV1StorageOSVolumeSource | undefined;
   /** vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine. Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver. */
-  vsphereVolume?: IoK8sApiCoreV1VsphereVirtualDiskVolumeSource;
+  vsphereVolume?: IoK8sApiCoreV1VsphereVirtualDiskVolumeSource | undefined;
 }
 /** volumes is the list of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
 export type IoK8sApiCoreV1PodSpecVolumesList = Array<IoK8sApiCoreV1Volume>;
 /** PodSpec is a description of a pod. */
 export interface IoK8sApiCoreV1PodSpec {
   /** activeDeadlineSeconds is the optional duration in seconds the pod may be active on the node relative to StartTime before the system will actively try to mark it failed and kill associated containers. Value must be a positive integer. */
-  activeDeadlineSeconds?: number;
+  activeDeadlineSeconds?: number | undefined;
   /** affinity specifies the pod's scheduling constraints */
-  affinity?: IoK8sApiCoreV1Affinity;
+  affinity?: IoK8sApiCoreV1Affinity | undefined;
   /** automountServiceAccountToken indicates whether a service account token should be automatically mounted. */
-  automountServiceAccountToken?: boolean;
+  automountServiceAccountToken?: boolean | undefined;
   /** containers is the list of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
   containers: IoK8sApiCoreV1PodSpecContainersList;
   /** dnsConfig specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. */
-  dnsConfig?: IoK8sApiCoreV1PodDNSConfig;
+  dnsConfig?: IoK8sApiCoreV1PodDNSConfig | undefined;
   /** dnsPolicy sets the DNS policy for the pod. Defaults to "ClusterFirst". Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. To have DNS options set along with hostNetwork, you have to specify DNS policy explicitly to 'ClusterFirstWithHostNet'. */
-  dnsPolicy?: string;
+  dnsPolicy?: string | undefined;
   /** enableServiceLinks indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true. */
-  enableServiceLinks?: boolean;
+  enableServiceLinks?: boolean | undefined;
   /** ephemeralContainers is the list of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
-  ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList;
+  ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList | undefined;
   /** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
-  evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList;
+  evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList | undefined;
   /** hostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
-  hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList;
+  hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList | undefined;
   /** hostIPC uses the host's ipc namespace. Optional: Default to false. */
-  hostIPC?: boolean;
+  hostIPC?: boolean | undefined;
   /** hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. */
-  hostNetwork?: boolean;
+  hostNetwork?: boolean | undefined;
   /** hostPID uses the host's pid namespace. Optional: Default to false. */
-  hostPID?: boolean;
+  hostPID?: boolean | undefined;
   /** hostUsers specifies whether to use the host's user namespace. Optional: Default to true. If set to true or not present, the pod will be run in the host user namespace, useful for when the pod needs a feature only available to the host user namespace, such as loading a kernel module with CAP_SYS_MODULE. When set to false, a new userns is created for the pod. Setting false is useful for mitigating container breakout vulnerabilities even allowing users to run their containers as root without actually having root privileges on the host. */
-  hostUsers?: boolean;
+  hostUsers?: boolean | undefined;
   /** hostname specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** hostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
-  hostnameOverride?: string;
+  hostnameOverride?: string | undefined;
   /** imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
-  imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList;
+  imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList | undefined;
   /** initContainers is the list of initialization containers belonging to the pod. Init containers are executed in order prior to containers being started. If any init container fails, the pod is considered to have failed and is handled according to its restartPolicy. The name for an init container or normal container must be unique among all containers. Init containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes. The resourceRequirements of an init container are taken into account during scheduling by finding the highest request/limit for each resource type, and then using the max of that value or the sum of the normal containers. Limits are applied to init containers in a similar fashion. Init containers cannot currently be added or removed. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ */
-  initContainers?: IoK8sApiCoreV1PodSpecInitContainersList;
+  initContainers?: IoK8sApiCoreV1PodSpecInitContainersList | undefined;
   /** nodeName indicates in which node this pod is scheduled. If empty, this pod is a candidate for scheduling by the scheduler defined in schedulerName. Once this field is set, the kubelet for this node becomes responsible for the lifecycle of this pod. This field should not be used to express a desire for the pod to be scheduled on a specific node. https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** nodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
-  nodeSelector?: IoK8sApiCoreV1PodSpecNodeSelectorMap;
+  nodeSelector?: IoK8sApiCoreV1PodSpecNodeSelectorMap | undefined;
   /** os specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup */
-  os?: IoK8sApiCoreV1PodOS;
+  os?: IoK8sApiCoreV1PodOS | undefined;
   /** overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
-  overhead?: IoK8sApiCoreV1PodSpecOverheadMap;
+  overhead?: IoK8sApiCoreV1PodSpecOverheadMap | undefined;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. Defaults to PreemptLowerPriority if unset. */
-  preemptionPolicy?: string;
+  preemptionPolicy?: string | undefined;
   /** priority specifies the priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. */
-  priority?: number;
+  priority?: number | undefined;
   /** priorityClassName if specified, indicates the pod's priority. "system-node-critical" and "system-cluster-critical" are two special keywords which indicate the highest priorities with the former being the highest priority. Any other name must be defined by creating a PriorityClass object with that name. If not specified, the pod priority will be default or zero if there is no default. */
-  priorityClassName?: string;
+  priorityClassName?: string | undefined;
   /** readinessGates if specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates */
-  readinessGates?: IoK8sApiCoreV1PodSpecReadinessGatesList;
+  readinessGates?: IoK8sApiCoreV1PodSpecReadinessGatesList | undefined;
   /** resourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable. */
-  resourceClaims?: IoK8sApiCoreV1PodSpecResourceClaimsList;
-  /** resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. This is an alpha field and requires enabling the PodLevelResources feature gate. */
-  resources?: IoK8sApiCoreV1ResourceRequirements;
+  resourceClaims?: IoK8sApiCoreV1PodSpecResourceClaimsList | undefined;
+  /** resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. If a limit is not specified at the pod level, the pod is limited by the aggregate of its container limits: - For cpu and memory, the aggregate is used only if every init and regular container specifies a limit; otherwise the pod is not limited for that resource. - For hugepages, the container limits are summed and unspecified values are treated as 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  resources?: IoK8sApiCoreV1ResourceRequirements | undefined;
   /** restartPolicy is the restart policy for all containers within the pod. One of Always, OnFailure, Never. In some contexts, only a subset of those values may be permitted. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy */
-  restartPolicy?: string;
+  restartPolicy?: string | undefined;
   /** runtimeClassName refers to a RuntimeClass object in the node.k8s.io group, which should be used to run this pod. If no RuntimeClass resource matches the named class, the pod will not be run. If unset or empty, the "legacy" RuntimeClass will be used, which is an implicit class with an empty definition that uses the default runtime handler. More info: https://git.k8s.io/enhancements/keps/sig-node/585-runtime-class */
-  runtimeClassName?: string;
+  runtimeClassName?: string | undefined;
   /** schedulerName specifies the scheduler to dispatch the pod. If not specified, the pod will be dispatched by default scheduler. */
-  schedulerName?: string;
+  schedulerName?: string | undefined;
   /** schedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
-  schedulingGates?: IoK8sApiCoreV1PodSpecSchedulingGatesList;
-  /** schedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a group object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies. */
-  schedulingGroup?: IoK8sApiCoreV1PodSchedulingGroup;
+  schedulingGates?: IoK8sApiCoreV1PodSpecSchedulingGatesList | undefined;
+  /** schedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable. The scheduler cannot distinguish PodGroup runtime instances that reuse the same namespace and name. Controllers should use a new PodGroup name for each runtime instance. Reusing a name for a PodGroup with different policies may result in Pod placement not conforming to the expected policies. */
+  schedulingGroup?: IoK8sApiCoreV1PodSchedulingGroup | undefined;
   /** securityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty. See type description for default values of each field. */
-  securityContext?: IoK8sApiCoreV1PodSecurityContext;
+  securityContext?: IoK8sApiCoreV1PodSecurityContext | undefined;
   /** serviceAccount is a deprecated alias for ServiceAccountName. Deprecated: Use serviceAccountName instead. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** serviceAccountName is the name of the ServiceAccount to use to run this pod. More info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/ */
-  serviceAccountName?: string;
+  serviceAccountName?: string | undefined;
   /** setHostnameAsFQDN if true the pod's hostname will be configured as the pod's FQDN, rather than the leaf name (the default). In Linux containers, this means setting the FQDN in the hostname field of the kernel (the nodename field of struct utsname). In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters to FQDN. If a pod does not have FQDN, this has no effect. Default to false. */
-  setHostnameAsFQDN?: boolean;
+  setHostnameAsFQDN?: boolean | undefined;
   /** shareProcessNamespace indicates whether to share a single process namespace between all of the containers in a pod. When this is set containers will be able to view and signal processes from other containers in the same pod, and the first process in each container will not be assigned PID 1. HostPID and ShareProcessNamespace cannot both be set. Optional: Default to false. */
-  shareProcessNamespace?: boolean;
+  shareProcessNamespace?: boolean | undefined;
   /** subdomain specifies the subdomain of the Pod. If specified, the fully qualified Pod hostname will be "<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>". If not specified, the pod will not have a domainname at all. */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** terminationGracePeriodSeconds is the optional duration in seconds the pod needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 30 seconds. */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** tolerations specifies the pod's tolerations. */
-  tolerations?: IoK8sApiCoreV1PodSpecTolerationsList;
+  tolerations?: IoK8sApiCoreV1PodSpecTolerationsList | undefined;
   /** topologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed. */
-  topologySpreadConstraints?: IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList;
+  topologySpreadConstraints?: IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList | undefined;
   /** volumes is the list of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
-  volumes?: IoK8sApiCoreV1PodSpecVolumesList;
+  volumes?: IoK8sApiCoreV1PodSpecVolumesList | undefined;
 }
 /** PodTemplateSpec describes the data a pod should have when created from a template */
 export interface IoK8sApiCoreV1PodTemplateSpec {
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of the pod. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiCoreV1PodSpec;
+  spec?: IoK8sApiCoreV1PodSpec | undefined;
 }
 /** JobSpec describes how the job execution will look like. */
 export interface IoK8sApiBatchV1JobSpec {
   /** activeDeadlineSeconds specifies the duration in seconds relative to the startTime that the job may be continuously active before the system tries to terminate it; value must be positive integer. If a Job is suspended (at creation or through an update), this timer will effectively be stopped and reset when the Job is resumed again. */
-  activeDeadlineSeconds?: number;
+  activeDeadlineSeconds?: number | undefined;
   /** backoffLimit specifies the number of retries before marking this job failed. Defaults to 6, unless backoffLimitPerIndex (only Indexed Job) is specified. When backoffLimitPerIndex is specified, backoffLimit defaults to 2147483647. */
-  backoffLimit?: number;
+  backoffLimit?: number | undefined;
   /** backoffLimitPerIndex specifies the limit for the number of retries within an index before marking this index as failed. When enabled the number of failures per index is kept in the pod's batch.kubernetes.io/job-index-failure-count annotation. It can only be set when Job's completionMode=Indexed, and the Pod's restart policy is Never. The field is immutable. */
-  backoffLimitPerIndex?: number;
+  backoffLimitPerIndex?: number | undefined;
   /** completionMode specifies how Pod completions are tracked. It can be `NonIndexed` (default) or `Indexed`. `NonIndexed` means that the Job is considered complete when there have been .spec.completions successfully completed Pods. Each Pod completion is homologous to each other. `Indexed` means that the Pods of a Job get an associated completion index from 0 to (.spec.completions - 1), available in the annotation batch.kubernetes.io/job-completion-index. The Job is considered complete when there is one successfully completed Pod for each index. When value is `Indexed`, .spec.completions must be specified and `.spec.parallelism` must be less than or equal to 10^5. In addition, The Pod name takes the form `$(job-name)-$(index)-$(random-string)`, the Pod hostname takes the form `$(job-name)-$(index)`. More completion modes can be added in the future. If the Job controller observes a mode that it doesn't recognize, which is possible during upgrades due to version skew, the controller skips updates for the Job. */
-  completionMode?: string;
+  completionMode?: string | undefined;
   /** completions specifies the desired number of successfully finished pods the job should be run with. Setting to null means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value. Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
-  completions?: number;
+  completions?: number | undefined;
   /** managedBy field indicates the controller that manages a Job. The k8s Job controller reconciles jobs which don't have this field at all or the field value is the reserved string `kubernetes.io/job-controller`, but skips reconciling Jobs with a custom value for this field. The value must be a valid domain-prefixed path (e.g. acme.io/foo) - all characters before the first "/" must be a valid subdomain as defined by RFC 1123. All characters trailing the first "/" must be valid HTTP Path characters as defined by RFC 3986. The value cannot exceed 63 characters. This field is immutable. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** manualSelector controls generation of pod labels and pod selectors. Leave `manualSelector` unset unless you are certain what you are doing. When false or unset, the system pick labels unique to this job and appends those labels to the pod template. When true, the user is responsible for picking unique labels and specifying the selector. Failure to pick a unique label may cause this and other jobs to not function correctly. However, You may see `manualSelector=true` in jobs that were created with the old `extensions/v1beta1` API. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#specifying-your-own-pod-selector */
-  manualSelector?: boolean;
+  manualSelector?: boolean | undefined;
   /** maxFailedIndexes specifies the maximal number of failed indexes before marking the Job as failed, when backoffLimitPerIndex is set. Once the number of failed indexes exceeds this number the entire Job is marked as Failed and its execution is terminated. When left as null the job continues execution of all of its indexes and is marked with the `Complete` Job condition. It can only be specified when backoffLimitPerIndex is set. It can be null or up to completions. It is required and must be less than or equal to 10^4 when is completions greater than 10^5. */
-  maxFailedIndexes?: number;
+  maxFailedIndexes?: number | undefined;
   /** parallelism specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
-  parallelism?: number;
+  parallelism?: number | undefined;
   /** podFailurePolicy specifies the policy of handling failed pods. In particular, it allows to specify the set of actions and conditions which need to be satisfied to take the associated action. If empty, the default behaviour applies - the counter of failed pods, represented by the jobs's .status.failed field, is incremented and it is checked against the backoffLimit. This field cannot be used in combination with restartPolicy=OnFailure. */
-  podFailurePolicy?: IoK8sApiBatchV1PodFailurePolicy;
+  podFailurePolicy?: IoK8sApiBatchV1PodFailurePolicy | undefined;
   /** podReplacementPolicy specifies when to create replacement Pods. Possible values are: - TerminatingOrFailed means that we recreate pods when they are terminating (has a metadata.deletionTimestamp) or failed. - Failed means to wait until a previously created Pod is fully terminated (has phase Failed or Succeeded) before creating a replacement Pod. When using podFailurePolicy, Failed is the the only allowed value. TerminatingOrFailed and Failed are allowed values when podFailurePolicy is not in use. */
-  podReplacementPolicy?: string;
-  /** scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is alpha-level and requires the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation. */
-  scheduling?: IoK8sApiBatchV1JobSchedulingConfiguration;
+  podReplacementPolicy?: string | undefined;
+  /** scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is gated by the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation. */
+  scheduling?: IoK8sApiBatchV1JobSchedulingConfiguration | undefined;
   /** selector is a label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
-  selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
+  selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector | undefined;
   /** successPolicy specifies the policy when the Job can be declared as succeeded. If empty, the default behavior applies - the Job is declared as succeeded only when the number of succeeded pods equals to the completions. When the field is specified, it must be immutable and works only for the Indexed Jobs. Once the Job meets the SuccessPolicy, the lingering pods are terminated. */
-  successPolicy?: IoK8sApiBatchV1SuccessPolicy;
+  successPolicy?: IoK8sApiBatchV1SuccessPolicy | undefined;
   /** suspend specifies whether the Job controller should create Pods or not. If a Job is created with suspend set to true, no Pods are created by the Job controller. If a Job is suspended after creation (i.e. the flag goes from false to true), the Job controller will delete all active Pods associated with this Job. Users must design their workload to gracefully handle this. Suspending a Job will reset the StartTime field of the Job, effectively resetting the ActiveDeadlineSeconds timer too. Defaults to false. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** template describes the pod that will be created when executing a job. The only allowed template.spec.restartPolicy values are "Never" or "OnFailure". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
   template: IoK8sApiCoreV1PodTemplateSpec;
   /** ttlSecondsAfterFinished limits the lifetime of a Job that has finished execution (either Complete or Failed). If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to be automatically deleted. When the Job is being deleted, its lifecycle guarantees (e.g. finalizers) will be honored. If this field is unset, the Job won't be automatically deleted. If this field is set to zero, the Job becomes eligible to be deleted immediately after it finishes. */
-  ttlSecondsAfterFinished?: number;
+  ttlSecondsAfterFinished?: number | undefined;
 }
 /** JobTemplateSpec describes the data a Job should have when created from a template */
 export interface IoK8sApiBatchV1JobTemplateSpec {
   /** metadata is the standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1JobSpec;
 }
 /** CronJobSpec describes how the job execution will look like and when it will actually run. */
 export interface IoK8sApiBatchV1CronJobSpec {
   /** concurrencyPolicy specifies how to treat concurrent executions of a Job. Valid values are: - "Allow" (default): allows CronJobs to run concurrently; - "Forbid": forbids concurrent runs, skipping next run if previous run hasn't finished yet; - "Replace": cancels currently running job and replaces it with a new one */
-  concurrencyPolicy?: string;
+  concurrencyPolicy?: string | undefined;
   /** failedJobsHistoryLimit is the number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1. */
-  failedJobsHistoryLimit?: number;
+  failedJobsHistoryLimit?: number | undefined;
   /** jobTemplate specifies the job that will be created when executing a CronJob. */
   jobTemplate: IoK8sApiBatchV1JobTemplateSpec;
   /** schedule is the schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. */
   schedule: string;
   /** startingDeadlineSeconds is the optional deadline in seconds for starting the job if it misses scheduled time for any reason. Missed jobs executions will be counted as failed ones. */
-  startingDeadlineSeconds?: number;
+  startingDeadlineSeconds?: number | undefined;
   /** successfulJobsHistoryLimit is the number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3. */
-  successfulJobsHistoryLimit?: number;
+  successfulJobsHistoryLimit?: number | undefined;
   /** suspend is a flag that tells the controller to suspend subsequent executions, it does not apply to already started executions. Defaults to false. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** timeZone is the time zone name for the given schedule, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If not specified, this will default to the time zone of the kube-controller-manager process. The set of valid time zone names and the time zone offset is loaded from the system-wide time zone database by the API server during CronJob validation and the controller manager during execution. If no system-wide time zone database can be found a bundled version of the database is used instead. If the time zone name becomes invalid during the lifetime of a CronJob or due to a change in host configuration, the controller will stop creating new new Jobs and will create a system event with the reason UnknownTimeZone. More information can be found in https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 /** ObjectReference contains enough information to let you inspect or modify the referred object. */
 export interface IoK8sApiCoreV1ObjectReference {
   /** apiVersion is API version of the referent. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** fieldPath if referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
   /** kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
-  name?: string;
+  name?: string | undefined;
   /** namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ */
-  namespace?: string;
+  namespace?: string | undefined;
   /** resourceVersion is the specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** uid of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** A list of pointers to currently running jobs. */
 export type IoK8sApiBatchV1CronJobStatusActiveList = Array<IoK8sApiCoreV1ObjectReference>;
 /** CronJobStatus represents the current state of a cron job. */
 export interface IoK8sApiBatchV1CronJobStatus {
   /** A list of pointers to currently running jobs. */
-  active?: IoK8sApiBatchV1CronJobStatusActiveList;
+  active?: IoK8sApiBatchV1CronJobStatusActiveList | undefined;
   /** Information when was the last time the job was successfully scheduled. */
-  lastScheduleTime?: string;
+  lastScheduleTime?: string | undefined;
   /** Information when was the last time the job successfully completed. */
-  lastSuccessfulTime?: string;
+  lastSuccessfulTime?: string | undefined;
 }
 export interface CreateBatchV1NamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
   /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1CronJobStatus;
+  status?: IoK8sApiBatchV1CronJobStatus | undefined;
 }
 /** CronJob represents the configuration of a single cron job. */
 export interface IoK8sApiBatchV1CronJob {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
   /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1CronJobStatus;
+  status?: IoK8sApiBatchV1CronJobStatus | undefined;
 }
 /** JobCondition describes current state of a job. */
 export interface IoK8sApiBatchV1JobCondition {
   /** lastProbeTime is the last time the condition was checked. */
-  lastProbeTime?: string;
+  lastProbeTime?: string | undefined;
   /** lastTransitionTime is the last time the condition transit from one status to another. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** message is human readable message indicating details about last transition. */
-  message?: string;
+  message?: string | undefined;
   /** reason is the brief reason for the condition's last transition. */
-  reason?: string;
+  reason?: string | undefined;
   /** status is the status of the condition, one of True, False, Unknown. */
-  status?: string;
+  status?: string | undefined;
   /** type is the type of job condition, Complete or Failed. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The latest available observations of an object's current state. When a Job fails, one of the conditions will have type "Failed" and status true. When a Job is suspended, one of the conditions will have type "Suspended" and status true; when the Job is resumed, the status of this condition will become false. When a Job is completed, one of the conditions will have type "Complete" and status true. A job is considered finished when it is in a terminal condition, either "Complete" or "Failed". A Job cannot have both the "Complete" and "Failed" conditions. Additionally, it cannot be in the "Complete" and "FailureTarget" conditions. The "Complete", "Failed" and "FailureTarget" conditions cannot be disabled. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
 export type IoK8sApiBatchV1JobStatusConditionsList = Array<IoK8sApiBatchV1JobCondition>;
@@ -1911,125 +1939,125 @@ export type IoK8sApiBatchV1UncountedTerminatedPodsSucceededList = Array<string>;
 /** UncountedTerminatedPods holds UIDs of Pods that have terminated but haven't been accounted in Job status counters. */
 export interface IoK8sApiBatchV1UncountedTerminatedPods {
   /** failed holds UIDs of failed Pods. */
-  failed?: IoK8sApiBatchV1UncountedTerminatedPodsFailedList;
+  failed?: IoK8sApiBatchV1UncountedTerminatedPodsFailedList | undefined;
   /** succeeded holds UIDs of succeeded Pods. */
-  succeeded?: IoK8sApiBatchV1UncountedTerminatedPodsSucceededList;
+  succeeded?: IoK8sApiBatchV1UncountedTerminatedPodsSucceededList | undefined;
 }
 /** JobStatus represents the current state of a Job. */
 export interface IoK8sApiBatchV1JobStatus {
   /** The number of pending and running pods which are not terminating (without a deletionTimestamp). The value is zero for finished jobs. */
-  active?: number;
+  active?: number | undefined;
   /** completedIndexes holds the completed indexes when .spec.completionMode = "Indexed" in a text format. The indexes are represented as decimal integers separated by commas. The numbers are listed in increasing order. Three or more consecutive numbers are compressed and represented by the first and last element of the series, separated by a hyphen. For example, if the completed indexes are 1, 3, 4, 5 and 7, they are represented as "1,3-5,7". */
-  completedIndexes?: string;
+  completedIndexes?: string | undefined;
   /** Represents time when the job was completed. It is not guaranteed to be set in happens-before order across separate operations. It is represented in RFC3339 form and is in UTC. The completion time is set when the job finishes successfully, and only then. The value cannot be updated or removed. The value indicates the same or later point in time as the startTime field. */
-  completionTime?: string;
+  completionTime?: string | undefined;
   /** The latest available observations of an object's current state. When a Job fails, one of the conditions will have type "Failed" and status true. When a Job is suspended, one of the conditions will have type "Suspended" and status true; when the Job is resumed, the status of this condition will become false. When a Job is completed, one of the conditions will have type "Complete" and status true. A job is considered finished when it is in a terminal condition, either "Complete" or "Failed". A Job cannot have both the "Complete" and "Failed" conditions. Additionally, it cannot be in the "Complete" and "FailureTarget" conditions. The "Complete", "Failed" and "FailureTarget" conditions cannot be disabled. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
-  conditions?: IoK8sApiBatchV1JobStatusConditionsList;
+  conditions?: IoK8sApiBatchV1JobStatusConditionsList | undefined;
   /** The number of pods which reached phase Failed. The value increases monotonically. */
-  failed?: number;
+  failed?: number | undefined;
   /** FailedIndexes holds the failed indexes when spec.backoffLimitPerIndex is set. The indexes are represented in the text format analogous as for the `completedIndexes` field, ie. they are kept as decimal integers separated by commas. The numbers are listed in increasing order. Three or more consecutive numbers are compressed and represented by the first and last element of the series, separated by a hyphen. For example, if the failed indexes are 1, 3, 4, 5 and 7, they are represented as "1,3-5,7". The set of failed indexes cannot overlap with the set of completed indexes. */
-  failedIndexes?: string;
+  failedIndexes?: string | undefined;
   /** The number of active pods which have a Ready condition and are not terminating (without a deletionTimestamp). */
-  ready?: number;
+  ready?: number | undefined;
   /** Represents time when the job controller started processing a job. When a Job is created in the suspended state, this field is not set until the first time it is resumed. This field is reset every time a Job is resumed from suspension. It is represented in RFC3339 form and is in UTC. Once set, the field can only be removed when the job is suspended. The field cannot be modified while the job is unsuspended or finished. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The number of pods which reached phase Succeeded. The value increases monotonically for a given spec. However, it may decrease in reaction to scale down of elastic indexed jobs. */
-  succeeded?: number;
+  succeeded?: number | undefined;
   /** The number of pods which are terminating (in phase Pending or Running and have a deletionTimestamp). */
-  terminating?: number;
+  terminating?: number | undefined;
   /** uncountedTerminatedPods holds the UIDs of Pods that have terminated but the job controller hasn't yet accounted for in the status counters. The job controller creates pods with a finalizer. When a pod terminates (succeeded or failed), the controller does three steps to account for it in the job status: 1. Add the pod UID to the arrays in this field. 2. Remove the pod finalizer. 3. Remove the pod UID from the arrays while increasing the corresponding counter. Old jobs might not be tracked using this field, in which case the field remains null. The structure is empty for finished jobs. */
-  uncountedTerminatedPods?: IoK8sApiBatchV1UncountedTerminatedPods;
+  uncountedTerminatedPods?: IoK8sApiBatchV1UncountedTerminatedPods | undefined;
 }
 export interface CreateBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1JobSpec;
   /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1JobStatus;
+  status?: IoK8sApiBatchV1JobStatus | undefined;
 }
 /** Job represents the configuration of a single job. */
 export interface IoK8sApiBatchV1Job {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1JobSpec;
   /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1JobStatus;
+  status?: IoK8sApiBatchV1JobStatus | undefined;
 }
 /** Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out. */
 export interface IoK8sApimachineryPkgApisMetaV1Preconditions {
   /** Specifies the target ResourceVersion */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Specifies the target UID. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface DeleteBatchV1CollectionNamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 /** StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered. */
 export interface IoK8sApimachineryPkgApisMetaV1StatusCause {
   /** The field of the resource that has caused this error, as named by its JSON serialization. May include dot and postfix notation for nested attributes. Arrays are zero-indexed. Fields may appear more than once in an array of causes due to fields having multiple errors. Optional. Examples: "name" - the field "name" on the current resource "items[0].name" - the field "name" on the first array entry in "items" */
-  field?: string;
+  field?: string | undefined;
   /** A human-readable description of the cause of the error. This field may be presented as-is to a reader. */
-  message?: string;
+  message?: string | undefined;
   /** A machine-readable description of the cause of the error. If this value is empty there is no information available. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** The Causes array includes more details associated with the StatusReason failure. Not all StatusReasons may provide detailed causes. */
 export type IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList =
@@ -2037,17 +2065,17 @@ export type IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList =
 /** StatusDetails is a set of additional properties that MAY be set by the server to provide additional information about a response. The Reason field of a Status object defines what attributes will be set. Clients must ignore fields that do not match the defined type of each attribute, and should assume that any attribute may be empty, invalid, or under defined. */
 export interface IoK8sApimachineryPkgApisMetaV1StatusDetails {
   /** The Causes array includes more details associated with the StatusReason failure. Not all StatusReasons may provide detailed causes. */
-  causes?: IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList;
+  causes?: IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList | undefined;
   /** The group attribute of the resource associated with the status StatusReason. */
-  group?: string;
+  group?: string | undefined;
   /** The kind attribute of the resource associated with the status StatusReason. On some operations may differ from the requested resource Kind. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** The name attribute of the resource associated with the status StatusReason (when there is a single name which can be described). */
-  name?: string;
+  name?: string | undefined;
   /** If specified, the time in seconds before the operation should be retried. Some errors may indicate the client must take an alternate action - for those errors this field may indicate how long to wait before taking the alternate action. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** UID of the resource. (when there is a single resource which can be described). More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** ShardInfo describes the shard selector that was applied to produce a list response. Its presence on a list response indicates the list is a filtered subset. */
 export interface IoK8sApimachineryPkgApisMetaV1ShardInfo {
@@ -2057,74 +2085,74 @@ export interface IoK8sApimachineryPkgApisMetaV1ShardInfo {
 /** ListMeta describes metadata that synthetic resources must have, including lists and various status objects. A resource may have only one of {ObjectMeta, ListMeta}. */
 export interface IoK8sApimachineryPkgApisMetaV1ListMeta {
   /** continue may be set if the user set a limit on the number of items returned, and indicates that the server has more data available. The value is opaque and may be used to issue another request to the endpoint that served this list to retrieve the next set of available objects. Continuing a consistent list may not be possible if the server configuration has changed or more than a few minutes have passed. The resourceVersion field returned when using this continue value will be identical to the value in the first response, unless you have received this token from an error message. */
-  continue?: string;
+  continue?: string | undefined;
   /** remainingItemCount is the number of subsequent items in the list which are not included in this list response. If the list request contained label or field selectors, then the number of remaining items is unknown and the field will be left unset and omitted during serialization. If the list is complete (either because it is not chunking or because this is the last chunk), then there are no more remaining items and this field will be left unset and omitted during serialization. Servers older than v1.15 do not set this field. The intended use of the remainingItemCount is *estimating* the size of a collection. Clients should not rely on the remainingItemCount to be set or to be exact. */
-  remainingItemCount?: number;
+  remainingItemCount?: number | undefined;
   /** String that identifies the server's internal version of this object that can be used by clients to determine when objects have changed. Value must be treated as opaque by clients and passed unmodified back to the server. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
-  selfLink?: string;
-  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardInfo?: IoK8sApimachineryPkgApisMetaV1ShardInfo;
+  selfLink?: string | undefined;
+  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardInfo?: IoK8sApimachineryPkgApisMetaV1ShardInfo | undefined;
 }
 /** Status is a return value for calls that don't return other objects. */
 export interface IoK8sApimachineryPkgApisMetaV1Status {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Suggested HTTP return code for this status, 0 if not set. */
-  code?: number;
+  code?: number | undefined;
   /** Extended data associated with the reason. Each reason may define its own extended details. This field is optional and the data returned is not guaranteed to conform to any schema except that defined by the reason type. */
-  details?: IoK8sApimachineryPkgApisMetaV1StatusDetails;
+  details?: IoK8sApimachineryPkgApisMetaV1StatusDetails | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** A human-readable description of the status of this operation. */
-  message?: string;
+  message?: string | undefined;
   /** Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
   /** A machine-readable description of why this operation is in the "Failure" status. If this value is empty there is no information available. A Reason clarifies an HTTP status code but does not override it. */
-  reason?: string;
+  reason?: string | undefined;
   /** Status of the operation. One of: "Success" or "Failure". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteBatchV1CollectionNamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteBatchV1NamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2132,23 +2160,23 @@ export interface DeleteBatchV1NamespacedCronJobRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2156,23 +2184,23 @@ export interface DeleteBatchV1NamespacedJobRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface GetBatchAPIGroupRequest {}
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
@@ -2198,15 +2226,17 @@ export type IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList =
 /** APIGroup contains the name, the supported versions, and the preferred version of a group. */
 export interface IoK8sApimachineryPkgApisMetaV1APIGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** name is the name of the group. */
   name: string;
   /** preferredVersion is the version preferred by the API server, which probably is the storage version. */
-  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery;
+  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery | undefined;
   /** a map of client CIDR to server address that is serving this group. This is to help clients reach servers in the most network-efficient way possible. Clients can use the appropriate server address as per the CIDR that they match. In case of multiple matches, clients should use the longest matching CIDR. The server returns only those CIDRs that it thinks that the client can match. For example: the master will return an internal IP CIDR only, if the client reaches the server using an internal IP. Server looks at X-Forwarded-For header or X-Real-Ip header or request.RemoteAddr (in that order) to get the client IP. */
-  serverAddressByClientCIDRs?: IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList;
+  serverAddressByClientCIDRs?:
+    | IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList
+    | undefined;
   /** versions are the versions supported in this group. */
   versions: IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList;
 }
@@ -2220,9 +2250,9 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList = Array<string>;
 /** APIResource specifies the name of a resource and whether it is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** categories is a list of the grouped resources this resource belongs to (e.g. 'all') */
-  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList;
+  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList | undefined;
   /** group is the preferred group of the resource. Empty implies the group of the containing resource list. For subresources, this may have a different value, for example: Scale". */
-  group?: string;
+  group?: string | undefined;
   /** kind is the kind for the resource (e.g. 'Foo' is the kind for a resource 'foo') */
   kind: string;
   /** name is the plural name of the resource. */
@@ -2230,15 +2260,15 @@ export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** namespaced indicates if a resource is namespaced or not. */
   namespaced: boolean;
   /** shortNames is a list of suggested short names of the resource. */
-  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList;
+  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList | undefined;
   /** singularName is the singular name of the resource. This allows clients to handle plural and singular opaquely. The singularName is more correct for reporting status on a single item and both singular and plural are allowed from the kubectl CLI interface. */
   singularName: string;
   /** The hash value of the storage version, the version this resource is converted to when written to the data store. Value must be treated as opaque by clients. Only equality comparison on the value is valid. This is an alpha feature and may change or be removed in the future. The field is populated by the apiserver only if the StorageVersionHash feature gate is enabled. This field will remain optional even if it graduates. */
-  storageVersionHash?: string;
+  storageVersionHash?: string | undefined;
   /** verbs is a list of supported kube verbs (this includes get, list, watch, create, update, patch, delete, deletecollection, and proxy) */
   verbs: IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList;
   /** version is the preferred version of the resource. Empty implies the version of the containing resource list For subresources, this may have a different value, for example: v1 (while inside a v1beta1 version of the core resource's group)". */
-  version?: string;
+  version?: string | undefined;
 }
 /** resources contains the name of the resources and if they are namespaced. */
 export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
@@ -2246,147 +2276,147 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
 /** APIResourceList is a list of APIResource, it is used to expose the name of the resources supported in a specific group and version, and if the resource is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResourceList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** groupVersion is the group and version this APIResourceList is for. */
   groupVersion: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** resources contains the name of the resources and if they are namespaced. */
   resources: IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList;
 }
 export interface ListBatchV1CronJobForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** items is the list of CronJobs. */
 export type IoK8sApiBatchV1CronJobListItemsList = Array<IoK8sApiBatchV1CronJob>;
 /** CronJobList is a collection of cron jobs. */
 export interface IoK8sApiBatchV1CronJobList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** items is the list of CronJobs. */
   items: IoK8sApiBatchV1CronJobListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListBatchV1JobForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** items is the list of Jobs. */
 export type IoK8sApiBatchV1JobListItemsList = Array<IoK8sApiBatchV1Job>;
 /** JobList is a collection of jobs. */
 export interface IoK8sApiBatchV1JobList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** items is the list of Jobs. */
   items: IoK8sApiBatchV1JobListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListBatchV1NamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface ListBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** How the server applies a PATCH body. */
 export type PatchType =
@@ -2400,15 +2430,15 @@ export interface PatchBatchV1NamespacedCronJobRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -2420,15 +2450,15 @@ export interface PatchBatchV1NamespacedCronJobStatusRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -2440,15 +2470,15 @@ export interface PatchBatchV1NamespacedJobRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -2460,15 +2490,15 @@ export interface PatchBatchV1NamespacedJobStatusRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -2480,7 +2510,7 @@ export interface ReadBatchV1NamespacedCronJobRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadBatchV1NamespacedCronJobStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2488,7 +2518,7 @@ export interface ReadBatchV1NamespacedCronJobStatusRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2496,7 +2526,7 @@ export interface ReadBatchV1NamespacedJobRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadBatchV1NamespacedJobStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2504,7 +2534,7 @@ export interface ReadBatchV1NamespacedJobStatusRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReplaceBatchV1NamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2512,23 +2542,23 @@ export interface ReplaceBatchV1NamespacedCronJobRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
   /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1CronJobStatus;
+  status?: IoK8sApiBatchV1CronJobStatus | undefined;
 }
 export interface ReplaceBatchV1NamespacedCronJobStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2536,23 +2566,23 @@ export interface ReplaceBatchV1NamespacedCronJobStatusRequest {
   /** name of the CronJob */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
   /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1CronJobStatus;
+  status?: IoK8sApiBatchV1CronJobStatus | undefined;
 }
 export interface ReplaceBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2560,23 +2590,23 @@ export interface ReplaceBatchV1NamespacedJobRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1JobSpec;
   /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1JobStatus;
+  status?: IoK8sApiBatchV1JobStatus | undefined;
 }
 export interface ReplaceBatchV1NamespacedJobStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2584,49 +2614,49 @@ export interface ReplaceBatchV1NamespacedJobStatusRequest {
   /** name of the Job */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1JobSpec;
   /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiBatchV1JobStatus;
+  status?: IoK8sApiBatchV1JobStatus | undefined;
 }
 export interface WatchBatchV1CronJobListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Event represents a single event to a watched resource. */
 export interface IoK8sApimachineryPkgApisMetaV1WatchEvent {
@@ -2636,29 +2666,29 @@ export interface IoK8sApimachineryPkgApisMetaV1WatchEvent {
 }
 export interface WatchBatchV1JobListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchBatchV1NamespacedCronJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2666,57 +2696,57 @@ export interface WatchBatchV1NamespacedCronJobRequest {
   /** name of the CronJob */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchBatchV1NamespacedCronJobListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchBatchV1NamespacedJobRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2724,57 +2754,57 @@ export interface WatchBatchV1NamespacedJobRequest {
   /** name of the Job */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchBatchV1NamespacedJobListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export type CreateBatchV1NamespacedCronJobError =
   | Conflict
@@ -3714,7 +3744,7 @@ function __c17(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({
@@ -3740,7 +3770,7 @@ function __c18(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({
@@ -3865,7 +3895,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1JobTemplateSpec" });
     case 1:
@@ -3995,6 +4025,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
+          name: S.optional(S.String),
           onExitCodes: S.optional(__S(839, __c26, 7)),
           onPodConditions: S.optional(__S(841, __c26, 9)),
         }),
@@ -4013,7 +4044,7 @@ function __c26(j: number): any {
           all: S.optional(S.Unknown),
           single: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -4021,7 +4052,7 @@ function __c26(j: number): any {
           resourceClaimName: S.optional(S.String),
           resourceClaimTemplateName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim" });
     case 15:
       return S.Array(__S(846, __c26, 14));
     case 16:
@@ -4029,7 +4060,7 @@ function __c26(j: number): any {
         S.Struct({
           key: S.String,
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadTopologyConstraint" });
     case 17:
       return S.Array(__S(848, __c26, 16));
     case 18:
@@ -4037,20 +4068,20 @@ function __c26(j: number): any {
         S.Struct({
           topology: S.optional(__S(849, __c26, 17)),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           minCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy" });
     case 20:
       return S.suspend(() =>
         S.Struct({
           basic: S.optional(S.Unknown),
           gang: S.optional(__S(851, __c26, 19)),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy" });
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -4396,13 +4427,28 @@ function __c28(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          baseProfile: S.optional(__S(902, __c28, 6)),
+          ref: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1SecurityProfileOCI" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          localhostProfile: S.optional(S.String),
+          oci: S.optional(__S(905, __c28, 9)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1SeccompProfile" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           gmsaCredentialSpec: S.optional(S.String),
           gmsaCredentialSpecName: S.optional(S.String),
           hostProcess: S.optional(S.Boolean),
           runAsUserName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1WindowsSecurityContextOptions" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           allowPrivilegeEscalation: S.optional(S.Boolean),
@@ -4415,20 +4461,20 @@ function __c28(j: number): any {
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
           seLinuxOptions: S.optional(__S(904, __c28, 8)),
-          seccompProfile: S.optional(__S(902, __c28, 6)),
-          windowsOptions: S.optional(__S(905, __c28, 9)),
+          seccompProfile: S.optional(__S(906, __c28, 10)),
+          windowsOptions: S.optional(__S(907, __c28, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityContext" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           devicePath: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeDevice" });
-    case 12:
-      return S.Array(__S(907, __c28, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(909, __c28, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           bindMountOptions: S.optional(__S(800, __c25, 0)),
@@ -4441,9 +4487,9 @@ function __c28(j: number): any {
           subPathExpr: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeMount" });
-    case 14:
-      return S.Array(__S(909, __c28, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(911, __c28, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(800, __c25, 0)),
@@ -4461,38 +4507,38 @@ function __c28(j: number): any {
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(901, __c28, 5)),
-          securityContext: S.optional(__S(906, __c28, 10)),
+          securityContext: S.optional(__S(908, __c28, 12)),
           startupProbe: S.optional(__S(891, __c27, 27)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(908, __c28, 12)),
-          volumeMounts: S.optional(__S(910, __c28, 14)),
+          volumeDevices: S.optional(__S(910, __c28, 14)),
+          volumeMounts: S.optional(__S(912, __c28, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Container" });
-    case 16:
-      return S.Array(__S(911, __c28, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(913, __c28, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfigOption" });
-    case 18:
-      return S.Array(__S(913, __c28, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(915, __c28, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           nameservers: S.optional(__S(800, __c25, 0)),
-          options: S.optional(__S(914, __c28, 18)),
+          options: S.optional(__S(916, __c28, 20)),
           searches: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfig" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(800, __c25, 0)),
@@ -4510,7 +4556,7 @@ function __c28(j: number): any {
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(901, __c28, 5)),
-          securityContext: S.optional(__S(906, __c28, 10)),
+          securityContext: S.optional(__S(908, __c28, 12)),
           startupProbe: S.optional(__S(891, __c27, 27)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
@@ -4518,66 +4564,66 @@ function __c28(j: number): any {
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(908, __c28, 12)),
-          volumeMounts: S.optional(__S(910, __c28, 14)),
+          volumeDevices: S.optional(__S(910, __c28, 14)),
+          volumeMounts: S.optional(__S(912, __c28, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralContainer" });
-    case 21:
-      return S.Array(__S(916, __c28, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(918, __c28, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           priority: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EvictionResponder" });
-    case 23:
-      return S.Array(__S(918, __c28, 22));
-    case 24:
+    case 25:
+      return S.Array(__S(920, __c28, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           hostnames: S.optional(__S(800, __c25, 0)),
           ip: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostAlias" });
-    case 25:
-      return S.Array(__S(920, __c28, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
     case 27:
       return S.Array(__S(922, __c28, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
+    case 29:
+      return S.Array(__S(924, __c28, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodOS" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           conditionType: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodReadinessGate" });
-    case 30:
-      return S.Array(__S(925, __c28, 29));
-    case 31:
-      return S.Array(__S(924, __c28, 28));
   }
 }
 function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(927, __c28, 31));
+    case 1:
+      return S.Array(__S(926, __c28, 30));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           podGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSchedulingGroup" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           appArmorProfile: S.optional(__S(902, __c28, 6)),
@@ -4588,14 +4634,14 @@ function __c29(j: number): any {
           runAsUser: S.optional(S.Number),
           seLinuxChangePolicy: S.optional(S.String),
           seLinuxOptions: S.optional(__S(904, __c28, 8)),
-          seccompProfile: S.optional(__S(902, __c28, 6)),
+          seccompProfile: S.optional(__S(906, __c28, 10)),
           supplementalGroups: S.optional(__S(838, __c26, 6)),
           supplementalGroupsPolicy: S.optional(S.String),
           sysctls: S.optional(__S(884, __c27, 20)),
-          windowsOptions: S.optional(__S(905, __c28, 9)),
+          windowsOptions: S.optional(__S(907, __c28, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSecurityContext" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
@@ -4605,9 +4651,9 @@ function __c29(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Toleration" });
-    case 3:
-      return S.Array(__S(930, __c29, 2));
-    case 4:
+    case 5:
+      return S.Array(__S(932, __c29, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(856, __c26, 24)),
@@ -4620,9 +4666,9 @@ function __c29(j: number): any {
           whenUnsatisfiable: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TopologySpreadConstraint" });
-    case 5:
-      return S.Array(__S(932, __c29, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(934, __c29, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4631,7 +4677,7 @@ function __c29(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           cachingMode: S.optional(S.String),
@@ -4642,7 +4688,7 @@ function __c29(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureDiskVolumeSource" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           readOnly: S.optional(S.Boolean),
@@ -4650,27 +4696,27 @@ function __c29(j: number): any {
           shareName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureFileVolumeSource" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           monitors: __S(800, __c25, 0),
           path: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
           secretFile: S.optional(S.String),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CephFSVolumeSource" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CinderVolumeSource" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -4679,29 +4725,29 @@ function __c29(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1KeyToPath" });
-    case 12:
-      return S.Array(__S(939, __c29, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(941, __c29, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapVolumeSource" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          nodePublishSecretRef: S.optional(__S(922, __c28, 26)),
+          nodePublishSecretRef: S.optional(__S(924, __c28, 28)),
           readOnly: S.optional(S.Boolean),
           volumeAttributes: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CSIVolumeSource" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           fieldRef: S.optional(__S(873, __c27, 9)),
@@ -4711,17 +4757,17 @@ function __c29(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile" });
-    case 16:
-      return S.Array(__S(943, __c29, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(945, __c29, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(944, __c29, 16)),
+          items: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeSource" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           medium: S.optional(S.String),
@@ -4729,7 +4775,7 @@ function __c29(j: number): any {
           sizeLimit: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EmptyDirVolumeSource" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           apiGroup: S.optional(S.String),
@@ -4737,7 +4783,7 @@ function __c29(j: number): any {
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TypedLocalObjectReference" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           apiGroup: S.optional(S.String),
@@ -4746,20 +4792,20 @@ function __c29(j: number): any {
           namespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TypedObjectReference" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           limits: S.optional(__S(832, __c26, 0)),
           requests: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeResourceRequirements" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           accessModes: S.optional(__S(800, __c25, 0)),
-          dataSource: S.optional(__S(947, __c29, 19)),
-          dataSourceRef: S.optional(__S(948, __c29, 20)),
-          resources: S.optional(__S(949, __c29, 21)),
+          dataSource: S.optional(__S(949, __c29, 21)),
+          dataSourceRef: S.optional(__S(950, __c29, 22)),
+          resources: S.optional(__S(951, __c29, 23)),
           selector: S.optional(__S(856, __c26, 24)),
           storageClassName: S.optional(S.String),
           volumeAttributesClassName: S.optional(S.String),
@@ -4767,20 +4813,20 @@ function __c29(j: number): any {
           volumeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimSpec" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(950, __c29, 22),
+          spec: __S(952, __c29, 24),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimTemplate" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          volumeClaimTemplate: __S(951, __c29, 23),
+          volumeClaimTemplate: __S(953, __c29, 25),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralVolumeSource" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4790,24 +4836,24 @@ function __c29(j: number): any {
           wwids: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FCVolumeSource" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
           options: S.optional(__S(832, __c26, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlexVolumeSource" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           datasetName: S.optional(S.String),
           datasetUUID: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlockerVolumeSource" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4816,7 +4862,7 @@ function __c29(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GCEPersistentDiskVolumeSource" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           directory: S.optional(S.String),
@@ -4824,21 +4870,6 @@ function __c29(j: number): any {
           revision: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GitRepoVolumeSource" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          endpoints: S.String,
-          path: S.String,
-          readOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1GlusterfsVolumeSource" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1HostPathVolumeSource" });
   }
 }
 function __c30(j: number): any {
@@ -4846,11 +4877,26 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          endpoints: S.String,
+          path: S.String,
+          readOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1GlusterfsVolumeSource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1HostPathVolumeSource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           pullPolicy: S.optional(S.String),
           reference: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ImageVolumeSource" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           chapAuthDiscovery: S.optional(S.Boolean),
@@ -4862,11 +4908,11 @@ function __c30(j: number): any {
           lun: S.optional(S.Number),
           portals: S.optional(__S(800, __c25, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           targetPortal: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ISCSIVolumeSource" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
@@ -4874,21 +4920,21 @@ function __c30(j: number): any {
           server: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NFSVolumeSource" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           claimName: S.String,
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimVolumeSource" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           pdID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PhotonPersistentDiskVolumeSource" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4896,7 +4942,7 @@ function __c30(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PortworxVolumeSource" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(856, __c26, 24)),
@@ -4907,21 +4953,21 @@ function __c30(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapProjection" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(944, __c29, 16)),
+          items: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIProjection" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           certificateChainPath: S.optional(S.String),
@@ -4934,7 +4980,7 @@ function __c30(j: number): any {
           userAnnotations: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodCertificateProjection" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.String),
@@ -4943,28 +4989,28 @@ function __c30(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          clusterTrustBundle: S.optional(__S(966, __c30, 6)),
-          configMap: S.optional(__S(967, __c30, 7)),
-          downwardAPI: S.optional(__S(968, __c30, 8)),
-          podCertificate: S.optional(__S(969, __c30, 9)),
-          secret: S.optional(__S(967, __c30, 7)),
-          serviceAccountToken: S.optional(__S(970, __c30, 10)),
+          clusterTrustBundle: S.optional(__S(968, __c30, 8)),
+          configMap: S.optional(__S(969, __c30, 9)),
+          downwardAPI: S.optional(__S(970, __c30, 10)),
+          podCertificate: S.optional(__S(971, __c30, 11)),
+          secret: S.optional(__S(969, __c30, 9)),
+          serviceAccountToken: S.optional(__S(972, __c30, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeProjection" });
-    case 12:
-      return S.Array(__S(971, __c30, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(973, __c30, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          sources: S.optional(__S(972, __c30, 12)),
+          sources: S.optional(__S(974, __c30, 14)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ProjectedVolumeSource" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
@@ -4975,7 +5021,7 @@ function __c30(j: number): any {
           volume: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1QuobyteVolumeSource" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4984,18 +5030,18 @@ function __c30(j: number): any {
           monitors: __S(800, __c25, 0),
           pool: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1RBDVolumeSource" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           gateway: S.String,
           protectionDomain: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           sslEnabled: S.optional(S.Boolean),
           storageMode: S.optional(S.String),
           storagePool: S.optional(S.String),
@@ -5003,27 +5049,27 @@ function __c30(j: number): any {
           volumeName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ScaleIOVolumeSource" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           optional: S.optional(S.Boolean),
           secretName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecretVolumeSource" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           volumeName: S.String,
           volumeNamespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1StorageOSVolumeSource" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -5032,100 +5078,100 @@ function __c30(j: number): any {
           volumePath: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VsphereVirtualDiskVolumeSource" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          awsElasticBlockStore: S.optional(__S(934, __c29, 6)),
-          azureDisk: S.optional(__S(935, __c29, 7)),
-          azureFile: S.optional(__S(936, __c29, 8)),
-          cephfs: S.optional(__S(937, __c29, 9)),
-          cinder: S.optional(__S(938, __c29, 10)),
-          configMap: S.optional(__S(941, __c29, 13)),
-          csi: S.optional(__S(942, __c29, 14)),
-          downwardAPI: S.optional(__S(945, __c29, 17)),
-          emptyDir: S.optional(__S(946, __c29, 18)),
-          ephemeral: S.optional(__S(952, __c29, 24)),
-          fc: S.optional(__S(953, __c29, 25)),
-          flexVolume: S.optional(__S(954, __c29, 26)),
-          flocker: S.optional(__S(955, __c29, 27)),
-          gcePersistentDisk: S.optional(__S(956, __c29, 28)),
-          gitRepo: S.optional(__S(957, __c29, 29)),
-          glusterfs: S.optional(__S(958, __c29, 30)),
-          hostPath: S.optional(__S(959, __c29, 31)),
-          image: S.optional(__S(960, __c30, 0)),
-          iscsi: S.optional(__S(961, __c30, 1)),
+          awsElasticBlockStore: S.optional(__S(936, __c29, 8)),
+          azureDisk: S.optional(__S(937, __c29, 9)),
+          azureFile: S.optional(__S(938, __c29, 10)),
+          cephfs: S.optional(__S(939, __c29, 11)),
+          cinder: S.optional(__S(940, __c29, 12)),
+          configMap: S.optional(__S(943, __c29, 15)),
+          csi: S.optional(__S(944, __c29, 16)),
+          downwardAPI: S.optional(__S(947, __c29, 19)),
+          emptyDir: S.optional(__S(948, __c29, 20)),
+          ephemeral: S.optional(__S(954, __c29, 26)),
+          fc: S.optional(__S(955, __c29, 27)),
+          flexVolume: S.optional(__S(956, __c29, 28)),
+          flocker: S.optional(__S(957, __c29, 29)),
+          gcePersistentDisk: S.optional(__S(958, __c29, 30)),
+          gitRepo: S.optional(__S(959, __c29, 31)),
+          glusterfs: S.optional(__S(960, __c30, 0)),
+          hostPath: S.optional(__S(961, __c30, 1)),
+          image: S.optional(__S(962, __c30, 2)),
+          iscsi: S.optional(__S(963, __c30, 3)),
           name: S.String,
-          nfs: S.optional(__S(962, __c30, 2)),
-          persistentVolumeClaim: S.optional(__S(963, __c30, 3)),
-          photonPersistentDisk: S.optional(__S(964, __c30, 4)),
-          portworxVolume: S.optional(__S(965, __c30, 5)),
-          projected: S.optional(__S(973, __c30, 13)),
-          quobyte: S.optional(__S(974, __c30, 14)),
-          rbd: S.optional(__S(975, __c30, 15)),
-          scaleIO: S.optional(__S(976, __c30, 16)),
-          secret: S.optional(__S(977, __c30, 17)),
-          storageos: S.optional(__S(978, __c30, 18)),
-          vsphereVolume: S.optional(__S(979, __c30, 19)),
+          nfs: S.optional(__S(964, __c30, 4)),
+          persistentVolumeClaim: S.optional(__S(965, __c30, 5)),
+          photonPersistentDisk: S.optional(__S(966, __c30, 6)),
+          portworxVolume: S.optional(__S(967, __c30, 7)),
+          projected: S.optional(__S(975, __c30, 15)),
+          quobyte: S.optional(__S(976, __c30, 16)),
+          rbd: S.optional(__S(977, __c30, 17)),
+          scaleIO: S.optional(__S(978, __c30, 18)),
+          secret: S.optional(__S(979, __c30, 19)),
+          storageos: S.optional(__S(980, __c30, 20)),
+          vsphereVolume: S.optional(__S(981, __c30, 21)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Volume" });
-    case 21:
-      return S.Array(__S(980, __c30, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(982, __c30, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
           affinity: S.optional(__S(871, __c27, 7)),
           automountServiceAccountToken: S.optional(S.Boolean),
-          containers: __S(912, __c28, 16),
-          dnsConfig: S.optional(__S(915, __c28, 19)),
+          containers: __S(914, __c28, 18),
+          dnsConfig: S.optional(__S(917, __c28, 21)),
           dnsPolicy: S.optional(S.String),
           enableServiceLinks: S.optional(S.Boolean),
-          ephemeralContainers: S.optional(__S(917, __c28, 21)),
-          evictionResponders: S.optional(__S(919, __c28, 23)),
-          hostAliases: S.optional(__S(921, __c28, 25)),
+          ephemeralContainers: S.optional(__S(919, __c28, 23)),
+          evictionResponders: S.optional(__S(921, __c28, 25)),
+          hostAliases: S.optional(__S(923, __c28, 27)),
           hostIPC: S.optional(S.Boolean),
           hostNetwork: S.optional(S.Boolean),
           hostPID: S.optional(S.Boolean),
           hostUsers: S.optional(S.Boolean),
           hostname: S.optional(S.String),
           hostnameOverride: S.optional(S.String),
-          imagePullSecrets: S.optional(__S(923, __c28, 27)),
-          initContainers: S.optional(__S(912, __c28, 16)),
+          imagePullSecrets: S.optional(__S(925, __c28, 29)),
+          initContainers: S.optional(__S(914, __c28, 18)),
           nodeName: S.optional(S.String),
           nodeSelector: S.optional(__S(832, __c26, 0)),
-          os: S.optional(__S(924, __c28, 28)),
+          os: S.optional(__S(926, __c28, 30)),
           overhead: S.optional(__S(832, __c26, 0)),
           preemptionPolicy: S.optional(S.String),
           priority: S.optional(S.Number),
           priorityClassName: S.optional(S.String),
-          readinessGates: S.optional(__S(926, __c28, 30)),
+          readinessGates: S.optional(__S(928, __c29, 0)),
           resourceClaims: S.optional(__S(847, __c26, 15)),
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           runtimeClassName: S.optional(S.String),
           schedulerName: S.optional(S.String),
-          schedulingGates: S.optional(__S(927, __c28, 31)),
-          schedulingGroup: S.optional(__S(928, __c29, 0)),
-          securityContext: S.optional(__S(929, __c29, 1)),
+          schedulingGates: S.optional(__S(929, __c29, 1)),
+          schedulingGroup: S.optional(__S(930, __c29, 2)),
+          securityContext: S.optional(__S(931, __c29, 3)),
           serviceAccount: S.optional(S.String),
           serviceAccountName: S.optional(S.String),
           setHostnameAsFQDN: S.optional(S.Boolean),
           shareProcessNamespace: S.optional(S.Boolean),
           subdomain: S.optional(S.String),
           terminationGracePeriodSeconds: S.optional(S.Number),
-          tolerations: S.optional(__S(931, __c29, 3)),
-          topologySpreadConstraints: S.optional(__S(933, __c29, 5)),
-          volumes: S.optional(__S(981, __c30, 21)),
+          tolerations: S.optional(__S(933, __c29, 5)),
+          topologySpreadConstraints: S.optional(__S(935, __c29, 7)),
+          volumes: S.optional(__S(983, __c30, 23)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSpec" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: S.optional(__S(982, __c30, 22)),
+          spec: S.optional(__S(984, __c30, 24)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplateSpec" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
@@ -5143,7 +5189,7 @@ function __c30(j: number): any {
           selector: S.optional(__S(856, __c26, 24)),
           successPolicy: S.optional(__S(859, __c26, 27)),
           suspend: S.optional(S.Boolean),
-          template: __S(983, __c30, 23),
+          template: __S(985, __c30, 25),
           ttlSecondsAfterFinished: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1JobSpec" });
@@ -5247,7 +5293,7 @@ function __c34(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({ method: "POST", uri: "/apis/batch/v1/namespaces/{namespace}/jobs", code: 200 }),
@@ -5299,7 +5345,7 @@ function __c35(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1Job" });

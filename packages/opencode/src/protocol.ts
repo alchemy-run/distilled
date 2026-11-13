@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * OpencodeProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type OpencodeOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | OpencodeParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated OpenCode operation. */
 export type OpencodeOpContext = Credentials | HttpClient.HttpClient;
@@ -56,11 +58,6 @@ export const OpencodeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
   },
   // OpenCode's error body is `{ name?, message }` -- the factory's default
   // lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownOpencodeError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownOpencodeError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new OpencodeParseError({ body, cause }),
 });

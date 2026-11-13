@@ -65,11 +65,11 @@ export class UnprocessableEntity
 export type CreateDmChannelRequestWithUserIdsList = Array<string>;
 export interface CreateDmChannelRequest {
   /** The unique identifier of the company to scope this DM channel to. When set, the channel is visible only within that company context. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** A custom display name for the DM channel. For example, 'Project Discussion'. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this direct message channel. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The list of user identifiers to include in the DM channel. Each entry can be an email, username, or user ID (e.g. 'user_xxxxx'). */
   with_user_ids: CreateDmChannelRequestWithUserIdsList;
 }
@@ -94,11 +94,11 @@ export interface GetDmChannelRequest {
   id: string;
 }
 export interface ListDmChannelRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  account_id?: string | undefined;
 }
 /** A messaging channel that can be a one-on-one DM, group chat, company support conversation, or platform-level direct message. */
 export interface DmChannelListItem {
@@ -134,7 +134,7 @@ export interface UpdateDmChannelRequest {
   /** The unique identifier of the DM channel to update. */
   id: string;
   /** A new custom display name for the DM channel. For example, 'Project Discussion'. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
 }
 export type CreateDmChannelError =
   | BadRequest

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -169,20 +170,20 @@ export type ClientToken = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateChallengeRequest {
   ConnectorArn: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ChallengeArn = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface Challenge {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Password?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateChallengeResponse {
-  Challenge?: Challenge;
+  Challenge?: Challenge | undefined;
 }
 export type CertificateAuthorityArn = string;
 export type AzureApplicationId = string;
@@ -195,13 +196,13 @@ export type MobileDeviceManagement = { Intune: IntuneConfiguration };
 export type VpcEndpointId = string;
 export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  VpcEndpointId?: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  VpcEndpointId?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConnectorResponse {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
 }
 export interface DeleteChallengeRequest {
   ChallengeArn: string;
@@ -215,28 +216,28 @@ export interface GetChallengeMetadataRequest {
   ChallengeArn: string;
 }
 export interface ChallengeMetadata {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetChallengeMetadataResponse {
-  ChallengeMetadata?: ChallengeMetadata;
+  ChallengeMetadata?: ChallengeMetadata | undefined;
 }
 export interface GetChallengePasswordRequest {
   ChallengeArn: string;
 }
 export interface GetChallengePasswordResponse {
-  Password?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetConnectorRequest {
   ConnectorArn: string;
 }
 export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
 export interface OpenIdConfiguration {
-  Issuer?: string;
-  Subject?: string;
-  Audience?: string;
+  Issuer?: string | undefined;
+  Subject?: string | undefined;
+  Audience?: string | undefined;
 }
 export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export type ConnectorStatusReason =
@@ -248,64 +249,64 @@ export type ConnectorStatusReason =
   | "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
   | (string & {});
 export interface Connector {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  Type?: ConnectorType;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  Endpoint?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  Type?: ConnectorType | undefined;
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  OpenIdConfiguration?: OpenIdConfiguration | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  Endpoint?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetConnectorResponse {
-  Connector?: Connector;
+  Connector?: Connector | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListChallengeMetadataRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ConnectorArn: string;
 }
 export interface ChallengeMetadataSummary {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ChallengeMetadataList = ChallengeMetadataSummary[];
 export interface ListChallengeMetadataResponse {
-  Challenges?: ChallengeMetadataSummary[];
-  NextToken?: string;
+  Challenges?: ChallengeMetadataSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectorSummary {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  Type?: ConnectorType;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  Endpoint?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  Type?: ConnectorType | undefined;
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  OpenIdConfiguration?: OpenIdConfiguration | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  Endpoint?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ConnectorList = ConnectorSummary[];
 export interface ListConnectorsResponse {
-  Connectors?: ConnectorSummary[];
-  NextToken?: string;
+  Connectors?: ConnectorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -343,7 +344,7 @@ export type CreateChallengeError =
  * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
  */
 export const createChallenge: API.OperationMethod<
-  CreateChallengeRequest,
+  CreateChallengeRequest & RegionInput,
   CreateChallengeResponse,
   CreateChallengeError,
   Credentials | HttpClient.HttpClient
@@ -380,7 +381,7 @@ export type CreateConnectorError =
  * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type DeleteChallengeError =
  * Deletes the specified Challenge.
  */
 export const deleteChallenge: API.OperationMethod<
-  DeleteChallengeRequest,
+  DeleteChallengeRequest & RegionInput,
   DeleteChallengeResponse,
   DeleteChallengeError,
   Credentials | HttpClient.HttpClient
@@ -449,7 +450,7 @@ export type DeleteConnectorError =
  * Deletes the specified Connector. This operation also deletes any challenges associated with the connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -482,7 +483,7 @@ export type GetChallengeMetadataError =
  * Retrieves the metadata for the specified Challenge.
  */
 export const getChallengeMetadata: API.OperationMethod<
-  GetChallengeMetadataRequest,
+  GetChallengeMetadataRequest & RegionInput,
   GetChallengeMetadataResponse,
   GetChallengeMetadataError,
   Credentials | HttpClient.HttpClient
@@ -514,7 +515,7 @@ export type GetChallengePasswordError =
  * Retrieves the challenge password for the specified Challenge.
  */
 export const getChallengePassword: API.OperationMethod<
-  GetChallengePasswordRequest,
+  GetChallengePasswordRequest & RegionInput,
   GetChallengePasswordResponse,
   GetChallengePasswordError,
   Credentials | HttpClient.HttpClient
@@ -546,7 +547,7 @@ export type GetConnectorError =
  * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type ListChallengeMetadataError =
  * Retrieves the challenge metadata for the specified ARN.
  */
 export const listChallengeMetadata: API.PaginatedOperationMethod<
-  ListChallengeMetadataRequest,
+  ListChallengeMetadataRequest & RegionInput,
   ListChallengeMetadataResponse,
   ListChallengeMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -616,7 +617,7 @@ export type ListConnectorsError =
  * Lists the connectors belonging to your Amazon Web Services account.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -654,7 +655,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type TagResourceError =
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -718,7 +719,7 @@ export type UntagResourceError =
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

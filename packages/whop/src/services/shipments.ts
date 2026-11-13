@@ -63,13 +63,13 @@ export class NotFound
 
 export interface CreateShipmentRequest {
   /** The unique identifier of the account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The payment to attach the shipment to, prefixed `pay_`. */
   payment_id: string;
   /** The carrier-assigned tracking number. */
   tracking_number: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Delivery status this carrier scan maps to. */
 export type ShipmentCheckpointStatus =
@@ -147,27 +147,27 @@ export type ListShipmentsRequestOrder = "created_at";
 export type ListShipmentsRequestDirection = "asc" | "desc";
 export interface ListShipmentsRequest {
   /** The account to list shipments for. Defaults to the acting account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter to shipments with this delivery status. */
-  status?: ListShipmentsRequestStatus | (string & {});
+  status?: ListShipmentsRequestStatus | (string & {}) | undefined;
   /** Only shipments fulfilling these payments, each prefixed `pay_`. Repeat the parameter to pass several, up to 100 per request -- one paginated list covers all of them. */
-  payment_id?: ListShipmentsRequestPaymentIdList;
+  payment_id?: ListShipmentsRequestPaymentIdList | undefined;
   /** Return shipments created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Return shipments created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort by. */
-  order?: ListShipmentsRequestOrder | (string & {});
+  order?: ListShipmentsRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListShipmentsRequestDirection | (string & {});
+  direction?: ListShipmentsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListShipmentsResponseDataList = Array<Shipment>;
 export interface ListShipmentsResponsePageInfo {

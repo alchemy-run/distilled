@@ -111,6 +111,54 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1beta1NamespacedCompositePodGroupRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.scheduling#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1beta1NamespacedCompositePodGroupRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.scheduling#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1alpha3NamespacedPodGroupRequest/members/contentType",
       "value": {
         "target": "com.kubernetes.scheduling#PatchType",

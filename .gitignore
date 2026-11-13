@@ -39,4 +39,8 @@ packages/.audit-*/
 # writes them here only for you to read (patch authoring, patches:audit).
 packages/*/.generated-specs/
 packages/railway/.generated-graphql/
+packages/linear/.generated-graphql/
 packages/github/.generated-graphql/
+
+# Conformance runner builds (packages/core/conformance/README.md).
+packages/core/conformance/.build/

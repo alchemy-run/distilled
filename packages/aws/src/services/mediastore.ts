@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -122,24 +123,24 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateContainerInput {
   ContainerName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type Endpoint = string;
 export type ContainerARN = string;
 export type ContainerStatus = "ACTIVE" | "CREATING" | "DELETING" | (string & {});
 export type ContainerAccessLoggingEnabled = boolean;
 export interface Container {
-  Endpoint?: string;
-  CreationTime?: Date;
-  ARN?: string;
-  Name?: string;
-  Status?: ContainerStatus;
-  AccessLoggingEnabled?: boolean;
+  Endpoint?: string | undefined;
+  CreationTime?: Date | undefined;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Status?: ContainerStatus | undefined;
+  AccessLoggingEnabled?: boolean | undefined;
 }
 export interface CreateContainerOutput {
   Container: Container;
@@ -165,10 +166,10 @@ export interface DeleteMetricPolicyInput {
 }
 export interface DeleteMetricPolicyOutput {}
 export interface DescribeContainerInput {
-  ContainerName?: string;
+  ContainerName?: string | undefined;
 }
 export interface DescribeContainerOutput {
-  Container?: Container;
+  Container?: Container | undefined;
 }
 export interface GetContainerPolicyInput {
   ContainerName: string;
@@ -190,10 +191,10 @@ export type MaxAgeSeconds = number;
 export type ExposeHeaders = string[];
 export interface CorsRule {
   AllowedOrigins: string[];
-  AllowedMethods?: MethodName[];
+  AllowedMethods?: MethodName[] | undefined;
   AllowedHeaders: string[];
-  MaxAgeSeconds?: number;
-  ExposeHeaders?: string[];
+  MaxAgeSeconds?: number | undefined;
+  ExposeHeaders?: string[] | undefined;
 }
 export type CorsPolicy = CorsRule[];
 export interface GetCorsPolicyOutput {
@@ -219,7 +220,7 @@ export interface MetricPolicyRule {
 export type MetricPolicyRules = MetricPolicyRule[];
 export interface MetricPolicy {
   ContainerLevelMetrics: ContainerLevelMetrics;
-  MetricPolicyRules?: MetricPolicyRule[];
+  MetricPolicyRules?: MetricPolicyRule[] | undefined;
 }
 export interface GetMetricPolicyOutput {
   MetricPolicy: MetricPolicy;
@@ -227,19 +228,19 @@ export interface GetMetricPolicyOutput {
 export type PaginationToken = string;
 export type ContainerListLimit = number;
 export interface ListContainersInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ContainerList = Container[];
 export interface ListContainersOutput {
   Containers: Container[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   Resource: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutContainerPolicyInput {
   ContainerName: string;
@@ -291,7 +292,7 @@ export type CreateContainerError =
  * the Amazon S3 service.
  */
 export const createContainer: API.OperationMethod<
-  CreateContainerInput,
+  CreateContainerInput & RegionInput,
   CreateContainerOutput,
   CreateContainerError,
   Credentials | HttpClient.HttpClient
@@ -317,7 +318,7 @@ export type DeleteContainerError =
  * delete only empty containers.
  */
 export const deleteContainer: API.OperationMethod<
-  DeleteContainerInput,
+  DeleteContainerInput & RegionInput,
   DeleteContainerOutput,
   DeleteContainerError,
   Credentials | HttpClient.HttpClient
@@ -342,7 +343,7 @@ export type DeleteContainerPolicyError =
  * Deletes the access policy that is associated with the specified container.
  */
 export const deleteContainerPolicy: API.OperationMethod<
-  DeleteContainerPolicyInput,
+  DeleteContainerPolicyInput & RegionInput,
   DeleteContainerPolicyOutput,
   DeleteContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -377,7 +378,7 @@ export type DeleteCorsPolicyError =
  * by default and can grant this permission to others.
  */
 export const deleteCorsPolicy: API.OperationMethod<
-  DeleteCorsPolicyInput,
+  DeleteCorsPolicyInput & RegionInput,
   DeleteCorsPolicyOutput,
   DeleteCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -407,7 +408,7 @@ export type DeleteLifecyclePolicyError =
  * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyInput,
+  DeleteLifecyclePolicyInput & RegionInput,
   DeleteLifecyclePolicyOutput,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -437,7 +438,7 @@ export type DeleteMetricPolicyError =
  * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
  */
 export const deleteMetricPolicy: API.OperationMethod<
-  DeleteMetricPolicyInput,
+  DeleteMetricPolicyInput & RegionInput,
   DeleteMetricPolicyOutput,
   DeleteMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -471,7 +472,7 @@ export type DescribeContainerError =
  * ListContainers.
  */
 export const describeContainer: API.OperationMethod<
-  DescribeContainerInput,
+  DescribeContainerInput & RegionInput,
   DescribeContainerOutput,
   DescribeContainerError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type GetContainerPolicyError =
  * Guide.
  */
 export const getContainerPolicy: API.OperationMethod<
-  GetContainerPolicyInput,
+  GetContainerPolicyInput & RegionInput,
   GetContainerPolicyOutput,
   GetContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -533,7 +534,7 @@ export type GetCorsPolicyError =
  * permission and can grant it to others.
  */
 export const getCorsPolicy: API.OperationMethod<
-  GetCorsPolicyInput,
+  GetCorsPolicyInput & RegionInput,
   GetCorsPolicyOutput,
   GetCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -563,7 +564,7 @@ export type GetLifecyclePolicyError =
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyInput,
+  GetLifecyclePolicyInput & RegionInput,
   GetLifecyclePolicyOutput,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -593,7 +594,7 @@ export type GetMetricPolicyError =
  * Returns the metric policy for the specified container.
  */
 export const getMetricPolicy: API.OperationMethod<
-  GetMetricPolicyInput,
+  GetMetricPolicyInput & RegionInput,
   GetMetricPolicyOutput,
   GetMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -628,7 +629,7 @@ export type ListContainersError = InternalServerError | CommonErrors;
  * container.
  */
 export const listContainers: API.PaginatedOperationMethod<
-  ListContainersInput,
+  ListContainersInput & RegionInput,
   ListContainersOutput,
   ListContainersError,
   Credentials | HttpClient.HttpClient,
@@ -658,7 +659,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags assigned to the specified container.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -689,7 +690,7 @@ export type PutContainerPolicyError =
  * policy.
  */
 export const putContainerPolicy: API.OperationMethod<
-  PutContainerPolicyInput,
+  PutContainerPolicyInput & RegionInput,
   PutContainerPolicyOutput,
   PutContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type PutCorsPolicyError =
  * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
  */
 export const putCorsPolicy: API.OperationMethod<
-  PutCorsPolicyInput,
+  PutCorsPolicyInput & RegionInput,
   PutCorsPolicyOutput,
   PutCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type PutLifecyclePolicyError =
  * For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
  */
 export const putLifecyclePolicy: API.OperationMethod<
-  PutLifecyclePolicyInput,
+  PutLifecyclePolicyInput & RegionInput,
   PutLifecyclePolicyOutput,
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -775,7 +776,7 @@ export type PutMetricPolicyError =
  * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
  */
 export const putMetricPolicy: API.OperationMethod<
-  PutMetricPolicyInput,
+  PutMetricPolicyInput & RegionInput,
   PutMetricPolicyOutput,
   PutMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -799,7 +800,7 @@ export type StartAccessLoggingError =
  * Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
  */
 export const startAccessLogging: API.OperationMethod<
-  StartAccessLoggingInput,
+  StartAccessLoggingInput & RegionInput,
   StartAccessLoggingOutput,
   StartAccessLoggingError,
   Credentials | HttpClient.HttpClient
@@ -823,7 +824,7 @@ export type StopAccessLoggingError =
  * Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
  */
 export const stopAccessLogging: API.OperationMethod<
-  StopAccessLoggingInput,
+  StopAccessLoggingInput & RegionInput,
   StopAccessLoggingOutput,
   StopAccessLoggingError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type TagResourceError =
  * tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -873,7 +874,7 @@ export type UntagResourceError =
  * Removes tags from the specified container. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

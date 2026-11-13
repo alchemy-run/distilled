@@ -44,10 +44,10 @@ export interface CommitMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: CommitMoveCollectionRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** The error details. */
 export type OperationStatusErrorDetailsList = Array<OperationStatusError>;
@@ -56,55 +56,55 @@ export type AffectedMoveResourceMoveResourcesList = Array<AffectedMoveResource>;
 /** The RP custom operation error info. */
 export interface AffectedMoveResource {
   /** The affected move resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The affected move resource source id. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The affected move resources. */
-  moveResources?: AffectedMoveResourceMoveResourcesList;
+  moveResources?: AffectedMoveResourceMoveResourcesList | undefined;
 }
 /** The affected move resources. */
 export type MoveErrorInfoMoveResourcesList = Array<AffectedMoveResource>;
 /** The move custom error info. */
 export interface MoveErrorInfo {
   /** The affected move resources. */
-  moveResources?: MoveErrorInfoMoveResourcesList;
+  moveResources?: MoveErrorInfoMoveResourcesList | undefined;
 }
 /** The operation error info. */
 export interface OperationErrorAdditionalInfo {
   /** The error type. */
-  type?: string;
+  type?: string | undefined;
   /** The operation error info. */
-  info?: MoveErrorInfo;
+  info?: MoveErrorInfo | undefined;
 }
 /** The additional info. */
 export type OperationStatusErrorAdditionalInfoList = Array<OperationErrorAdditionalInfo>;
 /** Class for operation status errors. */
 export interface OperationStatusError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error details. */
-  details?: OperationStatusErrorDetailsList;
+  details?: OperationStatusErrorDetailsList | undefined;
   /** The additional info. */
-  additionalInfo?: OperationStatusErrorAdditionalInfoList;
+  additionalInfo?: OperationStatusErrorAdditionalInfoList | undefined;
 }
 /** Operation status REST resource. */
 export interface OperationStatus {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Operation name. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running. */
-  status?: string;
+  status?: string | undefined;
   /** Start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error stating all error details for the operation. */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
   /** Custom data. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Resource tags. */
 export type CreateMoveCollectionRequestTagsMap = { [key: string]: string | undefined };
@@ -112,25 +112,25 @@ export type CreateMoveCollectionRequestTagsMap = { [key: string]: string | undef
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Defines the MSI properties of the Move Collection. */
 export interface Identity {
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** Gets or sets the principal id. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Gets or sets the tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Defines the MoveType. */
 export type MoveType = "RegionToRegion" | "RegionToZone";
 /** Defines the move collection properties. */
 export interface MoveCollectionPropertiesInput {
   /** Gets or sets the source region. */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
   /** Gets or sets the target region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
   /** Gets or sets the move region which indicates the region where the VM Regional to Zonal move will be conducted. */
-  moveRegion?: string;
+  moveRegion?: string | undefined;
   /** Gets or sets the version of move collection. */
-  version?: string;
-  moveType?: MoveType | (string & {});
+  version?: string | undefined;
+  moveType?: MoveType | (string & {}) | undefined;
 }
 export interface CreateMoveCollectionRequest {
   /** The Subscription ID. */
@@ -140,11 +140,11 @@ export interface CreateMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Resource tags. */
-  tags?: CreateMoveCollectionRequestTagsMap;
+  tags?: CreateMoveCollectionRequestTagsMap | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
-  identity?: Identity;
-  properties?: MoveCollectionPropertiesInput;
+  location?: string | undefined;
+  identity?: Identity | undefined;
+  properties?: MoveCollectionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type MoveCollectionTagsMap = { [key: string]: string | undefined };
@@ -155,33 +155,33 @@ export type MoveResourceErrorBodyDetailsList = Array<MoveResourceErrorBody>;
 /** An error response from the Azure Migrate service. */
 export interface MoveResourceErrorBody {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
+  code?: string | undefined;
   /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
+  message?: string | undefined;
   /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
+  target?: string | undefined;
   /** A list of additional details about the error. */
-  details?: MoveResourceErrorBodyDetailsList;
+  details?: MoveResourceErrorBodyDetailsList | undefined;
 }
 /** An error response from the azure resource mover service. */
 export interface MoveResourceError {
   /** The move resource error body. */
-  properties?: MoveResourceErrorBody;
+  properties?: MoveResourceErrorBody | undefined;
 }
 /** Defines the move collection properties. */
 export interface MoveCollectionProperties {
   /** Gets or sets the source region. */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
   /** Gets or sets the target region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
   /** Gets or sets the move region which indicates the region where the VM Regional to Zonal move will be conducted. */
-  moveRegion?: string;
-  provisioningState?: ProvisioningState;
+  moveRegion?: string | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the version of move collection. */
-  version?: string;
-  moveType?: MoveType;
+  version?: string | undefined;
+  moveType?: MoveType | undefined;
   /** Defines the move collection errors. */
-  errors?: MoveResourceError;
+  errors?: MoveResourceError | undefined;
 }
 /** The type of identity that created the resource. */
 export type MoveCollectionSystemDataCreatedByType =
@@ -198,52 +198,52 @@ export type MoveCollectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MoveCollectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MoveCollectionSystemDataCreatedByType;
+  createdByType?: MoveCollectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MoveCollectionSystemDataLastModifiedByType;
+  lastModifiedByType?: MoveCollectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Define the move collection. */
 export interface MoveCollection {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: MoveCollectionTagsMap;
+  tags?: MoveCollectionTagsMap | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
-  identity?: Identity;
-  properties?: MoveCollectionProperties;
+  location?: string | undefined;
+  identity?: Identity | undefined;
+  properties?: MoveCollectionProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MoveCollectionSystemData;
+  systemData?: MoveCollectionSystemData | undefined;
 }
 /** Gets or sets the resource settings. */
 export interface ResourceSettings {
   /** The resource type. For example, the value can be Microsoft.Compute/virtualMachines. */
   resourceType: string;
   /** Gets or sets the target Resource name. */
-  targetResourceName?: string;
+  targetResourceName?: string | undefined;
   /** Gets or sets the target resource group name. */
-  targetResourceGroupName?: string;
+  targetResourceGroupName?: string | undefined;
 }
 /** Defines the dependency override of the move resource. */
 export interface MoveResourceDependencyOverride {
   /** Gets or sets the ARM ID of the dependent resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the resource ARM id of either the MoveResource or the resource ARM ID of the dependent resource. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 /** Gets or sets the move resource dependencies overrides. */
 export type MoveResourcePropertiesInputDependsOnOverridesList =
@@ -253,11 +253,11 @@ export interface MoveResourcePropertiesInput {
   /** Gets or sets the Source ARM Id of the resource. */
   sourceId: string;
   /** Gets or sets the existing target ARM Id of the resource. */
-  existingTargetId?: string;
+  existingTargetId?: string | undefined;
   /** Gets or sets the resource settings. */
-  resourceSettings?: ResourceSettings;
+  resourceSettings?: ResourceSettings | undefined;
   /** Gets or sets the move resource dependencies overrides. */
-  dependsOnOverrides?: MoveResourcePropertiesInputDependsOnOverridesList;
+  dependsOnOverrides?: MoveResourcePropertiesInputDependsOnOverridesList | undefined;
 }
 export interface CreateMoveResourceRequest {
   /** The Subscription ID. */
@@ -268,7 +268,7 @@ export interface CreateMoveResourceRequest {
   moveCollectionName: string;
   /** The Move Resource Name. */
   moveResourceName: string;
-  properties?: MoveResourcePropertiesInput;
+  properties?: MoveResourcePropertiesInput | undefined;
 }
 /** Defines the MoveResource states. */
 export type MoveState =
@@ -291,15 +291,15 @@ export type MoveState =
 export type JobName = "InitialSync";
 /** Defines the job status. */
 export interface JobStatus {
-  jobName?: JobName;
+  jobName?: JobName | undefined;
   /** Gets or sets the monitoring job percentage. */
-  jobProgress?: string;
+  jobProgress?: string | undefined;
 }
 /** Defines the move resource status. */
 export interface MoveResourceStatus {
-  moveState?: MoveState;
-  jobStatus?: JobStatus;
-  errors?: MoveResourceError;
+  moveState?: MoveState | undefined;
+  jobStatus?: JobStatus | undefined;
+  errors?: MoveResourceError | undefined;
 }
 /** Defines the resolution type. */
 export type ResolutionType = "Manual" | "Automatic";
@@ -308,25 +308,25 @@ export type DependencyType = "RequiredForPrepare" | "RequiredForMove";
 /** Defines the properties for manual resolution. */
 export interface ManualResolutionProperties {
   /** Gets or sets the target resource ARM ID of the dependent resource if the resource type is Manual. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 /** Defines the properties for automatic resolution. */
 export interface AutomaticResolutionProperties {
   /** Gets the MoveResource ARM ID of the dependent resource if the resolution type is Automatic. */
-  moveResourceId?: string;
+  moveResourceId?: string | undefined;
 }
 /** Defines the dependency of the move resource. */
 export interface MoveResourceDependency {
   /** Gets the source ARM ID of the dependent resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the dependency resolution status. */
-  resolutionStatus?: string;
-  resolutionType?: ResolutionType;
-  dependencyType?: DependencyType;
-  manualResolution?: ManualResolutionProperties;
-  automaticResolution?: AutomaticResolutionProperties;
+  resolutionStatus?: string | undefined;
+  resolutionType?: ResolutionType | undefined;
+  dependencyType?: DependencyType | undefined;
+  manualResolution?: ManualResolutionProperties | undefined;
+  automaticResolution?: AutomaticResolutionProperties | undefined;
   /** Gets or sets a value indicating whether the dependency is optional. */
-  isOptional?: string;
+  isOptional?: string | undefined;
 }
 /** Gets or sets the move resource dependencies. */
 export type MoveResourcePropertiesDependsOnList = Array<MoveResourceDependency>;
@@ -334,27 +334,27 @@ export type MoveResourcePropertiesDependsOnList = Array<MoveResourceDependency>;
 export type MoveResourcePropertiesDependsOnOverridesList = Array<MoveResourceDependencyOverride>;
 /** Defines the move resource properties. */
 export interface MoveResourceProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the Source ARM Id of the resource. */
   sourceId: string;
   /** Gets or sets the Target ARM Id of the resource. */
-  targetId?: string;
+  targetId?: string | undefined;
   /** Gets or sets the existing target ARM Id of the resource. */
-  existingTargetId?: string;
+  existingTargetId?: string | undefined;
   /** Gets or sets the resource settings. */
-  resourceSettings?: ResourceSettings;
+  resourceSettings?: ResourceSettings | undefined;
   /** Gets or sets the source resource settings. */
-  sourceResourceSettings?: ResourceSettings;
+  sourceResourceSettings?: ResourceSettings | undefined;
   /** Defines the move resource status. */
-  moveStatus?: MoveResourceStatus;
+  moveStatus?: MoveResourceStatus | undefined;
   /** Gets or sets the move resource dependencies. */
-  dependsOn?: MoveResourcePropertiesDependsOnList;
+  dependsOn?: MoveResourcePropertiesDependsOnList | undefined;
   /** Gets or sets the move resource dependencies overrides. */
-  dependsOnOverrides?: MoveResourcePropertiesDependsOnOverridesList;
+  dependsOnOverrides?: MoveResourcePropertiesDependsOnOverridesList | undefined;
   /** Gets a value indicating whether the resolve action is required over the move collection. */
-  isResolveRequired?: boolean;
+  isResolveRequired?: boolean | undefined;
   /** Defines the move resource errors. */
-  errors?: MoveResourceError;
+  errors?: MoveResourceError | undefined;
 }
 /** The type of identity that created the resource. */
 export type MoveResourceSystemDataCreatedByType =
@@ -371,29 +371,29 @@ export type MoveResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MoveResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MoveResourceSystemDataCreatedByType;
+  createdByType?: MoveResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MoveResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: MoveResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Defines the move resource. */
 export interface MoveResource {
   /** Fully qualified resource Id for the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
-  properties?: MoveResourceProperties;
+  type?: string | undefined;
+  properties?: MoveResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MoveResourceSystemData;
+  systemData?: MoveResourceSystemData | undefined;
 }
 export interface DeleteMoveCollectionRequest {
   /** The Subscription ID. */
@@ -435,33 +435,33 @@ export interface GetOperationsDiscoveryRequest {}
 /** Contains the localized display information for this particular operation / action. These value will be used by several clients for (1) custom role definitions for RBAC; (2) complex query filters for the event service; and (3) audit history / records for management operations. */
 export interface Display {
   /** Gets or sets the provider. The localized friendly form of the resource provider name - it is expected to also include the publisher/company responsible. It should use Title Casing and begin with "Microsoft" for 1st party services. e.g. "Microsoft Monitoring Insights" or "Microsoft Compute.". */
-  provider?: string;
+  provider?: string | undefined;
   /** Gets or sets the resource. The localized friendly form of the resource related to this action/operation - it should match the public documentation for the resource provider. It should use Title Casing. This value should be unique for a particular URL type (e.g. nested types should *not* reuse their parent's display.resource field) e.g. "Virtual Machines" or "Scheduler Job Collections", or "Virtual Machine VM Sizes" or "Scheduler Jobs". */
-  resource?: string;
+  resource?: string | undefined;
   /** Gets or sets the operation. The localized friendly name for the operation, as it should be shown to the user. It should be concise (to fit in drop downs) but clear (i.e. self-documenting). It should use Title Casing. Prescriptive guidance: Read Create or Update Delete 'ActionName'. */
-  operation?: string;
+  operation?: string | undefined;
   /** Gets or sets the description. The localized friendly description for the operation, as it should be shown to the user. It should be thorough, yet concise - it will be used in tool tips and detailed views. Prescriptive guidance for namespace: Read any 'display.provider' resource Create or Update any 'display.provider' resource Delete any 'display.provider' resource Perform any other action on any 'display.provider' resource Prescriptive guidance for namespace: Read any 'display.resource' Create or Update any 'display.resource' Delete any 'display.resource' 'ActionName' any 'display.resources'. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operations discovery class. */
 export interface OperationsDiscovery {
   /** Gets or sets Name of the API. The name of the operation being performed on this particular object. It should match the action name that appears in RBAC / the event service. Examples of operations include: * Microsoft.Compute/virtualMachine/capture/action * Microsoft.Compute/virtualMachine/restart/action * Microsoft.Compute/virtualMachine/write * Microsoft.Compute/virtualMachine/read * Microsoft.Compute/virtualMachine/delete Each action should include, in order: (1) Resource Provider Namespace (2) Type hierarchy for which the action applies (e.g. server/databases for a SQL Azure database) (3) Read, Write, Action or Delete indicating which type applies. If it is a PUT/PATCH on a collection or named value, Write should be used. If it is a GET, Read should be used. If it is a DELETE, Delete should be used. If it is a POST, Action should be used. As a note: all resource providers would need to include the "{Resource Provider Namespace}/register/action" operation in their response. This API is used to register for their service, and should include details about the operation (e.g. a localized name for the resource provider + any special considerations like PII release). */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  display?: Display;
+  isDataAction?: boolean | undefined;
+  display?: Display | undefined;
   /** Gets or sets Origin. The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. Default value is "user,system". */
-  origin?: string;
-  properties?: unknown;
+  origin?: string | undefined;
+  properties?: unknown | undefined;
 }
 /** Gets or sets the ClientDiscovery details. */
 export type OperationsDiscoveryCollectionValueList = Array<OperationsDiscovery>;
 /** Collection of ClientDiscovery details. */
 export interface OperationsDiscoveryCollection {
   /** Gets or sets the ClientDiscovery details. */
-  value?: OperationsDiscoveryCollectionValueList;
+  value?: OperationsDiscoveryCollectionValueList | undefined;
   /** Gets or sets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type GetUnresolvedDependencyRequestDependencyLevel = "Direct" | "Descendant";
 export interface GetUnresolvedDependencyRequest {
@@ -472,47 +472,47 @@ export interface GetUnresolvedDependencyRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Defines the dependency level. */
-  dependencyLevel?: GetUnresolvedDependencyRequestDependencyLevel | (string & {});
+  dependencyLevel?: GetUnresolvedDependencyRequestDependencyLevel | (string & {}) | undefined;
   /** OData order by query option. For example, you can use $orderby=Count desc. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Unresolved dependency. */
 export interface UnresolvedDependency {
   /** Gets or sets the count. */
-  count?: number;
+  count?: number | undefined;
   /** Gets or sets the arm id of the dependency. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets or sets the list of unresolved dependencies. */
 export type UnresolvedDependencyCollectionValueList = Array<UnresolvedDependency>;
 /** Summary item. */
 export interface Summary {
   /** Gets the count. */
-  count?: number;
+  count?: number | undefined;
   /** Gets the item. */
-  item?: string;
+  item?: string | undefined;
 }
 /** Gets or sets the list of summary items. */
 export type SummaryCollectionSummaryList = Array<Summary>;
 /** Summary Collection. */
 export interface SummaryCollection {
   /** Gets or sets the field name on which summary is done. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** Gets or sets the list of summary items. */
-  summary?: SummaryCollectionSummaryList;
+  summary?: SummaryCollectionSummaryList | undefined;
 }
 /** Unresolved dependency collection. */
 export interface UnresolvedDependencyCollection {
   /** Gets or sets the list of unresolved dependencies. */
-  value?: UnresolvedDependencyCollectionValueList;
+  value?: UnresolvedDependencyCollectionValueList | undefined;
   /** Gets or sets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
-  summaryCollection?: SummaryCollection;
+  summaryCollection?: SummaryCollection | undefined;
   /** Gets the total count. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListMoveCollectionRequiredForRequest {
   /** The Subscription ID. */
@@ -529,7 +529,7 @@ export type RequiredForResourcesCollectionSourceIdsList = Array<string>;
 /** Required for resources collection. */
 export interface RequiredForResourcesCollection {
   /** Gets or sets the list of source Ids for which the input resource is required. */
-  sourceIds?: RequiredForResourcesCollectionSourceIdsList;
+  sourceIds?: RequiredForResourcesCollectionSourceIdsList | undefined;
 }
 export interface ListMoveResourcesRequest {
   /** The Subscription ID. */
@@ -539,20 +539,20 @@ export interface ListMoveResourcesRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Gets the list of move resources. */
 export type MoveResourceCollectionValueList = Array<MoveResource>;
 /** Defines the collection of move resources. */
 export interface MoveResourceCollection {
   /** Gets the list of move resources. */
-  value?: MoveResourceCollectionValueList;
+  value?: MoveResourceCollectionValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets or sets the list of summary items and the field on which summary is done. */
-  summaryCollection?: SummaryCollection;
+  summaryCollection?: SummaryCollection | undefined;
   /** Gets the total count. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsBulkRemoveRequestMoveResourcesList = Array<string>;
@@ -562,10 +562,10 @@ export interface MoveCollectionsBulkRemoveRequest {
   resourceGroupName: string;
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
-  moveResources?: MoveCollectionsBulkRemoveRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResources?: MoveCollectionsBulkRemoveRequestMoveResourcesList | undefined;
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsDiscardRequestMoveResourcesList = Array<string>;
@@ -577,10 +577,10 @@ export interface MoveCollectionsDiscardRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsDiscardRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsInitiateMoveRequestMoveResourcesList = Array<string>;
@@ -592,10 +592,10 @@ export interface MoveCollectionsInitiateMoveRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsInitiateMoveRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 export interface MoveCollectionsListMoveCollectionsByResourceGroupRequest {
   /** The Subscription ID. */
@@ -608,9 +608,9 @@ export type MoveCollectionResultListValueList = Array<MoveCollection>;
 /** Defines the collection of move collections. */
 export interface MoveCollectionResultList {
   /** Gets the list of move collections. */
-  value?: MoveCollectionResultListValueList;
+  value?: MoveCollectionResultListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MoveCollectionsListMoveCollectionsBySubscriptionRequest {
   /** The Subscription ID. */
@@ -626,10 +626,10 @@ export interface MoveCollectionsPrepareRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
   moveResources: MoveCollectionsPrepareRequestMoveResourcesList;
-  moveResourceInputType?: MoveResourceInputType | (string & {});
+  moveResourceInputType?: MoveResourceInputType | (string & {}) | undefined;
 }
 export interface MoveCollectionsResolveDependenciesRequest {
   /** The Subscription ID. */
@@ -649,8 +649,8 @@ export interface UpdateMoveCollectionRequest {
   /** The Move Collection Name. */
   moveCollectionName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateMoveCollectionRequestTagsMap;
-  identity?: Identity;
+  tags?: UpdateMoveCollectionRequestTagsMap | undefined;
+  identity?: Identity | undefined;
 }
 export type CommitMoveCollectionError = AzureOpError;
 /** Commits the set of resources included in the request body. The commit operation is triggered on the moveResources in the moveState 'CommitPending' or 'CommitFailed', on a successful completion the moveResource moveState do a transition to Committed. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true. */

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -214,7 +215,7 @@ export type PacingStrategy = { abandonmentRate: AbandonmentRatePacingConfig };
 export type PacingStrategyList = PacingStrategy[];
 export interface PredictiveConfig {
   bandwidthAllocation: number;
-  pacingStrategies?: PacingStrategy[];
+  pacingStrategies?: PacingStrategy[] | undefined;
 }
 export interface AgentlessConfig {}
 export type TimeoutDuration = number;
@@ -226,29 +227,49 @@ export type AgentActions = string[];
 export interface PreviewConfig {
   bandwidthAllocation: number;
   timeoutConfig: TimeoutConfig;
-  agentActions?: string[];
+  agentActions?: string[] | undefined;
 }
 export type TelephonyOutboundMode =
-  | { progressive: ProgressiveConfig; predictive?: never; agentless?: never; preview?: never }
-  | { progressive?: never; predictive: PredictiveConfig; agentless?: never; preview?: never }
-  | { progressive?: never; predictive?: never; agentless: AgentlessConfig; preview?: never }
-  | { progressive?: never; predictive?: never; agentless?: never; preview: PreviewConfig };
+  | {
+      progressive: ProgressiveConfig;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive: PredictiveConfig;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless: AgentlessConfig;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview: PreviewConfig;
+    };
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export interface AnswerMachineDetectionConfig {
   enableAnswerMachineDetection: boolean;
-  awaitAnswerMachinePrompt?: boolean;
+  awaitAnswerMachinePrompt?: boolean | undefined;
 }
 export type RingTimeout = number;
 export interface TelephonyOutboundConfig {
   connectContactFlowId: string;
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-  ringTimeout?: number;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
+  ringTimeout?: number | undefined;
 }
 export interface TelephonyChannelSubtypeConfig {
-  capacity?: number;
-  connectQueueId?: string;
+  capacity?: number | undefined;
+  connectQueueId?: string | undefined;
   outboundMode: TelephonyOutboundMode;
   defaultOutboundConfig: TelephonyOutboundConfig;
 }
@@ -259,7 +280,7 @@ export interface SmsOutboundConfig {
   wisdomTemplateArn: string;
 }
 export interface SmsChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: SmsOutboundMode;
   defaultOutboundConfig: SmsOutboundConfig;
 }
@@ -268,11 +289,11 @@ export type EmailAddress = string | redacted.Redacted<string>;
 export type EmailDisplayName = string | redacted.Redacted<string>;
 export interface EmailOutboundConfig {
   connectSourceEmailAddress: string | redacted.Redacted<string>;
-  sourceEmailAddressDisplayName?: string | redacted.Redacted<string>;
+  sourceEmailAddressDisplayName?: string | redacted.Redacted<string> | undefined;
   wisdomTemplateArn: string;
 }
 export interface EmailChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: EmailOutboundMode;
   defaultOutboundConfig: EmailOutboundConfig;
 }
@@ -282,28 +303,28 @@ export interface WhatsAppOutboundConfig {
   wisdomTemplateArn: string;
 }
 export interface WhatsAppChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: WhatsAppOutboundMode;
   defaultOutboundConfig: WhatsAppOutboundConfig;
 }
 export interface ChannelSubtypeConfig {
-  telephony?: TelephonyChannelSubtypeConfig;
-  sms?: SmsChannelSubtypeConfig;
-  email?: EmailChannelSubtypeConfig;
-  whatsApp?: WhatsAppChannelSubtypeConfig;
+  telephony?: TelephonyChannelSubtypeConfig | undefined;
+  sms?: SmsChannelSubtypeConfig | undefined;
+  email?: EmailChannelSubtypeConfig | undefined;
+  whatsApp?: WhatsAppChannelSubtypeConfig | undefined;
 }
 export type ExternalCampaignType = string;
 export interface EventTrigger {
-  customerProfilesDomainArn?: string;
+  customerProfilesDomainArn?: string | undefined;
 }
 export type Source =
-  | { customerProfilesSegmentArn: string; eventTrigger?: never }
-  | { customerProfilesSegmentArn?: never; eventTrigger: EventTrigger };
+  | { customerProfilesSegmentArn: string; eventTrigger?: undefined }
+  | { customerProfilesSegmentArn?: undefined; eventTrigger: EventTrigger };
 export type Iso8601Duration = string;
 export interface Schedule {
   startTime: Date;
   endTime: Date;
-  refreshFrequency?: string;
+  refreshFrequency?: string | undefined;
 }
 export interface EntryLimitsConfig {
   maxEntryCount: number;
@@ -314,9 +335,9 @@ export type LocalTimeZoneDetectionType = string;
 export type LocalTimeZoneDetection = string[];
 export type LocalTimeZoneDetectionScope = string;
 export interface LocalTimeZoneConfig {
-  defaultTimeZone?: string;
-  localTimeZoneDetection?: string[];
-  localTimeZoneDetectionScope?: string;
+  defaultTimeZone?: string | undefined;
+  localTimeZoneDetection?: string[] | undefined;
+  localTimeZoneDetectionScope?: string | undefined;
 }
 export type DayOfWeek = string;
 export type Iso8601Time = string;
@@ -330,7 +351,7 @@ export type OpenHours = { dailyHours: { [key: string]: TimeRange[] | undefined }
 export type RestrictedPeriodName = string;
 export type Iso8601Date = string;
 export interface RestrictedPeriod {
-  name?: string;
+  name?: string | undefined;
   startDate: string;
   endDate: string;
 }
@@ -338,14 +359,14 @@ export type RestrictedPeriodList = RestrictedPeriod[];
 export type RestrictedPeriods = { restrictedPeriodList: RestrictedPeriod[] };
 export interface TimeWindow {
   openHours: OpenHours;
-  restrictedPeriods?: RestrictedPeriods;
+  restrictedPeriods?: RestrictedPeriods | undefined;
 }
 export interface CommunicationTimeConfig {
   localTimeZoneConfig: LocalTimeZoneConfig;
-  telephony?: TimeWindow;
-  sms?: TimeWindow;
-  email?: TimeWindow;
-  whatsApp?: TimeWindow;
+  telephony?: TimeWindow | undefined;
+  sms?: TimeWindow | undefined;
+  email?: TimeWindow | undefined;
+  whatsApp?: TimeWindow | undefined;
 }
 export type CommunicationLimitTimeUnit = string;
 export interface CommunicationLimit {
@@ -357,8 +378,8 @@ export type CommunicationLimitList = CommunicationLimit[];
 export type CommunicationLimits = { communicationLimitsList: CommunicationLimit[] };
 export type InstanceLimitsHandling = string;
 export interface CommunicationLimitsConfig {
-  allChannelSubtypes?: CommunicationLimits;
-  instanceLimitsHandling?: string;
+  allChannelSubtypes?: CommunicationLimits | undefined;
+  instanceLimitsHandling?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -366,22 +387,22 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateCampaignRequest {
   name: string;
   connectInstanceId: string;
-  channelSubtypeConfig?: ChannelSubtypeConfig;
-  type?: string;
-  source?: Source;
-  connectCampaignFlowArn?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  communicationTimeConfig?: CommunicationTimeConfig;
-  communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string | undefined };
+  channelSubtypeConfig?: ChannelSubtypeConfig | undefined;
+  type?: string | undefined;
+  source?: Source | undefined;
+  connectCampaignFlowArn?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  communicationTimeConfig?: CommunicationTimeConfig | undefined;
+  communicationLimitsOverride?: CommunicationLimitsConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CampaignId = string;
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
-  id?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCampaignRequest {
   id: string;
@@ -412,7 +433,7 @@ export interface DeleteCampaignEntryLimitsResponse {}
 export type CampaignDeletionPolicy = string;
 export interface DeleteConnectInstanceConfigRequest {
   connectInstanceId: string;
-  campaignDeletionPolicy?: string;
+  campaignDeletionPolicy?: string | undefined;
 }
 export interface DeleteConnectInstanceConfigResponse {}
 export interface CustomerProfilesIntegrationIdentifier {
@@ -426,9 +447,13 @@ export interface LambdaIntegrationIdentifier {
   functionArn: string;
 }
 export type IntegrationIdentifier =
-  | { customerProfiles: CustomerProfilesIntegrationIdentifier; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationIdentifier; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationIdentifier };
+  | {
+      customerProfiles: CustomerProfilesIntegrationIdentifier;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationIdentifier; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationIdentifier };
 export interface DeleteConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationIdentifier: IntegrationIdentifier;
@@ -446,44 +471,44 @@ export interface Campaign {
   arn: string;
   name: string;
   connectInstanceId: string;
-  channelSubtypeConfig?: ChannelSubtypeConfig;
-  type?: string;
-  source?: Source;
-  connectCampaignFlowArn?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  communicationTimeConfig?: CommunicationTimeConfig;
-  communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string | undefined };
+  channelSubtypeConfig?: ChannelSubtypeConfig | undefined;
+  type?: string | undefined;
+  source?: Source | undefined;
+  connectCampaignFlowArn?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  communicationTimeConfig?: CommunicationTimeConfig | undefined;
+  communicationLimitsOverride?: CommunicationLimitsConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeCampaignResponse {
-  campaign?: Campaign;
+  campaign?: Campaign | undefined;
 }
 export interface GetCampaignStateRequest {
   id: string;
 }
 export type CampaignState = string;
 export interface GetCampaignStateResponse {
-  state?: string;
+  state?: string | undefined;
 }
 export type CampaignIdList = string[];
 export interface GetCampaignStateBatchRequest {
   campaignIds: string[];
 }
 export interface SuccessfulCampaignStateResponse {
-  campaignId?: string;
-  state?: string;
+  campaignId?: string | undefined;
+  state?: string | undefined;
 }
 export type SuccessfulCampaignStateResponseList = SuccessfulCampaignStateResponse[];
 export type GetCampaignStateBatchFailureCode = string;
 export interface FailedCampaignStateResponse {
-  campaignId?: string;
-  failureCode?: string;
+  campaignId?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponse[];
-  failedRequests?: FailedCampaignStateResponse[];
+  successfulRequests?: SuccessfulCampaignStateResponse[] | undefined;
+  failedRequests?: FailedCampaignStateResponse[] | undefined;
 }
 export interface GetConnectInstanceConfigRequest {
   connectInstanceId: string;
@@ -494,8 +519,8 @@ export type EncryptionType = string;
 export type EncryptionKey = string;
 export interface EncryptionConfig {
   enabled: boolean;
-  encryptionType?: string;
-  keyArn?: string;
+  encryptionType?: string | undefined;
+  keyArn?: string | undefined;
 }
 export interface InstanceConfig {
   connectInstanceId: string;
@@ -503,16 +528,16 @@ export interface InstanceConfig {
   encryptionConfig: EncryptionConfig;
 }
 export interface GetConnectInstanceConfigResponse {
-  connectInstanceConfig?: InstanceConfig;
+  connectInstanceConfig?: InstanceConfig | undefined;
 }
 export interface GetInstanceCommunicationLimitsRequest {
   connectInstanceId: string;
 }
 export interface InstanceCommunicationLimitsConfig {
-  allChannelSubtypes?: CommunicationLimits;
+  allChannelSubtypes?: CommunicationLimits | undefined;
 }
 export interface GetInstanceCommunicationLimitsResponse {
-  communicationLimitsConfig?: InstanceCommunicationLimitsConfig;
+  communicationLimitsConfig?: InstanceCommunicationLimitsConfig | undefined;
 }
 export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
@@ -522,10 +547,10 @@ export type InstanceOnboardingJobFailureCode = string;
 export interface InstanceOnboardingJobStatus {
   connectInstanceId: string;
   status: string;
-  failureCode?: string;
+  failureCode?: string | undefined;
 }
 export interface GetInstanceOnboardingJobStatusResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -535,12 +560,12 @@ export interface InstanceIdFilter {
   operator: string;
 }
 export interface CampaignFilters {
-  instanceIdFilter?: InstanceIdFilter;
+  instanceIdFilter?: InstanceIdFilter | undefined;
 }
 export interface ListCampaignsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: CampaignFilters;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: CampaignFilters | undefined;
 }
 export type ChannelSubtypeList = string[];
 export interface CampaignSummary {
@@ -549,20 +574,20 @@ export interface CampaignSummary {
   name: string;
   connectInstanceId: string;
   channelSubtypes: string[];
-  type?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  connectCampaignFlowArn?: string;
+  type?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  connectCampaignFlowArn?: string | undefined;
 }
 export type CampaignSummaryList = CampaignSummary[];
 export interface ListCampaignsResponse {
-  nextToken?: string;
-  campaignSummaryList?: CampaignSummary[];
+  nextToken?: string | undefined;
+  campaignSummaryList?: CampaignSummary[] | undefined;
 }
 export interface ListConnectInstanceIntegrationsRequest {
   connectInstanceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EventType = string;
 export type ObjectTypeName = string;
@@ -578,19 +603,23 @@ export interface LambdaIntegrationSummary {
   functionArn: string;
 }
 export type IntegrationSummary =
-  | { customerProfiles: CustomerProfilesIntegrationSummary; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationSummary; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationSummary };
+  | {
+      customerProfiles: CustomerProfilesIntegrationSummary;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationSummary; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationSummary };
 export type IntegrationSummaryList = IntegrationSummary[];
 export interface ListConnectInstanceIntegrationsResponse {
-  nextToken?: string;
-  integrationSummaryList?: IntegrationSummary[];
+  nextToken?: string | undefined;
+  integrationSummaryList?: IntegrationSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PauseCampaignRequest {
   id: string;
@@ -607,9 +636,13 @@ export interface LambdaIntegrationConfig {
   functionArn: string;
 }
 export type IntegrationConfig =
-  | { customerProfiles: CustomerProfilesIntegrationConfig; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationConfig; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationConfig };
+  | {
+      customerProfiles: CustomerProfilesIntegrationConfig;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationConfig; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationConfig };
 export interface PutConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationConfig: IntegrationConfig;
@@ -628,33 +661,53 @@ export type Attributes = { [key: string]: string | undefined };
 export interface TelephonyChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
   attributes: { [key: string]: string | undefined };
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-  ringTimeout?: number;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
+  ringTimeout?: number | undefined;
 }
 export interface SmsChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
-  connectSourcePhoneNumberArn?: string;
-  templateArn?: string;
+  connectSourcePhoneNumberArn?: string | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export interface EmailChannelSubtypeParameters {
   destinationEmailAddress: string | redacted.Redacted<string>;
-  connectSourceEmailAddress?: string | redacted.Redacted<string>;
-  templateArn?: string;
+  connectSourceEmailAddress?: string | redacted.Redacted<string> | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export interface WhatsAppChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
-  connectSourcePhoneNumberArn?: string;
-  templateArn?: string;
+  connectSourcePhoneNumberArn?: string | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export type ChannelSubtypeParameters =
-  | { telephony: TelephonyChannelSubtypeParameters; sms?: never; email?: never; whatsApp?: never }
-  | { telephony?: never; sms: SmsChannelSubtypeParameters; email?: never; whatsApp?: never }
-  | { telephony?: never; sms?: never; email: EmailChannelSubtypeParameters; whatsApp?: never }
-  | { telephony?: never; sms?: never; email?: never; whatsApp: WhatsAppChannelSubtypeParameters };
+  | {
+      telephony: TelephonyChannelSubtypeParameters;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms: SmsChannelSubtypeParameters;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email: EmailChannelSubtypeParameters;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp: WhatsAppChannelSubtypeParameters;
+    };
 export interface OutboundRequest {
   clientToken: string;
   expirationTime: Date;
@@ -667,41 +720,41 @@ export interface PutOutboundRequestBatchRequest {
 }
 export type DialRequestId = string;
 export interface SuccessfulRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulRequestList = SuccessfulRequest[];
 export type FailureCode = string;
 export interface FailedRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedRequestList = FailedRequest[];
 export interface PutOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulRequest[];
-  failedRequests?: FailedRequest[];
+  successfulRequests?: SuccessfulRequest[] | undefined;
+  failedRequests?: FailedRequest[] | undefined;
 }
 export type ProfileId = string;
 export type SourceEvent = string;
 export type SessionId = string;
 export type BrowserId = string;
 export interface WebNotificationContext {
-  sessionId?: string;
-  browserId?: string;
+  sessionId?: string | undefined;
+  browserId?: string | undefined;
 }
 export interface ChannelContext {
-  webNotificationContext?: WebNotificationContext;
+  webNotificationContext?: WebNotificationContext | undefined;
 }
 export interface EventTriggerContext {
-  sourceEvent?: string;
-  channelContext?: ChannelContext;
+  sourceEvent?: string | undefined;
+  channelContext?: ChannelContext | undefined;
 }
 export interface ProfileOutboundRequest {
   clientToken: string;
   profileId: string;
-  expirationTime?: Date;
-  eventTriggerContext?: EventTriggerContext;
+  expirationTime?: Date | undefined;
+  eventTriggerContext?: EventTriggerContext | undefined;
 }
 export type ProfileOutboundRequestList = ProfileOutboundRequest[];
 export interface PutProfileOutboundRequestBatchRequest {
@@ -710,20 +763,20 @@ export interface PutProfileOutboundRequestBatchRequest {
 }
 export type ProfileOutboundRequestId = string;
 export interface SuccessfulProfileOutboundRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulProfileOutboundRequestList = SuccessfulProfileOutboundRequest[];
 export type ProfileOutboundRequestFailureCode = string;
 export interface FailedProfileOutboundRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedProfileOutboundRequestList = FailedProfileOutboundRequest[];
 export interface PutProfileOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulProfileOutboundRequest[];
-  failedRequests?: FailedProfileOutboundRequest[];
+  successfulRequests?: SuccessfulProfileOutboundRequest[] | undefined;
+  failedRequests?: FailedProfileOutboundRequest[] | undefined;
 }
 export interface ResumeCampaignRequest {
   id: string;
@@ -738,7 +791,7 @@ export interface StartInstanceOnboardingJobRequest {
   encryptionConfig: EncryptionConfig;
 }
 export interface StartInstanceOnboardingJobResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export interface StopCampaignRequest {
   id: string;
@@ -809,7 +862,7 @@ export type CreateCampaignError =
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -842,7 +895,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from the specified Amazon Connect account.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -873,7 +926,7 @@ export type DeleteCampaignChannelSubtypeConfigError =
  * Deletes the channel subtype config of a campaign. This API is idempotent.
  */
 export const deleteCampaignChannelSubtypeConfig: API.OperationMethod<
-  DeleteCampaignChannelSubtypeConfigRequest,
+  DeleteCampaignChannelSubtypeConfigRequest & RegionInput,
   DeleteCampaignChannelSubtypeConfigResponse,
   DeleteCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -906,7 +959,7 @@ export type DeleteCampaignCommunicationLimitsError =
  * Deletes the communication limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationLimits: API.OperationMethod<
-  DeleteCampaignCommunicationLimitsRequest,
+  DeleteCampaignCommunicationLimitsRequest & RegionInput,
   DeleteCampaignCommunicationLimitsResponse,
   DeleteCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -940,7 +993,7 @@ export type DeleteCampaignCommunicationTimeError =
  * Deletes the communication time config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationTime: API.OperationMethod<
-  DeleteCampaignCommunicationTimeRequest,
+  DeleteCampaignCommunicationTimeRequest & RegionInput,
   DeleteCampaignCommunicationTimeResponse,
   DeleteCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -974,7 +1027,7 @@ export type DeleteCampaignEntryLimitsError =
  * Deletes the entry limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignEntryLimits: API.OperationMethod<
-  DeleteCampaignEntryLimitsRequest,
+  DeleteCampaignEntryLimitsRequest & RegionInput,
   DeleteCampaignEntryLimitsResponse,
   DeleteCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1008,7 +1061,7 @@ export type DeleteConnectInstanceConfigError =
  * Deletes a connect instance config from the specified AWS account.
  */
 export const deleteConnectInstanceConfig: API.OperationMethod<
-  DeleteConnectInstanceConfigRequest,
+  DeleteConnectInstanceConfigRequest & RegionInput,
   DeleteConnectInstanceConfigResponse,
   DeleteConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1094,7 @@ export type DeleteConnectInstanceIntegrationError =
  * Delete the integration for the specified Amazon Connect instance.
  */
 export const deleteConnectInstanceIntegration: API.OperationMethod<
-  DeleteConnectInstanceIntegrationRequest,
+  DeleteConnectInstanceIntegrationRequest & RegionInput,
   DeleteConnectInstanceIntegrationResponse,
   DeleteConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1126,7 @@ export type DeleteInstanceOnboardingJobError =
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
 export const deleteInstanceOnboardingJob: API.OperationMethod<
-  DeleteInstanceOnboardingJobRequest,
+  DeleteInstanceOnboardingJobRequest & RegionInput,
   DeleteInstanceOnboardingJobResponse,
   DeleteInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1104,7 +1157,7 @@ export type DescribeCampaignError =
  * Describes the specific campaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1135,7 +1188,7 @@ export type GetCampaignStateError =
  * Get state of a campaign for the specified Amazon Connect account.
  */
 export const getCampaignState: API.OperationMethod<
-  GetCampaignStateRequest,
+  GetCampaignStateRequest & RegionInput,
   GetCampaignStateResponse,
   GetCampaignStateError,
   Credentials | HttpClient.HttpClient
@@ -1166,7 +1219,7 @@ export type GetCampaignStateBatchError =
  * Get state of campaigns for the specified Amazon Connect account.
  */
 export const getCampaignStateBatch: API.OperationMethod<
-  GetCampaignStateBatchRequest,
+  GetCampaignStateBatchRequest & RegionInput,
   GetCampaignStateBatchResponse,
   GetCampaignStateBatchError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1249,7 @@ export type GetConnectInstanceConfigError =
  * Get the specific Connect instance config.
  */
 export const getConnectInstanceConfig: API.OperationMethod<
-  GetConnectInstanceConfigRequest,
+  GetConnectInstanceConfigRequest & RegionInput,
   GetConnectInstanceConfigResponse,
   GetConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1279,7 @@ export type GetInstanceCommunicationLimitsError =
  * Get the instance communication limits.
  */
 export const getInstanceCommunicationLimits: API.OperationMethod<
-  GetInstanceCommunicationLimitsRequest,
+  GetInstanceCommunicationLimitsRequest & RegionInput,
   GetInstanceCommunicationLimitsResponse,
   GetInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1256,7 +1309,7 @@ export type GetInstanceOnboardingJobStatusError =
  * Get the specific instance onboarding job status.
  */
 export const getInstanceOnboardingJobStatus: API.OperationMethod<
-  GetInstanceOnboardingJobStatusRequest,
+  GetInstanceOnboardingJobStatusRequest & RegionInput,
   GetInstanceOnboardingJobStatusResponse,
   GetInstanceOnboardingJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1285,7 +1338,7 @@ export type ListCampaignsError =
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -1318,7 +1371,7 @@ export type ListConnectInstanceIntegrationsError =
  * Provides summary information about the integration under the specified Connect instance.
  */
 export const listConnectInstanceIntegrations: API.PaginatedOperationMethod<
-  ListConnectInstanceIntegrationsRequest,
+  ListConnectInstanceIntegrationsRequest & RegionInput,
   ListConnectInstanceIntegrationsResponse,
   ListConnectInstanceIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1357,7 +1410,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1444,7 @@ export type PauseCampaignError =
  * Pauses a campaign for the specified Amazon Connect account.
  */
 export const pauseCampaign: API.OperationMethod<
-  PauseCampaignRequest,
+  PauseCampaignRequest & RegionInput,
   PauseCampaignResponse,
   PauseCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1426,7 +1479,7 @@ export type PutConnectInstanceIntegrationError =
  * Put or update the integration for the specified Amazon Connect instance.
  */
 export const putConnectInstanceIntegration: API.OperationMethod<
-  PutConnectInstanceIntegrationRequest,
+  PutConnectInstanceIntegrationRequest & RegionInput,
   PutConnectInstanceIntegrationResponse,
   PutConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1512,7 @@ export type PutInstanceCommunicationLimitsError =
  * Put the instance communication limits. This API is idempotent.
  */
 export const putInstanceCommunicationLimits: API.OperationMethod<
-  PutInstanceCommunicationLimitsRequest,
+  PutInstanceCommunicationLimitsRequest & RegionInput,
   PutInstanceCommunicationLimitsResponse,
   PutInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1493,7 +1546,7 @@ export type PutOutboundRequestBatchError =
  * Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
 export const putOutboundRequestBatch: API.OperationMethod<
-  PutOutboundRequestBatchRequest,
+  PutOutboundRequestBatchRequest & RegionInput,
   PutOutboundRequestBatchResponse,
   PutOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1529,7 +1582,7 @@ export type PutProfileOutboundRequestBatchError =
  * Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
  */
 export const putProfileOutboundRequestBatch: API.OperationMethod<
-  PutProfileOutboundRequestBatchRequest,
+  PutProfileOutboundRequestBatchRequest & RegionInput,
   PutProfileOutboundRequestBatchResponse,
   PutProfileOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1618,7 @@ export type ResumeCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const resumeCampaign: API.OperationMethod<
-  ResumeCampaignRequest,
+  ResumeCampaignRequest & RegionInput,
   ResumeCampaignResponse,
   ResumeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1601,7 +1654,7 @@ export type StartCampaignError =
  * Starts a campaign for the specified Amazon Connect account.
  */
 export const startCampaign: API.OperationMethod<
-  StartCampaignRequest,
+  StartCampaignRequest & RegionInput,
   StartCampaignResponse,
   StartCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1689,7 @@ export type StartInstanceOnboardingJobError =
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
 export const startInstanceOnboardingJob: API.OperationMethod<
-  StartInstanceOnboardingJobRequest,
+  StartInstanceOnboardingJobRequest & RegionInput,
   StartInstanceOnboardingJobResponse,
   StartInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1671,7 +1724,7 @@ export type StopCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const stopCampaign: API.OperationMethod<
-  StopCampaignRequest,
+  StopCampaignRequest & RegionInput,
   StopCampaignResponse,
   StopCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1705,7 +1758,7 @@ export type TagResourceError =
  * Tag a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1737,7 +1790,7 @@ export type UntagResourceError =
  * Untag a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1822,7 @@ export type UpdateCampaignChannelSubtypeConfigError =
  * Updates the channel subtype config of a campaign. This API is idempotent.
  */
 export const updateCampaignChannelSubtypeConfig: API.OperationMethod<
-  UpdateCampaignChannelSubtypeConfigRequest,
+  UpdateCampaignChannelSubtypeConfigRequest & RegionInput,
   UpdateCampaignChannelSubtypeConfigResponse,
   UpdateCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1855,7 @@ export type UpdateCampaignCommunicationLimitsError =
  * Updates the communication limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationLimits: API.OperationMethod<
-  UpdateCampaignCommunicationLimitsRequest,
+  UpdateCampaignCommunicationLimitsRequest & RegionInput,
   UpdateCampaignCommunicationLimitsResponse,
   UpdateCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1836,7 +1889,7 @@ export type UpdateCampaignCommunicationTimeError =
  * Updates the communication time config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationTime: API.OperationMethod<
-  UpdateCampaignCommunicationTimeRequest,
+  UpdateCampaignCommunicationTimeRequest & RegionInput,
   UpdateCampaignCommunicationTimeResponse,
   UpdateCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1923,7 @@ export type UpdateCampaignEntryLimitsError =
  * Updates the entry limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignEntryLimits: API.OperationMethod<
-  UpdateCampaignEntryLimitsRequest,
+  UpdateCampaignEntryLimitsRequest & RegionInput,
   UpdateCampaignEntryLimitsResponse,
   UpdateCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1904,7 +1957,7 @@ export type UpdateCampaignFlowAssociationError =
  * Updates the campaign flow associated with a campaign. This API is idempotent.
  */
 export const updateCampaignFlowAssociation: API.OperationMethod<
-  UpdateCampaignFlowAssociationRequest,
+  UpdateCampaignFlowAssociationRequest & RegionInput,
   UpdateCampaignFlowAssociationResponse,
   UpdateCampaignFlowAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1937,7 +1990,7 @@ export type UpdateCampaignNameError =
  * Updates the name of a campaign. This API is idempotent.
  */
 export const updateCampaignName: API.OperationMethod<
-  UpdateCampaignNameRequest,
+  UpdateCampaignNameRequest & RegionInput,
   UpdateCampaignNameResponse,
   UpdateCampaignNameError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +2023,7 @@ export type UpdateCampaignScheduleError =
  * Updates the schedule for a campaign. This API is idempotent.
  */
 export const updateCampaignSchedule: API.OperationMethod<
-  UpdateCampaignScheduleRequest,
+  UpdateCampaignScheduleRequest & RegionInput,
   UpdateCampaignScheduleResponse,
   UpdateCampaignScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2004,7 +2057,7 @@ export type UpdateCampaignSourceError =
  * Updates the campaign source with a campaign. This API is idempotent.
  */
 export const updateCampaignSource: API.OperationMethod<
-  UpdateCampaignSourceRequest,
+  UpdateCampaignSourceRequest & RegionInput,
   UpdateCampaignSourceResponse,
   UpdateCampaignSourceError,
   Credentials | HttpClient.HttpClient

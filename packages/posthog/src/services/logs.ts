@@ -88,6 +88,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -108,12 +109,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -123,12 +124,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -140,11 +141,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -155,11 +156,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -170,11 +171,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -184,19 +185,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null | undefined;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -208,11 +213,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -222,11 +227,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -237,13 +242,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -253,25 +258,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -281,13 +286,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -298,11 +303,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -313,11 +318,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -327,22 +332,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -353,21 +358,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -378,11 +383,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -394,11 +399,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -409,11 +414,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -428,25 +433,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type PropertyGroupFilterValueValuesItem =
@@ -477,61 +482,80 @@ export type PropertyGroupFilterValueValuesItem =
   | BehavioralPropertyFilter;
 export type PropertyGroupFilterValueValuesList = Array<PropertyGroupFilterValueValuesItem>;
 export interface PropertyGroupFilterValue {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValueValuesList;
+  type?: FilterLogicalOperator | (string & {}) | undefined;
+  values?: PropertyGroupFilterValueValuesList | undefined;
 }
 export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
 export interface PropertyGroupFilter {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValuesList;
+  type?: FilterLogicalOperator | (string & {}) | undefined;
+  values?: PropertyGroupFilterValuesList | undefined;
 }
 export type LogsAlertFiltersServiceNamesList = Array<string>;
 export type LogSeverityLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 export type LogsAlertFiltersSeverityLevelsList = Array<LogSeverityLevel | (string & {})>;
 export interface LogsAlertFilters {
-  filterGroup?: PropertyGroupFilter | null;
-  serviceNames?: LogsAlertFiltersServiceNamesList | null;
-  severityLevels?: LogsAlertFiltersSeverityLevelsList | null;
+  filterGroup?: PropertyGroupFilter | null | undefined;
+  serviceNames?: LogsAlertFiltersServiceNamesList | null | undefined;
+  severityLevels?: LogsAlertFiltersSeverityLevelsList | null | undefined;
 }
 /** * `above` - Above * `below` - Below */
 export type LogsAlertConfigurationThresholdOperatorEnum = "above" | "below";
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
+}
+/** * `single` - Single * `by_result_labels` - By result labels */
+export type GroupingModeEnum = "single" | "by_result_labels";
+/** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
+export type LogsAlertGroupingKeysList = Array<string>;
+/** * `degrade_visible` - Degrade visible */
+export type OnOverflowEnum = "degrade_visible";
+/** How a logs alert splits its results into instances. */
+export interface LogsAlertGrouping {
+  /** single keeps one instance for the whole alert. by_result_labels keeps one instance per distinct value of the labels in keys, so each group fires and resolves on its own. * `single` - Single * `by_result_labels` - By result labels */
+  mode: GroupingModeEnum | (string & {});
+  /** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
+  keys?: LogsAlertGroupingKeysList | undefined;
+  /** Most instances the alert keeps at once. Groups past it are not tracked, and the last message says how many were left out. */
+  max_instances?: number | undefined;
+  /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
+  on_overflow?: OnOverflowEnum | (string & {}) | undefined;
 }
 export interface CreateLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minimum minutes between repeated notifications after the alert fires. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
+  /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
+  grouping?: LogsAlertGrouping | undefined;
 }
 /** * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type LogsAlertConfigurationStateEnum =
@@ -543,20 +567,20 @@ export type LogsAlertConfigurationStateEnum =
   | "broken";
 export interface LogsAlertStateInterval {
   /** Interval start (UTC, inclusive). */
-  start?: string;
+  start?: string | undefined;
   /** Interval end (UTC, exclusive). */
-  end?: string;
+  end?: string | undefined;
   /** Alert state during this interval. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
-  state?: LogsAlertConfigurationStateEnum;
+  state?: LogsAlertConfigurationStateEnum | undefined;
   /** Whether the alert was enabled during this interval. Disabled alerts keep their state but are inactive. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
-/** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. Drives the 'Last 24h' status bar on the alert list. */
+/** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
 export type LogsAlertConfigurationStateTimelineList = Array<LogsAlertStateInterval>;
-/** * `slack` - slack * `webhook` - webhook * `teams` - teams */
-export type NotificationDestinationTypeEnum = "slack" | "webhook" | "teams";
+/** * `slack` - slack * `webhook` - webhook * `teams` - teams * `pagerduty` - pagerduty */
+export type LogsAlertDestinationTypeEnum = "slack" | "webhook" | "teams" | "pagerduty";
 /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
-export type LogsAlertConfigurationDestinationTypesList = Array<NotificationDestinationTypeEnum>;
+export type LogsAlertConfigurationDestinationTypesList = Array<LogsAlertDestinationTypeEnum>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -572,138 +596,152 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface LogsAlertConfiguration {
   /** Unique identifier for this alert. */
-  id?: string;
+  id?: string | undefined;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum;
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. Server-managed. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Current alert state: not_firing, firing, pending_resolve, errored, or snoozed. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
-  state?: LogsAlertConfigurationStateEnum;
+  state?: LogsAlertConfigurationStateEnum | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minimum minutes between repeated notifications after the alert fires. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
-  next_check_at?: string | null;
+  next_check_at?: string | null | undefined;
   /** When the last notification was sent. Server-managed. */
-  last_notified_at?: string | null;
+  last_notified_at?: string | null | undefined;
   /** When the alert was last evaluated. Server-managed. */
-  last_checked_at?: string | null;
+  last_checked_at?: string | null | undefined;
   /** Number of consecutive evaluation failures. Resets on success. Server-managed. */
-  consecutive_failures?: number;
-  /** Error message from the most recent errored check, or null if the alert's most recent check was successful. Sourced from LogsAlertEvent without denormalization so retention-aware cleanup rules stay the only source of truth. */
-  last_error_message?: string | null;
-  /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. Drives the 'Last 24h' status bar on the alert list. */
-  state_timeline?: LogsAlertConfigurationStateTimelineList;
+  consecutive_failures?: number | undefined;
+  /** Error message from the most recent errored check, or null if the alert's most recent check was successful. Sourced from LogsAlertEvent without denormalization so retention-aware cleanup rules stay the only source of truth. For an alert the alerts platform evaluates, sourced from the platform's check history. */
+  last_error_message?: string | null | undefined;
+  /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
+  state_timeline?: LogsAlertConfigurationStateTimelineList | undefined;
   /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
-  destination_types?: LogsAlertConfigurationDestinationTypesList;
+  destination_types?: LogsAlertConfigurationDestinationTypesList | undefined;
+  /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
+  grouping?: LogsAlertGrouping | undefined;
+  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
+  platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
-  first_enabled_at?: string | null;
+  first_enabled_at?: string | null | undefined;
   /** When the alert was created. */
-  created_at?: string;
-  created_by?: UserBasic | null;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
   /** When the alert was last modified. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
+/** * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+export type PagerDutySeverityEnum = "critical" | "error" | "warning" | "info";
+/** * `us` - us * `eu` - eu */
+export type PagerDutyRegionEnum = "us" | "eu";
 export interface CreateLogsAlertsDestinationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this logs alert configuration. */
   id: string;
-  /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams */
-  type?: NotificationDestinationTypeEnum | (string & {});
+  /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams * `pagerduty` - pagerduty */
+  type?: LogsAlertDestinationTypeEnum | (string & {}) | undefined;
   /** Integration ID for the Slack workspace. Required when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Required when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable channel name for display. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS endpoint to post to. Required for webhook and teams. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
+  /** Integration key of a PagerDuty Events API v2 integration. Required when type=pagerduty. */
+  pagerduty_routing_key?: string | undefined;
+  /** Severity PagerDuty records on the incident. Used when type=pagerduty. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+  pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
+  /** PagerDuty service region of the account. Used when type=pagerduty. * `us` - us * `eu` - eu */
+  pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
 }
 export type LogsAlertDestinationResponseHogFunctionIdsList = Array<string>;
 export interface LogsAlertDestinationResponse {
-  hog_function_ids?: LogsAlertDestinationResponseHogFunctionIdsList;
+  hog_function_ids?: LogsAlertDestinationResponseHogFunctionIdsList | undefined;
 }
 export interface CreateLogsAlertsSimulateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter criteria -- same format as LogsAlertConfiguration.filters. */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Threshold count to evaluate against. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Window size in minutes -- determines bucket interval. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Total check periods in the N-of-M evaluation window (M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minutes to wait after firing before sending another notification. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. A fire or resolve notification inside the cooldown is skipped. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Relative date string for how far back to simulate (e.g. '-24h', '-7d', '-30d'). */
-  date_from?: string;
+  date_from?: string | undefined;
 }
 export interface LogsAlertSimulateBucket {
   /** Bucket start timestamp. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Number of matching logs in this bucket. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the count crossed the threshold in this bucket. */
-  threshold_breached?: boolean;
+  threshold_breached?: boolean | undefined;
   /** Alert state after evaluating this bucket. */
-  state?: string;
+  state?: string | undefined;
   /** Notification action: none, fire, or resolve. */
-  notification?: string;
+  notification?: string | undefined;
   /** Human-readable explanation of the state transition. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Time-bucketed counts with full state machine evaluation. */
 export type LogsAlertSimulateResponseBucketsList = Array<LogsAlertSimulateBucket>;
 export interface LogsAlertSimulateResponse {
   /** Time-bucketed counts with full state machine evaluation. */
-  buckets?: LogsAlertSimulateResponseBucketsList;
+  buckets?: LogsAlertSimulateResponseBucketsList | undefined;
   /** Number of times the alert would have sent a fire notification. */
-  fire_count?: number;
+  fire_count?: number | undefined;
   /** Number of times the alert would have sent a resolve notification. */
-  resolve_count?: number;
+  resolve_count?: number | undefined;
   /** Total number of buckets in the simulation window. */
-  total_buckets?: number;
+  total_buckets?: number | undefined;
   /** Threshold count used for evaluation. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Threshold operator used for evaluation. */
-  threshold_operator?: string;
+  threshold_operator?: string | undefined;
 }
 export interface ScanDateRange {
   /** Start of the evaluation window (ISO 8601). Buckets before this are only used as baseline history. */
@@ -726,7 +764,7 @@ export type LogsAnomalyScanResponseBindingConstraintsList = Array<BindingConstra
 /** * `insufficient` - insufficient * `cold_start` - cold_start * `developing` - developing * `mature` - mature */
 export type LogsAnomalyBaselineStageEnum = "insufficient" | "cold_start" | "developing" | "mature";
 /** * `a` - a * `b` - b * `c` - c * `d` - d */
-export type TierEnum = "a" | "b" | "c" | "d";
+export type LogsAnomalyScanSeriesTierEnum = "a" | "b" | "c" | "d";
 /** * `series_history` - series_history * `team_retention` - team_retention * `byte_budget` - byte_budget */
 export type LimitedByEnum = "series_history" | "team_retention" | "byte_budget";
 /** * `spike` - spike * `drop` - drop * `silence` - silence */
@@ -755,7 +793,7 @@ export interface LogsAnomalyScanSeries {
   /** Baseline stage reached by the end of the evaluation window. Null if no bucket was scored. * `insufficient` - insufficient * `cold_start` - cold_start * `developing` - developing * `mature` - mature */
   stage: LogsAnomalyBaselineStageEnum | null;
   /** Traffic tier at the end of the window, from a (0.5 or more records per second) down to d (below the detection floor of roughly 1 record per minute). * `a` - a * `b` - b * `c` - c * `d` - d */
-  tier: TierEnum | null;
+  tier: LogsAnomalyScanSeriesTierEnum | null;
   /** Earliest bucket with data inside the fetched lookback. */
   history_start: string | null;
   /** What limited this series' baseline maturity, or null for a full baseline. series_history: data starts inside the lookback, because the series is young or a per-stream retention rule trimmed it (indistinguishable from the data). byte_budget and team_retention mirror the scan level constraints. * `series_history` - series_history * `team_retention` - team_retention * `byte_budget` - byte_budget */
@@ -813,9 +851,9 @@ export interface LogsAnomalyScanResponse {
 }
 export interface SeriesBandsDateRange {
   /** Start of the window. Accepts ISO 8601 timestamps or relative formats: -7d, -1h, -1wStart, etc. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the window. Same format as date_from. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 /** * `5` - 5 * `15` - 15 * `30` - 30 * `60` - 60 */
 export type IntervalMinutesEnum = 5 | 15 | 30 | 60;
@@ -825,9 +863,9 @@ export interface CreateLogsAnomaliesSeriesBandRequest {
   /** Service whose per-series volume to chart (the log record's service_name). */
   serviceName: string;
   /** Window to chart. Defaults to the last 7 days. It may span at most 7 days and start at most 35 days ago, past which the volume rollup no longer reaches. */
-  dateRange?: SeriesBandsDateRange;
+  dateRange?: SeriesBandsDateRange | undefined;
   /** Display grain in minutes for buckets and bands. One of 5, 15, 30, 60. The window may hold at most 500 buckets per series at the chosen grain, so a finer grain needs a shorter window. Omit it to let the window pick its grain, the coarsest that still cuts it into about 168 buckets. A series too sparse to read at this grain is returned at a coarser one; see each series' interval_minutes. * `5` - 5 * `15` - 15 * `30` - 30 * `60` - 60 */
-  intervalMinutes?: IntervalMinutesEnum | (number & {}) | null;
+  intervalMinutes?: IntervalMinutesEnum | (number & {}) | null | undefined;
 }
 /** * `sparse` - sparse * `quiet` - quiet */
 export type CoarsenedReasonEnum = "sparse" | "quiet";
@@ -887,9 +925,9 @@ export interface LogsSeriesBandsResponse {
 }
 export interface DateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps or relative formats: -7d, -1h, -1mStart, etc. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 /** * `trace` - trace * `debug` - debug * `info` - info * `warn` - warn * `error` - error * `fatal` - fatal */
 export type SeverityLevelsEnum = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
@@ -920,37 +958,37 @@ export type LogPropertyFilterOperatorEnum =
   | "is_not_set";
 export interface LogPropertyFilter2 {
   /** Attribute key. For type "log", use "message" for the body text, or a log column: "pattern" and "pattern_version" (the patterns pivot), "severity_level", "service_name", "trace_id", "span_id". For "log_attribute"/"log_resource_attribute", use the attribute key (e.g. "k8s.container.name"). */
-  key?: string;
+  key?: string | undefined;
   /** "log" filters the log body/message. "log_attribute" filters log-level attributes. "log_resource_attribute" filters resource-level attributes. * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute */
-  type?: LogPropertyFilterTypeEnum | (string & {});
+  type?: LogPropertyFilterTypeEnum | (string & {}) | undefined;
   /** Comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex * `gt` - gt * `lt` - lt * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after * `is_set` - is_set * `is_not_set` - is_not_set */
-  operator?: LogPropertyFilterOperatorEnum | (string & {});
+  operator?: LogPropertyFilterOperatorEnum | (string & {}) | undefined;
   /** Value to compare against. String, number, or array of strings. Omit for is_set/is_not_set operators. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Property filters for the query. */
 export type LogsCountBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsCountBody {
   /** Date range for the count. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsCountBodySeverityLevelsList;
+  severityLevels?: LogsCountBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsCountBodyServiceNamesList;
+  serviceNames?: LogsCountBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsCountBodyFilterGroupList;
+  filterGroup?: LogsCountBodyFilterGroupList | undefined;
 }
 export interface CreateLogsCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The count query to execute. */
-  query?: LogsCountBody;
+  query?: LogsCountBody | undefined;
 }
 export interface LogsCountResponse {
   /** Number of log entries matching the filters. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Filter by log severity levels. Applied before bucketing. */
 export type LogsCountRangesBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
@@ -960,17 +998,17 @@ export type LogsCountRangesBodyServiceNamesList = Array<string>;
 export type LogsCountRangesBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsCountRangesBody {
   /** Window to bucket. Defaults to last hour. Use a bucket's date_from/date_to from a prior response to recursively narrow into a sub-range. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Approximate number of buckets to return. The bucket interval is picked adaptively from a fixed list (1/5/10s, 1/2/5/10/15/30/60/120/240/360/720/1440m) to land near this target. Defaults to 10, capped at 100. */
-  targetBuckets?: number;
+  targetBuckets?: number | undefined;
   /** Filter by log severity levels. Applied before bucketing. */
-  severityLevels?: LogsCountRangesBodySeverityLevelsList;
+  severityLevels?: LogsCountRangesBodySeverityLevelsList | undefined;
   /** Filter by service names. Applied before bucketing. */
-  serviceNames?: LogsCountRangesBodyServiceNamesList;
+  serviceNames?: LogsCountRangesBodyServiceNamesList | undefined;
   /** Full-text search across log bodies. Applied before bucketing. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before bucketing. Same shape as `query-logs`. */
-  filterGroup?: LogsCountRangesBodyFilterGroupList;
+  filterGroup?: LogsCountRangesBodyFilterGroupList | undefined;
 }
 export interface CreateLogsCountRangeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -998,19 +1036,19 @@ export interface CreateLogsExplainLogWithAIRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** UUID of the log entry to explain */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the log entry (used for efficient lookup) */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Force regenerate explanation, bypassing cache */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 export interface ExplainRequest {
   /** UUID of the log entry to explain */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the log entry (used for efficient lookup) */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Force regenerate explanation, bypassing cache */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 /** * `severity_text` - severity_text * `service_name` - service_name */
 export type FacetFieldEnum = "severity_text" | "service_name";
@@ -1021,28 +1059,28 @@ export type LogsFacetValuesBodyServiceNamesList = Array<string>;
 /** Property filters for the query. */
 export type LogsFacetValuesBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsFacetValuesBody {
-  /** Top-level column to facet on. Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Its own filter is excluded so counts reflect the other active filters. * `severity_text` - severity_text * `service_name` - service_name */
-  facetField?: FacetFieldEnum | (string & {}) | null;
+  /** Top-level column to facet on. Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Counts come from a rollup with 5-minute buckets, so the window widens to the buckets that contain date_from and date_to. The rollup honours severityLevels and serviceNames, but not body search, log-attribute filters, or resource-attribute filters. When personId or sessionId is set, counts come from the logs table with the exact window and every other filter. Both paths exclude this facet's own filter. * `severity_text` - severity_text * `service_name` - service_name */
+  facetField?: FacetFieldEnum | (string & {}) | null | undefined;
   /** Resource attribute key to facet on (e.g. 'k8s.namespace.name'). Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Its own log_resource_attribute filter is excluded so counts reflect the other active filters. */
-  facetResourceAttribute?: string | null;
+  facetResourceAttribute?: string | null | undefined;
   /** Log attribute key to facet on (e.g. 'log.iostream'). Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Counts honour severity, service and resource-attribute filters, but not body search, other log-attribute filters, or this facet's own filter. */
-  facetAttribute?: string | null;
+  facetAttribute?: string | null | undefined;
   /** Date range. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels (ignored when faceting on severity_text). */
-  severityLevels?: LogsFacetValuesBodySeverityLevelsList;
+  severityLevels?: LogsFacetValuesBodySeverityLevelsList | undefined;
   /** Filter by service names (ignored when faceting on service_name). */
-  serviceNames?: LogsFacetValuesBodyServiceNamesList;
+  serviceNames?: LogsFacetValuesBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Type-ahead filter over the faceted field's own values (case-insensitive substring match). Distinct from searchTerm, which searches log bodies. */
-  facetSearch?: string;
+  facetSearch?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsFacetValuesBodyFilterGroupList;
+  filterGroup?: LogsFacetValuesBodyFilterGroupList | undefined;
   /** Scope counts to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope counts to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsFacetValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1071,10 +1109,10 @@ export type LogsGroupByBodyFilterGroupList = Array<LogPropertyFilter2>;
 /** * `log` - log * `resource` - resource * `column` - column */
 export type LogsGroupBySourceEnum = "log" | "resource" | "column";
 export interface LogsGroupByDimension {
-  /** The key this dimension groups by -- an attribute key (e.g. "session_id", "service.name") or, when source is "column", one of the top-level log fields: "severity_level", "trace_id", "span_id". */
+  /** The key this dimension groups by -- an attribute key (e.g. "session_id", "service.name") or, when source is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern" (the masked message template). */
   key: string;
   /** Where this dimension's key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. * `log` - log * `resource` - resource * `column` - column */
-  source?: LogsGroupBySourceEnum | (string & {});
+  source?: LogsGroupBySourceEnum | (string & {}) | undefined;
 }
 /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
 export type LogsGroupByBodyGroupBysList = Array<LogsGroupByDimension>;
@@ -1082,29 +1120,29 @@ export type LogsGroupByBodyGroupBysList = Array<LogsGroupByDimension>;
 export type OrderGroupsByEnum = "log_count" | "error_count" | "last_seen";
 export interface LogsGroupByBody {
   /** Date range to aggregate over. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels before grouping. */
-  severityLevels?: LogsGroupByBodySeverityLevelsList;
+  severityLevels?: LogsGroupByBodySeverityLevelsList | undefined;
   /** Restrict grouping to these service names. */
-  serviceNames?: LogsGroupByBodyServiceNamesList;
+  serviceNames?: LogsGroupByBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies before grouping. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before grouping. Same shape as the query-logs endpoint. */
-  filterGroup?: LogsGroupByBodyFilterGroupList;
-  /** The key to group logs by -- an attribute key (e.g. "session_id", "service.name") or, when groupBySource is "column", one of the top-level log fields: "severity_level", "trace_id", "span_id". Ignored when groupBys is provided. */
-  groupBy?: string;
+  filterGroup?: LogsGroupByBodyFilterGroupList | undefined;
+  /** The key to group logs by -- an attribute key (e.g. "session_id", "service.name") or, when groupBySource is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern". Ignored when groupBys is provided. */
+  groupBy?: string | undefined;
   /** Where the grouping key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. Ignored when groupBys is provided. * `log` - log * `resource` - resource * `column` - column */
-  groupBySource?: LogsGroupBySourceEnum | (string & {});
+  groupBySource?: LogsGroupBySourceEnum | (string & {}) | undefined;
   /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
-  groupBys?: LogsGroupByBodyGroupBysList;
+  groupBys?: LogsGroupByBodyGroupBysList | undefined;
   /** Aggregate to rank groups by (descending): "log_count" for the noisiest groups, "error_count" for the most failing, "last_seen" for the most recent. * `log_count` - log_count * `error_count` - error_count * `last_seen` - last_seen */
-  orderGroupsBy?: OrderGroupsByEnum | (string & {});
+  orderGroupsBy?: OrderGroupsByEnum | (string & {}) | undefined;
   /** Maximum number of groups to return (top-N by orderGroupsBy). Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Scope grouping to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope grouping to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsGroupByRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1123,6 +1161,8 @@ export interface LogsGroupByGroup {
   log_count: number;
   /** Number of matching logs in this group at severity "error" or "fatal". */
   error_count: number;
+  /** ISO 8601 timestamp of the earliest matching log in this group. */
+  first_seen?: string | undefined;
   /** ISO 8601 timestamp of the most recent matching log in this group. */
   last_seen: string;
 }
@@ -1192,15 +1232,15 @@ export interface CreateLogsMetricRuleRequest {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: CreateLogsMetricRuleRequestGroupByList;
+  group_by?: CreateLogsMetricRuleRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type LogsMetricRuleGroupByList = Array<string>;
@@ -1212,20 +1252,85 @@ export interface LogsMetricRule {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: LogsMetricRuleGroupByList;
+  group_by?: LogsMetricRuleGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum;
+  source?: LogsMetricRuleRecordSourceEnum | undefined;
   /** Incremented on each update for worker cache coherency. */
   version: number;
   created_by: number;
   created_at: string;
   updated_at: string | null;
+}
+export interface LogsNaturalLanguageDateRange {
+  /** Start of the date range. Accepts ISO 8601 timestamps or relative formats such as -1h or -7d. */
+  date_from?: string | null | undefined;
+  /** End of the date range. Same format as date_from. Null means "now". */
+  date_to?: string | null | undefined;
+}
+export interface CreateLogsNaturalLanguageQueryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The plain-language request, for example 'error logs from checkout in the last 2 hours'. */
+  query: string;
+  /** The viewer's current date range. Used when the request names no time, and to scope the service and attribute lists the model may choose from. */
+  dateRange?: LogsNaturalLanguageDateRange | undefined;
+}
+/** Severity levels to keep. Empty means all levels. */
+export type LogsNaturalLanguageCandidateQuerySeverityLevelsList = Array<SeverityLevelsEnum>;
+/** Services to keep. Empty means all services. */
+export type LogsNaturalLanguageCandidateQueryServiceNamesList = Array<string>;
+/** * `log` - Log * `log_attribute` - Log Attribute * `log_resource_attribute` - Log Resource Attribute */
+export type LogsNaturalLanguageFilterTypeEnum = "log" | "log_attribute" | "log_resource_attribute";
+export interface LogsNaturalLanguageCandidateFilter {
+  /** Attribute key, or "message" for the log body text. */
+  key: string;
+  /** "log" filters the log body. "log_attribute" and "log_resource_attribute" filter attributes. * `log` - Log * `log_attribute` - Log Attribute * `log_resource_attribute` - Log Resource Attribute */
+  type: LogsNaturalLanguageFilterTypeEnum;
+  /** Property operator, for example exact, icontains or is_set. */
+  operator: string;
+  /** A list of strings for exact and is_not, a string for text operators, absent for is_set. */
+  value?: unknown | undefined;
+}
+/** Attribute and message filters, combined with AND. */
+export type LogsNaturalLanguageCandidateQueryFilterGroupList =
+  Array<LogsNaturalLanguageCandidateFilter>;
+export interface LogsNaturalLanguageCandidateQuery {
+  /** Date range of this reading. */
+  dateRange: LogsNaturalLanguageDateRange;
+  /** Severity levels to keep. Empty means all levels. */
+  severityLevels: LogsNaturalLanguageCandidateQuerySeverityLevelsList;
+  /** Services to keep. Empty means all services. */
+  serviceNames: LogsNaturalLanguageCandidateQueryServiceNamesList;
+  /** Attribute and message filters, combined with AND. */
+  filterGroup: LogsNaturalLanguageCandidateQueryFilterGroupList;
+}
+export interface LogsNaturalLanguageCandidate {
+  /** Short plain-language summary of this reading of the request. */
+  label: string;
+  /** Viewer filters for this reading. */
+  query: LogsNaturalLanguageCandidateQuery;
+  /** How likely the decision model thinks this reading is. Null when not ranked. */
+  probability: number | null;
+}
+/** Readings of the request, best first. Can be empty. */
+export type LogsNaturalLanguageQueryResponseCandidatesList = Array<LogsNaturalLanguageCandidate>;
+/** * `decision_model` - Decision Model * `proposal_order` - Proposal Order */
+export type LogsNaturalLanguageRankedByEnum = "decision_model" | "proposal_order";
+export interface LogsNaturalLanguageQueryResponse {
+  /** Readings of the request, best first. Can be empty. */
+  candidates: LogsNaturalLanguageQueryResponseCandidatesList;
+  /** The first candidate's probability from the decision model. Null when it did not rank them. */
+  confidence: number | null;
+  /** decision_model when Jev ranked the candidates, proposal_order when it was skipped. * `decision_model` - Decision Model * `proposal_order` - Proposal Order */
+  ranked_by: LogsNaturalLanguageRankedByEnum;
+  /** Proposed readings dropped because they named a service or attribute key the project lacks. */
+  dropped_count: number;
 }
 /** Filter by log severity levels before mining. */
 export type LogsPatternsBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
@@ -1235,19 +1340,19 @@ export type LogsPatternsBodyServiceNamesList = Array<string>;
 export type LogsPatternsBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsPatternsBody {
   /** Date range to mine patterns from. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels before mining. */
-  severityLevels?: LogsPatternsBodySeverityLevelsList;
+  severityLevels?: LogsPatternsBodySeverityLevelsList | undefined;
   /** Restrict mining to these service names. */
-  serviceNames?: LogsPatternsBodyServiceNamesList;
+  serviceNames?: LogsPatternsBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies before mining. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before mining. Same shape as the query-logs endpoint. */
-  filterGroup?: LogsPatternsBodyFilterGroupList;
+  filterGroup?: LogsPatternsBodyFilterGroupList | undefined;
   /** Scope mining to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope mining to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsPatternRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1313,9 +1418,9 @@ export interface LogPattern {
   /** Longest literal run in the template, for plain-text (icontains) filtering when `match_regex` is null. Null when the template has no usable literal content. */
   match_literal: string | null;
   /** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining. */
-  match_patterns?: LogPatternMatchPatternsList;
+  match_patterns?: LogPatternMatchPatternsList | undefined;
   /** Version required by match_patterns. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
 }
 /** Pattern groups ordered by count. Stored-pattern counts are exact; body-mining counts describe the sample. */
 export type LogsPatternsResponsePatternsList = Array<LogPattern>;
@@ -1329,17 +1434,17 @@ export interface LogsPatternsSparklineBucket {
 export type LogsPatternsResponseSparklineBucketsList = Array<LogsPatternsSparklineBucket>;
 export interface LogsPatternsResponse {
   /** Whether counts come from stored-pattern aggregation or body masking and Drain3 mining. * `stored_patterns` - stored_patterns * `body_mining` - body_mining */
-  source?: LogsPatternsSourceEnum;
+  source?: LogsPatternsSourceEnum | undefined;
   /** Stored pattern version used. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
   /** Why body mining was used. Null for stored-pattern aggregation. * `flag_disabled` - flag_disabled * `insufficient_version_coverage` - insufficient_version_coverage * `empty_window` - empty_window * `comparison` - comparison */
-  fallback_reason?: FallbackReasonEnum | null;
+  fallback_reason?: FallbackReasonEnum | null | undefined;
   /** Percentage of all matching rows with a nonempty pattern at the selected version. Null for body mining. */
-  pattern_coverage_pct?: number | null;
+  pattern_coverage_pct?: number | null | undefined;
   /** Exact rows represented by the returned stored-pattern groups. Null for body mining. */
-  represented_count?: number | null;
+  represented_count?: number | null | undefined;
   /** Matching rows outside returned groups, including other versions, unstamped rows and the long tail. Null for body mining. */
-  remainder_count?: number | null;
+  remainder_count?: number | null | undefined;
   /** Pattern groups ordered by count. Stored-pattern counts are exact; body-mining counts describe the sample. */
   patterns: LogsPatternsResponsePatternsList;
   /** Rows scanned: the sample size for body mining, or the full matching count for stored-pattern aggregation. */
@@ -1353,17 +1458,79 @@ export interface LogsPatternsResponse {
   /** Time buckets that every pattern's `sparkline` aligns to. When the scan was bounded to time slices, the buckets are the slices themselves (evenly spaced, gaps between them were never eligible for sampling); otherwise they divide the window uniformly. */
   sparkline_buckets: LogsPatternsResponseSparklineBucketsList;
 }
+/** Filter by log severity levels before mining. */
+export type LogsPatternsDiffBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+/** Restrict mining to these service names. */
+export type LogsPatternsDiffBodyServiceNamesList = Array<string>;
+/** Property filters applied before mining. Same shape as the query-logs endpoint. */
+export type LogsPatternsDiffBodyFilterGroupList = Array<LogPropertyFilter2>;
+export interface LogsPatternsDiffBody {
+  /** Date range to mine patterns from. Defaults to last hour. */
+  dateRange?: DateRange | undefined;
+  /** Filter by log severity levels before mining. */
+  severityLevels?: LogsPatternsDiffBodySeverityLevelsList | undefined;
+  /** Restrict mining to these service names. */
+  serviceNames?: LogsPatternsDiffBodyServiceNamesList | undefined;
+  /** Full-text search term to filter log bodies before mining. */
+  searchTerm?: string | undefined;
+  /** Property filters applied before mining. Same shape as the query-logs endpoint. */
+  filterGroup?: LogsPatternsDiffBodyFilterGroupList | undefined;
+  /** Scope mining to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
+  personId?: string | undefined;
+  /** Scope mining to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
+  sessionId?: string | undefined;
+  /** Return at most this many entries, most interesting first. Omit for all. Sets `truncated`. */
+  limit?: number | null | undefined;
+}
 export interface CreateLogsPatternsDiffRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The patterns query for the current (foreground) window: date range plus any severity/service/search/property filters. The same filters are applied to the baseline window. */
-  query: LogsPatternsBody;
+  query: LogsPatternsDiffBody;
   /** Baseline window to compare against. Omit to default to the current window shifted back exactly one week, which absorbs daily and weekly log-volume cycles. Pass an explicit range to compare against a specific period, e.g. pre-deploy or pre-incident. */
-  baselineDateRange?: DateRange;
+  baselineDateRange?: DateRange | undefined;
 }
+export interface LogsAgentWindowBounds {
+  /** Window start, ISO 8601 UTC with a Z suffix (inclusive). */
+  from: string;
+  /** Window end, ISO 8601 UTC with a Z suffix (exclusive). */
+  to: string;
+}
+export interface LogsAgentWindow {
+  /** Absolute bounds the server used for the current window. */
+  current: LogsAgentWindowBounds;
+  /** Absolute bounds the server used for the baseline window, when there is one. */
+  baseline?: LogsAgentWindowBounds | undefined;
+  /** Always "UTC". */
+  timezone: string;
+}
+/** * `stored_patterns` - Stored Patterns * `body_mining` - Body Mining */
+export type PatternsDiffSourceEnum = "stored_patterns" | "body_mining";
+/** Caveats that limit what the diff shows. */
+export type LogsPatternsDiffResponseNotesList = Array<string>;
+/** Prefilled `query` object for that tool. Pass it as is or adjust it. */
+export type LogsAgentNextCallQueryMap = { [key: string]: unknown | undefined };
+export interface LogsAgentNextCall {
+  /** MCP tool to call next, e.g. query-logs or logs-context. */
+  tool: string;
+  /** One line on what the follow-up call answers. */
+  why: string;
+  /** Prefilled `query` object for that tool. Pass it as is or adjust it. */
+  query: LogsAgentNextCallQueryMap;
+}
+/** Prefilled query-logs calls for the top new or shifted patterns. */
+export type LogsPatternsDiffResponseNextList = Array<LogsAgentNextCall>;
+/** Up to 4 services with this pattern. */
+export type LogPatternDiffEntryServicesList = Array<string>;
 /** * `new` - new * `rate_shift` - rate_shift * `gone` - gone * `unchanged` - unchanged */
 export type LogPatternDiffEntryClassificationEnum = "new" | "rate_shift" | "gone" | "unchanged";
 export interface LogPatternDiffEntry {
+  /** The template with variable parts masked. */
+  masked_example: string;
+  /** Up to 4 services with this pattern. */
+  services: LogPatternDiffEntryServicesList;
+  /** Earliest 5-minute bucket (UTC) with this pattern, up to 14 days back. Null on body mining. */
+  first_seen_ever: string | null;
   /** "new": appears only in the current window and clears the novelty floor (at least ~1% volume share, or any error/fatal occurrences). "rate_shift": present in both windows with the per-second rate changed by at least 2x either way, backed by enough samples on both sides to trust the estimates. "gone": cleared the floor in the baseline but absent from the current window. "unchanged" means "no confident claim", not "provably identical" -- sampled mining cannot prove a below-floor template is genuinely new or gone. * `new` - new * `rate_shift` - rate_shift * `gone` - gone * `unchanged` - unchanged */
   classification: LogPatternDiffEntryClassificationEnum;
   /** Current-window rate divided by baseline rate, both normalized per second so windows of different lengths compare fairly. 4.0 means 4x faster now; 0.25 means quartered. Null when the pattern is missing from either window. */
@@ -1379,17 +1546,17 @@ export interface LogPatternDiffEntry {
 export type LogsPatternsDiffResponseEntriesList = Array<LogPatternDiffEntry>;
 export interface LogsPatternsDiffWindow {
   /** Whether counts come from stored-pattern aggregation or body masking and Drain3 mining. * `stored_patterns` - stored_patterns * `body_mining` - body_mining */
-  source?: LogsPatternsSourceEnum;
+  source?: LogsPatternsSourceEnum | undefined;
   /** Stored pattern version used. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
   /** Why body mining was used. Null for stored-pattern aggregation. * `flag_disabled` - flag_disabled * `insufficient_version_coverage` - insufficient_version_coverage * `empty_window` - empty_window * `comparison` - comparison */
-  fallback_reason?: FallbackReasonEnum | null;
+  fallback_reason?: FallbackReasonEnum | null | undefined;
   /** Percentage of all matching rows with a nonempty pattern at the selected version. Null for body mining. */
-  pattern_coverage_pct?: number | null;
+  pattern_coverage_pct?: number | null | undefined;
   /** Exact rows represented by the returned stored-pattern groups. Null for body mining. */
-  represented_count?: number | null;
+  represented_count?: number | null | undefined;
   /** Matching rows outside returned groups, including other versions, unstamped rows and the long tail. Null for body mining. */
-  remainder_count?: number | null;
+  remainder_count?: number | null | undefined;
   /** Log rows fed to the miner for this window (sample size). */
   scanned_count: number;
   /** Total log rows matching the filters in this window. */
@@ -1404,6 +1571,20 @@ export interface LogsPatternsDiffWindow {
   date_to: string;
 }
 export interface LogsPatternsDiffResponse {
+  /** Absolute UTC bounds of the current and baseline windows. */
+  window: LogsAgentWindow;
+  /** stored_patterns when both windows have >=99% of rows on the same stored version, else body_mining. * `stored_patterns` - Stored Patterns * `body_mining` - Body Mining */
+  source: PatternsDiffSourceEnum;
+  /** Stored pattern version, null for mining. */
+  pattern_version: number | null;
+  /** True on the body-mining fallback: counts are sample estimates. */
+  sampled: boolean;
+  /** True when `limit` cut the entry list. */
+  truncated: boolean;
+  /** Caveats that limit what the diff shows. */
+  notes: LogsPatternsDiffResponseNotesList;
+  /** Prefilled query-logs calls for the top new or shifted patterns. */
+  next: LogsPatternsDiffResponseNextList;
   /** Classified diff entries, most interesting first: "new" (by estimated count), then "rate_shift" (by shift magnitude), then "gone", then "unchanged". A pattern in the baseline is matched to the current window by literal-content fingerprint, so a placeholder widening between runs does not read as one pattern vanishing and another appearing. */
   entries: LogsPatternsDiffResponseEntriesList;
   /** Mining metadata for the current window. */
@@ -1417,41 +1598,58 @@ export type LogsQueryBodySeverityLevelsList = Array<SeverityLevelsEnum | (string
 export type LogsQueryBodyServiceNamesList = Array<string>;
 /** * `latest` - latest * `earliest` - earliest */
 export type OrderByEnum = "latest" | "earliest";
-/** Property filters for the query. */
-export type LogsQueryBodyFilterGroupList = Array<LogPropertyFilter2>;
+export type LogsFilterGroupInputCase0List = Array<LogPropertyFilter2>;
+export type PropertyGroupOperatorEnum = "AND" | "OR";
+/** Property filters in this group. */
+export type LogsFilterInnerGroupValuesList = Array<LogPropertyFilter2>;
+export interface LogsFilterInnerGroup {
+  /** How to combine the filters in `values`. * `AND` - AND * `OR` - OR */
+  type: PropertyGroupOperatorEnum | (string & {});
+  /** Property filters in this group. */
+  values: LogsFilterInnerGroupValuesList;
+}
+/** Groups of property filters. */
+export type LogsFilterGroupValuesList = Array<LogsFilterInnerGroup>;
+export interface LogsFilterGroup {
+  /** How to combine the groups in `values`. * `AND` - AND * `OR` - OR */
+  type: PropertyGroupOperatorEnum | (string & {});
+  /** Groups of property filters. */
+  values: LogsFilterGroupValuesList;
+}
+export type LogsFilterGroupInput = LogsFilterGroupInputCase0List | LogsFilterGroup;
 /** Custom column expressions evaluated per log row. Each entry is either a source-prefixed shorthand (`attributes.<key>`, `resource_attributes.<key>`, `body.<json.path>`) or a scalar HogQL expression (`upper(level)`, `coalesce(attributes['a'], attributes['b'])`). Aggregations and subqueries are rejected. Values come back on each result row keyed by the aliases echoed in the response `columns` field. */
 export type LogsQueryBodyCustomColumnsList = Array<string>;
 export interface LogsQueryBody {
   /** Date range for the query. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsQueryBodySeverityLevelsList;
+  severityLevels?: LogsQueryBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsQueryBodyServiceNamesList;
+  serviceNames?: LogsQueryBodyServiceNamesList | undefined;
   /** Order results by timestamp. * `latest` - latest * `earliest` - earliest */
-  orderBy?: OrderByEnum | (string & {});
+  orderBy?: OrderByEnum | (string & {}) | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
-  /** Property filters for the query. */
-  filterGroup?: LogsQueryBodyFilterGroupList;
-  /** Max results (1-1000). */
-  limit?: number;
+  searchTerm?: string | undefined;
+  /** Property filters for the query. Pass a list of filters, which are all combined with AND, or a filter group object with nested AND/OR groups. */
+  filterGroup?: LogsFilterGroupInput | undefined;
+  /** Max results. Values above 2000 are capped at 2000. */
+  limit?: number | undefined;
   /** Pagination cursor from previous response. */
-  after?: string;
+  after?: string | undefined;
   /** Omit the per-log attributes and resource_attributes maps from results to keep payloads compact. Defaults to false. */
-  excludeAttributes?: boolean;
+  excludeAttributes?: boolean | undefined;
   /** Custom column expressions evaluated per log row. Each entry is either a source-prefixed shorthand (`attributes.<key>`, `resource_attributes.<key>`, `body.<json.path>`) or a scalar HogQL expression (`upper(level)`, `coalesce(attributes['a'], attributes['b'])`). Aggregations and subqueries are rejected. Values come back on each result row keyed by the aliases echoed in the response `columns` field. */
-  customColumns?: LogsQueryBodyCustomColumnsList;
+  customColumns?: LogsQueryBodyCustomColumnsList | undefined;
   /** Scope results to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope results to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The logs query to execute. */
-  query?: LogsQueryBody;
+  query?: LogsQueryBody | undefined;
 }
 /** The parsed query that was executed, echoed back for confirmation. */
 export type LogsQueryResponseQueryMap = { [key: string]: unknown | undefined };
@@ -1460,30 +1658,34 @@ export type LogEntryAttributesMap = { [key: string]: string | undefined };
 /** Resource-level attributes (service.name, k8s.*, host.hostname, etc.) as a string-keyed map. Repeats across all logs from the same pod/host. */
 export type LogEntryResourceAttributesMap = { [key: string]: string | undefined };
 export interface LogEntry {
-  uuid?: string;
+  uuid?: string | undefined;
   /** ISO 8601 timestamp of the original log event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** ISO 8601 timestamp the log pipeline observed the event (may differ from `timestamp`). */
-  observed_timestamp?: string;
-  body?: string;
+  observed_timestamp?: string | undefined;
+  body?: string | undefined;
   /** Log severity as a string (e.g. "info", "error"). Preferred over severity_number. */
-  severity_text?: string;
+  severity_text?: string | undefined;
   /** Log severity as a numeric code. Redundant with severity_text; kept for OpenTelemetry compatibility. */
-  severity_number?: number;
+  severity_number?: number | undefined;
   /** ClickHouse alias for severity_text. Redundant; prefer severity_text. */
-  level?: string;
+  level?: string | undefined;
   /** Trace ID. Returns "00000000000000000000000000000000" when not set (padding, not null). */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** Span ID. Returns "0000000000000000" when not set (padding, not null). */
-  span_id?: string;
-  /** OpenTelemetry trace flags. */
-  trace_flags?: number;
+  span_id?: string | undefined;
   /** Log-level attributes as a string-keyed map. Values are strings (numeric/datetime attributes are also accessible via materialized columns). */
-  attributes?: LogEntryAttributesMap;
+  attributes?: LogEntryAttributesMap | undefined;
   /** Resource-level attributes (service.name, k8s.*, host.hostname, etc.) as a string-keyed map. Repeats across all logs from the same pod/host. */
-  resource_attributes?: LogEntryResourceAttributesMap;
+  resource_attributes?: LogEntryResourceAttributesMap | undefined;
   /** OpenTelemetry event name, if set. */
-  event_name?: string;
+  event_name?: string | undefined;
+  /** OpenTelemetry instrumentation scope name. Empty when not set. */
+  instrumentation_scope: string;
+  /** Hash of the resource attributes. Logs from the same pod or host share it. */
+  resource_fingerprint: string;
+  /** Latest timestamp up to which ingestion is known to be complete. The same on every row. Logs newer than it can still arrive. */
+  live_logs_checkpoint: string | null;
 }
 /** Log entries matching the query. */
 export type LogsQueryResponseResultsList = Array<LogEntry>;
@@ -1491,17 +1693,17 @@ export type LogsQueryResponseResultsList = Array<LogEntry>;
 export type LogsQueryResponseColumnsList = Array<string>;
 export interface LogsQueryResponse {
   /** The parsed query that was executed, echoed back for confirmation. */
-  query?: LogsQueryResponseQueryMap;
+  query?: LogsQueryResponseQueryMap | undefined;
   /** Log entries matching the query. */
-  results?: LogsQueryResponseResultsList;
+  results?: LogsQueryResponseResultsList | undefined;
   /** True if more results exist beyond this page. */
-  hasMore?: boolean;
+  hasMore?: boolean | undefined;
   /** Opaque cursor to pass as `after` in the next request to fetch the next page. Null when hasMore is false. */
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
   /** Maximum number of rows the `export` endpoint will produce -- informational. */
-  maxExportableLogs?: number;
+  maxExportableLogs?: number | undefined;
   /** Aliases for the requested `customColumns`, in request order. Each result row carries its custom column values under these keys. Null when no custom columns were requested. */
-  columns?: LogsQueryResponseColumnsList | null;
+  columns?: LogsQueryResponseColumnsList | null | undefined;
 }
 export interface CreateLogsRetentionRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1509,9 +1711,9 @@ export interface CreateLogsRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -1521,9 +1723,9 @@ export interface LogsRetentionRule {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
   /** Incremented on each update for worker cache coherency. */
@@ -1538,17 +1740,17 @@ export interface CreateLogsRetentionRulesReorderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateLogsRetentionRulesReorderRequestOrderedIdsList;
 }
 export type PaginatedLogsRetentionRuleListResultsList = Array<LogsRetentionRule>;
 export interface PaginatedLogsRetentionRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsRetentionRuleListResultsList;
 }
 export interface CreateLogsRetentionRulesSuggestNameRequest {
@@ -1577,17 +1779,17 @@ export interface CreateLogsSamplingRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum | (string & {});
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: CreateLogsSamplingRuleRequestScopeAttributeFiltersList;
+  scope_attribute_filters?: CreateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
 }
@@ -1601,17 +1803,17 @@ export interface LogsSamplingRule {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum;
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: LogsSamplingRuleScopeAttributeFiltersList;
+  scope_attribute_filters?: LogsSamplingRuleScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
   /** Incremented on each update for worker cache coherency. */
@@ -1626,17 +1828,17 @@ export interface CreateLogsSamplingRulesReorderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateLogsSamplingRulesReorderRequestOrderedIdsList;
 }
 export type PaginatedLogsSamplingRuleListResultsList = Array<LogsSamplingRule>;
 export interface PaginatedLogsSamplingRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsSamplingRuleListResultsList;
 }
 export interface CreateLogsSamplingRulesSimulateRequest {
@@ -1657,26 +1859,43 @@ export type LogsServicesBodySeverityLevelsList = Array<SeverityLevelsEnum | (str
 export type LogsServicesBodyServiceNamesList = Array<string>;
 /** Property filters for the query. */
 export type LogsServicesBodyFilterGroupList = Array<LogPropertyFilter2>;
+/** * `none` - No baseline * `previous_period` - Previous period * `previous_day` - Same window a day earlier * `previous_week` - Same window a week earlier */
+export type LogsCompareModeEnum = "none" | "previous_period" | "previous_day" | "previous_week";
 export interface LogsServicesBody {
   /** Date range for the services aggregation. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsServicesBodySeverityLevelsList;
+  severityLevels?: LogsServicesBodySeverityLevelsList | undefined;
   /** Restrict the aggregation to these service names. */
-  serviceNames?: LogsServicesBodyServiceNamesList;
+  serviceNames?: LogsServicesBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Case-insensitive substring match on service name, applied before aggregation. Use to reach services beyond the response cap. */
-  serviceNameSearch?: string;
+  serviceNameSearch?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsServicesBodyFilterGroupList;
+  filterGroup?: LogsServicesBodyFilterGroupList | undefined;
+  /** Deployment environment, matched without case against the first set resource attribute of deployment.environment.name, deployment.environment and env. "(none)" matches logs without one. */
+  environment?: string | undefined;
+  /** Baseline window for per-service status: the window just before, the same window a day or a week earlier, or none. Silent services (logs in the baseline, none now) only appear with a baseline. * `none` - No baseline * `previous_period` - Previous period * `previous_day` - Same window a day earlier * `previous_week` - Same window a week earlier */
+  compare?: LogsCompareModeEnum | (string & {}) | undefined;
 }
 export interface CreateLogsServiceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The services aggregation query to execute. */
-  query?: LogsServicesBody;
+  query?: LogsServicesBody | undefined;
+  /** Explicit baseline window. Takes precedence over `query.compare`. */
+  baselineDateRange?: DateRange | undefined;
 }
+/** * `ok` - OK * `degraded` - Error rate 5% or more * `regressed` - Error rate worse than the baseline * `improved` - Error rate better than the baseline * `recovered` - No longer degraded * `new` - No logs in the baseline * `silent` - Logs stopped */
+export type LogsServiceStatusEnum =
+  | "ok"
+  | "degraded"
+  | "regressed"
+  | "improved"
+  | "recovered"
+  | "new"
+  | "silent";
 export interface LogsServiceSeverityBreakdown {
   debug: number;
   info: number;
@@ -1692,99 +1911,149 @@ export interface LogsServiceActiveRule {
 export type LogsServiceAggregateActiveRulesList = Array<LogsServiceActiveRule>;
 export interface LogsServiceAggregate {
   /** Service name, or "(no value)" / "(no service)" placeholder for unset entries. */
-  service_name?: string;
+  service_name?: string | undefined;
+  /** ok, degraded (error rate of 5% or more), regressed or improved (error rate up or down by 1 pp and 2x), recovered (back under 5%), new (no baseline logs) or silent (baseline logs, none in the window). * `ok` - OK * `degraded` - Error rate 5% or more * `regressed` - Error rate worse than the baseline * `improved` - Error rate better than the baseline * `recovered` - No longer degraded * `new` - No logs in the baseline * `silent` - Logs stopped */
+  status?: LogsServiceStatusEnum | undefined;
+  /** Short reason for the status, e.g. "error rate 0.4% -> 3.1%". */
+  reason?: string | undefined;
+  /** Error rate in percent, rounded to 1 decimal. */
+  error_rate_pct?: number | undefined;
+  /** Logs in the baseline. Null without one. */
+  baseline_log_count?: number | null | undefined;
+  /** Error rate change against the baseline, in percentage points. */
+  error_rate_delta_pp?: number | null | undefined;
+  /** Log volume change against the baseline, in percent. */
+  log_count_change_pct?: number | null | undefined;
+  /** Latest log time (UTC). From the rollup, and for silent services, the start of the last 5-minute bucket. */
+  last_seen?: string | null | undefined;
   /** Total log entries from this service in the window. */
-  log_count?: number;
+  log_count?: number | undefined;
   /** Count of logs at severity "error" or "fatal". */
-  error_count?: number;
+  error_count?: number | undefined;
   /** Pre-computed error_count / log_count, rounded to 4 decimals. Useful for ranking noisy services. */
-  error_rate?: number;
+  error_rate?: number | undefined;
   /** Share of total log volume in the window for this service (0-100). */
-  volume_share_pct?: number;
+  volume_share_pct?: number | undefined;
   /** Counts by coarse severity bucket (debug, info, warn, error+fatal). */
-  severity_breakdown?: LogsServiceSeverityBreakdown;
+  severity_breakdown?: LogsServiceSeverityBreakdown | undefined;
   /** Enabled sampling rules whose scope includes this service. */
-  active_rules?: LogsServiceAggregateActiveRulesList;
+  active_rules?: LogsServiceAggregateActiveRulesList | undefined;
 }
 /** Per-service aggregates, ordered by log_count descending. Capped at 10000 services. */
 export type LogsServicesResponseServicesList = Array<LogsServiceAggregate>;
 export interface LogsServicesSparklineBucket {
   /** Bucket start time (ISO 8601). */
-  time?: string;
-  service_name?: string;
-  count?: number;
+  time?: string | undefined;
+  service_name?: string | undefined;
+  count?: number | undefined;
 }
 /** Time-bucketed counts broken down by service, for plotting volume over time. Covers only the top 25 services in this response; re-request with `serviceNames` to get sparklines for specific services. */
 export type LogsServicesResponseSparklineList = Array<LogsServicesSparklineBucket>;
+/** Service rows per status. */
+export type LogsServicesSummaryStatusCountsMap = { [key: string]: number | undefined };
 export interface LogsServicesSummary {
   /** Number of top services included in the volume_share aggregate (up to 5). */
   top_services_count: number;
   /** Combined volume share (percent) of the top services by log_count. */
   top_services_volume_share_pct: number;
+  /** Service rows per status. */
+  status_counts?: LogsServicesSummaryStatusCountsMap | undefined;
+  /** True when more services matched than `services` holds. */
+  truncated?: boolean | undefined;
 }
+/** `from` and `to` of the queried window, ISO 8601 UTC. */
+export type LogsWindowCurrentMap = { [key: string]: string | undefined };
+/** `from` and `to` of the baseline. Absent without one. */
+export type LogsWindowBaselineMap = { [key: string]: string | undefined };
+export interface LogsWindow {
+  /** `from` and `to` of the queried window, ISO 8601 UTC. */
+  current: LogsWindowCurrentMap;
+  /** `from` and `to` of the baseline. Absent without one. */
+  baseline?: LogsWindowBaselineMap | undefined;
+  /** Always UTC. */
+  timezone: string;
+}
+/** * `rollup` - Rollup * `rollup+raw` - Rollup Raw * `raw` - Raw */
+export type LogsServicesSourceEnum = "rollup" | "rollup+raw" | "raw";
+/** Prefilled `query` for that tool. */
+export type LogsNextStepQueryMap = { [key: string]: unknown | undefined };
+/** Prefilled sibling `baselineDateRange` argument, for tools that take one. */
+export type LogsNextStepBaselineDateRangeMap = { [key: string]: unknown | undefined };
+export interface LogsNextStep {
+  /** MCP tool to call next. */
+  tool: string;
+  /** What the call answers. */
+  why: string;
+  /** Prefilled `query` for that tool. */
+  query: LogsNextStepQueryMap;
+  /** Prefilled sibling `baselineDateRange` argument, for tools that take one. */
+  baselineDateRange?: LogsNextStepBaselineDateRangeMap | undefined;
+}
+/** Prefilled follow-up calls for problem services. */
+export type LogsServicesResponseNextList = Array<LogsNextStep>;
 export interface LogsServicesResponse {
   /** Per-service aggregates, ordered by log_count descending. Capped at 10000 services. */
-  services?: LogsServicesResponseServicesList;
+  services?: LogsServicesResponseServicesList | undefined;
   /** Time-bucketed counts broken down by service, for plotting volume over time. Covers only the top 25 services in this response; re-request with `serviceNames` to get sparklines for specific services. */
-  sparkline?: LogsServicesResponseSparklineList;
+  sparkline?: LogsServicesResponseSparklineList | undefined;
   /** True distinct service count for the window and filters, unaffected by the 10000-service cap on `services`. Greater than the length of `services` when the response is truncated. */
-  total_services?: number;
+  total_services?: number | undefined;
   /** Roll-up stats for the Services tab header. */
-  summary?: LogsServicesSummary;
+  summary?: LogsServicesSummary | undefined;
+  /** Absolute UTC bounds of the window and the baseline. */
+  window?: LogsWindow | undefined;
+  /** rollup: 5-minute rollup only. rollup+raw: rollup plus raw logs at unaligned window edges. * `rollup` - Rollup * `rollup+raw` - Rollup Raw * `raw` - Raw */
+  source?: LogsServicesSourceEnum | undefined;
+  /** Prefilled follow-up calls for problem services. */
+  next?: LogsServicesResponseNextList | undefined;
 }
 /** Filter by log severity levels. */
 export type LogsSparklineBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
 /** Filter by service names. */
 export type LogsSparklineBodyServiceNamesList = Array<string>;
-/** Property filters for the query. */
-export type LogsSparklineBodyFilterGroupList = Array<LogPropertyFilter2>;
 /** * `severity` - severity * `service` - service */
 export type SparklineBreakdownByEnum = "severity" | "service";
 /** * `count` - count * `bytes` - bytes */
 export type SparklineRankByEnum = "count" | "bytes";
 export interface LogsSparklineBody {
   /** Date range for the sparkline. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsSparklineBodySeverityLevelsList;
+  severityLevels?: LogsSparklineBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsSparklineBodyServiceNamesList;
+  serviceNames?: LogsSparklineBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
-  /** Property filters for the query. */
-  filterGroup?: LogsSparklineBodyFilterGroupList;
+  searchTerm?: string | undefined;
+  /** Property filters for the query. Pass a list of filters, which are all combined with AND, or a filter group object with nested AND/OR groups. */
+  filterGroup?: LogsFilterGroupInput | undefined;
   /** Break down sparkline by "severity" (default) or "service". * `severity` - severity * `service` - service */
-  sparklineBreakdownBy?: SparklineBreakdownByEnum | (string & {});
+  sparklineBreakdownBy?: SparklineBreakdownByEnum | (string & {}) | undefined;
   /** Rank breakdown values by "count" (default) or "bytes" before collapsing the tail into "other". * `count` - count * `bytes` - bytes */
-  sparklineRankBy?: SparklineRankByEnum | (string & {});
+  sparklineRankBy?: SparklineRankByEnum | (string & {}) | undefined;
   /** Scope results to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope results to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsSparklineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The sparkline query to execute. */
-  query?: LogsSparklineBody;
+  query?: LogsSparklineBody | undefined;
 }
 export interface LogsSparklineBucket {
   /** Bucket start time (ISO 8601). */
-  time?: string;
+  time?: string | undefined;
   /** Severity label when sparklineBreakdownBy="severity". Present only for severity-broken-down sparklines. */
-  severity?: string;
+  severity?: string | undefined;
   /** Service name when sparklineBreakdownBy="service". Present only for service-broken-down sparklines. */
-  service?: string;
-  count?: number;
+  service?: string | undefined;
+  count?: number | undefined;
   /** Sum of uncompressed bytes for the bucket. */
-  bytes_uncompressed?: number;
+  bytes_uncompressed?: number | undefined;
 }
-/** Time-bucketed log counts. Each bucket carries either `severity` or `service` depending on breakdown. */
-export type LogsSparklineResponseResultsList = Array<LogsSparklineBucket>;
-export interface LogsSparklineResponse {
-  /** Time-bucketed log counts. Each bucket carries either `severity` or `service` depending on breakdown. */
-  results?: LogsSparklineResponseResultsList;
-}
+export type CreateLogsSparklineResponseBodyList = Array<LogsSparklineBucket>;
+export type CreateLogsSparklineResponse = CreateLogsSparklineResponseBodyList;
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type CreateLogsViewRequestFiltersMap = { [key: string]: unknown | undefined };
 /** * `timestamp` - timestamp * `level` - level * `source` - source * `trace_id` - trace_id * `span_id` - span_id * `person` - person * `session` - session * `pattern` - pattern * `message` - message * `custom` - custom */
@@ -1805,40 +2074,40 @@ export interface LogsViewColumn {
   /** Column type. Most built-in types resolve client-side from log row fields; `pattern` and `custom` columns are computed server-side, the latter from `expression`. * `timestamp` - timestamp * `level` - level * `source` - source * `trace_id` - trace_id * `span_id` - span_id * `person` - person * `session` - session * `pattern` - pattern * `message` - message * `custom` - custom */
   type: LogsViewColumnTypeEnum | (string & {});
   /** Header label override. Defaults to the built-in type's label, or to the expression for custom columns. */
-  name?: string;
+  name?: string | undefined;
   /** Only meaningful for `type: custom`: a source-prefixed shorthand (`attributes.<key>`, `resource_attributes.<key>`, `body.<json.path>`) or a scalar HogQL expression, sent verbatim in the logs query's `customColumns`. */
-  expression?: string;
+  expression?: string | undefined;
   /** Column width in pixels (1-2000). Omitted for the default width; ignored for the flex message column. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
 export type CreateLogsViewRequestColumnsList = Array<LogsViewColumn>;
 export interface CreateLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: CreateLogsViewRequestFiltersMap;
+  filters?: CreateLogsViewRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: CreateLogsViewRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: CreateLogsViewRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type LogsViewFiltersMap = { [key: string]: unknown | undefined };
 /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
 export type LogsViewColumnsList = Array<LogsViewColumn>;
 export interface LogsView {
-  id?: string;
-  short_id?: string;
-  name?: string;
+  id?: string | undefined;
+  short_id?: string | undefined;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: LogsViewFiltersMap;
+  filters?: LogsViewFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: LogsViewColumnsList | null;
-  pinned?: boolean;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string | null;
+  columns?: LogsViewColumnsList | null | undefined;
+  pinned?: boolean | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1846,22 +2115,29 @@ export interface GetLogsAlertRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
 }
-/** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. Drives the 'Last 24h' status bar on the alert list. */
+/** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
 export type LogsAlertConfigurationDetailStateTimelineList = Array<LogsAlertStateInterval>;
 /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
-export type LogsAlertConfigurationDetailDestinationTypesList =
-  Array<NotificationDestinationTypeEnum>;
+export type LogsAlertConfigurationDetailDestinationTypesList = Array<LogsAlertDestinationTypeEnum>;
 export type LogsAlertDestinationConfigHogFunctionIdsList = Array<string>;
 export interface LogsAlertDestinationConfig {
   hog_function_ids: LogsAlertDestinationConfigHogFunctionIdsList;
-  /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams */
-  type: NotificationDestinationTypeEnum;
+  /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams * `pagerduty` - pagerduty */
+  type: LogsAlertDestinationTypeEnum;
   /** Whether every HogFunction in the group is enabled, so the destination notifies for all alert event kinds. This is the stored setting: a destination PostHog stopped delivering to after repeated failures still reads as true. */
   enabled: boolean;
-  slack_workspace_id?: number;
-  slack_channel_id?: string;
+  /** Whether any HogFunction in the group sends something other than the stock message, such as an edited body, headers, method or code. A customized destination sends exactly what its HogFunctions build. */
+  message_customized: boolean;
+  slack_workspace_id?: number | undefined;
+  slack_channel_id?: string | undefined;
   /** Webhook endpoint reduced to scheme and host. The path, query and userinfo carry the secret. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
+  /** PagerDuty integration key reduced to its last four characters. */
+  pagerduty_routing_key?: string | undefined;
+  /** Severity of the PagerDuty incident. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+  pagerduty_severity?: PagerDutySeverityEnum | undefined;
+  /** PagerDuty service region the events go to. * `us` - us * `eu` - eu */
+  pagerduty_region?: PagerDutyRegionEnum | undefined;
 }
 /** This alert's notification destinations, one entry per destination. Each carries the HogFunction IDs that delete it as a group, and its configuration with credential-bearing URL components removed. */
 export type LogsAlertConfigurationDetailDestinationsList = Array<LogsAlertDestinationConfig>;
@@ -1870,31 +2146,31 @@ export interface LogsAlertConfigurationDetail {
   /** Unique identifier for this alert. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum;
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. Server-managed. */
   check_interval_minutes: number;
   /** Current alert state: not_firing, firing, pending_resolve, errored, or snoozed. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
   state: LogsAlertConfigurationStateEnum;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minimum minutes between repeated notifications after the alert fires. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
   next_check_at: string | null;
   /** When the last notification was sent. Server-managed. */
@@ -1903,12 +2179,16 @@ export interface LogsAlertConfigurationDetail {
   last_checked_at: string | null;
   /** Number of consecutive evaluation failures. Resets on success. Server-managed. */
   consecutive_failures: number;
-  /** Error message from the most recent errored check, or null if the alert's most recent check was successful. Sourced from LogsAlertEvent without denormalization so retention-aware cleanup rules stay the only source of truth. */
+  /** Error message from the most recent errored check, or null if the alert's most recent check was successful. Sourced from LogsAlertEvent without denormalization so retention-aware cleanup rules stay the only source of truth. For an alert the alerts platform evaluates, sourced from the platform's check history. */
   last_error_message: string | null;
-  /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. Drives the 'Last 24h' status bar on the alert list. */
+  /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
   state_timeline: LogsAlertConfigurationDetailStateTimelineList;
   /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
   destination_types: LogsAlertConfigurationDetailDestinationTypesList;
+  /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
+  grouping?: LogsAlertGrouping | undefined;
+  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
+  platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
   first_enabled_at: string | null;
   /** When the alert was created. */
@@ -1926,46 +2206,46 @@ export interface GetLogsAttributeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attributes: "log" for log attributes, "resource" for resource attributes. Defaults to "log". * `log` - log * `resource` - resource */
-  attribute_type?: GetLogsAttributeRequestAttributeType | (string & {});
+  attribute_type?: GetLogsAttributeRequestAttributeType | (string & {}) | undefined;
   /** Date range to search within. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Start of the range as a top-level parameter. The endpoint ignores it when you send dateRange. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the range as a top-level parameter. The endpoint ignores it when you send dateRange. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Property filters to narrow which logs are scanned for attributes. */
-  filterGroup?: GetLogsAttributeRequestFilterGroupList;
+  filterGroup?: GetLogsAttributeRequestFilterGroupList | undefined;
   /** Comma-separated list of attribute keys. The endpoint returns only keys that exactly match an entry in the list. */
-  keys?: string;
+  keys?: string | undefined;
   /** Max results (default: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination offset (default: 0) */
-  offset?: number;
+  offset?: number | undefined;
   /** Search filter for attribute names */
-  search?: string;
+  search?: string | undefined;
   /** When true, the search query also matches attribute values (not just keys). Each result indicates whether it matched on key or value. */
-  search_values?: boolean;
+  search_values?: boolean | undefined;
   /** Filter attributes to those appearing in logs from these services. */
-  serviceNames?: GetLogsAttributeRequestServiceNamesList;
+  serviceNames?: GetLogsAttributeRequestServiceNamesList | undefined;
 }
 /** * `key` - key * `value` - value */
 export type MatchedOnEnum = "key" | "value";
 export interface LogAttributeEntry {
-  name?: string;
+  name?: string | undefined;
   /** Property filter type: "log_attribute" or "log_resource_attribute". Use this as the `type` field when filtering. */
-  propertyFilterType?: string;
+  propertyFilterType?: string | undefined;
   /** How the search query matched this row: "key" if the attribute key matched, "value" if a value matched. * `key` - key * `value` - value */
-  matchedOn?: MatchedOnEnum;
+  matchedOn?: MatchedOnEnum | undefined;
   /** Sample matching value -- only set when matchedOn is "value". */
-  matchedValue?: string | null;
+  matchedValue?: string | null | undefined;
 }
 /** Available attribute keys matching the filters. */
 export type LogsAttributesResponseResultsList = Array<LogAttributeEntry>;
 export interface LogsAttributesResponse {
   /** Available attribute keys matching the filters. */
-  results?: LogsAttributesResponseResultsList;
+  results?: LogsAttributesResponseResultsList | undefined;
   /** Total attribute keys matched (not paginated). */
-  count?: number;
+  count?: number | undefined;
 }
 export interface GetLogsHasLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1998,33 +2278,33 @@ export interface GetLogsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attribute: "log" or "resource". Defaults to "log". * `log` - log * `resource` - resource */
-  attribute_type?: GetLogsValueRequestAttributeType | (string & {});
+  attribute_type?: GetLogsValueRequestAttributeType | (string & {}) | undefined;
   /** Date range to search within. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Property filters to narrow which logs are scanned for values. */
-  filterGroup?: GetLogsValueRequestFilterGroupList;
+  filterGroup?: GetLogsValueRequestFilterGroupList | undefined;
   /** The attribute key to get values for */
   key: string;
   /** Filter values to those appearing in logs from these services. */
-  serviceNames?: GetLogsValueRequestServiceNamesList;
-  /** Search filter for attribute values */
-  value?: string;
+  serviceNames?: GetLogsValueRequestServiceNamesList | undefined;
+  /** Search filter for attribute values. Omit it or pass an empty string to list all values. */
+  value?: string | undefined;
 }
 export interface LogAttributeValue {
   /** Attribute value (used as the identifier). */
-  id?: string;
+  id?: string | undefined;
   /** Display name -- currently identical to `id`. */
-  name?: string;
+  name?: string | undefined;
   /** Number of log records with this attribute value, scoped to the current date range, service, and resource filters. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Distinct values observed for the requested attribute. */
 export type LogsValuesResponseResultsList = Array<LogAttributeValue>;
 export interface LogsValuesResponse {
   /** Distinct values observed for the requested attribute. */
-  results?: LogsValuesResponseResultsList;
+  results?: LogsValuesResponseResultsList | undefined;
   /** Always false -- reserved for future cached-value refresh signalling. */
-  refreshing?: boolean;
+  refreshing?: boolean | undefined;
 }
 export interface GetLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2035,30 +2315,56 @@ export interface ListLogsAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return log alerts created by the user with this UUID. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsAlertConfigurationListResultsList = Array<LogsAlertConfiguration>;
 export interface PaginatedLogsAlertConfigurationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsAlertConfigurationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsAlertConfigurationListResultsList | undefined;
 }
+export type ListLogsAlertsDestinationsSendsRequestHogFunctionIdsList = Array<string>;
+export interface ListLogsAlertsDestinationsSendsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this logs alert configuration. */
+  id: string;
+  /** HogFunction IDs of one destination group. IDs that are not this alert's are ignored. */
+  hog_function_ids: ListLogsAlertsDestinationsSendsRequestHogFunctionIdsList;
+}
+/** * `native` - Native * `hog_function` - HogFunction */
+export type DeliveryPathEnum = "native" | "hog_function";
+export interface LogsAlertDestinationSend {
+  /** The HogFunction the message was sent for. It names the lifecycle event that was sent. */
+  hog_function_id: string;
+  /** When the send started. */
+  sent_at: string;
+  /** Which delivery path sent it. `native` is the stock message sent by the alerts platform. `hog_function` is the destination's HogFunction. * `native` - Native * `hog_function` - HogFunction */
+  path: DeliveryPathEnum;
+  /** Whether the destination accepted the message. */
+  succeeded: boolean;
+  /** Why a `native` send failed. Null when it succeeded, and for a `hog_function` send, whose reason is in the HogFunction's own logs. */
+  error: string | null;
+}
+export type ListLogsAlertsDestinationsSendsResponseBodyList = Array<LogsAlertDestinationSend>;
+export type ListLogsAlertsDestinationsSendsResponse =
+  ListLogsAlertsDestinationsSendsResponseBodyList;
 export interface ListLogsAlertsEventsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
-/** * `check` - Check * `reset` - Reset * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `threshold_change` - Threshold change * `broken_config` - Broken config */
+/** * `check` - Check * `reset` - Reset * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `threshold_change` - Threshold change * `broken_config` - Broken config * `handback` - Handback */
 export type LogsAlertEventKindEnum =
   | "check"
   | "reset"
@@ -2067,70 +2373,71 @@ export type LogsAlertEventKindEnum =
   | "snooze"
   | "unsnooze"
   | "threshold_change"
-  | "broken_config";
+  | "broken_config"
+  | "handback";
 export interface LogsAlertEvent {
-  id?: string;
-  created_at?: string;
-  kind?: LogsAlertEventKindEnum;
-  state_before?: string;
-  state_after?: string;
-  threshold_breached?: boolean;
-  result_count?: number | null;
-  error_message?: string | null;
-  query_duration_ms?: number | null;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  kind?: LogsAlertEventKindEnum | undefined;
+  state_before?: string | undefined;
+  state_after?: string | undefined;
+  threshold_breached?: boolean | undefined;
+  result_count?: number | null | undefined;
+  error_message?: string | null | undefined;
+  query_duration_ms?: number | null | undefined;
 }
 export type PaginatedLogsAlertEventListResultsList = Array<LogsAlertEvent>;
 export interface PaginatedLogsAlertEventList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsAlertEventListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsAlertEventListResultsList | undefined;
 }
 export interface ListLogsMetricRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsMetricRuleListResultsList = Array<LogsMetricRule>;
 export interface PaginatedLogsMetricRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsMetricRuleListResultsList;
 }
 export interface ListLogsRetentionRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListLogsSamplingRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListLogsViewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsViewListResultsList = Array<LogsView>;
 export interface PaginatedLogsViewList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsViewListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsViewListResultsList | undefined;
 }
 /** HogFunction IDs to delete as one atomic destination group. */
 export type LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
@@ -2140,7 +2447,7 @@ export interface LogsAlertsDestinationsDeleteCreateRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** HogFunction IDs to delete as one atomic destination group. */
-  hog_function_ids?: LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList;
+  hog_function_ids?: LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList | undefined;
 }
 export interface LogsAlertsDestinationsDeleteCreateResponse {}
 export interface LogsAlertsDestroyRequest {
@@ -2195,27 +2502,29 @@ export interface UpdateLogsAlertRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minimum minutes between repeated notifications after the alert fires. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
+  /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
+  grouping?: LogsAlertGrouping | undefined;
 }
 export interface UpdateLogsAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2223,27 +2532,29 @@ export interface UpdateLogsAlertsPartialRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
-  /** Minimum minutes between repeated notifications after the alert fires. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
+  /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
+  grouping?: LogsAlertGrouping | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type UpdateLogsMetricRuleRequestGroupByList = Array<string>;
@@ -2257,15 +2568,15 @@ export interface UpdateLogsMetricRuleRequest {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: UpdateLogsMetricRuleRequestGroupByList;
+  group_by?: UpdateLogsMetricRuleRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type UpdateLogsMetricRulesPartialRequestGroupByList = Array<string>;
@@ -2275,19 +2586,19 @@ export interface UpdateLogsMetricRulesPartialRequest {
   /** A UUID string identifying this logs metric rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: UpdateLogsMetricRulesPartialRequestGroupByList;
+  group_by?: UpdateLogsMetricRulesPartialRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 export interface UpdateLogsRetentionRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2297,9 +2608,9 @@ export interface UpdateLogsRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -2309,13 +2620,13 @@ export interface UpdateLogsRetentionRulesPartialRequest {
   /** A UUID string identifying this logs retention rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 export type UpdateLogsSamplingRuleRequestScopeAttributeFiltersItemMap = {
   [key: string]: unknown | undefined;
@@ -2331,17 +2642,17 @@ export interface UpdateLogsSamplingRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum | (string & {});
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: UpdateLogsSamplingRuleRequestScopeAttributeFiltersList;
+  scope_attribute_filters?: UpdateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
 }
@@ -2357,21 +2668,23 @@ export interface UpdateLogsSamplingRulesPartialRequest {
   /** A UUID string identifying this logs exclusion rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
-  rule_type?: LogsExclusionRuleRuleTypeEnum | (string & {});
+  rule_type?: LogsExclusionRuleRuleTypeEnum | (string & {}) | undefined;
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: UpdateLogsSamplingRulesPartialRequestScopeAttributeFiltersList;
+  scope_attribute_filters?:
+    | UpdateLogsSamplingRulesPartialRequestScopeAttributeFiltersList
+    | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type UpdateLogsViewRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -2381,12 +2694,12 @@ export interface UpdateLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: UpdateLogsViewRequestFiltersMap;
+  filters?: UpdateLogsViewRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: UpdateLogsViewRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: UpdateLogsViewRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type UpdateLogsViewsPartialRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -2396,12 +2709,12 @@ export interface UpdateLogsViewsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: UpdateLogsViewsPartialRequestFiltersMap;
+  filters?: UpdateLogsViewsPartialRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: UpdateLogsViewsPartialRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: UpdateLogsViewsPartialRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 export type CreateLogsAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createLogsAlert: API.OperationMethod<
@@ -2410,8 +2723,8 @@ export const createLogsAlert: API.OperationMethod<
   CreateLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateLogsAlertRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateLogsAlertRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2420,15 +2733,15 @@ export const createLogsAlert: API.OperationMethod<
 }));
 
 export type CreateLogsAlertsDestinationError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Create a notification destination for this alert. One HogFunction is created per alert event kind (firing, resolved, ...) atomically. */
+/** Create a notification destination for this alert. One HogFunction is created per alert event kind (firing, resolved, ...) atomically. A PagerDuty destination gets the incident opened and incident closed kinds instead. They follow every start and end of a firing, cooldown included, so each incident it opens is resolved. */
 export const createLogsAlertsDestination: API.OperationMethod<
   CreateLogsAlertsDestinationRequest,
   LogsAlertDestinationResponse,
   CreateLogsAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateLogsAlertsDestinationRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<LogsAlertDestinationResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateLogsAlertsDestinationRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<LogsAlertDestinationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2757,8 @@ export const createLogsAlertsSimulate: API.OperationMethod<
   CreateLogsAlertsSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateLogsAlertsSimulateRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<LogsAlertSimulateResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CreateLogsAlertsSimulateRequest>,
+  output: __S(1139, __c71, 3) as any as S.Schema<LogsAlertSimulateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2461,8 +2774,8 @@ export const createLogsAnomaliesScan: API.OperationMethod<
   CreateLogsAnomaliesScanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c70, 1) as any as S.Schema<CreateLogsAnomaliesScanRequest>,
-  output: __S(1128, __c70, 8) as any as S.Schema<LogsAnomalyScanResponse>,
+  input: __S(1185, __c74, 1) as any as S.Schema<CreateLogsAnomaliesScanRequest>,
+  output: __S(1192, __c74, 8) as any as S.Schema<LogsAnomalyScanResponse>,
   errors: [UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2478,8 +2791,8 @@ export const createLogsAnomaliesSeriesBand: API.OperationMethod<
   CreateLogsAnomaliesSeriesBandError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateLogsAnomaliesSeriesBandRequest>,
-  output: __S(1141, __c71, 5) as any as S.Schema<LogsSeriesBandsResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateLogsAnomaliesSeriesBandRequest>,
+  output: __S(1205, __c75, 5) as any as S.Schema<LogsSeriesBandsResponse>,
   errors: [BadRequest, UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2807,8 @@ export const createLogsCount: API.OperationMethod<
   CreateLogsCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CreateLogsCountRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<LogsCountResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<CreateLogsCountRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<LogsCountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2600,6 +2913,23 @@ export const createLogsMetricRule: API.OperationMethod<
   span: "CreateLogsMetricRule",
 }));
 
+export type CreateLogsNaturalLanguageQueryError = PosthogOpError;
+/** Turn a plain-language request into ranked log viewer filter candidates. Nothing is persisted. Only the request text, service names and attribute keys are sent to the models. */
+export const createLogsNaturalLanguageQuery: API.OperationMethod<
+  CreateLogsNaturalLanguageQueryRequest,
+  LogsNaturalLanguageQueryResponse,
+  CreateLogsNaturalLanguageQueryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<CreateLogsNaturalLanguageQueryRequest>,
+  output: __S(134, __c8, 6) as any as S.Schema<LogsNaturalLanguageQueryResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsNaturalLanguageQuery",
+}));
+
 export type CreateLogsPatternError = PosthogOpError;
 export const createLogsPattern: API.OperationMethod<
   CreateLogsPatternRequest,
@@ -2607,8 +2937,8 @@ export const createLogsPattern: API.OperationMethod<
   CreateLogsPatternError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateLogsPatternRequest>,
-  output: __S(132, __c8, 4) as any as S.Schema<LogsPatternsResponse>,
+  input: __S(145, __c9, 1) as any as S.Schema<CreateLogsPatternRequest>,
+  output: __S(149, __c9, 5) as any as S.Schema<LogsPatternsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2623,8 +2953,8 @@ export const createLogsPatternsDiff: API.OperationMethod<
   CreateLogsPatternsDiffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateLogsPatternsDiffRequest>,
-  output: __S(164, __c10, 4) as any as S.Schema<LogsPatternsDiffResponse>,
+  input: __S(193, __c12, 1) as any as S.Schema<CreateLogsPatternsDiffRequest>,
+  output: __S(201, __c12, 9) as any as S.Schema<LogsPatternsDiffResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2639,8 +2969,8 @@ export const createLogsQuery: API.OperationMethod<
   CreateLogsQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(178, __c11, 2) as any as S.Schema<CreateLogsQueryRequest>,
-  output: __S(181, __c11, 5) as any as S.Schema<LogsQueryResponse>,
+  input: __S(209, __c13, 1) as any as S.Schema<CreateLogsQueryRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<LogsQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2656,8 +2986,8 @@ export const createLogsRetentionRule: API.OperationMethod<
   CreateLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateLogsRetentionRuleRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateLogsRetentionRuleRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2673,8 +3003,8 @@ export const createLogsRetentionRulesReorder: API.OperationMethod<
   CreateLogsRetentionRulesReorderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateLogsRetentionRulesReorderRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateLogsRetentionRulesReorderRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2690,8 +3020,8 @@ export const createLogsRetentionRulesSuggestName: API.OperationMethod<
   CreateLogsRetentionRulesSuggestNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateLogsRetentionRulesSuggestNameRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateLogsRetentionRulesSuggestNameRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2706,8 +3036,8 @@ export const createLogsSamplingRule: API.OperationMethod<
   CreateLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateLogsSamplingRuleRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateLogsSamplingRuleRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2723,8 +3053,8 @@ export const createLogsSamplingRulesReorder: API.OperationMethod<
   CreateLogsSamplingRulesReorderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateLogsSamplingRulesReorderRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
+  input: __S(352, __c22, 0) as any as S.Schema<CreateLogsSamplingRulesReorderRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2740,8 +3070,8 @@ export const createLogsSamplingRulesSimulate: API.OperationMethod<
   CreateLogsSamplingRulesSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateLogsSamplingRulesSimulateRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<LogsSamplingRuleSimulateResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateLogsSamplingRulesSimulateRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<LogsSamplingRuleSimulateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2756,8 +3086,8 @@ export const createLogsService: API.OperationMethod<
   CreateLogsServiceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c22, 1) as any as S.Schema<CreateLogsServiceRequest>,
-  output: __S(362, __c22, 10) as any as S.Schema<LogsServicesResponse>,
+  input: __S(401, __c25, 1) as any as S.Schema<CreateLogsServiceRequest>,
+  output: __S(413, __c25, 13) as any as S.Schema<LogsServicesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2768,12 +3098,12 @@ export const createLogsService: API.OperationMethod<
 export type CreateLogsSparklineError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createLogsSparkline: API.OperationMethod<
   CreateLogsSparklineRequest,
-  LogsSparklineResponse,
+  CreateLogsSparklineResponse,
   CreateLogsSparklineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(369, __c23, 1) as any as S.Schema<CreateLogsSparklineRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<LogsSparklineResponse>,
+  input: __S(417, __c26, 1) as any as S.Schema<CreateLogsSparklineRequest>,
+  output: __S(420, __c26, 4) as any as S.Schema<CreateLogsSparklineResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2788,8 +3118,8 @@ export const createLogsView: API.OperationMethod<
   CreateLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<CreateLogsViewRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<LogsView>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateLogsViewRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<LogsView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2804,8 +3134,8 @@ export const getLogsAlert: API.OperationMethod<
   GetLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetLogsAlertRequest>,
-  output: __S(419, __c26, 3) as any as S.Schema<LogsAlertConfigurationDetail>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetLogsAlertRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<LogsAlertConfigurationDetail>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2820,8 +3150,8 @@ export const getLogsAttribute: API.OperationMethod<
   GetLogsAttributeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetLogsAttributeRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<LogsAttributesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetLogsAttributeRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<LogsAttributesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2836,8 +3166,8 @@ export const getLogsHasLog: API.OperationMethod<
   GetLogsHasLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetLogsHasLogRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<GetLogsHasLogResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetLogsHasLogRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<GetLogsHasLogResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2852,7 +3182,7 @@ export const getLogsMetricRule: API.OperationMethod<
   GetLogsMetricRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetLogsMetricRuleRequest>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetLogsMetricRuleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   protocol: PosthogProtocol,
@@ -2869,8 +3199,8 @@ export const getLogsRetentionRule: API.OperationMethod<
   GetLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetLogsRetentionRuleRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetLogsRetentionRuleRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2885,8 +3215,8 @@ export const getLogsSamplingRule: API.OperationMethod<
   GetLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetLogsSamplingRuleRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetLogsSamplingRuleRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2901,8 +3231,8 @@ export const getLogsValue: API.OperationMethod<
   GetLogsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetLogsValueRequest>,
-  output: __S(531, __c33, 3) as any as S.Schema<LogsValuesResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetLogsValueRequest>,
+  output: __S(579, __c36, 3) as any as S.Schema<LogsValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2917,8 +3247,8 @@ export const getLogsView: API.OperationMethod<
   GetLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetLogsViewRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<LogsView>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetLogsViewRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<LogsView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2933,8 +3263,8 @@ export const listLogsAlerts: API.OperationMethod<
   ListLogsAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListLogsAlertsRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<PaginatedLogsAlertConfigurationList>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListLogsAlertsRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<PaginatedLogsAlertConfigurationList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2942,16 +3272,33 @@ export const listLogsAlerts: API.OperationMethod<
   span: "ListLogsAlerts",
 }));
 
+export type ListLogsAlertsDestinationsSendsError = PosthogOpError;
+/** The last messages sent to one destination of this alert in the past 7 days, newest first, on both delivery paths, with whether each one succeeded. */
+export const listLogsAlertsDestinationsSends: API.OperationMethod<
+  ListLogsAlertsDestinationsSendsRequest,
+  ListLogsAlertsDestinationsSendsResponse,
+  ListLogsAlertsDestinationsSendsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<ListLogsAlertsDestinationsSendsRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<ListLogsAlertsDestinationsSendsResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsAlertsDestinationsSends",
+}));
+
 export type ListLogsAlertsEventsError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) -- quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind. */
+/** Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) -- quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind. For an alert the alerts platform evaluates, checks since it took the alert over come from the platform's check history. */
 export const listLogsAlertsEvents: API.OperationMethod<
   ListLogsAlertsEventsRequest,
   PaginatedLogsAlertEventList,
   ListLogsAlertsEventsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListLogsAlertsEventsRequest>,
-  output: __S(579, __c36, 3) as any as S.Schema<PaginatedLogsAlertEventList>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListLogsAlertsEventsRequest>,
+  output: __S(643, __c40, 3) as any as S.Schema<PaginatedLogsAlertEventList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2966,8 +3313,8 @@ export const listLogsMetricRules: API.OperationMethod<
   ListLogsMetricRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListLogsMetricRulesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<PaginatedLogsMetricRuleList>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListLogsMetricRulesRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<PaginatedLogsMetricRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2983,8 +3330,8 @@ export const listLogsRetentionRules: API.OperationMethod<
   ListLogsRetentionRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListLogsRetentionRulesRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListLogsRetentionRulesRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2999,8 +3346,8 @@ export const listLogsSamplingRules: API.OperationMethod<
   ListLogsSamplingRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListLogsSamplingRulesRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListLogsSamplingRulesRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3015,8 +3362,8 @@ export const listLogsViews: API.OperationMethod<
   ListLogsViewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListLogsViewsRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<PaginatedLogsViewList>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListLogsViewsRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<PaginatedLogsViewList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3036,8 +3383,8 @@ export const logsAlertsDestinationsDeleteCreate: API.OperationMethod<
   LogsAlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3052,8 +3399,8 @@ export const logsAlertsDestroy: API.OperationMethod<
   LogsAlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<LogsAlertsDestroyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsAlertsDestroyResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<LogsAlertsDestroyRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsAlertsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3069,8 +3416,8 @@ export const logsAlertsResetCreate: API.OperationMethod<
   LogsAlertsResetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<LogsAlertsResetCreateRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(896, __c56, 0) as any as S.Schema<LogsAlertsResetCreateRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3085,8 +3432,8 @@ export const logsExportCreate: API.OperationMethod<
   LogsExportCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<LogsExportCreateRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<LogsExportCreateResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<LogsExportCreateRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<LogsExportCreateResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3101,8 +3448,8 @@ export const logsMetricRulesDestroy: API.OperationMethod<
   LogsMetricRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<LogsMetricRulesDestroyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsMetricRulesDestroyResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<LogsMetricRulesDestroyRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsMetricRulesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3118,8 +3465,8 @@ export const logsRetentionRulesDestroy: API.OperationMethod<
   LogsRetentionRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<LogsRetentionRulesDestroyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsRetentionRulesDestroyResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<LogsRetentionRulesDestroyRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsRetentionRulesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3134,8 +3481,8 @@ export const logsSamplingRulesDestroy: API.OperationMethod<
   LogsSamplingRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<LogsSamplingRulesDestroyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsSamplingRulesDestroyResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<LogsSamplingRulesDestroyRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsSamplingRulesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3150,8 +3497,8 @@ export const logsViewsDestroy: API.OperationMethod<
   LogsViewsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<LogsViewsDestroyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<LogsViewsDestroyResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<LogsViewsDestroyRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<LogsViewsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3166,8 +3513,8 @@ export const updateLogsAlert: API.OperationMethod<
   UpdateLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<UpdateLogsAlertRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdateLogsAlertRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3182,8 +3529,8 @@ export const updateLogsAlertsPartial: API.OperationMethod<
   UpdateLogsAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<UpdateLogsAlertsPartialRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(1024, __c64, 0) as any as S.Schema<UpdateLogsAlertsPartialRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3198,7 +3545,7 @@ export const updateLogsMetricRule: API.OperationMethod<
   UpdateLogsMetricRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UpdateLogsMetricRuleRequest>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UpdateLogsMetricRuleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   protocol: PosthogProtocol,
@@ -3214,7 +3561,7 @@ export const updateLogsMetricRulesPartial: API.OperationMethod<
   UpdateLogsMetricRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateLogsMetricRulesPartialRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UpdateLogsMetricRulesPartialRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   protocol: PosthogProtocol,
@@ -3231,8 +3578,8 @@ export const updateLogsRetentionRule: API.OperationMethod<
   UpdateLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateLogsRetentionRuleRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(1072, __c67, 0) as any as S.Schema<UpdateLogsRetentionRuleRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3248,8 +3595,8 @@ export const updateLogsRetentionRulesPartial: API.OperationMethod<
   UpdateLogsRetentionRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateLogsRetentionRulesPartialRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UpdateLogsRetentionRulesPartialRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3264,8 +3611,8 @@ export const updateLogsSamplingRule: API.OperationMethod<
   UpdateLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateLogsSamplingRuleRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateLogsSamplingRuleRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3280,8 +3627,8 @@ export const updateLogsSamplingRulesPartial: API.OperationMethod<
   UpdateLogsSamplingRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateLogsSamplingRulesPartialRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateLogsSamplingRulesPartialRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3296,8 +3643,8 @@ export const updateLogsView: API.OperationMethod<
   UpdateLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<UpdateLogsViewRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<LogsView>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateLogsViewRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<LogsView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3312,8 +3659,8 @@ export const updateLogsViewsPartial: API.OperationMethod<
   UpdateLogsViewsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateLogsViewsPartialRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<LogsView>,
+  input: __S(1168, __c73, 0) as any as S.Schema<UpdateLogsViewsPartialRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<LogsView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3327,12 +3674,12 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
           targetBuckets: S.optional(S.Number),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
         }),
       ).annotate({ identifier: "LogsCountRangesBody" });
     case 1:
@@ -3402,12 +3749,12 @@ function __c2(j: number): any {
           facetField: S.optional(S.NullOr(S.String)),
           facetResourceAttribute: S.optional(S.NullOr(S.String)),
           facetAttribute: S.optional(S.NullOr(S.String)),
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
           facetSearch: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
         }),
@@ -3460,11 +3807,11 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
           groupBy: S.optional(S.String),
           groupBySource: S.optional(S.String),
           groupBys: S.optional(__S(65, __c4, 1)),
@@ -3487,9 +3834,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           value: S.String,
-          values: __S(704, __c44, 0),
+          values: __S(736, __c46, 0),
           log_count: S.Number,
           error_count: S.Number,
+          first_seen: S.optional(S.String),
           last_seen: S.String,
         }),
       ).annotate({ identifier: "LogsGroupByGroup" });
@@ -3512,7 +3860,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(1200, __c75, 0),
+          query: __S(1264, __c79, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/impact/", code: 200 }),
         ),
@@ -3551,7 +3899,7 @@ function __c6(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(704, __c44, 0)),
+          group_by: S.optional(__S(736, __c46, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -3574,7 +3922,7 @@ function __c7(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(704, __c44, 0)),
+          group_by: S.optional(__S(736, __c46, 0)),
           source: S.optional(S.String),
           version: S.Number,
           created_by: S.Number,
@@ -3590,23 +3938,92 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          query: S.String,
+          dateRange: S.optional(__S(1216, __c76, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/logs/natural_language_query/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLogsNaturalLanguageQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          type: S.String,
+          operator: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "LogsNaturalLanguageCandidateFilter" });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dateRange: __S(1216, __c76, 0),
+          severityLevels: __S(768, __c48, 0),
+          serviceNames: __S(736, __c46, 0),
+          filterGroup: __S(130, __c8, 2),
+        }),
+      ).annotate({ identifier: "LogsNaturalLanguageCandidateQuery" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.String,
+          query: __S(131, __c8, 3),
+          probability: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "LogsNaturalLanguageCandidate" });
+    case 5:
+      return S.Array(__S(132, __c8, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          candidates: __S(133, __c8, 5),
+          confidence: S.NullOr(S.Number),
+          ranked_by: S.String,
+          dropped_count: S.Number,
+        }),
+      ).annotate({ identifier: "LogsNaturalLanguageQueryResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
+          searchTerm: S.optional(S.String),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
+          personId: S.optional(S.String),
+          sessionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogsPatternsBody" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           query: __S(144, __c9, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/patterns/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateLogsPatternRequest" });
-    case 1:
-      return S.Array(__S(149, __c9, 5));
     case 2:
+      return S.Array(__S(163, __c10, 3));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           start: S.String,
           end: S.String,
         }),
       ).annotate({ identifier: "LogsPatternsSparklineBucket" });
-    case 3:
-      return S.Array(__S(130, __c8, 2));
     case 4:
+      return S.Array(__S(147, __c9, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
@@ -3615,31 +4032,19 @@ function __c8(j: number): any {
           pattern_coverage_pct: S.optional(S.NullOr(S.Number)),
           represented_count: S.optional(S.NullOr(S.Number)),
           remainder_count: S.optional(S.NullOr(S.Number)),
-          patterns: __S(129, __c8, 1),
+          patterns: __S(146, __c9, 2),
           scanned_count: S.Number,
           total_count: S.Number,
           sampled: S.Boolean,
           sample_coverage_pct: S.Number,
-          sparkline_buckets: __S(131, __c8, 3),
+          sparkline_buckets: __S(148, __c9, 4),
         }),
       ).annotate({ identifier: "LogsPatternsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
-          searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
-          personId: S.optional(S.String),
-          sessionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LogsPatternsBody" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           body: S.String,
@@ -3648,13 +4053,11 @@ function __c9(j: number): any {
           timestamp: S.String,
         }),
       ).annotate({ identifier: "LogPatternExample" });
+    case 1:
+      return S.Array(__S(160, __c10, 0));
     case 2:
-      return S.Array(__S(145, __c9, 1));
-    case 3:
       return S.Array(S.Number);
-    case 4:
-      return S.Record(S.String, S.Number);
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           pattern: S.String,
@@ -3665,26 +4068,45 @@ function __c9(j: number): any {
           estimated_error_count: S.Number,
           first_seen: S.String,
           last_seen: S.String,
-          examples: __S(146, __c9, 2),
-          services: __S(704, __c44, 0),
-          sparkline: __S(147, __c9, 3),
-          severity_counts: __S(148, __c9, 4),
+          examples: __S(161, __c10, 1),
+          services: __S(736, __c46, 0),
+          sparkline: __S(162, __c10, 2),
+          severity_counts: __S(176, __c11, 0),
           match_regex: S.NullOr(S.String),
           match_literal: S.NullOr(S.String),
-          match_patterns: S.optional(__S(704, __c44, 0)),
+          match_patterns: S.optional(__S(736, __c46, 0)),
           pattern_version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "LogPattern" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Number);
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
+          searchTerm: S.optional(S.String),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
+          personId: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          limit: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "LogsPatternsDiffBody" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(144, __c9, 0),
-          baselineDateRange: S.optional(__S(1152, __c72, 0)),
+          query: __S(192, __c12, 0),
+          baselineDateRange: S.optional(__S(1216, __c76, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3693,19 +4115,47 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateLogsPatternsDiffRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          from: S.String,
+          to: S.String,
+        }),
+      ).annotate({ identifier: "LogsAgentWindowBounds" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          current: __S(194, __c12, 2),
+          baseline: S.optional(__S(194, __c12, 2)),
+          timezone: S.String,
+        }),
+      ).annotate({ identifier: "LogsAgentWindow" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          why: S.String,
+          query: __S(672, __c42, 0),
+        }),
+      ).annotate({ identifier: "LogsAgentNextCall" });
+    case 5:
+      return S.Array(__S(196, __c12, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          masked_example: S.String,
+          services: __S(736, __c46, 0),
+          first_seen_ever: S.NullOr(S.String),
           classification: S.String,
           rate_ratio: S.NullOr(S.Number),
-          pattern: __S(149, __c9, 5),
+          pattern: __S(163, __c10, 3),
           baseline_estimated_count: S.NullOr(S.Number),
           baseline_volume_share_pct: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "LogPatternDiffEntry" });
-    case 2:
-      return S.Array(__S(161, __c10, 1));
-    case 3:
+    case 7:
+      return S.Array(__S(198, __c12, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
@@ -3722,47 +4172,52 @@ function __c10(j: number): any {
           date_to: S.String,
         }),
       ).annotate({ identifier: "LogsPatternsDiffWindow" });
-    case 4:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(162, __c10, 2),
-          current: __S(163, __c10, 3),
-          baseline: __S(163, __c10, 3),
+          window: __S(195, __c12, 3),
+          source: S.String,
+          pattern_version: S.NullOr(S.Number),
+          sampled: S.Boolean,
+          truncated: S.Boolean,
+          notes: __S(736, __c46, 0),
+          next: __S(197, __c12, 5),
+          entries: __S(199, __c12, 7),
+          current: __S(200, __c12, 8),
+          baseline: __S(200, __c12, 8),
         }),
       ).annotate({ identifier: "LogsPatternsDiffResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           orderBy: S.optional(S.String),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(S.Unknown),
           limit: S.optional(S.Number),
           after: S.optional(S.String),
           excludeAttributes: S.optional(S.Boolean),
-          customColumns: S.optional(__S(704, __c44, 0)),
+          customColumns: S.optional(__S(736, __c46, 0)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsQueryBody" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(177, __c11, 1)),
+          query: S.optional(__S(208, __c13, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/query/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateLogsQueryRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
@@ -3774,28 +4229,36 @@ function __c11(j: number): any {
           level: S.optional(S.String),
           trace_id: S.optional(S.String),
           span_id: S.optional(S.String),
-          trace_flags: S.optional(S.Number),
-          attributes: S.optional(__S(176, __c11, 0)),
-          resource_attributes: S.optional(__S(176, __c11, 0)),
+          attributes: S.optional(__S(224, __c14, 0)),
+          resource_attributes: S.optional(__S(224, __c14, 0)),
           event_name: S.optional(S.String),
+          instrumentation_scope: S.String,
+          resource_fingerprint: S.String,
+          live_logs_checkpoint: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "LogEntry" });
+    case 3:
+      return S.Array(__S(210, __c13, 2));
     case 4:
-      return S.Array(__S(179, __c11, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(640, __c40, 0)),
-          results: S.optional(__S(180, __c11, 4)),
+          query: S.optional(__S(672, __c42, 0)),
+          results: S.optional(__S(211, __c13, 3)),
           hasMore: S.optional(S.Boolean),
           nextCursor: S.optional(S.NullOr(S.String)),
           maxExportableLogs: S.optional(S.Number),
-          columns: S.optional(S.NullOr(__S(704, __c44, 0))),
+          columns: S.optional(S.NullOr(__S(736, __c46, 0))),
         }),
       ).annotate({ identifier: "LogsQueryResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3815,7 +4278,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateLogsRetentionRuleRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3833,7 +4296,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "LogsRetentionRule" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3841,7 +4304,7 @@ function __c14(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ordered_ids: __S(704, __c44, 0),
+          ordered_ids: __S(736, __c46, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3852,22 +4315,22 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateLogsRetentionRulesReorderRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(256, __c16, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(240, __c15, 0),
+          results: __S(288, __c18, 0),
         }),
       ).annotate({ identifier: "PaginatedLogsRetentionRuleList" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,7 +4354,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "LogsRetentionRuleNameSuggestion" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3903,7 +4366,7 @@ function __c17(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(288, __c18, 0)),
+          scope_attribute_filters: S.optional(__S(336, __c21, 0)),
           config: S.Unknown,
         }).pipe(
           T.Http({
@@ -3915,10 +4378,10 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateLogsSamplingRuleRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(640, __c40, 0));
+      return S.Array(__S(672, __c42, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3929,7 +4392,7 @@ function __c18(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(288, __c18, 0)),
+          scope_attribute_filters: S.optional(__S(336, __c21, 0)),
           config: S.Unknown,
           version: S.Number,
           created_by: S.Number,
@@ -3939,7 +4402,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "LogsSamplingRule" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3947,7 +4410,7 @@ function __c19(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ordered_ids: __S(704, __c44, 0),
+          ordered_ids: __S(736, __c46, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3958,22 +4421,22 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateLogsSamplingRulesReorderRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(337, __c21, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(320, __c20, 0),
+          results: __S(368, __c23, 0),
         }),
       ).annotate({ identifier: "PaginatedLogsSamplingRuleList" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3997,24 +4460,27 @@ function __c21(j: number): any {
       ).annotate({ identifier: "LogsSamplingRuleSimulateResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
           serviceNameSearch: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
+          environment: S.optional(S.String),
+          compare: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsServicesBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(352, __c22, 0)),
+          query: S.optional(__S(400, __c25, 0)),
+          baselineDateRange: S.optional(__S(1216, __c76, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/services/", code: 200 }),
         ),
@@ -4037,21 +4503,28 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "LogsServiceActiveRule" });
     case 4:
-      return S.Array(__S(355, __c22, 3));
+      return S.Array(__S(403, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service_name: S.optional(S.String),
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          error_rate_pct: S.optional(S.Number),
+          baseline_log_count: S.optional(S.NullOr(S.Number)),
+          error_rate_delta_pp: S.optional(S.NullOr(S.Number)),
+          log_count_change_pct: S.optional(S.NullOr(S.Number)),
+          last_seen: S.optional(S.NullOr(S.String)),
           log_count: S.optional(S.Number),
           error_count: S.optional(S.Number),
           error_rate: S.optional(S.Number),
           volume_share_pct: S.optional(S.Number),
-          severity_breakdown: S.optional(__S(354, __c22, 2)),
-          active_rules: S.optional(__S(356, __c22, 4)),
+          severity_breakdown: S.optional(__S(402, __c25, 2)),
+          active_rules: S.optional(__S(404, __c25, 4)),
         }),
       ).annotate({ identifier: "LogsServiceAggregate" });
     case 6:
-      return S.Array(__S(357, __c22, 5));
+      return S.Array(__S(405, __c25, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4061,35 +4534,59 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "LogsServicesSparklineBucket" });
     case 8:
-      return S.Array(__S(359, __c22, 7));
+      return S.Array(__S(407, __c25, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           top_services_count: S.Number,
           top_services_volume_share_pct: S.Number,
+          status_counts: S.optional(__S(176, __c11, 0)),
+          truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LogsServicesSummary" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(358, __c22, 6)),
-          sparkline: S.optional(__S(360, __c22, 8)),
+          current: __S(224, __c14, 0),
+          baseline: S.optional(__S(224, __c14, 0)),
+          timezone: S.String,
+        }),
+      ).annotate({ identifier: "LogsWindow" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          why: S.String,
+          query: __S(672, __c42, 0),
+          baselineDateRange: S.optional(__S(672, __c42, 0)),
+        }),
+      ).annotate({ identifier: "LogsNextStep" });
+    case 12:
+      return S.Array(__S(411, __c25, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          services: S.optional(__S(406, __c25, 6)),
+          sparkline: S.optional(__S(408, __c25, 8)),
           total_services: S.optional(S.Number),
-          summary: S.optional(__S(361, __c22, 9)),
+          summary: S.optional(__S(409, __c25, 9)),
+          window: S.optional(__S(410, __c25, 10)),
+          source: S.optional(S.String),
+          next: S.optional(__S(412, __c25, 12)),
         }),
       ).annotate({ identifier: "LogsServicesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(S.Unknown),
           sparklineBreakdownBy: S.optional(S.String),
           sparklineRankBy: S.optional(S.String),
           personId: S.optional(S.String),
@@ -4100,7 +4597,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(368, __c23, 0)),
+          query: S.optional(__S(416, __c26, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/sparkline/", code: 200 }),
         ),
@@ -4116,24 +4613,22 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "LogsSparklineBucket" });
     case 3:
-      return S.Array(__S(370, __c23, 2));
+      return S.Array(__S(418, __c26, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          results: S.optional(__S(371, __c23, 3)),
-        }),
-      ).annotate({ identifier: "LogsSparklineResponse" });
+      return S.suspend(() => __S(419, __c26, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateLogsSparklineResponse",
+      });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          filters: S.optional(__S(640, __c40, 0)),
-          columns: S.optional(S.NullOr(__S(401, __c25, 1))),
+          filters: S.optional(__S(672, __c42, 0)),
+          columns: S.optional(S.NullOr(__S(449, __c28, 1))),
           pinned: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/views/", code: 200 }),
@@ -4141,7 +4636,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateLogsViewRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4154,24 +4649,24 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "LogsViewColumn" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           short_id: S.optional(S.String),
           name: S.optional(S.String),
-          filters: S.optional(__S(640, __c40, 0)),
-          columns: S.optional(S.NullOr(__S(401, __c25, 1))),
+          filters: S.optional(__S(672, __c42, 0)),
+          columns: S.optional(S.NullOr(__S(449, __c28, 1))),
           pinned: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(656, __c41, 0))),
+          created_by: S.optional(S.NullOr(__S(688, __c43, 0))),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LogsView" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4185,23 +4680,27 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(704, __c44, 0),
+          hog_function_ids: __S(736, __c46, 0),
           type: S.String,
           enabled: S.Boolean,
+          message_customized: S.Boolean,
           slack_workspace_id: S.optional(S.Number),
           slack_channel_id: S.optional(S.String),
           webhook_url: S.optional(S.String),
+          pagerduty_routing_key: S.optional(S.String),
+          pagerduty_severity: S.optional(S.String),
+          pagerduty_region: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsAlertDestinationConfig" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(724, __c45, 4)),
+          filters: S.optional(__S(756, __c47, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
@@ -4210,41 +4709,43 @@ function __c26(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(674, __c42, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(706, __c44, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
           next_check_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
           last_checked_at: S.NullOr(S.String),
           consecutive_failures: S.Number,
           last_error_message: S.NullOr(S.String),
-          state_timeline: __S(676, __c42, 4),
-          destination_types: __S(736, __c46, 0),
+          state_timeline: __S(709, __c44, 5),
+          destination_types: __S(768, __c48, 0),
+          grouping: S.optional(__S(707, __c44, 3)),
+          platform_owned: S.Boolean,
           first_enabled_at: S.NullOr(S.String),
           created_at: S.String,
-          created_by: __S(656, __c41, 0),
+          created_by: __S(688, __c43, 0),
           updated_at: S.NullOr(S.String),
-          destinations: __S(418, __c26, 2),
+          destinations: __S(466, __c29, 2),
         }),
       ).annotate({ identifier: "LogsAlertConfigurationDetail" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query())),
+          dateRange: S.optional(__S(1216, __c76, 0).pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
-          filterGroup: S.optional(__S(1185, __c74, 1).pipe(T.Query())),
+          filterGroup: S.optional(__S(1249, __c78, 1).pipe(T.Query())),
           keys: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           search_values: S.optional(S.Boolean.pipe(T.Query())),
-          serviceNames: S.optional(__S(704, __c44, 0).pipe(T.Query())),
+          serviceNames: S.optional(__S(736, __c46, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/logs/attributes/", code: 200 }),
         ),
@@ -4259,17 +4760,17 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "LogAttributeEntry" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(434, __c27, 2)),
+          results: S.optional(__S(482, __c30, 2)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LogsAttributesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4281,15 +4782,15 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetLogsHasLogRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(640, __c40, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(672, __c42, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLogsHasLogResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4306,7 +4807,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetLogsMetricRuleRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4323,7 +4824,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetLogsRetentionRuleRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4340,17 +4841,17 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetLogsSamplingRuleRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query())),
-          filterGroup: S.optional(__S(1185, __c74, 1).pipe(T.Query())),
+          dateRange: S.optional(__S(1216, __c76, 0).pipe(T.Query())),
+          filterGroup: S.optional(__S(1249, __c78, 1).pipe(T.Query())),
           key: S.String.pipe(T.Query()),
-          serviceNames: S.optional(__S(704, __c44, 0).pipe(T.Query())),
+          serviceNames: S.optional(__S(736, __c46, 0).pipe(T.Query())),
           value: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/logs/values/", code: 200 }),
@@ -4365,17 +4866,17 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "LogAttributeValue" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(530, __c33, 2)),
+          results: S.optional(__S(578, __c36, 2)),
           refreshing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LogsValuesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4392,7 +4893,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetLogsViewRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4406,19 +4907,53 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListLogsAlertsRequest" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(720, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(561, __c35, 1)),
+          results: S.optional(__S(609, __c38, 1)),
         }),
       ).annotate({ identifier: "PaginatedLogsAlertConfigurationList" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          hog_function_ids: __S(736, __c46, 0).pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/logs/alerts/{id}/destinations/sends/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListLogsAlertsDestinationsSendsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hog_function_id: S.String,
+          sent_at: S.String,
+          path: S.String,
+          succeeded: S.Boolean,
+          error: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "LogsAlertDestinationSend" });
+    case 2:
+      return S.Array(__S(625, __c39, 1));
+    case 3:
+      return S.suspend(() => __S(626, __c39, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLogsAlertsDestinationsSendsResponse",
+      });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4450,19 +4985,184 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertEvent" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(578, __c36, 2)),
+          results: S.optional(__S(642, __c40, 2)),
         }),
       ).annotate({ identifier: "PaginatedLogsAlertEventList" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          filters: S.optional(__S(756, __c47, 4)),
+          threshold_count: S.optional(S.Number),
+          threshold_operator: S.optional(S.String),
+          window_minutes: S.optional(S.Number),
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(706, __c44, 2))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+          grouping: S.optional(__S(707, __c44, 3)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/alerts/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateLogsAlertRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(672, __c42, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
+    case 1:
+      return S.Array(__S(704, __c44, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          blocked_windows: S.optional(__S(705, __c44, 1)),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestriction" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          keys: S.optional(__S(736, __c46, 0)),
+          max_instances: S.optional(S.Number),
+          on_overflow: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogsAlertGrouping" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+          state: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LogsAlertStateInterval" });
+    case 5:
+      return S.Array(__S(708, __c44, 4));
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          filters: S.optional(__S(756, __c47, 4)),
+          threshold_count: S.optional(S.Number),
+          threshold_operator: S.optional(S.String),
+          window_minutes: S.optional(S.Number),
+          check_interval_minutes: S.optional(S.Number),
+          state: S.optional(S.String),
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(706, __c44, 2))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+          next_check_at: S.optional(S.NullOr(S.String)),
+          last_notified_at: S.optional(S.NullOr(S.String)),
+          last_checked_at: S.optional(S.NullOr(S.String)),
+          consecutive_failures: S.optional(S.Number),
+          last_error_message: S.optional(S.NullOr(S.String)),
+          state_timeline: S.optional(__S(709, __c44, 5)),
+          destination_types: S.optional(__S(768, __c48, 0)),
+          grouping: S.optional(__S(707, __c44, 3)),
+          platform_owned: S.Boolean,
+          first_enabled_at: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          created_by: S.optional(S.NullOr(__S(688, __c43, 0))),
+          updated_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LogsAlertConfiguration" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          values: S.optional(__S(752, __c47, 0)),
+        }),
+      ).annotate({ identifier: "PropertyGroupFilterValue" });
+    case 2:
+      return S.Array(__S(753, __c47, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          values: S.optional(__S(754, __c47, 2)),
+        }),
+      ).annotate({ identifier: "PropertyGroupFilter" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filterGroup: S.optional(S.NullOr(__S(755, __c47, 3))),
+          serviceNames: S.optional(S.NullOr(__S(736, __c46, 0))),
+          severityLevels: S.optional(S.NullOr(__S(768, __c48, 0))),
+        }),
+      ).annotate({ identifier: "LogsAlertFilters" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4486,12 +5186,12 @@ function __c37(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(593, __c37, 1),
+          results: __S(785, __c49, 1),
         }),
       ).annotate({ identifier: "PaginatedLogsMetricRuleList" });
   }
 }
-function __c38(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4509,160 +5209,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListLogsRetentionRulesRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(724, __c45, 4)),
-          threshold_count: S.optional(S.Number),
-          threshold_operator: S.optional(S.String),
-          window_minutes: S.optional(S.Number),
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(674, __c42, 2))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/alerts/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateLogsAlertRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(640, __c40, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
-    case 1:
-      return S.Array(__S(672, __c42, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          blocked_windows: S.optional(__S(673, __c42, 1)),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestriction" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-          state: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LogsAlertStateInterval" });
-    case 4:
-      return S.Array(__S(675, __c42, 3));
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(724, __c45, 4)),
-          threshold_count: S.optional(S.Number),
-          threshold_operator: S.optional(S.String),
-          window_minutes: S.optional(S.Number),
-          check_interval_minutes: S.optional(S.Number),
-          state: S.optional(S.String),
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(674, __c42, 2))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-          next_check_at: S.optional(S.NullOr(S.String)),
-          last_notified_at: S.optional(S.NullOr(S.String)),
-          last_checked_at: S.optional(S.NullOr(S.String)),
-          consecutive_failures: S.optional(S.Number),
-          last_error_message: S.optional(S.NullOr(S.String)),
-          state_timeline: S.optional(__S(676, __c42, 4)),
-          destination_types: S.optional(__S(736, __c46, 0)),
-          first_enabled_at: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(656, __c41, 0))),
-          updated_at: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "LogsAlertConfiguration" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          values: S.optional(__S(720, __c45, 0)),
-        }),
-      ).annotate({ identifier: "PropertyGroupFilterValue" });
-    case 2:
-      return S.Array(__S(721, __c45, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          values: S.optional(__S(722, __c45, 2)),
-        }),
-      ).annotate({ identifier: "PropertyGroupFilter" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          filterGroup: S.optional(S.NullOr(__S(723, __c45, 3))),
-          serviceNames: S.optional(S.NullOr(__S(704, __c44, 0))),
-          severityLevels: S.optional(S.NullOr(__S(736, __c46, 0))),
-        }),
-      ).annotate({ identifier: "LogsAlertFilters" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4680,7 +5227,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListLogsSamplingRulesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4693,26 +5240,26 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListLogsViewsRequest" });
     case 1:
-      return S.Array(__S(402, __c25, 2));
+      return S.Array(__S(450, __c28, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(769, __c48, 1)),
+          results: S.optional(__S(833, __c52, 1)),
         }),
       ).annotate({ identifier: "PaginatedLogsViewList" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: S.optional(__S(704, __c44, 0)),
+          hog_function_ids: S.optional(__S(736, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4723,7 +5270,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "LogsAlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4731,7 +5278,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4748,7 +5295,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "LogsAlertsDestroyRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4765,7 +5312,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "LogsAlertsResetCreateRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4777,7 +5324,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "LogsExportCreateRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4794,7 +5341,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LogsMetricRulesDestroyRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4811,7 +5358,38 @@ function __c55(j: number): any {
       ).annotate({ identifier: "LogsRetentionRulesDestroyRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          slack_workspace_id: S.optional(S.Number),
+          slack_channel_id: S.optional(S.String),
+          slack_channel_name: S.optional(S.String),
+          webhook_url: S.optional(S.String),
+          pagerduty_routing_key: S.optional(S.String),
+          pagerduty_severity: S.optional(S.String),
+          pagerduty_region: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/logs/alerts/{id}/destinations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLogsAlertsDestinationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hog_function_ids: S.optional(__S(736, __c46, 0)),
+        }),
+      ).annotate({ identifier: "LogsAlertDestinationResponse" });
+  }
+}
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4828,7 +5406,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "LogsSamplingRulesDestroyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4845,35 +5423,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "LogsViewsDestroyRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          slack_workspace_id: S.optional(S.Number),
-          slack_channel_id: S.optional(S.String),
-          slack_channel_name: S.optional(S.String),
-          webhook_url: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/logs/alerts/{id}/destinations/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateLogsAlertsDestinationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          hog_function_ids: S.optional(__S(704, __c44, 0)),
-        }),
-      ).annotate({ identifier: "LogsAlertDestinationResponse" });
-  }
-}
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4882,22 +5432,23 @@ function __c59(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(724, __c45, 4)),
+          filters: S.optional(__S(756, __c47, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(674, __c42, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(706, __c44, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
+          grouping: S.optional(__S(707, __c44, 3)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/logs/alerts/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateLogsAlertRequest" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4906,15 +5457,16 @@ function __c60(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(724, __c45, 4)),
+          filters: S.optional(__S(756, __c47, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(674, __c42, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(706, __c44, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
+          grouping: S.optional(__S(707, __c44, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4925,7 +5477,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateLogsAlertsPartialRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4937,7 +5489,7 @@ function __c61(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(704, __c44, 0)),
+          group_by: S.optional(__S(736, __c46, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4949,7 +5501,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateLogsMetricRuleRequest" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4961,7 +5513,7 @@ function __c62(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(704, __c44, 0)),
+          group_by: S.optional(__S(736, __c46, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4973,7 +5525,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateLogsMetricRulesPartialRequest" });
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,7 +5546,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateLogsRetentionRuleRequest" });
   }
 }
-function __c64(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5015,7 +5567,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateLogsRetentionRulesPartialRequest" });
   }
 }
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5028,7 +5580,7 @@ function __c65(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(288, __c18, 0)),
+          scope_attribute_filters: S.optional(__S(336, __c21, 0)),
           config: S.Unknown,
         }).pipe(
           T.Http({
@@ -5040,7 +5592,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateLogsSamplingRuleRequest" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5053,7 +5605,7 @@ function __c66(j: number): any {
           rule_type: S.optional(S.String),
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(288, __c18, 0)),
+          scope_attribute_filters: S.optional(__S(336, __c21, 0)),
           config: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -5065,55 +5617,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateLogsSamplingRulesPartialRequest" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          filters: S.optional(__S(640, __c40, 0)),
-          columns: S.optional(S.NullOr(__S(401, __c25, 1))),
-          pinned: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateLogsViewRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          filters: S.optional(__S(640, __c40, 0)),
-          columns: S.optional(S.NullOr(__S(401, __c25, 1))),
-          pinned: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateLogsViewsPartialRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          filters: S.optional(__S(724, __c45, 4)),
+          filters: S.optional(__S(756, __c47, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
@@ -5142,11 +5652,11 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertSimulateBucket" });
     case 2:
-      return S.Array(__S(1105, __c69, 1));
+      return S.Array(__S(1137, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(1106, __c69, 2)),
+          buckets: S.optional(__S(1138, __c71, 2)),
           fire_count: S.optional(S.Number),
           resolve_count: S.optional(S.Number),
           total_buckets: S.optional(S.Number),
@@ -5156,7 +5666,49 @@ function __c69(j: number): any {
       ).annotate({ identifier: "LogsAlertSimulateResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          filters: S.optional(__S(672, __c42, 0)),
+          columns: S.optional(S.NullOr(__S(449, __c28, 1))),
+          pinned: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLogsViewRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          filters: S.optional(__S(672, __c42, 0)),
+          columns: S.optional(S.NullOr(__S(449, __c28, 1))),
+          pinned: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLogsViewsPartialRequest" });
+  }
+}
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5170,7 +5722,7 @@ function __c70(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           serviceName: S.String,
-          dateRange: __S(1120, __c70, 0),
+          dateRange: __S(1184, __c74, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5192,7 +5744,7 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "LogsAnomalyScanBucket" });
     case 3:
-      return S.Array(__S(1122, __c70, 2));
+      return S.Array(__S(1186, __c74, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5201,11 +5753,11 @@ function __c70(j: number): any {
           tier: S.NullOr(S.String),
           history_start: S.NullOr(S.String),
           limited_by: S.NullOr(S.String),
-          buckets: __S(1123, __c70, 3),
+          buckets: __S(1187, __c74, 3),
         }),
       ).annotate({ identifier: "LogsAnomalyScanSeries" });
     case 5:
-      return S.Array(__S(1124, __c70, 4));
+      return S.Array(__S(1188, __c74, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5216,11 +5768,11 @@ function __c70(j: number): any {
           opened_at: S.String,
           last_anomalous_at: S.String,
           resolved_at: S.NullOr(S.String),
-          anomalous_bucket_times: __S(704, __c44, 0),
+          anomalous_bucket_times: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "LogsAnomalyScanIssue" });
     case 7:
-      return S.Array(__S(1126, __c70, 6));
+      return S.Array(__S(1190, __c74, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5230,21 +5782,21 @@ function __c70(j: number): any {
           lookback_days: S.Number,
           eval_clipped: S.Boolean,
           degraded: S.Boolean,
-          binding_constraints: __S(736, __c46, 0),
-          series: __S(1125, __c70, 5),
-          issues: __S(1127, __c70, 7),
+          binding_constraints: __S(768, __c48, 0),
+          series: __S(1189, __c74, 5),
+          issues: __S(1191, __c74, 7),
         }),
       ).annotate({ identifier: "LogsAnomalyScanResponse" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           serviceName: S.String,
-          dateRange: S.optional(__S(1152, __c72, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
           intervalMinutes: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -5265,7 +5817,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "LogsSeriesBandBucket" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1201, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5278,11 +5830,11 @@ function __c71(j: number): any {
           band_ready_at: S.NullOr(S.String),
           interval_minutes: S.Number,
           coarsened_reason: S.NullOr(S.String),
-          buckets: __S(1138, __c71, 2),
+          buckets: __S(1202, __c75, 2),
         }),
       ).annotate({ identifier: "LogsSeriesBandSeries" });
     case 4:
-      return S.Array(__S(1139, __c71, 3));
+      return S.Array(__S(1203, __c75, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5291,12 +5843,12 @@ function __c71(j: number): any {
           window_end: S.String,
           interval_minutes: S.Number,
           series_truncated: S.Boolean,
-          series: __S(1140, __c71, 4),
+          series: __S(1204, __c75, 4),
         }),
       ).annotate({ identifier: "LogsSeriesBandsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5307,13 +5859,13 @@ function __c72(j: number): any {
       ).annotate({ identifier: "SeriesBandsDateRange" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(1200, __c75, 0)),
+          query: S.optional(__S(1264, __c79, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/count/", code: 200 }),
         ),
@@ -5326,7 +5878,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "LogsCountResponse" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5338,19 +5890,19 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "LogPropertyFilter2" });
     case 1:
-      return S.Array(__S(1184, __c74, 0));
+      return S.Array(__S(1248, __c78, 0));
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1152, __c72, 0)),
-          severityLevels: S.optional(__S(736, __c46, 0)),
-          serviceNames: S.optional(__S(704, __c44, 0)),
+          dateRange: S.optional(__S(1216, __c76, 0)),
+          severityLevels: S.optional(__S(768, __c48, 0)),
+          serviceNames: S.optional(__S(736, __c46, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1185, __c74, 1)),
+          filterGroup: S.optional(__S(1249, __c78, 1)),
         }),
       ).annotate({ identifier: "LogsCountBody" });
   }

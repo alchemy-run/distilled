@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ArgocdProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type ArgocdOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ArgocdParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Argo CD operation. */
 export type ArgocdOpContext = Credentials | HttpClient.HttpClient;
@@ -52,11 +54,6 @@ export const ArgocdProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   }),
   // grpc-gateway error body is `{ code?: number|string, message, error? }`
   // -- the factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownArgocdError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownArgocdError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ArgocdParseError({ body, cause }),
 });

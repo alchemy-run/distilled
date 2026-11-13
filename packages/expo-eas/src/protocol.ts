@@ -1,9 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
-import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors";
+import {
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type ConfigError,
+  type UnknownErrorProps,
+} from "@distilled.cloud/core/errors";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ExpoGraphqlProtocol -- hand-written.
  *
@@ -64,7 +69,11 @@ import {
  * the GraphQL `errors[]` envelope is matched against `EAS_ERROR_CODE_MAP`
  * regardless of which operation was called.
  */
-export type ExpoEasOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ExpoEasOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated EAS operation. */
 export type ExpoEasOpContext = Credentials | HttpClient.HttpClient;
@@ -119,6 +128,22 @@ const statusClass = (status: number): StatusClass | undefined =>
   (HTTP_STATUS_MAP as Record<number, StatusClass | undefined>)[status];
 
 /**
+ * The fallback for a failure nothing matched: an unmapped 5xx is a server
+ * fault worth a retry (as in core's REST protocol), anything else is
+ * {@link UnknownEasError}.
+ */
+const unknownError = (
+  props: UnknownErrorProps,
+  headers: Record<string, string | undefined> | undefined,
+) =>
+  props.status >= 500
+    ? new InternalServerError({
+        message: props.message ?? `HTTP ${props.status}`,
+        retryAfter: parseRetryAfterForStatus(props.status, headers),
+      })
+    : new UnknownEasError(props);
+
+/**
  * Match an EAS error response (GraphQL envelope or HTTP-level body) to the
  * appropriate error class. Ported from distilled v0's `matchError`:
  * typed `extensions.errorCode` classes first, then the shared HTTP status
@@ -154,13 +179,7 @@ const matchError = (
       );
     }
 
-    return fail(
-      new UnknownEasError({
-        code,
-        message,
-        body: errorBody,
-      }),
-    );
+    return fail(unknownError({ status, code, message, body: errorBody }, headers));
   }
 
   // Non-JSON body (HTML proxy page, plain-text 429/401): the trimmed text
@@ -175,7 +194,7 @@ const matchError = (
         }),
       );
     }
-    return fail(new UnknownEasError({ body: errorBody }));
+    return fail(unknownError({ status, body: errorBody }, headers));
   }
 
   // Plain REST-ish error body
@@ -191,15 +210,14 @@ const matchError = (
       );
     }
     return fail(
-      new UnknownEasError({
-        code: rest.value.code,
-        message: rest.value.message,
-        body: errorBody,
-      }),
+      unknownError(
+        { status, code: rest.value.code, message: rest.value.message, body: errorBody },
+        headers,
+      ),
     );
   }
 
-  return fail(new UnknownEasError({ body: errorBody }));
+  return fail(unknownError({ status, body: errorBody }, headers));
 };
 
 // ============================================================================
@@ -220,8 +238,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const op = getAnn(inputAst, graphqlOpSymbol) as GraphQLOpTrait | undefined;
     if (!op) {
-      // A codegen bug -- surfaced as a defect by the calling Effect context.
-      throw new Error("operation input is missing the GraphQLOp() trait");
+      return yield* fail(
+        new SdkError({ message: "operation input is missing the GraphQLOp() trait" }),
+      );
     }
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
 
@@ -233,11 +252,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     }
 
     const url = `${creds.apiBaseUrl}${http?.uri ?? "/graphql"}`;
-    if (debugHttp()) {
-      console.error(
-        `[distilled] POST ${url} op=${op.operationName} variables=${JSON.stringify(variables).slice(0, 400)}`,
-      );
-    }
     return HttpClientRequest.make("POST")(url).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
@@ -261,9 +275,6 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 

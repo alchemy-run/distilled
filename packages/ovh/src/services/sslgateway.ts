@@ -52,11 +52,11 @@ export interface ConfirmSslGatewayTerminationRequest {
   /** The internal name of your SSL Gateway */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -65,11 +65,11 @@ export interface CreateSslGatewayChangeContactRequest {
   /** The internal name of your SSL Gateway */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateSslGatewayChangeContactResponseBodyList = Array<number>;
 export type CreateSslGatewayChangeContactResponse = CreateSslGatewayChangeContactResponseBodyList;
@@ -90,11 +90,11 @@ export type SslGatewayDomainStateEnum =
 /** Domain attached to an SSL Gateway */
 export interface SslGatewayDomain {
   /** Domain name attached to your SSL Gateway */
-  domain?: string;
+  domain?: string | undefined;
   /** Id of your domain */
-  id?: number;
+  id?: number | undefined;
   /** Domain state */
-  state?: SslGatewayDomainStateEnum;
+  state?: SslGatewayDomainStateEnum | undefined;
 }
 export interface CreateSslGatewayServerRequest {
   /** The internal name of your SSL Gateway */
@@ -115,13 +115,13 @@ export type SslGatewayServerStateEnum =
 /** Server attached to an SSL Gateway */
 export interface SslGatewayServer {
   /** IP address of the server attached to your SSL Gateway */
-  address?: string;
+  address?: string | undefined;
   /** Id of your server */
-  id?: number;
+  id?: number | undefined;
   /** Port of your server attached to your SSL Gateway */
-  port?: number;
+  port?: number | undefined;
   /** Server state */
-  state?: SslGatewayServerStateEnum;
+  state?: SslGatewayServerStateEnum | undefined;
 }
 export interface DeleteSslGatewayDomainRequest {
   /** The internal name of your SSL Gateway */
@@ -148,13 +148,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** List of SSL Gateway offers */
 export type SslGatewayOfferEnum = "advanced" | "enterprise" | "free" | "internal";
@@ -175,35 +175,35 @@ export type SslGatewaySslGatewayWithIAMZonesList = Array<string>;
 /** Your SSL Gateway */
 export interface SslGatewaySslGatewayWithIAM {
   /** Restrict SSL Gateway access to these ip block. No restriction if null */
-  allowedSource?: SslGatewaySslGatewayWithIAMAllowedSourceList | null;
+  allowedSource?: SslGatewaySslGatewayWithIAMAllowedSourceList | null | undefined;
   /** Custom name of your SSL Gateway */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set to true to enable Strict-Transport-Security HTTP header */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Set to true to enable https redirect */
-  httpsRedirect?: boolean;
+  httpsRedirect?: boolean | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** The IPv4 you need to put in the A field of your domain name */
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** The IPv6 you need to put in the AAAA field of your domain name */
-  ipv6?: string | null;
+  ipv6?: string | null | undefined;
   /** The metrics token associated with your SSL Gateway */
-  metricsToken?: string | null;
+  metricsToken?: string | null | undefined;
   /** Current offer for your SSL Gateway */
-  offer?: SslGatewayOfferEnum;
+  offer?: SslGatewayOfferEnum | undefined;
   /** Custom reverse for your SSL Gateway */
-  reverse?: string | null;
+  reverse?: string | null | undefined;
   /** Set to true to contact backend servers over HTTPS */
-  serverHttps?: boolean;
+  serverHttps?: boolean | undefined;
   /** The internal name of your SSL Gateway */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Modern oldest compatible clients : Firefox 27, Chrome 30, IE 11 on Windows 7, Edge, Opera 17, Safari 9, Android 5.0, and Java 8. Intermediate oldest compatible clients : Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7. Intermediate if null. */
-  sslConfiguration?: SslGatewaySslConfigurationEnum | null;
+  sslConfiguration?: SslGatewaySslConfigurationEnum | null | undefined;
   /** Current state of your SSL Gateway */
-  state?: SslGatewayStateEnum;
+  state?: SslGatewayStateEnum | undefined;
   /** Zones of your SSL Gateway */
-  zones?: SslGatewaySslGatewayWithIAMZonesList;
+  zones?: SslGatewaySslGatewayWithIAMZonesList | undefined;
 }
 export interface GetSslGatewayDomainRequest {
   /** The internal name of your SSL Gateway */
@@ -226,15 +226,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -256,21 +256,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetSslGatewayTaskRequest {
   /** The internal name of your SSL Gateway */
@@ -303,15 +303,15 @@ export type SslGatewayTaskStatusEnum =
 /** SSL Gateway tasks */
 export interface SslGatewayTask {
   /** The action made */
-  action?: SslGatewayTaskActionEnum;
+  action?: SslGatewayTaskActionEnum | undefined;
   /** Creation date of your task */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Task progress percentage */
-  progress?: number;
+  progress?: number | undefined;
   /** Current status of your task */
-  status?: SslGatewayTaskStatusEnum;
+  status?: SslGatewayTaskStatusEnum | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -321,7 +321,7 @@ export type ListSslGatewayRequestIamTagsMap = {
 };
 export interface ListSslGatewayRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListSslGatewayRequestIamTagsMap;
+  iamTags?: ListSslGatewayRequestIamTagsMap | undefined;
 }
 export type ListSslGatewayResponseBodyList = Array<string>;
 export type ListSslGatewayResponse = ListSslGatewayResponseBodyList;
@@ -345,13 +345,13 @@ export type SslGatewayEligibilityStatusIpsList = Array<string>;
 /** A structure describing the eligibility status of a domain */
 export interface SslGatewayEligibilityStatus {
   /** Customer domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Eligible IP(s) v6 for this domain */
-  ip6s?: SslGatewayEligibilityStatusIp6sList;
+  ip6s?: SslGatewayEligibilityStatusIp6sList | undefined;
   /** Eligible IP(s) for this domain */
-  ips?: SslGatewayEligibilityStatusIpsList;
+  ips?: SslGatewayEligibilityStatusIpsList | undefined;
   /** Whether this domain is hosted by Ovh or not */
-  isHostedByOvh?: boolean;
+  isHostedByOvh?: boolean | undefined;
 }
 export interface ListSslGatewayNatIpRequest {
   /** The internal name of your SSL Gateway */
@@ -360,8 +360,8 @@ export interface ListSslGatewayNatIpRequest {
 export type SslGatewayNatIpsIpList = Array<string>;
 /** a list of {zone, nat Ip} */
 export interface SslGatewayNatIps {
-  ip?: SslGatewayNatIpsIpList;
-  zone?: string;
+  ip?: SslGatewayNatIpsIpList | undefined;
+  zone?: string | undefined;
 }
 export type ListSslGatewayNatIpResponseBodyList = Array<SslGatewayNatIps>;
 export type ListSslGatewayNatIpResponse = ListSslGatewayNatIpResponseBodyList;
@@ -383,19 +383,19 @@ export interface PutSslGatewayRequest {
   /** The internal name of your SSL Gateway */
   serviceName: string;
   /** Restrict SSL Gateway access to these ip block. No restriction if null */
-  allowedSource?: PutSslGatewayRequestAllowedSourceList | null;
+  allowedSource?: PutSslGatewayRequestAllowedSourceList | null | undefined;
   /** Custom name of your SSL Gateway */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set to true to enable Strict-Transport-Security HTTP header */
-  hsts?: boolean;
+  hsts?: boolean | undefined;
   /** Set to true to enable https redirect */
-  httpsRedirect?: boolean;
+  httpsRedirect?: boolean | undefined;
   /** Custom reverse for your SSL Gateway */
-  reverse?: string | null;
+  reverse?: string | null | undefined;
   /** Set to true to contact backend servers over HTTPS */
-  serverHttps?: boolean;
+  serverHttps?: boolean | undefined;
   /** Modern oldest compatible clients : Firefox 27, Chrome 30, IE 11 on Windows 7, Edge, Opera 17, Safari 9, Android 5.0, and Java 8. Intermediate oldest compatible clients : Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1, Windows XP IE8, Android 2.3, Java 7. Intermediate if null. */
-  sslConfiguration?: SslGatewaySslConfigurationEnum | (string & {}) | null;
+  sslConfiguration?: SslGatewaySslConfigurationEnum | (string & {}) | null | undefined;
 }
 export interface PutSslGatewayResponse {}
 export interface PutSslGatewayServerRequest {
@@ -404,23 +404,23 @@ export interface PutSslGatewayServerRequest {
   /** Id of your server */
   id: number;
   /** IP address of the server attached to your SSL Gateway */
-  address?: string;
+  address?: string | undefined;
   /** Port of your server attached to your SSL Gateway */
-  port?: number;
+  port?: number | undefined;
 }
 export interface PutSslGatewayServerResponse {}
 export interface PutSslGatewayServiceInfosRequest {
   /** The internal name of your SSL Gateway */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutSslGatewayServiceInfosResponse {}
 export interface RenewSslGatewayCertificateRequest {
   /** The internal name of your SSL Gateway */
   serviceName: string;
   /** Domain on which you want to renew certificate */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type RenewSslGatewayCertificateResponseBodyList = Array<string>;
 export type RenewSslGatewayCertificateResponse = RenewSslGatewayCertificateResponseBodyList;

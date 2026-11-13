@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -169,7 +170,7 @@ export type Granularity = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY" | (string & {});
 export interface GroupDefinition {
   key: string;
-  type?: GroupDefinitionType;
+  type?: GroupDefinitionType | undefined;
 }
 export type GroupDefinitions = GroupDefinition[];
 export type Expressions = Expression[];
@@ -216,92 +217,92 @@ export type MatchOptions = MatchOption[];
 export interface DimensionValues {
   key: Dimension;
   values: string[];
-  matchOptions?: MatchOption[];
+  matchOptions?: MatchOption[] | undefined;
 }
 export interface TagValues {
-  key?: string;
-  values?: string[];
-  matchOptions?: MatchOption[];
+  key?: string | undefined;
+  values?: string[] | undefined;
+  matchOptions?: MatchOption[] | undefined;
 }
 export interface CostCategoryValues {
-  key?: string;
-  values?: string[];
-  matchOptions?: MatchOption[];
+  key?: string | undefined;
+  values?: string[] | undefined;
+  matchOptions?: MatchOption[] | undefined;
 }
 export interface Expression {
-  or?: Expression[];
-  and?: Expression[];
-  not?: Expression;
-  dimensions?: DimensionValues;
-  tags?: TagValues;
-  costCategories?: CostCategoryValues;
+  or?: Expression[] | undefined;
+  and?: Expression[] | undefined;
+  not?: Expression | undefined;
+  dimensions?: DimensionValues | undefined;
+  tags?: TagValues | undefined;
+  costCategories?: CostCategoryValues | undefined;
 }
 export interface CostAndUsageQuery {
   metrics: MetricName[];
   timeRange: DateTimeRange;
   granularity: Granularity;
-  groupBy?: GroupDefinition[];
-  filter?: Expression;
+  groupBy?: GroupDefinition[] | undefined;
+  filter?: Expression | undefined;
 }
 export interface SavingsPlansCoverageQuery {
   timeRange: DateTimeRange;
-  metrics?: MetricName[];
-  granularity?: Granularity;
-  groupBy?: GroupDefinition[];
-  filter?: Expression;
+  metrics?: MetricName[] | undefined;
+  granularity?: Granularity | undefined;
+  groupBy?: GroupDefinition[] | undefined;
+  filter?: Expression | undefined;
 }
 export interface SavingsPlansUtilizationQuery {
   timeRange: DateTimeRange;
-  granularity?: Granularity;
-  filter?: Expression;
+  granularity?: Granularity | undefined;
+  filter?: Expression | undefined;
 }
 export interface ReservationCoverageQuery {
   timeRange: DateTimeRange;
-  groupBy?: GroupDefinition[];
-  granularity?: Granularity;
-  filter?: Expression;
-  metrics?: MetricName[];
+  groupBy?: GroupDefinition[] | undefined;
+  granularity?: Granularity | undefined;
+  filter?: Expression | undefined;
+  metrics?: MetricName[] | undefined;
 }
 export interface ReservationUtilizationQuery {
   timeRange: DateTimeRange;
-  groupBy?: GroupDefinition[];
-  granularity?: Granularity;
-  filter?: Expression;
+  groupBy?: GroupDefinition[] | undefined;
+  granularity?: Granularity | undefined;
+  filter?: Expression | undefined;
 }
 export type QueryParameters =
   | {
       costAndUsage: CostAndUsageQuery;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
+      costAndUsage?: undefined;
       savingsPlansCoverage: SavingsPlansCoverageQuery;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
       savingsPlansUtilization: SavingsPlansUtilizationQuery;
-      reservationCoverage?: never;
-      reservationUtilization?: never;
+      reservationCoverage?: undefined;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
       reservationCoverage: ReservationCoverageQuery;
-      reservationUtilization?: never;
+      reservationUtilization?: undefined;
     }
   | {
-      costAndUsage?: never;
-      savingsPlansCoverage?: never;
-      savingsPlansUtilization?: never;
-      reservationCoverage?: never;
+      costAndUsage?: undefined;
+      savingsPlansCoverage?: undefined;
+      savingsPlansUtilization?: undefined;
+      reservationCoverage?: undefined;
       reservationUtilization: ReservationUtilizationQuery;
     };
 export type VisualType = "LINE" | "BAR" | "STACK" | (string & {});
@@ -311,20 +312,20 @@ export interface GraphDisplayConfig {
 export type GraphDisplayConfigMap = { [key: string]: GraphDisplayConfig | undefined };
 export interface TableDisplayConfigStruct {}
 export type DisplayConfig =
-  | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: never }
-  | { graph?: never; table: TableDisplayConfigStruct };
+  | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: undefined }
+  | { graph?: undefined; table: TableDisplayConfigStruct };
 export interface WidgetConfig {
   queryParameters: QueryParameters;
   displayConfig: DisplayConfig;
 }
 export type WidgetConfigList = WidgetConfig[];
 export interface Widget {
-  id?: string;
+  id?: string | undefined;
   title: string;
-  description?: string;
-  width?: number;
-  height?: number;
-  horizontalOffset?: number;
+  description?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  horizontalOffset?: number | undefined;
   configs: WidgetConfig[];
 }
 export type WidgetList = Widget[];
@@ -337,9 +338,9 @@ export interface ResourceTag {
 export type ResourceTagList = ResourceTag[];
 export interface CreateDashboardRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   widgets: Widget[];
-  resourceTags?: ResourceTag[];
+  resourceTags?: ResourceTag[] | undefined;
 }
 export type DashboardArn = string;
 export interface CreateDashboardResponse {
@@ -348,15 +349,15 @@ export interface CreateDashboardResponse {
 export type ScheduledReportName = string;
 export type ServiceRoleArn = string;
 export interface SchedulePeriod {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type ScheduleState = "ENABLED" | "DISABLED" | (string & {});
 export interface ScheduleConfig {
-  scheduleExpression?: string;
-  scheduleExpressionTimeZone?: string;
-  schedulePeriod?: SchedulePeriod;
-  state?: ScheduleState;
+  scheduleExpression?: string | undefined;
+  scheduleExpressionTimeZone?: string | undefined;
+  schedulePeriod?: SchedulePeriod | undefined;
+  state?: ScheduleState | undefined;
 }
 export type WidgetIdList = string[];
 export interface ScheduledReportInput {
@@ -364,15 +365,15 @@ export interface ScheduledReportInput {
   dashboardArn: string;
   scheduledReportExecutionRoleArn: string;
   scheduleConfig: ScheduleConfig;
-  description?: string;
-  widgetIds?: string[];
-  widgetDateRangeOverride?: DateTimeRange;
+  description?: string | undefined;
+  widgetIds?: string[] | undefined;
+  widgetDateRangeOverride?: DateTimeRange | undefined;
 }
 export type ClientToken = string;
 export interface CreateScheduledReportRequest {
   scheduledReport: ScheduledReportInput;
-  resourceTags?: ResourceTag[];
-  clientToken?: string;
+  resourceTags?: ResourceTag[] | undefined;
+  clientToken?: string | undefined;
 }
 export type ScheduledReportArn = string;
 export interface CreateScheduledReportResponse {
@@ -392,8 +393,8 @@ export interface DeleteScheduledReportResponse {
 }
 export interface ExecuteScheduledReportRequest {
   arn: string;
-  clientToken?: string;
-  dryRun?: boolean;
+  clientToken?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export type HealthStatusCode = "HEALTHY" | "UNHEALTHY" | (string & {});
 export type StatusReason =
@@ -408,12 +409,12 @@ export type StatusReason =
 export type StatusReasonList = StatusReason[];
 export interface HealthStatus {
   statusCode: HealthStatusCode;
-  lastRefreshedAt?: Date;
-  statusReasons?: StatusReason[];
+  lastRefreshedAt?: Date | undefined;
+  statusReasons?: StatusReason[] | undefined;
 }
 export interface ExecuteScheduledReportResponse {
-  healthStatus?: HealthStatus;
-  executionTriggered?: boolean;
+  healthStatus?: HealthStatus | undefined;
+  executionTriggered?: boolean | undefined;
 }
 export interface GetDashboardRequest {
   arn: string;
@@ -422,7 +423,7 @@ export type DashboardType = "CUSTOM" | (string & {});
 export interface GetDashboardResponse {
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: DashboardType;
   widgets: Widget[];
   createdAt: Date;
@@ -439,18 +440,18 @@ export interface GetScheduledReportRequest {
   arn: string;
 }
 export interface ScheduledReport {
-  arn?: string;
+  arn?: string | undefined;
   name: string;
   dashboardArn: string;
   scheduledReportExecutionRoleArn: string;
   scheduleConfig: ScheduleConfig;
-  description?: string;
-  widgetIds?: string[];
-  widgetDateRangeOverride?: DateTimeRange;
-  createdAt?: Date;
-  updatedAt?: Date;
-  lastExecutionAt?: Date;
-  healthStatus?: HealthStatus;
+  description?: string | undefined;
+  widgetIds?: string[] | undefined;
+  widgetDateRangeOverride?: DateTimeRange | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  lastExecutionAt?: Date | undefined;
+  healthStatus?: HealthStatus | undefined;
 }
 export interface GetScheduledReportResponse {
   scheduledReport: ScheduledReport;
@@ -458,13 +459,13 @@ export interface GetScheduledReportResponse {
 export type MaxResults = number;
 export type NextPageToken = string;
 export interface ListDashboardsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DashboardReference {
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: DashboardType;
   createdAt: Date;
   updatedAt: Date;
@@ -472,11 +473,11 @@ export interface DashboardReference {
 export type DashboardReferenceList = DashboardReference[];
 export interface ListDashboardsResponse {
   dashboards: DashboardReference[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListScheduledReportsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScheduledReportSummary {
   arn: string;
@@ -485,20 +486,20 @@ export interface ScheduledReportSummary {
   scheduleExpression: string;
   state: ScheduleState;
   healthStatus: HealthStatus;
-  scheduleExpressionTimeZone?: string;
-  widgetIds?: string[];
+  scheduleExpressionTimeZone?: string | undefined;
+  widgetIds?: string[] | undefined;
 }
 export type ScheduledReportSummaryList = ScheduledReportSummary[];
 export interface ListScheduledReportsResponse {
   scheduledReports: ScheduledReportSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  resourceTags?: ResourceTag[];
+  resourceTags?: ResourceTag[] | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -514,23 +515,23 @@ export interface UntagResourceResponse {}
 export interface UpdateDashboardRequest {
   arn: string;
   name: string;
-  description?: string;
-  widgets?: Widget[];
+  description?: string | undefined;
+  widgets?: Widget[] | undefined;
 }
 export interface UpdateDashboardResponse {
   arn: string;
 }
 export interface UpdateScheduledReportRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  dashboardArn?: string;
-  scheduledReportExecutionRoleArn?: string;
-  scheduleConfig?: ScheduleConfig;
-  widgetIds?: string[];
-  widgetDateRangeOverride?: DateTimeRange;
-  clearWidgetIds?: boolean;
-  clearWidgetDateRangeOverride?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  dashboardArn?: string | undefined;
+  scheduledReportExecutionRoleArn?: string | undefined;
+  scheduleConfig?: ScheduleConfig | undefined;
+  widgetIds?: string[] | undefined;
+  widgetDateRangeOverride?: DateTimeRange | undefined;
+  clearWidgetIds?: boolean | undefined;
+  clearWidgetDateRangeOverride?: boolean | undefined;
 }
 export interface UpdateScheduledReportResponse {
   arn: string;
@@ -546,7 +547,7 @@ export type CreateDashboardError =
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -579,7 +580,7 @@ export type CreateScheduledReportError =
  * Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
  */
 export const createScheduledReport: API.OperationMethod<
-  CreateScheduledReportRequest,
+  CreateScheduledReportRequest & RegionInput,
   CreateScheduledReportResponse,
   CreateScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -611,7 +612,7 @@ export type DeleteDashboardError =
  * Deletes a specified dashboard. This action cannot be undone.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DeleteScheduledReportError =
  * Deletes a specified scheduled report. This is an irreversible operation.
  */
 export const deleteScheduledReport: API.OperationMethod<
-  DeleteScheduledReportRequest,
+  DeleteScheduledReportRequest & RegionInput,
   DeleteScheduledReportResponse,
   DeleteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -677,7 +678,7 @@ export type ExecuteScheduledReportError =
  * If a `clientToken` is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
  */
 export const executeScheduledReport: API.OperationMethod<
-  ExecuteScheduledReportRequest,
+  ExecuteScheduledReportRequest & RegionInput,
   ExecuteScheduledReportResponse,
   ExecuteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -710,7 +711,7 @@ export type GetDashboardError =
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardRequest,
+  GetDashboardRequest & RegionInput,
   GetDashboardResponse,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -742,7 +743,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -774,7 +775,7 @@ export type GetScheduledReportError =
  * Retrieves the configuration and metadata of a specified scheduled report.
  */
 export const getScheduledReport: API.OperationMethod<
-  GetScheduledReportRequest,
+  GetScheduledReportRequest & RegionInput,
   GetScheduledReportResponse,
   GetScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -805,7 +806,7 @@ export type ListDashboardsError =
  * Returns a list of all dashboards in your account.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -842,7 +843,7 @@ export type ListScheduledReportsError =
  * Returns a list of scheduled reports in your account.
  */
 export const listScheduledReports: API.PaginatedOperationMethod<
-  ListScheduledReportsRequest,
+  ListScheduledReportsRequest & RegionInput,
   ListScheduledReportsResponse,
   ListScheduledReportsError,
   Credentials | HttpClient.HttpClient,
@@ -879,7 +880,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags associated with a specified dashboard resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -909,7 +910,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified dashboard resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type UntagResourceError =
  * Removes specified tags from a dashboard resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type UpdateDashboardError =
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -1003,7 +1004,7 @@ export type UpdateScheduledReportError =
  * Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
  */
 export const updateScheduledReport: API.OperationMethod<
-  UpdateScheduledReportRequest,
+  UpdateScheduledReportRequest & RegionInput,
   UpdateScheduledReportResponse,
   UpdateScheduledReportError,
   Credentials | HttpClient.HttpClient

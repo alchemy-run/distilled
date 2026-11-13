@@ -54,18 +54,18 @@ export class NotFound
 export interface CreateGroupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  group_type_index?: number;
-  group_key?: string;
-  group_properties?: unknown;
+  group_type_index?: number | undefined;
+  group_key?: string | undefined;
+  group_properties?: unknown | undefined;
 }
 /** The group's properties. */
 export type GroupGroupPropertiesMap = { [key: string]: unknown | undefined };
 export interface Group {
-  group_type_index?: number;
-  group_key?: string;
+  group_type_index?: number | undefined;
+  group_key?: string | undefined;
   /** The group's properties. */
-  group_properties?: GroupGroupPropertiesMap;
-  created_at?: string;
+  group_properties?: GroupGroupPropertiesMap | undefined;
+  created_at?: string | undefined;
 }
 export interface GetGroupsActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -84,7 +84,7 @@ export interface GetGroupsFindRequest {
   /** Specify the group type to find */
   group_type_index: number;
   /** When true, do not lazily create the group's CRM notebook. Use for read-only lookups (e.g. resolving a group's display name) that should not have side effects. */
-  skip_create_notebook?: boolean;
+  skip_create_notebook?: boolean | undefined;
 }
 /** The group's properties. */
 export type FindGroupGroupPropertiesMap = { [key: string]: unknown | undefined };
@@ -135,13 +135,13 @@ export interface ListGroupsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Pagination cursor returned in the `next` URL of a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter groups whose key contains this string (case-insensitive) */
-  group_key?: string;
+  group_key?: string | undefined;
   /** Specify the group type to list */
   group_type_index: number;
   /** Search the group name */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListGroupsResponseBodyList = Array<Group>;
 export type ListGroupsResponse = ListGroupsResponseBodyList;
@@ -149,16 +149,30 @@ export interface ListGroupsRelatedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Group type of the actor to find related actors for. Omit when the actor is a person. */
-  group_type_index?: number;
+  group_type_index?: number | undefined;
   /** Specify the id of the user to find groups for */
   id: string;
 }
 /** The actor's properties. */
 export type SerializedPersonActorPropertiesMap = { [key: string]: unknown | undefined };
-export type SerializedPersonActorMatchedRecordingsItemMap = { [key: string]: unknown | undefined };
+export interface SerializedMatchedRecordingEvent {
+  /** UUID of the matched event. */
+  uuid: string;
+  /** When the matched event happened. */
+  timestamp: string;
+  /** ID of the browser window the event was captured in. */
+  window_id: string;
+}
+/** Events of the recording that matched the query. */
+export type SerializedMatchedRecordingEventsList = Array<SerializedMatchedRecordingEvent>;
+export interface SerializedMatchedRecording {
+  /** ID of the session recording. */
+  session_id: string;
+  /** Events of the recording that matched the query. */
+  events: SerializedMatchedRecordingEventsList;
+}
 /** Recordings that matched the query. Empty unless the endpoint asks for them. */
-export type SerializedPersonActorMatchedRecordingsList =
-  Array<SerializedPersonActorMatchedRecordingsItemMap>;
+export type SerializedPersonActorMatchedRecordingsList = Array<SerializedMatchedRecording>;
 /** The person's distinct IDs, newest first. */
 export type SerializedPersonActorDistinctIdsList = Array<string>;
 export interface SerializedPersonActor {
@@ -183,14 +197,12 @@ export interface SerializedPersonActor {
   /** When the person was last seen. */
   last_seen_at: string | null;
   /** Whether the person has been identified. */
-  is_identified: boolean | null;
+  is_identified: boolean;
 }
 /** The actor's properties. */
 export type SerializedGroupActorPropertiesMap = { [key: string]: unknown | undefined };
-export type SerializedGroupActorMatchedRecordingsItemMap = { [key: string]: unknown | undefined };
 /** Recordings that matched the query. Empty unless the endpoint asks for them. */
-export type SerializedGroupActorMatchedRecordingsList =
-  Array<SerializedGroupActorMatchedRecordingsItemMap>;
+export type SerializedGroupActorMatchedRecordingsList = Array<SerializedMatchedRecording>;
 export interface SerializedGroupActor {
   /** The person's UUID, or the group's key. */
   id: string;

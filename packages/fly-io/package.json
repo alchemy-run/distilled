@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/fly-io",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -120,7 +120,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-29",
-    "specUpdatedAt": "2026-10-08"
+    "generatedAt": "2026-11-12",
+    "specUpdatedAt": "2026-11-07"
   }
 }

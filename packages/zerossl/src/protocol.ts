@@ -27,6 +27,7 @@ import {
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
@@ -42,7 +43,8 @@ export type ZeroSslOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
@@ -143,6 +145,7 @@ const decode = ({
       }
       return yield* fail(
         new UnknownZeroSslError({
+          status,
           code: envelope.error?.code,
           type,
           message,

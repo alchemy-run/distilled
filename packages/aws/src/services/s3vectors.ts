@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -148,22 +149,22 @@ export interface MetadataConfiguration {
 export type SseType = "AES256" | "aws:kms" | (string & {});
 export type KmsKeyArn = string;
 export interface EncryptionConfiguration {
-  sseType?: SseType;
-  kmsKeyArn?: string;
+  sseType?: SseType | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateIndexInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   indexName: string;
   dataType: DataType;
   dimension: number;
   distanceMetric: DistanceMetric;
-  metadataConfiguration?: MetadataConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string | undefined };
+  metadataConfiguration?: MetadataConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IndexArn = string;
 export interface CreateIndexOutput {
@@ -171,41 +172,41 @@ export interface CreateIndexOutput {
 }
 export interface CreateVectorBucketInput {
   vectorBucketName: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string | undefined };
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateVectorBucketOutput {
   vectorBucketArn: string;
 }
 export interface DeleteIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
 }
 export interface DeleteIndexOutput {}
 export interface DeleteVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface DeleteVectorBucketOutput {}
 export interface DeleteVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface DeleteVectorBucketPolicyOutput {}
 export type VectorKey = string;
 export type DeleteVectorsInputList = string[];
 export interface DeleteVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   keys: string[];
 }
 export interface DeleteVectorsOutput {}
 export interface GetIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
 }
 export type IndexMode = "CLASSIC" | "ENHANCED" | (string & {});
 export interface Index {
@@ -216,51 +217,51 @@ export interface Index {
   dataType: DataType;
   dimension: number;
   distanceMetric: DistanceMetric;
-  metadataConfiguration?: MetadataConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  indexMode?: IndexMode;
+  metadataConfiguration?: MetadataConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  indexMode?: IndexMode | undefined;
 }
 export interface GetIndexOutput {
   index: Index;
 }
 export interface GetVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface VectorBucket {
   vectorBucketName: string;
   vectorBucketArn: string;
   creationTime: Date;
-  encryptionConfiguration?: EncryptionConfiguration;
-  defaultIndexMode?: IndexMode;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  defaultIndexMode?: IndexMode | undefined;
 }
 export interface GetVectorBucketOutput {
   vectorBucket: VectorBucket;
 }
 export interface GetVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export type VectorBucketPolicy = string;
 export interface GetVectorBucketPolicyOutput {
-  policy?: string;
+  policy?: string | undefined;
 }
 export type GetVectorsInputList = string[];
 export interface GetVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   keys: string[];
-  returnData?: boolean;
-  returnMetadata?: boolean;
+  returnData?: boolean | undefined;
+  returnMetadata?: boolean | undefined;
 }
 export type Float32VectorData = number[];
 export type VectorData = { float32: number[] };
 export type VectorMetadata = unknown;
 export interface GetOutputVector {
   key: string;
-  data?: VectorData;
-  metadata?: any;
+  data?: VectorData | undefined;
+  metadata?: any | undefined;
 }
 export type GetVectorsOutputList = GetOutputVector[];
 export interface GetVectorsOutput {
@@ -270,11 +271,11 @@ export type ListIndexesMaxResults = number;
 export type ListIndexesNextToken = string;
 export type ListIndexesPrefix = string;
 export interface ListIndexesInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface IndexSummary {
   vectorBucketName: string;
@@ -284,7 +285,7 @@ export interface IndexSummary {
 }
 export type ListIndexesOutputList = IndexSummary[];
 export interface ListIndexesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   indexes: IndexSummary[];
 }
 export type ResourceARN = string;
@@ -298,9 +299,9 @@ export type ListVectorBucketsMaxResults = number;
 export type ListVectorBucketsNextToken = string;
 export type ListVectorBucketsPrefix = string;
 export interface ListVectorBucketsInput {
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface VectorBucketSummary {
   vectorBucketName: string;
@@ -309,7 +310,7 @@ export interface VectorBucketSummary {
 }
 export type ListVectorBucketsOutputList = VectorBucketSummary[];
 export interface ListVectorBucketsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   vectorBuckets: VectorBucketSummary[];
 }
 export type ListVectorsMaxResults = number;
@@ -317,75 +318,75 @@ export type ListVectorsNextToken = string;
 export type ListVectorsSegmentCount = number;
 export type ListVectorsSegmentIndex = number;
 export interface ListVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  segmentCount?: number;
-  segmentIndex?: number;
-  returnData?: boolean;
-  returnMetadata?: boolean;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  segmentCount?: number | undefined;
+  segmentIndex?: number | undefined;
+  returnData?: boolean | undefined;
+  returnMetadata?: boolean | undefined;
 }
 export interface ListOutputVector {
   key: string;
-  data?: VectorData;
-  metadata?: any;
+  data?: VectorData | undefined;
+  metadata?: any | undefined;
 }
 export type ListVectorsOutputList = ListOutputVector[];
 export interface ListVectorsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   vectors: ListOutputVector[];
 }
 export interface PutVectorBucketDefaultIndexModeInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   defaultIndexMode: IndexMode;
 }
 export interface PutVectorBucketDefaultIndexModeOutput {}
 export interface PutVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   policy: string;
 }
 export interface PutVectorBucketPolicyOutput {}
 export interface PutInputVector {
   key: string;
   data: VectorData;
-  metadata?: any;
+  metadata?: any | undefined;
 }
 export type PutVectorsInputList = PutInputVector[];
 export interface PutVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   vectors: PutInputVector[];
 }
 export interface PutVectorsOutput {}
 export type TopK = number;
 export type QueryVectorsNextToken = string;
 export interface QueryVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   topK: number;
   queryVector: VectorData;
-  filter?: any;
-  queryMode?: IndexMode;
-  returnMetadata?: boolean;
-  returnDistance?: boolean;
-  nextToken?: string;
+  filter?: any | undefined;
+  queryMode?: IndexMode | undefined;
+  returnMetadata?: boolean | undefined;
+  returnDistance?: boolean | undefined;
+  nextToken?: string | undefined;
 }
 export interface QueryOutputVector {
-  distance?: number;
+  distance?: number | undefined;
   key: string;
-  metadata?: any;
+  metadata?: any | undefined;
 }
 export type QueryVectorsOutputList = QueryOutputVector[];
 export interface QueryVectorsOutput {
   vectors: QueryOutputVector[];
   distanceMetric: DistanceMetric;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -399,9 +400,9 @@ export interface UntagResourceInput {
 }
 export interface UntagResourceOutput {}
 export interface UpdateIndexModeInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   indexMode: IndexMode;
 }
 export interface UpdateIndexModeOutput {}
@@ -422,7 +423,7 @@ export type CreateIndexError =
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexInput,
+  CreateIndexInput & RegionInput,
   CreateIndexOutput,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -457,7 +458,7 @@ export type CreateVectorBucketError =
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
  */
 export const createVectorBucket: API.OperationMethod<
-  CreateVectorBucketInput,
+  CreateVectorBucketInput & RegionInput,
   CreateVectorBucketOutput,
   CreateVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -481,7 +482,7 @@ export type DeleteIndexError = NotFoundException | ServiceUnavailableException |
  * You must have the `s3vectors:DeleteIndex` permission to use this operation.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexInput,
+  DeleteIndexInput & RegionInput,
   DeleteIndexOutput,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -509,7 +510,7 @@ export type DeleteVectorBucketError =
  * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
  */
 export const deleteVectorBucket: API.OperationMethod<
-  DeleteVectorBucketInput,
+  DeleteVectorBucketInput & RegionInput,
   DeleteVectorBucketOutput,
   DeleteVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type DeleteVectorBucketPolicyError =
  * You must have the `s3vectors:DeleteVectorBucketPolicy` permission to use this operation.
  */
 export const deleteVectorBucketPolicy: API.OperationMethod<
-  DeleteVectorBucketPolicyInput,
+  DeleteVectorBucketPolicyInput & RegionInput,
   DeleteVectorBucketPolicyOutput,
   DeleteVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type DeleteVectorsError =
  * You must have the `s3vectors:DeleteVectors` permission to use this operation.
  */
 export const deleteVectors: API.OperationMethod<
-  DeleteVectorsInput,
+  DeleteVectorsInput & RegionInput,
   DeleteVectorsOutput,
   DeleteVectorsError,
   Credentials | HttpClient.HttpClient
@@ -600,7 +601,7 @@ export type GetIndexError = NotFoundException | ServiceUnavailableException | Co
  * You must have the `s3vectors:GetIndex` permission to use this operation.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexInput,
+  GetIndexInput & RegionInput,
   GetIndexOutput,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -624,7 +625,7 @@ export type GetVectorBucketError = NotFoundException | ServiceUnavailableExcepti
  * You must have the `s3vectors:GetVectorBucket` permission to use this operation.
  */
 export const getVectorBucket: API.OperationMethod<
-  GetVectorBucketInput,
+  GetVectorBucketInput & RegionInput,
   GetVectorBucketOutput,
   GetVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -651,7 +652,7 @@ export type GetVectorBucketPolicyError =
  * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
  */
 export const getVectorBucketPolicy: API.OperationMethod<
-  GetVectorBucketPolicyInput,
+  GetVectorBucketPolicyInput & RegionInput,
   GetVectorBucketPolicyOutput,
   GetVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -682,7 +683,7 @@ export type GetVectorsError =
  * You must have the `s3vectors:GetVectors` permission to use this operation.
  */
 export const getVectors: API.OperationMethod<
-  GetVectorsInput,
+  GetVectorsInput & RegionInput,
   GetVectorsOutput,
   GetVectorsError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type ListIndexesError = NotFoundException | ServiceUnavailableException |
  * You must have the `s3vectors:ListIndexes` permission to use this operation.
  */
 export const listIndexes: API.PaginatedOperationMethod<
-  ListIndexesInput,
+  ListIndexesInput & RegionInput,
   ListIndexesOutput,
   ListIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -749,7 +750,7 @@ export type ListTagsForResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type ListVectorBucketsError = ServiceUnavailableException | CommonErrors;
  * You must have the `s3vectors:ListVectorBuckets` permission to use this operation.
  */
 export const listVectorBuckets: API.PaginatedOperationMethod<
-  ListVectorBucketsInput,
+  ListVectorBucketsInput & RegionInput,
   ListVectorBucketsOutput,
   ListVectorBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -814,7 +815,7 @@ export type ListVectorsError =
  * - If you set `returnData` or `returnMetadata` to true, you must have both `s3vectors:ListVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden` error if you request vector data or metadata without the `s3vectors:GetVectors` permission.
  */
 export const listVectors: API.PaginatedOperationMethod<
-  ListVectorsInput,
+  ListVectorsInput & RegionInput,
   ListVectorsOutput,
   ListVectorsError,
   Credentials | HttpClient.HttpClient,
@@ -848,7 +849,7 @@ export type PutVectorBucketDefaultIndexModeError =
  * You must have the `s3vectors:PutVectorBucketDefaultIndexMode` permission to use this operation.
  */
 export const putVectorBucketDefaultIndexMode: API.OperationMethod<
-  PutVectorBucketDefaultIndexModeInput,
+  PutVectorBucketDefaultIndexModeInput & RegionInput,
   PutVectorBucketDefaultIndexModeOutput,
   PutVectorBucketDefaultIndexModeError,
   Credentials | HttpClient.HttpClient
@@ -875,7 +876,7 @@ export type PutVectorBucketPolicyError =
  * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
  */
 export const putVectorBucketPolicy: API.OperationMethod<
-  PutVectorBucketPolicyInput,
+  PutVectorBucketPolicyInput & RegionInput,
   PutVectorBucketPolicyOutput,
   PutVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -912,7 +913,7 @@ export type PutVectorsError =
  * You must have the `s3vectors:PutVectors` permission to use this operation.
  */
 export const putVectors: API.OperationMethod<
-  PutVectorsInput,
+  PutVectorsInput & RegionInput,
   PutVectorsOutput,
   PutVectorsError,
   Credentials | HttpClient.HttpClient
@@ -958,7 +959,7 @@ export type QueryVectorsError =
  * - If you specify a metadata filter or set `returnMetadata` to true, you must have both `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden error` if you request metadata filtering or metadata without the `s3vectors:GetVectors` permission.
  */
 export const queryVectors: API.PaginatedOperationMethod<
-  QueryVectorsInput,
+  QueryVectorsInput & RegionInput,
   QueryVectorsOutput,
   QueryVectorsError,
   Credentials | HttpClient.HttpClient,
@@ -997,7 +998,7 @@ export type TagResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1027,7 +1028,7 @@ export type UntagResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type UpdateIndexModeError = NotFoundException | ServiceUnavailableExcepti
  * You must have the `s3vectors:UpdateIndexMode` permission to use this operation.
  */
 export const updateIndexMode: API.OperationMethod<
-  UpdateIndexModeInput,
+  UpdateIndexModeInput & RegionInput,
   UpdateIndexModeOutput,
   UpdateIndexModeError,
   Credentials | HttpClient.HttpClient

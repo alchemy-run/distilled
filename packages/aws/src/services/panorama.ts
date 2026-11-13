@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -873,7 +874,7 @@ export type CreateApplicationInstanceError =
  * Creates an application instance and deploys it to a device.
  */
 export const createApplicationInstance: API.OperationMethod<
-  CreateApplicationInstanceRequest,
+  CreateApplicationInstanceRequest & RegionInput,
   CreateApplicationInstanceResponse,
   CreateApplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type CreateJobForDevicesError =
  * Creates a job to run on a device. A job can update a device's software or reboot it.
  */
 export const createJobForDevices: API.OperationMethod<
-  CreateJobForDevicesRequest,
+  CreateJobForDevicesRequest & RegionInput,
   CreateJobForDevicesResponse,
   CreateJobForDevicesError,
   Credentials | HttpClient.HttpClient
@@ -931,7 +932,7 @@ export type CreateNodeFromTemplateJobError =
  * Creates a camera stream node.
  */
 export const createNodeFromTemplateJob: API.OperationMethod<
-  CreateNodeFromTemplateJobRequest,
+  CreateNodeFromTemplateJobRequest & RegionInput,
   CreateNodeFromTemplateJobResponse,
   CreateNodeFromTemplateJobError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type CreatePackageError =
  * Creates a package and storage location in an Amazon S3 access point.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -977,7 +978,7 @@ export type CreatePackageImportJobError =
  * Imports a node package.
  */
 export const createPackageImportJob: API.OperationMethod<
-  CreatePackageImportJobRequest,
+  CreatePackageImportJobRequest & RegionInput,
   CreatePackageImportJobResponse,
   CreatePackageImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1001,7 +1002,7 @@ export type DeleteDeviceError =
  * Deletes a device.
  */
 export const deleteDevice: API.OperationMethod<
-  DeleteDeviceRequest,
+  DeleteDeviceRequest & RegionInput,
   DeleteDeviceResponse,
   DeleteDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1034,7 +1035,7 @@ export type DeletePackageError =
  * the AWS Panorama API.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1064,7 +1065,7 @@ export type DeregisterPackageVersionError =
  * Deregisters a package version.
  */
 export const deregisterPackageVersion: API.OperationMethod<
-  DeregisterPackageVersionRequest,
+  DeregisterPackageVersionRequest & RegionInput,
   DeregisterPackageVersionResponse,
   DeregisterPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type DescribeApplicationInstanceError =
  * Returns information about an application instance on a device.
  */
 export const describeApplicationInstance: API.OperationMethod<
-  DescribeApplicationInstanceRequest,
+  DescribeApplicationInstanceRequest & RegionInput,
   DescribeApplicationInstanceResponse,
   DescribeApplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type DescribeApplicationInstanceDetailsError =
  * Returns information about an application instance's configuration manifest.
  */
 export const describeApplicationInstanceDetails: API.OperationMethod<
-  DescribeApplicationInstanceDetailsRequest,
+  DescribeApplicationInstanceDetailsRequest & RegionInput,
   DescribeApplicationInstanceDetailsResponse,
   DescribeApplicationInstanceDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1153,7 +1154,7 @@ export type DescribeDeviceError =
  * Returns information about a device.
  */
 export const describeDevice: API.OperationMethod<
-  DescribeDeviceRequest,
+  DescribeDeviceRequest & RegionInput,
   DescribeDeviceResponse,
   DescribeDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1182,7 +1183,7 @@ export type DescribeDeviceJobError =
  * Returns information about a device job.
  */
 export const describeDeviceJob: API.OperationMethod<
-  DescribeDeviceJobRequest,
+  DescribeDeviceJobRequest & RegionInput,
   DescribeDeviceJobResponse,
   DescribeDeviceJobError,
   Credentials | HttpClient.HttpClient
@@ -1212,7 +1213,7 @@ export type DescribeNodeError =
  * Returns information about a node.
  */
 export const describeNode: API.OperationMethod<
-  DescribeNodeRequest,
+  DescribeNodeRequest & RegionInput,
   DescribeNodeResponse,
   DescribeNodeError,
   Credentials | HttpClient.HttpClient
@@ -1241,7 +1242,7 @@ export type DescribeNodeFromTemplateJobError =
  * Returns information about a job to create a camera stream node.
  */
 export const describeNodeFromTemplateJob: API.OperationMethod<
-  DescribeNodeFromTemplateJobRequest,
+  DescribeNodeFromTemplateJobRequest & RegionInput,
   DescribeNodeFromTemplateJobResponse,
   DescribeNodeFromTemplateJobError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type DescribePackageError =
  * Returns information about a package.
  */
 export const describePackage: API.OperationMethod<
-  DescribePackageRequest,
+  DescribePackageRequest & RegionInput,
   DescribePackageResponse,
   DescribePackageError,
   Credentials | HttpClient.HttpClient
@@ -1294,7 +1295,7 @@ export type DescribePackageImportJobError =
  * Returns information about a package import job.
  */
 export const describePackageImportJob: API.OperationMethod<
-  DescribePackageImportJobRequest,
+  DescribePackageImportJobRequest & RegionInput,
   DescribePackageImportJobResponse,
   DescribePackageImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1319,7 @@ export type DescribePackageVersionError =
  * Returns information about a package version.
  */
 export const describePackageVersion: API.OperationMethod<
-  DescribePackageVersionRequest,
+  DescribePackageVersionRequest & RegionInput,
   DescribePackageVersionResponse,
   DescribePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1345,7 +1346,7 @@ export type ListApplicationInstanceDependenciesError =
  * Returns a list of application instance dependencies.
  */
 export const listApplicationInstanceDependencies: API.PaginatedOperationMethod<
-  ListApplicationInstanceDependenciesRequest,
+  ListApplicationInstanceDependenciesRequest & RegionInput,
   ListApplicationInstanceDependenciesResponse,
   ListApplicationInstanceDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -1372,7 +1373,7 @@ export type ListApplicationInstanceNodeInstancesError =
  * Returns a list of application node instances.
  */
 export const listApplicationInstanceNodeInstances: API.PaginatedOperationMethod<
-  ListApplicationInstanceNodeInstancesRequest,
+  ListApplicationInstanceNodeInstancesRequest & RegionInput,
   ListApplicationInstanceNodeInstancesResponse,
   ListApplicationInstanceNodeInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1399,7 +1400,7 @@ export type ListApplicationInstancesError =
  * Returns a list of application instances.
  */
 export const listApplicationInstances: API.PaginatedOperationMethod<
-  ListApplicationInstancesRequest,
+  ListApplicationInstancesRequest & RegionInput,
   ListApplicationInstancesResponse,
   ListApplicationInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1428,7 +1429,7 @@ export type ListDevicesError =
  * Returns a list of devices.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -1458,7 +1459,7 @@ export type ListDevicesJobsError =
  * Returns a list of jobs.
  */
 export const listDevicesJobs: API.PaginatedOperationMethod<
-  ListDevicesJobsRequest,
+  ListDevicesJobsRequest & RegionInput,
   ListDevicesJobsResponse,
   ListDevicesJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1493,7 +1494,7 @@ export type ListNodeFromTemplateJobsError =
  * Returns a list of camera stream node jobs.
  */
 export const listNodeFromTemplateJobs: API.PaginatedOperationMethod<
-  ListNodeFromTemplateJobsRequest,
+  ListNodeFromTemplateJobsRequest & RegionInput,
   ListNodeFromTemplateJobsResponse,
   ListNodeFromTemplateJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1521,7 +1522,7 @@ export type ListNodesError =
  * Returns a list of nodes.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesRequest,
+  ListNodesRequest & RegionInput,
   ListNodesResponse,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -1550,7 +1551,7 @@ export type ListPackageImportJobsError =
  * Returns a list of package import jobs.
  */
 export const listPackageImportJobs: API.PaginatedOperationMethod<
-  ListPackageImportJobsRequest,
+  ListPackageImportJobsRequest & RegionInput,
   ListPackageImportJobsResponse,
   ListPackageImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1580,7 +1581,7 @@ export type ListPackagesError =
  * Returns a list of packages.
  */
 export const listPackages: API.PaginatedOperationMethod<
-  ListPackagesRequest,
+  ListPackagesRequest & RegionInput,
   ListPackagesResponse,
   ListPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1614,7 +1615,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1641,7 +1642,7 @@ export type ProvisionDeviceError =
  * minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
  */
 export const provisionDevice: API.OperationMethod<
-  ProvisionDeviceRequest,
+  ProvisionDeviceRequest & RegionInput,
   ProvisionDeviceResponse,
   ProvisionDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type RegisterPackageVersionError =
  * Registers a package version.
  */
 export const registerPackageVersion: API.OperationMethod<
-  RegisterPackageVersionRequest,
+  RegisterPackageVersionRequest & RegionInput,
   RegisterPackageVersionResponse,
   RegisterPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type RemoveApplicationInstanceError =
  * Removes an application instance.
  */
 export const removeApplicationInstance: API.OperationMethod<
-  RemoveApplicationInstanceRequest,
+  RemoveApplicationInstanceRequest & RegionInput,
   RemoveApplicationInstanceResponse,
   RemoveApplicationInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1723,7 +1724,7 @@ export type SignalApplicationInstanceNodeInstancesError =
  * Signal camera nodes to stop or resume.
  */
 export const signalApplicationInstanceNodeInstances: API.OperationMethod<
-  SignalApplicationInstanceNodeInstancesRequest,
+  SignalApplicationInstanceNodeInstancesRequest & RegionInput,
   SignalApplicationInstanceNodeInstancesResponse,
   SignalApplicationInstanceNodeInstancesError,
   Credentials | HttpClient.HttpClient
@@ -1750,7 +1751,7 @@ export type TagResourceError =
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1797,7 @@ export type UpdateDeviceMetadataError =
  * Updates a device's metadata.
  */
 export const updateDeviceMetadata: API.OperationMethod<
-  UpdateDeviceMetadataRequest,
+  UpdateDeviceMetadataRequest & RegionInput,
   UpdateDeviceMetadataResponse,
   UpdateDeviceMetadataError,
   Credentials | HttpClient.HttpClient

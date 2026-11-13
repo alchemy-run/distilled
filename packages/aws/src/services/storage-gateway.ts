@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -153,14 +154,14 @@ export interface ActivateGatewayInput {
   GatewayName: string;
   GatewayTimezone: string;
   GatewayRegion: string;
-  GatewayType?: string;
-  TapeDriveType?: string;
-  MediumChangerType?: string;
-  Tags?: Tag[];
+  GatewayType?: string | undefined;
+  TapeDriveType?: string | undefined;
+  MediumChangerType?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type GatewayARN = string;
 export interface ActivateGatewayOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type DiskId = string;
 export type DiskIds = string[];
@@ -169,7 +170,7 @@ export interface AddCacheInput {
   DiskIds: string[];
 }
 export interface AddCacheOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type ResourceARN = string;
 export interface AddTagsToResourceInput {
@@ -177,31 +178,31 @@ export interface AddTagsToResourceInput {
   Tags: Tag[];
 }
 export interface AddTagsToResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface AddUploadBufferInput {
   GatewayARN: string;
   DiskIds: string[];
 }
 export interface AddUploadBufferOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface AddWorkingStorageInput {
   GatewayARN: string;
   DiskIds: string[];
 }
 export interface AddWorkingStorageOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type TapeARN = string;
 export type PoolId = string;
 export interface AssignTapePoolInput {
   TapeARN: string;
   PoolId: string;
-  BypassGovernanceRetention?: boolean;
+  BypassGovernanceRetention?: boolean | undefined;
 }
 export interface AssignTapePoolOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export type DomainUserName = string;
 export type DomainUserPassword = string | redacted.Redacted<string>;
@@ -210,12 +211,12 @@ export type FileSystemLocationARN = string;
 export type AuditDestinationARN = string;
 export type CacheStaleTimeoutInSeconds = number;
 export interface CacheAttributes {
-  CacheStaleTimeoutInSeconds?: number;
+  CacheStaleTimeoutInSeconds?: number | undefined;
 }
 export type IPV4Address = string;
 export type IpAddressList = string[];
 export interface EndpointNetworkConfiguration {
-  IpAddresses?: string[];
+  IpAddresses?: string[] | undefined;
 }
 export interface AssociateFileSystemInput {
   UserName: string;
@@ -223,76 +224,76 @@ export interface AssociateFileSystemInput {
   ClientToken: string;
   GatewayARN: string;
   LocationARN: string;
-  Tags?: Tag[];
-  AuditDestinationARN?: string;
-  CacheAttributes?: CacheAttributes;
-  EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
+  Tags?: Tag[] | undefined;
+  AuditDestinationARN?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  EndpointNetworkConfiguration?: EndpointNetworkConfiguration | undefined;
 }
 export type FileSystemAssociationARN = string;
 export interface AssociateFileSystemOutput {
-  FileSystemAssociationARN?: string;
+  FileSystemAssociationARN?: string | undefined;
 }
 export type TargetName = string;
 export type VolumeARN = string;
 export type NetworkInterfaceId = string;
 export interface AttachVolumeInput {
   GatewayARN: string;
-  TargetName?: string;
+  TargetName?: string | undefined;
   VolumeARN: string;
   NetworkInterfaceId: string;
-  DiskId?: string;
+  DiskId?: string | undefined;
 }
 export type TargetARN = string;
 export interface AttachVolumeOutput {
-  VolumeARN?: string;
-  TargetARN?: string;
+  VolumeARN?: string | undefined;
+  TargetARN?: string | undefined;
 }
 export interface CancelArchivalInput {
   GatewayARN: string;
   TapeARN: string;
 }
 export interface CancelArchivalOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export type CacheReportARN = string;
 export interface CancelCacheReportInput {
   CacheReportARN: string;
 }
 export interface CancelCacheReportOutput {
-  CacheReportARN?: string;
+  CacheReportARN?: string | undefined;
 }
 export interface CancelRetrievalInput {
   GatewayARN: string;
   TapeARN: string;
 }
 export interface CancelRetrievalOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export type SnapshotId = string;
 export type KMSKey = string;
 export interface CreateCachediSCSIVolumeInput {
   GatewayARN: string;
   VolumeSizeInBytes: number;
-  SnapshotId?: string;
+  SnapshotId?: string | undefined;
   TargetName: string;
-  SourceVolumeARN?: string;
+  SourceVolumeARN?: string | undefined;
   NetworkInterfaceId: string;
   ClientToken: string;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  Tags?: Tag[];
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateCachediSCSIVolumeOutput {
-  VolumeARN?: string;
-  TargetARN?: string;
+  VolumeARN?: string | undefined;
+  TargetARN?: string | undefined;
 }
 export type PermissionMode = string;
 export type PermissionId = number;
 export interface NFSFileShareDefaults {
-  FileMode?: string;
-  DirectoryMode?: string;
-  GroupId?: number;
-  OwnerId?: number;
+  FileMode?: string | undefined;
+  DirectoryMode?: string | undefined;
+  GroupId?: number | undefined;
+  OwnerId?: number | undefined;
 }
 export type EncryptionType = "SseS3" | "SseKms" | "DsseKms" | (string & {});
 export type Role = string;
@@ -315,31 +316,31 @@ export type NotificationPolicy = string;
 export type DNSHostName = string;
 export interface CreateNFSFileShareInput {
   ClientToken: string;
-  NFSFileShareDefaults?: NFSFileShareDefaults;
+  NFSFileShareDefaults?: NFSFileShareDefaults | undefined;
   GatewayARN: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
   Role: string;
   LocationARN: string;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ClientList?: string[];
-  Squash?: string;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  Tags?: Tag[];
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  VPCEndpointDNSName?: string;
-  BucketRegion?: string;
-  AuditDestinationARN?: string;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ClientList?: string[] | undefined;
+  Squash?: string | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  VPCEndpointDNSName?: string | undefined;
+  BucketRegion?: string | undefined;
+  AuditDestinationARN?: string | undefined;
 }
 export type FileShareARN = string;
 export interface CreateNFSFileShareOutput {
-  FileShareARN?: string;
+  FileShareARN?: string | undefined;
 }
 export type UserListUser = string;
 export type UserList = string[];
@@ -348,70 +349,70 @@ export type CaseSensitivity = "ClientSpecified" | "CaseSensitive" | (string & {}
 export interface CreateSMBFileShareInput {
   ClientToken: string;
   GatewayARN: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
   Role: string;
   LocationARN: string;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  SMBACLEnabled?: boolean;
-  AccessBasedEnumeration?: boolean;
-  AdminUserList?: string[];
-  ValidUserList?: string[];
-  InvalidUserList?: string[];
-  AuditDestinationARN?: string;
-  Authentication?: string;
-  CaseSensitivity?: CaseSensitivity;
-  Tags?: Tag[];
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  VPCEndpointDNSName?: string;
-  BucketRegion?: string;
-  OplocksEnabled?: boolean;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  SMBACLEnabled?: boolean | undefined;
+  AccessBasedEnumeration?: boolean | undefined;
+  AdminUserList?: string[] | undefined;
+  ValidUserList?: string[] | undefined;
+  InvalidUserList?: string[] | undefined;
+  AuditDestinationARN?: string | undefined;
+  Authentication?: string | undefined;
+  CaseSensitivity?: CaseSensitivity | undefined;
+  Tags?: Tag[] | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  VPCEndpointDNSName?: string | undefined;
+  BucketRegion?: string | undefined;
+  OplocksEnabled?: boolean | undefined;
 }
 export interface CreateSMBFileShareOutput {
-  FileShareARN?: string;
+  FileShareARN?: string | undefined;
 }
 export type SnapshotDescription = string;
 export interface CreateSnapshotInput {
   VolumeARN: string;
   SnapshotDescription: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotOutput {
-  VolumeARN?: string;
-  SnapshotId?: string;
+  VolumeARN?: string | undefined;
+  SnapshotId?: string | undefined;
 }
 export interface CreateSnapshotFromVolumeRecoveryPointInput {
   VolumeARN: string;
   SnapshotDescription: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotFromVolumeRecoveryPointOutput {
-  SnapshotId?: string;
-  VolumeARN?: string;
-  VolumeRecoveryPointTime?: string;
+  SnapshotId?: string | undefined;
+  VolumeARN?: string | undefined;
+  VolumeRecoveryPointTime?: string | undefined;
 }
 export interface CreateStorediSCSIVolumeInput {
   GatewayARN: string;
   DiskId: string;
-  SnapshotId?: string;
+  SnapshotId?: string | undefined;
   PreserveExistingData: boolean;
   TargetName: string;
   NetworkInterfaceId: string;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  Tags?: Tag[];
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateStorediSCSIVolumeOutput {
-  VolumeARN?: string;
-  VolumeSizeInBytes?: number;
-  TargetARN?: string;
+  VolumeARN?: string | undefined;
+  VolumeSizeInBytes?: number | undefined;
+  TargetARN?: string | undefined;
 }
 export type PoolName = string;
 export type TapeStorageClass = "DEEP_ARCHIVE" | "GLACIER" | (string & {});
@@ -420,13 +421,13 @@ export type RetentionLockTimeInDays = number;
 export interface CreateTapePoolInput {
   PoolName: string;
   StorageClass: TapeStorageClass;
-  RetentionLockType?: RetentionLockType;
-  RetentionLockTimeInDays?: number;
-  Tags?: Tag[];
+  RetentionLockType?: RetentionLockType | undefined;
+  RetentionLockTimeInDays?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PoolARN = string;
 export interface CreateTapePoolOutput {
-  PoolARN?: string;
+  PoolARN?: string | undefined;
 }
 export type TapeSize = number;
 export type NumTapesToCreate = number;
@@ -437,35 +438,35 @@ export interface CreateTapesInput {
   ClientToken: string;
   NumTapesToCreate: number;
   TapeBarcodePrefix: string;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  PoolId?: string;
-  Worm?: boolean;
-  Tags?: Tag[];
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  PoolId?: string | undefined;
+  Worm?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TapeARNs = string[];
 export interface CreateTapesOutput {
-  TapeARNs?: string[];
+  TapeARNs?: string[] | undefined;
 }
 export type TapeBarcode = string;
 export interface CreateTapeWithBarcodeInput {
   GatewayARN: string;
   TapeSizeInBytes: number;
   TapeBarcode: string;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  PoolId?: string;
-  Worm?: boolean;
-  Tags?: Tag[];
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  PoolId?: string | undefined;
+  Worm?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateTapeWithBarcodeOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export interface DeleteAutomaticTapeCreationPolicyInput {
   GatewayARN: string;
 }
 export interface DeleteAutomaticTapeCreationPolicyOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type BandwidthType = string;
 export interface DeleteBandwidthRateLimitInput {
@@ -473,13 +474,13 @@ export interface DeleteBandwidthRateLimitInput {
   BandwidthType: string;
 }
 export interface DeleteBandwidthRateLimitOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface DeleteCacheReportInput {
   CacheReportARN: string;
 }
 export interface DeleteCacheReportOutput {
-  CacheReportARN?: string;
+  CacheReportARN?: string | undefined;
 }
 export type IqnName = string;
 export interface DeleteChapCredentialsInput {
@@ -487,63 +488,63 @@ export interface DeleteChapCredentialsInput {
   InitiatorName: string;
 }
 export interface DeleteChapCredentialsOutput {
-  TargetARN?: string;
-  InitiatorName?: string;
+  TargetARN?: string | undefined;
+  InitiatorName?: string | undefined;
 }
 export interface DeleteFileShareInput {
   FileShareARN: string;
-  ForceDelete?: boolean;
+  ForceDelete?: boolean | undefined;
 }
 export interface DeleteFileShareOutput {
-  FileShareARN?: string;
+  FileShareARN?: string | undefined;
 }
 export interface DeleteGatewayInput {
   GatewayARN: string;
 }
 export interface DeleteGatewayOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface DeleteSnapshotScheduleInput {
   VolumeARN: string;
 }
 export interface DeleteSnapshotScheduleOutput {
-  VolumeARN?: string;
+  VolumeARN?: string | undefined;
 }
 export interface DeleteTapeInput {
   GatewayARN: string;
   TapeARN: string;
-  BypassGovernanceRetention?: boolean;
+  BypassGovernanceRetention?: boolean | undefined;
 }
 export interface DeleteTapeOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export interface DeleteTapeArchiveInput {
   TapeARN: string;
-  BypassGovernanceRetention?: boolean;
+  BypassGovernanceRetention?: boolean | undefined;
 }
 export interface DeleteTapeArchiveOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export interface DeleteTapePoolInput {
   PoolARN: string;
 }
 export interface DeleteTapePoolOutput {
-  PoolARN?: string;
+  PoolARN?: string | undefined;
 }
 export interface DeleteVolumeInput {
   VolumeARN: string;
 }
 export interface DeleteVolumeOutput {
-  VolumeARN?: string;
+  VolumeARN?: string | undefined;
 }
 export interface DescribeAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
 export type AvailabilityMonitorTestStatus = "COMPLETE" | "FAILED" | "PENDING" | (string & {});
 export interface DescribeAvailabilityMonitorTestOutput {
-  GatewayARN?: string;
-  Status?: AvailabilityMonitorTestStatus;
-  StartTime?: Date;
+  GatewayARN?: string | undefined;
+  Status?: AvailabilityMonitorTestStatus | undefined;
+  StartTime?: Date | undefined;
 }
 export interface DescribeBandwidthRateLimitInput {
   GatewayARN: string;
@@ -551,9 +552,9 @@ export interface DescribeBandwidthRateLimitInput {
 export type BandwidthUploadRateLimit = number;
 export type BandwidthDownloadRateLimit = number;
 export interface DescribeBandwidthRateLimitOutput {
-  GatewayARN?: string;
-  AverageUploadRateLimitInBitsPerSec?: number;
-  AverageDownloadRateLimitInBitsPerSec?: number;
+  GatewayARN?: string | undefined;
+  AverageUploadRateLimitInBitsPerSec?: number | undefined;
+  AverageDownloadRateLimitInBitsPerSec?: number | undefined;
 }
 export interface DescribeBandwidthRateLimitScheduleInput {
   GatewayARN: string;
@@ -568,25 +569,25 @@ export interface BandwidthRateLimitInterval {
   EndHourOfDay: number;
   EndMinuteOfHour: number;
   DaysOfWeek: number[];
-  AverageUploadRateLimitInBitsPerSec?: number;
-  AverageDownloadRateLimitInBitsPerSec?: number;
+  AverageUploadRateLimitInBitsPerSec?: number | undefined;
+  AverageDownloadRateLimitInBitsPerSec?: number | undefined;
 }
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
 export interface DescribeBandwidthRateLimitScheduleOutput {
-  GatewayARN?: string;
-  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
+  GatewayARN?: string | undefined;
+  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[] | undefined;
 }
 export interface DescribeCacheInput {
   GatewayARN: string;
 }
 export interface DescribeCacheOutput {
-  GatewayARN?: string;
-  DiskIds?: string[];
-  CacheAllocatedInBytes?: number;
-  CacheUsedPercentage?: number;
-  CacheDirtyPercentage?: number;
-  CacheHitPercentage?: number;
-  CacheMissPercentage?: number;
+  GatewayARN?: string | undefined;
+  DiskIds?: string[] | undefined;
+  CacheAllocatedInBytes?: number | undefined;
+  CacheUsedPercentage?: number | undefined;
+  CacheDirtyPercentage?: number | undefined;
+  CacheHitPercentage?: number | undefined;
+  CacheMissPercentage?: number | undefined;
 }
 export type VolumeARNs = string[];
 export interface DescribeCachediSCSIVolumesInput {
@@ -599,32 +600,32 @@ export type VolumeAttachmentStatus = string;
 export type DoubleObject = number;
 export type PositiveIntObject = number;
 export interface VolumeiSCSIAttributes {
-  TargetARN?: string;
-  NetworkInterfaceId?: string;
-  NetworkInterfacePort?: number;
-  LunNumber?: number;
-  ChapEnabled?: boolean;
+  TargetARN?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  NetworkInterfacePort?: number | undefined;
+  LunNumber?: number | undefined;
+  ChapEnabled?: boolean | undefined;
 }
 export type CreatedDate = Date;
 export type VolumeUsedInBytes = number;
 export interface CachediSCSIVolume {
-  VolumeARN?: string;
-  VolumeId?: string;
-  VolumeType?: string;
-  VolumeStatus?: string;
-  VolumeAttachmentStatus?: string;
-  VolumeSizeInBytes?: number;
-  VolumeProgress?: number;
-  SourceSnapshotId?: string;
-  VolumeiSCSIAttributes?: VolumeiSCSIAttributes;
-  CreatedDate?: Date;
-  VolumeUsedInBytes?: number;
-  KMSKey?: string;
-  TargetName?: string;
+  VolumeARN?: string | undefined;
+  VolumeId?: string | undefined;
+  VolumeType?: string | undefined;
+  VolumeStatus?: string | undefined;
+  VolumeAttachmentStatus?: string | undefined;
+  VolumeSizeInBytes?: number | undefined;
+  VolumeProgress?: number | undefined;
+  SourceSnapshotId?: string | undefined;
+  VolumeiSCSIAttributes?: VolumeiSCSIAttributes | undefined;
+  CreatedDate?: Date | undefined;
+  VolumeUsedInBytes?: number | undefined;
+  KMSKey?: string | undefined;
+  TargetName?: string | undefined;
 }
 export type CachediSCSIVolumes = CachediSCSIVolume[];
 export interface DescribeCachediSCSIVolumesOutput {
-  CachediSCSIVolumes?: CachediSCSIVolume[];
+  CachediSCSIVolumes?: CachediSCSIVolume[] | undefined;
 }
 export interface DescribeCacheReportInput {
   CacheReportARN: string;
@@ -647,35 +648,35 @@ export interface CacheReportFilter {
 export type CacheReportFilterList = CacheReportFilter[];
 export type CacheReportName = string;
 export interface CacheReportInfo {
-  CacheReportARN?: string;
-  CacheReportStatus?: CacheReportStatus;
-  ReportCompletionPercent?: number;
-  EndTime?: Date;
-  Role?: string;
-  FileShareARN?: string;
-  LocationARN?: string;
-  StartTime?: Date;
-  InclusionFilters?: CacheReportFilter[];
-  ExclusionFilters?: CacheReportFilter[];
-  ReportName?: string;
-  Tags?: Tag[];
+  CacheReportARN?: string | undefined;
+  CacheReportStatus?: CacheReportStatus | undefined;
+  ReportCompletionPercent?: number | undefined;
+  EndTime?: Date | undefined;
+  Role?: string | undefined;
+  FileShareARN?: string | undefined;
+  LocationARN?: string | undefined;
+  StartTime?: Date | undefined;
+  InclusionFilters?: CacheReportFilter[] | undefined;
+  ExclusionFilters?: CacheReportFilter[] | undefined;
+  ReportName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeCacheReportOutput {
-  CacheReportInfo?: CacheReportInfo;
+  CacheReportInfo?: CacheReportInfo | undefined;
 }
 export interface DescribeChapCredentialsInput {
   TargetARN: string;
 }
 export type ChapSecret = string | redacted.Redacted<string>;
 export interface ChapInfo {
-  TargetARN?: string;
-  SecretToAuthenticateInitiator?: string | redacted.Redacted<string>;
-  InitiatorName?: string;
-  SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
+  TargetARN?: string | undefined;
+  SecretToAuthenticateInitiator?: string | redacted.Redacted<string> | undefined;
+  InitiatorName?: string | undefined;
+  SecretToAuthenticateTarget?: string | redacted.Redacted<string> | undefined;
 }
 export type ChapCredentials = ChapInfo[];
 export interface DescribeChapCredentialsOutput {
-  ChapCredentials?: ChapInfo[];
+  ChapCredentials?: ChapInfo[] | undefined;
 }
 export type FileSystemAssociationARNList = string[];
 export interface DescribeFileSystemAssociationsInput {
@@ -684,23 +685,23 @@ export interface DescribeFileSystemAssociationsInput {
 export type FileSystemAssociationStatus = string;
 export type FileSystemAssociationSyncErrorCode = string;
 export interface FileSystemAssociationStatusDetail {
-  ErrorCode?: string;
+  ErrorCode?: string | undefined;
 }
 export type FileSystemAssociationStatusDetails = FileSystemAssociationStatusDetail[];
 export interface FileSystemAssociationInfo {
-  FileSystemAssociationARN?: string;
-  LocationARN?: string;
-  FileSystemAssociationStatus?: string;
-  AuditDestinationARN?: string;
-  GatewayARN?: string;
-  Tags?: Tag[];
-  CacheAttributes?: CacheAttributes;
-  EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
-  FileSystemAssociationStatusDetails?: FileSystemAssociationStatusDetail[];
+  FileSystemAssociationARN?: string | undefined;
+  LocationARN?: string | undefined;
+  FileSystemAssociationStatus?: string | undefined;
+  AuditDestinationARN?: string | undefined;
+  GatewayARN?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  EndpointNetworkConfiguration?: EndpointNetworkConfiguration | undefined;
+  FileSystemAssociationStatusDetails?: FileSystemAssociationStatusDetail[] | undefined;
 }
 export type FileSystemAssociationInfoList = FileSystemAssociationInfo[];
 export interface DescribeFileSystemAssociationsOutput {
-  FileSystemAssociationInfoList?: FileSystemAssociationInfo[];
+  FileSystemAssociationInfoList?: FileSystemAssociationInfo[] | undefined;
 }
 export interface DescribeGatewayInformationInput {
   GatewayARN: string;
@@ -708,9 +709,9 @@ export interface DescribeGatewayInformationInput {
 export type GatewayId = string;
 export type GatewayState = string;
 export interface NetworkInterface {
-  Ipv4Address?: string;
-  MacAddress?: string;
-  Ipv6Address?: string;
+  Ipv4Address?: string | undefined;
+  MacAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
 }
 export type GatewayNetworkInterfaces = NetworkInterface[];
 export type NextUpdateAvailabilityDate = string;
@@ -734,28 +735,28 @@ export type SupportedGatewayCapacities = GatewayCapacity[];
 export type HostEnvironmentId = string;
 export type SoftwareVersion = string;
 export interface DescribeGatewayInformationOutput {
-  GatewayARN?: string;
-  GatewayId?: string;
-  GatewayName?: string;
-  GatewayTimezone?: string;
-  GatewayState?: string;
-  GatewayNetworkInterfaces?: NetworkInterface[];
-  GatewayType?: string;
-  NextUpdateAvailabilityDate?: string;
-  LastSoftwareUpdate?: string;
-  Ec2InstanceId?: string;
-  Ec2InstanceRegion?: string;
-  Tags?: Tag[];
-  VPCEndpoint?: string;
-  CloudWatchLogGroupARN?: string;
-  HostEnvironment?: HostEnvironment;
-  EndpointType?: string;
-  SoftwareUpdatesEndDate?: string;
-  DeprecationDate?: string;
-  GatewayCapacity?: GatewayCapacity;
-  SupportedGatewayCapacities?: GatewayCapacity[];
-  HostEnvironmentId?: string;
-  SoftwareVersion?: string;
+  GatewayARN?: string | undefined;
+  GatewayId?: string | undefined;
+  GatewayName?: string | undefined;
+  GatewayTimezone?: string | undefined;
+  GatewayState?: string | undefined;
+  GatewayNetworkInterfaces?: NetworkInterface[] | undefined;
+  GatewayType?: string | undefined;
+  NextUpdateAvailabilityDate?: string | undefined;
+  LastSoftwareUpdate?: string | undefined;
+  Ec2InstanceId?: string | undefined;
+  Ec2InstanceRegion?: string | undefined;
+  Tags?: Tag[] | undefined;
+  VPCEndpoint?: string | undefined;
+  CloudWatchLogGroupARN?: string | undefined;
+  HostEnvironment?: HostEnvironment | undefined;
+  EndpointType?: string | undefined;
+  SoftwareUpdatesEndDate?: string | undefined;
+  DeprecationDate?: string | undefined;
+  GatewayCapacity?: GatewayCapacity | undefined;
+  SupportedGatewayCapacities?: GatewayCapacity[] | undefined;
+  HostEnvironmentId?: string | undefined;
+  SoftwareVersion?: string | undefined;
 }
 export interface DescribeMaintenanceStartTimeInput {
   GatewayARN: string;
@@ -763,16 +764,16 @@ export interface DescribeMaintenanceStartTimeInput {
 export type DayOfMonth = number;
 export type AutomaticUpdatePolicy = "ALL_VERSIONS" | "EMERGENCY_VERSIONS_ONLY" | (string & {});
 export interface SoftwareUpdatePreferences {
-  AutomaticUpdatePolicy?: AutomaticUpdatePolicy;
+  AutomaticUpdatePolicy?: AutomaticUpdatePolicy | undefined;
 }
 export interface DescribeMaintenanceStartTimeOutput {
-  GatewayARN?: string;
-  HourOfDay?: number;
-  MinuteOfHour?: number;
-  DayOfWeek?: number;
-  DayOfMonth?: number;
-  Timezone?: string;
-  SoftwareUpdatePreferences?: SoftwareUpdatePreferences;
+  GatewayARN?: string | undefined;
+  HourOfDay?: number | undefined;
+  MinuteOfHour?: number | undefined;
+  DayOfWeek?: number | undefined;
+  DayOfMonth?: number | undefined;
+  Timezone?: string | undefined;
+  SoftwareUpdatePreferences?: SoftwareUpdatePreferences | undefined;
 }
 export type FileShareARNList = string[];
 export interface DescribeNFSFileSharesInput {
@@ -782,74 +783,74 @@ export type FileShareId = string;
 export type FileShareStatus = string;
 export type Path = string;
 export interface NFSFileShareInfo {
-  NFSFileShareDefaults?: NFSFileShareDefaults;
-  FileShareARN?: string;
-  FileShareId?: string;
-  FileShareStatus?: string;
-  GatewayARN?: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  Path?: string;
-  Role?: string;
-  LocationARN?: string;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ClientList?: string[];
-  Squash?: string;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  Tags?: Tag[];
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  VPCEndpointDNSName?: string;
-  BucketRegion?: string;
-  AuditDestinationARN?: string;
+  NFSFileShareDefaults?: NFSFileShareDefaults | undefined;
+  FileShareARN?: string | undefined;
+  FileShareId?: string | undefined;
+  FileShareStatus?: string | undefined;
+  GatewayARN?: string | undefined;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  Path?: string | undefined;
+  Role?: string | undefined;
+  LocationARN?: string | undefined;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ClientList?: string[] | undefined;
+  Squash?: string | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  VPCEndpointDNSName?: string | undefined;
+  BucketRegion?: string | undefined;
+  AuditDestinationARN?: string | undefined;
 }
 export type NFSFileShareInfoList = NFSFileShareInfo[];
 export interface DescribeNFSFileSharesOutput {
-  NFSFileShareInfoList?: NFSFileShareInfo[];
+  NFSFileShareInfoList?: NFSFileShareInfo[] | undefined;
 }
 export interface DescribeSMBFileSharesInput {
   FileShareARNList: string[];
 }
 export interface SMBFileShareInfo {
-  FileShareARN?: string;
-  FileShareId?: string;
-  FileShareStatus?: string;
-  GatewayARN?: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  Path?: string;
-  Role?: string;
-  LocationARN?: string;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  SMBACLEnabled?: boolean;
-  AccessBasedEnumeration?: boolean;
-  AdminUserList?: string[];
-  ValidUserList?: string[];
-  InvalidUserList?: string[];
-  AuditDestinationARN?: string;
-  Authentication?: string;
-  CaseSensitivity?: CaseSensitivity;
-  Tags?: Tag[];
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  VPCEndpointDNSName?: string;
-  BucketRegion?: string;
-  OplocksEnabled?: boolean;
+  FileShareARN?: string | undefined;
+  FileShareId?: string | undefined;
+  FileShareStatus?: string | undefined;
+  GatewayARN?: string | undefined;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  Path?: string | undefined;
+  Role?: string | undefined;
+  LocationARN?: string | undefined;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  SMBACLEnabled?: boolean | undefined;
+  AccessBasedEnumeration?: boolean | undefined;
+  AdminUserList?: string[] | undefined;
+  ValidUserList?: string[] | undefined;
+  InvalidUserList?: string[] | undefined;
+  AuditDestinationARN?: string | undefined;
+  Authentication?: string | undefined;
+  CaseSensitivity?: CaseSensitivity | undefined;
+  Tags?: Tag[] | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  VPCEndpointDNSName?: string | undefined;
+  BucketRegion?: string | undefined;
+  OplocksEnabled?: boolean | undefined;
 }
 export type SMBFileShareInfoList = SMBFileShareInfo[];
 export interface DescribeSMBFileSharesOutput {
-  SMBFileShareInfoList?: SMBFileShareInfo[];
+  SMBFileShareInfoList?: SMBFileShareInfo[] | undefined;
 }
 export interface DescribeSMBSettingsInput {
   GatewayARN: string;
@@ -872,16 +873,16 @@ export type SMBSecurityStrategy =
   | "MandatoryEncryptionNoAes128"
   | (string & {});
 export interface SMBLocalGroups {
-  GatewayAdmins?: string[];
+  GatewayAdmins?: string[] | undefined;
 }
 export interface DescribeSMBSettingsOutput {
-  GatewayARN?: string;
-  DomainName?: string;
-  ActiveDirectoryStatus?: ActiveDirectoryStatus;
-  SMBGuestPasswordSet?: boolean;
-  SMBSecurityStrategy?: SMBSecurityStrategy;
-  FileSharesVisible?: boolean;
-  SMBLocalGroups?: SMBLocalGroups;
+  GatewayARN?: string | undefined;
+  DomainName?: string | undefined;
+  ActiveDirectoryStatus?: ActiveDirectoryStatus | undefined;
+  SMBGuestPasswordSet?: boolean | undefined;
+  SMBSecurityStrategy?: SMBSecurityStrategy | undefined;
+  FileSharesVisible?: boolean | undefined;
+  SMBLocalGroups?: SMBLocalGroups | undefined;
 }
 export interface DescribeSnapshotScheduleInput {
   VolumeARN: string;
@@ -889,184 +890,184 @@ export interface DescribeSnapshotScheduleInput {
 export type RecurrenceInHours = number;
 export type Description = string;
 export interface DescribeSnapshotScheduleOutput {
-  VolumeARN?: string;
-  StartAt?: number;
-  RecurrenceInHours?: number;
-  Description?: string;
-  Timezone?: string;
-  Tags?: Tag[];
+  VolumeARN?: string | undefined;
+  StartAt?: number | undefined;
+  RecurrenceInHours?: number | undefined;
+  Description?: string | undefined;
+  Timezone?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeStorediSCSIVolumesInput {
   VolumeARNs: string[];
 }
 export interface StorediSCSIVolume {
-  VolumeARN?: string;
-  VolumeId?: string;
-  VolumeType?: string;
-  VolumeStatus?: string;
-  VolumeAttachmentStatus?: string;
-  VolumeSizeInBytes?: number;
-  VolumeProgress?: number;
-  VolumeDiskId?: string;
-  SourceSnapshotId?: string;
-  PreservedExistingData?: boolean;
-  VolumeiSCSIAttributes?: VolumeiSCSIAttributes;
-  CreatedDate?: Date;
-  VolumeUsedInBytes?: number;
-  KMSKey?: string;
-  TargetName?: string;
+  VolumeARN?: string | undefined;
+  VolumeId?: string | undefined;
+  VolumeType?: string | undefined;
+  VolumeStatus?: string | undefined;
+  VolumeAttachmentStatus?: string | undefined;
+  VolumeSizeInBytes?: number | undefined;
+  VolumeProgress?: number | undefined;
+  VolumeDiskId?: string | undefined;
+  SourceSnapshotId?: string | undefined;
+  PreservedExistingData?: boolean | undefined;
+  VolumeiSCSIAttributes?: VolumeiSCSIAttributes | undefined;
+  CreatedDate?: Date | undefined;
+  VolumeUsedInBytes?: number | undefined;
+  KMSKey?: string | undefined;
+  TargetName?: string | undefined;
 }
 export type StorediSCSIVolumes = StorediSCSIVolume[];
 export interface DescribeStorediSCSIVolumesOutput {
-  StorediSCSIVolumes?: StorediSCSIVolume[];
+  StorediSCSIVolumes?: StorediSCSIVolume[] | undefined;
 }
 export type Marker = string;
 export interface DescribeTapeArchivesInput {
-  TapeARNs?: string[];
-  Marker?: string;
-  Limit?: number;
+  TapeARNs?: string[] | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type TapeArchiveStatus = string;
 export type TapeUsage = number;
 export interface TapeArchive {
-  TapeARN?: string;
-  TapeBarcode?: string;
-  TapeCreatedDate?: Date;
-  TapeSizeInBytes?: number;
-  CompletionTime?: Date;
-  RetrievedTo?: string;
-  TapeStatus?: string;
-  TapeUsedInBytes?: number;
-  KMSKey?: string;
-  PoolId?: string;
-  Worm?: boolean;
-  RetentionStartDate?: Date;
-  PoolEntryDate?: Date;
+  TapeARN?: string | undefined;
+  TapeBarcode?: string | undefined;
+  TapeCreatedDate?: Date | undefined;
+  TapeSizeInBytes?: number | undefined;
+  CompletionTime?: Date | undefined;
+  RetrievedTo?: string | undefined;
+  TapeStatus?: string | undefined;
+  TapeUsedInBytes?: number | undefined;
+  KMSKey?: string | undefined;
+  PoolId?: string | undefined;
+  Worm?: boolean | undefined;
+  RetentionStartDate?: Date | undefined;
+  PoolEntryDate?: Date | undefined;
 }
 export type TapeArchives = TapeArchive[];
 export interface DescribeTapeArchivesOutput {
-  TapeArchives?: TapeArchive[];
-  Marker?: string;
+  TapeArchives?: TapeArchive[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeTapeRecoveryPointsInput {
   GatewayARN: string;
-  Marker?: string;
-  Limit?: number;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type TapeRecoveryPointStatus = string;
 export interface TapeRecoveryPointInfo {
-  TapeARN?: string;
-  TapeRecoveryPointTime?: Date;
-  TapeSizeInBytes?: number;
-  TapeStatus?: string;
+  TapeARN?: string | undefined;
+  TapeRecoveryPointTime?: Date | undefined;
+  TapeSizeInBytes?: number | undefined;
+  TapeStatus?: string | undefined;
 }
 export type TapeRecoveryPointInfos = TapeRecoveryPointInfo[];
 export interface DescribeTapeRecoveryPointsOutput {
-  GatewayARN?: string;
-  TapeRecoveryPointInfos?: TapeRecoveryPointInfo[];
-  Marker?: string;
+  GatewayARN?: string | undefined;
+  TapeRecoveryPointInfos?: TapeRecoveryPointInfo[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeTapesInput {
   GatewayARN: string;
-  TapeARNs?: string[];
-  Marker?: string;
-  Limit?: number;
+  TapeARNs?: string[] | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type TapeStatus = string;
 export type VTLDeviceARN = string;
 export interface Tape {
-  TapeARN?: string;
-  TapeBarcode?: string;
-  TapeCreatedDate?: Date;
-  TapeSizeInBytes?: number;
-  TapeStatus?: string;
-  VTLDevice?: string;
-  Progress?: number;
-  TapeUsedInBytes?: number;
-  KMSKey?: string;
-  PoolId?: string;
-  Worm?: boolean;
-  RetentionStartDate?: Date;
-  PoolEntryDate?: Date;
+  TapeARN?: string | undefined;
+  TapeBarcode?: string | undefined;
+  TapeCreatedDate?: Date | undefined;
+  TapeSizeInBytes?: number | undefined;
+  TapeStatus?: string | undefined;
+  VTLDevice?: string | undefined;
+  Progress?: number | undefined;
+  TapeUsedInBytes?: number | undefined;
+  KMSKey?: string | undefined;
+  PoolId?: string | undefined;
+  Worm?: boolean | undefined;
+  RetentionStartDate?: Date | undefined;
+  PoolEntryDate?: Date | undefined;
 }
 export type Tapes = Tape[];
 export interface DescribeTapesOutput {
-  Tapes?: Tape[];
-  Marker?: string;
+  Tapes?: Tape[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeUploadBufferInput {
   GatewayARN: string;
 }
 export interface DescribeUploadBufferOutput {
-  GatewayARN?: string;
-  DiskIds?: string[];
-  UploadBufferUsedInBytes?: number;
-  UploadBufferAllocatedInBytes?: number;
+  GatewayARN?: string | undefined;
+  DiskIds?: string[] | undefined;
+  UploadBufferUsedInBytes?: number | undefined;
+  UploadBufferAllocatedInBytes?: number | undefined;
 }
 export type VTLDeviceARNs = string[];
 export interface DescribeVTLDevicesInput {
   GatewayARN: string;
-  VTLDeviceARNs?: string[];
-  Marker?: string;
-  Limit?: number;
+  VTLDeviceARNs?: string[] | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type VTLDeviceType = string;
 export type VTLDeviceVendor = string;
 export type VTLDeviceProductIdentifier = string;
 export interface DeviceiSCSIAttributes {
-  TargetARN?: string;
-  NetworkInterfaceId?: string;
-  NetworkInterfacePort?: number;
-  ChapEnabled?: boolean;
+  TargetARN?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  NetworkInterfacePort?: number | undefined;
+  ChapEnabled?: boolean | undefined;
 }
 export interface VTLDevice {
-  VTLDeviceARN?: string;
-  VTLDeviceType?: string;
-  VTLDeviceVendor?: string;
-  VTLDeviceProductIdentifier?: string;
-  DeviceiSCSIAttributes?: DeviceiSCSIAttributes;
+  VTLDeviceARN?: string | undefined;
+  VTLDeviceType?: string | undefined;
+  VTLDeviceVendor?: string | undefined;
+  VTLDeviceProductIdentifier?: string | undefined;
+  DeviceiSCSIAttributes?: DeviceiSCSIAttributes | undefined;
 }
 export type VTLDevices = VTLDevice[];
 export interface DescribeVTLDevicesOutput {
-  GatewayARN?: string;
-  VTLDevices?: VTLDevice[];
-  Marker?: string;
+  GatewayARN?: string | undefined;
+  VTLDevices?: VTLDevice[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeWorkingStorageInput {
   GatewayARN: string;
 }
 export interface DescribeWorkingStorageOutput {
-  GatewayARN?: string;
-  DiskIds?: string[];
-  WorkingStorageUsedInBytes?: number;
-  WorkingStorageAllocatedInBytes?: number;
+  GatewayARN?: string | undefined;
+  DiskIds?: string[] | undefined;
+  WorkingStorageUsedInBytes?: number | undefined;
+  WorkingStorageAllocatedInBytes?: number | undefined;
 }
 export interface DetachVolumeInput {
   VolumeARN: string;
-  ForceDetach?: boolean;
+  ForceDetach?: boolean | undefined;
 }
 export interface DetachVolumeOutput {
-  VolumeARN?: string;
+  VolumeARN?: string | undefined;
 }
 export interface DisableGatewayInput {
   GatewayARN: string;
 }
 export interface DisableGatewayOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface DisassociateFileSystemInput {
   FileSystemAssociationARN: string;
-  ForceDelete?: boolean;
+  ForceDelete?: boolean | undefined;
 }
 export interface DisassociateFileSystemOutput {
-  FileSystemAssociationARN?: string;
+  FileSystemAssociationARN?: string | undefined;
 }
 export interface EvictFilesFailingUploadInput {
   FileShareARN: string;
-  ForceRemove?: boolean;
+  ForceRemove?: boolean | undefined;
 }
 export interface EvictFilesFailingUploadOutput {
-  NotificationId?: string;
+  NotificationId?: string | undefined;
 }
 export type OrganizationalUnit = string;
 export type Host = string;
@@ -1075,18 +1076,18 @@ export type TimeoutInSeconds = number;
 export interface JoinDomainInput {
   GatewayARN: string;
   DomainName: string;
-  OrganizationalUnit?: string;
-  DomainControllers?: string[];
-  TimeoutInSeconds?: number;
+  OrganizationalUnit?: string | undefined;
+  DomainControllers?: string[] | undefined;
+  TimeoutInSeconds?: number | undefined;
   UserName: string;
   Password: string | redacted.Redacted<string>;
 }
 export interface JoinDomainOutput {
-  GatewayARN?: string;
-  ActiveDirectoryStatus?: ActiveDirectoryStatus;
+  GatewayARN?: string | undefined;
+  ActiveDirectoryStatus?: ActiveDirectoryStatus | undefined;
 }
 export interface ListAutomaticTapeCreationPoliciesInput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type MinimumNumTapes = number;
 export interface AutomaticTapeCreationRule {
@@ -1094,84 +1095,84 @@ export interface AutomaticTapeCreationRule {
   PoolId: string;
   TapeSizeInBytes: number;
   MinimumNumTapes: number;
-  Worm?: boolean;
+  Worm?: boolean | undefined;
 }
 export type AutomaticTapeCreationRules = AutomaticTapeCreationRule[];
 export interface AutomaticTapeCreationPolicyInfo {
-  AutomaticTapeCreationRules?: AutomaticTapeCreationRule[];
-  GatewayARN?: string;
+  AutomaticTapeCreationRules?: AutomaticTapeCreationRule[] | undefined;
+  GatewayARN?: string | undefined;
 }
 export type AutomaticTapeCreationPolicyInfos = AutomaticTapeCreationPolicyInfo[];
 export interface ListAutomaticTapeCreationPoliciesOutput {
-  AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfo[];
+  AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfo[] | undefined;
 }
 export interface ListCacheReportsInput {
-  Marker?: string;
+  Marker?: string | undefined;
 }
 export type CacheReportList = CacheReportInfo[];
 export interface ListCacheReportsOutput {
-  CacheReportList?: CacheReportInfo[];
-  Marker?: string;
+  CacheReportList?: CacheReportInfo[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListFileSharesInput {
-  GatewayARN?: string;
-  Limit?: number;
-  Marker?: string;
+  GatewayARN?: string | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type FileShareType = "NFS" | "SMB" | (string & {});
 export interface FileShareInfo {
-  FileShareType?: FileShareType;
-  FileShareARN?: string;
-  FileShareId?: string;
-  FileShareStatus?: string;
-  GatewayARN?: string;
+  FileShareType?: FileShareType | undefined;
+  FileShareARN?: string | undefined;
+  FileShareId?: string | undefined;
+  FileShareStatus?: string | undefined;
+  GatewayARN?: string | undefined;
 }
 export type FileShareInfoList = FileShareInfo[];
 export interface ListFileSharesOutput {
-  Marker?: string;
-  NextMarker?: string;
-  FileShareInfoList?: FileShareInfo[];
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
+  FileShareInfoList?: FileShareInfo[] | undefined;
 }
 export interface ListFileSystemAssociationsInput {
-  GatewayARN?: string;
-  Limit?: number;
-  Marker?: string;
+  GatewayARN?: string | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type FileSystemAssociationId = string;
 export interface FileSystemAssociationSummary {
-  FileSystemAssociationId?: string;
-  FileSystemAssociationARN?: string;
-  FileSystemAssociationStatus?: string;
-  GatewayARN?: string;
+  FileSystemAssociationId?: string | undefined;
+  FileSystemAssociationARN?: string | undefined;
+  FileSystemAssociationStatus?: string | undefined;
+  GatewayARN?: string | undefined;
 }
 export type FileSystemAssociationSummaryList = FileSystemAssociationSummary[];
 export interface ListFileSystemAssociationsOutput {
-  Marker?: string;
-  NextMarker?: string;
-  FileSystemAssociationSummaryList?: FileSystemAssociationSummary[];
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
+  FileSystemAssociationSummaryList?: FileSystemAssociationSummary[] | undefined;
 }
 export interface ListGatewaysInput {
-  Marker?: string;
-  Limit?: number;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type GatewayOperationalState = string;
 export interface GatewayInfo {
-  GatewayId?: string;
-  GatewayARN?: string;
-  GatewayType?: string;
-  GatewayOperationalState?: string;
-  GatewayName?: string;
-  Ec2InstanceId?: string;
-  Ec2InstanceRegion?: string;
-  HostEnvironment?: HostEnvironment;
-  HostEnvironmentId?: string;
-  DeprecationDate?: string;
-  SoftwareVersion?: string;
+  GatewayId?: string | undefined;
+  GatewayARN?: string | undefined;
+  GatewayType?: string | undefined;
+  GatewayOperationalState?: string | undefined;
+  GatewayName?: string | undefined;
+  Ec2InstanceId?: string | undefined;
+  Ec2InstanceRegion?: string | undefined;
+  HostEnvironment?: HostEnvironment | undefined;
+  HostEnvironmentId?: string | undefined;
+  DeprecationDate?: string | undefined;
+  SoftwareVersion?: string | undefined;
 }
 export type Gateways = GatewayInfo[];
 export interface ListGatewaysOutput {
-  Gateways?: GatewayInfo[];
-  Marker?: string;
+  Gateways?: GatewayInfo[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListLocalDisksInput {
   GatewayARN: string;
@@ -1180,69 +1181,69 @@ export type DiskAllocationType = string;
 export type DiskAttribute = string;
 export type DiskAttributeList = string[];
 export interface Disk {
-  DiskId?: string;
-  DiskPath?: string;
-  DiskNode?: string;
-  DiskStatus?: string;
-  DiskSizeInBytes?: number;
-  DiskAllocationType?: string;
-  DiskAllocationResource?: string;
-  DiskAttributeList?: string[];
+  DiskId?: string | undefined;
+  DiskPath?: string | undefined;
+  DiskNode?: string | undefined;
+  DiskStatus?: string | undefined;
+  DiskSizeInBytes?: number | undefined;
+  DiskAllocationType?: string | undefined;
+  DiskAllocationResource?: string | undefined;
+  DiskAttributeList?: string[] | undefined;
 }
 export type Disks = Disk[];
 export interface ListLocalDisksOutput {
-  GatewayARN?: string;
-  Disks?: Disk[];
+  GatewayARN?: string | undefined;
+  Disks?: Disk[] | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceARN: string;
-  Marker?: string;
-  Limit?: number;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
-  ResourceARN?: string;
-  Marker?: string;
-  Tags?: Tag[];
+  ResourceARN?: string | undefined;
+  Marker?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PoolARNs = string[];
 export interface ListTapePoolsInput {
-  PoolARNs?: string[];
-  Marker?: string;
-  Limit?: number;
+  PoolARNs?: string[] | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type PoolStatus = "ACTIVE" | "DELETED" | (string & {});
 export interface PoolInfo {
-  PoolARN?: string;
-  PoolName?: string;
-  StorageClass?: TapeStorageClass;
-  RetentionLockType?: RetentionLockType;
-  RetentionLockTimeInDays?: number;
-  PoolStatus?: PoolStatus;
+  PoolARN?: string | undefined;
+  PoolName?: string | undefined;
+  StorageClass?: TapeStorageClass | undefined;
+  RetentionLockType?: RetentionLockType | undefined;
+  RetentionLockTimeInDays?: number | undefined;
+  PoolStatus?: PoolStatus | undefined;
 }
 export type PoolInfos = PoolInfo[];
 export interface ListTapePoolsOutput {
-  PoolInfos?: PoolInfo[];
-  Marker?: string;
+  PoolInfos?: PoolInfo[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListTapesInput {
-  TapeARNs?: string[];
-  Marker?: string;
-  Limit?: number;
+  TapeARNs?: string[] | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface TapeInfo {
-  TapeARN?: string;
-  TapeBarcode?: string;
-  TapeSizeInBytes?: number;
-  TapeStatus?: string;
-  GatewayARN?: string;
-  PoolId?: string;
-  RetentionStartDate?: Date;
-  PoolEntryDate?: Date;
+  TapeARN?: string | undefined;
+  TapeBarcode?: string | undefined;
+  TapeSizeInBytes?: number | undefined;
+  TapeStatus?: string | undefined;
+  GatewayARN?: string | undefined;
+  PoolId?: string | undefined;
+  RetentionStartDate?: Date | undefined;
+  PoolEntryDate?: Date | undefined;
 }
 export type TapeInfos = TapeInfo[];
 export interface ListTapesOutput {
-  TapeInfos?: TapeInfo[];
-  Marker?: string;
+  TapeInfos?: TapeInfo[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListVolumeInitiatorsInput {
   VolumeARN: string;
@@ -1250,60 +1251,60 @@ export interface ListVolumeInitiatorsInput {
 export type Initiator = string;
 export type Initiators = string[];
 export interface ListVolumeInitiatorsOutput {
-  Initiators?: string[];
+  Initiators?: string[] | undefined;
 }
 export interface ListVolumeRecoveryPointsInput {
   GatewayARN: string;
 }
 export interface VolumeRecoveryPointInfo {
-  VolumeARN?: string;
-  VolumeSizeInBytes?: number;
-  VolumeUsageInBytes?: number;
-  VolumeRecoveryPointTime?: string;
+  VolumeARN?: string | undefined;
+  VolumeSizeInBytes?: number | undefined;
+  VolumeUsageInBytes?: number | undefined;
+  VolumeRecoveryPointTime?: string | undefined;
 }
 export type VolumeRecoveryPointInfos = VolumeRecoveryPointInfo[];
 export interface ListVolumeRecoveryPointsOutput {
-  GatewayARN?: string;
-  VolumeRecoveryPointInfos?: VolumeRecoveryPointInfo[];
+  GatewayARN?: string | undefined;
+  VolumeRecoveryPointInfos?: VolumeRecoveryPointInfo[] | undefined;
 }
 export interface ListVolumesInput {
-  GatewayARN?: string;
-  Marker?: string;
-  Limit?: number;
+  GatewayARN?: string | undefined;
+  Marker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface VolumeInfo {
-  VolumeARN?: string;
-  VolumeId?: string;
-  GatewayARN?: string;
-  GatewayId?: string;
-  VolumeType?: string;
-  VolumeSizeInBytes?: number;
-  VolumeAttachmentStatus?: string;
+  VolumeARN?: string | undefined;
+  VolumeId?: string | undefined;
+  GatewayARN?: string | undefined;
+  GatewayId?: string | undefined;
+  VolumeType?: string | undefined;
+  VolumeSizeInBytes?: number | undefined;
+  VolumeAttachmentStatus?: string | undefined;
 }
 export type VolumeInfos = VolumeInfo[];
 export interface ListVolumesOutput {
-  GatewayARN?: string;
-  Marker?: string;
-  VolumeInfos?: VolumeInfo[];
+  GatewayARN?: string | undefined;
+  Marker?: string | undefined;
+  VolumeInfos?: VolumeInfo[] | undefined;
 }
 export interface NotifyWhenUploadedInput {
   FileShareARN: string;
 }
 export type NotificationId = string;
 export interface NotifyWhenUploadedOutput {
-  FileShareARN?: string;
-  NotificationId?: string;
+  FileShareARN?: string | undefined;
+  NotificationId?: string | undefined;
 }
 export type Folder = string;
 export type FolderList = string[];
 export interface RefreshCacheInput {
   FileShareARN: string;
-  FolderList?: string[];
-  Recursive?: boolean;
+  FolderList?: string[] | undefined;
+  Recursive?: boolean | undefined;
 }
 export interface RefreshCacheOutput {
-  FileShareARN?: string;
-  NotificationId?: string;
+  FileShareARN?: string | undefined;
+  NotificationId?: string | undefined;
 }
 export type TagKeys = string[];
 export interface RemoveTagsFromResourceInput {
@@ -1311,27 +1312,27 @@ export interface RemoveTagsFromResourceInput {
   TagKeys: string[];
 }
 export interface RemoveTagsFromResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface ResetCacheInput {
   GatewayARN: string;
 }
 export interface ResetCacheOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface RetrieveTapeArchiveInput {
   TapeARN: string;
   GatewayARN: string;
 }
 export interface RetrieveTapeArchiveOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export interface RetrieveTapeRecoveryPointInput {
   TapeARN: string;
   GatewayARN: string;
 }
 export interface RetrieveTapeRecoveryPointOutput {
-  TapeARN?: string;
+  TapeARN?: string | undefined;
 }
 export type LocalConsolePassword = string | redacted.Redacted<string>;
 export interface SetLocalConsolePasswordInput {
@@ -1339,7 +1340,7 @@ export interface SetLocalConsolePasswordInput {
   LocalConsolePassword: string | redacted.Redacted<string>;
 }
 export interface SetLocalConsolePasswordOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export type SMBGuestPassword = string | redacted.Redacted<string>;
 export interface SetSMBGuestPasswordInput {
@@ -1347,186 +1348,186 @@ export interface SetSMBGuestPasswordInput {
   Password: string | redacted.Redacted<string>;
 }
 export interface SetSMBGuestPasswordOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface ShutdownGatewayInput {
   GatewayARN: string;
 }
 export interface ShutdownGatewayOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface StartAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
 export interface StartAvailabilityMonitorTestOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface StartCacheReportInput {
   FileShareARN: string;
   Role: string;
   LocationARN: string;
   BucketRegion: string;
-  VPCEndpointDNSName?: string;
-  InclusionFilters?: CacheReportFilter[];
-  ExclusionFilters?: CacheReportFilter[];
+  VPCEndpointDNSName?: string | undefined;
+  InclusionFilters?: CacheReportFilter[] | undefined;
+  ExclusionFilters?: CacheReportFilter[] | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartCacheReportOutput {
-  CacheReportARN?: string;
+  CacheReportARN?: string | undefined;
 }
 export interface StartGatewayInput {
   GatewayARN: string;
 }
 export interface StartGatewayOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateAutomaticTapeCreationPolicyInput {
   AutomaticTapeCreationRules: AutomaticTapeCreationRule[];
   GatewayARN: string;
 }
 export interface UpdateAutomaticTapeCreationPolicyOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateBandwidthRateLimitInput {
   GatewayARN: string;
-  AverageUploadRateLimitInBitsPerSec?: number;
-  AverageDownloadRateLimitInBitsPerSec?: number;
+  AverageUploadRateLimitInBitsPerSec?: number | undefined;
+  AverageDownloadRateLimitInBitsPerSec?: number | undefined;
 }
 export interface UpdateBandwidthRateLimitOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateBandwidthRateLimitScheduleInput {
   GatewayARN: string;
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export interface UpdateBandwidthRateLimitScheduleOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateChapCredentialsInput {
   TargetARN: string;
   SecretToAuthenticateInitiator: string | redacted.Redacted<string>;
   InitiatorName: string;
-  SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
+  SecretToAuthenticateTarget?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateChapCredentialsOutput {
-  TargetARN?: string;
-  InitiatorName?: string;
+  TargetARN?: string | undefined;
+  InitiatorName?: string | undefined;
 }
 export interface UpdateFileSystemAssociationInput {
   FileSystemAssociationARN: string;
-  UserName?: string;
-  Password?: string | redacted.Redacted<string>;
-  AuditDestinationARN?: string;
-  CacheAttributes?: CacheAttributes;
+  UserName?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  AuditDestinationARN?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
 }
 export interface UpdateFileSystemAssociationOutput {
-  FileSystemAssociationARN?: string;
+  FileSystemAssociationARN?: string | undefined;
 }
 export interface UpdateGatewayInformationInput {
   GatewayARN: string;
-  GatewayName?: string;
-  GatewayTimezone?: string;
-  CloudWatchLogGroupARN?: string;
-  GatewayCapacity?: GatewayCapacity;
+  GatewayName?: string | undefined;
+  GatewayTimezone?: string | undefined;
+  CloudWatchLogGroupARN?: string | undefined;
+  GatewayCapacity?: GatewayCapacity | undefined;
 }
 export interface UpdateGatewayInformationOutput {
-  GatewayARN?: string;
-  GatewayName?: string;
+  GatewayARN?: string | undefined;
+  GatewayName?: string | undefined;
 }
 export interface UpdateGatewaySoftwareNowInput {
   GatewayARN: string;
 }
 export interface UpdateGatewaySoftwareNowOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateMaintenanceStartTimeInput {
   GatewayARN: string;
-  HourOfDay?: number;
-  MinuteOfHour?: number;
-  DayOfWeek?: number;
-  DayOfMonth?: number;
-  SoftwareUpdatePreferences?: SoftwareUpdatePreferences;
+  HourOfDay?: number | undefined;
+  MinuteOfHour?: number | undefined;
+  DayOfWeek?: number | undefined;
+  DayOfMonth?: number | undefined;
+  SoftwareUpdatePreferences?: SoftwareUpdatePreferences | undefined;
 }
 export interface UpdateMaintenanceStartTimeOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateNFSFileShareInput {
   FileShareARN: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  NFSFileShareDefaults?: NFSFileShareDefaults;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ClientList?: string[];
-  Squash?: string;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  AuditDestinationARN?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  NFSFileShareDefaults?: NFSFileShareDefaults | undefined;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ClientList?: string[] | undefined;
+  Squash?: string | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  AuditDestinationARN?: string | undefined;
 }
 export interface UpdateNFSFileShareOutput {
-  FileShareARN?: string;
+  FileShareARN?: string | undefined;
 }
 export interface UpdateSMBFileShareInput {
   FileShareARN: string;
-  EncryptionType?: EncryptionType;
-  KMSEncrypted?: boolean;
-  KMSKey?: string;
-  DefaultStorageClass?: string;
-  ObjectACL?: ObjectACL;
-  ReadOnly?: boolean;
-  GuessMIMETypeEnabled?: boolean;
-  RequesterPays?: boolean;
-  SMBACLEnabled?: boolean;
-  AccessBasedEnumeration?: boolean;
-  AdminUserList?: string[];
-  ValidUserList?: string[];
-  InvalidUserList?: string[];
-  AuditDestinationARN?: string;
-  CaseSensitivity?: CaseSensitivity;
-  FileShareName?: string;
-  CacheAttributes?: CacheAttributes;
-  NotificationPolicy?: string;
-  OplocksEnabled?: boolean;
+  EncryptionType?: EncryptionType | undefined;
+  KMSEncrypted?: boolean | undefined;
+  KMSKey?: string | undefined;
+  DefaultStorageClass?: string | undefined;
+  ObjectACL?: ObjectACL | undefined;
+  ReadOnly?: boolean | undefined;
+  GuessMIMETypeEnabled?: boolean | undefined;
+  RequesterPays?: boolean | undefined;
+  SMBACLEnabled?: boolean | undefined;
+  AccessBasedEnumeration?: boolean | undefined;
+  AdminUserList?: string[] | undefined;
+  ValidUserList?: string[] | undefined;
+  InvalidUserList?: string[] | undefined;
+  AuditDestinationARN?: string | undefined;
+  CaseSensitivity?: CaseSensitivity | undefined;
+  FileShareName?: string | undefined;
+  CacheAttributes?: CacheAttributes | undefined;
+  NotificationPolicy?: string | undefined;
+  OplocksEnabled?: boolean | undefined;
 }
 export interface UpdateSMBFileShareOutput {
-  FileShareARN?: string;
+  FileShareARN?: string | undefined;
 }
 export interface UpdateSMBFileShareVisibilityInput {
   GatewayARN: string;
   FileSharesVisible: boolean;
 }
 export interface UpdateSMBFileShareVisibilityOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateSMBLocalGroupsInput {
   GatewayARN: string;
   SMBLocalGroups: SMBLocalGroups;
 }
 export interface UpdateSMBLocalGroupsOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateSMBSecurityStrategyInput {
   GatewayARN: string;
   SMBSecurityStrategy: SMBSecurityStrategy;
 }
 export interface UpdateSMBSecurityStrategyOutput {
-  GatewayARN?: string;
+  GatewayARN?: string | undefined;
 }
 export interface UpdateSnapshotScheduleInput {
   VolumeARN: string;
   StartAt: number;
   RecurrenceInHours: number;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UpdateSnapshotScheduleOutput {
-  VolumeARN?: string;
+  VolumeARN?: string | undefined;
 }
 export type DeviceType = string;
 export interface UpdateVTLDeviceTypeInput {
@@ -1534,7 +1535,7 @@ export interface UpdateVTLDeviceTypeInput {
   DeviceType: string;
 }
 export interface UpdateVTLDeviceTypeOutput {
-  VTLDeviceARN?: string;
+  VTLDeviceARN?: string | undefined;
 }
 export type ErrorCode =
   | "ActivationKeyExpired"
@@ -1602,8 +1603,8 @@ export type ErrorCode =
   | (string & {});
 export type ErrorDetails = { [key: string]: string | undefined };
 export interface StorageGatewayError {
-  errorCode?: ErrorCode;
-  errorDetails?: { [key: string]: string | undefined };
+  errorCode?: ErrorCode | undefined;
+  errorDetails?: { [key: string]: string | undefined } | undefined;
 }
 export type ActivateGatewayError =
   | InternalServerError
@@ -1619,7 +1620,7 @@ export type ActivateGatewayError =
  * You must turn on the gateway VM before you can activate your gateway.
  */
 export const activateGateway: API.OperationMethod<
-  ActivateGatewayInput,
+  ActivateGatewayInput & RegionInput,
   ActivateGatewayOutput,
   ActivateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1643,7 +1644,7 @@ export type AddCacheError = InternalServerError | InvalidGatewayRequestException
  * add cache, and one or more disk IDs that you want to configure as cache.
  */
 export const addCache: API.OperationMethod<
-  AddCacheInput,
+  AddCacheInput & RegionInput,
   AddCacheOutput,
   AddCacheError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type AddTagsToResourceError =
  * that are recovered to a new gateway maintain their tags.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceInput,
+  AddTagsToResourceInput & RegionInput,
   AddTagsToResourceOutput,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type AddUploadBufferError =
  * buffer.
  */
 export const addUploadBuffer: API.OperationMethod<
-  AddUploadBufferInput,
+  AddUploadBufferInput & RegionInput,
   AddUploadBufferOutput,
   AddUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -1744,7 +1745,7 @@ export type AddWorkingStorageError =
  * storage.
  */
 export const addWorkingStorage: API.OperationMethod<
-  AddWorkingStorageInput,
+  AddWorkingStorageInput & RegionInput,
   AddWorkingStorageOutput,
   AddWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type AssignTapePoolError =
  * S3 Glacier Deep Archive) that corresponds to the pool.
  */
 export const assignTapePool: API.OperationMethod<
-  AssignTapePoolInput,
+  AssignTapePoolInput & RegionInput,
   AssignTapePoolOutput,
   AssignTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1797,7 @@ export type AssociateFileSystemError =
  * type.
  */
 export const associateFileSystem: API.OperationMethod<
-  AssociateFileSystemInput,
+  AssociateFileSystemInput & RegionInput,
   AssociateFileSystemOutput,
   AssociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type AttachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
  */
 export const attachVolume: API.OperationMethod<
-  AttachVolumeInput,
+  AttachVolumeInput & RegionInput,
   AttachVolumeOutput,
   AttachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1843,7 +1844,7 @@ export type CancelArchivalError =
  * process is initiated. This operation is only supported in the tape gateway type.
  */
 export const cancelArchival: API.OperationMethod<
-  CancelArchivalInput,
+  CancelArchivalInput & RegionInput,
   CancelArchivalOutput,
   CancelArchivalError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type CancelCacheReportError =
  * error.
  */
 export const cancelCacheReport: API.OperationMethod<
-  CancelCacheReportInput,
+  CancelCacheReportInput & RegionInput,
   CancelCacheReportOutput,
   CancelCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1896,7 @@ export type CancelRetrievalError =
  * is only supported in the tape gateway type.
  */
 export const cancelRetrieval: API.OperationMethod<
-  CancelRetrievalInput,
+  CancelRetrievalInput & RegionInput,
   CancelRetrievalOutput,
   CancelRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1933,7 +1934,7 @@ export type CreateCachediSCSIVolumeError =
  * equal to or larger than the size of the copied volume, in bytes.
  */
 export const createCachediSCSIVolume: API.OperationMethod<
-  CreateCachediSCSIVolumeInput,
+  CreateCachediSCSIVolumeInput & RegionInput,
   CreateCachediSCSIVolumeOutput,
   CreateCachediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1970,7 +1971,7 @@ export type CreateNFSFileShareError =
  * share.
  */
 export const createNFSFileShare: API.OperationMethod<
-  CreateNFSFileShareInput,
+  CreateNFSFileShareInput & RegionInput,
   CreateNFSFileShareOutput,
   CreateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2008,7 @@ export type CreateSMBFileShareError =
  * share.
  */
 export const createSMBFileShare: API.OperationMethod<
-  CreateSMBFileShareInput,
+  CreateSMBFileShareInput & RegionInput,
   CreateSMBFileShareOutput,
   CreateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type CreateSnapshotError =
  * information, see the important note on the Welcome page.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotInput,
+  CreateSnapshotInput & RegionInput,
   CreateSnapshotOutput,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2096,7 +2097,7 @@ export type CreateSnapshotFromVolumeRecoveryPointError =
  * Reference.
  */
 export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
-  CreateSnapshotFromVolumeRecoveryPointInput,
+  CreateSnapshotFromVolumeRecoveryPointInput & RegionInput,
   CreateSnapshotFromVolumeRecoveryPointOutput,
   CreateSnapshotFromVolumeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2131,7 @@ export type CreateStorediSCSIVolumeError =
  * ARN that initiators can use to connect to the volume target.
  */
 export const createStorediSCSIVolume: API.OperationMethod<
-  CreateStorediSCSIVolumeInput,
+  CreateStorediSCSIVolumeInput & RegionInput,
   CreateStorediSCSIVolumeOutput,
   CreateStorediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type CreateTapePoolError =
  * lock on tapes that are archived in the custom pool.
  */
 export const createTapePool: API.OperationMethod<
-  CreateTapePoolInput,
+  CreateTapePoolInput & RegionInput,
   CreateTapePoolOutput,
   CreateTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2179,7 @@ export type CreateTapesError = InternalServerError | InvalidGatewayRequestExcept
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapes: API.OperationMethod<
-  CreateTapesInput,
+  CreateTapesInput & RegionInput,
   CreateTapesOutput,
   CreateTapesError,
   Credentials | HttpClient.HttpClient
@@ -2207,7 +2208,7 @@ export type CreateTapeWithBarcodeError =
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapeWithBarcode: API.OperationMethod<
-  CreateTapeWithBarcodeInput,
+  CreateTapeWithBarcodeInput & RegionInput,
   CreateTapeWithBarcodeOutput,
   CreateTapeWithBarcodeError,
   Credentials | HttpClient.HttpClient
@@ -2232,7 +2233,7 @@ export type DeleteAutomaticTapeCreationPolicyError =
  * in your request to remove the policy.
  */
 export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
-  DeleteAutomaticTapeCreationPolicyInput,
+  DeleteAutomaticTapeCreationPolicyInput & RegionInput,
   DeleteAutomaticTapeCreationPolicyOutput,
   DeleteAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2259,7 +2260,7 @@ export type DeleteBandwidthRateLimitError =
  * for the stored volume, cached volume, and tape gateway types.
  */
 export const deleteBandwidthRateLimit: API.OperationMethod<
-  DeleteBandwidthRateLimitInput,
+  DeleteBandwidthRateLimitInput & RegionInput,
   DeleteBandwidthRateLimitOutput,
   DeleteBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2286,7 +2287,7 @@ export type DeleteCacheReportError =
  * `DeleteCacheReport` does not delete the report object from your Amazon S3 bucket.
  */
 export const deleteCacheReport: API.OperationMethod<
-  DeleteCacheReportInput,
+  DeleteCacheReportInput & RegionInput,
   DeleteCacheReportOutput,
   DeleteCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2312,7 @@ export type DeleteChapCredentialsError =
  * types.
  */
 export const deleteChapCredentials: API.OperationMethod<
-  DeleteChapCredentialsInput,
+  DeleteChapCredentialsInput & RegionInput,
   DeleteChapCredentialsOutput,
   DeleteChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2335,7 +2336,7 @@ export type DeleteFileShareError =
  * File Gateways.
  */
 export const deleteFileShare: API.OperationMethod<
-  DeleteFileShareInput,
+  DeleteFileShareInput & RegionInput,
   DeleteFileShareOutput,
   DeleteFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2373,7 +2374,7 @@ export type DeleteGatewayError =
  * page.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2407,7 +2408,7 @@ export type DeleteSnapshotScheduleError =
  * in the *Amazon Elastic Compute Cloud API Reference*.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleInput,
+  DeleteSnapshotScheduleInput & RegionInput,
   DeleteSnapshotScheduleOutput,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2428,7 +2429,7 @@ export type DeleteTapeError = InternalServerError | InvalidGatewayRequestExcepti
  * type.
  */
 export const deleteTape: API.OperationMethod<
-  DeleteTapeInput,
+  DeleteTapeInput & RegionInput,
   DeleteTapeOutput,
   DeleteTapeError,
   Credentials | HttpClient.HttpClient
@@ -2452,7 +2453,7 @@ export type DeleteTapeArchiveError =
  * only supported in the tape gateway type.
  */
 export const deleteTapeArchive: API.OperationMethod<
-  DeleteTapeArchiveInput,
+  DeleteTapeArchiveInput & RegionInput,
   DeleteTapeArchiveOutput,
   DeleteTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2477,7 +2478,7 @@ export type DeleteTapePoolError =
  * tape pool.
  */
 export const deleteTapePool: API.OperationMethod<
-  DeleteTapePoolInput,
+  DeleteTapePoolInput & RegionInput,
   DeleteTapePoolOutput,
   DeleteTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2509,7 +2510,7 @@ export type DeleteVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * you want to delete.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeInput,
+  DeleteVolumeInput & RegionInput,
   DeleteVolumeOutput,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type DescribeAvailabilityMonitorTestError =
  * time in the response would be null.
  */
 export const describeAvailabilityMonitorTest: API.OperationMethod<
-  DescribeAvailabilityMonitorTestInput,
+  DescribeAvailabilityMonitorTestInput & RegionInput,
   DescribeAvailabilityMonitorTestOutput,
   DescribeAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -2565,7 +2566,7 @@ export type DescribeBandwidthRateLimitError =
  * the gateway in your request.
  */
 export const describeBandwidthRateLimit: API.OperationMethod<
-  DescribeBandwidthRateLimitInput,
+  DescribeBandwidthRateLimitInput & RegionInput,
   DescribeBandwidthRateLimitOutput,
   DescribeBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2604,7 +2605,7 @@ export type DescribeBandwidthRateLimitScheduleError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeBandwidthRateLimitSchedule: API.OperationMethod<
-  DescribeBandwidthRateLimitScheduleInput,
+  DescribeBandwidthRateLimitScheduleInput & RegionInput,
   DescribeBandwidthRateLimitScheduleOutput,
   DescribeBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2631,7 +2632,7 @@ export type DescribeCacheError =
  * of cache allocated and used.
  */
 export const describeCache: API.OperationMethod<
-  DescribeCacheInput,
+  DescribeCacheInput & RegionInput,
   DescribeCacheOutput,
   DescribeCacheError,
   Credentials | HttpClient.HttpClient
@@ -2659,7 +2660,7 @@ export type DescribeCachediSCSIVolumesError =
  * (ARN).
  */
 export const describeCachediSCSIVolumes: API.OperationMethod<
-  DescribeCachediSCSIVolumesInput,
+  DescribeCachediSCSIVolumesInput & RegionInput,
   DescribeCachediSCSIVolumesOutput,
   DescribeCachediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type DescribeCacheReportError =
  * generation progress.
  */
 export const describeCacheReport: API.OperationMethod<
-  DescribeCacheReportInput,
+  DescribeCacheReportInput & RegionInput,
   DescribeCacheReportOutput,
   DescribeCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2708,7 +2709,7 @@ export type DescribeChapCredentialsError =
  * operation is supported in the volume and tape gateway types.
  */
 export const describeChapCredentials: API.OperationMethod<
-  DescribeChapCredentialsInput,
+  DescribeChapCredentialsInput & RegionInput,
   DescribeChapCredentialsOutput,
   DescribeChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2732,7 +2733,7 @@ export type DescribeFileSystemAssociationsError =
  * File Gateways.
  */
 export const describeFileSystemAssociations: API.OperationMethod<
-  DescribeFileSystemAssociationsInput,
+  DescribeFileSystemAssociationsInput & RegionInput,
   DescribeFileSystemAssociationsOutput,
   DescribeFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2757,7 +2758,7 @@ export type DescribeGatewayInformationError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeGatewayInformation: API.OperationMethod<
-  DescribeGatewayInformationInput,
+  DescribeGatewayInformationInput & RegionInput,
   DescribeGatewayInformationOutput,
   DescribeGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2783,7 @@ export type DescribeMaintenanceStartTimeError =
  * updates to apply. Time values returned are for the gateway's time zone.
  */
 export const describeMaintenanceStartTime: API.OperationMethod<
-  DescribeMaintenanceStartTimeInput,
+  DescribeMaintenanceStartTimeInput & RegionInput,
   DescribeMaintenanceStartTimeOutput,
   DescribeMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type DescribeNFSFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeNFSFileShares: API.OperationMethod<
-  DescribeNFSFileSharesInput,
+  DescribeNFSFileSharesInput & RegionInput,
   DescribeNFSFileSharesOutput,
   DescribeNFSFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type DescribeSMBFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeSMBFileShares: API.OperationMethod<
-  DescribeSMBFileSharesInput,
+  DescribeSMBFileSharesInput & RegionInput,
   DescribeSMBFileSharesOutput,
   DescribeSMBFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2854,7 +2855,7 @@ export type DescribeSMBSettingsError =
  * gateway. This operation is only supported for file gateways.
  */
 export const describeSMBSettings: API.OperationMethod<
-  DescribeSMBSettingsInput,
+  DescribeSMBSettingsInput & RegionInput,
   DescribeSMBSettingsOutput,
   DescribeSMBSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2880,7 +2881,7 @@ export type DescribeSnapshotScheduleError =
  * types.
  */
 export const describeSnapshotSchedule: API.OperationMethod<
-  DescribeSnapshotScheduleInput,
+  DescribeSnapshotScheduleInput & RegionInput,
   DescribeSnapshotScheduleOutput,
   DescribeSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2905,7 +2906,7 @@ export type DescribeStorediSCSIVolumesError =
  * supported in stored volume gateway type.
  */
 export const describeStorediSCSIVolumes: API.OperationMethod<
-  DescribeStorediSCSIVolumesInput,
+  DescribeStorediSCSIVolumesInput & RegionInput,
   DescribeStorediSCSIVolumesOutput,
   DescribeStorediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2932,7 +2933,7 @@ export type DescribeTapeArchivesError =
  * description of all virtual tapes found in the VTS associated with your account.
  */
 export const describeTapeArchives: API.PaginatedOperationMethod<
-  DescribeTapeArchivesInput,
+  DescribeTapeArchivesInput & RegionInput,
   DescribeTapeArchivesOutput,
   DescribeTapeArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2968,7 +2969,7 @@ export type DescribeTapeRecoveryPointsError =
  * gateway type.
  */
 export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
-  DescribeTapeRecoveryPointsInput,
+  DescribeTapeRecoveryPointsInput & RegionInput,
   DescribeTapeRecoveryPointsOutput,
   DescribeTapeRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -3008,7 +3009,7 @@ export type DescribeTapesError =
  * tapes.
  */
 export const describeTapes: API.PaginatedOperationMethod<
-  DescribeTapesInput,
+  DescribeTapesInput & RegionInput,
   DescribeTapesOutput,
   DescribeTapesError,
   Credentials | HttpClient.HttpClient,
@@ -3042,7 +3043,7 @@ export type DescribeUploadBufferError =
  * includes the amount of upload buffer space allocated and used.
  */
 export const describeUploadBuffer: API.OperationMethod<
-  DescribeUploadBufferInput,
+  DescribeUploadBufferInput & RegionInput,
   DescribeUploadBufferOutput,
   DescribeUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -3068,7 +3069,7 @@ export type DescribeVTLDevicesError =
  * This operation is only supported in the tape gateway type.
  */
 export const describeVTLDevices: API.PaginatedOperationMethod<
-  DescribeVTLDevicesInput,
+  DescribeVTLDevicesInput & RegionInput,
   DescribeVTLDevicesOutput,
   DescribeVTLDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3106,7 +3107,7 @@ export type DescribeWorkingStorageError =
  * the amount of working storage allocated and used.
  */
 export const describeWorkingStorage: API.OperationMethod<
-  DescribeWorkingStorageInput,
+  DescribeWorkingStorageInput & RegionInput,
   DescribeWorkingStorageOutput,
   DescribeWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type DetachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * instance. This operation is only supported in the volume gateway type.
  */
 export const detachVolume: API.OperationMethod<
-  DetachVolumeInput,
+  DetachVolumeInput & RegionInput,
   DetachVolumeOutput,
   DetachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -3159,7 +3160,7 @@ export type DisableGatewayError =
  * After a gateway is disabled, it cannot be enabled.
  */
 export const disableGateway: API.OperationMethod<
-  DisableGatewayInput,
+  DisableGatewayInput & RegionInput,
   DisableGatewayOutput,
   DisableGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3185,7 @@ export type DisassociateFileSystemError =
  * file system. This operation is only supported in the FSx File Gateway type.
  */
 export const disassociateFileSystem: API.OperationMethod<
-  DisassociateFileSystemInput,
+  DisassociateFileSystemInput & RegionInput,
   DisassociateFileSystemOutput,
   DisassociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -3218,7 +3219,7 @@ export type EvictFilesFailingUploadError =
  * loss.
  */
 export const evictFilesFailingUpload: API.OperationMethod<
-  EvictFilesFailingUploadInput,
+  EvictFilesFailingUploadInput & RegionInput,
   EvictFilesFailingUploadOutput,
   EvictFilesFailingUploadError,
   Credentials | HttpClient.HttpClient
@@ -3248,7 +3249,7 @@ export type JoinDomainError = InternalServerError | InvalidGatewayRequestExcepti
  * default, you must specify the organizational unit when joining the domain.
  */
 export const joinDomain: API.OperationMethod<
-  JoinDomainInput,
+  JoinDomainInput & RegionInput,
   JoinDomainOutput,
   JoinDomainError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type ListAutomaticTapeCreationPoliciesError =
  * This operation is only supported for tape gateways.
  */
 export const listAutomaticTapeCreationPolicies: API.OperationMethod<
-  ListAutomaticTapeCreationPoliciesInput,
+  ListAutomaticTapeCreationPoliciesInput & RegionInput,
   ListAutomaticTapeCreationPoliciesOutput,
   ListAutomaticTapeCreationPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -3300,7 +3301,7 @@ export type ListCacheReportsError =
  * progress, start time, end time, filters, and tags.
  */
 export const listCacheReports: API.PaginatedOperationMethod<
-  ListCacheReportsInput,
+  ListCacheReportsInput & RegionInput,
   ListCacheReportsOutput,
   ListCacheReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3327,7 +3328,7 @@ export type ListFileSharesError =
  * supported for S3 File Gateways.
  */
 export const listFileShares: API.PaginatedOperationMethod<
-  ListFileSharesInput,
+  ListFileSharesInput & RegionInput,
   ListFileSharesOutput,
   ListFileSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3359,7 +3360,7 @@ export type ListFileSystemAssociationsError =
  * Gateways.
  */
 export const listFileSystemAssociations: API.PaginatedOperationMethod<
-  ListFileSystemAssociationsInput,
+  ListFileSystemAssociationsInput & RegionInput,
   ListFileSystemAssociationsOutput,
   ListFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,7 +3397,7 @@ export type ListGatewaysError = InternalServerError | InvalidGatewayRequestExcep
  * specify in your next request to fetch the next page of gateways.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3434,7 +3435,7 @@ export type ListLocalDisksError =
  * corrupted).
  */
 export const listLocalDisks: API.OperationMethod<
-  ListLocalDisksInput,
+  ListLocalDisksInput & RegionInput,
   ListLocalDisksOutput,
   ListLocalDisksError,
   Credentials | HttpClient.HttpClient
@@ -3458,7 +3459,7 @@ export type ListTagsForResourceError =
  * supported in storage gateways of all types.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3496,7 +3497,7 @@ export type ListTapePoolsError =
  * next set of tape pools.
  */
 export const listTapePools: API.PaginatedOperationMethod<
-  ListTapePoolsInput,
+  ListTapePoolsInput & RegionInput,
   ListTapePoolsOutput,
   ListTapePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -3533,7 +3534,7 @@ export type ListTapesError = InternalServerError | InvalidGatewayRequestExceptio
  * the tape gateway type.
  */
 export const listTapes: API.PaginatedOperationMethod<
-  ListTapesInput,
+  ListTapesInput & RegionInput,
   ListTapesOutput,
   ListTapesError,
   Credentials | HttpClient.HttpClient,
@@ -3565,7 +3566,7 @@ export type ListVolumeInitiatorsError =
  * cached volume and stored volume gateway types.
  */
 export const listVolumeInitiators: API.OperationMethod<
-  ListVolumeInitiatorsInput,
+  ListVolumeInitiatorsInput & RegionInput,
   ListVolumeInitiatorsOutput,
   ListVolumeInitiatorsError,
   Credentials | HttpClient.HttpClient
@@ -3594,7 +3595,7 @@ export type ListVolumeRecoveryPointsError =
  * point use the CreateSnapshotFromVolumeRecoveryPoint operation.
  */
 export const listVolumeRecoveryPoints: API.OperationMethod<
-  ListVolumeRecoveryPointsInput,
+  ListVolumeRecoveryPointsInput & RegionInput,
   ListVolumeRecoveryPointsOutput,
   ListVolumeRecoveryPointsError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type ListVolumesError = InternalServerError | InvalidGatewayRequestExcept
  * the cached volume and stored volume gateway types.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesInput,
+  ListVolumesInput & RegionInput,
   ListVolumesOutput,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -3665,7 +3666,7 @@ export type NotifyWhenUploadedError =
  * Guide.
  */
 export const notifyWhenUploaded: API.OperationMethod<
-  NotifyWhenUploadedInput,
+  NotifyWhenUploadedInput & RegionInput,
   NotifyWhenUploadedOutput,
   NotifyWhenUploadedError,
   Credentials | HttpClient.HttpClient
@@ -3722,7 +3723,7 @@ export type RefreshCacheError = InternalServerError | InvalidGatewayRequestExcep
  * Guide.
  */
 export const refreshCache: API.OperationMethod<
-  RefreshCacheInput,
+  RefreshCacheInput & RegionInput,
   RefreshCacheOutput,
   RefreshCacheError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3747,7 @@ export type RemoveTagsFromResourceError =
  * storage gateways of all types.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceInput,
+  RemoveTagsFromResourceInput & RegionInput,
   RemoveTagsFromResourceOutput,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3776,7 +3777,7 @@ export type ResetCacheError = InternalServerError | InvalidGatewayRequestExcepti
  * cache disk for your gateway to function properly.
  */
 export const resetCache: API.OperationMethod<
-  ResetCacheInput,
+  ResetCacheInput & RegionInput,
   ResetCacheOutput,
   ResetCacheError,
   Credentials | HttpClient.HttpClient
@@ -3806,7 +3807,7 @@ export type RetrieveTapeArchiveError =
  * gateway. This operation is only supported in the tape gateway type.
  */
 export const retrieveTapeArchive: API.OperationMethod<
-  RetrieveTapeArchiveInput,
+  RetrieveTapeArchiveInput & RegionInput,
   RetrieveTapeArchiveOutput,
   RetrieveTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3838,7 +3839,7 @@ export type RetrieveTapeRecoveryPointError =
  * for retrieving recovery points.
  */
 export const retrieveTapeRecoveryPoint: API.OperationMethod<
-  RetrieveTapeRecoveryPointInput,
+  RetrieveTapeRecoveryPointInput & RegionInput,
   RetrieveTapeRecoveryPointOutput,
   RetrieveTapeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3864,7 +3865,7 @@ export type SetLocalConsolePasswordError =
  * password.
  */
 export const setLocalConsolePassword: API.OperationMethod<
-  SetLocalConsolePasswordInput,
+  SetLocalConsolePasswordInput & RegionInput,
   SetLocalConsolePasswordOutput,
   SetLocalConsolePasswordError,
   Credentials | HttpClient.HttpClient
@@ -3889,7 +3890,7 @@ export type SetSMBGuestPasswordError =
  * `GuestAccess`. This operation only supported for S3 File Gateways
  */
 export const setSMBGuestPassword: API.OperationMethod<
-  SetSMBGuestPasswordInput,
+  SetSMBGuestPasswordInput & RegionInput,
   SetSMBGuestPasswordOutput,
   SetSMBGuestPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type ShutdownGatewayError =
  * gateway.
  */
 export const shutdownGateway: API.OperationMethod<
-  ShutdownGatewayInput,
+  ShutdownGatewayInput & RegionInput,
   ShutdownGatewayOutput,
   ShutdownGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3963,7 +3964,7 @@ export type StartAvailabilityMonitorTestError =
  * Starting this test will cause your gateway to go offline for a brief period.
  */
 export const startAvailabilityMonitorTest: API.OperationMethod<
-  StartAvailabilityMonitorTestInput,
+  StartAvailabilityMonitorTestInput & RegionInput,
   StartAvailabilityMonitorTestOutput,
   StartAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -4013,7 +4014,7 @@ export type StartCacheReportError =
  * `ExclusionFilters` in the request.
  */
 export const startCacheReport: API.OperationMethod<
-  StartCacheReportInput,
+  StartCacheReportInput & RegionInput,
   StartCacheReportOutput,
   StartCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -4043,7 +4044,7 @@ export type StartGatewayError = InternalServerError | InvalidGatewayRequestExcep
  * your request.
  */
 export const startGateway: API.OperationMethod<
-  StartGatewayInput,
+  StartGatewayInput & RegionInput,
   StartGatewayOutput,
   StartGatewayError,
   Credentials | HttpClient.HttpClient
@@ -4072,7 +4073,7 @@ export type UpdateAutomaticTapeCreationPolicyError =
  * A gateway can have only one automatic tape creation policy.
  */
 export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
-  UpdateAutomaticTapeCreationPolicyInput,
+  UpdateAutomaticTapeCreationPolicyInput & RegionInput,
   UpdateAutomaticTapeCreationPolicyOutput,
   UpdateAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4106,7 +4107,7 @@ export type UpdateBandwidthRateLimitError =
  * your request.
  */
 export const updateBandwidthRateLimit: API.OperationMethod<
-  UpdateBandwidthRateLimitInput,
+  UpdateBandwidthRateLimitInput & RegionInput,
   UpdateBandwidthRateLimitOutput,
   UpdateBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -4134,7 +4135,7 @@ export type UpdateBandwidthRateLimitScheduleError =
  * limits.
  */
 export const updateBandwidthRateLimitSchedule: API.OperationMethod<
-  UpdateBandwidthRateLimitScheduleInput,
+  UpdateBandwidthRateLimitScheduleInput & RegionInput,
   UpdateBandwidthRateLimitScheduleOutput,
   UpdateBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4163,7 +4164,7 @@ export type UpdateChapCredentialsError =
  * and initiators must reconnect with the new credentials.
  */
 export const updateChapCredentials: API.OperationMethod<
-  UpdateChapCredentialsInput,
+  UpdateChapCredentialsInput & RegionInput,
   UpdateChapCredentialsOutput,
   UpdateChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -4187,7 +4188,7 @@ export type UpdateFileSystemAssociationError =
  * Gateways.
  */
 export const updateFileSystemAssociation: API.OperationMethod<
-  UpdateFileSystemAssociationInput,
+  UpdateFileSystemAssociationInput & RegionInput,
   UpdateFileSystemAssociationOutput,
   UpdateFileSystemAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4217,7 @@ export type UpdateGatewayInformationError =
  * no effect on the gateway's ARN.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -4250,7 +4251,7 @@ export type UpdateGatewaySoftwareNowError =
  * Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -4288,7 +4289,7 @@ export type UpdateMaintenanceStartTimeError =
  * deployment.
  */
 export const updateMaintenanceStartTime: API.OperationMethod<
-  UpdateMaintenanceStartTimeInput,
+  UpdateMaintenanceStartTimeInput & RegionInput,
   UpdateMaintenanceStartTimeOutput,
   UpdateMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -4327,7 +4328,7 @@ export type UpdateNFSFileShareError =
  * - Write status of your file share
  */
 export const updateNFSFileShare: API.OperationMethod<
-  UpdateNFSFileShareInput,
+  UpdateNFSFileShareInput & RegionInput,
   UpdateNFSFileShareOutput,
   UpdateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4365,7 +4366,7 @@ export type UpdateSMBFileShareError =
  * share.
  */
 export const updateSMBFileShare: API.OperationMethod<
-  UpdateSMBFileShareInput,
+  UpdateSMBFileShareInput & RegionInput,
   UpdateSMBFileShareOutput,
   UpdateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4389,7 +4390,7 @@ export type UpdateSMBFileShareVisibilityError =
  * list. The operation is only supported for S3 File Gateways.
  */
 export const updateSMBFileShareVisibility: API.OperationMethod<
-  UpdateSMBFileShareVisibilityInput,
+  UpdateSMBFileShareVisibilityInput & RegionInput,
   UpdateSMBFileShareVisibilityOutput,
   UpdateSMBFileShareVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type UpdateSMBLocalGroupsError =
  * SMB file shares on the gateway.
  */
 export const updateSMBLocalGroups: API.OperationMethod<
-  UpdateSMBLocalGroupsInput,
+  UpdateSMBLocalGroupsInput & RegionInput,
   UpdateSMBLocalGroupsOutput,
   UpdateSMBLocalGroupsError,
   Credentials | HttpClient.HttpClient
@@ -4443,7 +4444,7 @@ export type UpdateSMBSecurityStrategyError =
  * A higher security strategy level can affect performance of the gateway.
  */
 export const updateSMBSecurityStrategy: API.OperationMethod<
-  UpdateSMBSecurityStrategyInput,
+  UpdateSMBSecurityStrategyInput & RegionInput,
   UpdateSMBSecurityStrategyOutput,
   UpdateSMBSecurityStrategyError,
   Credentials | HttpClient.HttpClient
@@ -4475,7 +4476,7 @@ export type UpdateSnapshotScheduleError =
  * day and the frequency (in hours) of snapshots.
  */
 export const updateSnapshotSchedule: API.OperationMethod<
-  UpdateSnapshotScheduleInput,
+  UpdateSnapshotScheduleInput & RegionInput,
   UpdateSnapshotScheduleOutput,
   UpdateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4501,7 +4502,7 @@ export type UpdateVTLDeviceTypeError =
  * only supported in the tape gateway type.
  */
 export const updateVTLDeviceType: API.OperationMethod<
-  UpdateVTLDeviceTypeInput,
+  UpdateVTLDeviceTypeInput & RegionInput,
   UpdateVTLDeviceTypeOutput,
   UpdateVTLDeviceTypeError,
   Credentials | HttpClient.HttpClient

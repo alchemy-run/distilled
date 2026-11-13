@@ -6,6 +6,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -793,7 +794,7 @@ export type CreateAlarmModelError =
  * alarm model in the *AWS IoT Events Developer Guide*.
  */
 export const createAlarmModel: API.OperationMethod<
-  CreateAlarmModelRequest,
+  CreateAlarmModelRequest & RegionInput,
   CreateAlarmModelResponse,
   CreateAlarmModelError,
   Credentials | HttpClient.HttpClient
@@ -827,7 +828,7 @@ export type CreateDetectorModelError =
  * Creates a detector model.
  */
 export const createDetectorModel: API.OperationMethod<
-  CreateDetectorModelRequest,
+  CreateDetectorModelRequest & RegionInput,
   CreateDetectorModelResponse,
   CreateDetectorModelError,
   Credentials | HttpClient.HttpClient
@@ -859,7 +860,7 @@ export type CreateInputError =
  * Creates an input.
  */
 export const createInput: API.OperationMethod<
-  CreateInputRequest,
+  CreateInputRequest & RegionInput,
   CreateInputResponse,
   CreateInputError,
   Credentials | HttpClient.HttpClient
@@ -891,7 +892,7 @@ export type DeleteAlarmModelError =
  * are also deleted. This action can't be undone.
  */
 export const deleteAlarmModel: API.OperationMethod<
-  DeleteAlarmModelRequest,
+  DeleteAlarmModelRequest & RegionInput,
   DeleteAlarmModelResponse,
   DeleteAlarmModelError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DeleteDetectorModelError =
  * deleted.
  */
 export const deleteDetectorModel: API.OperationMethod<
-  DeleteDetectorModelRequest,
+  DeleteDetectorModelRequest & RegionInput,
   DeleteDetectorModelResponse,
   DeleteDetectorModelError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type DeleteInputError =
  * Deletes an input.
  */
 export const deleteInput: API.OperationMethod<
-  DeleteInputRequest,
+  DeleteInputRequest & RegionInput,
   DeleteInputResponse,
   DeleteInputError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type DescribeAlarmModelError =
  * `alarmModelVersion` parameter, the latest version is returned.
  */
 export const describeAlarmModel: API.OperationMethod<
-  DescribeAlarmModelRequest,
+  DescribeAlarmModelRequest & RegionInput,
   DescribeAlarmModelResponse,
   DescribeAlarmModelError,
   Credentials | HttpClient.HttpClient
@@ -1019,7 +1020,7 @@ export type DescribeDetectorModelError =
  * information about the latest version is returned.
  */
 export const describeDetectorModel: API.OperationMethod<
-  DescribeDetectorModelRequest,
+  DescribeDetectorModelRequest & RegionInput,
   DescribeDetectorModelResponse,
   DescribeDetectorModelError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type DescribeDetectorModelAnalysisError =
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
 export const describeDetectorModelAnalysis: API.OperationMethod<
-  DescribeDetectorModelAnalysisRequest,
+  DescribeDetectorModelAnalysisRequest & RegionInput,
   DescribeDetectorModelAnalysisResponse,
   DescribeDetectorModelAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1081,7 +1082,7 @@ export type DescribeInputError =
  * Describes an input.
  */
 export const describeInput: API.OperationMethod<
-  DescribeInputRequest,
+  DescribeInputRequest & RegionInput,
   DescribeInputResponse,
   DescribeInputError,
   Credentials | HttpClient.HttpClient
@@ -1112,7 +1113,7 @@ export type DescribeLoggingOptionsError =
  * Retrieves the current settings of the AWS IoT Events logging options.
  */
 export const describeLoggingOptions: API.OperationMethod<
-  DescribeLoggingOptionsRequest,
+  DescribeLoggingOptionsRequest & RegionInput,
   DescribeLoggingOptionsResponse,
   DescribeLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1145,7 +1146,7 @@ export type GetDetectorModelAnalysisResultsError =
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
 export const getDetectorModelAnalysisResults: API.OperationMethod<
-  GetDetectorModelAnalysisResultsRequest,
+  GetDetectorModelAnalysisResultsRequest & RegionInput,
   GetDetectorModelAnalysisResultsResponse,
   GetDetectorModelAnalysisResultsError,
   Credentials | HttpClient.HttpClient
@@ -1175,7 +1176,7 @@ export type ListAlarmModelsError =
  * associated with each alarm model.
  */
 export const listAlarmModels: API.OperationMethod<
-  ListAlarmModelsRequest,
+  ListAlarmModelsRequest & RegionInput,
   ListAlarmModelsResponse,
   ListAlarmModelsError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type ListAlarmModelVersionsError =
  * associated with each alarm model version.
  */
 export const listAlarmModelVersions: API.OperationMethod<
-  ListAlarmModelVersionsRequest,
+  ListAlarmModelVersionsRequest & RegionInput,
   ListAlarmModelVersionsResponse,
   ListAlarmModelVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1235,7 +1236,7 @@ export type ListDetectorModelsError =
  * detector model is returned.
  */
 export const listDetectorModels: API.OperationMethod<
-  ListDetectorModelsRequest,
+  ListDetectorModelsRequest & RegionInput,
   ListDetectorModelsResponse,
   ListDetectorModelsError,
   Credentials | HttpClient.HttpClient
@@ -1265,7 +1266,7 @@ export type ListDetectorModelVersionsError =
  * detector model version is returned.
  */
 export const listDetectorModelVersions: API.OperationMethod<
-  ListDetectorModelVersionsRequest,
+  ListDetectorModelVersionsRequest & RegionInput,
   ListDetectorModelVersionsResponse,
   ListDetectorModelVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1295,7 +1296,7 @@ export type ListInputRoutingsError =
  * Lists one or more input routings.
  */
 export const listInputRoutings: API.OperationMethod<
-  ListInputRoutingsRequest,
+  ListInputRoutingsRequest & RegionInput,
   ListInputRoutingsResponse,
   ListInputRoutingsError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1325,7 @@ export type ListInputsError =
  * Lists the inputs you have created.
  */
 export const listInputs: API.OperationMethod<
-  ListInputsRequest,
+  ListInputsRequest & RegionInput,
   ListInputsResponse,
   ListInputsError,
   Credentials | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type ListTagsForResourceError =
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1389,7 +1390,7 @@ export type PutLoggingOptionsError =
  * takes up to five minutes for that change to take effect.
  */
 export const putLoggingOptions: API.OperationMethod<
-  PutLoggingOptionsRequest,
+  PutLoggingOptionsRequest & RegionInput,
   PutLoggingOptionsResponse,
   PutLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1422,7 +1423,7 @@ export type StartDetectorModelAnalysisError =
  * in the *AWS IoT Events Developer Guide*.
  */
 export const startDetectorModelAnalysis: API.OperationMethod<
-  StartDetectorModelAnalysisRequest,
+  StartDetectorModelAnalysisRequest & RegionInput,
   StartDetectorModelAnalysisResponse,
   StartDetectorModelAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1454,7 +1455,7 @@ export type TagResourceError =
  * manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1485,7 +1486,7 @@ export type UntagResourceError =
  * Removes the given tags (metadata) from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1517,7 +1518,7 @@ export type UpdateAlarmModelError =
  * deleted and then created again as new data arrives.
  */
 export const updateAlarmModel: API.OperationMethod<
-  UpdateAlarmModelRequest,
+  UpdateAlarmModelRequest & RegionInput,
   UpdateAlarmModelResponse,
   UpdateAlarmModelError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type UpdateDetectorModelError =
  * deleted and then re-created as new inputs arrive.
  */
 export const updateDetectorModel: API.OperationMethod<
-  UpdateDetectorModelRequest,
+  UpdateDetectorModelRequest & RegionInput,
   UpdateDetectorModelResponse,
   UpdateDetectorModelError,
   Credentials | HttpClient.HttpClient
@@ -1582,7 +1583,7 @@ export type UpdateInputError =
  * Updates an input.
  */
 export const updateInput: API.OperationMethod<
-  UpdateInputRequest,
+  UpdateInputRequest & RegionInput,
   UpdateInputResponse,
   UpdateInputError,
   Credentials | HttpClient.HttpClient

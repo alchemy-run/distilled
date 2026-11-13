@@ -9,7 +9,7 @@
  *    X-Amz-Content-Sha256 and X-Amz-Sha256-Tree-Hash headers
  */
 
-import type { Request } from "../client/request.ts";
+import type { Request } from "@distilled.cloud/s3/client/request";
 
 /**
  * Apply Glacier-specific customizations to a request.

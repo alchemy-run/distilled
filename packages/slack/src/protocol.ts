@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   GatewayTimeout,
@@ -19,6 +18,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SlackProtocol -- hand-written.
@@ -73,7 +73,8 @@ export type SlackOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;
@@ -182,9 +183,6 @@ const decode = ({
     // decodes from the same buffer.
     const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
     const text = new TextDecoder().decode(bytes);
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
 
     let json: Record<string, unknown> | undefined;
     let nonJson = false;

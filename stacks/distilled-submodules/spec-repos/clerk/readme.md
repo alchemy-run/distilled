@@ -1,9 +1,15 @@
 # spec-mirror-clerk
 
-A git mirror of Clerk's [Backend API OpenAPI spec](https://github.com/clerk/openapi-specs), reduced to exactly the file the
-[`@distilled.cloud/clerk`](https://github.com/alchemy-run/distilled) generator reads:
+A git mirror of Clerk's [Backend and Platform API OpenAPI specs](https://github.com/clerk/openapi-specs), reduced to the descriptions needed by the
+[`@distilled.cloud/clerk`](https://github.com/alchemy-run/distilled) SDK:
 
-- `specs/openapi.json` — `bapi/2026-05-12.yml` (latest dated Backend API snapshot), fetched from raw.githubusercontent.com and written as deterministic JSON
+- `specs/openapi.json` — `bapi/2026-05-12.yml` (the Backend API snapshot currently used by the SDK)
+- `specs/platform.json` — `platform/beta.yml` (the Platform API, currently in private beta)
+
+Each fetch resolves upstream `main` to one commit, then downloads both files at
+that revision from raw.githubusercontent.com and writes deterministic JSON. A
+single mirror commit therefore captures both descriptions without changing the
+Backend API's selected dated version.
 
 Nothing else from `clerk/openapi-specs` is mirrored, so this repository stays small
 enough to use as a git submodule — the upstream repository is never cloned.

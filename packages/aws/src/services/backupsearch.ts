@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -122,13 +123,13 @@ export interface GetSearchJobInput {
   SearchJobIdentifier: string;
 }
 export interface SearchScopeSummary {
-  TotalRecoveryPointsToScanCount?: number;
-  TotalItemsToScanCount?: number;
+  TotalRecoveryPointsToScanCount?: number | undefined;
+  TotalItemsToScanCount?: number | undefined;
 }
 export interface CurrentSearchProgress {
-  RecoveryPointsScannedCount?: number;
-  ItemsScannedCount?: number;
-  ItemsMatchedCount?: number;
+  RecoveryPointsScannedCount?: number | undefined;
+  ItemsScannedCount?: number | undefined;
+  ItemsMatchedCount?: number | undefined;
 }
 export type EncryptionKeyArn = string;
 export type SearchJobState =
@@ -141,8 +142,8 @@ export type SearchJobState =
 export type ResourceType = "S3" | "EBS" | (string & {});
 export type ResourceTypeList = ResourceType[];
 export interface BackupCreationTimeFilter {
-  CreatedAfter?: Date;
-  CreatedBefore?: Date;
+  CreatedAfter?: Date | undefined;
+  CreatedBefore?: Date | undefined;
 }
 export type ResourceArnList = string[];
 export type RecoveryPoint = string;
@@ -150,10 +151,10 @@ export type RecoveryPointArnList = string[];
 export type TagMap = { [key: string]: string | undefined };
 export interface SearchScope {
   BackupResourceTypes: ResourceType[];
-  BackupResourceCreationTime?: BackupCreationTimeFilter;
-  SourceResourceArns?: string[];
-  BackupResourceArns?: string[];
-  BackupResourceTags?: { [key: string]: string | undefined };
+  BackupResourceCreationTime?: BackupCreationTimeFilter | undefined;
+  SourceResourceArns?: string[] | undefined;
+  BackupResourceArns?: string[] | undefined;
+  BackupResourceTags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringConditionOperator =
   | "EQUALS_TO"
@@ -167,7 +168,7 @@ export type StringConditionOperator =
   | (string & {});
 export interface StringCondition {
   Value: string;
-  Operator?: StringConditionOperator;
+  Operator?: StringConditionOperator | undefined;
 }
 export type StringConditionList = StringCondition[];
 export type LongConditionOperator =
@@ -178,7 +179,7 @@ export type LongConditionOperator =
   | (string & {});
 export interface LongCondition {
   Value: number;
-  Operator?: LongConditionOperator;
+  Operator?: LongConditionOperator | undefined;
 }
 export type LongConditionList = LongCondition[];
 export type TimeConditionOperator =
@@ -189,36 +190,36 @@ export type TimeConditionOperator =
   | (string & {});
 export interface TimeCondition {
   Value: Date;
-  Operator?: TimeConditionOperator;
+  Operator?: TimeConditionOperator | undefined;
 }
 export type TimeConditionList = TimeCondition[];
 export interface S3ItemFilter {
-  ObjectKeys?: StringCondition[];
-  Sizes?: LongCondition[];
-  CreationTimes?: TimeCondition[];
-  VersionIds?: StringCondition[];
-  ETags?: StringCondition[];
+  ObjectKeys?: StringCondition[] | undefined;
+  Sizes?: LongCondition[] | undefined;
+  CreationTimes?: TimeCondition[] | undefined;
+  VersionIds?: StringCondition[] | undefined;
+  ETags?: StringCondition[] | undefined;
 }
 export type S3ItemFilters = S3ItemFilter[];
 export interface EBSItemFilter {
-  FilePaths?: StringCondition[];
-  Sizes?: LongCondition[];
-  CreationTimes?: TimeCondition[];
-  LastModificationTimes?: TimeCondition[];
+  FilePaths?: StringCondition[] | undefined;
+  Sizes?: LongCondition[] | undefined;
+  CreationTimes?: TimeCondition[] | undefined;
+  LastModificationTimes?: TimeCondition[] | undefined;
 }
 export type EBSItemFilters = EBSItemFilter[];
 export interface ItemFilters {
-  S3ItemFilters?: S3ItemFilter[];
-  EBSItemFilters?: EBSItemFilter[];
+  S3ItemFilters?: S3ItemFilter[] | undefined;
+  EBSItemFilters?: EBSItemFilter[] | undefined;
 }
 export type SearchJobArn = string;
 export interface GetSearchJobOutput {
-  Name?: string;
-  SearchScopeSummary?: SearchScopeSummary;
-  CurrentSearchProgress?: CurrentSearchProgress;
-  StatusMessage?: string;
-  EncryptionKeyArn?: string;
-  CompletionTime?: Date;
+  Name?: string | undefined;
+  SearchScopeSummary?: SearchScopeSummary | undefined;
+  CurrentSearchProgress?: CurrentSearchProgress | undefined;
+  StatusMessage?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  CompletionTime?: Date | undefined;
   Status: SearchJobState;
   SearchScope: SearchScope;
   ItemFilters: ItemFilters;
@@ -233,142 +234,142 @@ export type ExportJobArn = string;
 export type ExportJobStatus = "RUNNING" | "FAILED" | "COMPLETED" | (string & {});
 export interface S3ExportSpecification {
   DestinationBucket: string;
-  DestinationPrefix?: string;
+  DestinationPrefix?: string | undefined;
 }
 export type ExportSpecification = { s3ExportSpecification: S3ExportSpecification };
 export interface GetSearchResultExportJobOutput {
   ExportJobIdentifier: string;
-  ExportJobArn?: string;
-  Status?: ExportJobStatus;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  StatusMessage?: string;
-  ExportSpecification?: ExportSpecification;
-  SearchJobArn?: string;
+  ExportJobArn?: string | undefined;
+  Status?: ExportJobStatus | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  StatusMessage?: string | undefined;
+  ExportSpecification?: ExportSpecification | undefined;
+  SearchJobArn?: string | undefined;
 }
 export interface ListSearchJobBackupsInput {
   SearchJobIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchJobBackupsResult {
-  Status?: SearchJobState;
-  StatusMessage?: string;
-  ResourceType?: ResourceType;
-  BackupResourceArn?: string;
-  SourceResourceArn?: string;
-  IndexCreationTime?: Date;
-  BackupCreationTime?: Date;
+  Status?: SearchJobState | undefined;
+  StatusMessage?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  BackupResourceArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  IndexCreationTime?: Date | undefined;
+  BackupCreationTime?: Date | undefined;
 }
 export type SearchJobBackupsResults = SearchJobBackupsResult[];
 export interface ListSearchJobBackupsOutput {
   Results: SearchJobBackupsResult[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSearchJobResultsInput {
   SearchJobIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ObjectKey = string | redacted.Redacted<string>;
 export interface S3ResultItem {
-  BackupResourceArn?: string;
-  SourceResourceArn?: string;
-  BackupVaultName?: string;
-  ObjectKey?: string | redacted.Redacted<string>;
-  ObjectSize?: number;
-  CreationTime?: Date;
-  ETag?: string;
-  VersionId?: string;
+  BackupResourceArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  ObjectKey?: string | redacted.Redacted<string> | undefined;
+  ObjectSize?: number | undefined;
+  CreationTime?: Date | undefined;
+  ETag?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type FilePath = string | redacted.Redacted<string>;
 export interface EBSResultItem {
-  BackupResourceArn?: string;
-  SourceResourceArn?: string;
-  BackupVaultName?: string;
-  FileSystemIdentifier?: string;
-  FilePath?: string | redacted.Redacted<string>;
-  FileSize?: number;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  BackupResourceArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  FileSystemIdentifier?: string | undefined;
+  FilePath?: string | redacted.Redacted<string> | undefined;
+  FileSize?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type ResultItem =
-  | { S3ResultItem: S3ResultItem; EBSResultItem?: never }
-  | { S3ResultItem?: never; EBSResultItem: EBSResultItem };
+  | { S3ResultItem: S3ResultItem; EBSResultItem?: undefined }
+  | { S3ResultItem?: undefined; EBSResultItem: EBSResultItem };
 export type Results = ResultItem[];
 export interface ListSearchJobResultsOutput {
   Results: ResultItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSearchJobsInput {
-  ByStatus?: SearchJobState;
-  NextToken?: string;
-  MaxResults?: number;
+  ByStatus?: SearchJobState | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchJobSummary {
-  SearchJobIdentifier?: string;
-  SearchJobArn?: string;
-  Name?: string;
-  Status?: SearchJobState;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  SearchScopeSummary?: SearchScopeSummary;
-  StatusMessage?: string;
+  SearchJobIdentifier?: string | undefined;
+  SearchJobArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: SearchJobState | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  SearchScopeSummary?: SearchScopeSummary | undefined;
+  StatusMessage?: string | undefined;
 }
 export type SearchJobs = SearchJobSummary[];
 export interface ListSearchJobsOutput {
   SearchJobs: SearchJobSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSearchResultExportJobsInput {
-  Status?: ExportJobStatus;
-  SearchJobIdentifier?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: ExportJobStatus | undefined;
+  SearchJobIdentifier?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ExportJobSummary {
   ExportJobIdentifier: string;
-  ExportJobArn?: string;
-  Status?: ExportJobStatus;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  StatusMessage?: string;
-  SearchJobArn?: string;
+  ExportJobArn?: string | undefined;
+  Status?: ExportJobStatus | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  StatusMessage?: string | undefined;
+  SearchJobArn?: string | undefined;
 }
 export type ExportJobSummaries = ExportJobSummary[];
 export interface ListSearchResultExportJobsOutput {
   ExportJobs: ExportJobSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartSearchJobInput {
-  Tags?: { [key: string]: string | undefined };
-  Name?: string;
-  EncryptionKeyArn?: string;
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Name?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  ClientToken?: string | undefined;
   SearchScope: SearchScope;
-  ItemFilters?: ItemFilters;
+  ItemFilters?: ItemFilters | undefined;
 }
 export interface StartSearchJobOutput {
-  SearchJobArn?: string;
-  CreationTime?: Date;
-  SearchJobIdentifier?: string;
+  SearchJobArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  SearchJobIdentifier?: string | undefined;
 }
 export type IamRoleArn = string;
 export interface StartSearchResultExportJobInput {
   SearchJobIdentifier: string;
   ExportSpecification: ExportSpecification;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  RoleArn?: string;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RoleArn?: string | undefined;
 }
 export interface StartSearchResultExportJobOutput {
-  ExportJobArn?: string;
+  ExportJobArn?: string | undefined;
   ExportJobIdentifier: string;
 }
 export interface StopSearchJobInput {
@@ -391,7 +392,7 @@ export type GetSearchJobError = ResourceNotFoundException | CommonErrors;
  * This operation retrieves metadata of a search job, including its progress.
  */
 export const getSearchJob: API.OperationMethod<
-  GetSearchJobInput,
+  GetSearchJobInput & RegionInput,
   GetSearchJobOutput,
   GetSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -415,7 +416,7 @@ export type GetSearchResultExportJobError = ResourceNotFoundException | CommonEr
  * An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
  */
 export const getSearchResultExportJob: API.OperationMethod<
-  GetSearchResultExportJobInput,
+  GetSearchResultExportJobInput & RegionInput,
   GetSearchResultExportJobOutput,
   GetSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
@@ -439,7 +440,7 @@ export type ListSearchJobBackupsError = ResourceNotFoundException | CommonErrors
  * Only recovery points with a backup index that has a status of `ACTIVE` will be included in search results. If the index has any other status, its status will be displayed along with a status message.
  */
 export const listSearchJobBackups: API.PaginatedOperationMethod<
-  ListSearchJobBackupsInput,
+  ListSearchJobBackupsInput & RegionInput,
   ListSearchJobBackupsOutput,
   ListSearchJobBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -466,7 +467,7 @@ export type ListSearchJobResultsError = ResourceNotFoundException | CommonErrors
  * This operation returns a list of a specified search job.
  */
 export const listSearchJobResults: API.PaginatedOperationMethod<
-  ListSearchJobResultsInput,
+  ListSearchJobResultsInput & RegionInput,
   ListSearchJobResultsOutput,
   ListSearchJobResultsError,
   Credentials | HttpClient.HttpClient,
@@ -493,7 +494,7 @@ export type ListSearchJobsError = CommonErrors;
  * This operation returns a list of search jobs belonging to an account.
  */
 export const listSearchJobs: API.PaginatedOperationMethod<
-  ListSearchJobsInput,
+  ListSearchJobsInput & RegionInput,
   ListSearchJobsOutput,
   ListSearchJobsError,
   Credentials | HttpClient.HttpClient,
@@ -523,7 +524,7 @@ export type ListSearchResultExportJobsError =
  * This operation exports search results of a search job to a specified destination S3 bucket.
  */
 export const listSearchResultExportJobs: API.PaginatedOperationMethod<
-  ListSearchResultExportJobsInput,
+  ListSearchResultExportJobsInput & RegionInput,
   ListSearchResultExportJobsOutput,
   ListSearchResultExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -550,7 +551,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * This operation returns the tags for a resource type.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -576,7 +577,7 @@ export type StartSearchJobError =
  * You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
  */
 export const startSearchJob: API.OperationMethod<
-  StartSearchJobInput,
+  StartSearchJobInput & RegionInput,
   StartSearchJobOutput,
   StartSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -600,7 +601,7 @@ export type StartSearchResultExportJobError =
  * This operations starts a job to export the results of search job to a designated S3 bucket.
  */
 export const startSearchResultExportJob: API.OperationMethod<
-  StartSearchResultExportJobInput,
+  StartSearchResultExportJobInput & RegionInput,
   StartSearchResultExportJobOutput,
   StartSearchResultExportJobError,
   Credentials | HttpClient.HttpClient
@@ -622,7 +623,7 @@ export type StopSearchJobError = ConflictException | ResourceNotFoundException |
  * Only a search job with a status of `RUNNING` can be stopped.
  */
 export const stopSearchJob: API.OperationMethod<
-  StopSearchJobInput,
+  StopSearchJobInput & RegionInput,
   StopSearchJobOutput,
   StopSearchJobError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * This operation puts tags on the resource you indicate.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * This operation removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

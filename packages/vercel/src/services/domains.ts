@@ -74,16 +74,16 @@ export interface ClaimDomainOwnershipRequest {
   /** The domain name to claim ownership of */
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** An object containing information of the domain creator, including the user's id, username, and email. */
 export interface ClaimDomainOwnershipResponseDomainCreator {
-  customerId?: string | null;
+  customerId?: string | null | undefined;
   email: string;
   id: string;
-  isDomainReseller?: boolean;
+  isDomainReseller?: boolean | undefined;
   username: string;
 }
 /** A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel. */
@@ -104,7 +104,7 @@ export interface ClaimDomainOwnershipResponseDomain {
   /** An object containing information of the domain creator, including the user's id, username, and email. */
   creator: ClaimDomainOwnershipResponseDomainCreator;
   /** A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel. */
-  customNameservers?: ClaimDomainOwnershipResponseDomainCustomNameserversList;
+  customNameservers?: ClaimDomainOwnershipResponseDomainCustomNameserversList | undefined;
   /** Whether the domain is enrolled in Encrypted Client Hello. `auto` leaves the decision to Vercel, `enabled` always enrolls, and `disabled` never enrolls and opts out of automatic enrollment. */
   echMode: ClaimDomainOwnershipResponseDomainEchMode;
   /** Timestamp in milliseconds at which the domain is set to expire. null if not bought with Vercel. */
@@ -118,14 +118,14 @@ export interface ClaimDomainOwnershipResponseDomain {
   /** A list of the current nameservers of the domain. */
   nameservers: ClaimDomainOwnershipResponseDomainNameserversList;
   /** Indicates whether the domain is set to automatically renew. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available. */
   serviceType: ClaimDomainOwnershipResponseDomainServiceType;
   teamId: string | null;
   /** Timestamp in milliseconds at which the domain was successfully transferred into Vercel. `null` if the transfer is still processing or was never transferred in. */
-  transferredAt?: number | null;
+  transferredAt?: number | null | undefined;
   /** If transferred into Vercel, timestamp in milliseconds when the domain transfer was initiated. */
-  transferStartedAt?: number;
+  transferStartedAt?: number | undefined;
   userId: string;
   /** If the domain has the ownership verified. */
   verified: boolean;
@@ -135,11 +135,11 @@ export interface ClaimDomainOwnershipResponse {
 }
 export interface CreateOrTransferDomainRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The domain operation to perform. It can be either `add` or `move-in`. */
-  method?: string;
+  method?: string | undefined;
 }
 /** An object containing information of the domain creator, including the user's id, username, and email. */
 export type CreateOrTransferDomainResponseDomainCreator = ClaimDomainOwnershipResponseDomainCreator;
@@ -161,7 +161,7 @@ export interface CreateOrTransferDomainResponseDomain {
   /** An object containing information of the domain creator, including the user's id, username, and email. */
   creator: ClaimDomainOwnershipResponseDomainCreator;
   /** A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel. */
-  customNameservers?: CreateOrTransferDomainResponseDomainCustomNameserversList;
+  customNameservers?: CreateOrTransferDomainResponseDomainCustomNameserversList | undefined;
   /** Whether the domain is enrolled in Encrypted Client Hello. `auto` leaves the decision to Vercel, `enabled` always enrolls, and `disabled` never enrolls and opts out of automatic enrollment. */
   echMode: CreateOrTransferDomainResponseDomainEchMode;
   /** Timestamp in milliseconds at which the domain is set to expire. null if not bought with Vercel. */
@@ -175,14 +175,14 @@ export interface CreateOrTransferDomainResponseDomain {
   /** A list of the current nameservers of the domain. */
   nameservers: CreateOrTransferDomainResponseDomainNameserversList;
   /** Indicates whether the domain is set to automatically renew. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available. */
   serviceType: CreateOrTransferDomainResponseDomainServiceType;
   teamId: string | null;
   /** Timestamp in milliseconds at which the domain was successfully transferred into Vercel. `null` if the transfer is still processing or was never transferred in. */
-  transferredAt?: number | null;
+  transferredAt?: number | null | undefined;
   /** If transferred into Vercel, timestamp in milliseconds when the domain transfer was initiated. */
-  transferStartedAt?: number;
+  transferStartedAt?: number | undefined;
   userId: string;
   /** If the domain has the ownership verified. */
   verified: boolean;
@@ -194,9 +194,9 @@ export interface DeleteDomainRequest {
   /** The name of the domain. */
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteDomainResponse {
   uid: string;
@@ -205,9 +205,9 @@ export interface GetDomainRequest {
   /** The name of the domain. */
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** An object containing information of the domain creator, including the user's id, username, and email. */
 export type GetDomainResponseDomainCreator = ClaimDomainOwnershipResponseDomainCreator;
@@ -229,7 +229,7 @@ export interface GetDomainResponseDomain {
   /** An object containing information of the domain creator, including the user's id, username, and email. */
   creator: ClaimDomainOwnershipResponseDomainCreator;
   /** A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel. */
-  customNameservers?: GetDomainResponseDomainCustomNameserversList;
+  customNameservers?: GetDomainResponseDomainCustomNameserversList | undefined;
   /** Whether the domain is enrolled in Encrypted Client Hello. `auto` leaves the decision to Vercel, `enabled` always enrolls, and `disabled` never enrolls and opts out of automatic enrollment. */
   echMode: GetDomainResponseDomainEchMode;
   /** Timestamp in milliseconds at which the domain is set to expire. null if not bought with Vercel. */
@@ -243,15 +243,15 @@ export interface GetDomainResponseDomain {
   /** A list of the current nameservers of the domain. */
   nameservers: GetDomainResponseDomainNameserversList;
   /** Indicates whether the domain is set to automatically renew. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available. */
   serviceType: GetDomainResponseDomainServiceType;
   suffix: boolean;
   teamId: string | null;
   /** Timestamp in milliseconds at which the domain was successfully transferred into Vercel. `null` if the transfer is still processing or was never transferred in. */
-  transferredAt?: number | null;
+  transferredAt?: number | null | undefined;
   /** If transferred into Vercel, timestamp in milliseconds when the domain transfer was initiated. */
-  transferStartedAt?: number;
+  transferStartedAt?: number | undefined;
   userId: string;
   /** If the domain has the ownership verified. */
   verified: boolean;
@@ -263,13 +263,13 @@ export interface GetDomainConfigRequest {
   /** The name of the domain. */
   domain: string;
   /** The project id or name that will be associated with the domain. Use this when the domain is not yet associated with a project. */
-  projectIdOrName?: string;
+  projectIdOrName?: string | undefined;
   /** When true, the response will only include the nameservers assigned directly to the specified domain. When false and there are no nameservers assigned directly to the specified domain, the response will include the nameservers of the domain's parent zone. */
-  strict?: boolean;
+  strict?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Which challenge types the domain can use for issuing certs. */
 export type GetDomainConfigResponseAcceptedChallengesItem = "dns-01" | "http-01";
@@ -311,15 +311,15 @@ export interface GetDomainProjectDomainsRequest {
   /** The apex domain name. */
   domain: string;
   /** Maximum number of project domains to list from a request. */
-  limit?: number;
+  limit?: number | undefined;
   /** Get project domains created after this JavaScript timestamp. */
-  since?: number;
+  since?: number | undefined;
   /** Get project domains created before this JavaScript timestamp. */
-  until?: number;
+  until?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data. */
 export interface Pagination {
@@ -347,16 +347,19 @@ export type GetDomainProjectDomainsResponseProjectDomainsItemVerificationList =
   Array<GetDomainProjectDomainsResponseProjectDomainsItemVerificationItem>;
 export interface GetDomainProjectDomainsResponseProjectDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetDomainProjectDomainsResponseProjectDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetDomainProjectDomainsResponseProjectDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetDomainProjectDomainsResponseProjectDomainsItemVerificationList;
+  verification?: GetDomainProjectDomainsResponseProjectDomainsItemVerificationList | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -368,15 +371,15 @@ export interface GetDomainProjectDomainsResponse {
 }
 export interface GetDomainsRequest {
   /** Maximum number of domains to list from a request. */
-  limit?: number;
+  limit?: number | undefined;
   /** Get domains created after this JavaScript timestamp. */
-  since?: number;
+  since?: number | undefined;
   /** Get domains created before this JavaScript timestamp. */
-  until?: number;
+  until?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** An object containing information of the domain creator, including the user's id, username, and email. */
 export type GetDomainsResponseDomainsItemCreator = ClaimDomainOwnershipResponseDomainCreator;
@@ -398,7 +401,7 @@ export interface GetDomainsResponseDomainsItem {
   /** An object containing information of the domain creator, including the user's id, username, and email. */
   creator: ClaimDomainOwnershipResponseDomainCreator;
   /** A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel. */
-  customNameservers?: GetDomainsResponseDomainsItemCustomNameserversList;
+  customNameservers?: GetDomainsResponseDomainsItemCustomNameserversList | undefined;
   /** Whether the domain is enrolled in Encrypted Client Hello. `auto` leaves the decision to Vercel, `enabled` always enrolls, and `disabled` never enrolls and opts out of automatic enrollment. */
   echMode: GetDomainsResponseDomainsItemEchMode;
   /** Timestamp in milliseconds at which the domain is set to expire. null if not bought with Vercel. */
@@ -412,14 +415,14 @@ export interface GetDomainsResponseDomainsItem {
   /** A list of the current nameservers of the domain. */
   nameservers: GetDomainsResponseDomainsItemNameserversList;
   /** Indicates whether the domain is set to automatically renew. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available. */
   serviceType: GetDomainsResponseDomainsItemServiceType;
   teamId: string | null;
   /** Timestamp in milliseconds at which the domain was successfully transferred into Vercel. `null` if the transfer is still processing or was never transferred in. */
-  transferredAt?: number | null;
+  transferredAt?: number | null | undefined;
   /** If transferred into Vercel, timestamp in milliseconds when the domain transfer was initiated. */
-  transferStartedAt?: number;
+  transferStartedAt?: number | undefined;
   userId: string;
   /** If the domain has the ownership verified. */
   verified: boolean;
@@ -433,9 +436,9 @@ export interface GetDomainVerificationRecordRequest {
   /** The domain name to get the verification record for */
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetDomainVerificationRecordResponse {
   txtRecord: string;
@@ -447,29 +450,29 @@ export type UpdateDomainRequestBodyCase0CustomNameserversList = Array<string>;
 export type UpdateDomainRequestBodyCase0EchMode = "auto" | "disabled";
 /** update */
 export interface UpdateDomainRequestBodyCase0 {
-  op?: string;
+  op?: string | undefined;
   /** This field is deprecated. Please use PATCH /v1/registrar/domains/{domainName}/auto-renew instead. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** This field is deprecated. Please use PATCH /v1/registrar/domains/{domainName}/nameservers instead. */
-  customNameservers?: UpdateDomainRequestBodyCase0CustomNameserversList;
+  customNameservers?: UpdateDomainRequestBodyCase0CustomNameserversList | undefined;
   /** Specifies whether this is a DNS zone that intends to use Vercel's nameservers. */
-  zone?: boolean;
+  zone?: boolean | undefined;
   /** Encrypted Client Hello enrollment. 'auto' leaves it to Vercel, 'disabled' never enrolls and opts out of automatic enrollment. */
-  echMode?: UpdateDomainRequestBodyCase0EchMode | (string & {});
+  echMode?: UpdateDomainRequestBodyCase0EchMode | (string & {}) | undefined;
 }
 /** move-out */
 export interface UpdateDomainRequestBodyCase1 {
-  op?: string;
+  op?: string | undefined;
   /** User or team to move domain to */
-  destination?: string;
+  destination?: string | undefined;
 }
 export type UpdateDomainRequestBody = UpdateDomainRequestBodyCase0 | UpdateDomainRequestBodyCase1;
 export interface UpdateDomainRequest {
   domain: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   body: UpdateDomainRequestBody;
 }
 export interface UpdateDomainResponseBodyCase0 {
@@ -482,10 +485,10 @@ export interface UpdateDomainResponseBodyCase1 {
 export type UpdateDomainResponseBodyCase2CustomNameserversList = Array<string>;
 export type UpdateDomainResponseBodyCase2EchMode = "auto" | "disabled" | "enabled";
 export interface UpdateDomainResponseBodyCase2 {
-  customNameservers?: UpdateDomainResponseBodyCase2CustomNameserversList;
+  customNameservers?: UpdateDomainResponseBodyCase2CustomNameserversList | undefined;
   echMode: UpdateDomainResponseBodyCase2EchMode;
-  renew?: boolean;
-  zone?: boolean;
+  renew?: boolean | undefined;
+  zone?: boolean | undefined;
 }
 export type UpdateDomainResponseBody =
   | UpdateDomainResponseBodyCase0

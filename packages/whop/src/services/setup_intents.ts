@@ -70,21 +70,21 @@ export interface CreateSetupIntentRequest {
   /** The account to save the payment method for, prefixed `biz_`. */
   account_id: string;
   /** A confirmation token describing a payment method the buyer just supplied, collected by the payment elements in setup mode. Provide this or `payment_method_id`, not both. The buyer is resolved from the token's billing email, or from `email`, and may still have a step to complete -- poll Retrieve setup status for what to do next. */
-  confirmation_token?: string | null;
+  confirmation_token?: string | null | undefined;
   /** The currency the saved payment method will be used with, as a lowercase ISO 4217 code. Controls which currency-specific payment methods are available. Defaults to `usd`. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the method belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer or the caller is the buyer. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Custom metadata to attach to the setup intent. Returned on the setup intent and its webhooks. */
-  metadata?: CreateSetupIntentRequestMetadataMap | null;
+  metadata?: CreateSetupIntentRequestMetadataMap | null | undefined;
   /** An existing payment method to re-verify and save, prefixed `payt_`. Provide this or `confirmation_token`, not both. Not available to a buyer credential. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** What the saved payment method will pay for. Set to `ads_billing` when saving a card to pay for Whop Ads on `account_id`: the card is verified by Whop Ads, the merchant that charges it, which helps minimize security declines on ad payments, and it requires `ad_campaign:create` on `account_id`. Omit it for any other payment method. */
-  purpose?: CreateSetupIntentRequestPurpose | (string & {}) | null;
+  purpose?: CreateSetupIntentRequestPurpose | (string & {}) | null | undefined;
   /** Where the buyer continues after completing an off-site step. An absolute https URL without credentials, at most 2,048 characters. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface SetupLastSetupError {
   /** A machine-readable classification of the failure, e.g. `enrollment_declined`. Absent when the buyer simply abandoned the setup. */
@@ -359,23 +359,23 @@ export interface Money {
 }
 export interface PaymentVoucher {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The barcode's contents, when the voucher carries one -- render it in the symbology named by `barcode_format`. */
-  barcode?: string;
+  barcode?: string | undefined;
   /** The symbology `barcode` is encoded in, such as `CODE_128`. */
-  barcode_format?: string;
+  barcode_format?: string | undefined;
   /** Who the payment is made out to. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the voucher stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** URL of that network's logo. */
-  provider_logo?: string;
+  provider_logo?: string | undefined;
   /** The network the buyer pays at, such as OXXO. */
-  provider_name?: string;
+  provider_name?: string | undefined;
   /** The voucher's number -- what the buyer reads out or types at the counter to pay. */
-  reference?: string;
+  reference?: string | undefined;
 }
 export interface PaymentVoucherInstructions {
   /** Always `voucher`: a code the buyer pays in person, at a convenience store or bank counter. */
@@ -387,17 +387,17 @@ export interface PaymentVoucherInstructions {
 export type PaymentQrInstructionsKind = "qr";
 export interface PaymentQr {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the code stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An account key the buyer can pay to directly (Colombia's Bre-B llave), for apps that take a key instead of a scan. */
-  key?: string;
+  key?: string | undefined;
   /** The QR code's contents, ready to render as a scannable image -- `qr_format` says how it is encoded. */
-  qr_code?: string;
+  qr_code?: string | undefined;
   /** How `qr_code` is encoded. */
-  qr_format?: string;
+  qr_format?: string | undefined;
 }
 export interface PaymentQrInstructions {
   /** Always `qr`: a code the buyer scans with their banking app. */
@@ -407,43 +407,43 @@ export interface PaymentQrInstructions {
 }
 export interface PaymentBankTransfer {
   /** The account to send to, in the local scheme's format -- `account_number_label` says what to call it. */
-  account_number?: string;
+  account_number?: string | undefined;
   /** What to call `account_number` when showing it, in the local scheme's own terms -- `CLABE` in Mexico, for example. */
-  account_number_label?: string;
+  account_number_label?: string | undefined;
   /** Exactly what the buyer must send, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The kind of account receiving the transfer, such as a checking account, in the local system's own vocabulary. */
-  bank_account_type?: string;
+  bank_account_type?: string | undefined;
   /** The receiving bank's address. */
-  bank_address?: string;
+  bank_address?: string | undefined;
   /** The receiving branch, where the local system routes by branch. */
-  bank_branch?: string;
+  bank_branch?: string | undefined;
   /** The code that identifies the receiving bank -- its code in the local clearing system, or its SWIFT/BIC on a transfer that crosses borders. */
-  bank_code?: string;
+  bank_code?: string | undefined;
   /** What to call `bank_code` when showing it, in the scheme's own terms -- `SWIFT / BIC` on an international wire, for example. */
-  bank_code_label?: string;
+  bank_code_label?: string | undefined;
   /** The receiving bank's name. */
-  bank_name?: string;
+  bank_name?: string | undefined;
   /** The account holder's tax or identity document number, where the local system needs it to send. */
-  beneficiary_document?: string;
+  beneficiary_document?: string | undefined;
   /** What kind of document `beneficiary_document` is, in the local system's own vocabulary. */
-  beneficiary_document_type?: string;
+  beneficiary_document_type?: string | undefined;
   /** Who the account belongs to -- the name the buyer's bank may ask them to confirm. */
-  beneficiary_name?: string;
+  beneficiary_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When these details stop being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The rail's own step-by-step payment text, when it supplies one. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** The reference the buyer must attach to the transfer so it can be matched to this payment. */
-  reference?: string;
+  reference?: string | undefined;
   /** The receiving bank's routing number for US transfers. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** A second account number, where the rail publishes the same destination in more than one format. */
-  secondary_account_number?: string;
+  secondary_account_number?: string | undefined;
   /** What to call `secondary_account_number` when showing it. */
-  secondary_account_number_label?: string;
+  secondary_account_number_label?: string | undefined;
 }
 /** Always `bank_transfer`: account details the buyer sends money to from their own bank. */
 export type PaymentBankTransferInstructionsKind = "bank_transfer";
@@ -518,25 +518,25 @@ export type ListSetupIntentsRequestOrder = "created_at";
 export type ListSetupIntentsRequestDirection = "asc" | "desc";
 export interface ListSetupIntentsRequest {
   /** Only setup intents for this account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only setup intents in this state. */
-  status?: ListSetupIntentsRequestStatus | (string & {});
+  status?: ListSetupIntentsRequestStatus | (string & {}) | undefined;
   /** Only setup intents created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only setup intents created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort by. */
-  order?: ListSetupIntentsRequestOrder | (string & {});
+  order?: ListSetupIntentsRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListSetupIntentsRequestDirection | (string & {});
+  direction?: ListSetupIntentsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListSetupIntentsResponseDataList = Array<SetupIntent>;
 export interface ListSetupIntentsResponsePageInfo {

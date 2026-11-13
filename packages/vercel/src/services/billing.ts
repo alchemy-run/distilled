@@ -83,11 +83,11 @@ export interface BuyCreditsRequestItem {
 }
 export interface BuyCreditsRequest {
   /** The source of the purchase request. Defaults to `api` if not specified. */
-  source?: string;
+  source?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   item: BuyCreditsRequestItem;
 }
 export interface BuyCreditsResponseBodyCase0 {
@@ -108,7 +108,7 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase0Opti
   /** The currency being purchased */
   currency: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase0OptionsCurrency;
   /** The expiration date of the credits being purchased */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
 }
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase0Type = "credit_topup";
 /** The configuration for a credit purchase */
@@ -162,16 +162,18 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsRe
   Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesItem>;
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Options {
   /** Whether or not to reset the billing cycle */
-  alignBillingWithPlanChangeDate?: boolean;
+  alignBillingWithPlanChangeDate?: boolean | undefined;
   /** The coupon redemption code to apply to the plan change */
-  couponRedemptionCode?: string;
+  couponRedemptionCode?: string | undefined;
   effectiveDate: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate;
   /** The ID of the external plan to change to */
-  externalPlanId?: string;
+  externalPlanId?: string | undefined;
   /** The ID of the Orb subscription to change */
   orbSubscriptionId: string;
   /** The prices to replace in the subscription */
-  replacePrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesList;
+  replacePrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesList
+    | undefined;
 }
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Output {
   /** The ID of the pending subscription change */
@@ -198,15 +200,19 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEd
   Array<unknown>;
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options {
   /** The price intervals to add to the subscription */
-  add?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList;
+  add?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList | undefined;
   /** The adjustment intervals to add to the subscription */
-  addAdjustments?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList;
+  addAdjustments?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList
+    | undefined;
   /** Whether to allow invoice credit or void */
-  allowInvoiceCreditOrVoid?: boolean;
+  allowInvoiceCreditOrVoid?: boolean | undefined;
   /** The price intervals to edit on the subscription */
-  edit?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList;
+  edit?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList | undefined;
   /** The adjustment intervals to edit on the subscription */
-  editAdjustments?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList;
+  editAdjustments?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList
+    | undefined;
   /** The ID of the Orb subscription to modify price intervals for */
   orbSubscriptionId: string;
 }
@@ -250,23 +256,31 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsRe
   Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesItem>;
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Options {
   /** The prices to add to the subscription */
-  addPrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsAddPricesList;
+  addPrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsAddPricesList
+    | undefined;
   /** Whether to align the subscription start date with the billing subscription start date */
-  alignBillingWithSubscriptionStartDate?: boolean;
+  alignBillingWithSubscriptionStartDate?: boolean | undefined;
   /** The coupon redemption code to apply to the subscription */
-  couponRedemptionCode?: string;
+  couponRedemptionCode?: string | undefined;
   /** The external plan ID of the Orb plan to subscribe to */
   externalPlanId: string;
   /** The initial phase order to use for the subscription */
-  initialPhaseOrder?: number;
+  initialPhaseOrder?: number | undefined;
   /** Optional metadata to associate with the subscription */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap
+    | undefined;
   /** The prices to remove in the subscription */
-  removePrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsRemovePricesList;
+  removePrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsRemovePricesList
+    | undefined;
   /** The prices to replace in the subscription */
-  replacePrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsReplacePricesList;
+  replacePrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsReplacePricesList
+    | undefined;
   /** The start date of the subscription */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Output =
   BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Output;
@@ -287,17 +301,19 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Opti
   /** The ID of the line item */
   id: string;
   /** Optional metadata for the line item */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap
+    | undefined;
   /** The name of the line item */
   name: string;
   /** The alias of the product being purchased */
-  productAlias?: string;
+  productAlias?: string | undefined;
   /** The ID of the product being purchased */
   productId: string;
   /** The quantity of the line item */
   quantity: string;
   /** The amount of the line item that has been refunded */
-  refund?: string;
+  refund?: string | undefined;
   /** The unit amount of the line item */
   unitAmount: string;
 }
@@ -306,7 +322,9 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLi
   Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItem>;
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Options {
   /** The line items that make up the Purchase Intent. */
-  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList;
+  lineItems?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList
+    | undefined;
   /** The ID of the Orb customer to create */
   orbCustomerId: string;
   /** The external ID of the Orb customer to create */
@@ -314,7 +332,7 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Opti
   /** The external ID of the Orb plan to create */
   orbExternalPlanId: string;
   /** The ID of the pending subscription change */
-  orbPendingSubscriptionChangeId?: string;
+  orbPendingSubscriptionChangeId?: string | undefined;
   /** The ID of the Orb plan to create */
   orbPlanId: string;
   /** The ID of the Orb subscription to create */
@@ -322,7 +340,7 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Opti
 }
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Output {
   /** The ID of the pending subscription change */
-  pendingSubscriptionChangeId?: string;
+  pendingSubscriptionChangeId?: string | undefined;
 }
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Type =
   "orb_subscription_intent";
@@ -332,6 +350,36 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5 {
   output: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Output;
   type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Type;
 }
+/** Additional source subscriptions replaced by this purchase */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsItem {
+  /** The end of the additional source subscription billing cycle */
+  currentCycleEndDate: string;
+  /** The additional source Orb subscription ID */
+  orbSubscriptionId: string;
+  /** The ID of the plan assigned to the additional source subscription */
+  planId: string;
+}
+/** Additional source subscriptions replaced by this purchase */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPriceModel =
+  "unit";
+/** The absolute price that replaces the plan item price, after any rate variant */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPrice {
+  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPriceModel;
+  /** The non-negative per-unit USD amount, with at most two decimal places */
+  unitAmount: string;
+}
+/** The current plan item price overrides */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItem {
+  /** The ID of the plan item to set the price for */
+  planItemId: string;
+  /** The absolute price that replaces the plan item price, after any rate variant */
+  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPrice;
+}
+/** The current plan item price overrides */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItem>;
 /** The resource IDs associated with the current plan item quantity */
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItemResourceIdsList =
   Array<string>;
@@ -342,24 +390,54 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Opti
   /** The nonnegative integer quantity for the current plan item */
   quantity: number;
   /** The resource IDs associated with the current plan item quantity */
-  resourceIds?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItemResourceIdsList
+    | undefined;
 }
 /** The current plan item quantities */
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesList =
   Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItem>;
 /** The current plan being replaced by this purchase */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan {
+  /** Additional source subscriptions replaced by this purchase */
+  additionalSubscriptions?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsList
+    | undefined;
   /** The end of the current plan billing cycle */
   currentCycleEndDate: string;
   /** The Orb subscription ID currently active for the owner on the source plan */
   orbSubscriptionId: string;
   /** The ID of the plan currently assigned */
   planId: string;
+  /** The current plan item price overrides */
+  planItemPrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesList
+    | undefined;
   /** The current plan item quantities */
-  planItemQuantities?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesList;
+  planItemQuantities?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesList
+    | undefined;
   /** The rate variant currently assigned */
-  rateVariantKey?: string;
+  rateVariantKey?: string | undefined;
 }
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPriceModel =
+  "unit";
+/** The absolute price that replaces the plan item price, after any rate variant */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPrice {
+  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPriceModel;
+  /** The non-negative per-unit USD amount, with at most two decimal places */
+  unitAmount: string;
+}
+/** The plan item prices to set for the subscription, independent of quantities */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItem {
+  /** The ID of the plan item to set the price for */
+  planItemId: string;
+  /** The absolute price that replaces the plan item price, after any rate variant */
+  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPrice;
+}
+/** The plan item prices to set for the subscription, independent of quantities */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItem>;
 /** The resource IDs to associate with the plan item quantity */
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItemResourceIdsList =
   Array<string>;
@@ -370,7 +448,9 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Opti
   /** The nonnegative integer quantity for the plan item */
   quantity: number;
   /** The resource IDs to associate with the plan item quantity */
-  resourceIds?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItemResourceIdsList
+    | undefined;
 }
 /** The plan item quantities to set for the subscription */
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList =
@@ -378,17 +458,23 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPl
 /** Purchase configuration specific options */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options {
   /** The current plan being replaced by this purchase */
-  fromPlan?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan;
+  fromPlan?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan | undefined;
   /** The ID of the plan to subscribe to */
   planId: string;
+  /** The plan item prices to set for the subscription, independent of quantities */
+  planItemPrices?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesList
+    | undefined;
   /** The plan item quantities to set for the subscription */
-  planItemQuantities?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList;
+  planItemQuantities?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList
+    | undefined;
   /** The rate variant key to apply to the subscription */
-  rateVariantKey?: string;
+  rateVariantKey?: string | undefined;
 }
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Output {
   /** The committed Plan revision used to calculate the purchase price */
-  planChangeId?: string;
+  planChangeId?: string | undefined;
 }
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Type = "subscription";
 /** The configuration for a credit purchase */
@@ -438,17 +524,17 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem {
   /** The ID of the line item */
   id: string;
   /** Optional metadata for the line item */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap;
+  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap | undefined;
   /** The name of the line item */
   name: string;
   /** The alias of the product being purchased */
-  productAlias?: string;
+  productAlias?: string | undefined;
   /** The ID of the product being purchased */
   productId: string;
   /** The quantity of the line item */
   quantity: string;
   /** The amount of the line item that has been refunded */
-  refund?: string;
+  refund?: string | undefined;
   /** The unit amount of the line item */
   unitAmount: string;
 }
@@ -471,11 +557,11 @@ export type BuyCreditsResponseBodyCase1PurchaseIntentProviderType =
   | "tackle_aws_marketplace";
 export interface BuyCreditsResponseBodyCase1PurchaseIntentProvider {
   /** The currency conversion rate used by the provider */
-  currencyConversionRate?: string;
+  currencyConversionRate?: string | undefined;
   /** Provider resource id */
   resourceId: string;
   /** Whether a Stripe Shared Payment Token was used for this purchase. Only applicable when type is stripe_invoice_immediate. */
-  stripeSharedPaymentTokenUsed?: boolean;
+  stripeSharedPaymentTokenUsed?: boolean | undefined;
   /** The type of the purchase provider */
   type: BuyCreditsResponseBodyCase1PurchaseIntentProviderType;
 }
@@ -489,20 +575,20 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntent {
   /** The currency for the purchase intent */
   currency: BuyCreditsResponseBodyCase1PurchaseIntentCurrency;
   /** The dispute details, if any. */
-  dispute?: BuyCreditsResponseBodyCase1PurchaseIntentDispute;
+  dispute?: BuyCreditsResponseBodyCase1PurchaseIntentDispute | undefined;
   /** The unique ID of a Purchase Intent. Uses the format `pur_*` */
   id: string;
   /** The line items that make up the Purchase Intent. */
-  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList;
+  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList | undefined;
   /** Optional metadata associated with the purchase intent */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap;
+  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap | undefined;
   /** The ID of the owner of the Purchase Intent. */
   ownerId: string;
   provider: BuyCreditsResponseBodyCase1PurchaseIntentProvider;
   /** The amount of the purchase intent that has been refunded */
-  refund?: string;
+  refund?: string | undefined;
   /** The URL to redirect to after the purchase is complete */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
   /** The status of the Purchase Intent. */
   status: BuyCreditsResponseBodyCase1PurchaseIntentStatus;
   /** The subtotal of the Purchase Intent. */
@@ -518,17 +604,11 @@ export interface BuyCreditsResponseBodyCase1 {
   /** The created purchase intent */
   purchaseIntent: BuyCreditsResponseBodyCase1PurchaseIntent;
 }
-/** The resource IDs for the plan item. Only set if SKU requires resource entitlements. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OptionsResourceIdsList =
-  Array<string>;
-/** Configuration input options for setting plan item quantity. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Options {
   /** The alias of the product to set quantity for. */
   productAlias: string;
   /** The quantity to set for the plan item. */
   quantity: number;
-  /** The resource IDs for the plan item. Only set if SKU requires resource entitlements. */
-  resourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OptionsResourceIdsList;
 }
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList =
@@ -542,9 +622,11 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Ou
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItem {
   /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList;
+  addedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList
+    | undefined;
   /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
+  effectiveAt?: string | undefined;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
@@ -552,9 +634,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
   /** The resulting quantity after this change. */
   quantity: number;
   /** Resource IDs that were removed. */
-  removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemRemovedResourceIdsList;
+  removedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemRemovedResourceIdsList
+    | undefined;
   /** The full set of resource IDs after the change. */
-  resourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemResourceIdsList
+    | undefined;
 }
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList =
@@ -581,42 +667,47 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output {
   /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList;
+  changedResources?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList
+    | undefined;
   /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
-  customerTimezone?: string;
+  customerTimezone?: string | undefined;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior;
   /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap
+    | undefined;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
   /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  pendingSubscriptionChangeId?: string | undefined;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
   /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
-  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+  referenceBillingPeriod?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod
+    | undefined;
 }
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Type =
   "set_plan_item_quantity";
 /** Configuration for the Orb subscription intent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0 {
-  /** Configuration input options for setting plan item quantity. */
   options: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Options;
   /** Output returned after configuring an OrbSubscriptionIntent. */
   output: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output;
   type: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Type;
 }
-/** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OptionsResourceIdsList =
   Array<string>;
-/** Configuration input options for increasing plan item quantity. */
+/** Configuration input options for setting plan item quantity. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Options {
-  /** The alias of the product to increase quantity for. */
+  /** The alias of the product to set quantity for. */
   productAlias: string;
-  /** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
+  /** The quantity to set for the plan item. */
+  quantity: number;
   resourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OptionsResourceIdsList;
 }
 /** Resource IDs that were added. */
@@ -631,9 +722,11 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Ou
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItem {
   /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList;
+  addedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList
+    | undefined;
   /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
+  effectiveAt?: string | undefined;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
@@ -641,9 +734,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
   /** The resulting quantity after this change. */
   quantity: number;
   /** Resource IDs that were removed. */
-  removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemRemovedResourceIdsList;
+  removedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemRemovedResourceIdsList
+    | undefined;
   /** The full set of resource IDs after the change. */
-  resourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemResourceIdsList
+    | undefined;
 }
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList =
@@ -666,42 +763,48 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Ou
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output {
   /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList;
+  changedResources?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList
+    | undefined;
   /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
-  customerTimezone?: string;
+  customerTimezone?: string | undefined;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior;
   /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap
+    | undefined;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
   /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  pendingSubscriptionChangeId?: string | undefined;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
   /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
-  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+  referenceBillingPeriod?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod
+    | undefined;
 }
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Type =
-  "increase_plan_item_quantity";
+  "set_plan_item_quantity";
 /** Configuration for the Orb subscription intent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1 {
-  /** Configuration input options for increasing plan item quantity. */
+  /** Configuration input options for setting plan item quantity. */
   options: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Options;
   /** Output returned after configuring an OrbSubscriptionIntent. */
   output: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output;
   type: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Type;
 }
-/** The resource IDs to decrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+/** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OptionsResourceIdsList =
   Array<string>;
-/** Configuration input options for decreasing plan item quantity. */
+/** Configuration input options for increasing plan item quantity. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Options {
-  /** The alias of the product to decrease quantity for. */
+  /** The alias of the product to increase quantity for. */
   productAlias: string;
-  /** The resource IDs to decrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+  /** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
   resourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OptionsResourceIdsList;
 }
 /** Resource IDs that were added. */
@@ -716,9 +819,11 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Ou
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItem {
   /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList;
+  addedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList
+    | undefined;
   /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
+  effectiveAt?: string | undefined;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
@@ -726,9 +831,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
   /** The resulting quantity after this change. */
   quantity: number;
   /** Resource IDs that were removed. */
-  removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemRemovedResourceIdsList;
+  removedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemRemovedResourceIdsList
+    | undefined;
   /** The full set of resource IDs after the change. */
-  resourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemResourceIdsList
+    | undefined;
 }
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList =
@@ -751,48 +860,49 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Ou
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output {
   /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList;
+  changedResources?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList
+    | undefined;
   /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
-  customerTimezone?: string;
+  customerTimezone?: string | undefined;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior;
   /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap
+    | undefined;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
   /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  pendingSubscriptionChangeId?: string | undefined;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
   /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
-  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+  referenceBillingPeriod?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod
+    | undefined;
 }
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Type =
-  "decrease_plan_item_quantity";
+  "increase_plan_item_quantity";
 /** Configuration for the Orb subscription intent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2 {
-  /** Configuration input options for decreasing plan item quantity. */
+  /** Configuration input options for increasing plan item quantity. */
   options: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Options;
   /** Output returned after configuring an OrbSubscriptionIntent. */
   output: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output;
   type: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Type;
 }
-/** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsAddedResourceIdsList =
+/** The resource IDs to decrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsResourceIdsList =
   Array<string>;
-/** The resource IDs to incrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsRemovedResourceIdsList =
-  Array<string>;
-/** Configuration input options for adjusting plan item quantity. */
+/** Configuration input options for decreasing plan item quantity. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Options {
-  /** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
-  addedResourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsAddedResourceIdsList;
-  /** The alias of the product to adjust quantity for. */
+  /** The alias of the product to decrease quantity for. */
   productAlias: string;
-  /** The resource IDs to incrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
-  removedResourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsRemovedResourceIdsList;
+  /** The resource IDs to decrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+  resourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OptionsResourceIdsList;
 }
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList =
@@ -806,9 +916,11 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Ou
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItem {
   /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList;
+  addedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList
+    | undefined;
   /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
+  effectiveAt?: string | undefined;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
@@ -816,9 +928,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
   /** The resulting quantity after this change. */
   quantity: number;
   /** Resource IDs that were removed. */
-  removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemRemovedResourceIdsList;
+  removedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemRemovedResourceIdsList
+    | undefined;
   /** The full set of resource IDs after the change. */
-  resourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemResourceIdsList;
+  resourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemResourceIdsList
+    | undefined;
 }
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList =
@@ -841,39 +957,148 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Ou
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output {
   /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList;
+  changedResources?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList
+    | undefined;
   /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
-  customerTimezone?: string;
+  customerTimezone?: string | undefined;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior;
   /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap;
+  metadata?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap
+    | undefined;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
   /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  pendingSubscriptionChangeId?: string | undefined;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
   /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
-  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+  referenceBillingPeriod?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod
+    | undefined;
 }
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Type =
-  "adjust_plan_item_quantity";
+  "decrease_plan_item_quantity";
 /** Configuration for the Orb subscription intent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3 {
-  /** Configuration input options for adjusting plan item quantity. */
+  /** Configuration input options for decreasing plan item quantity. */
   options: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Options;
   /** Output returned after configuring an OrbSubscriptionIntent. */
   output: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output;
   type: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Type;
 }
+/** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OptionsAddedResourceIdsList =
+  Array<string>;
+/** The resource IDs to incrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OptionsRemovedResourceIdsList =
+  Array<string>;
+/** Configuration input options for adjusting plan item quantity. */
+export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Options {
+  /** The resource IDs to incrementally add. The quantity of the plan item will be increased by the number of resource IDs. */
+  addedResourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OptionsAddedResourceIdsList;
+  /** The alias of the product to adjust quantity for. */
+  productAlias: string;
+  /** The resource IDs to incrementally remove. The quantity of the plan item will be decreased by the number of resource IDs. */
+  removedResourceIds: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OptionsRemovedResourceIdsList;
+}
+/** Resource IDs that were added. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemAddedResourceIdsList =
+  Array<string>;
+/** Resource IDs that were removed. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemRemovedResourceIdsList =
+  Array<string>;
+/** The full set of resource IDs after the change. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemResourceIdsList =
+  Array<string>;
+/** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItem {
+  /** Resource IDs that were added. */
+  addedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemAddedResourceIdsList
+    | undefined;
+  /** When this resource change should take effect for downstream consumers. */
+  effectiveAt?: string | undefined;
+  /** The alias of the product that was changed. */
+  productAlias: string;
+  /** The ID of the product that was changed. */
+  productId: string;
+  /** The resulting quantity after this change. */
+  quantity: number;
+  /** Resource IDs that were removed. */
+  removedResourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemRemovedResourceIdsList
+    | undefined;
+  /** The full set of resource IDs after the change. */
+  resourceIds?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItemResourceIdsList
+    | undefined;
+}
+/** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesList =
+  Array<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesItem>;
+/** When the subscription change should take effect. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputEffectiveBehavior =
+  | "end_of_term"
+  | "immediate";
+/** Optional metadata associated with the intent to update the Orb subscription with. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputMetadataMap = {
+  [key: string]: string | undefined;
+};
+/** The source used as the authoritative price for this intent. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputPricingSource =
+  | "copper"
+  | "orb";
+/** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+/** Output returned after configuring an OrbSubscriptionIntent. */
+export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Output {
+  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+  changedResources?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputChangedResourcesList
+    | undefined;
+  /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
+  customerTimezone?: string | undefined;
+  /** When the subscription change should take effect. */
+  effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputEffectiveBehavior;
+  /** Optional metadata associated with the intent to update the Orb subscription with. */
+  metadata?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputMetadataMap
+    | undefined;
+  /** The Orb price ID for the subscription item being modified. */
+  orbPriceId: string;
+  /** The ID of the pending subscription change if there is one. */
+  pendingSubscriptionChangeId?: string | undefined;
+  /** The source used as the authoritative price for this intent. */
+  pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4OutputPricingSource;
+  /** The product ID associated with this intent. */
+  productId: string;
+  /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+  referenceBillingPeriod?:
+    | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod
+    | undefined;
+}
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Type =
+  "adjust_plan_item_quantity";
+/** Configuration for the Orb subscription intent. */
+export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4 {
+  /** Configuration input options for adjusting plan item quantity. */
+  options: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Options;
+  /** Output returned after configuring an OrbSubscriptionIntent. */
+  output: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Output;
+  type: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4Type;
+}
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfiguration =
   | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0
   | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1
   | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2
-  | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3;
+  | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3
+  | BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase4;
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentOrbUpdateCase0Mode = "sync";
 /** How the subscription change is applied to Orb. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentOrbUpdateCase0 {
@@ -920,7 +1145,7 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntent {
   /** The owner ID for this intent (e.g., team or user ID). */
   ownerId: string;
   /** Optional purchase intent ID if this is associated with a purchase. */
-  purchaseIntentId?: string;
+  purchaseIntentId?: string | undefined;
   /** The status of the Orb subscription intent. */
   status: BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus;
   /** The ISO 8601 date-time that the intent was last updated. */
@@ -939,17 +1164,19 @@ export interface ListBillingChargesRequest {
   from: string;
   /** Exclusive end of the date range as an ISO 8601 date-time string in UTC. */
   to: string;
+  /** The Organization identifier. Returns charges for every team in the organization, split by team, instead of a single team. Cannot be combined with `teamId` or `slug`. Requires the OrgAdmin or OrgViewer role. */
+  orgId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListBillingChargesResponse {}
 export interface ListContractCommitmentsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListContractCommitmentsResponse {}
 export type BuyCreditsError =
@@ -976,7 +1203,7 @@ export const buyCredits: API.OperationMethod<
 }));
 
 export type ListBillingChargesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List FOCUS billing charges Returns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. `SkuId` is the stable product ID. For unmapped items, it is derived from the item identifier. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team. */
+/** List FOCUS billing charges Returns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. `SkuId` is the stable product ID. For unmapped items, it is derived from the item identifier. `SubAccountId` and `SubAccountName` are the team. With `orgId` instead of a team, returns a row per team and product in an organization with Enterprise teams, plus Organization (unallocated) rows for spend no single team used; this requires the OrgAdmin or OrgViewer role. A team in such an organization, including the one that holds its subscription, gets only its own rows. Those rows are not split by region or project, and `x_CostAttribution` marks how cost was split between teams. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team. */
 export const listBillingCharges: API.OperationMethod<
   ListBillingChargesRequest,
   ListBillingChargesResponse,
@@ -1042,6 +1269,7 @@ function __c1(j: number): any {
         S.Struct({
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
+          orgId: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/billing/charges", code: 200 })),

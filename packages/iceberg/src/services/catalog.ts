@@ -15,7 +15,6 @@ export type { IcebergOpError, IcebergOpContext };
 /** TS member name -> Iceberg wire name, for opaque union payloads. */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   added_rows: "added-rows",
-  avg_value_size_in_bytes: "avg-value-size-in-bytes",
   blob_metadata: "blob-metadata",
   case_sensitive: "case-sensitive",
   column_sizes: "column-sizes",
@@ -119,6 +118,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   table_changes: "table-changes",
   table_uuid: "table-uuid",
   timestamp_ms: "timestamp-ms",
+  total_bytes: "total-bytes",
   upper_bounds: "upper-bounds",
   use_snapshot_schema: "use-snapshot-schema",
   value_counts: "value-counts",
@@ -281,7 +281,8 @@ export class UnsupportedOperationException
 
 export type CancelPlanningRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CancelPlanningRequestXIcebergAccessDelegationList = Array<
   CancelPlanningRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -292,10 +293,10 @@ export interface CancelPlanningRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: CancelPlanningRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: CancelPlanningRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface CancelPlanningResponse {}
 /** Reference to one or more levels of a namespace */
@@ -343,22 +344,22 @@ export interface StructField {
   name: string;
   type: Type;
   required: boolean;
-  doc?: string;
-  initial_default?: PrimitiveTypeValue;
-  write_default?: PrimitiveTypeValue;
+  doc?: string | undefined;
+  initial_default?: PrimitiveTypeValue | undefined;
+  write_default?: PrimitiveTypeValue | undefined;
 }
 export type SchemaInputFieldsList = Array<StructField>;
 export type SchemaInputIdentifierFieldIdsList = Array<number>;
 export interface SchemaInput {
   type: string;
   fields: SchemaInputFieldsList;
-  identifier_field_ids?: SchemaInputIdentifierFieldIdsList;
+  identifier_field_ids?: SchemaInputIdentifierFieldIdsList | undefined;
 }
 export interface AddSchemaUpdateInput {
   action: string;
   schema: SchemaInput;
   /** This optional field is **DEPRECATED for REMOVAL** since it more safe to handle this internally, and shouldn't be exposed to the clients. The highest assigned column ID for the table. This is used to ensure columns are always assigned an unused ID when evolving schemas. When omitted, it will be computed on the server side. */
-  last_column_id?: number;
+  last_column_id?: number | undefined;
 }
 export interface SetCurrentSchemaUpdate {
   action: string;
@@ -366,7 +367,7 @@ export interface SetCurrentSchemaUpdate {
   schema_id: number;
 }
 export interface PartitionField {
-  field_id?: number;
+  field_id?: number | undefined;
   source_id: number;
   name: string;
   transform: string;
@@ -408,20 +409,21 @@ export interface SetDefaultSortOrderUpdate {
 export type SnapshotSummaryOperation = "append" | "replace" | "overwrite" | "delete";
 export interface SnapshotSummary {
   operation: SnapshotSummaryOperation | (string & {});
+  [key: string]: unknown;
 }
 export interface Snapshot {
   snapshot_id: number;
-  parent_snapshot_id?: number;
-  sequence_number?: number;
+  parent_snapshot_id?: number | undefined;
+  sequence_number?: number | undefined;
   timestamp_ms: number;
   /** Location of the snapshot's manifest list file */
   manifest_list: string;
   /** The first _row_id assigned to the first row in the first data file in the first manifest */
-  first_row_id?: number;
+  first_row_id?: number | undefined;
   /** The upper bound of the number of rows with assigned row IDs */
-  added_rows?: number;
+  added_rows?: number | undefined;
   summary: SnapshotSummary;
-  schema_id?: number;
+  schema_id?: number | undefined;
 }
 export interface AddSnapshotUpdate {
   action: string;
@@ -432,9 +434,9 @@ export interface SetSnapshotRefUpdate {
   action: string;
   type: SetSnapshotRefUpdateType | (string & {});
   snapshot_id: number;
-  max_ref_age_ms?: number;
-  max_snapshot_age_ms?: number;
-  min_snapshots_to_keep?: number;
+  max_ref_age_ms?: number | undefined;
+  max_snapshot_age_ms?: number | undefined;
+  min_snapshots_to_keep?: number | undefined;
   ref_name: string;
 }
 export type RemoveSnapshotsUpdateSnapshotIdsList = Array<number>;
@@ -467,7 +469,7 @@ export interface BlobMetadata {
   snapshot_id: number;
   sequence_number: number;
   fields: BlobMetadataFieldsList;
-  properties?: BlobMetadataPropertiesMap;
+  properties?: BlobMetadataPropertiesMap | undefined;
 }
 export type StatisticsFileBlobMetadataList = Array<BlobMetadata>;
 export interface StatisticsFile {
@@ -480,7 +482,7 @@ export interface StatisticsFile {
 export interface SetStatisticsUpdate {
   action: string;
   /** This optional field is **DEPRECATED for REMOVAL** since it contains redundant information. Clients should use the `statistics.snapshot-id` field instead. */
-  snapshot_id?: number;
+  snapshot_id?: number | undefined;
   statistics: StatisticsFile;
 }
 export interface RemoveStatisticsUpdate {
@@ -511,8 +513,8 @@ export type EncryptedKeyPropertiesMap = { [key: string]: string | undefined };
 export interface EncryptedKey {
   key_id: string;
   encrypted_key_metadata: string;
-  encrypted_by_id?: string;
-  properties?: EncryptedKeyPropertiesMap;
+  encrypted_by_id?: string | undefined;
+  properties?: EncryptedKeyPropertiesMap | undefined;
 }
 export interface AddEncryptionKeyUpdate {
   action: string;
@@ -549,14 +551,14 @@ export type TableUpdateInput =
 export type CommitTableRequestInputUpdatesList = Array<TableUpdateInput>;
 export interface CommitTableRequestInput {
   /** Table identifier to update; must be present for CommitTransactionRequest */
-  identifier?: TableIdentifier;
+  identifier?: TableIdentifier | undefined;
   requirements: CommitTableRequestInputRequirementsList;
   updates: CommitTableRequestInputUpdatesList;
 }
 export type CommitTransactionRequestTableChangesList = Array<CommitTableRequestInput>;
 export interface CommitTransactionRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   table_changes: CommitTransactionRequestTableChangesList;
 }
 export interface CommitTransactionResponse {}
@@ -564,21 +566,22 @@ export interface CommitTransactionResponse {}
 export type CreateNamespaceRequestPropertiesMap = { [key: string]: string | undefined };
 export interface CreateNamespaceRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   namespace: Namespace;
   /** Configured string to string map of properties for the namespace */
-  properties?: CreateNamespaceRequestPropertiesMap;
+  properties?: CreateNamespaceRequestPropertiesMap | undefined;
 }
 /** Properties stored on the namespace, if supported by the server. */
 export type CreateNamespaceResponsePropertiesMap = { [key: string]: string | undefined };
 export interface CreateNamespaceResponse {
   namespace: Namespace;
   /** Properties stored on the namespace, if supported by the server. */
-  properties?: CreateNamespaceResponsePropertiesMap;
+  properties?: CreateNamespaceResponsePropertiesMap | undefined;
 }
 export type CreateTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CreateTableRequestXIcebergAccessDelegationList = Array<
   CreateTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -586,17 +589,17 @@ export type CreateTableRequestPropertiesMap = { [key: string]: string | undefine
 export interface CreateTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: CreateTableRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: CreateTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
-  location?: string;
+  location?: string | undefined;
   schema: SchemaInput;
-  partition_spec?: PartitionSpecInput;
-  write_order?: SortOrderInput;
-  stage_create?: boolean;
-  properties?: CreateTableRequestPropertiesMap;
+  partition_spec?: PartitionSpecInput | undefined;
+  write_order?: SortOrderInput | undefined;
+  stage_create?: boolean | undefined;
+  properties?: CreateTableRequestPropertiesMap | undefined;
 }
 export type TableMetadataPropertiesMap = { [key: string]: string | undefined };
 export type SchemaFieldsList = Array<StructField>;
@@ -604,13 +607,13 @@ export type SchemaIdentifierFieldIdsList = Array<number>;
 export interface Schema {
   type: string;
   fields: SchemaFieldsList;
-  schema_id?: number;
-  identifier_field_ids?: SchemaIdentifierFieldIdsList;
+  schema_id?: number | undefined;
+  identifier_field_ids?: SchemaIdentifierFieldIdsList | undefined;
 }
 export type TableMetadataSchemasList = Array<Schema>;
 export type PartitionSpecFieldsList = Array<PartitionField>;
 export interface PartitionSpec {
-  spec_id?: number;
+  spec_id?: number | undefined;
   fields: PartitionSpecFieldsList;
 }
 export type TableMetadataPartitionSpecsList = Array<PartitionSpec>;
@@ -626,9 +629,9 @@ export type SnapshotReferenceType = "tag" | "branch";
 export interface SnapshotReference {
   type: SnapshotReferenceType;
   snapshot_id: number;
-  max_ref_age_ms?: number;
-  max_snapshot_age_ms?: number;
-  min_snapshots_to_keep?: number;
+  max_ref_age_ms?: number | undefined;
+  max_snapshot_age_ms?: number | undefined;
+  min_snapshots_to_keep?: number | undefined;
 }
 export type SnapshotReferences = { [key: string]: SnapshotReference | undefined };
 export interface SnapshotLogItem {
@@ -646,28 +649,28 @@ export type TableMetadataPartitionStatisticsList = Array<PartitionStatisticsFile
 export interface TableMetadata {
   format_version: number;
   table_uuid: string;
-  location?: string;
-  last_updated_ms?: number;
+  location?: string | undefined;
+  last_updated_ms?: number | undefined;
   /** A long higher than all assigned row IDs; the next snapshot's first-row-id. */
-  next_row_id?: number;
-  properties?: TableMetadataPropertiesMap;
-  schemas?: TableMetadataSchemasList;
-  current_schema_id?: number;
-  last_column_id?: number;
-  partition_specs?: TableMetadataPartitionSpecsList;
-  default_spec_id?: number;
-  last_partition_id?: number;
-  sort_orders?: TableMetadataSortOrdersList;
-  default_sort_order_id?: number;
-  encryption_keys?: TableMetadataEncryptionKeysList;
-  snapshots?: TableMetadataSnapshotsList;
-  refs?: SnapshotReferences;
-  current_snapshot_id?: number;
-  last_sequence_number?: number;
-  snapshot_log?: SnapshotLog;
-  metadata_log?: MetadataLog;
-  statistics?: TableMetadataStatisticsList;
-  partition_statistics?: TableMetadataPartitionStatisticsList;
+  next_row_id?: number | undefined;
+  properties?: TableMetadataPropertiesMap | undefined;
+  schemas?: TableMetadataSchemasList | undefined;
+  current_schema_id?: number | undefined;
+  last_column_id?: number | undefined;
+  partition_specs?: TableMetadataPartitionSpecsList | undefined;
+  default_spec_id?: number | undefined;
+  last_partition_id?: number | undefined;
+  sort_orders?: TableMetadataSortOrdersList | undefined;
+  default_sort_order_id?: number | undefined;
+  encryption_keys?: TableMetadataEncryptionKeysList | undefined;
+  snapshots?: TableMetadataSnapshotsList | undefined;
+  refs?: SnapshotReferences | undefined;
+  current_snapshot_id?: number | undefined;
+  last_sequence_number?: number | undefined;
+  snapshot_log?: SnapshotLog | undefined;
+  metadata_log?: MetadataLog | undefined;
+  statistics?: TableMetadataStatisticsList | undefined;
+  partition_statistics?: TableMetadataPartitionStatisticsList | undefined;
 }
 export type LoadTableResultConfigMap = { [key: string]: string | undefined };
 export type StorageCredentialConfigMap = { [key: string]: string | undefined };
@@ -685,9 +688,9 @@ export type MultiValuedMap = { [key: string]: MultiValuedMapValueList | undefine
 /** Configuration for the remote signer client. */
 export interface RemoteSigningConfig {
   /** Static key-value pairs the signer client MUST pass through unchanged in the `properties` field of every `RemoteSignRequest` sent to the signing endpoint. */
-  properties?: RemoteSigningConfigPropertiesMap;
+  properties?: RemoteSigningConfigPropertiesMap | undefined;
   /** Static headers the signer client MUST include unchanged in every request to the signing endpoint. */
-  headers?: MultiValuedMap;
+  headers?: MultiValuedMap | undefined;
 }
 export interface Action {
   action: string;
@@ -712,7 +715,7 @@ export interface NotPredicate {
 export interface LiteralCase1 {
   type: string;
   value: PrimitiveTypeValue;
-  data_type?: string;
+  data_type?: string | undefined;
 }
 /** A literal is either a bare value, an untyped literal object, or a typed literal object. */
 export type Literal = PrimitiveTypeValue | LiteralCase1;
@@ -731,7 +734,7 @@ export type Reference = IdReference | NamedReference;
 /** Reference to a catalog object (for example, table, view, or namespace) as an ordered list of hierarchical levels. The object kind is determined by context (e.g. the endpoint or a companion type discriminator), not by the identifier structure alone. */
 export type CatalogObjectIdentifier = Array<string>;
 export interface ApplyFunctionCase2 {
-  catalog?: string;
+  catalog?: string | undefined;
   identifier: CatalogObjectIdentifier;
 }
 export type ApplyFunction = string | CatalogObjectIdentifier | ApplyFunctionCase2;
@@ -756,19 +759,19 @@ export type Term = string | TransformTerm;
 /** A predicate that tests a single value expression. Accepts either 'child' (preferred) or 'term' (deprecated) to identify the operand. */
 export interface UnaryPredicate {
   type: string;
-  child?: ValueExpression;
+  child?: ValueExpression | undefined;
   /** Deprecated. Use 'child' instead. */
-  term?: Term;
+  term?: Term | undefined;
 }
 /** A predicate that compares two value expressions. Accepts either 'left'/'right' (preferred) or 'term'/'value' (deprecated). */
 export interface ComparisonPredicate {
   type: string;
-  left?: ValueExpression;
-  right?: ValueExpression;
+  left?: ValueExpression | undefined;
+  right?: ValueExpression | undefined;
   /** Deprecated. Use 'left' instead. */
-  term?: Term;
+  term?: Term | undefined;
   /** Deprecated. Use 'right' instead. */
-  value?: Literal;
+  value?: Literal | undefined;
 }
 export type LiteralsCase0List = Array<Literal>;
 export type LiteralsCase1ValuesList = Array<PrimitiveTypeValue>;
@@ -782,9 +785,9 @@ export type Literals = LiteralsCase0List | LiteralsCase1;
 /** A predicate that tests whether a value is in a set of literals. Accepts either 'child' (preferred) or 'term' (deprecated) to identify the operand. */
 export interface SetPredicate {
   type: string;
-  child?: ValueExpression;
+  child?: ValueExpression | undefined;
   /** Deprecated. Use 'child' instead. */
-  term?: Term;
+  term?: Term | undefined;
   values: Literals;
 }
 export type Predicate =
@@ -799,9 +802,9 @@ export type Predicate =
 /** Read restrictions for a table. A reader evaluates the row filter against original, untransformed column values, then applies required-column-projections to the surviving rows. Each action must produce a value of the same type as the input column. If a reader that supports read-restrictions cannot apply any returned restriction (a filter expression or an action), it must fail the query and must not silently return raw, partial, or empty results. A missing or empty ReadRestrictions object (no required-column-projections and no required-row-filter) imposes no restrictions. */
 export interface ReadRestrictions {
   /** A list of columns that require specific actions to be applied when reading. A server must not return an action for a column whose type is not listed in that action's "Applicable to" set. If absent or empty, no required actions apply; columns not listed are not subject to any required action. 1. For each column listed, the reader must apply the specified action before returning values for that column. 2. The reader must replace all output references to the column with the result of the action, presenting the result under the original field-id. For example, if the action for field-id `9` is mask-alphanum, the reader must return the masked value as field-id `9` in the query output. 3. A server must not return more than one projection for the same field-id in required-column-projections. If a duplicate field-id appears, the reader must fail the query. 4. A server must not return a projection that targets a map's key field-id; a reader that receives one must fail the query. Applying an action to keys can produce duplicate or null keys, which readers silently coalesce or reject, causing data loss. 5. A reader must enforce projections on the columns it is actually reading. Projections referencing columns that are not being read do not apply. 6. A server must not return projections on both a nested-typed field (struct, list, or map) and any field-id nested within it at any depth. A reader that receives such a response must fail the query. */
-  required_column_projections?: ReadRestrictionsRequiredColumnProjectionsList;
+  required_column_projections?: ReadRestrictionsRequiredColumnProjectionsList | undefined;
   /** An expression that limits which rows the reader may return. 1. The expression must evaluate to a boolean (TRUE or FALSE; Iceberg predicates never produce NULL). A reader must discard any row for which the filter evaluates to FALSE, and no information derived from discarded rows may be included in the query result. 2. If this property is absent, null, or always true then no mandatory filtering is required. 3. Column references within the expression must use field IDs (IdReference), not column names. This ensures the filter remains valid across column renames, consistent with required-column-projections which also reference columns by field-id. */
-  required_row_filter?: Predicate;
+  required_row_filter?: Predicate | undefined;
 }
 /** Flat key-value labels attached to the object (table, view, ...) as a whole. */
 export type CatalogObjectLabels = { [key: string]: string | undefined };
@@ -818,20 +821,20 @@ export interface FieldLabels {
 export type LabelsFieldsList = Array<FieldLabels>;
 /** Catalog-provided metadata enrichment (for example ownership, classification, or cost attribution) returned with a table or view. Labels are catalog-provided and optional; clients may ignore them, and may cache them following the response ETag. The spec does not require how a catalog produces or stores labels, nor whether they are persisted or versioned. `object-labels` carries labels for the object as a whole; `fields` carries per-field labels, each identified by field-id. */
 export interface Labels {
-  object_labels?: CatalogObjectLabels;
+  object_labels?: CatalogObjectLabels | undefined;
   /** Field-level labels. Each entry identifies its field by field-id. */
-  fields?: LabelsFieldsList;
+  fields?: LabelsFieldsList | undefined;
 }
 /** Result used when a table is successfully loaded. The table metadata JSON is returned in the `metadata` field. The corresponding file location of table metadata should be returned in the `metadata-location` field, unless the metadata is not yet committed. For example, a create transaction may return metadata that is staged but not committed. Clients can check whether metadata has changed by comparing metadata locations after the table has been created. The `config` map returns table-specific configuration for the table's resources, including its HTTP client and FileIO. For example, config may contain a specific FileIO implementation class for the table depending on its underlying storage. The following configurations should be respected by clients: ## General Configurations - `token`: Authorization bearer token to use for table requests if OAuth2 security is enabled - `scan-planning-mode`: Communicates to clients the supported planning mode. Clients should use this value to fail fast if the supported scanning mode is not available on the client. Valid values: - `client`: Clients MUST use client-side scan planning - `server`: Clients MUST use server-side scan planning via the `planTableScan` endpoint ## AWS Configurations The following configurations should be respected when working with tables stored in AWS S3 - `client.region`: region to configure client for making requests to AWS - `s3.access-key-id`: id for credentials that provide access to the data in S3 - `s3.secret-access-key`: secret for credentials that provide access to data in S3 - `s3.session-token`: if present, this value should be used for as the session token - `s3.remote-signing-enabled`: if `true` remote signing should be performed as described in the `RemoteSignRequest` schema section of this spec document. - `s3.cross-region-access-enabled`: if `true`, S3 Cross-Region bucket access is enabled ## Storage Credentials Credentials for ADLS / GCS / S3 / ... are provided through the `storage-credentials` field. Clients must first check whether the respective credentials exist in the `storage-credentials` field before checking the `config` for credentials. ## Remote Signing If remote signing for a specific storage provider is enabled, the server SHOULD use the `remote-signing-config` field to communicate all signer client settings. When the `remote-signing-config` field is present, clients SHOULD respect the provided configuration. For backward compatibility, the following `config` properties are still supported but **DEPRECATED** and SHOULD NOT be used by clients able to consume the remote signing configuration: - `signer.endpoint` **DEPRECATED**.: the remote signer endpoint. Can either be a relative path (to be resolved against `signer.uri`) or an absolute URI. - `signer.uri` **DEPRECATED**.: the base URI to resolve `signer.endpoint` against. Only meaningful if `signer.endpoint` is a relative path. Defaults to the catalog's base URI if not set. If any of these properties is present, clients SHOULD use them to compute the actual remote signing endpoint URI to contact. If none of these properties is present, clients SHOULD contact the default remote signing endpoint using the catalog's base URI. */
 export interface LoadTableResult {
   /** May be null if the table is staged as part of a transaction */
-  metadata_location?: string | null;
+  metadata_location?: string | null | undefined;
   metadata: TableMetadata;
-  config?: LoadTableResultConfigMap;
-  storage_credentials?: LoadTableResultStorageCredentialsList;
-  remote_signing_config?: RemoteSigningConfig;
-  read_restrictions?: ReadRestrictions;
-  labels?: Labels;
+  config?: LoadTableResultConfigMap | undefined;
+  storage_credentials?: LoadTableResultStorageCredentialsList | undefined;
+  remote_signing_config?: RemoteSigningConfig | undefined;
+  read_restrictions?: ReadRestrictions | undefined;
+  labels?: Labels | undefined;
 }
 export type ViewVersionSummaryMap = { [key: string]: string | undefined };
 export interface SQLViewRepresentation {
@@ -847,7 +850,7 @@ export interface ViewVersion {
   schema_id: number;
   summary: ViewVersionSummaryMap;
   representations: ViewVersionRepresentationsList;
-  default_catalog?: string;
+  default_catalog?: string | undefined;
   default_namespace: Namespace;
 }
 export type CreateViewRequestPropertiesMap = { [key: string]: string | undefined };
@@ -855,7 +858,7 @@ export interface CreateViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   name: string;
-  location?: string;
+  location?: string | undefined;
   schema: SchemaInput;
   /** The view version to create, will replace the schema-id sent within the view-version with the id assigned to the provided schema */
   view_version: ViewVersion;
@@ -877,21 +880,21 @@ export interface ViewMetadata {
   versions: ViewMetadataVersionsList;
   version_log: ViewMetadataVersionLogList;
   schemas: ViewMetadataSchemasList;
-  properties?: ViewMetadataPropertiesMap;
+  properties?: ViewMetadataPropertiesMap | undefined;
 }
 export type LoadViewResultConfigMap = { [key: string]: string | undefined };
 /** Result used when a view is successfully loaded. The view metadata JSON is returned in the `metadata` field. The corresponding file location of view metadata is returned in the `metadata-location` field. Clients can check whether metadata has changed by comparing metadata locations after the view has been created. The `config` map returns view-specific configuration for the view's resources. The following configurations should be respected by clients: ## General Configurations - `token`: Authorization bearer token to use for view requests if OAuth2 security is enabled */
 export interface LoadViewResult {
   metadata_location: string;
   metadata: ViewMetadata;
-  config?: LoadViewResultConfigMap;
-  labels?: Labels;
+  config?: LoadViewResultConfigMap | undefined;
+  labels?: Labels | undefined;
 }
 export interface DropNamespaceRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropNamespaceResponse {}
 export interface DropTableRequest {
@@ -900,9 +903,9 @@ export interface DropTableRequest {
   /** A table name */
   table: string;
   /** Whether the user requested to purge the underlying table's data and metadata */
-  purgeRequested?: boolean;
+  purgeRequested?: boolean | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropTableResponse {}
 export interface DropViewRequest {
@@ -911,12 +914,13 @@ export interface DropViewRequest {
   /** A view name */
   view: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropViewResponse {}
 export type FetchPlanningResultRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type FetchPlanningResultRequestXIcebergAccessDelegationList = Array<
   FetchPlanningResultRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -927,8 +931,8 @@ export interface FetchPlanningResultRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList | undefined;
 }
 export type FileFormat = "avro" | "orc" | "parquet" | "puffin";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
@@ -936,8 +940,8 @@ export type PositionDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
 export type PositionDeleteFileSplitOffsetsList = Array<number>;
 export interface FieldStatistics {
-  /** Avg value size in memory (uncompressed) in bytes over non-null values to estimate memory consumption */
-  avg_value_size_in_bytes?: number;
+  /** Estimated uncompressed bytes in memory of non-null values. The estimate depends on the in-memory representation */
+  total_bytes?: number | undefined;
 }
 /** Container struct for per-field metrics structs */
 export type PositionDeleteFileContentStatsMap = { [key: string]: FieldStatistics | undefined };
@@ -953,16 +957,16 @@ export interface PositionDeleteFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: PositionDeleteFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: PositionDeleteFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: PositionDeleteFileContentStatsMap;
+  content_stats?: PositionDeleteFileContentStatsMap | undefined;
   /** Offset within the delete file of delete content */
-  content_offset?: number;
+  content_offset?: number | undefined;
   /** Length, in bytes, of the delete content; required if content-offset is present */
-  content_size_in_bytes?: number;
+  content_size_in_bytes?: number | undefined;
 }
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type EqualityDeleteFilePartitionList = Array<PrimitiveTypeValue>;
@@ -984,14 +988,14 @@ export interface EqualityDeleteFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: EqualityDeleteFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: EqualityDeleteFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: EqualityDeleteFileContentStatsMap;
+  content_stats?: EqualityDeleteFileContentStatsMap | undefined;
   /** List of equality field IDs */
-  equality_ids?: EqualityDeleteFileEqualityIdsList;
+  equality_ids?: EqualityDeleteFileEqualityIdsList | undefined;
 }
 export type DeleteFile = PositionDeleteFile | EqualityDeleteFile;
 /** Delete files referenced by file scan tasks */
@@ -1008,9 +1012,9 @@ export type CountMapKeysList = Array<number>;
 export type CountMapValuesList = Array<number>;
 export interface CountMap {
   /** List of integer column ids for each corresponding value */
-  keys?: CountMapKeysList;
+  keys?: CountMapKeysList | undefined;
   /** List of Long values, matched to 'keys' by index */
-  values?: CountMapValuesList;
+  values?: CountMapValuesList | undefined;
 }
 /** List of integer column ids for each corresponding value */
 export type ValueMapKeysList = Array<number>;
@@ -1018,9 +1022,9 @@ export type ValueMapKeysList = Array<number>;
 export type ValueMapValuesList = Array<PrimitiveTypeValue>;
 export interface ValueMap {
   /** List of integer column ids for each corresponding value */
-  keys?: ValueMapKeysList;
+  keys?: ValueMapKeysList | undefined;
   /** List of primitive type values, matched to 'keys' by index */
-  values?: ValueMapValuesList;
+  values?: ValueMapValuesList | undefined;
 }
 export interface DataFile {
   content: string;
@@ -1034,35 +1038,35 @@ export interface DataFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: DataFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: DataFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: DataFileContentStatsMap;
+  content_stats?: DataFileContentStatsMap | undefined;
   /** The first row ID assigned to the first row in the data file */
-  first_row_id?: number;
+  first_row_id?: number | undefined;
   /** Map of column id to total count, including null and NaN */
-  column_sizes?: CountMap;
+  column_sizes?: CountMap | undefined;
   /** Map of column id to null value count */
-  value_counts?: CountMap;
+  value_counts?: CountMap | undefined;
   /** Map of column id to null value count */
-  null_value_counts?: CountMap;
+  null_value_counts?: CountMap | undefined;
   /** Map of column id to number of NaN values in the column */
-  nan_value_counts?: CountMap;
+  nan_value_counts?: CountMap | undefined;
   /** Map of column id to lower bound primitive type values */
-  lower_bounds?: ValueMap;
+  lower_bounds?: ValueMap | undefined;
   /** Map of column id to upper bound primitive type values */
-  upper_bounds?: ValueMap;
+  upper_bounds?: ValueMap | undefined;
 }
 /** A list of indices in the delete files array (0-based) */
 export type FileScanTaskDeleteFileReferencesList = Array<number>;
 export interface FileScanTask {
   data_file: DataFile;
   /** A list of indices in the delete files array (0-based) */
-  delete_file_references?: FileScanTaskDeleteFileReferencesList;
+  delete_file_references?: FileScanTaskDeleteFileReferencesList | undefined;
   /** An optional filter to be applied to rows in this file scan task. If the residual is not present, the client must produce the residual or use the original filter. */
-  residual_filter?: Predicate;
+  residual_filter?: Predicate | undefined;
 }
 export type CompletedPlanningResultFileScanTasksList = Array<FileScanTask>;
 export type CompletedPlanningResultPlanTasksList = Array<string>;
@@ -1073,12 +1077,12 @@ export type CompletedPlanningResultStorageCredentialsList = Array<StorageCredent
 /** Completed server-side planning result */
 export interface CompletedPlanningResult {
   /** Delete files referenced by file scan tasks */
-  delete_files?: CompletedPlanningResultDeleteFilesList;
-  file_scan_tasks?: CompletedPlanningResultFileScanTasksList;
-  plan_tasks?: CompletedPlanningResultPlanTasksList;
+  delete_files?: CompletedPlanningResultDeleteFilesList | undefined;
+  file_scan_tasks?: CompletedPlanningResultFileScanTasksList | undefined;
+  plan_tasks?: CompletedPlanningResultPlanTasksList | undefined;
   status: PlanStatus;
   /** Storage credentials for accessing the files returned in the scan result. If the server returns storage credentials as part of the completed scan planning response, the expectation is for the client to use these credentials to read the files returned in the FileScanTasks as part of the scan result. */
-  storage_credentials?: CompletedPlanningResultStorageCredentialsList;
+  storage_credentials?: CompletedPlanningResultStorageCredentialsList | undefined;
 }
 export type ErrorModelStackList = Array<string>;
 /** JSON error payload returned in a response with further details on the error */
@@ -1089,7 +1093,7 @@ export interface ErrorModel {
   type: string;
   /** HTTP response code */
   code: number;
-  stack?: ErrorModelStackList;
+  stack?: ErrorModelStackList | undefined;
 }
 /** Failed server-side planning result */
 export interface FailedPlanningResult {
@@ -1109,7 +1113,7 @@ export interface FetchScanTasksRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   plan_task: string;
 }
 /** Delete files referenced by file scan tasks */
@@ -1118,13 +1122,13 @@ export type FetchScanTasksResponseFileScanTasksList = Array<FileScanTask>;
 export type FetchScanTasksResponsePlanTasksList = Array<string>;
 export interface FetchScanTasksResponse {
   /** Delete files referenced by file scan tasks */
-  delete_files?: FetchScanTasksResponseDeleteFilesList;
-  file_scan_tasks?: FetchScanTasksResponseFileScanTasksList;
-  plan_tasks?: FetchScanTasksResponsePlanTasksList;
+  delete_files?: FetchScanTasksResponseDeleteFilesList | undefined;
+  file_scan_tasks?: FetchScanTasksResponseFileScanTasksList | undefined;
+  plan_tasks?: FetchScanTasksResponsePlanTasksList | undefined;
 }
 export interface GetConfigRequest {
   /** Warehouse location or identifier to request from the service */
-  warehouse?: string;
+  warehouse?: string | undefined;
 }
 /** Properties that should be used to override client configuration; applied after defaults and client configuration. */
 export type CatalogConfigOverridesMap = { [key: string]: string | undefined };
@@ -1139,52 +1143,52 @@ export interface CatalogConfig {
   /** Properties that should be used as default configuration; applied before client configuration. */
   defaults: CatalogConfigDefaultsMap;
   /** A list of endpoints that the server supports. The format of each endpoint must be "<HTTP verb> <resource path from OpenAPI REST spec>". The HTTP verb and the resource path must be separated by a space character. */
-  endpoints?: CatalogConfigEndpointsList;
+  endpoints?: CatalogConfigEndpointsList | undefined;
   /** Client reuse window for an Idempotency-Key (ISO-8601 duration, e.g., PT30M, PT24H). Interpreted as the maximum time from the first submission using a key to the last retry during which a client may reuse that key. Servers SHOULD accept retries for at least this duration and MAY include a grace period to account for delays/clock skew. Clients SHOULD NOT reuse an Idempotency-Key after this window elapses; they SHOULD generate a new key for any subsequent attempt. Presence of this field indicates the server supports Idempotency-Key semantics for mutation endpoints. If absent, clients MUST assume idempotency is not supported. */
-  idempotency_key_lifetime?: string;
+  idempotency_key_lifetime?: string | undefined;
 }
 export interface ListFunctionsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListFunctionsResponseIdentifiersList = Array<CatalogObjectIdentifier>;
 export interface ListFunctionsResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   identifiers: ListFunctionsResponseIdentifiersList;
 }
 export interface ListNamespacesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An optional namespace, underneath which to list namespaces. If not provided, all top-level namespaces should be listed. For backward compatibility, empty string is treated as absent for now. If parent is a multipart namespace, the parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type ListNamespacesResponseNamespacesList = Array<Namespace>;
 export interface ListNamespacesResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   namespaces: ListNamespacesResponseNamespacesList;
 }
 export interface ListTablesRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListTablesResponseIdentifiersList = Array<TableIdentifier>;
 export interface ListTablesResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   identifiers: ListTablesResponseIdentifiersList;
 }
 export interface ListViewsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface LoadCredentialsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1192,9 +1196,9 @@ export interface LoadCredentialsRequest {
   /** A table name */
   table: string;
   /** The plan ID that has been used for server-side scan planning */
-  planId?: string;
+  planId?: string | undefined;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
+  referenced_by?: string | undefined;
 }
 export type LoadCredentialsResponseStorageCredentialsList = Array<StorageCredential>;
 export interface LoadCredentialsResponse {
@@ -1234,7 +1238,7 @@ export interface FunctionParameter {
   type: FunctionDataType;
   name: string;
   /** Parameter documentation. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** Ordered list of function parameters. Invocation order must match this list. */
 export type FunctionDefinitionParametersList = Array<FunctionParameter>;
@@ -1255,9 +1259,9 @@ export interface FunctionDefinitionVersion {
   /** UDF implementations. */
   representations: FunctionDefinitionVersionRepresentationsList;
   /** Whether the function is deterministic. */
-  deterministic?: boolean;
+  deterministic?: boolean | undefined;
   /** Defines how the UDF behaves when any input parameter is NULL. */
-  on_null_input?: FunctionDefinitionVersionOnNullInput;
+  on_null_input?: FunctionDefinitionVersionOnNullInput | undefined;
   /** Creation timestamp of this version (unix epoch millis). */
   timestamp_ms: number;
 }
@@ -1269,12 +1273,12 @@ export interface FunctionDefinition {
   /** A canonical string derived from the parameter types, formatted as a comma-separated list with no spaces. */
   definition_id: string;
   /** A user-assignable name for this definition that must be unique among all definitions within the UDF metadata. */
-  specific_name?: string;
+  specific_name?: string | undefined;
   /** Ordered list of function parameters. Invocation order must match this list. */
   parameters: FunctionDefinitionParametersList;
   return_type: FunctionDataType;
   /** A hint to indicate whether the return value is nullable or not. */
-  return_nullable?: boolean;
+  return_nullable?: boolean | undefined;
   /** Versioned implementations of this definition. */
   versions: FunctionDefinitionVersionsList;
   /** Identifier of the current version for this definition. */
@@ -1282,7 +1286,7 @@ export interface FunctionDefinition {
   /** Function type. When set to "udtf", "return-type" must be a struct describing the output schema. */
   function_type: FunctionDefinitionFunctionType;
   /** Documentation string. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** List of function definition entities. */
 export type FunctionMetadataDefinitionsList = Array<FunctionDefinition>;
@@ -1313,17 +1317,17 @@ export interface FunctionMetadata {
   /** History of versions within the function's definitions. */
   definition_log: FunctionMetadataDefinitionLogList;
   /** The function's base location. This is used to store function metadata files. */
-  location?: string;
+  location?: string | undefined;
   /** A string-to-string map of properties. */
-  properties?: FunctionMetadataPropertiesMap;
+  properties?: FunctionMetadataPropertiesMap | undefined;
   /** Whether it is a secure function. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   /** Documentation string. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** Result returned when a function is loaded from the catalog. The function metadata JSON is returned in the `metadata` field. The location of the metadata file is returned in the `metadata-location` field, if available. */
 export interface LoadFunctionResult {
-  metadata_location?: string;
+  metadata_location?: string | undefined;
   metadata: FunctionMetadata;
 }
 export interface LoadNamespaceMetadataRequest {
@@ -1335,10 +1339,13 @@ export type GetNamespaceResponsePropertiesMap = { [key: string]: string | undefi
 export interface GetNamespaceResponse {
   namespace: Namespace;
   /** Properties stored on the namespace, if supported by the server. If the server does not support namespace properties, it should return null for this field. If namespace properties are supported, but none are set, it should return an empty object. */
-  properties?: GetNamespaceResponsePropertiesMap | null;
+  properties?: GetNamespaceResponsePropertiesMap | null | undefined;
 }
 export type LoadTableRequestSnapshots = "all" | "refs";
-export type LoadTableRequestXIcebergAccessDelegationItem = "vended-credentials" | "remote-signing";
+export type LoadTableRequestXIcebergAccessDelegationItem =
+  | "vended-credentials"
+  | "remote-signing"
+  | "none";
 export type LoadTableRequestXIcebergAccessDelegationList = Array<
   LoadTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1348,13 +1355,13 @@ export interface LoadTableRequest {
   /** A table name */
   table: string;
   /** The snapshots to return in the body of the metadata via the `snapshots` field. Setting the value to `all` would return the full set of snapshots currently valid for the table. Setting the value to `refs` would load all snapshots referenced by branches or tags. Default if no param is provided is `all`. */
-  snapshots?: LoadTableRequestSnapshots | (string & {});
+  snapshots?: LoadTableRequestSnapshots | (string & {}) | undefined;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: LoadTableRequestXIcebergAccessDelegationList;
+  referenced_by?: string | undefined;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: LoadTableRequestXIcebergAccessDelegationList | undefined;
   /** An optional header that allows the server to return 304 (Not Modified) if the metadata is current. The content is the value of the ETag received in a CreateTableResponse, LoadTableResponse or CommitTableResponse. */
-  ifNoneMatch?: string;
+  ifNoneMatch?: string | undefined;
 }
 export interface LoadViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1362,7 +1369,7 @@ export interface LoadViewRequest {
   /** A view name */
   view: string;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
+  referenced_by?: string | undefined;
 }
 export interface NamespaceExistsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1371,7 +1378,8 @@ export interface NamespaceExistsRequest {
 export interface NamespaceExistsResponse {}
 export type PlanTableScanRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type PlanTableScanRequestXIcebergAccessDelegationList = Array<
   PlanTableScanRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1384,28 +1392,28 @@ export interface PlanTableScanRequest {
   namespace: string;
   /** A table name */
   table: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: PlanTableScanRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: PlanTableScanRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Identifier for the snapshot to scan in a point-in-time scan */
-  snapshot_id?: number;
+  snapshot_id?: number | undefined;
   /** List of selected schema fields */
-  select?: PlanTableScanRequestSelectList;
+  select?: PlanTableScanRequestSelectList | undefined;
   /** Predicate used to filter the table data */
-  filter?: Predicate;
+  filter?: Predicate | undefined;
   /** The minimum number of rows requested for the scan. This is used as a hint to the server to not have to return more rows than necessary. It is not required for the server to return that many rows since the scan may not produce that many rows. The server can also return more rows than requested. */
-  min_rows_requested?: number;
+  min_rows_requested?: number | undefined;
   /** Enables case sensitive field matching for filter and select */
-  case_sensitive?: boolean;
+  case_sensitive?: boolean | undefined;
   /** Whether to use the schema at the time the snapshot was written. When time travelling, the snapshot schema should be used (true). When scanning a branch, the table schema should be used (false). */
-  use_snapshot_schema?: boolean;
+  use_snapshot_schema?: boolean | undefined;
   /** Starting snapshot ID for an incremental scan (exclusive) */
-  start_snapshot_id?: number;
+  start_snapshot_id?: number | undefined;
   /** Ending snapshot ID for an incremental scan (inclusive). Required when start-snapshot-id is specified. */
-  end_snapshot_id?: number;
+  end_snapshot_id?: number | undefined;
   /** List of fields for which the service should send column stats. */
-  stats_fields?: PlanTableScanRequestStatsFieldsList;
+  stats_fields?: PlanTableScanRequestStatsFieldsList | undefined;
 }
 /** Delete files referenced by file scan tasks */
 export type CompletedPlanningWithIDResultDeleteFilesList = Array<DeleteFile>;
@@ -1415,12 +1423,12 @@ export type CompletedPlanningWithIDResultPlanTasksList = Array<string>;
 export type CompletedPlanningWithIDResultStorageCredentialsList = Array<StorageCredential>;
 export interface CompletedPlanningWithIDResult {
   /** Delete files referenced by file scan tasks */
-  delete_files?: CompletedPlanningWithIDResultDeleteFilesList;
-  file_scan_tasks?: CompletedPlanningWithIDResultFileScanTasksList;
-  plan_tasks?: CompletedPlanningWithIDResultPlanTasksList;
+  delete_files?: CompletedPlanningWithIDResultDeleteFilesList | undefined;
+  file_scan_tasks?: CompletedPlanningWithIDResultFileScanTasksList | undefined;
+  plan_tasks?: CompletedPlanningWithIDResultPlanTasksList | undefined;
   status: PlanStatus;
   /** Storage credentials for accessing the files returned in the scan result. If the server returns storage credentials as part of the completed scan planning response, the expectation is for the client to use these credentials to read the files returned in the FileScanTasks as part of the scan result. */
-  storage_credentials?: CompletedPlanningWithIDResultStorageCredentialsList;
+  storage_credentials?: CompletedPlanningWithIDResultStorageCredentialsList | undefined;
   /** ID used to track a planning request */
   plan_id: string;
 }
@@ -1438,40 +1446,41 @@ export type PlanTableScanResult =
 export type PlanTableScanResponse = PlanTableScanResult;
 export type RegisterTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type RegisterTableRequestXIcebergAccessDelegationList = Array<
   RegisterTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
 export interface RegisterTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: RegisterTableRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: RegisterTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
   metadata_location: string;
   /** Whether to overwrite table metadata if the table already exists */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export interface RegisterViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
   metadata_location: string;
 }
 export interface RenameTableRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   source: TableIdentifier;
   destination: TableIdentifier;
 }
 export interface RenameTableResponse {}
 export interface RenameViewRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   source: TableIdentifier;
   destination: TableIdentifier;
 }
@@ -1507,10 +1516,10 @@ export interface ReplaceViewRequest {
   /** A view name */
   view: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** View identifier to update */
-  identifier?: TableIdentifier;
-  requirements?: ReplaceViewRequestRequirementsList;
+  identifier?: TableIdentifier | undefined;
+  requirements?: ReplaceViewRequestRequirementsList | undefined;
   updates: ReplaceViewRequestUpdatesList;
 }
 export interface ReportMetricsRequest {
@@ -1539,11 +1548,11 @@ export interface SignRequestRequest {
   uri: string;
   method: SignRequestRequestMethod | (string & {});
   headers: MultiValuedMap;
-  properties?: SignRequestRequestPropertiesMap;
+  properties?: SignRequestRequestPropertiesMap | undefined;
   /** Optional body of the request to send to the signing API. This should only be populated for requests where the body of the message contains content which must be validated before a request is signed, such as the S3 DeleteObjects call. */
-  body?: string;
+  body?: string | undefined;
   /** The storage provider for which the request is to be signed. The provider should correspond to the scheme used for a storage native URI. For example `s3` for AWS S3 paths. For backwards compatibility, if this is not specified, the provider is assumed to be `s3`. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** The result of a remote request signing operation. */
 export interface RemoteSignResult {
@@ -1563,7 +1572,7 @@ export interface UnregisterTableRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 /** Last metadata location and the corresponding table metadata for the table that was successfully unregistered and is no longer tracked by the catalog. */
 export interface UnregisterTableResult {
@@ -1577,9 +1586,9 @@ export interface UpdatePropertiesRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
-  removals?: UpdatePropertiesRequestRemovalsList;
-  updates?: UpdatePropertiesRequestUpdatesMap;
+  idempotencyKey?: string | undefined;
+  removals?: UpdatePropertiesRequestRemovalsList | undefined;
+  updates?: UpdatePropertiesRequestUpdatesMap | undefined;
 }
 /** List of property keys that were added or updated */
 export type UpdateNamespacePropertiesResponseUpdatedList = Array<string>;
@@ -1593,7 +1602,7 @@ export interface UpdateNamespacePropertiesResponse {
   /** List of properties that were removed */
   removed: UpdateNamespacePropertiesResponseRemovedList;
   /** List of properties requested for removal that were not found in the namespace's properties. Represents a partial success response. Server's do not need to implement this. */
-  missing?: UpdateNamespacePropertiesResponseMissingList | null;
+  missing?: UpdateNamespacePropertiesResponseMissingList | null | undefined;
 }
 export type UpdateTableRequestRequirementsList = Array<TableRequirement>;
 export type UpdateTableRequestUpdatesList = Array<TableUpdateInput>;
@@ -1603,9 +1612,9 @@ export interface UpdateTableRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Table identifier to update; must be present for CommitTransactionRequest */
-  identifier?: TableIdentifier;
+  identifier?: TableIdentifier | undefined;
   requirements: UpdateTableRequestRequirementsList;
   updates: UpdateTableRequestUpdatesList;
 }
@@ -2598,9 +2607,12 @@ function __c17(j: number): any {
       return S.Array(__S(546, __c17, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          operation: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            operation: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "SnapshotSummary" });
     case 5:
       return S.suspend(() =>
@@ -2899,7 +2911,7 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          avg_value_size_in_bytes: S.optional(S.Number.pipe(T.Body("avg-value-size-in-bytes"))),
+          total_bytes: S.optional(S.Number.pipe(T.Body("total-bytes"))),
         }),
       ).annotate({ identifier: "FieldStatistics" });
     case 2:

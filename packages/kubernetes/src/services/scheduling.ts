@@ -69,19 +69,19 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap = {
 /** ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to. */
 export interface IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry {
   /** APIVersion defines the version of this resource that this field set applies to. The format is "group/version" just like the top-level APIVersion field. It is necessary to track the version of a field set because it cannot be automatically converted. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** FieldsType is the discriminator for the different fields format and version. There is currently only one possible value: "FieldsV1" */
-  fieldsType?: string;
+  fieldsType?: string | undefined;
   /** FieldsV1 holds the first JSON version format as described in the "FieldsV1" type. */
-  fieldsV1?: unknown;
+  fieldsV1?: unknown | undefined;
   /** Manager is an identifier of the workflow managing these fields. */
-  manager?: string;
+  manager?: string | undefined;
   /** Operation is the type of operation which lead to this ManagedFieldsEntry being created. The only valid values for this field are 'Apply' and 'Update'. */
-  operation?: string;
+  operation?: string | undefined;
   /** Subresource is the name of the subresource used to update that object, or empty string if the object was updated through the main resource. The value of this field is used to distinguish between managers, even if they share the same name. For example, a status update will be distinct from a regular update using the same manager name. Note that the APIVersion field is not related to the Subresource field and it always corresponds to the version of the main resource. */
-  subresource?: string;
+  subresource?: string | undefined;
   /** Time is the timestamp of when the ManagedFields entry was added. The timestamp will also be updated if a field is added, the manager changes any of the owned fields value or removes a field. The timestamp does not update when a field is removed from the entry because another manager took it over. */
-  time?: string;
+  time?: string | undefined;
 }
 /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
 export type IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList =
@@ -91,9 +91,9 @@ export interface IoK8sApimachineryPkgApisMetaV1OwnerReference {
   /** API version of the referent. */
   apiVersion: string;
   /** If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned. */
-  blockOwnerDeletion?: boolean;
+  blockOwnerDeletion?: boolean | undefined;
   /** If true, this reference points to the managing controller. */
-  controller?: boolean;
+  controller?: boolean | undefined;
   /** Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind: string;
   /** Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
@@ -107,46 +107,46 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList =
 /** ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. */
 export interface IoK8sApimachineryPkgApisMetaV1ObjectMeta {
   /** Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations */
-  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap;
+  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap | undefined;
   /** CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  creationTimestamp?: string;
+  creationTimestamp?: string | undefined;
   /** Number of seconds allowed for this object to gracefully terminate before it will be removed from the system. Only set when deletionTimestamp is also set. May only be shortened. Read-only. */
-  deletionGracePeriodSeconds?: number;
+  deletionGracePeriodSeconds?: number | undefined;
   /** DeletionTimestamp is RFC 3339 date and time at which this resource will be deleted. This field is set by the server when a graceful deletion is requested by the user, and is not directly settable by a client. The resource is expected to be deleted (no longer visible from resource lists, and not reachable by name) after the time in this field, once the finalizers list is empty. As long as the finalizers list contains items, deletion is blocked. Once the deletionTimestamp is set, this value may not be unset or be set further into the future, although it may be shortened or the resource may be deleted prior to this time. For example, a user may request that a pod is deleted in 30 seconds. The Kubelet will react by sending a graceful termination signal to the containers in the pod. After that 30 seconds, the Kubelet will send a hard termination signal (SIGKILL) to the container and after cleanup, remove the pod from the API. In the presence of network partitions, this object may still exist after this timestamp, until an administrator or automated process can determine the resource is fully terminated. If not set, graceful deletion of the object has not been requested. Populated by the system when a graceful deletion is requested. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  deletionTimestamp?: string;
+  deletionTimestamp?: string | undefined;
   /** Must be empty before the object is deleted from the registry. Each entry is an identifier for the responsible component that will remove the entry from the list. If the deletionTimestamp of the object is non-nil, entries in this list can only be removed. Finalizers may be processed and removed in any order. Order is NOT enforced because it introduces significant risk of stuck finalizers. finalizers is a shared field, any actor with permission can reorder it. If the finalizer list is processed in order, then this can lead to a situation in which the component responsible for the first finalizer in the list is waiting for a signal (field value, external system, or other) produced by a component responsible for a finalizer later in the list, resulting in a deadlock. Without enforced ordering finalizers are free to order amongst themselves and are not vulnerable to ordering changes in the list. */
-  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList;
+  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList | undefined;
   /** GenerateName is an optional prefix, used by the server, to generate a unique name ONLY IF the Name field has not been provided. If this field is used, the name returned to the client will be different than the name passed. This value will also be combined with a unique suffix. The provided value has the same validation rules as the Name field, and may be truncated by the length of the suffix required to make the value unique on the server. If this field is specified and the generated name exists, the server will return a 409. Applied only if Name is not specified. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#idempotency */
-  generateName?: string;
+  generateName?: string | undefined;
   /** A sequence number representing a specific generation of the desired state. Populated by the system. Read-only. */
-  generation?: number;
+  generation?: number | undefined;
   /** Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels */
-  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap;
+  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap | undefined;
   /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
-  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList;
+  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList | undefined;
   /** Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
-  name?: string;
+  name?: string | undefined;
   /** Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces */
-  namespace?: string;
+  namespace?: string | undefined;
   /** List of objects depended by this object. If ALL objects in the list have been deleted, this object will be garbage collected. If this object is managed by a controller, then an entry in this list will point to this controller, with the controller field set to true. There cannot be more than one managing controller. */
-  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList;
+  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList | undefined;
   /** An opaque value that represents the internal version of this object that can be used by clients to determine when objects have changed. May be used for optimistic concurrency, change detection, and the watch operation on a resource or set of resources. Clients must treat these values as opaque and passed unmodified back to the server. They may only be valid for a particular resource or set of resources. Populated by the system. Read-only. Value must be treated as opaque by clients and . More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set. */
 export interface IoK8sApiSchedulingV1alpha3CompositeDisruptionMode {
   /** all specifies that all children groups can only be disrupted together. */
-  all?: unknown;
+  all?: unknown | undefined;
   /** single specifies that children groups can be disrupted independently from each other. */
-  single?: unknown;
+  single?: unknown | undefined;
 }
 /** TopologyConstraint defines a topology constraint for a PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
-  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Nodes where this label is missing or has an empty value do not belong to any domain instance, so pods within the PodGroup cannot be scheduled onto them. Examples: "topology.kubernetes.io/rack" */
   key: string;
 }
 /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
@@ -155,7 +155,9 @@ export type IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopo
 /** CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints {
   /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
-  topology?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList;
+  topology?:
+    | IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList
+    | undefined;
 }
 /** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
 export interface IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy {
@@ -165,9 +167,9 @@ export interface IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy {
 /** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The CompositePodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy {
   /** basic specifies that the groups of this composite group should be scheduled independently. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward. */
-  basic?: unknown;
+  basic?: unknown | undefined;
   /** gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minGroupCount field within Gang scheduling policy remains mutable after group creation. */
-  gang?: IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
+  gang?: IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy | undefined;
 }
 /** WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3WorkloadReference {
@@ -179,17 +181,19 @@ export interface IoK8sApiSchedulingV1alpha3WorkloadReference {
 /** CompositePodGroupSpec defines the desired state of CompositePodGroup. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSpec {
   /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode | undefined;
   /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable. */
-  parentCompositePodGroupName?: string;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
+  parentCompositePodGroupName?: string | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. */
+  preemptionPolicy?: string | undefined;
   /** priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
+  priority?: number | undefined;
   /** priorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable. */
-  priorityClassName?: string;
+  priorityClassName?: string | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints;
+  schedulingConstraints?:
+    | IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints
+    | undefined;
   /** schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
   /** workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable. */
@@ -200,9 +204,9 @@ export interface IoK8sApimachineryPkgApisMetaV1Condition {
   /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
   lastTransitionTime: string;
   /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message?: string;
+  message?: string | undefined;
   /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
-  observedGeneration?: number;
+  observedGeneration?: number | undefined;
   /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
   reason: string;
   /** status of the condition, one of True, False, Unknown. */
@@ -216,58 +220,58 @@ export type IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
 /** CompositePodGroupStatus represents information about the status of a composite pod group. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupStatus {
   /** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet minGroupCount, placement constraints, or insufficient capacity for its child groups. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout detected during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
-  conditions?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList;
+  conditions?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList | undefined;
 }
 export interface CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the CompositePodGroup. */
   spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
   /** status represents the current observed state of the CompositePodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus | undefined;
 }
 /** CompositePodGroup represents a runtime instance of pod groups grouped together. CompositePodGroups are created by workload controllers (LWS, JobSet, etc...) from Workload.compositePodGroupTemplates. CompositePodGroup API enablement is toggled by the CompositePodGroup feature gate. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the CompositePodGroup. */
   spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
   /** status represents the current observed state of the CompositePodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus | undefined;
 }
 /** DisruptionMode defines how individual entities within a group can be disrupted. Exactly one mode can be set. */
 export interface IoK8sApiSchedulingV1alpha3DisruptionMode {
   /** all specifies that all children can only be disrupted together. */
-  all?: unknown;
+  all?: unknown | undefined;
   /** single specifies that children can be disrupted independently from each other. */
-  single?: unknown;
+  single?: unknown | undefined;
 }
 /** PodGroupResourceClaim references exactly one ResourceClaim, either directly or by naming a ResourceClaimTemplate which is then turned into a ResourceClaim for the PodGroup. It adds a name to it that uniquely identifies the ResourceClaim inside the PodGroup. Pods that need access to the ResourceClaim define a matching reference in its own Spec.ResourceClaims. The Pod's claim must match all fields of the PodGroup's claim exactly. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupResourceClaim {
   /** name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL. */
   name: string;
   /** resourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
-  resourceClaimName?: string;
+  resourceClaimName?: string | undefined;
   /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup. The template will be used to create a new ResourceClaim, which will be bound to this PodGroup. When this PodGroup is deleted, the ResourceClaim will also be deleted. The PodGroup name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in podgroup.status.resourceClaimStatuses. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
-  resourceClaimTemplateName?: string;
+  resourceClaimTemplateName?: string | undefined;
 }
 /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
 export type IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList =
@@ -278,7 +282,7 @@ export type IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList 
 /** PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints {
   /** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
-  topology?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList;
+  topology?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList | undefined;
 }
 /** GangSchedulingPolicy defines the parameters for gang scheduling. */
 export interface IoK8sApiSchedulingV1alpha3GangSchedulingPolicy {
@@ -288,30 +292,30 @@ export interface IoK8sApiSchedulingV1alpha3GangSchedulingPolicy {
 /** PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The PodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy {
   /** basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward. */
-  basic?: unknown;
+  basic?: unknown | undefined;
   /** gang specifies that the pods in this group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minCount field within Gang scheduling policy remains mutable after group creation. */
-  gang?: IoK8sApiSchedulingV1alpha3GangSchedulingPolicy;
+  gang?: IoK8sApiSchedulingV1alpha3GangSchedulingPolicy | undefined;
 }
 /** PodGroupSpec defines the desired state of a PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSpec {
   /** disruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode | undefined;
   /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable. */
-  parentCompositePodGroupName?: string;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
+  parentCompositePodGroupName?: string | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. */
+  preemptionPolicy?: string | undefined;
   /** priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
-  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
-  priorityClassName?: string;
+  priority?: number | undefined;
+  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
+  priorityClassName?: string | undefined;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
-  resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList;
+  resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints | undefined;
   /** schedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
   /** workloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable. */
-  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference;
+  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference | undefined;
 }
 /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
 export type IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList =
@@ -321,7 +325,7 @@ export interface IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus {
   /** name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL. */
   name: string;
   /** resourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case. */
-  resourceClaimName?: string;
+  resourceClaimName?: string | undefined;
 }
 /** resourceClaimStatuses is status of resource claims. */
 export type IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
@@ -329,44 +333,46 @@ export type IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
 /** PodGroupStatus represents information about the status of a pod group. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupStatus {
   /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
-  conditions?: IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList;
+  conditions?: IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList | undefined;
   /** resourceClaimStatuses is status of resource claims. */
-  resourceClaimStatuses?: IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList;
+  resourceClaimStatuses?:
+    | IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList
+    | undefined;
 }
 export interface CreateSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus | undefined;
 }
 /** PodGroup represents a runtime instance of pods grouped together. PodGroups are created by workload controllers (Job, LWS, JobSet, etc...) from Workload.podGroupTemplates. PodGroup API enablement is toggled by the GenericWorkload feature gate. */
 export interface IoK8sApiSchedulingV1alpha3PodGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus | undefined;
 }
 /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
 export type IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList =
@@ -377,19 +383,19 @@ export type IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList =
 /** PodGroupTemplate represents a template for a set of pods with a scheduling policy. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupTemplate {
   /** disruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode | undefined;
   /** name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable. */
   name: string;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. */
+  preemptionPolicy?: string | undefined;
   /** priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
+  priority?: number | undefined;
   /** priorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable. */
-  priorityClassName?: string;
+  priorityClassName?: string | undefined;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
-  resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList;
+  resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints | undefined;
   /** schedulingPolicy defines the scheduling policy for this PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
 }
@@ -399,21 +405,27 @@ export type IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplates
 /** CompositePodGroupTemplate represents a template for a CompositePodGroup with a scheduling policy. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate {
   /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
-  compositePodGroupTemplates?: IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList;
+  compositePodGroupTemplates?:
+    | IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList
+    | undefined;
   /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. One of Single, All. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode | undefined;
   /** name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required. */
   name: string;
   /** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
-  podGroupTemplates?: IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
-  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
-  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable. */
-  priorityClassName?: string;
+  podGroupTemplates?:
+    | IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList
+    | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. */
+  preemptionPolicy?: string | undefined;
+  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number | undefined;
+  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. This field is immutable. */
+  priorityClassName?: string | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroupTemplate. This field is immutable. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints;
+  schedulingConstraints?:
+    | IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints
+    | undefined;
   /** schedulingPolicy defines the scheduling policy for this template. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
 }
@@ -423,7 +435,7 @@ export type IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList
 /** TypedLocalObjectReference allows to reference typed object inside the same namespace. */
 export interface IoK8sApiSchedulingV1alpha3TypedLocalObjectReference {
   /** apiGroup is the group for the resource being referenced. If APIGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting APIGroup is required. It must be a DNS subdomain. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** kind is the type of resource being referenced. It must be a path segment name. */
   kind: string;
   /** name is the name of resource being referenced. It must be a path segment name. */
@@ -435,42 +447,133 @@ export type IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList =
 /** WorkloadSpec defines the desired state of a Workload. */
 export interface IoK8sApiSchedulingV1alpha3WorkloadSpec {
   /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
-  compositePodGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList;
+  compositePodGroupTemplates?:
+    | IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList
+    | undefined;
   /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
-  controllerRef?: IoK8sApiSchedulingV1alpha3TypedLocalObjectReference;
+  controllerRef?: IoK8sApiSchedulingV1alpha3TypedLocalObjectReference | undefined;
   /** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
-  podGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList;
+  podGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList | undefined;
 }
 export interface CreateSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
 }
 /** Workload allows for expressing scheduling constraints that should be used when managing the lifecycle of workloads from the scheduling perspective, including scheduling, preemption, eviction and other phases. Workload API enablement is toggled by the GenericWorkload feature gate. */
 export interface IoK8sApiSchedulingV1alpha3Workload {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
+}
+/** CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set. */
+export type IoK8sApiSchedulingV1beta1CompositeDisruptionMode =
+  IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+/** TopologyConstraint defines a topology constraint for a PodGroup. */
+export type IoK8sApiSchedulingV1beta1TopologyConstraint =
+  IoK8sApiSchedulingV1alpha3TopologyConstraint;
+/** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+/** CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints {
+  /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+  topology?:
+    | IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList
+    | undefined;
+}
+/** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
+export type IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
+/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The CompositePodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+/** WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup. */
+export type IoK8sApiSchedulingV1beta1WorkloadReference =
+  IoK8sApiSchedulingV1alpha3WorkloadReference;
+/** CompositePodGroupSpec defines the desired state of CompositePodGroup. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupSpec {
+  /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode | undefined;
+  /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable. */
+  parentCompositePodGroupName?: string | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. */
+  preemptionPolicy?: string | undefined;
+  /** priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number | undefined;
+  /** priorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable. */
+  priorityClassName?: string | undefined;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
+  schedulingConstraints?:
+    | IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints
+    | undefined;
+  /** schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+  /** workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable. */
+  workloadRef: IoK8sApiSchedulingV1alpha3WorkloadReference;
+}
+/** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet minGroupCount, placement constraints, or insufficient capacity for its child groups. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout detected during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+/** CompositePodGroupStatus represents information about the status of a composite pod group. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupStatus {
+  /** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet minGroupCount, placement constraints, or insufficient capacity for its child groups. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout detected during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
+  conditions?: IoK8sApiSchedulingV1beta1CompositePodGroupStatusConditionsList | undefined;
+}
+export interface CreateSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string | undefined;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1beta1CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1beta1CompositePodGroupStatus | undefined;
+}
+/** CompositePodGroup represents a runtime instance of pod groups grouped together. CompositePodGroups are created by workload controllers (LWS, JobSet, etc...) from Workload.compositePodGroupTemplates. CompositePodGroup API enablement is toggled by the CompositePodGroup feature gate. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroup {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1beta1CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1beta1CompositePodGroupStatus | undefined;
 }
 /** DisruptionMode defines how individual entities within a group can be disrupted. Exactly one mode can be set. */
 export type IoK8sApiSchedulingV1beta1DisruptionMode = IoK8sApiSchedulingV1alpha3DisruptionMode;
@@ -480,16 +583,13 @@ export type IoK8sApiSchedulingV1beta1PodGroupResourceClaim =
 /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
 export type IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
-/** TopologyConstraint defines a topology constraint for a PodGroup. */
-export type IoK8sApiSchedulingV1beta1TopologyConstraint =
-  IoK8sApiSchedulingV1alpha3TopologyConstraint;
 /** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
 export type IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList =
   Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
 /** PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup. */
 export interface IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints {
   /** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
-  topology?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList;
+  topology?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList | undefined;
 }
 /** GangSchedulingPolicy defines the parameters for gang scheduling. */
 export type IoK8sApiSchedulingV1beta1GangSchedulingPolicy =
@@ -497,29 +597,26 @@ export type IoK8sApiSchedulingV1beta1GangSchedulingPolicy =
 /** PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The PodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export type IoK8sApiSchedulingV1beta1PodGroupSchedulingPolicy =
   IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
-/** WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup. */
-export type IoK8sApiSchedulingV1beta1WorkloadReference =
-  IoK8sApiSchedulingV1alpha3WorkloadReference;
 /** PodGroupSpec defines the desired state of a PodGroup. */
 export interface IoK8sApiSchedulingV1beta1PodGroupSpec {
   /** disruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode | undefined;
   /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable. */
-  parentCompositePodGroupName?: string;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
+  parentCompositePodGroupName?: string | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. */
+  preemptionPolicy?: string | undefined;
   /** priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
-  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
-  priorityClassName?: string;
+  priority?: number | undefined;
+  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
+  priorityClassName?: string | undefined;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
-  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList;
+  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. */
-  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints | undefined;
   /** schedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
   /** workloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable. */
-  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference;
+  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference | undefined;
 }
 /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
 export type IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList =
@@ -533,108 +630,99 @@ export type IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList =
 /** PodGroupStatus represents information about the status of a pod group. */
 export interface IoK8sApiSchedulingV1beta1PodGroupStatus {
   /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
-  conditions?: IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList;
+  conditions?: IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList | undefined;
   /** resourceClaimStatuses is status of resource claims. */
-  resourceClaimStatuses?: IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList;
+  resourceClaimStatuses?:
+    | IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList
+    | undefined;
 }
 export interface CreateSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus | undefined;
 }
 /** PodGroup represents a runtime instance of pods grouped together. PodGroups are created by workload controllers (Job, LWS, JobSet, etc...) from Workload.podGroupTemplates. PodGroup API enablement is toggled by the GenericWorkload feature gate. */
 export interface IoK8sApiSchedulingV1beta1PodGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus | undefined;
 }
 /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
 export type IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList =
   Array<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
-/** CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set. */
-export type IoK8sApiSchedulingV1beta1CompositeDisruptionMode =
-  IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
 /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
 export type IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
 /** PodGroupTemplate represents a template for a set of pods with a scheduling policy. */
 export interface IoK8sApiSchedulingV1beta1PodGroupTemplate {
   /** disruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode | undefined;
   /** name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable. */
   name: string;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. */
+  preemptionPolicy?: string | undefined;
   /** priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
+  priority?: number | undefined;
   /** priorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable. */
-  priorityClassName?: string;
+  priorityClassName?: string | undefined;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
-  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList;
+  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable. */
-  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints | undefined;
   /** schedulingPolicy defines the scheduling policy for this PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
 }
 /** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
 export type IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList =
   Array<IoK8sApiSchedulingV1beta1PodGroupTemplate>;
-/** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
-export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList =
-  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
-/** CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup. */
-export interface IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints {
-  /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
-  topology?: IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList;
-}
-/** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
-export type IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
-  IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
-/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The CompositePodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
-export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
-  IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
 /** CompositePodGroupTemplate represents a template for a CompositePodGroup with a scheduling policy. */
 export interface IoK8sApiSchedulingV1beta1CompositePodGroupTemplate {
   /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
-  compositePodGroupTemplates?: IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList;
+  compositePodGroupTemplates?:
+    | IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList
+    | undefined;
   /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. One of Single, All. This field is immutable. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode | undefined;
   /** name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required. */
   name: string;
   /** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
-  podGroupTemplates?: IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList;
-  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
-  preemptionPolicy?: string;
-  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
-  priority?: number;
-  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable. */
-  priorityClassName?: string;
+  podGroupTemplates?:
+    | IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList
+    | undefined;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. */
+  preemptionPolicy?: string | undefined;
+  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number | undefined;
+  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. This field is immutable. */
+  priorityClassName?: string | undefined;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroupTemplate. This field is immutable. */
-  schedulingConstraints?: IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints;
+  schedulingConstraints?:
+    | IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints
+    | undefined;
   /** schedulingPolicy defines the scheduling policy for this template. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
 }
@@ -644,7 +732,7 @@ export type IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList 
 /** TypedLocalObjectReference allows to reference typed object inside the same namespace. */
 export interface IoK8sApiSchedulingV1beta1TypedLocalObjectReference {
   /** apiGroup is the group for the resource being referenced. If apiGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting apiGroup is required. It must be a DNS subdomain. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** kind is the type of resource being referenced. It must be a path segment name. */
   kind: string;
   /** name is the name of resource being referenced. It must be a path segment name. */
@@ -656,139 +744,141 @@ export type IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList =
 /** WorkloadSpec defines the desired state of a Workload. */
 export interface IoK8sApiSchedulingV1beta1WorkloadSpec {
   /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
-  compositePodGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList;
+  compositePodGroupTemplates?:
+    | IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList
+    | undefined;
   /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
-  controllerRef?: IoK8sApiSchedulingV1beta1TypedLocalObjectReference;
+  controllerRef?: IoK8sApiSchedulingV1beta1TypedLocalObjectReference | undefined;
   /** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
-  podGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList;
+  podGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList | undefined;
 }
 export interface CreateSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
 }
 /** Workload allows for expressing scheduling constraints that should be used when managing the lifecycle of workloads from the scheduling perspective, including scheduling, preemption, eviction and other phases. Workload API enablement is toggled by the GenericWorkload feature gate. */
 export interface IoK8sApiSchedulingV1beta1Workload {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
 }
 export interface CreateSchedulingV1PriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** description is an arbitrary string that usually provides guidelines on when this priority class should be used. */
-  description?: string;
+  description?: string | undefined;
   /** globalDefault specifies whether this PriorityClass should be considered as the default priority for pods that do not have any priority class. Only one PriorityClass can be marked as `globalDefault`. However, if more than one PriorityClasses exists with their `globalDefault` field set to true, the smallest value of such global default PriorityClasses will be used as the default priority. */
-  globalDefault?: boolean;
+  globalDefault?: boolean | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
-  preemptionPolicy?: string;
+  preemptionPolicy?: string | undefined;
   /** value represents the integer value of this priority class. This is the actual priority that pods receive when they have the name of this class in their pod spec. */
-  value?: number;
+  value?: number | undefined;
 }
 /** PriorityClass defines mapping from a priority class name to the priority integer value. The value can be any valid integer. */
 export interface IoK8sApiSchedulingV1PriorityClass {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** description is an arbitrary string that usually provides guidelines on when this priority class should be used. */
-  description?: string;
+  description?: string | undefined;
   /** globalDefault specifies whether this PriorityClass should be considered as the default priority for pods that do not have any priority class. Only one PriorityClass can be marked as `globalDefault`. However, if more than one PriorityClasses exists with their `globalDefault` field set to true, the smallest value of such global default PriorityClasses will be used as the default priority. */
-  globalDefault?: boolean;
+  globalDefault?: boolean | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
-  preemptionPolicy?: string;
+  preemptionPolicy?: string | undefined;
   /** value represents the integer value of this priority class. This is the actual priority that pods receive when they have the name of this class in their pod spec. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out. */
 export interface IoK8sApimachineryPkgApisMetaV1Preconditions {
   /** Specifies the target ResourceVersion */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Specifies the target UID. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 /** StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered. */
 export interface IoK8sApimachineryPkgApisMetaV1StatusCause {
   /** The field of the resource that has caused this error, as named by its JSON serialization. May include dot and postfix notation for nested attributes. Arrays are zero-indexed. Fields may appear more than once in an array of causes due to fields having multiple errors. Optional. Examples: "name" - the field "name" on the current resource "items[0].name" - the field "name" on the first array entry in "items" */
-  field?: string;
+  field?: string | undefined;
   /** A human-readable description of the cause of the error. This field may be presented as-is to a reader. */
-  message?: string;
+  message?: string | undefined;
   /** A machine-readable description of the cause of the error. If this value is empty there is no information available. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** The Causes array includes more details associated with the StatusReason failure. Not all StatusReasons may provide detailed causes. */
 export type IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList =
@@ -796,17 +886,17 @@ export type IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList =
 /** StatusDetails is a set of additional properties that MAY be set by the server to provide additional information about a response. The Reason field of a Status object defines what attributes will be set. Clients must ignore fields that do not match the defined type of each attribute, and should assume that any attribute may be empty, invalid, or under defined. */
 export interface IoK8sApimachineryPkgApisMetaV1StatusDetails {
   /** The Causes array includes more details associated with the StatusReason failure. Not all StatusReasons may provide detailed causes. */
-  causes?: IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList;
+  causes?: IoK8sApimachineryPkgApisMetaV1StatusDetailsCausesList | undefined;
   /** The group attribute of the resource associated with the status StatusReason. */
-  group?: string;
+  group?: string | undefined;
   /** The kind attribute of the resource associated with the status StatusReason. On some operations may differ from the requested resource Kind. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** The name attribute of the resource associated with the status StatusReason (when there is a single name which can be described). */
-  name?: string;
+  name?: string | undefined;
   /** If specified, the time in seconds before the operation should be retried. Some errors may indicate the client must take an alternate action - for those errors this field may indicate how long to wait before taking the alternate action. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** UID of the resource. (when there is a single resource which can be described). More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** ShardInfo describes the shard selector that was applied to produce a list response. Its presence on a list response indicates the list is a filtered subset. */
 export interface IoK8sApimachineryPkgApisMetaV1ShardInfo {
@@ -816,114 +906,114 @@ export interface IoK8sApimachineryPkgApisMetaV1ShardInfo {
 /** ListMeta describes metadata that synthetic resources must have, including lists and various status objects. A resource may have only one of {ObjectMeta, ListMeta}. */
 export interface IoK8sApimachineryPkgApisMetaV1ListMeta {
   /** continue may be set if the user set a limit on the number of items returned, and indicates that the server has more data available. The value is opaque and may be used to issue another request to the endpoint that served this list to retrieve the next set of available objects. Continuing a consistent list may not be possible if the server configuration has changed or more than a few minutes have passed. The resourceVersion field returned when using this continue value will be identical to the value in the first response, unless you have received this token from an error message. */
-  continue?: string;
+  continue?: string | undefined;
   /** remainingItemCount is the number of subsequent items in the list which are not included in this list response. If the list request contained label or field selectors, then the number of remaining items is unknown and the field will be left unset and omitted during serialization. If the list is complete (either because it is not chunking or because this is the last chunk), then there are no more remaining items and this field will be left unset and omitted during serialization. Servers older than v1.15 do not set this field. The intended use of the remainingItemCount is *estimating* the size of a collection. Clients should not rely on the remainingItemCount to be set or to be exact. */
-  remainingItemCount?: number;
+  remainingItemCount?: number | undefined;
   /** String that identifies the server's internal version of this object that can be used by clients to determine when objects have changed. Value must be treated as opaque by clients and passed unmodified back to the server. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
-  selfLink?: string;
-  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardInfo?: IoK8sApimachineryPkgApisMetaV1ShardInfo;
+  selfLink?: string | undefined;
+  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardInfo?: IoK8sApimachineryPkgApisMetaV1ShardInfo | undefined;
 }
 /** Status is a return value for calls that don't return other objects. */
 export interface IoK8sApimachineryPkgApisMetaV1Status {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Suggested HTTP return code for this status, 0 if not set. */
-  code?: number;
+  code?: number | undefined;
   /** Extended data associated with the reason. Each reason may define its own extended details. This field is optional and the data returned is not guaranteed to conform to any schema except that defined by the reason type. */
-  details?: IoK8sApimachineryPkgApisMetaV1StatusDetails;
+  details?: IoK8sApimachineryPkgApisMetaV1StatusDetails | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** A human-readable description of the status of this operation. */
-  message?: string;
+  message?: string | undefined;
   /** Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
   /** A machine-readable description of why this operation is in the "Failure" status. If this value is empty there is no information available. A Reason clarifies an HTTP status code but does not override it. */
-  reason?: string;
+  reason?: string | undefined;
   /** Status of the operation. One of: "Success" or "Failure". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -931,23 +1021,23 @@ export interface DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -955,23 +1045,23 @@ export interface DeleteSchedulingV1alpha3NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -979,103 +1069,167 @@ export interface DeleteSchedulingV1alpha3NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
+}
+export interface DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number | undefined;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean | undefined;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
+}
+export interface DeleteSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number | undefined;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean | undefined;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1083,23 +1237,23 @@ export interface DeleteSchedulingV1beta1NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1107,83 +1261,83 @@ export interface DeleteSchedulingV1beta1NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1CollectionPriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface DeleteSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number;
+  gracePeriodSeconds?: number | undefined;
   /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
   /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean;
+  orphanDependents?: boolean | undefined;
   /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string;
+  propagationPolicy?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
 export interface GetSchedulingAPIGroupRequest {}
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
@@ -1209,15 +1363,17 @@ export type IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList =
 /** APIGroup contains the name, the supported versions, and the preferred version of a group. */
 export interface IoK8sApimachineryPkgApisMetaV1APIGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** name is the name of the group. */
   name: string;
   /** preferredVersion is the version preferred by the API server, which probably is the storage version. */
-  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery;
+  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery | undefined;
   /** a map of client CIDR to server address that is serving this group. This is to help clients reach servers in the most network-efficient way possible. Clients can use the appropriate server address as per the CIDR that they match. In case of multiple matches, clients should use the longest matching CIDR. The server returns only those CIDRs that it thinks that the client can match. For example: the master will return an internal IP CIDR only, if the client reaches the server using an internal IP. Server looks at X-Forwarded-For header or X-Real-Ip header or request.RemoteAddr (in that order) to get the client IP. */
-  serverAddressByClientCIDRs?: IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList;
+  serverAddressByClientCIDRs?:
+    | IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList
+    | undefined;
   /** versions are the versions supported in this group. */
   versions: IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList;
 }
@@ -1231,9 +1387,9 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList = Array<string>;
 /** APIResource specifies the name of a resource and whether it is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** categories is a list of the grouped resources this resource belongs to (e.g. 'all') */
-  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList;
+  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList | undefined;
   /** group is the preferred group of the resource. Empty implies the group of the containing resource list. For subresources, this may have a different value, for example: Scale". */
-  group?: string;
+  group?: string | undefined;
   /** kind is the kind for the resource (e.g. 'Foo' is the kind for a resource 'foo') */
   kind: string;
   /** name is the plural name of the resource. */
@@ -1241,15 +1397,15 @@ export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** namespaced indicates if a resource is namespaced or not. */
   namespaced: boolean;
   /** shortNames is a list of suggested short names of the resource. */
-  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList;
+  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList | undefined;
   /** singularName is the singular name of the resource. This allows clients to handle plural and singular opaquely. The singularName is more correct for reporting status on a single item and both singular and plural are allowed from the kubectl CLI interface. */
   singularName: string;
   /** The hash value of the storage version, the version this resource is converted to when written to the data store. Value must be treated as opaque by clients. Only equality comparison on the value is valid. This is an alpha feature and may change or be removed in the future. The field is populated by the apiserver only if the StorageVersionHash feature gate is enabled. This field will remain optional even if it graduates. */
-  storageVersionHash?: string;
+  storageVersionHash?: string | undefined;
   /** verbs is a list of supported kube verbs (this includes get, list, watch, create, update, patch, delete, deletecollection, and proxy) */
   verbs: IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList;
   /** version is the preferred version of the resource. Empty implies the version of the containing resource list For subresources, this may have a different value, for example: v1 (while inside a v1beta1 version of the core resource's group)". */
-  version?: string;
+  version?: string | undefined;
 }
 /** resources contains the name of the resources and if they are namespaced. */
 export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
@@ -1257,11 +1413,11 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
 /** APIResourceList is a list of APIResource, it is used to expose the name of the resources supported in a specific group and version, and if the resource is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResourceList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** groupVersion is the group and version this APIResourceList is for. */
   groupVersion: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** resources contains the name of the resources and if they are namespaced. */
   resources: IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList;
 }
@@ -1269,29 +1425,29 @@ export interface GetSchedulingV1APIResourcesRequest {}
 export interface GetSchedulingV1beta1APIResourcesRequest {}
 export interface ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Items is the list of CompositePodGroups. */
 export type IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList =
@@ -1299,69 +1455,69 @@ export type IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList =
 /** CompositePodGroupList contains a list of CompositePodGroup resources. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Items is the list of CompositePodGroups. */
   items: IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface ListSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Items is the list of PodGroups. */
 export type IoK8sApiSchedulingV1alpha3PodGroupListItemsList =
@@ -1369,41 +1525,41 @@ export type IoK8sApiSchedulingV1alpha3PodGroupListItemsList =
 /** PodGroupList contains a list of PodGroup resources. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Items is the list of PodGroups. */
   items: IoK8sApiSchedulingV1alpha3PodGroupListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Items is the list of Workloads. */
 export type IoK8sApiSchedulingV1alpha3WorkloadListItemsList =
@@ -1411,93 +1567,161 @@ export type IoK8sApiSchedulingV1alpha3WorkloadListItemsList =
 /** WorkloadList contains a list of Workload resources. */
 export interface IoK8sApiSchedulingV1alpha3WorkloadList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Items is the list of Workloads. */
   items: IoK8sApiSchedulingV1alpha3WorkloadListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListSchedulingV1alpha3PodGroupForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface ListSchedulingV1alpha3WorkloadForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
+}
+export interface ListSchedulingV1beta1CompositePodGroupForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean | undefined;
+}
+/** Items is the list of CompositePodGroups. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupListItemsList =
+  Array<IoK8sApiSchedulingV1beta1CompositePodGroup>;
+/** CompositePodGroupList contains a list of CompositePodGroup resources. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Items is the list of CompositePodGroups. */
+  items: IoK8sApiSchedulingV1beta1CompositePodGroupListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** Standard list metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
+}
+export interface ListSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean | undefined;
 }
 export interface ListSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Items is the list of PodGroups. */
 export type IoK8sApiSchedulingV1beta1PodGroupListItemsList =
@@ -1505,41 +1729,41 @@ export type IoK8sApiSchedulingV1beta1PodGroupListItemsList =
 /** PodGroupList contains a list of PodGroup resources. */
 export interface IoK8sApiSchedulingV1beta1PodGroupList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Items is the list of PodGroups. */
   items: IoK8sApiSchedulingV1beta1PodGroupListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** items is the list of Workloads. */
 export type IoK8sApiSchedulingV1beta1WorkloadListItemsList =
@@ -1547,91 +1771,91 @@ export type IoK8sApiSchedulingV1beta1WorkloadListItemsList =
 /** WorkloadList contains a list of Workload resources. */
 export interface IoK8sApiSchedulingV1beta1WorkloadList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** items is the list of Workloads. */
   items: IoK8sApiSchedulingV1beta1WorkloadListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 export interface ListSchedulingV1beta1PodGroupForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface ListSchedulingV1beta1WorkloadForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface ListSchedulingV1PriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** items is the list of PriorityClasses */
 export type IoK8sApiSchedulingV1PriorityClassListItemsList =
@@ -1639,13 +1863,13 @@ export type IoK8sApiSchedulingV1PriorityClassListItemsList =
 /** PriorityClassList is a collection of priority classes. */
 export interface IoK8sApiSchedulingV1PriorityClassList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** items is the list of PriorityClasses */
   items: IoK8sApiSchedulingV1PriorityClassListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Standard list metadata More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
 /** How the server applies a PATCH body. */
 export type PatchType =
@@ -1659,15 +1883,15 @@ export interface PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1679,15 +1903,15 @@ export interface PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1699,15 +1923,15 @@ export interface PatchSchedulingV1alpha3NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1719,15 +1943,15 @@ export interface PatchSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1739,15 +1963,55 @@ export interface PatchSchedulingV1alpha3NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
+}
+export interface PatchSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string | undefined;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string | undefined;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
+}
+export interface PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string | undefined;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string | undefined;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1759,15 +2023,15 @@ export interface PatchSchedulingV1beta1NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1779,15 +2043,15 @@ export interface PatchSchedulingV1beta1NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1799,15 +2063,15 @@ export interface PatchSchedulingV1beta1NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1817,15 +2081,15 @@ export interface PatchSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
   /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
@@ -1837,7 +2101,7 @@ export interface ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1845,7 +2109,7 @@ export interface ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest 
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1853,7 +2117,7 @@ export interface ReadSchedulingV1alpha3NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1861,7 +2125,7 @@ export interface ReadSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1869,7 +2133,23 @@ export interface ReadSchedulingV1alpha3NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
+}
+export interface ReadSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+}
+export interface ReadSchedulingV1beta1NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1877,7 +2157,7 @@ export interface ReadSchedulingV1beta1NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1beta1NamespacedPodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1885,7 +2165,7 @@ export interface ReadSchedulingV1beta1NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1893,13 +2173,13 @@ export interface ReadSchedulingV1beta1NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReadSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
 }
 export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1907,23 +2187,23 @@ export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the CompositePodGroup. */
   spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
   /** status represents the current observed state of the CompositePodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1931,23 +2211,23 @@ export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusReque
   /** name of the CompositePodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the CompositePodGroup. */
   spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
   /** status represents the current observed state of the CompositePodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1955,23 +2235,23 @@ export interface ReplaceSchedulingV1alpha3NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1979,23 +2259,23 @@ export interface ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
+  status?: IoK8sApiSchedulingV1alpha3PodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2003,21 +2283,69 @@ export interface ReplaceSchedulingV1alpha3NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
+}
+export interface ReplaceSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string | undefined;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1beta1CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1beta1CompositePodGroupStatus | undefined;
+}
+export interface ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string | undefined;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string | undefined;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1beta1CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1beta1CompositePodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2025,23 +2353,23 @@ export interface ReplaceSchedulingV1beta1NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2049,23 +2377,23 @@ export interface ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest {
   /** name of the PodGroup */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
   /** status represents the current observed state of the PodGroup. */
-  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus | undefined;
 }
 export interface ReplaceSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2073,19 +2401,19 @@ export interface ReplaceSchedulingV1beta1NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
 }
@@ -2093,53 +2421,53 @@ export interface ReplaceSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** description is an arbitrary string that usually provides guidelines on when this priority class should be used. */
-  description?: string;
+  description?: string | undefined;
   /** globalDefault specifies whether this PriorityClass should be considered as the default priority for pods that do not have any priority class. Only one PriorityClass can be marked as `globalDefault`. However, if more than one PriorityClasses exists with their `globalDefault` field set to true, the smallest value of such global default PriorityClasses will be used as the default priority. */
-  globalDefault?: boolean;
+  globalDefault?: boolean | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
-  preemptionPolicy?: string;
+  preemptionPolicy?: string | undefined;
   /** value represents the integer value of this priority class. This is the actual priority that pods receive when they have the name of this class in their pod spec. */
-  value?: number;
+  value?: number | undefined;
 }
 export interface WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 /** Event represents a single event to a watched resource. */
 export interface IoK8sApimachineryPkgApisMetaV1WatchEvent {
@@ -2153,57 +2481,57 @@ export interface WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest {
   /** name of the CompositePodGroup */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2211,57 +2539,57 @@ export interface WatchSchedulingV1alpha3NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3NamespacedPodGroupListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2269,109 +2597,193 @@ export interface WatchSchedulingV1alpha3NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3NamespacedWorkloadListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3PodGroupListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
+}
+export interface WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean | undefined;
+}
+export interface WatchSchedulingV1beta1NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean | undefined;
+}
+export interface WatchSchedulingV1beta1NamespacedCompositePodGroupListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean | undefined;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string | undefined;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string | undefined;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string | undefined;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number | undefined;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string | undefined;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string | undefined;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string | undefined;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number | undefined;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2379,57 +2791,57 @@ export interface WatchSchedulingV1beta1NamespacedPodGroupRequest {
   /** name of the PodGroup */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1NamespacedPodGroupListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1NamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2437,163 +2849,163 @@ export interface WatchSchedulingV1beta1NamespacedWorkloadRequest {
   /** name of the Workload */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1NamespacedWorkloadListRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export interface WatchSchedulingV1PriorityClassListRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean;
+  allowWatchBookmarks?: boolean | undefined;
   /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string;
+  continue?: string | undefined;
   /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string;
+  fieldSelector?: string | undefined;
   /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string;
+  labelSelector?: string | undefined;
   /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string;
+  resourceVersionMatch?: string | undefined;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
-  shardSelector?: string;
+  sendInitialEvents?: boolean | undefined;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
+  shardSelector?: string | undefined;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean;
+  watch?: boolean | undefined;
 }
 export type CreateSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
 /** create a CompositePodGroup */
@@ -2608,7 +3020,7 @@ export const createSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationM
     __c24,
     0,
   ) as any as S.Schema<CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2624,8 +3036,8 @@ export const createSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   CreateSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CreateSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  input: __S(352, __c44, 0) as any as S.Schema<CreateSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2641,13 +3053,34 @@ export const createSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   CreateSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CreateSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(452, __c56, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
+  input: __S(456, __c57, 0) as any as S.Schema<CreateSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(468, __c58, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSchedulingV1alpha3NamespacedWorkload",
+}));
+
+export type CreateSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** create a CompositePodGroup */
+export const createSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  CreateSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  CreateSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    560,
+    __c70,
+    0,
+  ) as any as S.Schema<CreateSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1beta1NamespacedCompositePodGroup",
 }));
 
 export type CreateSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -2658,8 +3091,8 @@ export const createSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   CreateSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<CreateSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  input: __S(648, __c81, 0) as any as S.Schema<CreateSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2675,8 +3108,8 @@ export const createSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   CreateSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<CreateSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(652, __c81, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
+  input: __S(744, __c93, 0) as any as S.Schema<CreateSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(756, __c94, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2695,8 +3128,8 @@ export const createSchedulingV1PriorityClass: API.OperationMethod<
   CreateSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<CreateSchedulingV1PriorityClassRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
+  input: __S(840, __c105, 0) as any as S.Schema<CreateSchedulingV1PriorityClassRequest>,
+  output: __S(848, __c106, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2713,11 +3146,11 @@ export const deleteSchedulingV1alpha3CollectionNamespacedCompositePodGroup: API.
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    752,
-    __c94,
+    0,
+    __c0,
     0,
   ) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2734,11 +3167,11 @@ export const deleteSchedulingV1alpha3CollectionNamespacedPodGroup: API.Operation
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    0,
-    __c0,
+    24,
+    __c3,
     0,
   ) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2755,11 +3188,11 @@ export const deleteSchedulingV1alpha3CollectionNamespacedWorkload: API.Operation
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8,
-    __c1,
+    32,
+    __c4,
     0,
   ) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2776,11 +3209,11 @@ export const deleteSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16,
-    __c2,
+    40,
+    __c5,
     0,
   ) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2796,8 +3229,8 @@ export const deleteSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   DeleteSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2813,13 +3246,34 @@ export const deleteSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   DeleteSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSchedulingV1alpha3NamespacedWorkload",
+}));
+
+export type DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupError = KubernetesOpError;
+/** delete collection of CompositePodGroup */
+export const deleteSchedulingV1beta1CollectionNamespacedCompositePodGroup: API.OperationMethod<
+  DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    64,
+    __c8,
+    0,
+  ) as any as S.Schema<DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroup",
 }));
 
 export type DeleteSchedulingV1beta1CollectionNamespacedPodGroupError = KubernetesOpError;
@@ -2831,11 +3285,11 @@ export const deleteSchedulingV1beta1CollectionNamespacedPodGroup: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    40,
-    __c5,
+    72,
+    __c9,
     0,
   ) as any as S.Schema<DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2852,16 +3306,37 @@ export const deleteSchedulingV1beta1CollectionNamespacedWorkload: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    48,
-    __c6,
+    80,
+    __c10,
     0,
   ) as any as S.Schema<DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSchedulingV1beta1CollectionNamespacedWorkload",
+}));
+
+export type DeleteSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** delete a CompositePodGroup */
+export const deleteSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  DeleteSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    88,
+    __c11,
+    0,
+  ) as any as S.Schema<DeleteSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1NamespacedCompositePodGroup",
 }));
 
 export type DeleteSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -2872,8 +3347,8 @@ export const deleteSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   DeleteSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2889,8 +3364,8 @@ export const deleteSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   DeleteSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2906,8 +3381,8 @@ export const deleteSchedulingV1CollectionPriorityClass: API.OperationMethod<
   DeleteSchedulingV1CollectionPriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteSchedulingV1CollectionPriorityClassRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteSchedulingV1CollectionPriorityClassRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2923,8 +3398,8 @@ export const deleteSchedulingV1PriorityClass: API.OperationMethod<
   DeleteSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteSchedulingV1PriorityClassRequest>,
-  output: __S(764, __c95, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteSchedulingV1PriorityClassRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2940,8 +3415,8 @@ export const getSchedulingAPIGroup: API.OperationMethod<
   GetSchedulingAPIGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetSchedulingAPIGroupRequest>,
-  output: __S(93, __c11, 5) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetSchedulingAPIGroupRequest>,
+  output: __S(133, __c16, 5) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2957,8 +3432,8 @@ export const getSchedulingV1alpha3APIResources: API.OperationMethod<
   GetSchedulingV1alpha3APIResourcesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetSchedulingV1alpha3APIResourcesRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetSchedulingV1alpha3APIResourcesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2974,8 +3449,8 @@ export const getSchedulingV1APIResources: API.OperationMethod<
   GetSchedulingV1APIResourcesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetSchedulingV1APIResourcesRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetSchedulingV1APIResourcesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -2991,8 +3466,8 @@ export const getSchedulingV1beta1APIResources: API.OperationMethod<
   GetSchedulingV1beta1APIResourcesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetSchedulingV1beta1APIResourcesRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetSchedulingV1beta1APIResourcesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3009,11 +3484,11 @@ export const listSchedulingV1alpha3CompositePodGroupForAllNamespaces: API.Operat
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c16,
+    168,
+    __c21,
     0,
   ) as any as S.Schema<ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupList>,
+  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3030,11 +3505,11 @@ export const listSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMet
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c18,
+    184,
+    __c23,
     0,
   ) as any as S.Schema<ListSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupList>,
+  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3050,8 +3525,8 @@ export const listSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   ListSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupList>,
+  input: __S(248, __c31, 0) as any as S.Schema<ListSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3067,8 +3542,8 @@ export const listSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   ListSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadList>,
+  input: __S(264, __c33, 0) as any as S.Schema<ListSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3085,11 +3560,11 @@ export const listSchedulingV1alpha3PodGroupForAllNamespaces: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    184,
-    __c23,
+    280,
+    __c35,
     0,
   ) as any as S.Schema<ListSchedulingV1alpha3PodGroupForAllNamespacesRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupList>,
+  output: __S(257, __c32, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3106,16 +3581,58 @@ export const listSchedulingV1alpha3WorkloadForAllNamespaces: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    248,
-    __c31,
+    288,
+    __c36,
     0,
   ) as any as S.Schema<ListSchedulingV1alpha3WorkloadForAllNamespacesRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadList>,
+  output: __S(273, __c34, 1) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchedulingV1alpha3WorkloadForAllNamespaces",
+}));
+
+export type ListSchedulingV1beta1CompositePodGroupForAllNamespacesError = KubernetesOpError;
+/** list or watch objects of kind CompositePodGroup */
+export const listSchedulingV1beta1CompositePodGroupForAllNamespaces: API.OperationMethod<
+  ListSchedulingV1beta1CompositePodGroupForAllNamespacesRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroupList,
+  ListSchedulingV1beta1CompositePodGroupForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    296,
+    __c37,
+    0,
+  ) as any as S.Schema<ListSchedulingV1beta1CompositePodGroupForAllNamespacesRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupList>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1CompositePodGroupForAllNamespaces",
+}));
+
+export type ListSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** list or watch objects of kind CompositePodGroup */
+export const listSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  ListSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroupList,
+  ListSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    304,
+    __c38,
+    0,
+  ) as any as S.Schema<ListSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupList>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1NamespacedCompositePodGroup",
 }));
 
 export type ListSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3126,8 +3643,8 @@ export const listSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   ListSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupList>,
+  input: __S(312, __c39, 0) as any as S.Schema<ListSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3143,8 +3660,8 @@ export const listSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   ListSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadList>,
+  input: __S(320, __c40, 0) as any as S.Schema<ListSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3161,11 +3678,11 @@ export const listSchedulingV1beta1PodGroupForAllNamespaces: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    280,
-    __c35,
+    336,
+    __c42,
     0,
   ) as any as S.Schema<ListSchedulingV1beta1PodGroupForAllNamespacesRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupList>,
+  output: __S(257, __c32, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3182,11 +3699,11 @@ export const listSchedulingV1beta1WorkloadForAllNamespaces: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c36,
+    344,
+    __c43,
     0,
   ) as any as S.Schema<ListSchedulingV1beta1WorkloadForAllNamespacesRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadList>,
+  output: __S(329, __c41, 1) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3202,8 +3719,8 @@ export const listSchedulingV1PriorityClass: API.OperationMethod<
   ListSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListSchedulingV1PriorityClassRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<IoK8sApiSchedulingV1PriorityClassList>,
+  input: __S(376, __c47, 0) as any as S.Schema<ListSchedulingV1PriorityClassRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<IoK8sApiSchedulingV1PriorityClassList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3220,11 +3737,11 @@ export const patchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    304,
-    __c38,
+    384,
+    __c48,
     0,
   ) as any as S.Schema<PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3241,11 +3758,11 @@ export const patchSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Opera
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    312,
-    __c39,
+    392,
+    __c49,
     0,
   ) as any as S.Schema<PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3261,8 +3778,8 @@ export const patchSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   PatchSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<PatchSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  input: __S(400, __c50, 0) as any as S.Schema<PatchSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3279,11 +3796,11 @@ export const patchSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    328,
-    __c41,
+    408,
+    __c51,
     0,
   ) as any as S.Schema<PatchSchedulingV1alpha3NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3299,13 +3816,55 @@ export const patchSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   PatchSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<PatchSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(452, __c56, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
+  input: __S(416, __c52, 0) as any as S.Schema<PatchSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(468, __c58, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSchedulingV1alpha3NamespacedWorkload",
+}));
+
+export type PatchSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** partially update the specified CompositePodGroup */
+export const patchSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  PatchSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  PatchSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    424,
+    __c53,
+    0,
+  ) as any as S.Schema<PatchSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1beta1NamespacedCompositePodGroup",
+}));
+
+export type PatchSchedulingV1beta1NamespacedCompositePodGroupStatusError = KubernetesOpError;
+/** partially update status of the specified CompositePodGroup */
+export const patchSchedulingV1beta1NamespacedCompositePodGroupStatus: API.OperationMethod<
+  PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  PatchSchedulingV1beta1NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    432,
+    __c54,
+    0,
+  ) as any as S.Schema<PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1beta1NamespacedCompositePodGroupStatus",
 }));
 
 export type PatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3316,8 +3875,8 @@ export const patchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   PatchSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<PatchSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  input: __S(440, __c55, 0) as any as S.Schema<PatchSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3334,11 +3893,11 @@ export const patchSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    376,
-    __c47,
+    448,
+    __c56,
     0,
   ) as any as S.Schema<PatchSchedulingV1beta1NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3354,8 +3913,8 @@ export const patchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   PatchSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<PatchSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(652, __c81, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
+  input: __S(480, __c60, 0) as any as S.Schema<PatchSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(756, __c94, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3375,8 +3934,8 @@ export const patchSchedulingV1PriorityClass: API.OperationMethod<
   PatchSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<PatchSchedulingV1PriorityClassRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
+  input: __S(488, __c61, 0) as any as S.Schema<PatchSchedulingV1PriorityClassRequest>,
+  output: __S(848, __c106, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3393,11 +3952,11 @@ export const readSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMet
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    400,
-    __c50,
+    496,
+    __c62,
     0,
   ) as any as S.Schema<ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3414,11 +3973,11 @@ export const readSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Operat
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    408,
-    __c51,
+    504,
+    __c63,
     0,
   ) as any as S.Schema<ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3434,8 +3993,8 @@ export const readSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   ReadSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ReadSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  input: __S(512, __c64, 0) as any as S.Schema<ReadSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3452,11 +4011,11 @@ export const readSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    424,
-    __c53,
+    520,
+    __c65,
     0,
   ) as any as S.Schema<ReadSchedulingV1alpha3NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3472,13 +4031,55 @@ export const readSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   ReadSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<ReadSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(452, __c56, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
+  input: __S(528, __c66, 0) as any as S.Schema<ReadSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(468, __c58, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadSchedulingV1alpha3NamespacedWorkload",
+}));
+
+export type ReadSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** read the specified CompositePodGroup */
+export const readSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  ReadSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  ReadSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    536,
+    __c67,
+    0,
+  ) as any as S.Schema<ReadSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1beta1NamespacedCompositePodGroup",
+}));
+
+export type ReadSchedulingV1beta1NamespacedCompositePodGroupStatusError = KubernetesOpError;
+/** read status of the specified CompositePodGroup */
+export const readSchedulingV1beta1NamespacedCompositePodGroupStatus: API.OperationMethod<
+  ReadSchedulingV1beta1NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  ReadSchedulingV1beta1NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    544,
+    __c68,
+    0,
+  ) as any as S.Schema<ReadSchedulingV1beta1NamespacedCompositePodGroupStatusRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1beta1NamespacedCompositePodGroupStatus",
 }));
 
 export type ReadSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3489,8 +4090,8 @@ export const readSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   ReadSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<ReadSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  input: __S(552, __c69, 0) as any as S.Schema<ReadSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3507,11 +4108,11 @@ export const readSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    472,
-    __c59,
+    568,
+    __c71,
     0,
   ) as any as S.Schema<ReadSchedulingV1beta1NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3527,8 +4128,8 @@ export const readSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   ReadSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<ReadSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(652, __c81, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
+  input: __S(576, __c72, 0) as any as S.Schema<ReadSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(756, __c94, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3544,8 +4145,8 @@ export const readSchedulingV1PriorityClass: API.OperationMethod<
   ReadSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<ReadSchedulingV1PriorityClassRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
+  input: __S(584, __c73, 0) as any as S.Schema<ReadSchedulingV1PriorityClassRequest>,
+  output: __S(848, __c106, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3562,11 +4163,11 @@ export const replaceSchedulingV1alpha3NamespacedCompositePodGroup: API.Operation
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c62,
+    592,
+    __c74,
     0,
   ) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3583,11 +4184,11 @@ export const replaceSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Ope
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    504,
-    __c63,
+    600,
+    __c75,
     0,
   ) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3603,8 +4204,8 @@ export const replaceSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   ReplaceSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  input: __S(608, __c76, 0) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3621,11 +4222,11 @@ export const replaceSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMet
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    520,
-    __c65,
+    616,
+    __c77,
     0,
   ) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3641,13 +4242,55 @@ export const replaceSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   ReplaceSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(452, __c56, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
+  input: __S(624, __c78, 0) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(468, __c58, 4) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceSchedulingV1alpha3NamespacedWorkload",
+}));
+
+export type ReplaceSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** replace the specified CompositePodGroup */
+export const replaceSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  ReplaceSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  ReplaceSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    632,
+    __c79,
+    0,
+  ) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1beta1NamespacedCompositePodGroup",
+}));
+
+export type ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusError = KubernetesOpError;
+/** replace status of the specified CompositePodGroup */
+export const replaceSchedulingV1beta1NamespacedCompositePodGroupStatus: API.OperationMethod<
+  ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1CompositePodGroup,
+  ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    640,
+    __c80,
+    0,
+  ) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroup>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatus",
 }));
 
 export type ReplaceSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3658,8 +4301,8 @@ export const replaceSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   ReplaceSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  input: __S(656, __c82, 0) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3676,11 +4319,11 @@ export const replaceSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMeth
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    552,
-    __c69,
+    664,
+    __c83,
     0,
   ) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest>,
-  output: __S(356, __c44, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
+  output: __S(372, __c46, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3696,8 +4339,8 @@ export const replaceSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   ReplaceSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(652, __c81, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
+  input: __S(672, __c84, 0) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(756, __c94, 4) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3717,8 +4360,8 @@ export const replaceSchedulingV1PriorityClass: API.OperationMethod<
   ReplaceSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ReplaceSchedulingV1PriorityClassRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
+  input: __S(680, __c85, 0) as any as S.Schema<ReplaceSchedulingV1PriorityClassRequest>,
+  output: __S(848, __c106, 0) as any as S.Schema<IoK8sApiSchedulingV1PriorityClass>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3735,11 +4378,11 @@ export const watchSchedulingV1alpha3CompositePodGroupListForAllNamespaces: API.O
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c72,
+    688,
+    __c86,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3756,11 +4399,11 @@ export const watchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    592,
-    __c74,
+    704,
+    __c88,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3777,11 +4420,11 @@ export const watchSchedulingV1alpha3NamespacedCompositePodGroupList: API.Operati
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    600,
-    __c75,
+    712,
+    __c89,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3797,8 +4440,8 @@ export const watchSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   WatchSchedulingV1alpha3NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<WatchSchedulingV1alpha3NamespacedPodGroupRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(720, __c90, 0) as any as S.Schema<WatchSchedulingV1alpha3NamespacedPodGroupRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3815,11 +4458,11 @@ export const watchSchedulingV1alpha3NamespacedPodGroupList: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    616,
-    __c77,
+    728,
+    __c91,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3NamespacedPodGroupListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3835,8 +4478,8 @@ export const watchSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   WatchSchedulingV1alpha3NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<WatchSchedulingV1alpha3NamespacedWorkloadRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(736, __c92, 0) as any as S.Schema<WatchSchedulingV1alpha3NamespacedWorkloadRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3853,11 +4496,11 @@ export const watchSchedulingV1alpha3NamespacedWorkloadList: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    632,
-    __c79,
+    760,
+    __c95,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3NamespacedWorkloadListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3874,11 +4517,11 @@ export const watchSchedulingV1alpha3PodGroupListForAllNamespaces: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    656,
-    __c82,
+    768,
+    __c96,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3PodGroupListForAllNamespacesRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3895,16 +4538,79 @@ export const watchSchedulingV1alpha3WorkloadListForAllNamespaces: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    664,
-    __c83,
+    776,
+    __c97,
     0,
   ) as any as S.Schema<WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WatchSchedulingV1alpha3WorkloadListForAllNamespaces",
+}));
+
+export type WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesError = KubernetesOpError;
+/** watch individual changes to a list of CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1CompositePodGroupListForAllNamespaces: API.OperationMethod<
+  WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    784,
+    __c98,
+    0,
+  ) as any as S.Schema<WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1CompositePodGroupListForAllNamespaces",
+}));
+
+export type WatchSchedulingV1beta1NamespacedCompositePodGroupError = KubernetesOpError;
+/** watch changes to an object of kind CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchSchedulingV1beta1NamespacedCompositePodGroup: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    792,
+    __c99,
+    0,
+  ) as any as S.Schema<WatchSchedulingV1beta1NamespacedCompositePodGroupRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedCompositePodGroup",
+}));
+
+export type WatchSchedulingV1beta1NamespacedCompositePodGroupListError = KubernetesOpError;
+/** watch individual changes to a list of CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1NamespacedCompositePodGroupList: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedCompositePodGroupListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedCompositePodGroupListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    800,
+    __c100,
+    0,
+  ) as any as S.Schema<WatchSchedulingV1beta1NamespacedCompositePodGroupListRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedCompositePodGroupList",
 }));
 
 export type WatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3915,8 +4621,8 @@ export const watchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   WatchSchedulingV1beta1NamespacedPodGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(808, __c101, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3932,8 +4638,12 @@ export const watchSchedulingV1beta1NamespacedPodGroupList: API.OperationMethod<
   WatchSchedulingV1beta1NamespacedPodGroupListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(
+    816,
+    __c102,
+    0,
+  ) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupListRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3949,8 +4659,8 @@ export const watchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   WatchSchedulingV1beta1NamespacedWorkloadError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(824, __c103, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3966,8 +4676,12 @@ export const watchSchedulingV1beta1NamespacedWorkloadList: API.OperationMethod<
   WatchSchedulingV1beta1NamespacedWorkloadListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(
+    832,
+    __c104,
+    0,
+  ) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadListRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3984,11 +4698,11 @@ export const watchSchedulingV1beta1PodGroupListForAllNamespaces: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c88,
+    856,
+    __c107,
     0,
   ) as any as S.Schema<WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -4005,11 +4719,11 @@ export const watchSchedulingV1beta1WorkloadListForAllNamespaces: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    712,
-    __c89,
+    864,
+    __c108,
     0,
   ) as any as S.Schema<WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -4025,8 +4739,8 @@ export const watchSchedulingV1PriorityClass: API.OperationMethod<
   WatchSchedulingV1PriorityClassError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<WatchSchedulingV1PriorityClassRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(872, __c109, 0) as any as S.Schema<WatchSchedulingV1PriorityClassRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -4042,8 +4756,8 @@ export const watchSchedulingV1PriorityClassList: API.OperationMethod<
   WatchSchedulingV1PriorityClassListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<WatchSchedulingV1PriorityClassListRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(880, __c110, 0) as any as S.Schema<WatchSchedulingV1PriorityClassListRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -4075,7 +4789,108 @@ function __c0(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceVersion: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Preconditions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          message: S.optional(S.String),
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusCause" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          causes: S.optional(__S(10, __c1, 2)),
+          group: S.optional(S.String),
+          kind: S.optional(S.String),
+          name: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(11, __c1, 3)),
+          kind: S.optional(S.String),
+          message: S.optional(S.String),
+          metadata: S.optional(__S(17, __c2, 1)),
+          reason: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Status" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          selector: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ShardInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          continue: S.optional(S.String),
+          remainingItemCount: S.optional(S.Number),
+          resourceVersion: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          shardInfo: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ListMeta" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4086,7 +4901,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4109,7 +4924,7 @@ function __c1(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4120,7 +4935,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4135,7 +4950,7 @@ function __c2(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4146,7 +4961,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4161,7 +4976,7 @@ function __c3(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4170,100 +4985,6 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteSchedulingV1alpha3NamespacedPodGroupRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/workloads/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteSchedulingV1alpha3NamespacedWorkloadRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest" });
   }
 }
 function __c7(j: number): any {
@@ -4281,18 +5002,122 @@ function __c7(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/workloads/{name}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DeleteSchedulingV1beta1NamespacedPodGroupRequest" });
+      ).annotate({ identifier: "DeleteSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
 function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "DeleteSchedulingV1beta1CollectionNamespacedCompositePodGroupRequest",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4307,7 +5132,59 @@ function __c8(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSchedulingV1beta1NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSchedulingV1beta1NamespacedPodGroupRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4318,7 +5195,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4340,7 +5217,7 @@ function __c9(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4351,7 +5228,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1CollectionPriorityClassRequest" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4365,7 +5242,7 @@ function __c10(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
+          preconditions: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4376,7 +5253,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteSchedulingV1PriorityClassRequest" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4397,23 +5274,23 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ServerAddressByClientCIDR" });
     case 3:
-      return S.Array(__S(90, __c11, 2));
+      return S.Array(__S(130, __c16, 2));
     case 4:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(129, __c16, 1));
     case 5:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.String,
-          preferredVersion: S.optional(__S(89, __c11, 1)),
-          serverAddressByClientCIDRs: S.optional(__S(91, __c11, 3)),
-          versions: __S(92, __c11, 4),
+          preferredVersion: S.optional(__S(129, __c16, 1)),
+          serverAddressByClientCIDRs: S.optional(__S(131, __c16, 3)),
+          versions: __S(132, __c16, 4),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIGroup" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4423,37 +5300,37 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetSchedulingV1alpha3APIResourcesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(216, __c27, 0)),
+          categories: S.optional(__S(208, __c26, 0)),
           group: S.optional(S.String),
           kind: S.String,
           name: S.String,
           namespaced: S.Boolean,
-          shortNames: S.optional(__S(216, __c27, 0)),
+          shortNames: S.optional(__S(208, __c26, 0)),
           singularName: S.String,
           storageVersionHash: S.optional(S.String),
-          verbs: __S(216, __c27, 0),
+          verbs: __S(208, __c26, 0),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResource" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           groupVersion: S.String,
           kind: S.optional(S.String),
-          resources: __S(105, __c13, 1),
+          resources: __S(145, __c18, 1),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResourceList" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4461,7 +5338,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSchedulingV1APIResourcesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4471,7 +5348,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetSchedulingV1beta1APIResourcesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4498,22 +5375,22 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(202, __c25, 2));
+      return S.Array(__S(242, __c30, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(136, __c17, 0),
+          items: __S(176, __c22, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
+          metadata: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupList" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4541,7 +5418,192 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.Unknown),
+          single: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositeDisruptionMode" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint" });
+    case 2:
+      return S.Array(__S(201, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          topology: S.optional(__S(202, __c25, 2)),
+        }),
+      ).annotate({
+        identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          fieldsType: S.optional(S.String),
+          fieldsV1: S.optional(S.Unknown),
+          manager: S.optional(S.String),
+          operation: S.optional(S.String),
+          subresource: S.optional(S.String),
+          time: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry" });
+    case 2:
+      return S.Array(__S(217, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.String,
+          blockOwnerDeletion: S.optional(S.Boolean),
+          controller: S.optional(S.Boolean),
+          kind: S.String,
+          name: S.String,
+          uid: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1OwnerReference" });
+    case 4:
+      return S.Array(__S(219, __c27, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(216, __c27, 0)),
+          creationTimestamp: S.optional(S.String),
+          deletionGracePeriodSeconds: S.optional(S.Number),
+          deletionTimestamp: S.optional(S.String),
+          finalizers: S.optional(__S(208, __c26, 0)),
+          generateName: S.optional(S.String),
+          generation: S.optional(S.Number),
+          labels: S.optional(__S(216, __c27, 0)),
+          managedFields: S.optional(__S(218, __c27, 2)),
+          name: S.optional(S.String),
+          namespace: S.optional(S.String),
+          ownerReferences: S.optional(__S(220, __c27, 4)),
+          resourceVersion: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ObjectMeta" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          templateName: S.String,
+          workloadName: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadReference" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          lastTransitionTime: S.String,
+          message: S.optional(S.String),
+          observedGeneration: S.optional(S.Number),
+          reason: S.String,
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Condition" });
+    case 2:
+      return S.Array(__S(225, __c28, 1));
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          minGroupCount: S.Number,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          basic: S.optional(S.Unknown),
+          gang: S.optional(__S(232, __c29, 0)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          disruptionMode: S.optional(__S(200, __c25, 0)),
+          parentCompositePodGroupName: S.optional(S.String),
+          preemptionPolicy: S.optional(S.String),
+          priority: S.optional(S.Number),
+          priorityClassName: S.optional(S.String),
+          schedulingConstraints: S.optional(__S(203, __c25, 3)),
+          schedulingPolicy: __S(233, __c29, 1),
+          workloadRef: __S(224, __c28, 0),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(226, __c28, 2)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupStatus" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroup" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4569,22 +5631,22 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3NamespacedPodGroupRequest" });
   }
 }
-function __c20(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(356, __c44, 4));
+      return S.Array(__S(372, __c46, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(160, __c20, 0),
+          items: __S(256, __c32, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
+          metadata: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupList" });
   }
 }
-function __c21(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4612,22 +5674,22 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
-function __c22(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(452, __c56, 4));
+      return S.Array(__S(468, __c58, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(176, __c22, 0),
+          items: __S(272, __c34, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
+          metadata: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadList" });
   }
 }
-function __c23(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4650,192 +5712,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3PodGroupForAllNamespacesRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(200, __c25, 0),
-          status: S.optional(__S(201, __c25, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          disruptionMode: S.optional(__S(208, __c26, 0)),
-          parentCompositePodGroupName: S.optional(S.String),
-          preemptionPolicy: S.optional(S.String),
-          priority: S.optional(S.Number),
-          priorityClassName: S.optional(S.String),
-          schedulingConstraints: S.optional(__S(211, __c26, 3)),
-          schedulingPolicy: __S(241, __c30, 1),
-          workloadRef: __S(232, __c29, 0),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSpec" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(234, __c29, 2)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupStatus" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(200, __c25, 0),
-          status: S.optional(__S(201, __c25, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroup" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          all: S.optional(S.Unknown),
-          single: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositeDisruptionMode" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint" });
-    case 2:
-      return S.Array(__S(209, __c26, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          topology: S.optional(__S(210, __c26, 2)),
-        }),
-      ).annotate({
-        identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints",
-      });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          fieldsType: S.optional(S.String),
-          fieldsV1: S.optional(S.Unknown),
-          manager: S.optional(S.String),
-          operation: S.optional(S.String),
-          subresource: S.optional(S.String),
-          time: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry" });
-    case 2:
-      return S.Array(__S(225, __c28, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.String,
-          blockOwnerDeletion: S.optional(S.Boolean),
-          controller: S.optional(S.Boolean),
-          kind: S.String,
-          name: S.String,
-          uid: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1OwnerReference" });
-    case 4:
-      return S.Array(__S(227, __c28, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(224, __c28, 0)),
-          creationTimestamp: S.optional(S.String),
-          deletionGracePeriodSeconds: S.optional(S.Number),
-          deletionTimestamp: S.optional(S.String),
-          finalizers: S.optional(__S(216, __c27, 0)),
-          generateName: S.optional(S.String),
-          generation: S.optional(S.Number),
-          labels: S.optional(__S(224, __c28, 0)),
-          managedFields: S.optional(__S(226, __c28, 2)),
-          name: S.optional(S.String),
-          namespace: S.optional(S.String),
-          ownerReferences: S.optional(__S(228, __c28, 4)),
-          resourceVersion: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ObjectMeta" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          templateName: S.String,
-          workloadName: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadReference" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          lastTransitionTime: S.String,
-          message: S.optional(S.String),
-          observedGeneration: S.optional(S.Number),
-          reason: S.String,
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Condition" });
-    case 2:
-      return S.Array(__S(233, __c29, 1));
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          minGroupCount: S.Number,
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          basic: S.optional(S.Unknown),
-          gang: S.optional(__S(240, __c30, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy" });
-  }
-}
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4858,7 +5735,62 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1alpha3WorkloadForAllNamespacesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSchedulingV1beta1CompositePodGroupForAllNamespacesRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSchedulingV1beta1NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4886,7 +5818,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1beta1NamespacedPodGroupRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4914,22 +5846,22 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(652, __c81, 4));
+      return S.Array(__S(756, __c94, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(272, __c34, 0),
+          items: __S(328, __c41, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
+          metadata: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiSchedulingV1beta1WorkloadList" });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4952,7 +5884,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1beta1PodGroupForAllNamespacesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4975,7 +5907,103 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListSchedulingV1beta1WorkloadForAllNamespacesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/podgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedPodGroupRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          resourceClaimName: S.optional(S.String),
+          resourceClaimTemplateName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaim" });
+    case 1:
+      return S.Array(__S(360, __c45, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          minCount: S.Number,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3GangSchedulingPolicy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          basic: S.optional(S.Unknown),
+          gang: S.optional(__S(362, __c45, 2)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          disruptionMode: S.optional(__S(200, __c25, 0)),
+          parentCompositePodGroupName: S.optional(S.String),
+          preemptionPolicy: S.optional(S.String),
+          priority: S.optional(S.Number),
+          priorityClassName: S.optional(S.String),
+          resourceClaims: S.optional(__S(361, __c45, 1)),
+          schedulingConstraints: S.optional(__S(203, __c25, 3)),
+          schedulingPolicy: __S(363, __c45, 3),
+          workloadRef: S.optional(__S(224, __c28, 0)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          resourceClaimName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus" });
+    case 2:
+      return S.Array(__S(369, __c46, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(226, __c28, 2)),
+          resourceClaimStatuses: S.optional(__S(370, __c46, 2)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroup" });
+  }
+}
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4997,19 +6025,19 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListSchedulingV1PriorityClassRequest" });
     case 1:
-      return S.Array(__S(744, __c93, 0));
+      return S.Array(__S(848, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(297, __c37, 1),
+          items: __S(377, __c47, 1),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
+          metadata: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiSchedulingV1PriorityClassList" });
   }
 }
-function __c38(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5033,7 +6061,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c39(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5057,7 +6085,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest" });
   }
 }
-function __c40(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5081,7 +6109,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1alpha3NamespacedPodGroupRequest" });
   }
 }
-function __c41(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5105,103 +6133,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1alpha3NamespacedPodGroupStatusRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/podgroups",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedPodGroupRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          resourceClaimName: S.optional(S.String),
-          resourceClaimTemplateName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaim" });
-    case 1:
-      return S.Array(__S(344, __c43, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          minCount: S.Number,
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3GangSchedulingPolicy" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          basic: S.optional(S.Unknown),
-          gang: S.optional(__S(346, __c43, 2)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          disruptionMode: S.optional(__S(208, __c26, 0)),
-          parentCompositePodGroupName: S.optional(S.String),
-          preemptionPolicy: S.optional(S.String),
-          priority: S.optional(S.Number),
-          priorityClassName: S.optional(S.String),
-          resourceClaims: S.optional(__S(345, __c43, 1)),
-          schedulingConstraints: S.optional(__S(211, __c26, 3)),
-          schedulingPolicy: __S(347, __c43, 3),
-          workloadRef: S.optional(__S(232, __c29, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupSpec" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          resourceClaimName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus" });
-    case 2:
-      return S.Array(__S(353, __c44, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(234, __c29, 2)),
-          resourceClaimStatuses: S.optional(__S(354, __c44, 2)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupStatus" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroup" });
-  }
-}
-function __c45(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5225,7 +6157,55 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
-function __c46(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchSchedulingV1beta1NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchSchedulingV1beta1NamespacedCompositePodGroupStatusRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5249,7 +6229,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1beta1NamespacedPodGroupRequest" });
   }
 }
-function __c47(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5273,7 +6253,97 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1beta1NamespacedPodGroupStatusRequest" });
   }
 }
-function __c48(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(467, __c58, 3),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/workloads",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedWorkloadRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(465, __c58, 1)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          compositePodGroupTemplates: S.optional(__S(464, __c58, 0)),
+          disruptionMode: S.optional(__S(200, __c25, 0)),
+          name: S.String,
+          podGroupTemplates: S.optional(__S(473, __c59, 1)),
+          preemptionPolicy: S.optional(S.String),
+          priority: S.optional(S.Number),
+          priorityClassName: S.optional(S.String),
+          schedulingConstraints: S.optional(__S(203, __c25, 3)),
+          schedulingPolicy: __S(233, __c29, 1),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate" });
+    case 2:
+      return S.Array(__S(465, __c58, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          compositePodGroupTemplates: S.optional(__S(466, __c58, 2)),
+          controllerRef: S.optional(__S(474, __c59, 2)),
+          podGroupTemplates: S.optional(__S(473, __c59, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadSpec" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(467, __c58, 3),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3Workload" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          disruptionMode: S.optional(__S(200, __c25, 0)),
+          name: S.String,
+          preemptionPolicy: S.optional(S.String),
+          priority: S.optional(S.Number),
+          priorityClassName: S.optional(S.String),
+          resourceClaims: S.optional(__S(361, __c45, 1)),
+          schedulingConstraints: S.optional(__S(203, __c25, 3)),
+          schedulingPolicy: __S(363, __c45, 3),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupTemplate" });
+    case 1:
+      return S.Array(__S(472, __c59, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiGroup: S.optional(S.String),
+          kind: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TypedLocalObjectReference" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5297,7 +6367,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c49(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5320,7 +6390,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PatchSchedulingV1PriorityClassRequest" });
   }
 }
-function __c50(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5338,7 +6408,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c51(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5356,7 +6426,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest" });
   }
 }
-function __c52(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5374,7 +6444,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1alpha3NamespacedPodGroupRequest" });
   }
 }
-function __c53(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5392,7 +6462,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1alpha3NamespacedPodGroupStatusRequest" });
   }
 }
-function __c54(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5410,97 +6480,43 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
-function __c55(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(451, __c56, 3),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/workloads",
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateSchedulingV1alpha3NamespacedWorkloadRequest" });
+      ).annotate({ identifier: "ReadSchedulingV1beta1NamespacedCompositePodGroupRequest" });
   }
 }
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(449, __c56, 1)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          compositePodGroupTemplates: S.optional(__S(448, __c56, 0)),
-          disruptionMode: S.optional(__S(208, __c26, 0)),
-          name: S.String,
-          podGroupTemplates: S.optional(__S(457, __c57, 1)),
-          preemptionPolicy: S.optional(S.String),
-          priority: S.optional(S.Number),
-          priorityClassName: S.optional(S.String),
-          schedulingConstraints: S.optional(__S(211, __c26, 3)),
-          schedulingPolicy: __S(241, __c30, 1),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate" });
-    case 2:
-      return S.Array(__S(449, __c56, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          compositePodGroupTemplates: S.optional(__S(450, __c56, 2)),
-          controllerRef: S.optional(__S(458, __c57, 2)),
-          podGroupTemplates: S.optional(__S(457, __c57, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadSpec" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(451, __c56, 3),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3Workload" });
-  }
-}
-function __c57(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disruptionMode: S.optional(__S(208, __c26, 0)),
-          name: S.String,
-          preemptionPolicy: S.optional(S.String),
-          priority: S.optional(S.Number),
-          priorityClassName: S.optional(S.String),
-          resourceClaims: S.optional(__S(345, __c43, 1)),
-          schedulingConstraints: S.optional(__S(211, __c26, 3)),
-          schedulingPolicy: __S(347, __c43, 3),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3PodGroupTemplate" });
-    case 1:
-      return S.Array(__S(456, __c57, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiGroup: S.optional(S.String),
-          kind: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TypedLocalObjectReference" });
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReadSchedulingV1beta1NamespacedCompositePodGroupStatusRequest" });
   }
 }
-function __c58(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5518,7 +6534,32 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1beta1NamespacedPodGroupRequest" });
   }
 }
-function __c59(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1beta1NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5536,7 +6577,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1beta1NamespacedPodGroupStatusRequest" });
   }
 }
-function __c60(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5554,7 +6595,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c61(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5571,7 +6612,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ReadSchedulingV1PriorityClassRequest" });
   }
 }
-function __c62(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5584,9 +6625,9 @@ function __c62(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(200, __c25, 0),
-          status: S.optional(__S(201, __c25, 1)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5597,7 +6638,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c63(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5610,9 +6651,9 @@ function __c63(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(200, __c25, 0),
-          status: S.optional(__S(201, __c25, 1)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5625,7 +6666,7 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5638,9 +6679,9 @@ function __c64(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5651,7 +6692,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1alpha3NamespacedPodGroupRequest" });
   }
 }
-function __c65(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5664,9 +6705,9 @@ function __c65(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5677,7 +6718,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest" });
   }
 }
-function __c66(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5690,8 +6731,8 @@ function __c66(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(451, __c56, 3),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(467, __c58, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5702,7 +6743,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
-function __c67(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5715,20 +6756,48 @@ function __c67(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ReplaceSchedulingV1beta1NamespacedPodGroupRequest" });
+      ).annotate({ identifier: "ReplaceSchedulingV1beta1NamespacedCompositePodGroupRequest" });
   }
 }
-function __c68(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(240, __c30, 0),
+          status: S.optional(__S(241, __c30, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/compositepodgroups/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "ReplaceSchedulingV1beta1NamespacedCompositePodGroupStatusRequest",
+      });
+  }
+}
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5740,9 +6809,9 @@ function __c68(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5753,7 +6822,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateSchedulingV1beta1NamespacedPodGroupRequest" });
   }
 }
-function __c69(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5766,9 +6835,35 @@ function __c69(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(352, __c44, 0),
-          status: S.optional(__S(355, __c44, 3)),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceSchedulingV1beta1NamespacedPodGroupRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(368, __c46, 0),
+          status: S.optional(__S(371, __c46, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5779,7 +6874,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest" });
   }
 }
-function __c70(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5792,8 +6887,8 @@ function __c70(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(651, __c81, 3),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(755, __c94, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5804,7 +6899,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c71(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5818,7 +6913,7 @@ function __c71(j: number): any {
           description: S.optional(S.String),
           globalDefault: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
+          metadata: S.optional(__S(221, __c27, 5)),
           preemptionPolicy: S.optional(S.String),
           value: S.optional(S.Number),
         }).pipe(
@@ -5831,7 +6926,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ReplaceSchedulingV1PriorityClassRequest" });
   }
 }
-function __c72(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5860,7 +6955,7 @@ function __c72(j: number): any {
       });
   }
 }
-function __c73(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5871,7 +6966,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1WatchEvent" });
   }
 }
-function __c74(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5900,7 +6995,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest" });
   }
 }
-function __c75(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5928,7 +7023,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest" });
   }
 }
-function __c76(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5957,7 +7052,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedPodGroupRequest" });
   }
 }
-function __c77(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5985,7 +7080,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedPodGroupListRequest" });
   }
 }
-function __c78(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6014,7 +7109,70 @@ function __c78(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedWorkloadRequest" });
   }
 }
-function __c79(j: number): any {
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(755, __c94, 3),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1beta1NamespacedWorkloadRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(753, __c94, 1)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          compositePodGroupTemplates: S.optional(__S(752, __c94, 0)),
+          disruptionMode: S.optional(__S(200, __c25, 0)),
+          name: S.String,
+          podGroupTemplates: S.optional(__S(473, __c59, 1)),
+          preemptionPolicy: S.optional(S.String),
+          priority: S.optional(S.Number),
+          priorityClassName: S.optional(S.String),
+          schedulingConstraints: S.optional(__S(203, __c25, 3)),
+          schedulingPolicy: __S(233, __c29, 1),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1CompositePodGroupTemplate" });
+    case 2:
+      return S.Array(__S(753, __c94, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          compositePodGroupTemplates: S.optional(__S(754, __c94, 2)),
+          controllerRef: S.optional(__S(474, __c59, 2)),
+          podGroupTemplates: S.optional(__S(473, __c59, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1WorkloadSpec" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          spec: __S(755, __c94, 3),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1Workload" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6042,70 +7200,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3NamespacedWorkloadListRequest" });
   }
 }
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(651, __c81, 3),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSchedulingV1beta1NamespacedWorkloadRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(649, __c81, 1)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          compositePodGroupTemplates: S.optional(__S(648, __c81, 0)),
-          disruptionMode: S.optional(__S(208, __c26, 0)),
-          name: S.String,
-          podGroupTemplates: S.optional(__S(457, __c57, 1)),
-          preemptionPolicy: S.optional(S.String),
-          priority: S.optional(S.Number),
-          priorityClassName: S.optional(S.String),
-          schedulingConstraints: S.optional(__S(211, __c26, 3)),
-          schedulingPolicy: __S(241, __c30, 1),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1CompositePodGroupTemplate" });
-    case 2:
-      return S.Array(__S(649, __c81, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          compositePodGroupTemplates: S.optional(__S(650, __c81, 2)),
-          controllerRef: S.optional(__S(458, __c57, 2)),
-          podGroupTemplates: S.optional(__S(457, __c57, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1WorkloadSpec" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          spec: __S(651, __c81, 3),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1beta1Workload" });
-  }
-}
-function __c82(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6132,7 +7227,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3PodGroupListForAllNamespacesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6159,7 +7254,93 @@ function __c83(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/watch/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "WatchSchedulingV1beta1CompositePodGroupListForAllNamespacesRequest",
+      });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/compositepodgroups/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedCompositePodGroupRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/compositepodgroups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedCompositePodGroupListRequest" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6188,7 +7369,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedPodGroupRequest" });
   }
 }
-function __c85(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6216,7 +7397,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedPodGroupListRequest" });
   }
 }
-function __c86(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6245,7 +7426,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedWorkloadRequest" });
   }
 }
-function __c87(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6273,7 +7454,45 @@ function __c87(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1NamespacedWorkloadListRequest" });
   }
 }
-function __c88(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          globalDefault: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          preemptionPolicy: S.optional(S.String),
+          value: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/apis/scheduling.k8s.io/v1/priorityclasses", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateSchedulingV1PriorityClassRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          globalDefault: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(221, __c27, 5)),
+          preemptionPolicy: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1PriorityClass" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6300,7 +7519,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6327,7 +7546,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest" });
   }
 }
-function __c90(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6355,7 +7574,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "WatchSchedulingV1PriorityClassRequest" });
   }
 }
-function __c91(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,145 +7599,6 @@ function __c91(j: number): any {
           }),
         ),
       ).annotate({ identifier: "WatchSchedulingV1PriorityClassListRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          description: S.optional(S.String),
-          globalDefault: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          preemptionPolicy: S.optional(S.String),
-          value: S.optional(S.Number),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/apis/scheduling.k8s.io/v1/priorityclasses", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateSchedulingV1PriorityClassRequest" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          description: S.optional(S.String),
-          globalDefault: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(229, __c28, 5)),
-          preemptionPolicy: S.optional(S.String),
-          value: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1PriorityClass" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(760, __c95, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest",
-      });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceVersion: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Preconditions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          message: S.optional(S.String),
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusCause" });
-    case 2:
-      return S.Array(__S(761, __c95, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          causes: S.optional(__S(762, __c95, 2)),
-          group: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          retryAfterSeconds: S.optional(S.Number),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusDetails" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(763, __c95, 3)),
-          kind: S.optional(S.String),
-          message: S.optional(S.String),
-          metadata: S.optional(__S(769, __c96, 1)),
-          reason: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Status" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          selector: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ShardInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          continue: S.optional(S.String),
-          remainingItemCount: S.optional(S.Number),
-          resourceVersion: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          shardInfo: S.optional(__S(768, __c96, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ListMeta" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

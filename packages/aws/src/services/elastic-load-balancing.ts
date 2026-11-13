@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -307,7 +308,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsInput {
@@ -322,7 +323,7 @@ export interface ApplySecurityGroupsToLoadBalancerInput {
   SecurityGroups: string[];
 }
 export interface ApplySecurityGroupsToLoadBalancerOutput {
-  SecurityGroups?: string[];
+  SecurityGroups?: string[] | undefined;
 }
 export type SubnetId = string;
 export type Subnets = string[];
@@ -331,7 +332,7 @@ export interface AttachLoadBalancerToSubnetsInput {
   Subnets: string[];
 }
 export interface AttachLoadBalancerToSubnetsOutput {
-  Subnets?: string[];
+  Subnets?: string[] | undefined;
 }
 export type HealthCheckTarget = string;
 export type HealthCheckInterval = number;
@@ -350,7 +351,7 @@ export interface ConfigureHealthCheckInput {
   HealthCheck: HealthCheck;
 }
 export interface ConfigureHealthCheckOutput {
-  HealthCheck?: HealthCheck;
+  HealthCheck?: HealthCheck | undefined;
 }
 export type PolicyName = string;
 export type CookieName = string;
@@ -364,7 +365,7 @@ export type CookieExpirationPeriod = number;
 export interface CreateLBCookieStickinessPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
-  CookieExpirationPeriod?: number;
+  CookieExpirationPeriod?: number | undefined;
 }
 export interface CreateLBCookieStickinessPolicyOutput {}
 export type Protocol = string;
@@ -374,9 +375,9 @@ export type SSLCertificateId = string;
 export interface Listener {
   Protocol: string;
   LoadBalancerPort: number;
-  InstanceProtocol?: string;
+  InstanceProtocol?: string | undefined;
   InstancePort: number;
-  SSLCertificateId?: string;
+  SSLCertificateId?: string | undefined;
 }
 export type Listeners = Listener[];
 export type AvailabilityZone = string;
@@ -385,15 +386,15 @@ export type LoadBalancerScheme = string;
 export interface CreateAccessPointInput {
   LoadBalancerName: string;
   Listeners: Listener[];
-  AvailabilityZones?: string[];
-  Subnets?: string[];
-  SecurityGroups?: string[];
-  Scheme?: string;
-  Tags?: Tag[];
+  AvailabilityZones?: string[] | undefined;
+  Subnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  Scheme?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DNSName = string;
 export interface CreateAccessPointOutput {
-  DNSName?: string;
+  DNSName?: string | undefined;
 }
 export interface CreateLoadBalancerListenerInput {
   LoadBalancerName: string;
@@ -404,15 +405,15 @@ export type PolicyTypeName = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export interface PolicyAttribute {
-  AttributeName?: string;
-  AttributeValue?: string;
+  AttributeName?: string | undefined;
+  AttributeValue?: string | undefined;
 }
 export type PolicyAttributes = PolicyAttribute[];
 export interface CreateLoadBalancerPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
   PolicyTypeName: string;
-  PolicyAttributes?: PolicyAttribute[];
+  PolicyAttributes?: PolicyAttribute[] | undefined;
 }
 export interface CreateLoadBalancerPolicyOutput {}
 export interface DeleteAccessPointInput {
@@ -432,7 +433,7 @@ export interface DeleteLoadBalancerPolicyInput {
 export interface DeleteLoadBalancerPolicyOutput {}
 export type InstanceId = string;
 export interface Instance {
-  InstanceId?: string;
+  InstanceId?: string | undefined;
 }
 export type Instances = Instance[];
 export interface DeregisterEndPointsInput {
@@ -440,41 +441,41 @@ export interface DeregisterEndPointsInput {
   Instances: Instance[];
 }
 export interface DeregisterEndPointsOutput {
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export type Marker = string;
 export type PageSize = number;
 export interface DescribeAccountLimitsInput {
-  Marker?: string;
-  PageSize?: number;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type Name = string;
 export type Max = string;
 export interface Limit {
-  Name?: string;
-  Max?: string;
+  Name?: string | undefined;
+  Max?: string | undefined;
 }
 export type Limits = Limit[];
 export interface DescribeAccountLimitsOutput {
-  Limits?: Limit[];
-  NextMarker?: string;
+  Limits?: Limit[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeEndPointStateInput {
   LoadBalancerName: string;
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export type State = string;
 export type ReasonCode = string;
 export type Description = string;
 export interface InstanceState {
-  InstanceId?: string;
-  State?: string;
-  ReasonCode?: string;
-  Description?: string;
+  InstanceId?: string | undefined;
+  State?: string | undefined;
+  ReasonCode?: string | undefined;
+  Description?: string | undefined;
 }
 export type InstanceStates = InstanceState[];
 export interface DescribeEndPointStateOutput {
-  InstanceStates?: InstanceState[];
+  InstanceStates?: InstanceState[] | undefined;
 }
 export interface DescribeLoadBalancerAttributesInput {
   LoadBalancerName: string;
@@ -489,15 +490,15 @@ export type AccessLogInterval = number;
 export type AccessLogPrefix = string;
 export interface AccessLog {
   Enabled: boolean;
-  S3BucketName?: string;
-  EmitInterval?: number;
-  S3BucketPrefix?: string;
+  S3BucketName?: string | undefined;
+  EmitInterval?: number | undefined;
+  S3BucketPrefix?: string | undefined;
 }
 export type ConnectionDrainingEnabled = boolean;
 export type ConnectionDrainingTimeout = number;
 export interface ConnectionDraining {
   Enabled: boolean;
-  Timeout?: number;
+  Timeout?: number | undefined;
 }
 export type IdleTimeout = number;
 export interface ConnectionSettings {
@@ -506,174 +507,174 @@ export interface ConnectionSettings {
 export type AdditionalAttributeKey = string;
 export type AdditionalAttributeValue = string;
 export interface AdditionalAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AdditionalAttributes = AdditionalAttribute[];
 export interface LoadBalancerAttributes {
-  CrossZoneLoadBalancing?: CrossZoneLoadBalancing;
-  AccessLog?: AccessLog;
-  ConnectionDraining?: ConnectionDraining;
-  ConnectionSettings?: ConnectionSettings;
-  AdditionalAttributes?: AdditionalAttribute[];
+  CrossZoneLoadBalancing?: CrossZoneLoadBalancing | undefined;
+  AccessLog?: AccessLog | undefined;
+  ConnectionDraining?: ConnectionDraining | undefined;
+  ConnectionSettings?: ConnectionSettings | undefined;
+  AdditionalAttributes?: AdditionalAttribute[] | undefined;
 }
 export interface DescribeLoadBalancerAttributesOutput {
-  LoadBalancerAttributes?: LoadBalancerAttributes;
+  LoadBalancerAttributes?: LoadBalancerAttributes | undefined;
 }
 export type PolicyNames = string[];
 export interface DescribeLoadBalancerPoliciesInput {
-  LoadBalancerName?: string;
-  PolicyNames?: string[];
+  LoadBalancerName?: string | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export interface PolicyAttributeDescription {
-  AttributeName?: string;
-  AttributeValue?: string;
+  AttributeName?: string | undefined;
+  AttributeValue?: string | undefined;
 }
 export type PolicyAttributeDescriptions = PolicyAttributeDescription[];
 export interface PolicyDescription {
-  PolicyName?: string;
-  PolicyTypeName?: string;
-  PolicyAttributeDescriptions?: PolicyAttributeDescription[];
+  PolicyName?: string | undefined;
+  PolicyTypeName?: string | undefined;
+  PolicyAttributeDescriptions?: PolicyAttributeDescription[] | undefined;
 }
 export type PolicyDescriptions = PolicyDescription[];
 export interface DescribeLoadBalancerPoliciesOutput {
-  PolicyDescriptions?: PolicyDescription[];
+  PolicyDescriptions?: PolicyDescription[] | undefined;
 }
 export type PolicyTypeNames = string[];
 export interface DescribeLoadBalancerPolicyTypesInput {
-  PolicyTypeNames?: string[];
+  PolicyTypeNames?: string[] | undefined;
 }
 export type AttributeType = string;
 export type DefaultValue = string;
 export type Cardinality = string;
 export interface PolicyAttributeTypeDescription {
-  AttributeName?: string;
-  AttributeType?: string;
-  Description?: string;
-  DefaultValue?: string;
-  Cardinality?: string;
+  AttributeName?: string | undefined;
+  AttributeType?: string | undefined;
+  Description?: string | undefined;
+  DefaultValue?: string | undefined;
+  Cardinality?: string | undefined;
 }
 export type PolicyAttributeTypeDescriptions = PolicyAttributeTypeDescription[];
 export interface PolicyTypeDescription {
-  PolicyTypeName?: string;
-  Description?: string;
-  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[];
+  PolicyTypeName?: string | undefined;
+  Description?: string | undefined;
+  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[] | undefined;
 }
 export type PolicyTypeDescriptions = PolicyTypeDescription[];
 export interface DescribeLoadBalancerPolicyTypesOutput {
-  PolicyTypeDescriptions?: PolicyTypeDescription[];
+  PolicyTypeDescriptions?: PolicyTypeDescription[] | undefined;
 }
 export interface DescribeAccessPointsInput {
-  LoadBalancerNames?: string[];
-  Marker?: string;
-  PageSize?: number;
+  LoadBalancerNames?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListenerDescription {
-  Listener?: Listener;
-  PolicyNames?: string[];
+  Listener?: Listener | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type ListenerDescriptions = ListenerDescription[];
 export interface AppCookieStickinessPolicy {
-  PolicyName?: string;
-  CookieName?: string;
+  PolicyName?: string | undefined;
+  CookieName?: string | undefined;
 }
 export type AppCookieStickinessPolicies = AppCookieStickinessPolicy[];
 export interface LBCookieStickinessPolicy {
-  PolicyName?: string;
-  CookieExpirationPeriod?: number;
+  PolicyName?: string | undefined;
+  CookieExpirationPeriod?: number | undefined;
 }
 export type LBCookieStickinessPolicies = LBCookieStickinessPolicy[];
 export interface Policies {
-  AppCookieStickinessPolicies?: AppCookieStickinessPolicy[];
-  LBCookieStickinessPolicies?: LBCookieStickinessPolicy[];
-  OtherPolicies?: string[];
+  AppCookieStickinessPolicies?: AppCookieStickinessPolicy[] | undefined;
+  LBCookieStickinessPolicies?: LBCookieStickinessPolicy[] | undefined;
+  OtherPolicies?: string[] | undefined;
 }
 export interface BackendServerDescription {
-  InstancePort?: number;
-  PolicyNames?: string[];
+  InstancePort?: number | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type BackendServerDescriptions = BackendServerDescription[];
 export type VPCId = string;
 export type SecurityGroupOwnerAlias = string;
 export type SecurityGroupName = string;
 export interface SourceSecurityGroup {
-  OwnerAlias?: string;
-  GroupName?: string;
+  OwnerAlias?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type CreatedTime = Date;
 export interface LoadBalancerDescription {
-  LoadBalancerName?: string;
-  DNSName?: string;
-  CanonicalHostedZoneName?: string;
-  CanonicalHostedZoneNameID?: string;
-  ListenerDescriptions?: ListenerDescription[];
-  Policies?: Policies;
-  BackendServerDescriptions?: BackendServerDescription[];
-  AvailabilityZones?: string[];
-  Subnets?: string[];
-  VPCId?: string;
-  Instances?: Instance[];
-  HealthCheck?: HealthCheck;
-  SourceSecurityGroup?: SourceSecurityGroup;
-  SecurityGroups?: string[];
-  CreatedTime?: Date;
-  Scheme?: string;
+  LoadBalancerName?: string | undefined;
+  DNSName?: string | undefined;
+  CanonicalHostedZoneName?: string | undefined;
+  CanonicalHostedZoneNameID?: string | undefined;
+  ListenerDescriptions?: ListenerDescription[] | undefined;
+  Policies?: Policies | undefined;
+  BackendServerDescriptions?: BackendServerDescription[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  Subnets?: string[] | undefined;
+  VPCId?: string | undefined;
+  Instances?: Instance[] | undefined;
+  HealthCheck?: HealthCheck | undefined;
+  SourceSecurityGroup?: SourceSecurityGroup | undefined;
+  SecurityGroups?: string[] | undefined;
+  CreatedTime?: Date | undefined;
+  Scheme?: string | undefined;
 }
 export type LoadBalancerDescriptions = LoadBalancerDescription[];
 export interface DescribeAccessPointsOutput {
-  LoadBalancerDescriptions?: LoadBalancerDescription[];
-  NextMarker?: string;
+  LoadBalancerDescriptions?: LoadBalancerDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type LoadBalancerNamesMax20 = string[];
 export interface DescribeTagsInput {
   LoadBalancerNames: string[];
 }
 export interface TagDescription {
-  LoadBalancerName?: string;
-  Tags?: Tag[];
+  LoadBalancerName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TagDescriptions = TagDescription[];
 export interface DescribeTagsOutput {
-  TagDescriptions?: TagDescription[];
+  TagDescriptions?: TagDescription[] | undefined;
 }
 export interface DetachLoadBalancerFromSubnetsInput {
   LoadBalancerName: string;
   Subnets: string[];
 }
 export interface DetachLoadBalancerFromSubnetsOutput {
-  Subnets?: string[];
+  Subnets?: string[] | undefined;
 }
 export interface RemoveAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
 export interface RemoveAvailabilityZonesOutput {
-  AvailabilityZones?: string[];
+  AvailabilityZones?: string[] | undefined;
 }
 export interface AddAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
 export interface AddAvailabilityZonesOutput {
-  AvailabilityZones?: string[];
+  AvailabilityZones?: string[] | undefined;
 }
 export interface ModifyLoadBalancerAttributesInput {
   LoadBalancerName: string;
   LoadBalancerAttributes: LoadBalancerAttributes;
 }
 export interface ModifyLoadBalancerAttributesOutput {
-  LoadBalancerName?: string;
-  LoadBalancerAttributes?: LoadBalancerAttributes;
+  LoadBalancerName?: string | undefined;
+  LoadBalancerAttributes?: LoadBalancerAttributes | undefined;
 }
 export interface RegisterEndPointsInput {
   LoadBalancerName: string;
   Instances: Instance[];
 }
 export interface RegisterEndPointsOutput {
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export interface TagKeyOnly {
-  Key?: string;
+  Key?: string | undefined;
 }
 export type TagKeyList = TagKeyOnly[];
 export interface RemoveTagsInput {
@@ -716,7 +717,7 @@ export type AddTagsError =
  * in the *Classic Load Balancers Guide*.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -743,7 +744,7 @@ export type ApplySecurityGroupsToLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
-  ApplySecurityGroupsToLoadBalancerInput,
+  ApplySecurityGroupsToLoadBalancerInput & RegionInput,
   ApplySecurityGroupsToLoadBalancerOutput,
   ApplySecurityGroupsToLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +777,7 @@ export type AttachLoadBalancerToSubnetsError =
  * in the *Classic Load Balancers Guide*.
  */
 export const attachLoadBalancerToSubnets: API.OperationMethod<
-  AttachLoadBalancerToSubnetsInput,
+  AttachLoadBalancerToSubnetsInput & RegionInput,
   AttachLoadBalancerToSubnetsOutput,
   AttachLoadBalancerToSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -804,7 +805,7 @@ export type ConfigureHealthCheckError = AccessPointNotFoundException | CommonErr
  * in the *Classic Load Balancers Guide*.
  */
 export const configureHealthCheck: API.OperationMethod<
-  ConfigureHealthCheckInput,
+  ConfigureHealthCheckInput & RegionInput,
   ConfigureHealthCheckOutput,
   ConfigureHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -840,7 +841,7 @@ export type CreateAppCookieStickinessPolicyError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createAppCookieStickinessPolicy: API.OperationMethod<
-  CreateAppCookieStickinessPolicyInput,
+  CreateAppCookieStickinessPolicyInput & RegionInput,
   CreateAppCookieStickinessPolicyOutput,
   CreateAppCookieStickinessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -878,7 +879,7 @@ export type CreateLBCookieStickinessPolicyError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLBCookieStickinessPolicy: API.OperationMethod<
-  CreateLBCookieStickinessPolicyInput,
+  CreateLBCookieStickinessPolicyInput & RegionInput,
   CreateLBCookieStickinessPolicyOutput,
   CreateLBCookieStickinessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +931,7 @@ export type CreateLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateAccessPointInput,
+  CreateAccessPointInput & RegionInput,
   CreateAccessPointOutput,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type CreateLoadBalancerListenersError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLoadBalancerListeners: API.OperationMethod<
-  CreateLoadBalancerListenerInput,
+  CreateLoadBalancerListenerInput & RegionInput,
   CreateLoadBalancerListenerOutput,
   CreateLoadBalancerListenersError,
   Credentials | HttpClient.HttpClient
@@ -1006,7 +1007,7 @@ export type CreateLoadBalancerPolicyError =
  * Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
  */
 export const createLoadBalancerPolicy: API.OperationMethod<
-  CreateLoadBalancerPolicyInput,
+  CreateLoadBalancerPolicyInput & RegionInput,
   CreateLoadBalancerPolicyOutput,
   CreateLoadBalancerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1037,7 +1038,7 @@ export type DeleteLoadBalancerError = CommonErrors;
  * `DeleteLoadBalancer` still succeeds.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteAccessPointInput,
+  DeleteAccessPointInput & RegionInput,
   DeleteAccessPointOutput,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1057,7 +1058,7 @@ export type DeleteLoadBalancerListenersError = AccessPointNotFoundException | Co
  * Deletes the specified listeners from the specified load balancer.
  */
 export const deleteLoadBalancerListeners: API.OperationMethod<
-  DeleteLoadBalancerListenerInput,
+  DeleteLoadBalancerListenerInput & RegionInput,
   DeleteLoadBalancerListenerOutput,
   DeleteLoadBalancerListenersError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type DeleteLoadBalancerPolicyError =
  * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
  */
 export const deleteLoadBalancerPolicy: API.OperationMethod<
-  DeleteLoadBalancerPolicyInput,
+  DeleteLoadBalancerPolicyInput & RegionInput,
   DeleteLoadBalancerPolicyOutput,
   DeleteLoadBalancerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1108,7 +1109,7 @@ export type DeregisterInstancesFromLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
-  DeregisterEndPointsInput,
+  DeregisterEndPointsInput & RegionInput,
   DeregisterEndPointsOutput,
   DeregisterInstancesFromLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1131,7 +1132,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * in the *Classic Load Balancers Guide*.
  */
 export const describeAccountLimits: API.OperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1154,7 +1155,7 @@ export type DescribeInstanceHealthError =
  * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
  */
 export const describeInstanceHealth: API.OperationMethod<
-  DescribeEndPointStateInput,
+  DescribeEndPointStateInput & RegionInput,
   DescribeEndPointStateOutput,
   DescribeInstanceHealthError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type DescribeLoadBalancerAttributesError =
  * Describes the attributes for the specified load balancer.
  */
 export const describeLoadBalancerAttributes: API.OperationMethod<
-  DescribeLoadBalancerAttributesInput,
+  DescribeLoadBalancerAttributesInput & RegionInput,
   DescribeLoadBalancerAttributesOutput,
   DescribeLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type DescribeLoadBalancerPoliciesError =
  * The names of the sample policies have the `ELBSample-` prefix.
  */
 export const describeLoadBalancerPolicies: API.OperationMethod<
-  DescribeLoadBalancerPoliciesInput,
+  DescribeLoadBalancerPoliciesInput & RegionInput,
   DescribeLoadBalancerPoliciesOutput,
   DescribeLoadBalancerPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -1234,7 +1235,7 @@ export type DescribeLoadBalancerPolicyTypesError = PolicyTypeNotFoundException |
  * SetLoadBalancerPoliciesForBackendServer to set the policy.
  */
 export const describeLoadBalancerPolicyTypes: API.OperationMethod<
-  DescribeLoadBalancerPolicyTypesInput,
+  DescribeLoadBalancerPolicyTypesInput & RegionInput,
   DescribeLoadBalancerPolicyTypesOutput,
   DescribeLoadBalancerPolicyTypesError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1258,7 @@ export type DescribeLoadBalancersError =
  * Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeAccessPointsInput,
+  DescribeAccessPointsInput & RegionInput,
   DescribeAccessPointsOutput,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -1283,7 +1284,7 @@ export type DescribeTagsError = AccessPointNotFoundException | CommonErrors;
  * Describes the tags associated with the specified load balancers.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -1310,7 +1311,7 @@ export type DetachLoadBalancerFromSubnetsError =
  * the load balancer balances the traffic among the remaining routable subnets.
  */
 export const detachLoadBalancerFromSubnets: API.OperationMethod<
-  DetachLoadBalancerFromSubnetsInput,
+  DetachLoadBalancerFromSubnetsInput & RegionInput,
   DetachLoadBalancerFromSubnetsOutput,
   DetachLoadBalancerFromSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -1344,7 +1345,7 @@ export type DisableAvailabilityZonesForLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
-  RemoveAvailabilityZonesInput,
+  RemoveAvailabilityZonesInput & RegionInput,
   RemoveAvailabilityZonesOutput,
   DisableAvailabilityZonesForLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1374,7 @@ export type EnableAvailabilityZonesForLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
-  AddAvailabilityZonesInput,
+  AddAvailabilityZonesInput & RegionInput,
   AddAvailabilityZonesOutput,
   EnableAvailabilityZonesForLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1412,7 @@ export type ModifyLoadBalancerAttributesError =
  * - Idle Connection Timeout
  */
 export const modifyLoadBalancerAttributes: API.OperationMethod<
-  ModifyLoadBalancerAttributesInput,
+  ModifyLoadBalancerAttributesInput & RegionInput,
   ModifyLoadBalancerAttributesOutput,
   ModifyLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1457,7 @@ export type RegisterInstancesWithLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const registerInstancesWithLoadBalancer: API.OperationMethod<
-  RegisterEndPointsInput,
+  RegisterEndPointsInput & RegionInput,
   RegisterEndPointsOutput,
   RegisterInstancesWithLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type RemoveTagsError = AccessPointNotFoundException | CommonErrors;
  * Removes one or more tags from the specified load balancer.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -1506,7 +1507,7 @@ export type SetLoadBalancerListenerSSLCertificateError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
-  SetLoadBalancerListenerSSLCertificateInput,
+  SetLoadBalancerListenerSSLCertificateInput & RegionInput,
   SetLoadBalancerListenerSSLCertificateOutput,
   SetLoadBalancerListenerSSLCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1548,7 +1549,7 @@ export type SetLoadBalancerPoliciesForBackendServerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
-  SetLoadBalancerPoliciesForBackendServerInput,
+  SetLoadBalancerPoliciesForBackendServerInput & RegionInput,
   SetLoadBalancerPoliciesForBackendServerOutput,
   SetLoadBalancerPoliciesForBackendServerError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1586,7 @@ export type SetLoadBalancerPoliciesOfListenerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
-  SetLoadBalancerPoliciesOfListenerInput,
+  SetLoadBalancerPoliciesOfListenerInput & RegionInput,
   SetLoadBalancerPoliciesOfListenerOutput,
   SetLoadBalancerPoliciesOfListenerError,
   Credentials | HttpClient.HttpClient

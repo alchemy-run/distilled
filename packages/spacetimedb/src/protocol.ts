@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SpacetimeDBProtocol -- hand-written.
  *
@@ -39,7 +40,8 @@ export type SpacetimeDBOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | SpacetimeDBParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated SpacetimeDB operation. */
 export type SpacetimeDBOpContext = Credentials | HttpClient.HttpClient;
@@ -56,11 +58,6 @@ export const SpacetimeDBProtocol: Layer.Layer<API.Protocol> =
       }
       return headers;
     },
-    unknownError: ({ code, message, body }) =>
-      new UnknownSpacetimeDBError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownSpacetimeDBError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new SpacetimeDBParseError({ body, cause }),
   });

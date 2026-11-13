@@ -356,12 +356,12 @@ describe("Google error envelope decoding", () => {
     expect((error as TooManyRequests).retryAfter).toBeDefined();
   });
 
-  test("unmapped statuses become UnknownGCPError carrying code and body", async () => {
+  test("unmapped statuses become UnknownGCPError carrying status, code and body", async () => {
     const body = { error: { code: 418, status: "UNKNOWN", message: "teapot" } };
     const { layer } = fakeGoogle(418, JSON.stringify(body));
     const error = await runFlip(accessProjectsSecretsVersions({ name }), layer);
     expect(error).toBeInstanceOf(UnknownGCPError);
-    expect(error).toMatchObject({ code: 418, message: "teapot", status: "UNKNOWN", body });
+    expect(error).toMatchObject({ status: 418, code: "UNKNOWN", message: "teapot", body });
   });
 
   test("a non-JSON error body becomes the message", async () => {
@@ -369,7 +369,7 @@ describe("Google error envelope decoding", () => {
     const error = await runFlip(accessProjectsSecretsVersions({ name }), layer);
     expect(error).toBeInstanceOf(UnknownGCPError);
     expect(error).toMatchObject({
-      code: 418,
+      status: 418,
       message: "<html>bad gateway</html>",
       body: "<html>bad gateway</html>",
     });

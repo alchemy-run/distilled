@@ -1,0 +1,20 @@
+{
+  "description": "Registry credentials for private base images (AWS secret access key, GCP service-account JSON, registry password) carry no sensitive mark in the spec. Source: spec/openapi.yml (e2b-dev/E2B, 2026-11-02).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.templates#AWSRegistry/members/awsSecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.templates#GCPRegistry/members/serviceAccountJson/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.templates#GeneralRegistry/members/password/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

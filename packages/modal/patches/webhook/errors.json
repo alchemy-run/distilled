@@ -1,0 +1,74 @@
+{
+  "description": "Typed not-found / already-exists errors for the webhook RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The webhook token doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenDelete/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#WebhookTokenNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenUpdate/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#WebhookTokenNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenEnvironmentAdd/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#WebhookTokenNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenEnvironmentRemove/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#WebhookTokenNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenEnvironmentList/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#WebhookTokenNotFound"
+        }
+      ]
+    }
+  ]
+}

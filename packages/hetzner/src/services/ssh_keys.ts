@@ -33,7 +33,7 @@ export interface CreateSshKeyRequest {
   /** Public key. */
   public_key: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateSshKeyRequestLabelsMap;
+  labels?: CreateSshKeyRequestLabelsMap | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateSshKeyResponseSshKeyLabelsMap = { [key: string]: string | undefined };
@@ -92,17 +92,17 @@ export type ListSshKeysRequestSortItem =
 export type ListSshKeysRequestSortList = Array<ListSshKeysRequestSortItem | (string & {})>;
 export interface ListSshKeysRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListSshKeysRequestSortList;
+  sort?: ListSshKeysRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** May be used to filter SSH keys by their fingerprint. The response will only contain the SSH key matching the specified fingerprint. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListSshKeysResponseSshKeysItemLabelsMap = { [key: string]: string | undefined };
@@ -150,9 +150,9 @@ export interface UpdateSshKeyRequest {
   /** ID of the SSH Key. */
   id: number;
   /** New name Name to set. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateSshKeyRequestLabelsMap;
+  labels?: UpdateSshKeyRequestLabelsMap | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type UpdateSshKeyResponseSshKeyLabelsMap = { [key: string]: string | undefined };

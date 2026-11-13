@@ -38,30 +38,30 @@ export type Status = "Pending" | "Extracting" | "Analyzing" | "Ready" | "Error";
 /** Error and status message */
 export interface StatusMessage {
   /** The error code */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** The error or status message */
-  message?: string;
+  message?: string | undefined;
 }
 /** A list of errors or other messages generated during firmware analysis */
 export type FirmwarePropertiesInputStatusMessagesList = Array<StatusMessage>;
 /** Firmware properties. */
 export interface FirmwarePropertiesInput {
   /** File name for a firmware that user uploaded. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Firmware vendor. */
-  vendor?: string;
+  vendor?: string | undefined;
   /** Firmware model. */
-  model?: string;
+  model?: string | undefined;
   /** Firmware version. */
-  version?: string;
+  version?: string | undefined;
   /** User-specified description of the firmware. */
-  description?: string;
+  description?: string | undefined;
   /** File size of the uploaded firmware image. */
-  fileSize?: number;
+  fileSize?: number | undefined;
   /** The status of firmware scan. */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** A list of errors or other messages generated during firmware analysis */
-  statusMessages?: FirmwarePropertiesInputStatusMessagesList;
+  statusMessages?: FirmwarePropertiesInputStatusMessagesList | undefined;
 }
 export interface CreateFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -73,7 +73,7 @@ export interface CreateFirmwareRequest {
   /** The id of the firmware. */
   firmwareId: string;
   /** The resource-specific properties for this resource. */
-  properties?: FirmwarePropertiesInput;
+  properties?: FirmwarePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -82,17 +82,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of errors or other messages generated during firmware analysis */
 export type FirmwarePropertiesStatusMessagesList = Array<StatusMessage>;
@@ -107,35 +107,35 @@ export type ProvisioningState =
 /** Firmware properties. */
 export interface FirmwareProperties {
   /** File name for a firmware that user uploaded. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Firmware vendor. */
-  vendor?: string;
+  vendor?: string | undefined;
   /** Firmware model. */
-  model?: string;
+  model?: string | undefined;
   /** Firmware version. */
-  version?: string;
+  version?: string | undefined;
   /** User-specified description of the firmware. */
-  description?: string;
+  description?: string | undefined;
   /** File size of the uploaded firmware image. */
-  fileSize?: number;
+  fileSize?: number | undefined;
   /** The status of firmware scan. */
-  status?: Status;
+  status?: Status | undefined;
   /** A list of errors or other messages generated during firmware analysis */
-  statusMessages?: FirmwarePropertiesStatusMessagesList;
+  statusMessages?: FirmwarePropertiesStatusMessagesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirmwareProperties;
+  properties?: FirmwareProperties | undefined;
 }
 /** Resource tags. */
 export type CreateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -147,13 +147,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface CreateWorkspaceRequestSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -163,50 +163,50 @@ export interface CreateWorkspaceRequest {
   /** The name of the firmware analysis workspace. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: CreateWorkspaceRequestTagsMap;
+  tags?: CreateWorkspaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateWorkspaceRequestSku;
+  sku?: CreateWorkspaceRequestSku | undefined;
 }
 /** Resource tags. */
 export type CreateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 /** Workspace properties. */
 export interface WorkspaceProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The resource model definition representing SKU */
 export interface CreateWorkspaceResponseSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateWorkspaceResponseTagsMap;
+  tags?: CreateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateWorkspaceResponseSku;
+  sku?: CreateWorkspaceResponseSku | undefined;
 }
 export interface DeleteFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -229,9 +229,9 @@ export interface DeleteWorkspaceRequest {
 }
 export interface DeleteWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -245,15 +245,15 @@ export interface GetFirmwareRequest {
 }
 export interface GetFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirmwareProperties;
+  properties?: FirmwareProperties | undefined;
 }
 export type GetSummaryRequestSummaryType =
   | "Firmware"
@@ -285,19 +285,19 @@ export interface SummaryResourceProperties {
   /** The type of summary. */
   summaryType: SummaryType;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSummaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SummaryResourceProperties;
+  properties?: SummaryResourceProperties | undefined;
 }
 export interface GetUsageMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -316,19 +316,19 @@ export interface UsageMetricProperties {
   /** The total number of firmwares that are in the workspace. */
   totalFirmwareCount: number;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetUsageMetricsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UsageMetricProperties;
+  properties?: UsageMetricProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -344,21 +344,21 @@ export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export type GetWorkspaceResponseSku = CreateWorkspaceResponseSku;
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateWorkspaceResponseSku;
+  sku?: CreateWorkspaceResponseSku | undefined;
 }
 export interface ListBinaryHardeningByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -373,49 +373,49 @@ export interface ListBinaryHardeningByFirmwareRequest {
 /** Binary hardening features. */
 export interface BinaryHardeningFeatures {
   /** Flag indicating the binary's stack is set to NX (no-execute). */
-  noExecute?: boolean;
+  noExecute?: boolean | undefined;
   /** Flag indicating the binary was compiled to be a position independent executable. */
-  positionIndependentExecutable?: boolean;
+  positionIndependentExecutable?: boolean | undefined;
   /** Flag indicating the binary has enabled relocation read-only protections. */
-  relocationReadOnly?: boolean;
+  relocationReadOnly?: boolean | undefined;
   /** Flag indicating if the binary was compiled with stack canaries enabled. */
-  canary?: boolean;
+  canary?: boolean | undefined;
   /** Flag indicating if debug symbols have been stripped from the binary. */
-  stripped?: boolean;
+  stripped?: boolean | undefined;
 }
 /** String to indicate if the executable is 32 or 64 bit. */
 export type ExecutableClass = "x86" | "x64";
 /** Binary hardening of a firmware. */
 export interface BinaryHardeningResult {
   /** ID for the binary hardening result. */
-  binaryHardeningId?: string;
+  binaryHardeningId?: string | undefined;
   /** The security hardening features of the binary. */
-  securityHardeningFeatures?: BinaryHardeningFeatures;
+  securityHardeningFeatures?: BinaryHardeningFeatures | undefined;
   /** The architecture of the binary being reported on. */
-  executableArchitecture?: string;
+  executableArchitecture?: string | undefined;
   /** The path to the binary in the firmware. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** The executable class to indicate 32 or 64 bit. */
-  executableClass?: ExecutableClass;
+  executableClass?: ExecutableClass | undefined;
   /** The runpath property of the uploaded binary, which is a method of specifying additional paths to load objects at runtime. */
-  runpath?: string;
+  runpath?: string | undefined;
   /** The rpath property of the uploaded binary, which is a deprecated method of specifying additional paths to load objects at runtime. */
-  rpath?: string;
+  rpath?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis binary hardening result resource */
 export interface BinaryHardeningResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BinaryHardeningResult;
+  properties?: BinaryHardeningResult | undefined;
 }
 /** The BinaryHardeningResource items on this page */
 export type BinaryHardeningResourceListResultValueList = Array<BinaryHardeningResource>;
@@ -424,7 +424,7 @@ export interface BinaryHardeningResourceListResult {
   /** The BinaryHardeningResource items on this page */
   value: BinaryHardeningResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCryptoCertificateByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -439,15 +439,15 @@ export interface ListCryptoCertificateByFirmwareRequest {
 /** Information on an entity (distinguished name) in a cryptographic certificate. */
 export interface CryptoCertificateEntity {
   /** Common name of the certificate entity. */
-  commonName?: string;
+  commonName?: string | undefined;
   /** Organization of the certificate entity. */
-  organization?: string;
+  organization?: string | undefined;
   /** The organizational unit of the certificate entity. */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
   /** Geographical state or province of the certificate entity. */
-  state?: string;
+  state?: string | undefined;
   /** Country code of the certificate entity. */
-  country?: string;
+  country?: string | undefined;
 }
 /** Activities for which the cryptographic certificate can be used. */
 export type CertificateUsage =
@@ -474,67 +474,67 @@ export type CryptoCertificateFilePathsList = Array<string>;
 /** Details of a matching paired key or certificate. */
 export interface PairedKey {
   /** ID of the paired key or certificate. */
-  pairedKeyId?: string;
+  pairedKeyId?: string | undefined;
   /** The type indicating whether the paired object is a key or certificate. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Crypto certificate properties */
 export interface CryptoCertificate {
   /** ID for the certificate result. */
-  cryptoCertId?: string;
+  cryptoCertId?: string | undefined;
   /** Name of the certificate. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** Subject information of the certificate. */
-  subject?: CryptoCertificateEntity;
+  subject?: CryptoCertificateEntity | undefined;
   /** Issuer information of the certificate. */
-  issuer?: CryptoCertificateEntity;
+  issuer?: CryptoCertificateEntity | undefined;
   /** Issue date for the certificate. */
-  issuedDate?: string;
+  issuedDate?: string | undefined;
   /** Expiration date for the certificate. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Role of the certificate (Root CA, etc) */
-  certificateRole?: string;
+  certificateRole?: string | undefined;
   /** The signature algorithm used in the certificate. */
-  signatureAlgorithm?: string;
+  signatureAlgorithm?: string | undefined;
   /** Size of the certificate's key in bits */
-  certificateKeySize?: number;
+  certificateKeySize?: number | undefined;
   /** Key algorithm used in the certificate. */
-  certificateKeyAlgorithm?: string;
+  certificateKeyAlgorithm?: string | undefined;
   /** Encoding used for the certificate. */
-  encoding?: string;
+  encoding?: string | undefined;
   /** Serial number of the certificate. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Fingerprint of the certificate. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** List of functions the certificate can fulfill. */
-  certificateUsage?: CryptoCertificateCertificateUsageList;
+  certificateUsage?: CryptoCertificateCertificateUsageList | undefined;
   /** List of files where this certificate was found. */
-  filePaths?: CryptoCertificateFilePathsList;
+  filePaths?: CryptoCertificateFilePathsList | undefined;
   /** A matching paired private key. */
-  pairedKey?: PairedKey;
+  pairedKey?: PairedKey | undefined;
   /** Indicates if the certificate is expired. */
-  isExpired?: boolean;
+  isExpired?: boolean | undefined;
   /** Indicates if the certificate is self-signed. */
-  isSelfSigned?: boolean;
+  isSelfSigned?: boolean | undefined;
   /** Indicates the signature algorithm used is insecure according to NIST guidance. */
-  isWeakSignature?: boolean;
+  isWeakSignature?: boolean | undefined;
   /** Indicates the certificate's key size is considered too small to be secure for the key algorithm according to NIST guidance. */
-  isShortKeySize?: boolean;
+  isShortKeySize?: boolean | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis crypto certificate resource */
 export interface CryptoCertificateResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CryptoCertificate;
+  properties?: CryptoCertificate | undefined;
 }
 /** The CryptoCertificateResource items on this page */
 export type CryptoCertificateResourceListResultValueList = Array<CryptoCertificateResource>;
@@ -543,7 +543,7 @@ export interface CryptoCertificateResourceListResult {
   /** The CryptoCertificateResource items on this page */
   value: CryptoCertificateResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCryptoKeyByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -564,36 +564,36 @@ export type CryptoKeyFilePathsList = Array<string>;
 /** Crypto key properties */
 export interface CryptoKey {
   /** ID for the key result. */
-  cryptoKeyId?: string;
+  cryptoKeyId?: string | undefined;
   /** Type of the key (public or private). */
-  keyType?: CryptoKeyType;
+  keyType?: CryptoKeyType | undefined;
   /** Size of the key in bits. */
-  cryptoKeySize?: number;
+  cryptoKeySize?: number | undefined;
   /** Key algorithm name. */
-  keyAlgorithm?: string;
+  keyAlgorithm?: string | undefined;
   /** Functions the key can fulfill. */
-  usage?: CryptoKeyUsageList;
+  usage?: CryptoKeyUsageList | undefined;
   /** List of files where this key was found. */
-  filePaths?: CryptoKeyFilePathsList;
+  filePaths?: CryptoKeyFilePathsList | undefined;
   /** A matching paired key or certificate. */
-  pairedKey?: PairedKey;
+  pairedKey?: PairedKey | undefined;
   /** Indicates the key size is considered too small to be secure for the algorithm according to NIST guidance. */
-  isShortKeySize?: boolean;
+  isShortKeySize?: boolean | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis crypto key resource */
 export interface CryptoKeyResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CryptoKey;
+  properties?: CryptoKey | undefined;
 }
 /** The CryptoKeyResource items on this page */
 export type CryptoKeyResourceListResultValueList = Array<CryptoKeyResource>;
@@ -602,7 +602,7 @@ export interface CryptoKeyResourceListResult {
   /** The CryptoKeyResource items on this page */
   value: CryptoKeyResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCveByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -617,79 +617,79 @@ export interface ListCveByFirmwareRequest {
 /** Legacy component of a CVE result. */
 export interface CveComponent {
   /** ID of the SBOM component. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** Name of the SBOM component. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the SBOM component. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Common Vulnerability Scoring System values. */
 export interface CvssScore {
   /** The version of the Common Vulnerability Scoring System (CVSS). */
   version: number;
   /** The score of the CVE according to the CVSS specified. */
-  score?: number;
+  score?: number | undefined;
 }
 /** All known CVSS scores for the CVE. */
 export type CveResultCvssScoresList = Array<CvssScore>;
 /** Properties of a reference link for a CVE. */
 export interface CveLink {
   /** The destination of the reference link. */
-  href?: string;
+  href?: string | undefined;
   /** The label of the reference link. */
-  label?: string;
+  label?: string | undefined;
 }
 /** The list of reference links for the CVE. */
 export type CveResultLinksList = Array<CveLink>;
 /** Details of a CVE detected in firmware. */
 export interface CveResult {
   /** ID of the CVE result. */
-  cveId?: string;
+  cveId?: string | undefined;
   /** ID of the affected SBOM component. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** Name of the affected SBOM component. */
-  componentName?: string;
+  componentName?: string | undefined;
   /** Version of the affected SBOM component. */
-  componentVersion?: string;
+  componentVersion?: string | undefined;
   /** Severity of the CVE. */
-  severity?: string;
+  severity?: string | undefined;
   /** Name of the CVE. */
-  cveName?: string;
+  cveName?: string | undefined;
   /** Legacy property for what is now componentName */
-  component?: CveComponent;
+  component?: CveComponent | undefined;
   /** Legacy property for the effective CVE score (deprecated). */
-  cvssScore?: string;
+  cvssScore?: string | undefined;
   /** Legacy property for the CVE CVSS version 2 score, if one existed. (deprecated) */
-  cvssV2Score?: string;
+  cvssV2Score?: string | undefined;
   /** Legacy property for the CVE CVSS version 3 score, if one existed. (deprecated) */
-  cvssV3Score?: string;
+  cvssV3Score?: string | undefined;
   /** Legacy property for the what CVSS version score was stored in the cvssScore property (deprecated). */
-  cvssVersion?: string;
+  cvssVersion?: string | undefined;
   /** The most recent CVSS score of the CVE. */
-  effectiveCvssScore?: number;
+  effectiveCvssScore?: number | undefined;
   /** The version of the effectiveCvssScore property. */
-  effectiveCvssVersion?: number;
+  effectiveCvssVersion?: number | undefined;
   /** All known CVSS scores for the CVE. */
-  cvssScores?: CveResultCvssScoresList;
+  cvssScores?: CveResultCvssScoresList | undefined;
   /** The list of reference links for the CVE. */
-  links?: CveResultLinksList;
+  links?: CveResultLinksList | undefined;
   /** The CVE description. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis CVE result resource */
 export interface CveResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CveResult;
+  properties?: CveResult | undefined;
 }
 /** The CveResource items on this page */
 export type CveResourceListResultValueList = Array<CveResource>;
@@ -698,7 +698,7 @@ export interface CveResourceListResult {
   /** The CveResource items on this page */
   value: CveResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirmwareByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -711,15 +711,15 @@ export interface ListFirmwareByWorkspaceRequest {
 /** Firmware definition */
 export interface Firmware {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirmwareProperties;
+  properties?: FirmwareProperties | undefined;
 }
 /** The Firmware items on this page */
 export type FirmwareListResultValueList = Array<Firmware>;
@@ -728,19 +728,19 @@ export interface FirmwareListResult {
   /** The Firmware items on this page */
   value: FirmwareListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -749,23 +749,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPasswordHashByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -780,34 +780,34 @@ export interface ListPasswordHashByFirmwareRequest {
 /** Password hash properties */
 export interface PasswordHash {
   /** ID for password hash */
-  passwordHashId?: string | Redacted.Redacted<string>;
+  passwordHashId?: string | Redacted.Redacted<string> | undefined;
   /** File path of the password hash */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Salt of the password hash */
-  salt?: string;
+  salt?: string | undefined;
   /** Hash of the password */
-  hash?: string;
+  hash?: string | undefined;
   /** Context of password hash */
-  context?: string;
+  context?: string | undefined;
   /** User name of password hash */
-  username?: string;
+  username?: string | undefined;
   /** Algorithm of the password hash */
-  algorithm?: string;
+  algorithm?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis password hash result resource */
 export interface PasswordHashResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PasswordHash;
+  properties?: PasswordHash | undefined;
 }
 /** The PasswordHashResource items on this page */
 export type PasswordHashResourceListResultValueList = Array<PasswordHashResource>;
@@ -816,7 +816,7 @@ export interface PasswordHashResourceListResult {
   /** The PasswordHashResource items on this page */
   value: PasswordHashResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSbomComponentByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -833,30 +833,30 @@ export type SbomComponentFilePathsList = Array<string>;
 /** SBOM component of a firmware. */
 export interface SbomComponent {
   /** ID for the component. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** Name for the component. */
-  componentName?: string;
+  componentName?: string | undefined;
   /** Version for the component. */
-  version?: string;
+  version?: string | undefined;
   /** License for the component. */
-  license?: string;
+  license?: string | undefined;
   /** File paths related to the component. Note, relatedFiles should be used instead of this property. */
-  filePaths?: SbomComponentFilePathsList;
+  filePaths?: SbomComponentFilePathsList | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The object representing a firmware analysis SBOM component result resource */
 export interface SbomComponentResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SbomComponent;
+  properties?: SbomComponent | undefined;
 }
 /** The SbomComponentResource items on this page */
 export type SbomComponentResourceListResultValueList = Array<SbomComponentResource>;
@@ -865,7 +865,7 @@ export interface SbomComponentResourceListResult {
   /** The SbomComponentResource items on this page */
   value: SbomComponentResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSummaryByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -880,15 +880,15 @@ export interface ListSummaryByFirmwareRequest {
 /** The object representing a firmware analysis summary resource. */
 export interface SummaryResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SummaryResourceProperties;
+  properties?: SummaryResourceProperties | undefined;
 }
 /** The SummaryResource items on this page */
 export type SummaryResourceListResultValueList = Array<SummaryResource>;
@@ -897,7 +897,7 @@ export interface SummaryResourceListResult {
   /** The SummaryResource items on this page */
   value: SummaryResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsageMetricsByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -910,15 +910,15 @@ export interface ListUsageMetricsByWorkspaceRequest {
 /** The object representing how many firmwares the user has uploaded to the workspace. */
 export interface UsageMetric {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UsageMetricProperties;
+  properties?: UsageMetricProperties | undefined;
 }
 /** The UsageMetric items on this page */
 export type UsageMetricListResultValueList = Array<UsageMetric>;
@@ -927,7 +927,7 @@ export interface UsageMetricListResult {
   /** The UsageMetric items on this page */
   value: UsageMetricListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -942,21 +942,21 @@ export type WorkspaceSku = CreateWorkspaceResponseSku;
 /** Firmware analysis workspace. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateWorkspaceResponseSku;
+  sku?: CreateWorkspaceResponseSku | undefined;
 }
 /** The Workspace items on this page */
 export type WorkspaceListResultValueList = Array<Workspace>;
@@ -965,7 +965,7 @@ export interface WorkspaceListResult {
   /** The Workspace items on this page */
   value: WorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -981,19 +981,19 @@ export interface UpdateFirmwareRequest {
   /** The id of the firmware. */
   firmwareId: string;
   /** The editable properties of a firmware */
-  properties?: FirmwarePropertiesInput;
+  properties?: FirmwarePropertiesInput | undefined;
 }
 export interface UpdateFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirmwareProperties;
+  properties?: FirmwareProperties | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type AzureResourceManagerCommonTypesSkuUpdateTier =
@@ -1004,15 +1004,15 @@ export type AzureResourceManagerCommonTypesSkuUpdateTier =
 /** The resource model definition representing SKU */
 export interface AzureResourceManagerCommonTypesSkuUpdate {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  name?: string;
+  name?: string | undefined;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: AzureResourceManagerCommonTypesSkuUpdateTier | (string & {});
+  tier?: AzureResourceManagerCommonTypesSkuUpdateTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -1024,9 +1024,9 @@ export interface UpdateWorkspaceRequest {
   /** The name of the firmware analysis workspace. */
   workspaceName: string;
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
-  sku?: AzureResourceManagerCommonTypesSkuUpdate;
+  sku?: AzureResourceManagerCommonTypesSkuUpdate | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -1034,21 +1034,21 @@ export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined
 export type UpdateWorkspaceResponseSku = CreateWorkspaceResponseSku;
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: CreateWorkspaceResponseSku;
+  sku?: CreateWorkspaceResponseSku | undefined;
 }
 export interface WorkspacesGenerateUploadUrlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1058,12 +1058,12 @@ export interface WorkspacesGenerateUploadUrlRequest {
   /** The name of the firmware analysis workspace. */
   workspaceName: string;
   /** A unique ID for the firmware to be uploaded. */
-  firmwareId?: string;
+  firmwareId?: string | undefined;
 }
 /** Url data for creating or accessing a blob file. */
 export interface UrlToken {
   /** SAS URL for creating or accessing a blob file. */
-  url?: string;
+  url?: string | undefined;
 }
 export type CreateFirmwareError = AzureOpError;
 /** The operation to create a firmware. */

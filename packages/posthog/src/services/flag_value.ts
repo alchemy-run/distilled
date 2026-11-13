@@ -55,15 +55,15 @@ export interface GetFlagValueValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The flag ID */
-  key?: string;
+  key?: string | undefined;
 }
 export interface FlagValueItem {
-  name?: unknown;
+  name?: unknown | undefined;
 }
 export type FlagValueResponseResultsList = Array<FlagValueItem>;
 export interface FlagValueResponse {
-  results?: FlagValueResponseResultsList;
-  refreshing?: boolean;
+  results?: FlagValueResponseResultsList | undefined;
+  refreshing?: boolean | undefined;
 }
 export type GetFlagValueValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Get possible values for a feature flag. Query parameters: - key: The flag ID (required) Returns: - Array of objects with 'name' field containing possible values */

@@ -68,28 +68,28 @@ export interface CancelInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface CancelInvoiceResponse {}
 /** The file reference. Can be a file in PayPal MediaServ, PayPal DMS, or other custom store. */
 export interface FileReference {
   /** The ID of the referenced file. */
-  id?: string;
+  id?: string | undefined;
   /** The reference URL for the file. */
-  reference_url?: string;
+  reference_url?: string | undefined;
   /** The [Internet Assigned Numbers Authority (IANA) media type of the file](https://www.iana.org/assignments/media-types/media-types.xhtml). */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The date and time when the file was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The size of the file, in bytes. */
-  size?: string;
+  size?: string | undefined;
 }
 /** An array of PayPal IDs for the files that are attached to an invoice. */
 export type FileReferenceList = Array<FileReference>;
@@ -107,82 +107,82 @@ export type PaymentTermType =
 /** The payment term of the invoice. Payment can be due upon receipt, a specified date, or in a set number of days. */
 export interface InvoicePaymentTerm {
   /** The payment term. Payment can be due upon receipt, a specified date, or in a set number of days. */
-  term_type?: PaymentTermType | (string & {});
+  term_type?: PaymentTermType | (string & {}) | undefined;
   /** The date when the invoice payment is due, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  due_date?: string;
+  due_date?: string | undefined;
 }
 /** The details of the invoice. Includes invoice number, date, payment terms, and audit metadata. */
 export interface InvoiceDetailInput {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The invoice number. Default is the number that is auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The invoice date as specificed by the sender, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Only UTC is supported in response. For example, *yyyy*-*MM*-*dd*T*z*. */
-  invoice_date?: string;
+  invoice_date?: string | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: InvoicePaymentTerm;
+  payment_term?: InvoicePaymentTerm | undefined;
 }
 /** The name of the party. */
 export interface Name {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business. */
-  alternate_full_name?: string;
+  alternate_full_name?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export interface AddressDetails {
   /** The street number. */
-  street_number?: string;
+  street_number?: string | undefined;
   /** The street name. Just `Drury` in `Drury Lane`. */
-  street_name?: string;
+  street_name?: string | undefined;
   /** The street type. For example, avenue, boulevard, road, or expressway. */
-  street_type?: string;
+  street_type?: string | undefined;
   /** The delivery service. Post office box, bag number, or post office name. */
-  delivery_service?: string;
+  delivery_service?: string | undefined;
   /** A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>. */
-  building_name?: string;
+  building_name?: string | undefined;
   /** The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment. */
-  sub_building?: string;
+  sub_building?: string | undefined;
 }
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface AddressPortable {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
-  address_details?: AddressDetails;
+  address_details?: AddressDetails | undefined;
 }
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -193,7 +193,7 @@ export interface PhoneDetail {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
   phone_type: PhoneType | (string & {});
 }
 /** An array of invoicer's phone numbers. The invoicer can choose to hide the phone number on the invoice. */
@@ -201,56 +201,56 @@ export type PhoneDetailList = Array<PhoneDetail>;
 /** The invoicer business information that appears on the invoice. */
 export interface InvoicerInfo {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
   /** The invoicer email address, which must be listed in the user's PayPal profile. If you omit this value, notifications are sent from and to the primary email address but do not appear on the invoice. */
-  email_address?: string;
-  phones?: PhoneDetailList;
+  email_address?: string | undefined;
+  phones?: PhoneDetailList | undefined;
   /** The invoicer's website. */
-  website?: string;
+  website?: string | undefined;
   /** The invoicer's tax ID. */
-  tax_id?: string;
+  tax_id?: string | undefined;
   /** Any additional information. Includes business hours. */
-  additional_notes?: string;
+  additional_notes?: string | undefined;
   /** The full URL to an external logo image. The logo image must not be larger than 250 pixels wide by 90 pixels high. */
-  logo_url?: string;
+  logo_url?: string | undefined;
 }
 /** The invoice recipient's phone numbers. Extension number is not supported. */
 export type DefinitionsPhoneDetailList = Array<PhoneDetail>;
 /** The billing information of the invoice recipient. Includes name, address, email, phone, and language. */
 export interface BillingInfo {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
   /** The invoice recipient email address. If you omit this value, the invoice is payable and a notification email is not sent. */
-  email_address?: string;
-  phones?: DefinitionsPhoneDetailList;
+  email_address?: string | undefined;
+  phones?: DefinitionsPhoneDetailList | undefined;
   /** Any additional information about the recipient. */
-  additional_info?: string;
+  additional_info?: string | undefined;
   /** The language in which to show the invoice recipient's email message. Used only when the recipient does not have a PayPal account. If you omit the language and the recipient does not have a PayPal account, the email message is sent in the language of the merchant's PayPal account. */
-  language?: string;
+  language?: string | undefined;
 }
 /** The contact information of the user. Includes name and address. */
 export interface ContactNameAddress {
   /** Required. The business name of the party. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The first and Last name of the recipient. */
-  name?: Name;
+  name?: Name | undefined;
   /** The address of the recipient. */
-  address?: AddressPortable;
+  address?: AddressPortable | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export interface RecipientInfo {
   /** The billing information for the invoice recipient. Includes name, address, email, phone, and language. */
-  billing_info?: BillingInfo;
+  billing_info?: BillingInfo | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone and language. */
 export type RecipientInfoList = Array<RecipientInfo>;
@@ -267,16 +267,16 @@ export interface Tax {
   /** The tax rate. Value is from `0` to `100`. Supports up to five decimal places. */
   percent: string;
   /** The calculated tax amount. The tax amount is added to the item total. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The tax note used to track the tax related data. */
-  tax_note?: string;
+  tax_note?: string | undefined;
 }
 /** The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
 export interface Discount {
   /** The discount as a percentage value. Value is from `0` to `100`. Supports up to five decimal places. */
-  percent?: string;
+  percent?: string | undefined;
   /** The invoice level discount amount. Value is from `0` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
 }
 /** The unit of measure for the invoiced item. */
 export type UnitOfMeasure = "QUANTITY" | "HOURS" | "AMOUNT";
@@ -285,85 +285,85 @@ export interface ItemInput {
   /** The item name for the invoice line item. */
   name: string;
   /** The item description for the invoice line item. */
-  description?: string;
+  description?: string | undefined;
   /** The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places. */
   quantity: string;
   /** The unit price of the item. This does not include tax and discount. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
   unit_amount: Money;
   /** The tax associated with the item. The tax amount is added to the item total. Value is from `0` to `100`. Supports up to five decimal places. */
-  tax?: Tax;
+  tax?: Tax | undefined;
   /** The date when the item or service was provided, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  item_date?: string;
+  item_date?: string | undefined;
   /** Discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  discount?: Discount;
+  discount?: Discount | undefined;
   /** The unit of measure for the invoiced item. For `AMOUNT` the `unit_amount` and `quantity` are not shown on the invoice.<blockquote><strong>Note:</strong> If your specify different `unit_of_measure` values for the same invoice, the invoice uses the first value.</blockquote> */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
 }
 /** An array of invoice line item information. */
 export type ItemListInput = Array<ItemInput>;
 /** The partial payment details. Includes the minimum amount that the invoicer expects from the payer. */
 export interface PartialPayment {
   /** Indicates whether the invoice allows a partial payment. If `false`, the invoice must be paid in full. If `true`, the invoice allows partial payments.<blockquote><strong>Note:</strong> This feature is not available for users in `India`, `Brazil`, or `Israel`.</blockquote> */
-  allow_partial_payment?: boolean;
+  allow_partial_payment?: boolean | undefined;
   /** The minimum amount allowed for a partial payment. Valid only when `allow_partial_payment` is `true`. */
-  minimum_amount_due?: Money;
+  minimum_amount_due?: Money | undefined;
 }
 /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
 export interface Configuration {
   /** Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount. */
-  tax_calculated_after_discount?: boolean;
+  tax_calculated_after_discount?: boolean | undefined;
   /** Indicates whether the unit price includes tax. */
-  tax_inclusive?: boolean;
+  tax_inclusive?: boolean | undefined;
   /** Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.<blockquote><strong>Note:</strong> This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.</blockquote> */
-  allow_tip?: boolean;
+  allow_tip?: boolean | undefined;
   /** The partial payment details. Includes the minimum amount that the invoicer wants the payer to pay. */
-  partial_payment?: PartialPayment;
+  partial_payment?: PartialPayment | undefined;
   /** Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied. */
-  has_conditional_rule?: boolean;
+  has_conditional_rule?: boolean | undefined;
   /** The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.<blockquote><strong>Note:</strong> This is an optional field. If you wish to customize the invoice layout using a specific template, provide a valid template ID here. You can either use an existing template ID or create a new template via the create template API and then use the newly created template's ID.</blockquote> */
-  template_id?: string;
+  template_id?: string | undefined;
 }
 /** The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent. */
 export interface AggregatedDiscount {
   /** The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  invoice_discount?: Discount;
+  invoice_discount?: Discount | undefined;
   /** The discount as a percent or amount at item level. The item discount amount is subtracted from each item amount. */
-  item_discount?: Money;
+  item_discount?: Money | undefined;
 }
 /** The shipping fee for all items. Includes tax on shipping. */
 export interface ShippingCost {
   /** The shipping amount. Value is from `0` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The tax associated with the shipping. */
-  tax?: Tax;
+  tax?: Tax | undefined;
 }
 /** The custom amount to apply to an invoice. If you include a label, you must include a custom amount. */
 export interface CustomAmount {
   /** The label to the custom amount of the invoice. */
   label: string;
   /** The custom amount value. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
-  amount?: Money;
+  amount?: Money | undefined;
 }
 /** The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any. */
 export interface AmountWithBreakdown {
   /** The subtotal for all items. Must equal the sum of (`items[].unit_amount` * `items[].quantity`) for all items. */
-  item_total?: Money;
+  item_total?: Money | undefined;
   /** The discount can be at the item or invoice level, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent. */
-  discount?: AggregatedDiscount;
+  discount?: AggregatedDiscount | undefined;
   /** The aggregated amount of the item and shipping taxes. */
-  tax_total?: Money;
+  tax_total?: Money | undefined;
   /** The shipping fee for all items. Includes tax on shipping. */
-  shipping?: ShippingCost;
+  shipping?: ShippingCost | undefined;
   /** The custom amount to apply to an invoice. If you include a label, you must include the custom amount. */
-  custom?: CustomAmount;
+  custom?: CustomAmount | undefined;
 }
 /** The invoice amount summary of item total, discount, tax total, and shipping. */
 export interface AmountSummaryDetail {
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/). */
-  value?: string;
+  value?: string | undefined;
   /** The breakdown of the amount. Breakdown provides details such as total item amount, total tax amount, custom amount, shipping and discounts, if any. */
-  breakdown?: AmountWithBreakdown;
+  breakdown?: AmountWithBreakdown | undefined;
 }
 /** An array of payments registered against the invoice. */
 export interface PaymentsInput {}
@@ -373,18 +373,18 @@ export interface CreateInvoiceRequest {
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetailInput;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemListInput | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: PaymentsInput;
+  payments?: PaymentsInput | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: PaymentsInput;
+  refunds?: PaymentsInput | undefined;
 }
 /** The status of the invoice. */
 export type InvoiceStatus =
@@ -409,72 +409,72 @@ export type InvoiceCreationFlow = "MULTIPLE_RECIPIENTS_GROUP" | "BATCH" | "REGUL
 /** The audit metadata. Captures all invoicing actions on create, send, update, and cancel. */
 export interface Metadata {
   /** The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The email address of the account that created the resource. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The date and time when the resource was last edited, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_update_time?: string;
+  last_update_time?: string | undefined;
   /** The email address of the account that last edited the resource. */
-  last_updated_by?: string;
+  last_updated_by?: string | undefined;
   /** The date and time when the resource was canceled, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  cancel_time?: string;
+  cancel_time?: string | undefined;
   /** The actor who canceled the resource. */
-  cancelled_by?: string;
+  cancelled_by?: string | undefined;
   /** The date and time when the resource was first sent, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  first_sent_time?: string;
+  first_sent_time?: string | undefined;
   /** The date and time when the resource was last sent, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_sent_time?: string;
+  last_sent_time?: string | undefined;
   /** The email address of the account that last sent the resource. */
-  last_sent_by?: string;
+  last_sent_by?: string | undefined;
   /** The flow variation that created this invoice. */
-  created_by_flow?: InvoiceCreationFlow;
+  created_by_flow?: InvoiceCreationFlow | undefined;
   /** The URL for the invoice payer view hosted on paypal.com. */
-  recipient_view_url?: string;
+  recipient_view_url?: string | undefined;
   /** The URL for the invoice merchant view hosted on paypal.com. */
-  invoicer_view_url?: string;
+  invoicer_view_url?: string | undefined;
 }
 /** The details of the invoice. Includes invoice number, date, payment terms, and audit metadata. */
 export interface InvoiceDetail {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The invoice number. Default is the number that is auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The invoice date as specificed by the sender, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Only UTC is supported in response. For example, *yyyy*-*MM*-*dd*T*z*. */
-  invoice_date?: string;
+  invoice_date?: string | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: InvoicePaymentTerm;
+  payment_term?: InvoicePaymentTerm | undefined;
   /** The audit metadata. Captures all invoicing actions on create, send, update, and cancel. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** An array of invoice line item information. The maximum items for an invoice is `100`. */
 export interface Item {
   /** The ID of the invoice line item. */
-  id?: string;
+  id?: string | undefined;
   /** The item name for the invoice line item. */
   name: string;
   /** The item description for the invoice line item. */
-  description?: string;
+  description?: string | undefined;
   /** The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places. */
   quantity: string;
   /** The unit price of the item. This does not include tax and discount. Value is from `-1000000` to `1000000`. Supports up to two decimal places. */
   unit_amount: Money;
   /** The tax associated with the item. The tax amount is added to the item total. Value is from `0` to `100`. Supports up to five decimal places. */
-  tax?: Tax;
+  tax?: Tax | undefined;
   /** The date when the item or service was provided, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd*T*z*. */
-  item_date?: string;
+  item_date?: string | undefined;
   /** Discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total. */
-  discount?: Discount;
+  discount?: Discount | undefined;
   /** The unit of measure for the invoiced item. For `AMOUNT` the `unit_amount` and `quantity` are not shown on the invoice.<blockquote><strong>Note:</strong> If your specify different `unit_of_measure` values for the same invoice, the invoice uses the first value.</blockquote> */
-  unit_of_measure?: UnitOfMeasure;
+  unit_of_measure?: UnitOfMeasure | undefined;
 }
 /** An array of invoice line item information. */
 export type ItemList = Array<Item>;
@@ -493,38 +493,38 @@ export type PaymentMethod =
 /** The payment details of the invoice. Includes payment type, method, date, discount, and transaction type. */
 export interface PaymentDetail {
   /** The payment type in an invoicing flow which can be PayPal or an external cash or check payment. */
-  type?: PaymentType;
+  type?: PaymentType | undefined;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** The date when the invoice was paid, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd* *z*. */
-  payment_date?: string;
+  payment_date?: string | undefined;
   /** The payment mode or method through which the invoicer can accept the payment. */
   method: PaymentMethod;
   /** A note associated with an external cash or check payment. */
-  note?: string;
+  note?: string | undefined;
   /** The payment amount to record against the invoice. If you omit this parameter, the total invoice amount is marked as paid. This amount cannot exceed the amount due. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** An array of payment details for the invoice. The payment details of the invoice like payment type, method, date, discount and transaction type. */
 export type PaymentDetailList = Array<PaymentDetail>;
 /** An array of payments registered against the invoice. */
 export interface Payments {
   /** The aggregated payment amounts against this invoice. */
-  paid_amount?: Money;
-  transactions?: PaymentDetailList;
+  paid_amount?: Money | undefined;
+  transactions?: PaymentDetailList | undefined;
 }
 /** The refund details of the invoice. Includes the refund type, date, amount, and method. */
 export interface RefundDetail {
   /** The PayPal refund type. Indicates whether the refund was paid through PayPal or externally in the invoicing flow. The record refund method supports the `EXTERNAL` refund type. The `PAYPAL` refund type is supported for backward compatibility. */
-  type?: PaymentType;
+  type?: PaymentType | undefined;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  refund_id?: string;
+  refund_id?: string | undefined;
   /** The date when the invoice was refunded, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `2014-02-27`. */
-  refund_date?: string;
+  refund_date?: string | undefined;
   /** The amount to record as refunded. If you omit the amount, the total invoice paid amount is recorded as refunded. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The payment mode or method through which the invoicer can accept the payments. */
   method: PaymentMethod;
 }
@@ -533,8 +533,8 @@ export type RefundDetailList = Array<RefundDetail>;
 /** The invoicing refund details. Includes the refund type, date, amount, and method. */
 export interface Refunds {
   /** The aggregated refund amounts. */
-  refund_amount?: Money;
-  transactions?: RefundDetailList;
+  refund_amount?: Money | undefined;
+  transactions?: RefundDetailList | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -553,62 +553,62 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** The invoice details which includes all information of the invoice like items, billing information. */
 export interface Invoice {
   /** The ID of the invoice. */
-  id?: string;
+  id?: string | undefined;
   /** The parent ID to an invoice that defines the group invoice to which the invoice is related. */
-  parent_id?: string;
-  status?: InvoiceStatus;
+  parent_id?: string | undefined;
+  status?: InvoiceStatus | undefined;
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetail;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemList;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemList | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** The due amount, which is the balance amount outstanding after payments. */
-  due_amount?: Money;
+  due_amount?: Money | undefined;
   /** The amount paid by the payer as gratuity to the invoicer. */
-  gratuity?: Money;
+  gratuity?: Money | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: Payments;
+  payments?: Payments | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: Refunds;
-  links?: LinkDescriptionList;
+  refunds?: Refunds | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** The payment term of the invoice. Payment can be due upon receipt, a specified date, or in a set number of days. */
 export interface PaymentTerm {
   /** The payment term. Payment can be due upon receipt, a specified date, or in a set number of days. */
-  term_type?: PaymentTermType | (string & {});
+  term_type?: PaymentTermType | (string & {}) | undefined;
 }
 /** The audit metadata. Captures all template actions on create and update. */
 export type TemplateMetadataInput = PaymentsInput;
 /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
 export interface TemplateDetailInput {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: PaymentTerm;
+  payment_term?: PaymentTerm | undefined;
   /** The audit metadata. Captures all template actions on create and update. */
-  metadata?: PaymentsInput;
+  metadata?: PaymentsInput | undefined;
 }
 /** The billing and shipping information. Includes name, email, address, phone, and language. */
 export type DefinitionsRecipientInfoList = Array<RecipientInfo>;
@@ -617,29 +617,29 @@ export type DefinitionsItemListInput = Array<ItemInput>;
 /** The template configuration details. Includes tax information, tip, and partial payment. */
 export interface TemplateConfiguration {
   /** Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount. */
-  tax_calculated_after_discount?: boolean;
+  tax_calculated_after_discount?: boolean | undefined;
   /** Indicates whether the unit price includes tax. */
-  tax_inclusive?: boolean;
+  tax_inclusive?: boolean | undefined;
   /** Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.<blockquote><strong>Note:</strong> This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.</blockquote> */
-  allow_tip?: boolean;
+  allow_tip?: boolean | undefined;
   /** The partial payment details. Includes the minimum amount that the invoicer wants the payer to pay. */
-  partial_payment?: PartialPayment;
+  partial_payment?: PartialPayment | undefined;
   /** Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied. */
-  has_conditional_rule?: boolean;
+  has_conditional_rule?: boolean | undefined;
 }
 /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
 export interface TemplateInfoInput {
   /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
-  detail?: TemplateDetailInput;
+  detail?: TemplateDetailInput | undefined;
   /** The invoicer information. Includes business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: DefinitionsRecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: DefinitionsItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: DefinitionsRecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: DefinitionsItemListInput | undefined;
   /** The template configuration details. Includes tax information, tip, and partial payment. */
-  configuration?: TemplateConfiguration;
+  configuration?: TemplateConfiguration | undefined;
   /** The invoice amount summary of the item total, discount, tax total, and shipping. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
 }
 /** The field names for the invoice line items in the template. */
 export type TemplateItemField =
@@ -651,14 +651,14 @@ export type TemplateItemField =
 /** The template display preference. */
 export interface TemplateDisplayPreference {
   /** Indicates whether to show or hide this field. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
 }
 /** The template item setting. Sets a template as the default template or edit template. */
 export interface TemplateItemSetting {
   /** The field name in `template_data` for which to map corresponding display preferences. */
-  field_name?: TemplateItemField | (string & {});
+  field_name?: TemplateItemField | (string & {}) | undefined;
   /** The display preference. */
-  display_preference?: TemplateDisplayPreference;
+  display_preference?: TemplateDisplayPreference | undefined;
 }
 /** The template item headers display preference. */
 export type TemplateItemSettingList = Array<TemplateItemSetting>;
@@ -667,93 +667,93 @@ export type TemplateSubtotalField = "DISCOUNT" | "SHIPPING" | "CUSTOM";
 /** The template subtotal setting. Includes the field name and display preference. */
 export interface TemplateSubtotalSetting {
   /** The field name in `template_data` for which to map corresponding display preferences. */
-  field_name?: TemplateSubtotalField | (string & {});
+  field_name?: TemplateSubtotalField | (string & {}) | undefined;
   /** The display preference. */
-  display_preference?: TemplateDisplayPreference;
+  display_preference?: TemplateDisplayPreference | undefined;
 }
 /** The template subtotal headers display preference. */
 export type TemplateSubtotalSettingList = Array<TemplateSubtotalSetting>;
 /** The template settings. Sets a template as the default template or edit template. */
 export interface TemplateSettings {
-  template_item_settings?: TemplateItemSettingList;
-  template_subtotal_settings?: TemplateSubtotalSettingList;
+  template_item_settings?: TemplateItemSettingList | undefined;
+  template_subtotal_settings?: TemplateSubtotalSettingList | undefined;
 }
 export interface CreateTemplateRequest {
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfoInput;
+  template_info?: TemplateInfoInput | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
 }
 /** The audit metadata. Captures all template actions on create and update. */
 export interface TemplateMetadata {
   /** The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The email address of the account that created the resource. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** The date and time when the resource was last edited, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_update_time?: string;
+  last_update_time?: string | undefined;
   /** The email address of the account that last edited the resource. */
-  last_updated_by?: string;
+  last_updated_by?: string | undefined;
 }
 /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
 export interface TemplateDetail {
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
   currency_code: string;
   /** A note to the invoice recipient. Also appears on the invoice notification email. */
-  note?: string;
+  note?: string | undefined;
   /** The general terms of the invoice. Can include return or cancellation policy and other terms and conditions. */
-  terms_and_conditions?: string;
+  terms_and_conditions?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
-  attachments?: FileReferenceList;
+  memo?: string | undefined;
+  attachments?: FileReferenceList | undefined;
   /** The payment due date for the invoice. Value is either but not both <code>term_type</code> or <code>due_date</code>. */
-  payment_term?: PaymentTerm;
+  payment_term?: PaymentTerm | undefined;
   /** The audit metadata. Captures all template actions on create and update. */
-  metadata?: TemplateMetadata;
+  metadata?: TemplateMetadata | undefined;
 }
 /** An array of invoice line-item information. */
 export type DefinitionsItemList = Array<Item>;
 /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
 export interface TemplateInfo {
   /** The template-related details. Includes notes, terms and conditions, memo, and attachments. */
-  detail?: TemplateDetail;
+  detail?: TemplateDetail | undefined;
   /** The invoicer information. Includes business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: DefinitionsRecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: DefinitionsItemList;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: DefinitionsRecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: DefinitionsItemList | undefined;
   /** The template configuration details. Includes tax information, tip, and partial payment. */
-  configuration?: TemplateConfiguration;
+  configuration?: TemplateConfiguration | undefined;
   /** The invoice amount summary of the item total, discount, tax total, and shipping. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** The amount due for the invoice. */
-  due_amount?: Money;
+  due_amount?: Money | undefined;
 }
 /** The template with invoice details to load with all captured fields. */
 export interface Template {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfo;
+  template_info?: TemplateInfo | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure;
+  unit_of_measure?: UnitOfMeasure | undefined;
   /** Indicates whether this template is a invoicer-created custom template. The system generates non-custom templates. */
-  standard_template?: boolean;
-  links?: LinkDescriptionList;
+  standard_template?: boolean | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface DeleteInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -785,17 +785,17 @@ export type ConnectionLastSyncStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED";
 /** This lists last sync status and connection platform name. */
 export interface Connection {
   /** The name of the platform. This property supports Unicode. The pattern is not provided because the value is defined by an external party. */
-  platform_name?: string;
+  platform_name?: string | undefined;
   /** The date and time when the resource is last synced with the accounting platform. This property supports Unicode. */
-  last_sync_time?: string;
+  last_sync_time?: string | undefined;
   /** The status of the last sync. This property supports Unicode. */
-  last_sync_status?: ConnectionLastSyncStatus;
+  last_sync_status?: ConnectionLastSyncStatus | undefined;
 }
 /** An array of connection-level details. */
 export type ConnectionList = Array<Connection>;
 /** This object contains an array of connection details. It is used to load sync status for a user. */
 export interface Connections {
-  connections?: ConnectionList;
+  connections?: ConnectionList | undefined;
 }
 export interface GetInvoiceRequest {
   /** The ID of the draft invoice to delete. */
@@ -814,109 +814,109 @@ export type ConnectionsList = Array<Connections>;
 /** Returns invoice connection status with timestamp per invoice. */
 export interface InvoiceConnectionDetails {
   /** The ID of the invoice. This property supports Unicode. */
-  id?: string;
-  connection_status?: ConnectionsList;
+  id?: string | undefined;
+  connection_status?: ConnectionsList | undefined;
 }
 export interface InvoicesGenerateQrCodeRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The width, in pixels, of the QR code image. Value is from `150` to `500`. */
-  width?: number;
+  width?: number | undefined;
   /** The height, in pixels, of the QR code image. Value is from `150` to `500`. */
-  height?: number;
+  height?: number | undefined;
   /** The type of URL for which to generate a QR code. Valid values are `pay` and `details`. */
-  action?: string;
+  action?: string | undefined;
 }
 export interface InvoicesGenerateQrCodeResponse {}
 export interface InvoicesPaymentsRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** The date when the invoice was paid, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd* *z*. */
-  payment_date?: string;
+  payment_date?: string | undefined;
   /** The payment mode or method through which the invoicer can accept the payment. */
   method: PaymentMethod | (string & {});
   /** A note associated with an external cash or check payment. */
-  note?: string;
+  note?: string | undefined;
   /** The payment amount to record against the invoice. If you omit this parameter, the total invoice amount is marked as paid. This amount cannot exceed the amount due. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The recipient's shipping information. Includes the user's contact information, which includes name and address. */
-  shipping_info?: ContactNameAddress;
+  shipping_info?: ContactNameAddress | undefined;
 }
 /** The reference to the payment detail. */
 export interface PaymentReference {
   /** The ID for the invoice payment. */
-  payment_id?: string;
+  payment_id?: string | undefined;
 }
 export interface InvoicesRefundsRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The date when the invoice was refunded, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `2014-02-27`. */
-  refund_date?: string;
+  refund_date?: string | undefined;
   /** The amount to record as refunded. If you omit the amount, the total invoice paid amount is recorded as refunded. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The payment mode or method through which the invoicer can accept the payments. */
   method: PaymentMethod | (string & {});
 }
 /** The reference to the refund payment detail. */
 export interface RefundReference {
   /** The ID of the refund of an invoice payment. */
-  refund_id?: string;
+  refund_id?: string | undefined;
 }
 export interface InvoicesRemindRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface InvoicesRemindResponse {}
 export interface InvoicingGenerateNextInvoiceNumberRequest {
   /** Optional to decide the number or ID. */
-  fetch_id?: boolean;
+  fetch_id?: boolean | undefined;
 }
 /** The invoice number. */
 export interface InvoiceNumber {
   /** The invoice number. If you omit this value, the default is the auto-incremented number from the last number. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** Resource Id. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
 }
 export interface ListInvoicesRequest {
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Indicates whether the to show <code>total_pages</code> and <code>total_items</code> in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
   /** The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`. */
-  fields?: string;
+  fields?: string | undefined;
 }
 /** The list of invoices that match the search criteria. */
 export type InvoiceList = Array<Invoice>;
 /** An array of merchant invoices. Includes the total invoices count and [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links) for navigation. */
 export interface Invoices {
   /** The total number of pages that are available for the search criteria. <blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of total_pages is constant. The value MAY change from one request to the next</blockquote> */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** The total number of invoices that match the search criteria.<blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of <code>total_items</code> is constant. The value MAY change from one request to the next.</blockquote> */
-  total_items?: number;
-  items?: InvoiceList;
-  links?: LinkDescriptionList;
+  total_items?: number | undefined;
+  items?: InvoiceList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface ListTemplatesRequest {
   /** The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`. */
-  fields?: string;
+  fields?: string | undefined;
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** An array of addresses in the user's PayPal profile. */
 export type AddressPortableList = Array<AddressPortable>;
@@ -926,12 +926,12 @@ export type TemplatesDefinitionsPhoneDetailList = Array<PhoneDetail>;
 export type TemplateList = Array<Template>;
 /** An array of merchant-created templates with associated details that include the emails, addresses, and phone numbers from the user's PayPal profile. */
 export interface Templates {
-  addresses?: AddressPortableList;
+  addresses?: AddressPortableList | undefined;
   /** An array of emails in the user's PayPal profile. */
-  emails?: string;
-  phones?: TemplatesDefinitionsPhoneDetailList;
-  templates?: TemplateList;
-  links?: LinkDescriptionList;
+  emails?: string | undefined;
+  phones?: TemplatesDefinitionsPhoneDetailList | undefined;
+  templates?: TemplateList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** An array of status values. */
 export type InvoiceStatusList = Array<InvoiceStatus | (string & {})>;
@@ -960,90 +960,90 @@ export interface DateTimeRange {
 export type FieldsList = Array<string>;
 export interface SearchInvoicesRequest {
   /** The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of templates to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Indicates whether the to show <code>total_pages</code> and <code>total_items</code> in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
   /** Filters the search by the email address. */
-  recipient_email?: string;
+  recipient_email?: string | undefined;
   /** Filters the search by the recipient first name. */
-  recipient_first_name?: string;
+  recipient_first_name?: string | undefined;
   /** Filters the search by the recipient last name. */
-  recipient_last_name?: string;
+  recipient_last_name?: string | undefined;
   /** Filters the search by the recipient business name. */
-  recipient_business_name?: string;
+  recipient_business_name?: string | undefined;
   /** Filters the search by the invoice number. */
-  invoice_number?: string;
-  status?: InvoiceStatusList;
+  invoice_number?: string | undefined;
+  status?: InvoiceStatusList | undefined;
   /** The reference data. Includes a Purchase Order (PO) number. */
-  reference?: string;
+  reference?: string | undefined;
   /** The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency. */
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** A private bookkeeping memo for the user. */
-  memo?: string;
+  memo?: string | undefined;
   /** Filters the search by the total amount. */
-  total_amount_range?: AmountRange;
+  total_amount_range?: AmountRange | undefined;
   /** Filters the search by a date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  invoice_date_range?: DateRange;
+  invoice_date_range?: DateRange | undefined;
   /** Filters the search by a due date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  due_date_range?: DateRange;
-  payment_date_range?: DateTimeRange;
+  due_date_range?: DateRange | undefined;
+  payment_date_range?: DateTimeRange | undefined;
   /** Filters the search by a creation date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  creation_date_range?: DateTimeRange;
+  creation_date_range?: DateTimeRange | undefined;
   /** Indicates whether to list merchant-archived invoices in the response. Value is:<ul><li><code>true</code>. Response lists only merchant-archived invoices.</li><li><code>false</code>. Response lists only unarchived invoices.</li><li><code>null</code>. Response lists all invoices.</li></ul> */
-  archived?: boolean;
-  fields?: FieldsList;
+  archived?: boolean | undefined;
+  fields?: FieldsList | undefined;
 }
 export interface SendInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote> */
-  subject?: string;
+  subject?: string | undefined;
   /** A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote> */
-  note?: string;
+  note?: string | undefined;
   /** Indicates whether to send a copy of the email to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** Indicates whether to send a copy of the email to the recipient. */
-  send_to_recipient?: boolean;
-  additional_recipients?: EmailAddressList;
+  send_to_recipient?: boolean | undefined;
+  additional_recipients?: EmailAddressList | undefined;
 }
 export interface UpdateInvoiceRequest {
   /** The ID of the draft invoice to delete. */
   invoice_id: string;
   /** Indicates whether to send the invoice update notification to the recipient. */
-  send_to_recipient?: boolean;
+  send_to_recipient?: boolean | undefined;
   /** Indicates whether to send the invoice update notification to the merchant. */
-  send_to_invoicer?: boolean;
+  send_to_invoicer?: boolean | undefined;
   /** The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata. */
   detail: InvoiceDetailInput;
   /** The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL. */
-  invoicer?: InvoicerInfo;
-  primary_recipients?: RecipientInfoList;
-  additional_recipients?: EmailAddressList;
-  items?: ItemListInput;
+  invoicer?: InvoicerInfo | undefined;
+  primary_recipients?: RecipientInfoList | undefined;
+  additional_recipients?: EmailAddressList | undefined;
+  items?: ItemListInput | undefined;
   /** The invoice configuration details. Includes partial payment, tip, and tax calculated after discount. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** The invoice amount summary of item total, discount, tax total and shipping.. */
-  amount?: AmountSummaryDetail;
+  amount?: AmountSummaryDetail | undefined;
   /** List of payments registered against the invoice.. */
-  payments?: PaymentsInput;
+  payments?: PaymentsInput | undefined;
   /** List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method. */
-  refunds?: PaymentsInput;
+  refunds?: PaymentsInput | undefined;
 }
 export interface UpdateTemplateRequest {
   /** The ID of the template to delete. */
   template_id: string;
   /** The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote> */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether this template is the default template. A invoicer can have one default template. */
-  default_template?: boolean;
+  default_template?: boolean | undefined;
   /** The template details. Includes invoicer business information, invoice recipients, items, and configuration. */
-  template_info?: TemplateInfoInput;
+  template_info?: TemplateInfoInput | undefined;
   /** The template settings. Describes which fields to show or hide when you create an invoice. */
-  settings?: TemplateSettings;
+  settings?: TemplateSettings | undefined;
   /** The unit of measure for the template. Value is quantity, hours, or amount. */
-  unit_of_measure?: UnitOfMeasure | (string & {});
+  unit_of_measure?: UnitOfMeasure | (string & {}) | undefined;
 }
 export type CancelInvoiceError =
   | BadRequest

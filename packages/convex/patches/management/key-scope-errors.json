@@ -1,0 +1,401 @@
+{
+  "description": "Type what a deploy key or a preview deploy key gets when it calls an operation outside its scope. Observed on the live Management API, 2026-11-13: a preview deploy key calling create_deploy_key on a preview deployment of its own project answers 403 NotAllowed (\"Preview deploy keys do not have permission to perform this action (CreateDeploymentAccessToken)\"); a deploy key of one deployment (prod:<name>|...) calling GET /deployments/{name} answers 400 UnexpectedAuthHeaderFormat. The Management API reads the Authorization header before it routes, so UnexpectedAuthHeaderFormat goes on every operation, like AccessTokenInvalid. The same preview key may list, create and delete preview deployments, and set their variables through the deployment API. Classes take the wire code as their name, like the other Convex errors.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#NotAllowed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "NotAllowed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UnexpectedAuthHeaderFormat",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "UnexpectedAuthHeaderFormat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployKey/errors/-",
+      "value": {
+        "target": "com.convex.api#NotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CancelTeamMemberInvite/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateCustomDomain/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateCustomRole/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployKey/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployment/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreatePersonalAccessToken/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreatePreviewDeployKey/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateProject/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateTeam/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateTeamAccessToken/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteCustomDomain/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteCustomRole/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteDeployKey/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteDeployment/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeletePersonalAccessToken/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeletePreviewDeployKey/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteProject/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteTeamAccessToken/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetDeploymentInProjectByProjectId/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetDeploymentInProjectByProjectSlug/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetProjectById/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetProjectBySlug/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetTokenDetails/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#InviteTeamMember/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListAuditLogEvents/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListCustomDomains/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListCustomRoles/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDefaultEnvironmentVariables/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeployKeys/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentClasses/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentRegions/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeployments/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentsForTeam/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListLocalDeploymentsForTeam/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPendingTeamInvites/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPersonalAccessTokens/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPreviewDeployKeys/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListProjectTags/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListProjects/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListTeamAccessTokens/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListTeamMembers/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#MintAiGatewayJwt/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PlatformGetDeployment/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#TransferDeployment/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateCustomRole/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateDefaultEnvironmentVariables/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateDeployment/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateProject/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateTeamMemberRole/errors/-",
+      "value": {
+        "target": "com.convex.api#UnexpectedAuthHeaderFormat"
+      }
+    }
+  ]
+}

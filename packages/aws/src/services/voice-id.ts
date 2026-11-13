@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -148,13 +149,13 @@ export interface AssociateFraudsterRequest {
 export type GeneratedFraudsterId = string;
 export type ResponseWatchlistIds = string[];
 export interface Fraudster {
-  DomainId?: string;
-  GeneratedFraudsterId?: string;
-  CreatedAt?: Date;
-  WatchlistIds?: string[];
+  DomainId?: string | undefined;
+  GeneratedFraudsterId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export interface AssociateFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type DomainName = string | redacted.Redacted<string>;
 export type Description = string | redacted.Redacted<string>;
@@ -172,56 +173,56 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateDomainRequest {
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type DomainStatus = string;
 export type ServerSideEncryptionUpdateStatus = string;
 export interface ServerSideEncryptionUpdateDetails {
-  OldKmsKeyId?: string;
-  UpdateStatus?: string;
-  Message?: string;
+  OldKmsKeyId?: string | undefined;
+  UpdateStatus?: string | undefined;
+  Message?: string | undefined;
 }
 export interface WatchlistDetails {
   DefaultWatchlistId: string;
 }
 export interface Domain {
-  DomainId?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DomainStatus?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
-  WatchlistDetails?: WatchlistDetails;
+  DomainId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DomainStatus?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails | undefined;
+  WatchlistDetails?: WatchlistDetails | undefined;
 }
 export interface CreateDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export type WatchlistName = string | redacted.Redacted<string>;
 export type WatchlistDescription = string | redacted.Redacted<string>;
 export interface CreateWatchlistRequest {
   DomainId: string;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  ClientToken?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ClientToken?: string | undefined;
 }
 export interface Watchlist {
-  DomainId?: string;
-  WatchlistId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DefaultWatchlist?: boolean;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DomainId?: string | undefined;
+  WatchlistId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DefaultWatchlist?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface CreateWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export interface DeleteDomainRequest {
   DomainId: string;
@@ -247,14 +248,14 @@ export interface DescribeDomainRequest {
   DomainId: string;
 }
 export interface DescribeDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export interface DescribeFraudsterRequest {
   DomainId: string;
   FraudsterId: string | redacted.Redacted<string>;
 }
 export interface DescribeFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type JobId = string;
 export interface DescribeFraudsterRegistrationJobRequest {
@@ -268,9 +269,9 @@ export type DuplicateRegistrationAction = string;
 export type Score = number;
 export type RegistrationConfigWatchlistIds = string[];
 export interface RegistrationConfig {
-  DuplicateRegistrationAction?: string;
-  FraudsterSimilarityThreshold?: number;
-  WatchlistIds?: string[];
+  DuplicateRegistrationAction?: string | undefined;
+  FraudsterSimilarityThreshold?: number | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export type S3Uri = string;
 export interface InputDataConfig {
@@ -278,31 +279,31 @@ export interface InputDataConfig {
 }
 export interface OutputDataConfig {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface FailureDetails {
-  StatusCode?: number;
-  Message?: string;
+  StatusCode?: number | undefined;
+  Message?: string | undefined;
 }
 export interface JobProgress {
-  PercentComplete?: number;
+  PercentComplete?: number | undefined;
 }
 export interface FraudsterRegistrationJob {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  DataAccessRoleArn?: string;
-  RegistrationConfig?: RegistrationConfig;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  RegistrationConfig?: RegistrationConfig | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export interface DescribeFraudsterRegistrationJobResponse {
-  Job?: FraudsterRegistrationJob;
+  Job?: FraudsterRegistrationJob | undefined;
 }
 export interface DescribeSpeakerRequest {
   DomainId: string;
@@ -312,16 +313,16 @@ export type CustomerSpeakerId = string | redacted.Redacted<string>;
 export type GeneratedSpeakerId = string;
 export type SpeakerStatus = string;
 export interface Speaker {
-  DomainId?: string;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LastAccessedAt?: Date;
+  DomainId?: string | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LastAccessedAt?: Date | undefined;
 }
 export interface DescribeSpeakerResponse {
-  Speaker?: Speaker;
+  Speaker?: Speaker | undefined;
 }
 export interface DescribeSpeakerEnrollmentJobRequest {
   DomainId: string;
@@ -332,37 +333,37 @@ export type ExistingEnrollmentAction = string;
 export type FraudDetectionAction = string;
 export type EnrollmentJobFraudDetectionConfigWatchlistIds = string[];
 export interface EnrollmentJobFraudDetectionConfig {
-  FraudDetectionAction?: string;
-  RiskThreshold?: number;
-  WatchlistIds?: string[];
+  FraudDetectionAction?: string | undefined;
+  RiskThreshold?: number | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export interface EnrollmentConfig {
-  ExistingEnrollmentAction?: string;
-  FraudDetectionConfig?: EnrollmentJobFraudDetectionConfig;
+  ExistingEnrollmentAction?: string | undefined;
+  FraudDetectionConfig?: EnrollmentJobFraudDetectionConfig | undefined;
 }
 export interface SpeakerEnrollmentJob {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  DataAccessRoleArn?: string;
-  EnrollmentConfig?: EnrollmentConfig;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EnrollmentConfig?: EnrollmentConfig | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export interface DescribeSpeakerEnrollmentJobResponse {
-  Job?: SpeakerEnrollmentJob;
+  Job?: SpeakerEnrollmentJob | undefined;
 }
 export interface DescribeWatchlistRequest {
   DomainId: string;
   WatchlistId: string;
 }
 export interface DescribeWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export interface DisassociateFraudsterRequest {
   DomainId: string;
@@ -370,7 +371,7 @@ export interface DisassociateFraudsterRequest {
   FraudsterId: string | redacted.Redacted<string>;
 }
 export interface DisassociateFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type SessionNameOrId = string;
 export interface EvaluateSessionRequest {
@@ -386,25 +387,25 @@ export interface AuthenticationConfiguration {
   AcceptanceThreshold: number;
 }
 export interface AuthenticationResult {
-  AuthenticationResultId?: string;
-  AudioAggregationStartedAt?: Date;
-  AudioAggregationEndedAt?: Date;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Decision?: string;
-  Score?: number;
-  Configuration?: AuthenticationConfiguration;
+  AuthenticationResultId?: string | undefined;
+  AudioAggregationStartedAt?: Date | undefined;
+  AudioAggregationEndedAt?: Date | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Decision?: string | undefined;
+  Score?: number | undefined;
+  Configuration?: AuthenticationConfiguration | undefined;
 }
 export interface FraudDetectionConfiguration {
-  RiskThreshold?: number;
-  WatchlistId?: string;
+  RiskThreshold?: number | undefined;
+  WatchlistId?: string | undefined;
 }
 export type FraudDetectionDecision = string;
 export type FraudDetectionReason = string;
 export type FraudDetectionReasons = string[];
 export interface KnownFraudsterRisk {
   RiskScore: number;
-  GeneratedFraudsterId?: string;
+  GeneratedFraudsterId?: string | undefined;
 }
 export interface VoiceSpoofingRisk {
   RiskScore: number;
@@ -414,180 +415,180 @@ export interface FraudRiskDetails {
   VoiceSpoofingRisk: VoiceSpoofingRisk;
 }
 export interface FraudDetectionResult {
-  FraudDetectionResultId?: string;
-  AudioAggregationStartedAt?: Date;
-  AudioAggregationEndedAt?: Date;
-  Configuration?: FraudDetectionConfiguration;
-  Decision?: string;
-  Reasons?: string[];
-  RiskDetails?: FraudRiskDetails;
+  FraudDetectionResultId?: string | undefined;
+  AudioAggregationStartedAt?: Date | undefined;
+  AudioAggregationEndedAt?: Date | undefined;
+  Configuration?: FraudDetectionConfiguration | undefined;
+  Decision?: string | undefined;
+  Reasons?: string[] | undefined;
+  RiskDetails?: FraudRiskDetails | undefined;
 }
 export interface EvaluateSessionResponse {
-  DomainId?: string;
-  SessionId?: string;
-  SessionName?: string;
-  StreamingStatus?: string;
-  AuthenticationResult?: AuthenticationResult;
-  FraudDetectionResult?: FraudDetectionResult;
+  DomainId?: string | undefined;
+  SessionId?: string | undefined;
+  SessionName?: string | undefined;
+  StreamingStatus?: string | undefined;
+  AuthenticationResult?: AuthenticationResult | undefined;
+  FraudDetectionResult?: FraudDetectionResult | undefined;
 }
 export type MaxResultsForListDomainFe = number;
 export type NextToken = string;
 export interface ListDomainsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainSummary {
-  DomainId?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DomainStatus?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
-  WatchlistDetails?: WatchlistDetails;
+  DomainId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DomainStatus?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails | undefined;
+  WatchlistDetails?: WatchlistDetails | undefined;
 }
 export type DomainSummaries = DomainSummary[];
 export interface ListDomainsResponse {
-  DomainSummaries?: DomainSummary[];
-  NextToken?: string;
+  DomainSummaries?: DomainSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsForList = number;
 export interface ListFraudsterRegistrationJobsRequest {
   DomainId: string;
-  JobStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  JobStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FraudsterRegistrationJobSummary {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export type FraudsterRegistrationJobSummaries = FraudsterRegistrationJobSummary[];
 export interface ListFraudsterRegistrationJobsResponse {
-  JobSummaries?: FraudsterRegistrationJobSummary[];
-  NextToken?: string;
+  JobSummaries?: FraudsterRegistrationJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFraudstersRequest {
   DomainId: string;
-  WatchlistId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  WatchlistId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FraudsterSummary {
-  DomainId?: string;
-  GeneratedFraudsterId?: string;
-  CreatedAt?: Date;
-  WatchlistIds?: string[];
+  DomainId?: string | undefined;
+  GeneratedFraudsterId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export type FraudsterSummaries = FraudsterSummary[];
 export interface ListFraudstersResponse {
-  FraudsterSummaries?: FraudsterSummary[];
-  NextToken?: string;
+  FraudsterSummaries?: FraudsterSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSpeakerEnrollmentJobsRequest {
   DomainId: string;
-  JobStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  JobStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SpeakerEnrollmentJobSummary {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export type SpeakerEnrollmentJobSummaries = SpeakerEnrollmentJobSummary[];
 export interface ListSpeakerEnrollmentJobsResponse {
-  JobSummaries?: SpeakerEnrollmentJobSummary[];
-  NextToken?: string;
+  JobSummaries?: SpeakerEnrollmentJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSpeakersRequest {
   DomainId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SpeakerSummary {
-  DomainId?: string;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LastAccessedAt?: Date;
+  DomainId?: string | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LastAccessedAt?: Date | undefined;
 }
 export type SpeakerSummaries = SpeakerSummary[];
 export interface ListSpeakersResponse {
-  SpeakerSummaries?: SpeakerSummary[];
-  NextToken?: string;
+  SpeakerSummaries?: SpeakerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListWatchlistsRequest {
   DomainId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface WatchlistSummary {
-  DomainId?: string;
-  WatchlistId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DefaultWatchlist?: boolean;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DomainId?: string | undefined;
+  WatchlistId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DefaultWatchlist?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type WatchlistSummaries = WatchlistSummary[];
 export interface ListWatchlistsResponse {
-  WatchlistSummaries?: WatchlistSummary[];
-  NextToken?: string;
+  WatchlistSummaries?: WatchlistSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface OptOutSpeakerRequest {
   DomainId: string;
   SpeakerId: string | redacted.Redacted<string>;
 }
 export interface OptOutSpeakerResponse {
-  Speaker?: Speaker;
+  Speaker?: Speaker | undefined;
 }
 export interface StartFraudsterRegistrationJobRequest {
-  ClientToken?: string;
-  JobName?: string | redacted.Redacted<string>;
+  ClientToken?: string | undefined;
+  JobName?: string | redacted.Redacted<string> | undefined;
   DomainId: string;
   DataAccessRoleArn: string;
-  RegistrationConfig?: RegistrationConfig;
+  RegistrationConfig?: RegistrationConfig | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
 }
 export interface StartFraudsterRegistrationJobResponse {
-  Job?: FraudsterRegistrationJob;
+  Job?: FraudsterRegistrationJob | undefined;
 }
 export interface StartSpeakerEnrollmentJobRequest {
-  ClientToken?: string;
-  JobName?: string | redacted.Redacted<string>;
+  ClientToken?: string | undefined;
+  JobName?: string | redacted.Redacted<string> | undefined;
   DomainId: string;
   DataAccessRoleArn: string;
-  EnrollmentConfig?: EnrollmentConfig;
+  EnrollmentConfig?: EnrollmentConfig | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
 }
 export interface StartSpeakerEnrollmentJobResponse {
-  Job?: SpeakerEnrollmentJob;
+  Job?: SpeakerEnrollmentJob | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -603,20 +604,20 @@ export interface UntagResourceResponse {}
 export interface UpdateDomainRequest {
   DomainId: string;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
 }
 export interface UpdateDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export interface UpdateWatchlistRequest {
   DomainId: string;
   WatchlistId: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export type ConflictType = string;
 export type ResourceType = string;
@@ -633,7 +634,7 @@ export type AssociateFraudsterError =
  * Associates the fraudsters with the watchlist specified in the same domain.
  */
 export const associateFraudster: API.OperationMethod<
-  AssociateFraudsterRequest,
+  AssociateFraudsterRequest & RegionInput,
   AssociateFraudsterResponse,
   AssociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type CreateDomainError =
  * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -706,7 +707,7 @@ export type CreateWatchlistError =
  * Creates a watchlist that fraudsters can be a part of.
  */
 export const createWatchlist: API.OperationMethod<
-  CreateWatchlistRequest,
+  CreateWatchlistRequest & RegionInput,
   CreateWatchlistResponse,
   CreateWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -741,7 +742,7 @@ export type DeleteDomainError =
  * Deletes the specified domain from Voice ID.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -775,7 +776,7 @@ export type DeleteFraudsterError =
  * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
  */
 export const deleteFraudster: API.OperationMethod<
-  DeleteFraudsterRequest,
+  DeleteFraudsterRequest & RegionInput,
   DeleteFraudsterResponse,
   DeleteFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -809,7 +810,7 @@ export type DeleteSpeakerError =
  * Deletes the specified speaker from Voice ID.
  */
 export const deleteSpeaker: API.OperationMethod<
-  DeleteSpeakerRequest,
+  DeleteSpeakerRequest & RegionInput,
   DeleteSpeakerResponse,
   DeleteSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type DeleteWatchlistError =
  * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
  */
 export const deleteWatchlist: API.OperationMethod<
-  DeleteWatchlistRequest,
+  DeleteWatchlistRequest & RegionInput,
   DeleteWatchlistResponse,
   DeleteWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -878,7 +879,7 @@ export type DescribeDomainError =
  * Describes the specified domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type DescribeFraudsterError =
  * Describes the specified fraudster.
  */
 export const describeFraudster: API.OperationMethod<
-  DescribeFraudsterRequest,
+  DescribeFraudsterRequest & RegionInput,
   DescribeFraudsterResponse,
   DescribeFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DescribeFraudsterRegistrationJobError =
  * Describes the specified fraudster registration job.
  */
 export const describeFraudsterRegistrationJob: API.OperationMethod<
-  DescribeFraudsterRegistrationJobRequest,
+  DescribeFraudsterRegistrationJobRequest & RegionInput,
   DescribeFraudsterRegistrationJobResponse,
   DescribeFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -974,7 +975,7 @@ export type DescribeSpeakerError =
  * Describes the specified speaker.
  */
 export const describeSpeaker: API.OperationMethod<
-  DescribeSpeakerRequest,
+  DescribeSpeakerRequest & RegionInput,
   DescribeSpeakerResponse,
   DescribeSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -1006,7 +1007,7 @@ export type DescribeSpeakerEnrollmentJobError =
  * Describes the specified speaker enrollment job.
  */
 export const describeSpeakerEnrollmentJob: API.OperationMethod<
-  DescribeSpeakerEnrollmentJobRequest,
+  DescribeSpeakerEnrollmentJobRequest & RegionInput,
   DescribeSpeakerEnrollmentJobResponse,
   DescribeSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type DescribeWatchlistError =
  * Describes the specified watchlist.
  */
 export const describeWatchlist: API.OperationMethod<
-  DescribeWatchlistRequest,
+  DescribeWatchlistRequest & RegionInput,
   DescribeWatchlistResponse,
   DescribeWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type DisassociateFraudsterError =
  * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
  */
 export const disassociateFraudster: API.OperationMethod<
-  DisassociateFraudsterRequest,
+  DisassociateFraudsterRequest & RegionInput,
   DisassociateFraudsterResponse,
   DisassociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -1108,7 +1109,7 @@ export type EvaluateSessionError =
  * Amazon Connect Voice ID call.
  */
 export const evaluateSession: API.OperationMethod<
-  EvaluateSessionRequest,
+  EvaluateSessionRequest & RegionInput,
   EvaluateSessionResponse,
   EvaluateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1140,7 +1141,7 @@ export type ListDomainsError =
  * Lists all the domains in the Amazon Web Services account.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1180,7 +1181,7 @@ export type ListFraudsterRegistrationJobsError =
  * fraudster registration jobs in the given domain.
  */
 export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
-  ListFraudsterRegistrationJobsRequest,
+  ListFraudsterRegistrationJobsRequest & RegionInput,
   ListFraudsterRegistrationJobsResponse,
   ListFraudsterRegistrationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1219,7 +1220,7 @@ export type ListFraudstersError =
  * Lists all fraudsters in a specified watchlist or domain.
  */
 export const listFraudsters: API.PaginatedOperationMethod<
-  ListFraudstersRequest,
+  ListFraudstersRequest & RegionInput,
   ListFraudstersResponse,
   ListFraudstersError,
   Credentials | HttpClient.HttpClient,
@@ -1260,7 +1261,7 @@ export type ListSpeakerEnrollmentJobsError =
  * jobs with all possible speaker enrollment job statuses.
  */
 export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
-  ListSpeakerEnrollmentJobsRequest,
+  ListSpeakerEnrollmentJobsRequest & RegionInput,
   ListSpeakerEnrollmentJobsResponse,
   ListSpeakerEnrollmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1299,7 +1300,7 @@ export type ListSpeakersError =
  * Lists all speakers in a specified domain.
  */
 export const listSpeakers: API.PaginatedOperationMethod<
-  ListSpeakersRequest,
+  ListSpeakersRequest & RegionInput,
   ListSpeakersResponse,
   ListSpeakersError,
   Credentials | HttpClient.HttpClient,
@@ -1338,7 +1339,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a specified Voice ID resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1371,7 @@ export type ListWatchlistsError =
  * Lists all watchlists in a specified domain.
  */
 export const listWatchlists: API.PaginatedOperationMethod<
-  ListWatchlistsRequest,
+  ListWatchlistsRequest & RegionInput,
   ListWatchlistsResponse,
   ListWatchlistsError,
   Credentials | HttpClient.HttpClient,
@@ -1416,7 +1417,7 @@ export type OptOutSpeakerError =
  * Voice ID.
  */
 export const optOutSpeaker: API.OperationMethod<
-  OptOutSpeakerRequest,
+  OptOutSpeakerRequest & RegionInput,
   OptOutSpeakerResponse,
   OptOutSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -1452,7 +1453,7 @@ export type StartFraudsterRegistrationJobError =
  * Starts a new batch fraudster registration job using provided details.
  */
 export const startFraudsterRegistrationJob: API.OperationMethod<
-  StartFraudsterRegistrationJobRequest,
+  StartFraudsterRegistrationJobRequest & RegionInput,
   StartFraudsterRegistrationJobResponse,
   StartFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -1488,7 +1489,7 @@ export type StartSpeakerEnrollmentJobError =
  * Starts a new batch speaker enrollment job using specified details.
  */
 export const startSpeakerEnrollmentJob: API.OperationMethod<
-  StartSpeakerEnrollmentJobRequest,
+  StartSpeakerEnrollmentJobRequest & RegionInput,
   StartSpeakerEnrollmentJobResponse,
   StartSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type TagResourceError =
  * Tags a Voice ID resource with the provided list of tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type UntagResourceError =
  * Removes specified tags from a specified Amazon Connect Voice ID resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1593,7 +1594,7 @@ export type UpdateDomainError =
  * removed from the domain.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1627,7 +1628,7 @@ export type UpdateWatchlistError =
  * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
  */
 export const updateWatchlist: API.OperationMethod<
-  UpdateWatchlistRequest,
+  UpdateWatchlistRequest & RegionInput,
   UpdateWatchlistResponse,
   UpdateWatchlistError,
   Credentials | HttpClient.HttpClient

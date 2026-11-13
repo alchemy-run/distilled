@@ -94,10 +94,8 @@ export interface CreateRecipientRequest {
   accountId: string;
   /** Share identifier tag. */
   shareId: string;
-  /** Organization identifier. */
-  organizationId?: string;
   /** The account that will receive the share. */
-  recipientAccountId?: string;
+  recipientAccountId?: string | undefined;
 }
 export type RecipientsCreateResponseAssociationStatus =
   | "associating"
@@ -105,11 +103,11 @@ export type RecipientsCreateResponseAssociationStatus =
   | "disassociating"
   | "disassociated";
 export interface RecipientsCreateResponseResourcesItem {
-  /** Share Recipient error message. */
+  /** Error from the most recent attempt to apply the resource to the recipient. Empty string when no error has been recorded. */
   error: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
-  /** Resource Version. */
+  /** Resource version applied to the recipient, if reconciliation has occurred. */
   resourceVersion: number;
   /** Whether the error is terminal or will be continually retried. */
   terminal: boolean;
@@ -123,11 +121,11 @@ export interface CreateRecipientResponse {
   accountId: string;
   /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsCreateResponseAssociationStatus;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsCreateResponseResourcesList | null;
+  resources?: RecipientsCreateResponseResourcesList | null | undefined;
 }
 export type ResourcesCreateRequestResourceType =
   | "custom-ruleset"
@@ -144,9 +142,9 @@ export interface CreateResourceRequest {
   shareId: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** Account identifier. */
+  /** The account that owns the resource. Must match the `account_id` in the path. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesCreateRequestResourceType | (string & {});
@@ -164,15 +162,15 @@ export type ResourcesCreateResponseStatus = "active" | "deleting" | "deleted";
 export interface CreateResourceResponse {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesCreateResponseResourceType;
@@ -181,13 +179,18 @@ export interface CreateResourceResponse {
   /** Resource Status. */
   status: ResourcesCreateResponseStatus;
 }
+export interface CreateRequestExcludedRecipientsItem {
+  /** The account to exclude from the organization-targeted share. */
+  accountId: string;
+}
+export type CreateRequestExcludedRecipientsList = Array<CreateRequestExcludedRecipientsItem>;
 export interface CreateRequestRecipientsItem {
   /** This field has been renamed to `recipient_account_id`. Both names are accepted during the deprecation period. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Organization identifier. */
-  organizationId?: string;
+  organizationId?: string | undefined;
   /** The account that will receive the share. */
-  recipientAccountId?: string;
+  recipientAccountId?: string | undefined;
 }
 export type CreateRequestRecipientsList = Array<CreateRequestRecipientsItem>;
 export type CreateRequestResourcesItemResourceType =
@@ -201,21 +204,26 @@ export type CreateRequestResourcesItemResourceType =
 export interface CreateRequestResourcesItem {
   /** Resource Metadata. */
   meta: unknown;
-  /** Account identifier. */
+  /** The account that owns the resource. Must match the `account_id` in the path. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: CreateRequestResourcesItemResourceType | (string & {});
 }
 export type CreateRequestResourcesList = Array<CreateRequestResourcesItem>;
+export type CreateRequestTagsMap = { [key: string]: string | undefined };
 export interface CreateResourceSharingRequest {
   /** Account identifier. */
   accountId: string;
   /** The name of the share. */
   name: string;
-  recipients: CreateRequestRecipientsList;
-  resources: CreateRequestResourcesList;
+  /** Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. */
+  excludedRecipients?: CreateRequestExcludedRecipientsList | undefined;
+  recipients?: CreateRequestRecipientsList | undefined;
+  resources?: CreateRequestResourcesList | undefined;
+  /** Tags associated with the share. */
+  tags?: CreateRequestTagsMap | undefined;
 }
 export type CreateResponseStatus = "active" | "deleting" | "deleted";
 export type CreateResponseTargetType = "account" | "organization";
@@ -232,15 +240,15 @@ export type CreateResponseResourcesItemStatus = "active" | "deleting" | "deleted
 export interface CreateResponseResourcesItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: CreateResponseResourcesItemResourceType;
@@ -250,6 +258,7 @@ export interface CreateResponseResourcesItem {
   status: CreateResponseResourcesItemStatus;
 }
 export type CreateResponseResourcesList = Array<CreateResponseResourcesItem>;
+export type CreateResponseTagsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateResourceSharingResponse {
   /** Share identifier tag. */
@@ -258,9 +267,9 @@ export interface CreateResourceSharingResponse {
   accountId: string;
   /** The display name of an account. */
   accountName: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** The name of the share. */
   name: string;
@@ -269,16 +278,18 @@ export interface CreateResourceSharingResponse {
   status: CreateResponseStatus;
   targetType: CreateResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: CreateResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: CreateResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: CreateResponseResourcesList | null;
+  resources?: CreateResponseResourcesList | null | undefined;
+  /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
+  tags?: CreateResponseTagsMap | null | undefined;
 }
 export interface DeleteRecipientRequest {
   /** Account identifier. */
@@ -303,11 +314,11 @@ export interface DeleteRecipientResponse {
   accountId: string;
   /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsDeleteResponseAssociationStatus;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsDeleteResponseResourcesList | null;
+  resources?: RecipientsDeleteResponseResourcesList | null | undefined;
 }
 export interface DeleteResourceRequest {
   /** Account identifier. */
@@ -330,15 +341,15 @@ export type ResourcesDeleteResponseStatus = "active" | "deleting" | "deleted";
 export interface DeleteResourceResponse {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesDeleteResponseResourceType;
@@ -368,15 +379,15 @@ export type DeleteResponseResourcesItemStatus = "active" | "deleting" | "deleted
 export interface DeleteResponseResourcesItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: DeleteResponseResourcesItemResourceType;
@@ -386,6 +397,7 @@ export interface DeleteResponseResourcesItem {
   status: DeleteResponseResourcesItemStatus;
 }
 export type DeleteResponseResourcesList = Array<DeleteResponseResourcesItem>;
+export type DeleteResponseTagsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteResourceSharingResponse {
   /** Share identifier tag. */
@@ -394,9 +406,9 @@ export interface DeleteResourceSharingResponse {
   accountId: string;
   /** The display name of an account. */
   accountName: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** The name of the share. */
   name: string;
@@ -405,16 +417,18 @@ export interface DeleteResourceSharingResponse {
   status: DeleteResponseStatus;
   targetType: DeleteResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: DeleteResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: DeleteResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: DeleteResponseResourcesList | null;
+  resources?: DeleteResponseResourcesList | null | undefined;
+  /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
+  tags?: DeleteResponseTagsMap | null | undefined;
 }
 export interface GetRecipientRequest {
   /** Account identifier. */
@@ -424,7 +438,7 @@ export interface GetRecipientRequest {
   /** Share Recipient identifier tag. */
   recipientId: string;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
 }
 export type RecipientsGetResponseAssociationStatus =
   | "associating"
@@ -441,11 +455,11 @@ export interface GetRecipientResponse {
   accountId: string;
   /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsGetResponseAssociationStatus;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsGetResponseResourcesList | null;
+  resources?: RecipientsGetResponseResourcesList | null | undefined;
 }
 export interface GetResourceRequest {
   /** Account identifier. */
@@ -468,15 +482,15 @@ export type ResourcesGetResponseStatus = "active" | "deleting" | "deleted";
 export interface GetResourceResponse {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesGetResponseResourceType;
@@ -485,15 +499,18 @@ export interface GetResourceResponse {
   /** Resource Status. */
   status: ResourcesGetResponseStatus;
 }
+export type GetRequestIncludeTagsFrom = "api" | "mirror";
 export interface GetResourceSharingRequest {
   /** Account identifier. */
   accountId: string;
   /** Share identifier tag. */
   shareId: string;
   /** Include recipient counts in the response. */
-  includeRecipientCounts?: boolean;
+  includeRecipientCounts?: boolean | undefined;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
+  /** Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`. */
+  includeTagsFrom?: GetRequestIncludeTagsFrom | (string & {}) | undefined;
 }
 export type GetResponseStatus = "active" | "deleting" | "deleted";
 export type GetResponseTargetType = "account" | "organization";
@@ -510,15 +527,15 @@ export type GetResponseResourcesItemStatus = "active" | "deleting" | "deleted";
 export interface GetResponseResourcesItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: GetResponseResourcesItemResourceType;
@@ -528,6 +545,7 @@ export interface GetResponseResourcesItem {
   status: GetResponseResourcesItemStatus;
 }
 export type GetResponseResourcesList = Array<GetResponseResourcesItem>;
+export type GetResponseTagsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetResourceSharingResponse {
   /** Share identifier tag. */
@@ -536,9 +554,9 @@ export interface GetResourceSharingResponse {
   accountId: string;
   /** The display name of an account. */
   accountName: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** The name of the share. */
   name: string;
@@ -547,16 +565,18 @@ export interface GetResourceSharingResponse {
   status: GetResponseStatus;
   targetType: GetResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: GetResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: GetResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: GetResponseResourcesList | null;
+  resources?: GetResponseResourcesList | null | undefined;
+  /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
+  tags?: GetResponseTagsMap | null | undefined;
 }
 export interface ListRecipientsRequest {
   /** Account identifier. */
@@ -564,11 +584,11 @@ export interface ListRecipientsRequest {
   /** Share identifier tag. */
   shareId: string;
   /** Include resources in the response. */
-  includeResources?: boolean;
-  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
-  page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
-  perPage?: number;
+  includeResources?: boolean | undefined;
+  /** Page number. Defaults to `1` when omitted. */
+  page?: number | undefined;
+  /** Number of objects to return per page. Defaults to `20` when omitted. */
+  perPage?: number | undefined;
 }
 export type RecipientsListResultItemAssociationStatus =
   | "associating"
@@ -584,18 +604,18 @@ export interface RecipientsListResultItem {
   accountId: string;
   /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsListResultItemAssociationStatus;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsListResultItemResourcesList | null;
+  resources?: RecipientsListResultItemResourcesList | null | undefined;
 }
 export type RecipientsListResultList = Array<RecipientsListResultItem>;
 export interface ListRecipientsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecipientsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ResourcesListRequestResourceType =
   | "custom-ruleset"
@@ -611,14 +631,14 @@ export interface ListResourcesRequest {
   accountId: string;
   /** Share identifier tag. */
   shareId: string;
-  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
-  page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
-  perPage?: number;
+  /** Page number. Defaults to `1` when omitted. */
+  page?: number | undefined;
+  /** Number of objects to return per page. Defaults to `20` when omitted. */
+  perPage?: number | undefined;
   /** Filter share resources by resource_type. */
-  resourceType?: ResourcesListRequestResourceType | (string & {});
+  resourceType?: ResourcesListRequestResourceType | (string & {}) | undefined;
   /** Filter share resources by status. */
-  status?: ResourcesListRequestStatus | (string & {});
+  status?: ResourcesListRequestStatus | (string & {}) | undefined;
 }
 export type ResourcesListResultItemResourceType =
   | "custom-ruleset"
@@ -632,15 +652,15 @@ export type ResourcesListResultItemStatus = "active" | "deleting" | "deleted";
 export interface ResourcesListResultItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesListResultItemResourceType;
@@ -654,9 +674,10 @@ export interface ListResourcesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourcesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListRequestDirection = "asc" | "desc";
+export type ListRequestIncludeTagsFrom = "api" | "mirror";
 export type ListRequestKind = "sent" | "received";
 export type ListRequestOrder = "name" | "created";
 export type ListRequestResourceTypes =
@@ -675,27 +696,29 @@ export interface ListResourceSharingsRequest {
   /** Account identifier. */
   accountId: string;
   /** Direction to sort objects. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Include recipient counts in the response. */
-  includeRecipientCounts?: boolean;
+  includeRecipientCounts?: boolean | undefined;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
+  /** Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`. */
+  includeTagsFrom?: ListRequestIncludeTagsFrom | (string & {}) | undefined;
   /** Filter shares by kind. */
-  kind?: ListRequestKind | (string & {});
+  kind?: ListRequestKind | (string & {}) | undefined;
   /** Order shares by values in the given field. */
-  order?: ListRequestOrder | (string & {});
-  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
-  page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
-  perPage?: number;
+  order?: ListRequestOrder | (string & {}) | undefined;
+  /** Page number. Defaults to `1` when omitted. */
+  page?: number | undefined;
+  /** Number of objects to return per page. Defaults to `20` when omitted. */
+  perPage?: number | undefined;
   /** Filter share resources by resource_types. */
-  resourceTypes?: ListRequestResourceTypesList;
+  resourceTypes?: ListRequestResourceTypesList | undefined;
   /** Filter shares by status. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
   /** Filter shares by tag. Each value is either `key=value` (matches shares whose tags contain that key/value pair) or `key` alone (matches shares that have any value for that key). May be repeated; multiple `tag` parameters are ANDed together. Maximum 20 `tag` parameters per request. */
-  tag?: ListRequestTagList;
+  tag?: ListRequestTagList | undefined;
   /** Filter shares by target_type. */
-  targetType?: ListRequestTargetType | (string & {});
+  targetType?: ListRequestTargetType | (string & {}) | undefined;
 }
 export type ListResultItemStatus = "active" | "deleting" | "deleted";
 export type ListResultItemTargetType = "account" | "organization";
@@ -712,15 +735,15 @@ export type ListResultItemResourcesItemStatus = "active" | "deleting" | "deleted
 export interface ListResultItemResourcesItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ListResultItemResourcesItemResourceType;
@@ -730,6 +753,7 @@ export interface ListResultItemResourcesItem {
   status: ListResultItemResourcesItemStatus;
 }
 export type ListResultItemResourcesList = Array<ListResultItemResourcesItem>;
+export type ListResultItemTagsMap = { [key: string]: string | undefined };
 export interface ListResultItem {
   /** Share identifier tag. */
   id: string;
@@ -737,9 +761,9 @@ export interface ListResultItem {
   accountId: string;
   /** The display name of an account. */
   accountName: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** The name of the share. */
   name: string;
@@ -748,23 +772,25 @@ export interface ListResultItem {
   status: ListResultItemStatus;
   targetType: ListResultItemTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: ListResultItemKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: ListResultItemKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: ListResultItemResourcesList | null;
+  resources?: ListResultItemResourcesList | null | undefined;
+  /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
+  tags?: ListResultItemTagsMap | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListResourceSharingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateResourceRequest {
   /** Account identifier. */
@@ -789,15 +815,15 @@ export type ResourcesUpdateResponseStatus = "active" | "deleting" | "deleted";
 export interface UpdateResourceResponse {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: ResourcesUpdateResponseResourceType;
@@ -806,6 +832,7 @@ export interface UpdateResourceResponse {
   /** Resource Status. */
   status: ResourcesUpdateResponseStatus;
 }
+export type UpdateRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateResourceSharingRequest {
   /** Account identifier. */
   accountId: string;
@@ -813,6 +840,8 @@ export interface UpdateResourceSharingRequest {
   shareId: string;
   /** The name of the share. */
   name: string;
+  /** Tags associated with the share. */
+  tags?: UpdateRequestTagsMap | undefined;
 }
 export type UpdateResponseStatus = "active" | "deleting" | "deleted";
 export type UpdateResponseTargetType = "account" | "organization";
@@ -829,15 +858,15 @@ export type UpdateResponseResourcesItemStatus = "active" | "deleting" | "deleted
 export interface UpdateResponseResourcesItem {
   /** Share Resource identifier. */
   id: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
   /** Resource Metadata. */
   meta: unknown;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** Account identifier. */
   resourceAccountId: string;
-  /** Share Resource identifier. */
+  /** Identifier assigned by the service that owns the shared resource. */
   resourceId: string;
   /** Resource Type. */
   resourceType: UpdateResponseResourcesItemResourceType;
@@ -847,6 +876,7 @@ export interface UpdateResponseResourcesItem {
   status: UpdateResponseResourcesItemStatus;
 }
 export type UpdateResponseResourcesList = Array<UpdateResponseResourcesItem>;
+export type UpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateResourceSharingResponse {
   /** Share identifier tag. */
@@ -855,9 +885,9 @@ export interface UpdateResourceSharingResponse {
   accountId: string;
   /** The display name of an account. */
   accountName: string;
-  /** When the share was created. */
+  /** When the object was created. */
   created: string;
-  /** When the share was modified. */
+  /** When the object was last modified. */
   modified: string;
   /** The name of the share. */
   name: string;
@@ -866,16 +896,18 @@ export interface UpdateResourceSharingResponse {
   status: UpdateResponseStatus;
   targetType: UpdateResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: UpdateResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: UpdateResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: UpdateResponseResourcesList | null;
+  resources?: UpdateResponseResourcesList | null | undefined;
+  /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
+  tags?: UpdateResponseTagsMap | null | undefined;
 }
 export type CreateRecipientError = ShareNotFound | Forbidden | CloudflareOpError;
 /** Adds a single recipient to an account-targeted resource share, granting them access to the shared resources. The recipient account must belong to the same organization as the share owner. To replace the entire recipient list in one call, use `PUT /accounts/{account_id}/shares/{share_id}/recipients` instead. */
@@ -912,15 +944,15 @@ export const createResource: API.OperationMethod<
 }));
 
 export type CreateResourceSharingError = Forbidden | CloudflareOpError;
-/** Creates a new resource share for sharing Cloudflare resources with other accounts or organizations. */
+/** Creates a share that makes a resource available to specific accounts in the caller's organization, or to the whole organization. */
 export const createResourceSharing: API.OperationMethod<
   CreateResourceSharingRequest,
   CreateResourceSharingResponse,
   CreateResourceSharingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c13, 4) as any as S.Schema<CreateResourceSharingRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<CreateResourceSharingResponse>,
+  input: __S(110, __c13, 6) as any as S.Schema<CreateResourceSharingRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<CreateResourceSharingResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -936,7 +968,7 @@ export const deleteRecipient: API.OperationMethod<
   DeleteRecipientError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteRecipientRequest>,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteRecipientRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DeleteRecipientResponse>,
   errors: [ShareRecipientNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -953,7 +985,7 @@ export const deleteResource: API.OperationMethod<
   DeleteResourceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteResourceRequest>,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteResourceRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<DeleteResourceResponse>,
   errors: [ShareResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -970,8 +1002,8 @@ export const deleteResourceSharing: API.OperationMethod<
   DeleteResourceSharingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteResourceSharingRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeleteResourceSharingResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteResourceSharingRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<DeleteResourceSharingResponse>,
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1022,7 +1054,7 @@ export const getResourceSharing: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetResourceSharingRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<GetResourceSharingResponse>,
+  output: __S(128, __c16, 0) as any as S.Schema<GetResourceSharingResponse>,
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1115,7 +1147,7 @@ export const listResourceSharings: API.PaginatedOperationMethod<
 ) as any;
 
 export type UpdateResourceError = ShareResourceNotFound | Forbidden | CloudflareOpError;
-/** Update is not immediate, an updated share resource object with a new status will be returned. */
+/** Updates the resource's `meta`. Only resources with `status=active` can be updated. */
 export const updateResource: API.OperationMethod<
   UpdateResourceRequest,
   UpdateResourceResponse,
@@ -1132,7 +1164,7 @@ export const updateResource: API.OperationMethod<
 }));
 
 export type UpdateResourceSharingError = ShareNotFound | Forbidden | CloudflareOpError;
-/** Updates the share's display name and tags. This endpoint does **not** modify recipients or resources -- those are managed via dedicated subresource endpoints: - **Recipients**: Use `POST /accounts/{account_id}/shares/{share_id}/recipients` to add a single recipient, `PUT /accounts/{account_id}/shares/{share_id}/recipients` to replace the full recipient list, or `DELETE /accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}` to remove a recipient. - **Resources**: Use the share's resource subresource endpoints. Updating is not immediate; an updated share object with a new status will be returned. */
+/** Updates the share's display name and tags. Omitting `tags` leaves the existing tags unchanged. Recipients and resources are managed via their subresource endpoints. */
 export const updateResourceSharing: API.OperationMethod<
   UpdateResourceSharingRequest,
   UpdateResourceSharingResponse,
@@ -1140,7 +1172,7 @@ export const updateResourceSharing: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<UpdateResourceSharingRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<UpdateResourceSharingResponse>,
+  output: __S(128, __c16, 0) as any as S.Schema<UpdateResourceSharingResponse>,
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1199,6 +1231,7 @@ function __c2(j: number): any {
           shareId: S.String.pipe(T.Label("share_id")),
           includeRecipientCounts: S.optional(S.Boolean.pipe(T.Query("include_recipient_counts"))),
           includeResources: S.optional(S.Boolean.pipe(T.Query("include_resources"))),
+          includeTagsFrom: S.optional(S.String.pipe(T.Query("include_tags_from"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/accounts/{account_id}/shares/{share_id}", code: 200 }),
@@ -1292,6 +1325,7 @@ function __c5(j: number): any {
           direction: S.optional(S.String.pipe(T.Query())),
           includeRecipientCounts: S.optional(S.Boolean.pipe(T.Query("include_recipient_counts"))),
           includeResources: S.optional(S.Boolean.pipe(T.Query("include_resources"))),
+          includeTagsFrom: S.optional(S.String.pipe(T.Query("include_tags_from"))),
           kind: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -1330,6 +1364,7 @@ function __c5(j: number): any {
           ),
           kind: S.optional(S.NullOr(S.String)),
           resources: S.optional(S.NullOr(__S(113, __c14, 1))),
+          tags: S.optional(S.NullOr(__S(120, __c15, 0))),
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 4:
@@ -1372,6 +1407,7 @@ function __c7(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           shareId: S.String.pipe(T.Label("share_id")),
           name: S.String,
+          tags: S.optional(__S(120, __c15, 0)),
         })
           .pipe(
             T.Http({ method: "PUT", uri: "/accounts/{account_id}/shares/{share_id}", code: 200 }),
@@ -1387,7 +1423,6 @@ function __c8(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           shareId: S.String.pipe(T.Label("share_id")),
-          organizationId: S.optional(S.String.pipe(T.Body("organization_id"))),
           recipientAccountId: S.optional(S.String.pipe(T.Body("recipient_account_id"))),
         })
           .pipe(
@@ -1477,14 +1512,22 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Body("account_id")),
+        }),
+      ).annotate({ identifier: "CreateRequestExcludedRecipientsItem" });
+    case 1:
+      return S.Array(__S(104, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.optional(S.String.pipe(T.Body("account_id"))),
           organizationId: S.optional(S.String.pipe(T.Body("organization_id"))),
           recipientAccountId: S.optional(S.String.pipe(T.Body("recipient_account_id"))),
         }),
       ).annotate({ identifier: "CreateRequestRecipientsItem" });
-    case 1:
-      return S.Array(__S(104, __c13, 0));
-    case 2:
+    case 3:
+      return S.Array(__S(106, __c13, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           meta: S.Unknown,
@@ -1493,15 +1536,17 @@ function __c13(j: number): any {
           resourceType: S.String.pipe(T.Body("resource_type")),
         }),
       ).annotate({ identifier: "CreateRequestResourcesItem" });
-    case 3:
-      return S.Array(__S(106, __c13, 2));
-    case 4:
+    case 5:
+      return S.Array(__S(108, __c13, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
-          recipients: __S(105, __c13, 1),
-          resources: __S(107, __c13, 3),
+          excludedRecipients: S.optional(__S(105, __c13, 1).pipe(T.Body("excluded_recipients"))),
+          recipients: S.optional(__S(107, __c13, 3)),
+          resources: S.optional(__S(109, __c13, 5)),
+          tags: S.optional(__S(120, __c15, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/shares", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1531,6 +1576,12 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -1556,11 +1607,12 @@ function __c15(j: number): any {
           ),
           kind: S.optional(S.NullOr(S.String)),
           resources: S.optional(S.NullOr(__S(113, __c14, 1))),
+          tags: S.optional(S.NullOr(__S(120, __c15, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateResourceSharingResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1580,7 +1632,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteRecipientRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1600,7 +1652,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteResourceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -44,7 +44,7 @@ export interface IsPreviewWarningEnabledRequest {
   /** ID of the sandbox, or a signed preview URL token (requires the port query param) */
   sandboxId: string;
   /** Port the signed preview URL token was issued for. Required when sandboxId is a signed token. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface PreviewWarning {
   /** Whether the preview warning page is enabled for the sandbox */

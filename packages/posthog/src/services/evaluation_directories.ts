@@ -44,15 +44,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface EvaluationDirectory {
   id: string;
@@ -90,7 +90,7 @@ export interface UpdateEvaluationDirectoriesPartialRequest {
   /** A UUID string identifying this evaluation directory. */
   id: string;
   /** Directory name shown in the online evals list. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateEvaluationDirectoryError = PosthogOpError;
 export const createEvaluationDirectory: API.OperationMethod<

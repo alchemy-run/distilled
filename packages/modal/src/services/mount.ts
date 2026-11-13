@@ -23,12 +23,24 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The mount doesn't exist (gRPC NOT_FOUND), e.g. a global client or Python mount name that Modal doesn't publish. */
+export class MountNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MountNotFound>()("MountNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export type StringList = Array<string>;
 export interface MountBatchedCheckExistenceRequest {
-  sha256HexHashes?: StringList;
+  sha256HexHashes?: StringList | undefined;
 }
 export interface MountBatchedCheckExistenceResponse {
-  missingSha256HexHashes?: StringList;
+  missingSha256HexHashes: StringList;
+  /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
+  checkedAt?: string | undefined;
 }
 export type DeploymentNamespace =
   | "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
@@ -42,36 +54,42 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface MountFile {
-  filename?: string;
-  sha256Hex?: string;
+  filename?: string | undefined;
   /** SHA-256 checksum of the file. */
-  size?: string;
+  sha256Hex?: string | undefined;
   /** Size of the file in bytes -- ignored in MountBuild(). */
-  mode?: number;
+  size?: string | undefined;
+  /** Unix file permission bits `st_mode`. */
+  mode?: number | undefined;
 }
 export type MountFileList = Array<MountFile>;
 export interface MountGetOrCreateRequest {
-  deploymentName?: string;
-  namespace?: DeploymentNamespace | (string & {});
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  files?: MountFileList;
-  appId?: string;
+  deploymentName?: string | undefined;
+  namespace?: DeploymentNamespace | (string & {}) | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  files?: MountFileList | undefined;
+  /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
+  appId?: string | undefined;
+  /** Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
+  earliestCheckedAt?: string | undefined;
 }
 export interface MountHandleMetadata {
-  contentChecksumSha256Hex?: string;
+  contentChecksumSha256Hex: string;
 }
 export interface MountGetOrCreateResponse {
-  mountId?: string;
-  handleMetadata?: MountHandleMetadata;
+  mountId: string;
+  handleMetadata?: MountHandleMetadata | undefined;
 }
 export interface MountPutFileRequest {
-  sha256Hex?: string;
-  data?: string;
-  dataBlobId?: string;
+  sha256Hex?: string | undefined;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
 }
 export interface MountPutFileResponse {
-  exists?: boolean;
+  exists: boolean;
+  /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
+  checkedAt?: string | undefined;
 }
 export type MountBatchedCheckExistenceError = ModalOpError;
 /** Mounts */
@@ -90,7 +108,7 @@ export const mountBatchedCheckExistence: API.OperationMethod<
   span: "MountBatchedCheckExistence",
 }));
 
-export type MountGetOrCreateError = ModalOpError;
+export type MountGetOrCreateError = MountNotFound | ModalOpError;
 export const mountGetOrCreate: API.OperationMethod<
   MountGetOrCreateRequest,
   MountGetOrCreateResponse,
@@ -99,7 +117,7 @@ export const mountGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c1, 2) as any as S.Schema<MountGetOrCreateRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<MountGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  errors: [MountNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -142,7 +160,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          missingSha256HexHashes: S.optional(__S(0, __c0, 0)),
+          missingSha256HexHashes: __S(0, __c0, 0),
+          checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountBatchedCheckExistenceResponse" });
   }
@@ -169,6 +188,7 @@ function __c1(j: number): any {
           objectCreationType: S.optional(S.String),
           files: S.optional(__S(9, __c1, 1)),
           appId: S.optional(S.String),
+          earliestCheckedAt: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/MountGetOrCreate", code: 200 }),
         ),
@@ -176,13 +196,13 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contentChecksumSha256Hex: S.optional(S.String),
+          contentChecksumSha256Hex: S.String,
         }),
       ).annotate({ identifier: "MountHandleMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          mountId: S.optional(S.String),
+          mountId: S.String,
           handleMetadata: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "MountGetOrCreateResponse" });
@@ -203,7 +223,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exists: S.optional(S.Boolean),
+          exists: S.Boolean,
+          checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountPutFileResponse" });
   }

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -946,7 +947,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagsList = Tag[];
 export interface AddTagsRequest {
@@ -958,9 +959,9 @@ export type EventDataStoreArn = string;
 export type UUID = string;
 export type AccountId = string;
 export interface CancelQueryRequest {
-  EventDataStore?: string;
+  EventDataStore?: string | undefined;
   QueryId: string;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type QueryStatus =
   | "QUEUED"
@@ -973,7 +974,7 @@ export type QueryStatus =
 export interface CancelQueryResponse {
   QueryId: string;
   QueryStatus: QueryStatus;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type ChannelName = string;
 export type Source = string;
@@ -988,29 +989,29 @@ export interface CreateChannelRequest {
   Name: string;
   Source: string;
   Destinations: Destination[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ChannelArn = string;
 export interface CreateChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  Destinations?: Destination[];
-  Tags?: Tag[];
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  Destinations?: Destination[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DashboardName = string;
 export type RefreshScheduleFrequencyUnit = "HOURS" | "DAYS" | (string & {});
 export type RefreshScheduleFrequencyValue = number;
 export interface RefreshScheduleFrequency {
-  Unit?: RefreshScheduleFrequencyUnit;
-  Value?: number;
+  Unit?: RefreshScheduleFrequencyUnit | undefined;
+  Value?: number | undefined;
 }
 export type RefreshScheduleStatus = "ENABLED" | "DISABLED" | (string & {});
 export type TimeOfDay = string;
 export interface RefreshSchedule {
-  Frequency?: RefreshScheduleFrequency;
-  Status?: RefreshScheduleStatus;
-  TimeOfDay?: string;
+  Frequency?: RefreshScheduleFrequency | undefined;
+  Status?: RefreshScheduleStatus | undefined;
+  TimeOfDay?: string | undefined;
 }
 export type TerminationProtectionEnabled = boolean;
 export type QueryStatement = string;
@@ -1021,35 +1022,35 @@ export type ViewPropertiesValue = string;
 export type ViewPropertiesMap = { [key: string]: string | undefined };
 export interface RequestWidget {
   QueryStatement: string;
-  QueryParameters?: string[];
+  QueryParameters?: string[] | undefined;
   ViewProperties: { [key: string]: string | undefined };
 }
 export type RequestWidgetList = RequestWidget[];
 export interface CreateDashboardRequest {
   Name: string;
-  RefreshSchedule?: RefreshSchedule;
-  TagsList?: Tag[];
-  TerminationProtectionEnabled?: boolean;
-  Widgets?: RequestWidget[];
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TagsList?: Tag[] | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  Widgets?: RequestWidget[] | undefined;
 }
 export type DashboardArn = string;
 export type DashboardType = "MANAGED" | "CUSTOM" | (string & {});
 export type QueryAlias = string;
 export interface Widget {
-  QueryAlias?: string;
-  QueryStatement?: string;
-  QueryParameters?: string[];
-  ViewProperties?: { [key: string]: string | undefined };
+  QueryAlias?: string | undefined;
+  QueryStatement?: string | undefined;
+  QueryParameters?: string[] | undefined;
+  ViewProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type WidgetList = Widget[];
 export interface CreateDashboardResponse {
-  DashboardArn?: string;
-  Name?: string;
-  Type?: DashboardType;
-  Widgets?: Widget[];
-  TagsList?: Tag[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
+  DashboardArn?: string | undefined;
+  Name?: string | undefined;
+  Type?: DashboardType | undefined;
+  Widgets?: Widget[] | undefined;
+  TagsList?: Tag[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export type EventDataStoreName = string;
 export type SelectorName = string;
@@ -1058,16 +1059,16 @@ export type OperatorValue = string;
 export type Operator = string[];
 export interface AdvancedFieldSelector {
   Field: string;
-  Equals?: string[];
-  StartsWith?: string[];
-  EndsWith?: string[];
-  NotEquals?: string[];
-  NotStartsWith?: string[];
-  NotEndsWith?: string[];
+  Equals?: string[] | undefined;
+  StartsWith?: string[] | undefined;
+  EndsWith?: string[] | undefined;
+  NotEquals?: string[] | undefined;
+  NotStartsWith?: string[] | undefined;
+  NotEndsWith?: string[] | undefined;
 }
 export type AdvancedFieldSelectors = AdvancedFieldSelector[];
 export interface AdvancedEventSelector {
-  Name?: string;
+  Name?: string | undefined;
   FieldSelectors: AdvancedFieldSelector[];
 }
 export type AdvancedEventSelectors = AdvancedEventSelector[];
@@ -1079,15 +1080,15 @@ export type BillingMode =
   | (string & {});
 export interface CreateEventDataStoreRequest {
   Name: string;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  TagsList?: Tag[];
-  KmsKeyId?: string;
-  StartIngestion?: boolean;
-  BillingMode?: BillingMode;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  StartIngestion?: boolean | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export type EventDataStoreStatus =
   | "CREATED"
@@ -1098,50 +1099,50 @@ export type EventDataStoreStatus =
   | "STOPPED_INGESTION"
   | (string & {});
 export interface CreateEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  TagsList?: Tag[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export interface CreateTrailRequest {
   Name: string;
   S3BucketName: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  EnableLogFileValidation?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  TagsList?: Tag[];
-  RecursiveLogging?: boolean;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  EnableLogFileValidation?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface CreateTrailResponse {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface DeleteChannelRequest {
   Channel: string;
@@ -1170,18 +1171,18 @@ export interface DeregisterOrganizationDelegatedAdminRequest {
 export interface DeregisterOrganizationDelegatedAdminResponse {}
 export type RefreshId = string;
 export interface DescribeQueryRequest {
-  EventDataStore?: string;
-  QueryId?: string;
-  QueryAlias?: string;
-  RefreshId?: string;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStore?: string | undefined;
+  QueryId?: string | undefined;
+  QueryAlias?: string | undefined;
+  RefreshId?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface QueryStatisticsForDescribeQuery {
-  EventsMatched?: number;
-  EventsScanned?: number;
-  BytesScanned?: number;
-  ExecutionTimeInMillis?: number;
-  CreationTime?: Date;
+  EventsMatched?: number | undefined;
+  EventsScanned?: number | undefined;
+  BytesScanned?: number | undefined;
+  ExecutionTimeInMillis?: number | undefined;
+  CreationTime?: Date | undefined;
 }
 export type ErrorMessage = string;
 export type DeliveryS3Uri = string;
@@ -1198,51 +1199,51 @@ export type DeliveryStatus =
   | (string & {});
 export type Prompt = string;
 export interface DescribeQueryResponse {
-  QueryId?: string;
-  QueryString?: string;
-  QueryStatus?: QueryStatus;
-  QueryStatistics?: QueryStatisticsForDescribeQuery;
-  ErrorMessage?: string;
-  DeliveryS3Uri?: string;
-  DeliveryStatus?: DeliveryStatus;
-  Prompt?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryId?: string | undefined;
+  QueryString?: string | undefined;
+  QueryStatus?: QueryStatus | undefined;
+  QueryStatistics?: QueryStatisticsForDescribeQuery | undefined;
+  ErrorMessage?: string | undefined;
+  DeliveryS3Uri?: string | undefined;
+  DeliveryStatus?: DeliveryStatus | undefined;
+  Prompt?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type TrailNameList = string[];
 export interface DescribeTrailsRequest {
-  trailNameList?: string[];
-  includeShadowTrails?: boolean;
+  trailNameList?: string[] | undefined;
+  includeShadowTrails?: boolean | undefined;
 }
 export interface Trail {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  HomeRegion?: string;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  HasCustomEventSelectors?: boolean;
-  HasInsightSelectors?: boolean;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  HomeRegion?: string | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  HasCustomEventSelectors?: boolean | undefined;
+  HasInsightSelectors?: boolean | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export type TrailList = Trail[];
 export interface DescribeTrailsResponse {
-  trailList?: Trail[];
+  trailList?: Trail[] | undefined;
 }
 export interface DisableFederationRequest {
   EventDataStore: string;
 }
 export type FederationStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export interface DisableFederationResponse {
-  EventDataStoreArn?: string;
-  FederationStatus?: FederationStatus;
+  EventDataStoreArn?: string | undefined;
+  FederationStatus?: FederationStatus | undefined;
 }
 export type FederationRoleArn = string;
 export interface EnableFederationRequest {
@@ -1250,9 +1251,9 @@ export interface EnableFederationRequest {
   FederationRoleArn: string;
 }
 export interface EnableFederationResponse {
-  EventDataStoreArn?: string;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
+  EventDataStoreArn?: string | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
 }
 export type EventDataStoreList = string[];
 export interface GenerateQueryRequest {
@@ -1260,31 +1261,31 @@ export interface GenerateQueryRequest {
   Prompt: string;
 }
 export interface GenerateQueryResponse {
-  QueryStatement?: string;
-  QueryAlias?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryStatement?: string | undefined;
+  QueryAlias?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface GetChannelRequest {
   Channel: string;
 }
 export interface SourceConfig {
-  ApplyToAllRegions?: boolean;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  ApplyToAllRegions?: boolean | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface IngestionStatus {
-  LatestIngestionSuccessTime?: Date;
-  LatestIngestionSuccessEventID?: string;
-  LatestIngestionErrorCode?: string;
-  LatestIngestionAttemptTime?: Date;
-  LatestIngestionAttemptEventID?: string;
+  LatestIngestionSuccessTime?: Date | undefined;
+  LatestIngestionSuccessEventID?: string | undefined;
+  LatestIngestionErrorCode?: string | undefined;
+  LatestIngestionAttemptTime?: Date | undefined;
+  LatestIngestionAttemptEventID?: string | undefined;
 }
 export interface GetChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  SourceConfig?: SourceConfig;
-  Destinations?: Destination[];
-  IngestionStatus?: IngestionStatus;
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  SourceConfig?: SourceConfig | undefined;
+  Destinations?: Destination[] | undefined;
+  IngestionStatus?: IngestionStatus | undefined;
 }
 export interface GetDashboardRequest {
   DashboardId: string;
@@ -1297,20 +1298,20 @@ export type DashboardStatus =
   | "DELETING"
   | (string & {});
 export interface GetDashboardResponse {
-  DashboardArn?: string;
-  Type?: DashboardType;
-  Status?: DashboardStatus;
-  Widgets?: Widget[];
-  RefreshSchedule?: RefreshSchedule;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  LastRefreshId?: string;
-  LastRefreshFailureReason?: string;
-  TerminationProtectionEnabled?: boolean;
+  DashboardArn?: string | undefined;
+  Type?: DashboardType | undefined;
+  Status?: DashboardStatus | undefined;
+  Widgets?: Widget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  LastRefreshId?: string | undefined;
+  LastRefreshFailureReason?: string | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface GetEventConfigurationRequest {
-  TrailName?: string;
-  EventDataStore?: string;
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
 }
 export type MaxEventSize = "Standard" | "Large" | (string & {});
 export type Type = "TagContext" | "RequestContext" | (string & {});
@@ -1330,11 +1331,11 @@ export interface AggregationConfiguration {
 }
 export type AggregationConfigurations = AggregationConfiguration[];
 export interface GetEventConfigurationResponse {
-  TrailARN?: string;
-  EventDataStoreArn?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailARN?: string | undefined;
+  EventDataStoreArn?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface GetEventDataStoreRequest {
   EventDataStore: string;
@@ -1347,21 +1348,21 @@ export interface PartitionKey {
 }
 export type PartitionKeyList = PartitionKey[];
 export interface GetEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
-  PartitionKeys?: PartitionKey[];
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
+  PartitionKeys?: PartitionKey[] | undefined;
 }
 export interface GetEventSelectorsRequest {
   TrailName: string;
@@ -1369,22 +1370,22 @@ export interface GetEventSelectorsRequest {
 export type ReadWriteType = "ReadOnly" | "WriteOnly" | "All" | (string & {});
 export type DataResourceValues = string[];
 export interface DataResource {
-  Type?: string;
-  Values?: string[];
+  Type?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type DataResources = DataResource[];
 export type ExcludeManagementEventSources = string[];
 export interface EventSelector {
-  ReadWriteType?: ReadWriteType;
-  IncludeManagementEvents?: boolean;
-  DataResources?: DataResource[];
-  ExcludeManagementEventSources?: string[];
+  ReadWriteType?: ReadWriteType | undefined;
+  IncludeManagementEvents?: boolean | undefined;
+  DataResources?: DataResource[] | undefined;
+  ExcludeManagementEventSources?: string[] | undefined;
 }
 export type EventSelectors = EventSelector[];
 export interface GetEventSelectorsResponse {
-  TrailARN?: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  TrailARN?: string | undefined;
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface GetImportRequest {
   ImportId: string;
@@ -1406,54 +1407,54 @@ export type ImportStatus =
   | "COMPLETED"
   | (string & {});
 export interface ImportStatistics {
-  PrefixesFound?: number;
-  PrefixesCompleted?: number;
-  FilesCompleted?: number;
-  EventsCompleted?: number;
-  FailedEntries?: number;
+  PrefixesFound?: number | undefined;
+  PrefixesCompleted?: number | undefined;
+  FilesCompleted?: number | undefined;
+  EventsCompleted?: number | undefined;
+  FailedEntries?: number | undefined;
 }
 export interface GetImportResponse {
-  ImportId?: string;
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  ImportStatistics?: ImportStatistics;
+  ImportId?: string | undefined;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  ImportStatistics?: ImportStatistics | undefined;
 }
 export interface GetInsightSelectorsRequest {
-  TrailName?: string;
-  EventDataStore?: string;
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
 }
 export type InsightType = "ApiCallRateInsight" | "ApiErrorRateInsight" | (string & {});
 export type SourceEventCategory = "Management" | "Data" | (string & {});
 export type SourceEventCategories = SourceEventCategory[];
 export interface InsightSelector {
-  InsightType?: InsightType;
-  EventCategories?: SourceEventCategory[];
+  InsightType?: InsightType | undefined;
+  EventCategories?: SourceEventCategory[] | undefined;
 }
 export type InsightSelectors = InsightSelector[];
 export interface GetInsightSelectorsResponse {
-  TrailARN?: string;
-  InsightSelectors?: InsightSelector[];
-  EventDataStoreArn?: string;
-  InsightsDestination?: string;
+  TrailARN?: string | undefined;
+  InsightSelectors?: InsightSelector[] | undefined;
+  EventDataStoreArn?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export type PaginationToken = string;
 export type MaxQueryResults = number;
 export interface GetQueryResultsRequest {
-  EventDataStore?: string;
+  EventDataStore?: string | undefined;
   QueryId: string;
-  NextToken?: string;
-  MaxQueryResults?: number;
-  EventDataStoreOwnerAccountId?: string;
+  NextToken?: string | undefined;
+  MaxQueryResults?: number | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface QueryStatistics {
-  ResultsCount?: number;
-  TotalResultsCount?: number;
-  BytesScanned?: number;
+  ResultsCount?: number | undefined;
+  TotalResultsCount?: number | undefined;
+  BytesScanned?: number | undefined;
 }
 export type QueryResultKey = string;
 export type QueryResultValue = string;
@@ -1461,173 +1462,175 @@ export type QueryResultColumn = { [key: string]: string | undefined };
 export type QueryResultRow = { [key: string]: string | undefined }[];
 export type QueryResultRows = { [key: string]: string | undefined }[][];
 export interface GetQueryResultsResponse {
-  QueryStatus?: QueryStatus;
-  QueryStatistics?: QueryStatistics;
-  QueryResultRows?: { [key: string]: string | undefined }[][];
-  NextToken?: string;
-  ErrorMessage?: string;
+  QueryStatus?: QueryStatus | undefined;
+  QueryStatistics?: QueryStatistics | undefined;
+  QueryResultRows?: { [key: string]: string | undefined }[][] | undefined;
+  NextToken?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
-  ResourceArn?: string;
-  ResourcePolicy?: string;
-  DelegatedAdminResourcePolicy?: string;
+  ResourceArn?: string | undefined;
+  ResourcePolicy?: string | undefined;
+  DelegatedAdminResourcePolicy?: string | undefined;
 }
 export interface GetTrailRequest {
   Name: string;
 }
 export interface GetTrailResponse {
-  Trail?: Trail;
+  Trail?: Trail | undefined;
 }
 export interface GetTrailStatusRequest {
   Name: string;
 }
 export interface GetTrailStatusResponse {
-  IsLogging?: boolean;
-  LatestDeliveryError?: string;
-  LatestNotificationError?: string;
-  LatestDeliveryTime?: Date;
-  LatestNotificationTime?: Date;
-  StartLoggingTime?: Date;
-  StopLoggingTime?: Date;
-  LatestCloudWatchLogsDeliveryError?: string;
-  LatestCloudWatchLogsDeliveryTime?: Date;
-  LatestDigestDeliveryTime?: Date;
-  LatestDigestDeliveryError?: string;
-  LatestDeliveryAttemptTime?: string;
-  LatestNotificationAttemptTime?: string;
-  LatestNotificationAttemptSucceeded?: string;
-  LatestDeliveryAttemptSucceeded?: string;
-  TimeLoggingStarted?: string;
-  TimeLoggingStopped?: string;
+  IsLogging?: boolean | undefined;
+  LatestDeliveryError?: string | undefined;
+  LatestNotificationError?: string | undefined;
+  LatestDeliveryTime?: Date | undefined;
+  LatestNotificationTime?: Date | undefined;
+  StartLoggingTime?: Date | undefined;
+  StopLoggingTime?: Date | undefined;
+  LatestCloudWatchLogsDeliveryError?: string | undefined;
+  LatestCloudWatchLogsDeliveryTime?: Date | undefined;
+  LatestDigestDeliveryTime?: Date | undefined;
+  LatestDigestDeliveryError?: string | undefined;
+  LatestDeliveryAttemptTime?: string | undefined;
+  LatestNotificationAttemptTime?: string | undefined;
+  LatestNotificationAttemptSucceeded?: string | undefined;
+  LatestDeliveryAttemptSucceeded?: string | undefined;
+  TimeLoggingStarted?: string | undefined;
+  TimeLoggingStopped?: string | undefined;
 }
 export type ListChannelsMaxResultsCount = number;
 export interface ListChannelsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Channel {
-  ChannelArn?: string;
-  Name?: string;
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
 }
 export type Channels = Channel[];
 export interface ListChannelsResponse {
-  Channels?: Channel[];
-  NextToken?: string;
+  Channels?: Channel[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListDashboardsMaxResultsCount = number;
 export interface ListDashboardsRequest {
-  NamePrefix?: string;
-  Type?: DashboardType;
-  NextToken?: string;
-  MaxResults?: number;
+  NamePrefix?: string | undefined;
+  Type?: DashboardType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DashboardDetail {
-  DashboardArn?: string;
-  Type?: DashboardType;
+  DashboardArn?: string | undefined;
+  Type?: DashboardType | undefined;
 }
 export type Dashboards = DashboardDetail[];
 export interface ListDashboardsResponse {
-  Dashboards?: DashboardDetail[];
-  NextToken?: string;
+  Dashboards?: DashboardDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListEventDataStoresMaxResultsCount = number;
 export interface ListEventDataStoresRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EventDataStore {
-  EventDataStoreArn?: string;
-  Name?: string;
-  TerminationProtectionEnabled?: boolean;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export type EventDataStores = EventDataStore[];
 export interface ListEventDataStoresResponse {
-  EventDataStores?: EventDataStore[];
-  NextToken?: string;
+  EventDataStores?: EventDataStore[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListImportFailuresMaxResultsCount = number;
 export interface ListImportFailuresRequest {
   ImportId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ImportFailureStatus = "FAILED" | "RETRY" | "SUCCEEDED" | (string & {});
 export interface ImportFailureListItem {
-  Location?: string;
-  Status?: ImportFailureStatus;
-  ErrorType?: string;
-  ErrorMessage?: string;
-  LastUpdatedTime?: Date;
+  Location?: string | undefined;
+  Status?: ImportFailureStatus | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ImportFailureList = ImportFailureListItem[];
 export interface ListImportFailuresResponse {
-  Failures?: ImportFailureListItem[];
-  NextToken?: string;
+  Failures?: ImportFailureListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListImportsMaxResultsCount = number;
 export interface ListImportsRequest {
-  MaxResults?: number;
-  Destination?: string;
-  ImportStatus?: ImportStatus;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Destination?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportsListItem {
-  ImportId?: string;
-  ImportStatus?: ImportStatus;
-  Destinations?: string[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  ImportId?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  Destinations?: string[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export type ImportsList = ImportsListItem[];
 export interface ListImportsResponse {
-  Imports?: ImportsListItem[];
-  NextToken?: string;
+  Imports?: ImportsListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListInsightsDataType = "InsightsEvents" | (string & {});
 export type ListInsightsDataDimensionKey = "EventId" | "EventName" | "EventSource" | (string & {});
 export type ListInsightsDataDimensionValue = string;
-export type ListInsightsDataDimensions = { [key in ListInsightsDataDimensionKey]?: string };
+export type ListInsightsDataDimensions = {
+  [key in ListInsightsDataDimensionKey]?: string | undefined;
+};
 export type ListInsightsDataMaxResultsCount = number;
 export interface ListInsightsDataRequest {
   InsightSource: string;
   DataType: ListInsightsDataType;
-  Dimensions?: { [key: string]: string | undefined };
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Resource {
-  ResourceType?: string;
-  ResourceName?: string;
+  ResourceType?: string | undefined;
+  ResourceName?: string | undefined;
 }
 export type ResourceList = Resource[];
 export interface Event {
-  EventId?: string;
-  EventName?: string;
-  ReadOnly?: string;
-  AccessKeyId?: string;
-  EventTime?: Date;
-  EventSource?: string;
-  Username?: string;
-  Resources?: Resource[];
-  CloudTrailEvent?: string;
+  EventId?: string | undefined;
+  EventName?: string | undefined;
+  ReadOnly?: string | undefined;
+  AccessKeyId?: string | undefined;
+  EventTime?: Date | undefined;
+  EventSource?: string | undefined;
+  Username?: string | undefined;
+  Resources?: Resource[] | undefined;
+  CloudTrailEvent?: string | undefined;
 }
 export type EventsList = Event[];
 export interface ListInsightsDataResponse {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EventSource = string;
 export type EventName = string;
@@ -1637,92 +1640,92 @@ export type InsightsMetricDataType = "FillWithZeros" | "NonZeroData" | (string &
 export type InsightsMetricMaxResults = number;
 export type InsightsMetricNextToken = string;
 export interface ListInsightsMetricDataRequest {
-  TrailName?: string;
+  TrailName?: string | undefined;
   EventSource: string;
   EventName: string;
   InsightType: InsightType;
-  ErrorCode?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  DataType?: InsightsMetricDataType;
-  MaxResults?: number;
-  NextToken?: string;
+  ErrorCode?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  DataType?: InsightsMetricDataType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Timestamps = Date[];
 export type InsightsMetricValues = number[];
 export interface ListInsightsMetricDataResponse {
-  TrailARN?: string;
-  EventSource?: string;
-  EventName?: string;
-  InsightType?: InsightType;
-  ErrorCode?: string;
-  Timestamps?: Date[];
-  Values?: number[];
-  NextToken?: string;
+  TrailARN?: string | undefined;
+  EventSource?: string | undefined;
+  EventName?: string | undefined;
+  InsightType?: InsightType | undefined;
+  ErrorCode?: string | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPublicKeysRequest {
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
 }
 export type ByteBuffer = Uint8Array;
 export interface PublicKey {
-  Value?: Uint8Array;
-  ValidityStartTime?: Date;
-  ValidityEndTime?: Date;
-  Fingerprint?: string;
+  Value?: Uint8Array | undefined;
+  ValidityStartTime?: Date | undefined;
+  ValidityEndTime?: Date | undefined;
+  Fingerprint?: string | undefined;
 }
 export type PublicKeyList = PublicKey[];
 export interface ListPublicKeysResponse {
-  PublicKeyList?: PublicKey[];
-  NextToken?: string;
+  PublicKeyList?: PublicKey[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListQueriesMaxResultsCount = number;
 export interface ListQueriesRequest {
   EventDataStore: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StartTime?: Date;
-  EndTime?: Date;
-  QueryStatus?: QueryStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  QueryStatus?: QueryStatus | undefined;
 }
 export interface Query {
-  QueryId?: string;
-  QueryStatus?: QueryStatus;
-  CreationTime?: Date;
+  QueryId?: string | undefined;
+  QueryStatus?: QueryStatus | undefined;
+  CreationTime?: Date | undefined;
 }
 export type Queries = Query[];
 export interface ListQueriesResponse {
-  Queries?: Query[];
-  NextToken?: string;
+  Queries?: Query[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdList = string[];
 export interface ListTagsRequest {
   ResourceIdList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ResourceTag {
-  ResourceId?: string;
-  TagsList?: Tag[];
+  ResourceId?: string | undefined;
+  TagsList?: Tag[] | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export interface ListTagsResponse {
-  ResourceTagList?: ResourceTag[];
-  NextToken?: string;
+  ResourceTagList?: ResourceTag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrailsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface TrailInfo {
-  TrailARN?: string;
-  Name?: string;
-  HomeRegion?: string;
+  TrailARN?: string | undefined;
+  Name?: string | undefined;
+  HomeRegion?: string | undefined;
 }
 export type Trails = TrailInfo[];
 export interface ListTrailsResponse {
-  Trails?: TrailInfo[];
-  NextToken?: string;
+  Trails?: TrailInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LookupAttributeKey =
   | "EventId"
@@ -1744,61 +1747,61 @@ export type EventCategory = "insight" | (string & {});
 export type MaxResults = number;
 export type NextToken = string;
 export interface LookupEventsRequest {
-  LookupAttributes?: LookupAttribute[];
-  StartTime?: Date;
-  EndTime?: Date;
-  EventCategory?: EventCategory;
-  MaxResults?: number;
-  NextToken?: string;
+  LookupAttributes?: LookupAttribute[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EventCategory?: EventCategory | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LookupEventsResponse {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutEventConfigurationRequest {
-  TrailName?: string;
-  EventDataStore?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface PutEventConfigurationResponse {
-  TrailARN?: string;
-  EventDataStoreArn?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailARN?: string | undefined;
+  EventDataStoreArn?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface PutEventSelectorsRequest {
   TrailName: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface PutEventSelectorsResponse {
-  TrailARN?: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  TrailARN?: string | undefined;
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface PutInsightSelectorsRequest {
-  TrailName?: string;
+  TrailName?: string | undefined;
   InsightSelectors: InsightSelector[];
-  EventDataStore?: string;
-  InsightsDestination?: string;
+  EventDataStore?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export interface PutInsightSelectorsResponse {
-  TrailARN?: string;
-  InsightSelectors?: InsightSelector[];
-  EventDataStoreArn?: string;
-  InsightsDestination?: string;
+  TrailARN?: string | undefined;
+  InsightSelectors?: InsightSelector[] | undefined;
+  EventDataStoreArn?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  ResourcePolicy?: string;
-  DelegatedAdminResourcePolicy?: string;
+  ResourceArn?: string | undefined;
+  ResourcePolicy?: string | undefined;
+  DelegatedAdminResourcePolicy?: string | undefined;
 }
 export interface RegisterOrganizationDelegatedAdminRequest {
   MemberAccountId: string;
@@ -1813,86 +1816,86 @@ export interface RestoreEventDataStoreRequest {
   EventDataStore: string;
 }
 export interface RestoreEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export type SearchSampleQueriesSearchPhrase = string;
 export type SearchSampleQueriesMaxResults = number;
 export interface SearchSampleQueriesRequest {
   SearchPhrase: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SampleQueryName = string;
 export type SampleQueryDescription = string;
 export type SampleQuerySQL = string;
 export type SampleQueryRelevance = number;
 export interface SearchSampleQueriesSearchResult {
-  Name?: string;
-  Description?: string;
-  SQL?: string;
-  Relevance?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  SQL?: string | undefined;
+  Relevance?: number | undefined;
 }
 export type SearchSampleQueriesSearchResults = SearchSampleQueriesSearchResult[];
 export interface SearchSampleQueriesResponse {
-  SearchResults?: SearchSampleQueriesSearchResult[];
-  NextToken?: string;
+  SearchResults?: SearchSampleQueriesSearchResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryParameterKey = string;
 export type QueryParameterValue = string;
 export type QueryParameterValues = { [key: string]: string | undefined };
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
-  QueryParameterValues?: { [key: string]: string | undefined };
+  QueryParameterValues?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartDashboardRefreshResponse {
-  RefreshId?: string;
+  RefreshId?: string | undefined;
 }
 export interface StartEventDataStoreIngestionRequest {
   EventDataStore: string;
 }
 export interface StartEventDataStoreIngestionResponse {}
 export interface StartImportRequest {
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportId?: string;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportId?: string | undefined;
 }
 export interface StartImportResponse {
-  ImportId?: string;
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  ImportId?: string | undefined;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface StartLoggingRequest {
   Name: string;
 }
 export interface StartLoggingResponse {}
 export interface StartQueryRequest {
-  QueryStatement?: string;
-  DeliveryS3Uri?: string;
-  QueryAlias?: string;
-  QueryParameters?: string[];
-  EventDataStoreOwnerAccountId?: string;
+  QueryStatement?: string | undefined;
+  DeliveryS3Uri?: string | undefined;
+  QueryAlias?: string | undefined;
+  QueryParameters?: string[] | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface StartQueryResponse {
-  QueryId?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryId?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface StopEventDataStoreIngestionRequest {
   EventDataStore: string;
@@ -1902,15 +1905,15 @@ export interface StopImportRequest {
   ImportId: string;
 }
 export interface StopImportResponse {
-  ImportId?: string;
-  ImportSource?: ImportSource;
-  Destinations?: string[];
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatistics?: ImportStatistics;
+  ImportId?: string | undefined;
+  ImportSource?: ImportSource | undefined;
+  Destinations?: string[] | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatistics?: ImportStatistics | undefined;
 }
 export interface StopLoggingRequest {
   Name: string;
@@ -1918,87 +1921,87 @@ export interface StopLoggingRequest {
 export interface StopLoggingResponse {}
 export interface UpdateChannelRequest {
   Channel: string;
-  Destinations?: Destination[];
-  Name?: string;
+  Destinations?: Destination[] | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  Destinations?: Destination[];
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  Destinations?: Destination[] | undefined;
 }
 export interface UpdateDashboardRequest {
   DashboardId: string;
-  Widgets?: RequestWidget[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
+  Widgets?: RequestWidget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateDashboardResponse {
-  DashboardArn?: string;
-  Name?: string;
-  Type?: DashboardType;
-  Widgets?: Widget[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  DashboardArn?: string | undefined;
+  Name?: string | undefined;
+  Type?: DashboardType | undefined;
+  Widgets?: Widget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface UpdateEventDataStoreRequest {
   EventDataStore: string;
-  Name?: string;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  Name?: string | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export interface UpdateEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
 }
 export interface UpdateTrailRequest {
   Name: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  EnableLogFileValidation?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  EnableLogFileValidation?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface UpdateTrailResponse {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export type AddTagsError =
   | ChannelARNInvalidException
@@ -2028,7 +2031,7 @@ export type AddTagsError =
  * was created (also known as its home Region).
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -2083,7 +2086,7 @@ export type CancelQueryError =
  * the operation is not yet finished.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryRequest,
+  CancelQueryRequest & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -2131,7 +2134,7 @@ export type CreateChannelError =
  * from the partner or source that you specify.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2194,7 @@ export type CreateDashboardError =
  * For more information about dashboards, see CloudTrail Lake dashboards in the *CloudTrail User Guide*.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2243,7 +2246,7 @@ export type CreateEventDataStoreError =
  * Creates a new event data store.
  */
 export const createEventDataStore: API.OperationMethod<
-  CreateEventDataStoreRequest,
+  CreateEventDataStoreRequest & RegionInput,
   CreateEventDataStoreResponse,
   CreateEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -2318,7 +2321,7 @@ export type CreateTrailError =
  * Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
  */
 export const createTrail: API.OperationMethod<
-  CreateTrailRequest,
+  CreateTrailRequest & RegionInput,
   CreateTrailResponse,
   CreateTrailError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2382,7 @@ export type DeleteChannelError =
  * Deletes a channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -2410,7 +2413,7 @@ export type DeleteDashboardError =
  * Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2458,7 +2461,7 @@ export type DeleteEventDataStoreError =
  * event data store in the `PENDING_DELETION` state does not incur costs.
  */
 export const deleteEventDataStore: API.OperationMethod<
-  DeleteEventDataStoreRequest,
+  DeleteEventDataStoreRequest & RegionInput,
   DeleteEventDataStoreResponse,
   DeleteEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -2501,7 +2504,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2556,7 @@ export type DeleteTrailError =
  * For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
  */
 export const deleteTrail: API.OperationMethod<
-  DeleteTrailRequest,
+  DeleteTrailRequest & RegionInput,
   DeleteTrailResponse,
   DeleteTrailError,
   Credentials | HttpClient.HttpClient
@@ -2598,7 +2601,7 @@ export type DeregisterOrganizationDelegatedAdminError =
  * an organization.
  */
 export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
-  DeregisterOrganizationDelegatedAdminRequest,
+  DeregisterOrganizationDelegatedAdminRequest & RegionInput,
   DeregisterOrganizationDelegatedAdminResponse,
   DeregisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
@@ -2648,7 +2651,7 @@ export type DescribeQueryError =
  * of a dashboard query for the specified `RefreshId`.
  */
 export const describeQuery: API.OperationMethod<
-  DescribeQueryRequest,
+  DescribeQueryRequest & RegionInput,
   DescribeQueryResponse,
   DescribeQueryError,
   Credentials | HttpClient.HttpClient
@@ -2684,7 +2687,7 @@ export type DescribeTrailsError =
  * account.
  */
 export const describeTrails: API.OperationMethod<
-  DescribeTrailsRequest,
+  DescribeTrailsRequest & RegionInput,
   DescribeTrailsResponse,
   DescribeTrailsError,
   Credentials | HttpClient.HttpClient
@@ -2731,7 +2734,7 @@ export type DisableFederationError =
  * No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
  */
 export const disableFederation: API.OperationMethod<
-  DisableFederationRequest,
+  DisableFederationRequest & RegionInput,
   DisableFederationResponse,
   DisableFederationError,
   Credentials | HttpClient.HttpClient
@@ -2795,7 +2798,7 @@ export type EnableFederationError =
  * For more information about Lake query federation, see Federate an event data store.
  */
 export const enableFederation: API.OperationMethod<
-  EnableFederationRequest,
+  EnableFederationRequest & RegionInput,
   EnableFederationResponse,
   EnableFederationError,
   Credentials | HttpClient.HttpClient
@@ -2857,7 +2860,7 @@ export type GenerateQueryError =
  * LLM response.
  */
 export const generateQuery: API.OperationMethod<
-  GenerateQueryRequest,
+  GenerateQueryRequest & RegionInput,
   GenerateQueryResponse,
   GenerateQueryError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2896,7 @@ export type GetChannelError =
  * Returns information about a specific channel.
  */
 export const getChannel: API.OperationMethod<
-  GetChannelRequest,
+  GetChannelRequest & RegionInput,
   GetChannelResponse,
   GetChannelError,
   Credentials | HttpClient.HttpClient
@@ -2923,7 +2926,7 @@ export type GetDashboardError =
  * Returns the specified dashboard.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardRequest,
+  GetDashboardRequest & RegionInput,
   GetDashboardResponse,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2959,7 @@ export type GetEventConfigurationError =
  * Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
  */
 export const getEventConfiguration: API.OperationMethod<
-  GetEventConfigurationRequest,
+  GetEventConfigurationRequest & RegionInput,
   GetEventConfigurationResponse,
   GetEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2999,7 +3002,7 @@ export type GetEventDataStoreError =
  * portion of the ARN.
  */
 export const getEventDataStore: API.OperationMethod<
-  GetEventDataStoreRequest,
+  GetEventDataStoreRequest & RegionInput,
   GetEventDataStoreResponse,
   GetEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -3054,7 +3057,7 @@ export type GetEventSelectorsError =
  * - Logging network activity events
  */
 export const getEventSelectors: API.OperationMethod<
-  GetEventSelectorsRequest,
+  GetEventSelectorsRequest & RegionInput,
   GetEventSelectorsResponse,
   GetEventSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -3088,7 +3091,7 @@ export type GetImportError =
  * Returns information about a specific import.
  */
 export const getImport: API.OperationMethod<
-  GetImportRequest,
+  GetImportRequest & RegionInput,
   GetImportResponse,
   GetImportError,
   Credentials | HttpClient.HttpClient
@@ -3133,7 +3136,7 @@ export type GetInsightSelectorsError =
  * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
  */
 export const getInsightSelectors: API.OperationMethod<
-  GetInsightSelectorsRequest,
+  GetInsightSelectorsRequest & RegionInput,
   GetInsightSelectorsResponse,
   GetInsightSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -3179,7 +3182,7 @@ export type GetQueryResultsError =
  * returned by the `StartQuery` operation.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsRequest,
+  GetQueryResultsRequest & RegionInput,
   GetQueryResultsResponse,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3220,7 +3223,7 @@ export type GetResourcePolicyError =
  * Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3253,7 +3256,7 @@ export type GetTrailError =
  * Returns settings information for a specified trail.
  */
 export const getTrail: API.OperationMethod<
-  GetTrailRequest,
+  GetTrailRequest & RegionInput,
   GetTrailResponse,
   GetTrailError,
   Credentials | HttpClient.HttpClient
@@ -3289,7 +3292,7 @@ export type GetTrailStatusError =
  * Region.
  */
 export const getTrailStatus: API.OperationMethod<
-  GetTrailStatusRequest,
+  GetTrailStatusRequest & RegionInput,
   GetTrailStatusResponse,
   GetTrailStatusError,
   Credentials | HttpClient.HttpClient
@@ -3321,7 +3324,7 @@ export type ListChannelsError =
  * Lists the channels in the current account, and their source names.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -3353,7 +3356,7 @@ export type ListDashboardsError = UnsupportedOperationException | CommonErrors;
  * Returns information about all dashboards in the account, in the current Region.
  */
 export const listDashboards: API.OperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient
@@ -3382,7 +3385,7 @@ export type ListEventDataStoresError =
  * Region.
  */
 export const listEventDataStores: API.PaginatedOperationMethod<
-  ListEventDataStoresRequest,
+  ListEventDataStoresRequest & RegionInput,
   ListEventDataStoresResponse,
   ListEventDataStoresError,
   Credentials | HttpClient.HttpClient,
@@ -3421,7 +3424,7 @@ export type ListImportFailuresError =
  * Returns a list of failures for the specified import.
  */
 export const listImportFailures: API.PaginatedOperationMethod<
-  ListImportFailuresRequest,
+  ListImportFailuresRequest & RegionInput,
   ListImportFailuresResponse,
   ListImportFailuresError,
   Credentials | HttpClient.HttpClient,
@@ -3462,7 +3465,7 @@ export type ListImportsError =
  * `ImportStatus` or `Destination`.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -3519,7 +3522,7 @@ export type ListInsightsDataError =
  * organization trails.
  */
 export const listInsightsData: API.PaginatedOperationMethod<
-  ListInsightsDataRequest,
+  ListInsightsDataRequest & RegionInput,
   ListInsightsDataResponse,
   ListInsightsDataError,
   Credentials | HttpClient.HttpClient,
@@ -3579,7 +3582,7 @@ export type ListInsightsMetricDataError =
  * organization trails.
  */
 export const listInsightsMetricData: API.PaginatedOperationMethod<
-  ListInsightsMetricDataRequest,
+  ListInsightsMetricDataRequest & RegionInput,
   ListInsightsMetricDataResponse,
   ListInsightsMetricDataError,
   Credentials | HttpClient.HttpClient,
@@ -3622,7 +3625,7 @@ export type ListPublicKeysError =
  * key.
  */
 export const listPublicKeys: API.PaginatedOperationMethod<
-  ListPublicKeysRequest,
+  ListPublicKeysRequest & RegionInput,
   ListPublicKeysResponse,
   ListPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3673,7 +3676,7 @@ export type ListQueriesError =
  * `CANCELLED`.
  */
 export const listQueries: API.PaginatedOperationMethod<
-  ListQueriesRequest,
+  ListQueriesRequest & RegionInput,
   ListQueriesResponse,
   ListQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -3724,7 +3727,7 @@ export type ListTagsError =
  * Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -3766,7 +3769,7 @@ export type ListTrailsError =
  * Lists trails that are in the current account.
  */
 export const listTrails: API.PaginatedOperationMethod<
-  ListTrailsRequest,
+  ListTrailsRequest & RegionInput,
   ListTrailsResponse,
   ListTrailsError,
   Credentials | HttpClient.HttpClient,
@@ -3833,7 +3836,7 @@ export type LookupEventsError =
  * this limit is exceeded, a throttling error occurs.
  */
 export const lookupEvents: API.PaginatedOperationMethod<
-  LookupEventsRequest,
+  LookupEventsRequest & RegionInput,
   LookupEventsResponse,
   LookupEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3888,7 +3891,7 @@ export type PutEventConfigurationError =
  * Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
  */
 export const putEventConfiguration: API.OperationMethod<
-  PutEventConfigurationRequest,
+  PutEventConfigurationRequest & RegionInput,
   PutEventConfigurationResponse,
   PutEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3996,7 +3999,7 @@ export type PutEventSelectorsError =
  * Guide.
  */
 export const putEventSelectors: API.OperationMethod<
-  PutEventSelectorsRequest,
+  PutEventSelectorsRequest & RegionInput,
   PutEventSelectorsResponse,
   PutEventSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -4073,7 +4076,7 @@ export type PutInsightSelectorsError =
  * For more information, see Working with CloudTrail Insights in the *CloudTrail User Guide*.
  */
 export const putInsightSelectors: API.OperationMethod<
-  PutInsightSelectorsRequest,
+  PutInsightSelectorsRequest & RegionInput,
   PutInsightSelectorsResponse,
   PutInsightSelectorsError,
   Credentials | HttpClient.HttpClient
@@ -4121,7 +4124,7 @@ export type PutResourcePolicyError =
  * in the *CloudTrail User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4164,7 +4167,7 @@ export type RegisterOrganizationDelegatedAdminError =
  * Registers an organization's member account as the CloudTrail delegated administrator.
  */
 export const registerOrganizationDelegatedAdmin: API.OperationMethod<
-  RegisterOrganizationDelegatedAdminRequest,
+  RegisterOrganizationDelegatedAdminRequest & RegionInput,
   RegisterOrganizationDelegatedAdminResponse,
   RegisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
@@ -4215,7 +4218,7 @@ export type RemoveTagsError =
  * Removes the specified tags from a trail, event data store, dashboard, or channel.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -4270,7 +4273,7 @@ export type RestoreEventDataStoreError =
  * minutes, depending on the size of the event data store.
  */
 export const restoreEventDataStore: API.OperationMethod<
-  RestoreEventDataStoreRequest,
+  RestoreEventDataStoreRequest & RegionInput,
   RestoreEventDataStoreResponse,
   RestoreEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -4311,7 +4314,7 @@ export type SearchSampleQueriesError =
  * To search for sample queries, provide a natural language `SearchPhrase` in English.
  */
 export const searchSampleQueries: API.OperationMethod<
-  SearchSampleQueriesRequest,
+  SearchSampleQueriesRequest & RegionInput,
   SearchSampleQueriesResponse,
   SearchSampleQueriesError,
   Credentials | HttpClient.HttpClient
@@ -4346,7 +4349,7 @@ export type StartDashboardRefreshError =
  * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
  */
 export const startDashboardRefresh: API.OperationMethod<
-  StartDashboardRefreshRequest,
+  StartDashboardRefreshRequest & RegionInput,
   StartDashboardRefreshResponse,
   StartDashboardRefreshError,
   Credentials | HttpClient.HttpClient
@@ -4387,7 +4390,7 @@ export type StartEventDataStoreIngestionError =
  * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
  */
 export const startEventDataStoreIngestion: API.OperationMethod<
-  StartEventDataStoreIngestionRequest,
+  StartEventDataStoreIngestionRequest & RegionInput,
   StartEventDataStoreIngestionResponse,
   StartEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
@@ -4451,7 +4454,7 @@ export type StartImportError =
  * account for the organization.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -4499,7 +4502,7 @@ export type StartLoggingError =
  * (replicated trails in other Regions) of a trail that is enabled in all Regions.
  */
 export const startLogging: API.OperationMethod<
-  StartLoggingRequest,
+  StartLoggingRequest & RegionInput,
   StartLoggingResponse,
   StartLoggingError,
   Credentials | HttpClient.HttpClient
@@ -4554,7 +4557,7 @@ export type StartQueryError =
  * the `QueryAlias` and `QueryParameters` parameters are used only for the queries that populate the CloudTrail Lake dashboards.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryRequest,
+  StartQueryRequest & RegionInput,
   StartQueryResponse,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -4604,7 +4607,7 @@ export type StopEventDataStoreIngestionError =
  * and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or `ConfigurationItem`.
  */
 export const stopEventDataStoreIngestion: API.OperationMethod<
-  StopEventDataStoreIngestionRequest,
+  StopEventDataStoreIngestionRequest & RegionInput,
   StopEventDataStoreIngestionResponse,
   StopEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
@@ -4643,7 +4646,7 @@ export type StopImportError =
  * Stops a specified import.
  */
 export const stopImport: API.OperationMethod<
-  StopImportRequest,
+  StopImportRequest & RegionInput,
   StopImportResponse,
   StopImportError,
   Credentials | HttpClient.HttpClient
@@ -4686,7 +4689,7 @@ export type StopLoggingError =
  * trail enabled in all Regions.
  */
 export const stopLogging: API.OperationMethod<
-  StopLoggingRequest,
+  StopLoggingRequest & RegionInput,
   StopLoggingResponse,
   StopLoggingError,
   Credentials | HttpClient.HttpClient
@@ -4731,7 +4734,7 @@ export type UpdateChannelError =
  * Updates a channel specified by a required channel ARN or UUID.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -4780,7 +4783,7 @@ export type UpdateDashboardError =
  * see Example: Allow CloudTrail to run queries to populate a dashboard in the *CloudTrail User Guide*.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -4845,7 +4848,7 @@ export type UpdateEventDataStoreError =
  * `AdvancedEventSelectors` includes events of that type in your event data store.
  */
 export const updateEventDataStore: API.OperationMethod<
-  UpdateEventDataStoreRequest,
+  UpdateEventDataStoreRequest & RegionInput,
   UpdateEventDataStoreResponse,
   UpdateEventDataStoreError,
   Credentials | HttpClient.HttpClient
@@ -4927,7 +4930,7 @@ export type UpdateTrailError =
  * trail was created; otherwise, an `InvalidHomeRegionException` is thrown.
  */
 export const updateTrail: API.OperationMethod<
-  UpdateTrailRequest,
+  UpdateTrailRequest & RegionInput,
   UpdateTrailResponse,
   UpdateTrailError,
   Credentials | HttpClient.HttpClient

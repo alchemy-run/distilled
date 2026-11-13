@@ -1,0 +1,89 @@
+{
+  "description": "Type the not-found and already-exists failures of the volumes operations. Daytona's API (NestJS) throws NotFoundException (404) / ConflictException (409) with a `{ statusCode, message, error }` body; observed in the open-source daytonaio/daytona apps/api controllers/services at v0.190.0 (AGPL, archived June 2026). The OpenAPI document declares no error responses, so every failure surfaced as the generic status union. Each tag matches on status alone because every listed operation addresses exactly one resource of that kind by id or name. To be confirmed against the live API before merge.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#VolumeAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A volume with that name already exists (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#VolumeNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The volume does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#CreateVolume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.volumes#VolumeAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#DeleteVolume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.volumes#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#GetVolume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.volumes#VolumeNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#GetVolumeByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.volumes#VolumeNotFound"
+        }
+      ]
+    }
+  ]
+}

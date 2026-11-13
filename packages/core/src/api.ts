@@ -13,7 +13,7 @@ import * as Ref from "effect/Ref";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
-import type * as Stream from "effect/Stream";
+import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
@@ -26,6 +26,7 @@ import {
   resolveServerRetryHintCapMs,
   serverHintMillis,
 } from "./retry.ts";
+import { SdkError } from "./sdk-error.ts";
 import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
@@ -94,6 +95,16 @@ export class Protocol
        * produce the same request, result and errors as encode/decode.
        */
       readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown>;
+      /**
+       * Server streaming (see {@link makeStreaming}): each response message
+       * as it arrives, decoded as one element of the output's `items`.
+       * Ending the stream early cancels the call. Protocols that can't
+       * stream leave it out.
+       */
+      readonly stream?: (
+        operation: PreparedOperation,
+        input: unknown,
+      ) => Stream.Stream<unknown, unknown>;
     }
   >()("Protocol") {}
 
@@ -429,6 +440,22 @@ const prepare = (state: OperationState): Prepared => {
   });
 };
 
+/**
+ * {@link prepare} for the call paths: a config that can't be built (a
+ * generated config that throws, a lazy service whose module doesn't match
+ * its stub) fails the call with {@link SdkError} instead of crashing it.
+ */
+const prepareOr = (state: OperationState): Prepared | SdkError => {
+  if (state.prepared) return state.prepared;
+  try {
+    return prepare(state);
+  } catch (cause) {
+    return new SdkError({
+      message: `the operation could not be loaded: ${cause instanceof Error ? cause.message : String(cause)}`,
+    });
+  }
+};
+
 const stateOf = (op: unknown): OperationState => (op as Record<symbol, OperationState>)[stateKey]!;
 
 /**
@@ -438,6 +465,31 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
  */
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
   infoOf(prepare(stateOf(op)));
+
+/**
+ * The HTTP request a call to `op` with `input` would send, built by the
+ * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
+ * no response. It fails as the call would before sending (bad input,
+ * credentials, endpoint), or with {@link SdkError} when the operation can't
+ * be loaded; the Protocol seam does not type those failures, so the error is
+ * `unknown`. Presigning builds on it.
+ */
+export const encodeRequest = <I, O, E, R>(
+  op: OperationMethod<I, O, E, R>,
+  input: I,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, unknown, R> =>
+  Effect.suspend(() => {
+    const state = stateOf(op) as OperationState | undefined;
+    if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    const encode = (service: ProtocolShape) =>
+      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+    if (prepared.service !== undefined) return encode(prepared.service);
+    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
+      encode((prepared.service = Context.get(protocolCtx, Protocol))),
+    );
+  });
 
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
@@ -472,7 +524,8 @@ const callUntraced = (
   const p = state.prepared;
   if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry, debug);
   return Effect.suspend(() => {
-    const prepared = prepare(state);
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
     const call = Effect.flatMap(
       debug === undefined
         ? protocolContext(prepared.cfg.protocol)
@@ -501,8 +554,16 @@ const callOperation = (
   const callSite = Telemetry.captureCallSite(entry);
   return Effect.withFiber((fiber) => {
     const debug = fiber.getRef(Telemetry.Debug);
-    return Telemetry.operationSpan(fiber, debug, infoOf(prepare(state)), callSite, input, (sent) =>
-      callUntraced(state, sent, debug),
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    return Telemetry.operationSpan(
+      fiber,
+      debug,
+      infoOf(prepared),
+      callSite,
+      input,
+      (sent) => callUntraced(state, sent, debug),
+      debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
     );
   });
 };
@@ -656,21 +717,28 @@ export interface PaginatedOperationConfig<
 
 /** `.pages` / `.items` over any call function (the operation itself or a context-bound one). */
 const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<any, any, any>) => {
-  const pag = () => (prepare(state).cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
-  // Data operations carry their strategy in the config.
-  const paginate =
-    state.strategy ??
-    (prepare(state).cfg as { strategy?: Pagination.PaginationStrategy }).strategy ??
-    Pagination.paginateWithDefaults;
-  const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
-  const items = (input: Record<string, unknown>) => {
-    const p = pag();
-    if (!p.items) return pages(input);
+  const pagesOf = (prepared: Prepared, input: Record<string, unknown>) => {
+    const cfg = prepared.cfg as PaginatedOperationConfig<any, any, any, any> & {
+      strategy?: Pagination.PaginationStrategy;
+    };
+    // Data operations carry their strategy in the config.
+    const paginate = state.strategy ?? cfg.strategy ?? Pagination.paginateWithDefaults;
+    return paginate(call, input, cfg.pagination);
+  };
+  const pages = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    return prepared instanceof SdkError ? Stream.fail(prepared) : pagesOf(prepared, input);
+  };
+  const items = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Stream.fail(prepared);
+    const p = (prepared.cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
+    if (!p.items) return pagesOf(prepared, input);
     // A bare-array response's schema is its sole member's value
     // (`RawResponseRoot`), so the member `items` names is the page itself.
-    return getAnn(prepare(state).outputAst, rawResponseRootSymbol) !== undefined
-      ? Pagination.extractArrayItems(pages(input))
-      : Pagination.extractItems(pages(input), p.items);
+    return getAnn(prepared.outputAst, rawResponseRootSymbol) !== undefined
+      ? Pagination.extractArrayItems(pagesOf(prepared, input))
+      : Pagination.extractItems(pagesOf(prepared, input), p.items);
   };
   return { pages, items };
 };
@@ -729,6 +797,114 @@ export function makePaginated<
   PR | HttpClient.HttpClient
 > {
   return makeOperation(strategy ? { configFn, strategy } : { configFn }, PaginatedOperationProto);
+}
+
+//#endregion
+
+//#region MakeStreaming
+
+/** The message type of a server-streaming output, `{ items: Message[] }`. */
+export type StreamedItem<O> = O extends { readonly items: ReadonlyArray<infer Item> }
+  ? Item
+  : O extends { readonly items?: ReadonlyArray<infer Item> | undefined }
+    ? Item
+    : unknown;
+
+/**
+ * The callable half of a server-streaming operation: the call, which
+ * collects the whole stream into `{ items }`, plus `.stream(input)`, which
+ * emits each message as it arrives.
+ */
+export interface StreamingCall<I, O, E, R, Item> {
+  (input: I): Effect.Effect<O, E, R>;
+  readonly stream: (input: I) => Stream.Stream<Item, E, R>;
+}
+
+/**
+ * A server-streaming operation: usable both ways an {@link OperationMethod}
+ * is, with `.stream` on both the operation and the requirement-free call
+ * function `yield* operation` returns.
+ */
+export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effect.Effect<
+  StreamingCall<I, O, E, never, Item>,
+  never,
+  R
+> &
+  StreamingCall<I, O, E, R, Item> &
+  OperationSchemas<I, O>;
+
+/** `.stream(input)` over an operation's protocol. */
+const streamCall =
+  (state: OperationState) =>
+  (input: unknown): Stream.Stream<any, any, any> =>
+    Stream.unwrap(
+      Effect.suspend(() => {
+        const prepared = prepareOr(state);
+        if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
+        const run = (service: ProtocolShape) =>
+          service.stream === undefined
+            ? Stream.fail(
+                new SdkError({
+                  message: `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
+                }),
+              )
+            : service.stream(prepared, input);
+        return prepared.service !== undefined
+          ? Effect.succeed(run(prepared.service))
+          : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
+              run((prepared.service = Context.get(ctx, Protocol))),
+            );
+      }),
+    );
+
+const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationProto, {
+  stream: {
+    get(this: any) {
+      const fn = streamCall(stateOf(this));
+      Object.defineProperty(this, "stream", { value: fn, configurable: true });
+      return fn;
+    },
+    configurable: true,
+  },
+  // `yield* operation` returns a context-bound call; its `.stream` gets the
+  // same fallback (not snapshot) context.
+  asEffect: {
+    value(this: any) {
+      const state = stateOf(this);
+      return Effect.map(Effect.context(), (context) => {
+        const merge = (current: Context.Context<any>): Context.Context<any> =>
+          Context.merge(context, current);
+        const call = (input: unknown) => Effect.updateContext(this(input), merge);
+        return Object.assign(call, {
+          stream: (input: unknown) => Stream.updateContext(streamCall(state)(input), merge),
+        });
+      });
+    },
+    configurable: true,
+    writable: true,
+  },
+});
+
+/**
+ * Like {@link make}, for a server-streaming RPC whose output is `{ items }`:
+ * calling it collects the stream, and `.stream(input)` emits each message as
+ * the protocol receives it (see {@link ProtocolShape.stream}).
+ */
+export function makeStreaming<
+  I extends S.Top,
+  O extends S.Top,
+  PE,
+  PR,
+  const E extends readonly ApiErrorClass[] = readonly [],
+>(
+  configFn: () => OperationConfig<I, O, PE, PR, E>,
+): StreamingOperationMethod<
+  S.Schema.Type<I>,
+  S.Schema.Type<O>,
+  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  PR | HttpClient.HttpClient
+> {
+  return makeOperation({ configFn }, StreamingOperationProto);
 }
 
 //#endregion
@@ -879,11 +1055,13 @@ const dataState = function (this: DataFn): OperationState {
 };
 let dataProto: object | undefined;
 let dataPaginatedProto: object | undefined;
+let dataStreamingProto: object | undefined;
 /**
  * While a lazy service loads its full module (see {@link lazyService}), the module's
- * definitions go to it instead (kind 0 operation, 1 paginated, 2 error class).
+ * definitions go to it instead (kind 0 operation, 1 paginated, 2 error class,
+ * 3 streaming).
  */
-let definer: ((fn: DataFn, kind: 0 | 1 | 2) => unknown) | undefined;
+let definer: ((fn: DataFn, kind: 0 | 1 | 2 | 3) => unknown) | undefined;
 
 /** Runs `f` with `d` receiving the definitions it evaluates. */
 const defining = (d: typeof definer, f: () => void): void => {
@@ -921,11 +1099,22 @@ const asOpPaginated = (fn: DataFn): any =>
     })),
   );
 
+const asOpStreaming = (fn: DataFn): any =>
+  Object.setPrototypeOf(
+    fn,
+    (dataStreamingProto ??= Object.create(StreamingOperationProto, {
+      [stateKey]: { get: dataState, configurable: true },
+    })),
+  );
+
 /** An operation described by data (see the region header). */
 export const op = (fn: DataFn): any => (definer ? definer(fn, 0) : asOp(fn));
 
 /** A paginated operation described by data; its config may name a `strategy`. */
 export const opPaginated = (fn: DataFn): any => (definer ? definer(fn, 1) : asOpPaginated(fn));
+
+/** A server-streaming operation described by data. */
+export const opStreaming = (fn: DataFn): any => (definer ? definer(fn, 3) : asOpStreaming(fn));
 
 /** The call path of a data operation. */
 export const call = (op: unknown, input: unknown): Effect.Effect<any, any, any> =>
@@ -1007,7 +1196,7 @@ export const newError = (props: unknown, newTarget: Function | undefined, data: 
  * which passes its own URL and the namespaces every stub imports.
  *
  * `kinds` has one letter per operation definition of the full module: `o`
- * plain, `p` paginated. While the stub's load evaluates the full module,
+ * plain, `p` paginated, `s` server-streaming. While the stub's load evaluates the full module,
  * `op` / `opPaginated` / `error` hand back the stub's placeholders in
  * definition order instead of new values, and each placeholder takes the
  * data function it stands for: the full module's operations, error lists
@@ -1039,7 +1228,10 @@ interface LazyService {
   ei: number;
 }
 
-const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2): any => {
+/** The stub letter of each operation kind (see {@link lazyService}). */
+const KIND_LETTERS = ["o", "p", "", "s"] as const;
+
+const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2 | 3): any => {
   if (kind === 2) {
     const i = svc.ei++;
     if (i >= svc.e.length) throw new Error(`distilled: ${svc.spec}: error ${i} has no stub`);
@@ -1047,7 +1239,7 @@ const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2): any => {
     return svc.e[i];
   }
   const i = svc.oi++;
-  if (i >= svc.o.length || (svc.kinds[i] === "p") !== (kind === 1))
+  if (i >= svc.o.length || svc.kinds[i] !== KIND_LETTERS[kind])
     throw new Error(`distilled: ${svc.spec}: operation ${i} does not match its stub`);
   svc.od![i] = fn;
   return svc.o[i];
@@ -1150,12 +1342,17 @@ const sliced = (svc: LazyService): SliceIndex | false => {
   svc.ix = false;
   if (svc.at === undefined || svc.od) return false;
   try {
+    // oxlint-disable-next-line distilled/no-function-constructor -- probes whether the host allows it (a CSP may not)
     Function("");
     const file = fileOf(svc);
     svc.ix = indexOf(file, read({ file }, svc.at, svc.len!));
     svc.od = [];
     svc.ed = [];
-  } catch {}
+  } catch {
+    // Code from strings is blocked, or the slice can't be read: load the
+    // whole module instead (`svc.ix` stays `false`).
+    svc.ix = false;
+  }
   return svc.ix;
 };
 
@@ -1259,6 +1456,7 @@ const evaluate = (svc: LazyService, ix: SliceIndex, k: number): any => {
     });
     text += read(ix, at, end! - at);
   } else text = read(ix, start!, end! - start!);
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(...names, `"use strict";return(${text}\n)${url}`)(...values);
 };
 
@@ -1278,6 +1476,7 @@ const compileBody = (
 ): Function => {
   const text = read(ix, start, end - start);
   const keep = names.map((n) => !own.includes(n));
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(
     ...names.filter((_, i) => keep[i]),
     ...own,
@@ -1374,11 +1573,11 @@ export const lazyService = (
   if (!primed && at !== undefined) prime(svc);
   return {
     o: () => {
-      const paginated = kinds[svc.o.length] === "p";
+      const kind = kinds[svc.o.length];
       const f: DataFn = function op(x) {
         return x === D ? dataOf(svc, 0, svc.o.indexOf(op))(D) : call(op, x);
       };
-      svc.o.push(paginated ? asOpPaginated(f) : asOp(f));
+      svc.o.push(kind === "p" ? asOpPaginated(f) : kind === "s" ? asOpStreaming(f) : asOp(f));
       return f;
     },
     e: (name: string) => {

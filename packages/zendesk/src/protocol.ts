@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ZendeskProtocol -- hand-written.
  *
@@ -37,7 +42,8 @@ export type ZendeskOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ZendeskParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Zendesk operation. */
 export type ZendeskOpContext = Credentials | HttpClient.HttpClient;
@@ -78,11 +84,6 @@ export const ZendeskProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     Accept: "application/json",
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownZendeskError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownZendeskError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ZendeskParseError({ body, cause }),
 });

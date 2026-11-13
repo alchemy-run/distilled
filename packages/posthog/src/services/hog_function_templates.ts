@@ -58,82 +58,82 @@ export interface GetHogFunctionTemplateRequest {
 }
 export interface HogFunctionMappingTemplate {
   /** Name of this mapping template. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this mapping is enabled by default. */
-  include_by_default?: boolean | null;
+  include_by_default?: boolean | null | undefined;
   /** Whether this mapping should match all events by default, hiding the event filter UI. */
-  use_all_events_by_default?: boolean | null;
+  use_all_events_by_default?: boolean | null | undefined;
   /** Event filters specific to this mapping. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Input values specific to this mapping. */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** Additional input schema fields specific to this mapping. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
 }
 /** Pre-defined mapping configurations for destination templates. */
 export type HogFunctionTemplateMappingTemplatesList = Array<HogFunctionMappingTemplate>;
 export interface HogFunctionTemplate {
   /** Unique template identifier (e.g. 'template-slack'). */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** What this template does. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Source code of the template. */
-  code?: string;
+  code?: string | undefined;
   /** Programming language: 'hog' or 'javascript'. */
-  code_language?: string;
+  code_language?: string | undefined;
   /** Schema defining configurable inputs for functions created from this template. */
-  inputs_schema?: unknown;
+  inputs_schema?: unknown | undefined;
   /** Function type this template creates. */
-  type?: string;
+  type?: string | undefined;
   /** Lifecycle status: alpha, beta, stable, deprecated, or hidden. */
-  status?: string;
+  status?: string | undefined;
   /** Category tags for organizing templates. */
-  category?: unknown;
+  category?: unknown | undefined;
   /** Whether available on free plans. */
-  free?: boolean;
+  free?: boolean | undefined;
   /** URL for the template's icon. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Default event filters. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Default PII masking configuration. */
-  masking?: unknown;
+  masking?: unknown | undefined;
   /** Pre-defined mapping configurations for destination templates. */
-  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null;
+  mapping_templates?: HogFunctionTemplateMappingTemplatesList | null | undefined;
 }
 export interface ListHogFunctionTemplatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter to a specific template by its template_id. Deprecated templates are excluded from list results; use the retrieve endpoint to look up a template by ID regardless of status. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Filter by template type (e.g. destination, email, sms_provider, broadcast). Defaults to destination if neither type nor types is provided. */
-  type?: string;
+  type?: string | undefined;
   /** Comma-separated list of template types to include (e.g. destination,email,sms_provider). */
-  types?: string;
+  types?: string | undefined;
 }
 export type PaginatedHogFunctionTemplateListResultsList = Array<HogFunctionTemplate>;
 export interface PaginatedHogFunctionTemplateList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedHogFunctionTemplateListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedHogFunctionTemplateListResultsList | undefined;
 }
 export interface ListPublicHogFunctionTemplatesRequest {
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter to a specific template by its template_id. Deprecated templates are excluded from list results; use the retrieve endpoint to look up a template by ID regardless of status. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Filter by template type (e.g. destination, email, sms_provider, broadcast). Defaults to destination if neither type nor types is provided. */
-  type?: string;
+  type?: string | undefined;
   /** Comma-separated list of template types to include (e.g. destination,email,sms_provider). */
-  types?: string;
+  types?: string | undefined;
 }
 export type GetHogFunctionTemplateError = Forbidden | NotFound | PosthogOpError;
 export const getHogFunctionTemplate: API.OperationMethod<

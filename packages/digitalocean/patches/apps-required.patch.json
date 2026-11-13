@@ -1,0 +1,54 @@
+{
+  "description": "App Platform app and deployment responses always carry their envelope, the app's id and creation time, and a deployment's id, phase and creation time; the spec marks every readOnly property optional. Evidence: the response examples in DigitalOcean's API reference, and the live responses the alchemy DigitalOcean suite decodes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppResponse/members/app/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsDeploymentResponse/members/deployment/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#App/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#App/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsDeployment/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsDeployment/members/phase/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AppsDeployment/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

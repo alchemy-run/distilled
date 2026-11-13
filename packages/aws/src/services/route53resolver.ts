@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -195,8 +196,8 @@ export interface AssociateFirewallRuleGroupRequest {
   VpcId: string;
   Priority: number;
   Name: string;
-  MutationProtection?: MutationProtectionStatus;
-  Tags?: Tag[];
+  MutationProtection?: MutationProtectionStatus | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type ServicePrinciple = string;
@@ -208,31 +209,31 @@ export type FirewallRuleGroupAssociationStatus =
 export type StatusMessage = string;
 export type Rfc3339TimeString = string;
 export interface FirewallRuleGroupAssociation {
-  Id?: string;
-  Arn?: string;
-  FirewallRuleGroupId?: string;
-  VpcId?: string;
-  Name?: string;
-  Priority?: number;
-  MutationProtection?: MutationProtectionStatus;
-  ManagedOwnerName?: string;
-  Status?: FirewallRuleGroupAssociationStatus;
-  StatusMessage?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  FirewallRuleGroupId?: string | undefined;
+  VpcId?: string | undefined;
+  Name?: string | undefined;
+  Priority?: number | undefined;
+  MutationProtection?: MutationProtectionStatus | undefined;
+  ManagedOwnerName?: string | undefined;
+  Status?: FirewallRuleGroupAssociationStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export interface AssociateFirewallRuleGroupResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export type SubnetId = string;
 export type Ip = string;
 export type Ipv6 = string;
 export interface IpAddressUpdate {
-  IpId?: string;
-  SubnetId?: string;
-  Ip?: string;
-  Ipv6?: string;
+  IpId?: string | undefined;
+  SubnetId?: string | undefined;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
 }
 export interface AssociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
@@ -263,29 +264,29 @@ export type TargetNameServerMetricsEnabled = boolean;
 export type Dns64Enabled = boolean;
 export type Ipv6InternetAccessEnabled = boolean;
 export interface ResolverEndpoint {
-  Id?: string;
-  CreatorRequestId?: string;
-  Arn?: string;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  Direction?: ResolverEndpointDirection;
-  IpAddressCount?: number;
-  HostVPCId?: string;
-  Status?: ResolverEndpointStatus;
-  StatusMessage?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  OutpostArn?: string;
-  PreferredInstanceType?: string;
-  ResolverEndpointType?: ResolverEndpointType;
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  Id?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Direction?: ResolverEndpointDirection | undefined;
+  IpAddressCount?: number | undefined;
+  HostVPCId?: string | undefined;
+  Status?: ResolverEndpointStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  OutpostArn?: string | undefined;
+  PreferredInstanceType?: string | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface AssociateResolverEndpointIpAddressResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface AssociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
@@ -306,20 +307,20 @@ export type ResolverQueryLogConfigAssociationError =
   | (string & {});
 export type ResolverQueryLogConfigAssociationErrorMessage = string;
 export interface ResolverQueryLogConfigAssociation {
-  Id?: string;
-  ResolverQueryLogConfigId?: string;
-  ResourceId?: string;
-  Status?: ResolverQueryLogConfigAssociationStatus;
-  Error?: ResolverQueryLogConfigAssociationError;
-  ErrorMessage?: string;
-  CreationTime?: string;
+  Id?: string | undefined;
+  ResolverQueryLogConfigId?: string | undefined;
+  ResourceId?: string | undefined;
+  Status?: ResolverQueryLogConfigAssociationStatus | undefined;
+  Error?: ResolverQueryLogConfigAssociationError | undefined;
+  ErrorMessage?: string | undefined;
+  CreationTime?: string | undefined;
 }
 export interface AssociateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface AssociateResolverRuleRequest {
   ResolverRuleId: string;
-  Name?: string;
+  Name?: string | undefined;
   VPCId: string;
 }
 export type ResolverRuleAssociationStatus =
@@ -330,15 +331,15 @@ export type ResolverRuleAssociationStatus =
   | "OVERRIDDEN"
   | (string & {});
 export interface ResolverRuleAssociation {
-  Id?: string;
-  ResolverRuleId?: string;
-  Name?: string;
-  VPCId?: string;
-  Status?: ResolverRuleAssociationStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  ResolverRuleId?: string | undefined;
+  Name?: string | undefined;
+  VPCId?: string | undefined;
+  Status?: ResolverRuleAssociationStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface AssociateResolverRuleResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export type Action = "ALLOW" | "BLOCK" | "ALERT" | (string & {});
 export type BlockResponse = "NODATA" | "NXDOMAIN" | "OVERRIDE" | (string & {});
@@ -370,27 +371,27 @@ export interface DnsThreatProtectionRuleTypeConfig {
   ConfidenceThreshold: ConfidenceThreshold;
 }
 export interface FirewallRuleType {
-  PartnerThreatProtection?: PartnerThreatProtectionConfig;
-  FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig;
-  FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig;
-  DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig;
+  PartnerThreatProtection?: PartnerThreatProtectionConfig | undefined;
+  FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig | undefined;
+  FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig | undefined;
+  DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig | undefined;
 }
 export interface CreateFirewallRuleEntry {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
+  FirewallDomainListId?: string | undefined;
   Priority: number;
   Action: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
   Name: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export type CreateFirewallRuleEntries = CreateFirewallRuleEntry[];
 export interface BatchCreateFirewallRuleRequest {
@@ -400,93 +401,93 @@ export type Unsigned = number;
 export type FirewallRuleStatus = string;
 export type FirewallRuleStatusMessage = string;
 export interface FirewallRule {
-  FirewallRuleGroupId?: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Name?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
-  Status?: string;
-  StatusMessage?: string;
+  FirewallRuleGroupId?: string | undefined;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Name?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type FirewallRules = FirewallRule[];
 export interface BatchCreateFirewallRuleError_ {
-  FirewallRule?: CreateFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: CreateFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchCreateFirewallRuleErrors = BatchCreateFirewallRuleError_[];
 export interface BatchCreateFirewallRuleResponse {
-  CreatedFirewallRules?: FirewallRule[];
-  CreateErrors?: BatchCreateFirewallRuleError_[];
+  CreatedFirewallRules?: FirewallRule[] | undefined;
+  CreateErrors?: BatchCreateFirewallRuleError_[] | undefined;
 }
 export interface DeleteFirewallRuleEntry {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Qtype?: string;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Qtype?: string | undefined;
 }
 export type DeleteFirewallRuleEntries = DeleteFirewallRuleEntry[];
 export interface BatchDeleteFirewallRuleRequest {
   DeleteFirewallRuleEntries: DeleteFirewallRuleEntry[];
 }
 export interface BatchDeleteFirewallRuleError_ {
-  FirewallRule?: DeleteFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: DeleteFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchDeleteFirewallRuleErrors = BatchDeleteFirewallRuleError_[];
 export interface BatchDeleteFirewallRuleResponse {
-  DeletedFirewallRules?: FirewallRule[];
-  DeleteErrors?: BatchDeleteFirewallRuleError_[];
+  DeletedFirewallRules?: FirewallRule[] | undefined;
+  DeleteErrors?: BatchDeleteFirewallRuleError_[] | undefined;
 }
 export interface UpdateFirewallRuleEntry {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  Name?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  Name?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export type UpdateFirewallRuleEntries = UpdateFirewallRuleEntry[];
 export interface BatchUpdateFirewallRuleRequest {
   UpdateFirewallRuleEntries: UpdateFirewallRuleEntry[];
 }
 export interface BatchUpdateFirewallRuleError_ {
-  FirewallRule?: UpdateFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: UpdateFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchUpdateFirewallRuleErrors = BatchUpdateFirewallRuleError_[];
 export interface BatchUpdateFirewallRuleResponse {
-  UpdatedFirewallRules?: FirewallRule[];
-  UpdateErrors?: BatchUpdateFirewallRuleError_[];
+  UpdatedFirewallRules?: FirewallRule[] | undefined;
+  UpdateErrors?: BatchUpdateFirewallRuleError_[] | undefined;
 }
 export interface CreateFirewallDomainListRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type FirewallDomainListStatus =
   | "COMPLETE"
@@ -498,75 +499,75 @@ export type FirewallDomainListStatus =
 export type Category = string;
 export type DomainListType = "THREAT" | "CONTENT" | (string & {});
 export interface FirewallDomainList {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  DomainCount?: number;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
-  ManagedOwnerName?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  Category?: string;
-  ManagedListType?: DomainListType;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DomainCount?: number | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
+  ManagedOwnerName?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  Category?: string | undefined;
+  ManagedListType?: DomainListType | undefined;
 }
 export interface CreateFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface CreateFirewallRuleRequest {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
+  FirewallDomainListId?: string | undefined;
   Priority: number;
   Action: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
   Name: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export interface CreateFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface CreateFirewallRuleGroupRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type FirewallRuleGroupStatus = "COMPLETE" | "DELETING" | "UPDATING" | (string & {});
 export type AccountId = string;
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
 export interface FirewallRuleGroup {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  RuleCount?: number;
-  Status?: FirewallRuleGroupStatus;
-  StatusMessage?: string;
-  OwnerId?: string;
-  CreatorRequestId?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: string;
-  ModificationTime?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  RuleCount?: number | undefined;
+  Status?: FirewallRuleGroupStatus | undefined;
+  StatusMessage?: string | undefined;
+  OwnerId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export interface CreateFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export type OutpostResolverName = string;
 export type InstanceCount = number;
 export interface CreateOutpostResolverRequest {
   CreatorRequestId: string;
   Name: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
   PreferredInstanceType: string;
   OutpostArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type OutpostResolverStatus =
   | "CREATING"
@@ -579,45 +580,45 @@ export type OutpostResolverStatus =
   | (string & {});
 export type OutpostResolverStatusMessage = string;
 export interface OutpostResolver {
-  Arn?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  CreatorRequestId?: string;
-  Id?: string;
-  InstanceCount?: number;
-  PreferredInstanceType?: string;
-  Name?: string;
-  Status?: OutpostResolverStatus;
-  StatusMessage?: string;
-  OutpostArn?: string;
+  Arn?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Id?: string | undefined;
+  InstanceCount?: number | undefined;
+  PreferredInstanceType?: string | undefined;
+  Name?: string | undefined;
+  Status?: OutpostResolverStatus | undefined;
+  StatusMessage?: string | undefined;
+  OutpostArn?: string | undefined;
 }
 export interface CreateOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface IpAddressRequest {
   SubnetId: string;
-  Ip?: string;
-  Ipv6?: string;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
 }
 export type IpAddressesRequest = IpAddressRequest[];
 export interface CreateResolverEndpointRequest {
   CreatorRequestId: string;
-  Name?: string;
+  Name?: string | undefined;
   SecurityGroupIds: string[];
   Direction: ResolverEndpointDirection;
   IpAddresses: IpAddressRequest[];
-  OutpostArn?: string;
-  PreferredInstanceType?: string;
-  Tags?: Tag[];
-  ResolverEndpointType?: ResolverEndpointType;
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  OutpostArn?: string | undefined;
+  PreferredInstanceType?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface CreateResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export type ResolverQueryLogConfigName = string;
 export type DestinationArn = string;
@@ -625,7 +626,7 @@ export interface CreateResolverQueryLogConfigRequest {
   Name: string;
   DestinationArn: string;
   CreatorRequestId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ResolverQueryLogConfigStatus =
   | "CREATING"
@@ -635,135 +636,135 @@ export type ResolverQueryLogConfigStatus =
   | (string & {});
 export type Count = number;
 export interface ResolverQueryLogConfig {
-  Id?: string;
-  OwnerId?: string;
-  Status?: ResolverQueryLogConfigStatus;
-  ShareStatus?: ShareStatus;
-  AssociationCount?: number;
-  Arn?: string;
-  Name?: string;
-  DestinationArn?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
+  Id?: string | undefined;
+  OwnerId?: string | undefined;
+  Status?: ResolverQueryLogConfigStatus | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  AssociationCount?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DestinationArn?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
 }
 export interface CreateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export type RuleTypeOption = "FORWARD" | "SYSTEM" | "RECURSIVE" | "DELEGATE" | (string & {});
 export type DomainName = string;
 export type Port = number;
 export type ServerNameIndication = string;
 export interface TargetAddress {
-  Ip?: string;
-  Port?: number;
-  Ipv6?: string;
-  Protocol?: Protocol;
-  ServerNameIndication?: string;
+  Ip?: string | undefined;
+  Port?: number | undefined;
+  Ipv6?: string | undefined;
+  Protocol?: Protocol | undefined;
+  ServerNameIndication?: string | undefined;
 }
 export type TargetList = TargetAddress[];
 export type DelegationRecord = string;
 export interface CreateResolverRuleRequest {
   CreatorRequestId: string;
-  Name?: string;
+  Name?: string | undefined;
   RuleType: RuleTypeOption;
-  DomainName?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
-  Tags?: Tag[];
-  DelegationRecord?: string;
+  DomainName?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DelegationRecord?: string | undefined;
 }
 export type ResolverRuleStatus = "COMPLETE" | "DELETING" | "UPDATING" | "FAILED" | (string & {});
 export interface ResolverRule {
-  Id?: string;
-  CreatorRequestId?: string;
-  Arn?: string;
-  DomainName?: string;
-  Status?: ResolverRuleStatus;
-  StatusMessage?: string;
-  RuleType?: RuleTypeOption;
-  Name?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
-  OwnerId?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: string;
-  ModificationTime?: string;
-  DelegationRecord?: string;
+  Id?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Arn?: string | undefined;
+  DomainName?: string | undefined;
+  Status?: ResolverRuleStatus | undefined;
+  StatusMessage?: string | undefined;
+  RuleType?: RuleTypeOption | undefined;
+  Name?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
+  OwnerId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  DelegationRecord?: string | undefined;
 }
 export interface CreateResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface DeleteFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
 export interface DeleteFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Qtype?: string;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Qtype?: string | undefined;
 }
 export interface DeleteFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface DeleteFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
 export interface DeleteFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export interface DeleteOutpostResolverRequest {
   Id: string;
 }
 export interface DeleteOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface DeleteResolverEndpointRequest {
   ResolverEndpointId: string;
 }
 export interface DeleteResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface DeleteResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
 export interface DeleteResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export interface DeleteResolverRuleRequest {
   ResolverRuleId: string;
 }
 export interface DeleteResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface DisassociateFirewallRuleGroupRequest {
   FirewallRuleGroupAssociationId: string;
 }
 export interface DisassociateFirewallRuleGroupResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface DisassociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
   IpAddress: IpAddressUpdate;
 }
 export interface DisassociateResolverEndpointIpAddressResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface DisassociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
   ResourceId: string;
 }
 export interface DisassociateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface DisassociateResolverRuleRequest {
   VPCId: string;
   ResolverRuleId: string;
 }
 export interface DisassociateResolverRuleResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export interface GetFirewallConfigRequest {
   ResourceId: string;
@@ -774,44 +775,44 @@ export type FirewallFailOpenStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface FirewallConfig {
-  Id?: string;
-  ResourceId?: string;
-  OwnerId?: string;
-  FirewallFailOpen?: FirewallFailOpenStatus;
+  Id?: string | undefined;
+  ResourceId?: string | undefined;
+  OwnerId?: string | undefined;
+  FirewallFailOpen?: FirewallFailOpenStatus | undefined;
 }
 export interface GetFirewallConfigResponse {
-  FirewallConfig?: FirewallConfig;
+  FirewallConfig?: FirewallConfig | undefined;
 }
 export interface GetFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
 export interface GetFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface GetFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
 export interface GetFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export interface GetFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
 }
 export interface GetFirewallRuleGroupAssociationResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface GetFirewallRuleGroupPolicyRequest {
   Arn: string;
 }
 export type FirewallRuleGroupPolicy = string;
 export interface GetFirewallRuleGroupPolicyResponse {
-  FirewallRuleGroupPolicy?: string;
+  FirewallRuleGroupPolicy?: string | undefined;
 }
 export interface GetOutpostResolverRequest {
   Id: string;
 }
 export interface GetOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface GetResolverConfigRequest {
   ResourceId: string;
@@ -825,13 +826,13 @@ export type ResolverAutodefinedReverseStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface ResolverConfig {
-  Id?: string;
-  ResourceId?: string;
-  OwnerId?: string;
-  AutodefinedReverse?: ResolverAutodefinedReverseStatus;
+  Id?: string | undefined;
+  ResourceId?: string | undefined;
+  OwnerId?: string | undefined;
+  AutodefinedReverse?: ResolverAutodefinedReverseStatus | undefined;
 }
 export interface GetResolverConfigResponse {
-  ResolverConfig?: ResolverConfig;
+  ResolverConfig?: ResolverConfig | undefined;
 }
 export interface GetResolverDnssecConfigRequest {
   ResourceId: string;
@@ -845,57 +846,57 @@ export type ResolverDNSSECValidationStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface ResolverDnssecConfig {
-  Id?: string;
-  OwnerId?: string;
-  ResourceId?: string;
-  ValidationStatus?: ResolverDNSSECValidationStatus;
+  Id?: string | undefined;
+  OwnerId?: string | undefined;
+  ResourceId?: string | undefined;
+  ValidationStatus?: ResolverDNSSECValidationStatus | undefined;
 }
 export interface GetResolverDnssecConfigResponse {
-  ResolverDNSSECConfig?: ResolverDnssecConfig;
+  ResolverDNSSECConfig?: ResolverDnssecConfig | undefined;
 }
 export interface GetResolverEndpointRequest {
   ResolverEndpointId: string;
 }
 export interface GetResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface GetResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
 export interface GetResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export interface GetResolverQueryLogConfigAssociationRequest {
   ResolverQueryLogConfigAssociationId: string;
 }
 export interface GetResolverQueryLogConfigAssociationResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface GetResolverQueryLogConfigPolicyRequest {
   Arn: string;
 }
 export type ResolverQueryLogConfigPolicy = string;
 export interface GetResolverQueryLogConfigPolicyResponse {
-  ResolverQueryLogConfigPolicy?: string;
+  ResolverQueryLogConfigPolicy?: string | undefined;
 }
 export interface GetResolverRuleRequest {
   ResolverRuleId: string;
 }
 export interface GetResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface GetResolverRuleAssociationRequest {
   ResolverRuleAssociationId: string;
 }
 export interface GetResolverRuleAssociationResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export interface GetResolverRulePolicyRequest {
   Arn: string;
 }
 export type ResolverRulePolicy = string;
 export interface GetResolverRulePolicyResponse {
-  ResolverRulePolicy?: string;
+  ResolverRulePolicy?: string | undefined;
 }
 export type FirewallDomainImportOperation = "REPLACE" | (string & {});
 export type DomainListFileUrl = string;
@@ -905,99 +906,99 @@ export interface ImportFirewallDomainsRequest {
   DomainFileUrl: string;
 }
 export interface ImportFirewallDomainsResponse {
-  Id?: string;
-  Name?: string;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ListFirewallConfigsMaxResult = number;
 export type NextToken = string;
 export interface ListFirewallConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallConfigList = FirewallConfig[];
 export interface ListFirewallConfigsResponse {
-  NextToken?: string;
-  FirewallConfigs?: FirewallConfig[];
+  NextToken?: string | undefined;
+  FirewallConfigs?: FirewallConfig[] | undefined;
 }
 export type MaxResults = number;
 export interface ListFirewallDomainListsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FirewallDomainListMetadata {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  CreatorRequestId?: string;
-  ManagedOwnerName?: string;
-  ManagedListType?: DomainListType;
-  Category?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ManagedOwnerName?: string | undefined;
+  ManagedListType?: DomainListType | undefined;
+  Category?: string | undefined;
 }
 export type FirewallDomainListMetadataList = FirewallDomainListMetadata[];
 export interface ListFirewallDomainListsResponse {
-  NextToken?: string;
-  FirewallDomainLists?: FirewallDomainListMetadata[];
+  NextToken?: string | undefined;
+  FirewallDomainLists?: FirewallDomainListMetadata[] | undefined;
 }
 export type ListDomainMaxResults = number;
 export interface ListFirewallDomainsRequest {
   FirewallDomainListId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallDomainName = string;
 export type FirewallDomains = string[];
 export interface ListFirewallDomainsResponse {
-  NextToken?: string;
-  Domains?: string[];
+  NextToken?: string | undefined;
+  Domains?: string[] | undefined;
 }
 export interface ListFirewallRuleGroupAssociationsRequest {
-  FirewallRuleGroupId?: string;
-  VpcId?: string;
-  Priority?: number;
-  Status?: FirewallRuleGroupAssociationStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  FirewallRuleGroupId?: string | undefined;
+  VpcId?: string | undefined;
+  Priority?: number | undefined;
+  Status?: FirewallRuleGroupAssociationStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallRuleGroupAssociations = FirewallRuleGroupAssociation[];
 export interface ListFirewallRuleGroupAssociationsResponse {
-  NextToken?: string;
-  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[];
+  NextToken?: string | undefined;
+  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[] | undefined;
 }
 export interface ListFirewallRuleGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FirewallRuleGroupMetadata {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  OwnerId?: string;
-  CreatorRequestId?: string;
-  ShareStatus?: ShareStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
 }
 export type FirewallRuleGroupMetadataList = FirewallRuleGroupMetadata[];
 export interface ListFirewallRuleGroupsResponse {
-  NextToken?: string;
-  FirewallRuleGroups?: FirewallRuleGroupMetadata[];
+  NextToken?: string | undefined;
+  FirewallRuleGroups?: FirewallRuleGroupMetadata[] | undefined;
 }
 export interface ListFirewallRulesRequest {
   FirewallRuleGroupId: string;
-  Priority?: number;
-  Action?: Action;
-  MaxResults?: number;
-  NextToken?: string;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFirewallRulesResponse {
-  NextToken?: string;
-  FirewallRules?: FirewallRule[];
+  NextToken?: string | undefined;
+  FirewallRules?: FirewallRule[] | undefined;
 }
 export type RuleTypeName = string;
 export interface ListFirewallRuleTypesRequest {
-  RuleType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RuleTypeValue = string;
 export type DisplayName = string;
@@ -1005,63 +1006,63 @@ export type RuleTypeDescription = string;
 export type VendorName = string;
 export type ProductId = string;
 export interface SubscriptionInfo {
-  VendorName?: string;
-  ProductId?: string;
+  VendorName?: string | undefined;
+  ProductId?: string | undefined;
 }
 export interface FirewallRuleTypeDefinition {
-  RuleType?: string;
-  Value?: string;
-  DisplayName?: string;
-  Description?: string;
-  SubscriptionInfo?: SubscriptionInfo;
+  RuleType?: string | undefined;
+  Value?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  SubscriptionInfo?: SubscriptionInfo | undefined;
 }
 export type FirewallRuleTypeDefinitions = FirewallRuleTypeDefinition[];
 export interface ListFirewallRuleTypesResponse {
-  FirewallRuleTypes?: FirewallRuleTypeDefinition[];
-  NextToken?: string;
+  FirewallRuleTypes?: FirewallRuleTypeDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOutpostResolversRequest {
-  OutpostArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  OutpostArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutpostResolverList = OutpostResolver[];
 export interface ListOutpostResolversResponse {
-  OutpostResolvers?: OutpostResolver[];
-  NextToken?: string;
+  OutpostResolvers?: OutpostResolver[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListResolverConfigsMaxResult = number;
 export interface ListResolverConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResolverConfigList = ResolverConfig[];
 export interface ListResolverConfigsResponse {
-  NextToken?: string;
-  ResolverConfigs?: ResolverConfig[];
+  NextToken?: string | undefined;
+  ResolverConfigs?: ResolverConfig[] | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type Filters = Filter[];
 export interface ListResolverDnssecConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverDnssecConfigList = ResolverDnssecConfig[];
 export interface ListResolverDnssecConfigsResponse {
-  NextToken?: string;
-  ResolverDnssecConfigs?: ResolverDnssecConfig[];
+  NextToken?: string | undefined;
+  ResolverDnssecConfigs?: ResolverDnssecConfig[] | undefined;
 }
 export interface ListResolverEndpointIpAddressesRequest {
   ResolverEndpointId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IpAddressStatus =
   | "CREATING"
@@ -1080,113 +1081,113 @@ export type IpAddressStatus =
   | "ISOLATED"
   | (string & {});
 export interface IpAddressResponse {
-  IpId?: string;
-  SubnetId?: string;
-  Ip?: string;
-  Ipv6?: string;
-  Status?: IpAddressStatus;
-  StatusMessage?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
+  IpId?: string | undefined;
+  SubnetId?: string | undefined;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
+  Status?: IpAddressStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export type IpAddressesResponse = IpAddressResponse[];
 export interface ListResolverEndpointIpAddressesResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  IpAddresses?: IpAddressResponse[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IpAddresses?: IpAddressResponse[] | undefined;
 }
 export interface ListResolverEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverEndpoints = ResolverEndpoint[];
 export interface ListResolverEndpointsResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverEndpoints?: ResolverEndpoint[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverEndpoints?: ResolverEndpoint[] | undefined;
 }
 export type SortByKey = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListResolverQueryLogConfigAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
-  SortBy?: string;
-  SortOrder?: SortOrder;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ResolverQueryLogConfigAssociationList = ResolverQueryLogConfigAssociation[];
 export interface ListResolverQueryLogConfigAssociationsResponse {
-  NextToken?: string;
-  TotalCount?: number;
-  TotalFilteredCount?: number;
-  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[];
+  NextToken?: string | undefined;
+  TotalCount?: number | undefined;
+  TotalFilteredCount?: number | undefined;
+  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[] | undefined;
 }
 export interface ListResolverQueryLogConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
-  SortBy?: string;
-  SortOrder?: SortOrder;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ResolverQueryLogConfigList = ResolverQueryLogConfig[];
 export interface ListResolverQueryLogConfigsResponse {
-  NextToken?: string;
-  TotalCount?: number;
-  TotalFilteredCount?: number;
-  ResolverQueryLogConfigs?: ResolverQueryLogConfig[];
+  NextToken?: string | undefined;
+  TotalCount?: number | undefined;
+  TotalFilteredCount?: number | undefined;
+  ResolverQueryLogConfigs?: ResolverQueryLogConfig[] | undefined;
 }
 export interface ListResolverRuleAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverRuleAssociations = ResolverRuleAssociation[];
 export interface ListResolverRuleAssociationsResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverRuleAssociations?: ResolverRuleAssociation[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverRuleAssociations?: ResolverRuleAssociation[] | undefined;
 }
 export interface ListResolverRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverRules = ResolverRule[];
 export interface ListResolverRulesResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverRules?: ResolverRule[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverRules?: ResolverRule[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutFirewallRuleGroupPolicyRequest {
   Arn: string;
   FirewallRuleGroupPolicy: string;
 }
 export interface PutFirewallRuleGroupPolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface PutResolverQueryLogConfigPolicyRequest {
   Arn: string;
   ResolverQueryLogConfigPolicy: string;
 }
 export interface PutResolverQueryLogConfigPolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface PutResolverRulePolicyRequest {
   Arn: string;
   ResolverRulePolicy: string;
 }
 export interface PutResolverRulePolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1204,7 +1205,7 @@ export interface UpdateFirewallConfigRequest {
   FirewallFailOpen: FirewallFailOpenStatus;
 }
 export interface UpdateFirewallConfigResponse {
-  FirewallConfig?: FirewallConfig;
+  FirewallConfig?: FirewallConfig | undefined;
 }
 export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE" | (string & {});
 export interface UpdateFirewallDomainsRequest {
@@ -1213,48 +1214,48 @@ export interface UpdateFirewallDomainsRequest {
   Domains: string[];
 }
 export interface UpdateFirewallDomainsResponse {
-  Id?: string;
-  Name?: string;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface UpdateFirewallRuleRequest {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  Name?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  Name?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export interface UpdateFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface UpdateFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
-  Priority?: number;
-  MutationProtection?: MutationProtectionStatus;
-  Name?: string;
+  Priority?: number | undefined;
+  MutationProtection?: MutationProtectionStatus | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateFirewallRuleGroupAssociationResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface UpdateOutpostResolverRequest {
   Id: string;
-  Name?: string;
-  InstanceCount?: number;
-  PreferredInstanceType?: string;
+  Name?: string | undefined;
+  InstanceCount?: number | undefined;
+  PreferredInstanceType?: string | undefined;
 }
 export interface UpdateOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export type AutodefinedReverseFlag =
   | "ENABLE"
@@ -1266,7 +1267,7 @@ export interface UpdateResolverConfigRequest {
   AutodefinedReverseFlag: AutodefinedReverseFlag;
 }
 export interface UpdateResolverConfigResponse {
-  ResolverConfig?: ResolverConfig;
+  ResolverConfig?: ResolverConfig | undefined;
 }
 export type Validation = "ENABLE" | "DISABLE" | "USE_LOCAL_RESOURCE_SETTING" | (string & {});
 export interface UpdateResolverDnssecConfigRequest {
@@ -1274,7 +1275,7 @@ export interface UpdateResolverDnssecConfigRequest {
   Validation: Validation;
 }
 export interface UpdateResolverDnssecConfigResponse {
-  ResolverDNSSECConfig?: ResolverDnssecConfig;
+  ResolverDNSSECConfig?: ResolverDnssecConfig | undefined;
 }
 export interface UpdateIpAddress {
   IpId: string;
@@ -1283,29 +1284,29 @@ export interface UpdateIpAddress {
 export type UpdateIpAddresses = UpdateIpAddress[];
 export interface UpdateResolverEndpointRequest {
   ResolverEndpointId: string;
-  Name?: string;
-  ResolverEndpointType?: ResolverEndpointType;
-  UpdateIpAddresses?: UpdateIpAddress[];
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  Name?: string | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  UpdateIpAddresses?: UpdateIpAddress[] | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface UpdateResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface ResolverRuleConfig {
-  Name?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
+  Name?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
 }
 export interface UpdateResolverRuleRequest {
   ResolverRuleId: string;
   Config: ResolverRuleConfig;
 }
 export interface UpdateResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export type ExceptionMessage = string;
 export type AssociateFirewallRuleGroupError =
@@ -1323,7 +1324,7 @@ export type AssociateFirewallRuleGroupError =
  * If the rule group contains any rule configured with the `PartnerThreatProtection` rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
  */
 export const associateFirewallRuleGroup: API.OperationMethod<
-  AssociateFirewallRuleGroupRequest,
+  AssociateFirewallRuleGroupRequest & RegionInput,
   AssociateFirewallRuleGroupResponse,
   AssociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type AssociateResolverEndpointIpAddressError =
  * DisassociateResolverEndpointIpAddress.
  */
 export const associateResolverEndpointIpAddress: API.OperationMethod<
-  AssociateResolverEndpointIpAddressRequest,
+  AssociateResolverEndpointIpAddressRequest & RegionInput,
   AssociateResolverEndpointIpAddressResponse,
   AssociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type AssociateResolverQueryLogConfigError =
  * DisassociateResolverQueryLogConfig.
  */
 export const associateResolverQueryLogConfig: API.OperationMethod<
-  AssociateResolverQueryLogConfigRequest,
+  AssociateResolverQueryLogConfigRequest & RegionInput,
   AssociateResolverQueryLogConfigResponse,
   AssociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1448,7 +1449,7 @@ export type AssociateResolverRuleError =
  * CreateResolverRule.
  */
 export const associateResolverRule: API.OperationMethod<
-  AssociateResolverRuleRequest,
+  AssociateResolverRuleRequest & RegionInput,
   AssociateResolverRuleResponse,
   AssociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type BatchCreateFirewallRuleError =
  * Creates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
-  BatchCreateFirewallRuleRequest,
+  BatchCreateFirewallRuleRequest & RegionInput,
   BatchCreateFirewallRuleResponse,
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type BatchDeleteFirewallRuleError =
  * Deletes multiple DNS Firewall rules from the specified rule group.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
-  BatchDeleteFirewallRuleRequest,
+  BatchDeleteFirewallRuleRequest & RegionInput,
   BatchDeleteFirewallRuleResponse,
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1548,7 @@ export type BatchUpdateFirewallRuleError =
  * Updates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
-  BatchUpdateFirewallRuleRequest,
+  BatchUpdateFirewallRuleRequest & RegionInput,
   BatchUpdateFirewallRuleResponse,
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1579,7 +1580,7 @@ export type CreateFirewallDomainListError =
  * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
  */
 export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListRequest,
+  CreateFirewallDomainListRequest & RegionInput,
   CreateFirewallDomainListResponse,
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type CreateFirewallRuleError =
  * For rules that require asynchronous provisioning (today, the `PartnerThreatProtection` rule type), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
  */
 export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleRequest,
+  CreateFirewallRuleRequest & RegionInput,
   CreateFirewallRuleResponse,
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1654,7 +1655,7 @@ export type CreateFirewallRuleGroupError =
  * by calling CreateFirewallRule.
  */
 export const createFirewallRuleGroup: API.OperationMethod<
-  CreateFirewallRuleGroupRequest,
+  CreateFirewallRuleGroupRequest & RegionInput,
   CreateFirewallRuleGroupResponse,
   CreateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type CreateOutpostResolverError =
  * is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it.
  */
 export const createOutpostResolver: API.OperationMethod<
-  CreateOutpostResolverRequest,
+  CreateOutpostResolverRequest & RegionInput,
   CreateOutpostResolverResponse,
   CreateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1732,7 +1733,7 @@ export type CreateResolverEndpointError =
  * to your network.
  */
 export const createResolverEndpoint: API.OperationMethod<
-  CreateResolverEndpointRequest,
+  CreateResolverEndpointRequest & RegionInput,
   CreateResolverEndpointResponse,
   CreateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1778,7 +1779,7 @@ export type CreateResolverQueryLogConfigError =
  * VPCs that are associated with the configuration.
  */
 export const createResolverQueryLogConfig: API.OperationMethod<
-  CreateResolverQueryLogConfigRequest,
+  CreateResolverQueryLogConfigRequest & RegionInput,
   CreateResolverQueryLogConfigResponse,
   CreateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1818,7 +1819,7 @@ export type CreateResolverRuleError =
  * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
  */
 export const createResolverRule: API.OperationMethod<
-  CreateResolverRuleRequest,
+  CreateResolverRuleRequest & RegionInput,
   CreateResolverRuleResponse,
   CreateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1854,7 +1855,7 @@ export type DeleteFirewallDomainListError =
  * Deletes the specified domain list.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListRequest,
+  DeleteFirewallDomainListRequest & RegionInput,
   DeleteFirewallDomainListResponse,
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1888,7 +1889,7 @@ export type DeleteFirewallRuleError =
  * `DeleteFirewallRule` is the only operation that succeeds against a rule whose `Status` is `CREATION_FAILED`.
  */
 export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleRequest,
+  DeleteFirewallRuleRequest & RegionInput,
   DeleteFirewallRuleResponse,
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type DeleteFirewallRuleGroupError =
  * Deletes the specified firewall rule group.
  */
 export const deleteFirewallRuleGroup: API.OperationMethod<
-  DeleteFirewallRuleGroupRequest,
+  DeleteFirewallRuleGroupRequest & RegionInput,
   DeleteFirewallRuleGroupResponse,
   DeleteFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1959,7 +1960,7 @@ export type DeleteOutpostResolverError =
  * second-generation Outposts, contact Amazon Web Services Support.
  */
 export const deleteOutpostResolver: API.OperationMethod<
-  DeleteOutpostResolverRequest,
+  DeleteOutpostResolverRequest & RegionInput,
   DeleteOutpostResolverResponse,
   DeleteOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1998,7 +1999,7 @@ export type DeleteResolverEndpointError =
  * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
  */
 export const deleteResolverEndpoint: API.OperationMethod<
-  DeleteResolverEndpointRequest,
+  DeleteResolverEndpointRequest & RegionInput,
   DeleteResolverEndpointResponse,
   DeleteResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DeleteResolverQueryLogConfigError =
  * disassociated from the configuration.
  */
 export const deleteResolverQueryLogConfig: API.OperationMethod<
-  DeleteResolverQueryLogConfigRequest,
+  DeleteResolverQueryLogConfigRequest & RegionInput,
   DeleteResolverQueryLogConfigResponse,
   DeleteResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2077,7 +2078,7 @@ export type DeleteResolverRuleError =
  * DisassociateResolverRule.
  */
 export const deleteResolverRule: API.OperationMethod<
-  DeleteResolverRuleRequest,
+  DeleteResolverRuleRequest & RegionInput,
   DeleteResolverRuleResponse,
   DeleteResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2112,7 @@ export type DisassociateFirewallRuleGroupError =
  * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
  */
 export const disassociateFirewallRuleGroup: API.OperationMethod<
-  DisassociateFirewallRuleGroupRequest,
+  DisassociateFirewallRuleGroupRequest & RegionInput,
   DisassociateFirewallRuleGroupResponse,
   DisassociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type DisassociateResolverEndpointIpAddressError =
  * AssociateResolverEndpointIpAddress.
  */
 export const disassociateResolverEndpointIpAddress: API.OperationMethod<
-  DisassociateResolverEndpointIpAddressRequest,
+  DisassociateResolverEndpointIpAddressRequest & RegionInput,
   DisassociateResolverEndpointIpAddressResponse,
   DisassociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2193,7 @@ export type DisassociateResolverQueryLogConfigError =
  * - You can stop sharing the configuration.
  */
 export const disassociateResolverQueryLogConfig: API.OperationMethod<
-  DisassociateResolverQueryLogConfigRequest,
+  DisassociateResolverQueryLogConfigRequest & RegionInput,
   DisassociateResolverQueryLogConfigResponse,
   DisassociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type DisassociateResolverRuleError =
  * domain name that you specified in the Resolver rule.
  */
 export const disassociateResolverRule: API.OperationMethod<
-  DisassociateResolverRuleRequest,
+  DisassociateResolverRuleRequest & RegionInput,
   DisassociateResolverRuleResponse,
   DisassociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2261,7 +2262,7 @@ export type GetFirewallConfigError =
  * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const getFirewallConfig: API.OperationMethod<
-  GetFirewallConfigRequest,
+  GetFirewallConfigRequest & RegionInput,
   GetFirewallConfigResponse,
   GetFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -2292,7 +2293,7 @@ export type GetFirewallDomainListError =
  * Retrieves the specified firewall domain list.
  */
 export const getFirewallDomainList: API.OperationMethod<
-  GetFirewallDomainListRequest,
+  GetFirewallDomainListRequest & RegionInput,
   GetFirewallDomainListResponse,
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -2322,7 +2323,7 @@ export type GetFirewallRuleGroupError =
  * Retrieves the specified firewall rule group.
  */
 export const getFirewallRuleGroup: API.OperationMethod<
-  GetFirewallRuleGroupRequest,
+  GetFirewallRuleGroupRequest & RegionInput,
   GetFirewallRuleGroupResponse,
   GetFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2352,7 +2353,7 @@ export type GetFirewallRuleGroupAssociationError =
  * Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
  */
 export const getFirewallRuleGroupAssociation: API.OperationMethod<
-  GetFirewallRuleGroupAssociationRequest,
+  GetFirewallRuleGroupAssociationRequest & RegionInput,
   GetFirewallRuleGroupAssociationResponse,
   GetFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2384,7 +2385,7 @@ export type GetFirewallRuleGroupPolicyError =
  * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
  */
 export const getFirewallRuleGroupPolicy: API.OperationMethod<
-  GetFirewallRuleGroupPolicyRequest,
+  GetFirewallRuleGroupPolicyRequest & RegionInput,
   GetFirewallRuleGroupPolicyResponse,
   GetFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2417,7 +2418,7 @@ export type GetOutpostResolverError =
  * type, name, and the current status of the Resolver.
  */
 export const getOutpostResolver: API.OperationMethod<
-  GetOutpostResolverRequest,
+  GetOutpostResolverRequest & RegionInput,
   GetOutpostResolverResponse,
   GetOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -2451,7 +2452,7 @@ export type GetResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const getResolverConfig: API.OperationMethod<
-  GetResolverConfigRequest,
+  GetResolverConfigRequest & RegionInput,
   GetResolverConfigResponse,
   GetResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -2485,7 +2486,7 @@ export type GetResolverDnssecConfigError =
  * Gets DNSSEC validation information for a specified resource.
  */
 export const getResolverDnssecConfig: API.OperationMethod<
-  GetResolverDnssecConfigRequest,
+  GetResolverDnssecConfigRequest & RegionInput,
   GetResolverDnssecConfigResponse,
   GetResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -2518,7 +2519,7 @@ export type GetResolverEndpointError =
  * current status of the endpoint.
  */
 export const getResolverEndpoint: API.OperationMethod<
-  GetResolverEndpointRequest,
+  GetResolverEndpointRequest & RegionInput,
   GetResolverEndpointResponse,
   GetResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2551,7 +2552,7 @@ export type GetResolverQueryLogConfigError =
  * is logging queries for and the location that logs are sent to.
  */
 export const getResolverQueryLogConfig: API.OperationMethod<
-  GetResolverQueryLogConfigRequest,
+  GetResolverQueryLogConfigRequest & RegionInput,
   GetResolverQueryLogConfigResponse,
   GetResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2586,7 +2587,7 @@ export type GetResolverQueryLogConfigAssociationError =
  * with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
  */
 export const getResolverQueryLogConfigAssociation: API.OperationMethod<
-  GetResolverQueryLogConfigAssociationRequest,
+  GetResolverQueryLogConfigAssociationRequest & RegionInput,
   GetResolverQueryLogConfigAssociationResponse,
   GetResolverQueryLogConfigAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type GetResolverQueryLogConfigPolicyError =
  * operations and resources that you want to allow another Amazon Web Services account to be able to use.
  */
 export const getResolverQueryLogConfigPolicy: API.OperationMethod<
-  GetResolverQueryLogConfigPolicyRequest,
+  GetResolverQueryLogConfigPolicyRequest & RegionInput,
   GetResolverQueryLogConfigPolicyResponse,
   GetResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type GetResolverRuleError =
  * outbound Resolver endpoint that the rule is associated with.
  */
 export const getResolverRule: API.OperationMethod<
-  GetResolverRuleRequest,
+  GetResolverRuleRequest & RegionInput,
   GetResolverRuleResponse,
   GetResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type GetResolverRuleAssociationError =
  * AssociateResolverRule.
  */
 export const getResolverRuleAssociation: API.OperationMethod<
-  GetResolverRuleAssociationRequest,
+  GetResolverRuleAssociationRequest & RegionInput,
   GetResolverRuleAssociationResponse,
   GetResolverRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2715,7 @@ export type GetResolverRulePolicyError =
  * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
  */
 export const getResolverRulePolicy: API.OperationMethod<
-  GetResolverRulePolicyRequest,
+  GetResolverRulePolicyRequest & RegionInput,
   GetResolverRulePolicyResponse,
   GetResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type ImportFirewallDomainsError =
  * - It must be from 1-255 characters in length.
  */
 export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsRequest,
+  ImportFirewallDomainsRequest & RegionInput,
   ImportFirewallDomainsResponse,
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2793,7 +2794,7 @@ export type ListFirewallConfigsError =
  * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
  */
 export const listFirewallConfigs: API.PaginatedOperationMethod<
-  ListFirewallConfigsRequest,
+  ListFirewallConfigsRequest & RegionInput,
   ListFirewallConfigsResponse,
   ListFirewallConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -2832,7 +2833,7 @@ export type ListFirewallDomainListsError =
  * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
  */
 export const listFirewallDomainLists: API.PaginatedOperationMethod<
-  ListFirewallDomainListsRequest,
+  ListFirewallDomainListsRequest & RegionInput,
   ListFirewallDomainListsResponse,
   ListFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2872,7 +2873,7 @@ export type ListFirewallDomainsError =
  * A single call might return only a partial list of the domains. For information, see `MaxResults`.
  */
 export const listFirewallDomains: API.PaginatedOperationMethod<
-  ListFirewallDomainsRequest,
+  ListFirewallDomainsRequest & RegionInput,
   ListFirewallDomainsResponse,
   ListFirewallDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2912,7 +2913,7 @@ export type ListFirewallRuleGroupAssociationsError =
  * A single call might return only a partial list of the associations. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupAssociationsRequest,
+  ListFirewallRuleGroupAssociationsRequest & RegionInput,
   ListFirewallRuleGroupAssociationsResponse,
   ListFirewallRuleGroupAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2951,7 +2952,7 @@ export type ListFirewallRuleGroupsError =
  * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroups: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupsRequest,
+  ListFirewallRuleGroupsRequest & RegionInput,
   ListFirewallRuleGroupsResponse,
   ListFirewallRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2993,7 +2994,7 @@ export type ListFirewallRulesError =
  * For rules that require asynchronous provisioning, the response includes `Status` (see FirewallRuleStatus) and, on failure, `StatusMessage` with the reason.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
-  ListFirewallRulesRequest,
+  ListFirewallRulesRequest & RegionInput,
   ListFirewallRulesResponse,
   ListFirewallRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3033,7 +3034,7 @@ export type ListFirewallRuleTypesError =
  * The supported `RuleType` filter values are `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned definition's variant requires an external subscription (currently only `PartnerThreatProtection`), the response also includes a SubscriptionInfo identifying the Amazon Web Services Marketplace product that backs it; absence of `SubscriptionInfo` means the variant is fully managed by Amazon Web Services and requires no separate subscription.
  */
 export const listFirewallRuleTypes: API.PaginatedOperationMethod<
-  ListFirewallRuleTypesRequest,
+  ListFirewallRuleTypesRequest & RegionInput,
   ListFirewallRuleTypesResponse,
   ListFirewallRuleTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3071,7 +3072,7 @@ export type ListOutpostResolversError =
  * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
  */
 export const listOutpostResolvers: API.PaginatedOperationMethod<
-  ListOutpostResolversRequest,
+  ListOutpostResolversRequest & RegionInput,
   ListOutpostResolversResponse,
   ListOutpostResolversError,
   Credentials | HttpClient.HttpClient,
@@ -3113,7 +3114,7 @@ export type ListResolverConfigsError =
  * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
  */
 export const listResolverConfigs: API.PaginatedOperationMethod<
-  ListResolverConfigsRequest,
+  ListResolverConfigsRequest & RegionInput,
   ListResolverConfigsResponse,
   ListResolverConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3155,7 +3156,7 @@ export type ListResolverDnssecConfigsError =
  * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
  */
 export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
-  ListResolverDnssecConfigsRequest,
+  ListResolverDnssecConfigsRequest & RegionInput,
   ListResolverDnssecConfigsResponse,
   ListResolverDnssecConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3195,7 +3196,7 @@ export type ListResolverEndpointIpAddressesError =
  * Gets the IP addresses for a specified Resolver endpoint.
  */
 export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
-  ListResolverEndpointIpAddressesRequest,
+  ListResolverEndpointIpAddressesRequest & RegionInput,
   ListResolverEndpointIpAddressesResponse,
   ListResolverEndpointIpAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -3234,7 +3235,7 @@ export type ListResolverEndpointsError =
  * Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
  */
 export const listResolverEndpoints: API.PaginatedOperationMethod<
-  ListResolverEndpointsRequest,
+  ListResolverEndpointsRequest & RegionInput,
   ListResolverEndpointsResponse,
   ListResolverEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3274,7 +3275,7 @@ export type ListResolverQueryLogConfigAssociationsError =
  * Lists information about associations between Amazon VPCs and query logging configurations.
  */
 export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigAssociationsRequest,
+  ListResolverQueryLogConfigAssociationsRequest & RegionInput,
   ListResolverQueryLogConfigAssociationsResponse,
   ListResolverQueryLogConfigAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3316,7 +3317,7 @@ export type ListResolverQueryLogConfigsError =
  * DNS query logs and specifies the VPCs that you want to log queries for.
  */
 export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigsRequest,
+  ListResolverQueryLogConfigsRequest & RegionInput,
   ListResolverQueryLogConfigsResponse,
   ListResolverQueryLogConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3356,7 +3357,7 @@ export type ListResolverRuleAssociationsError =
  * Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
  */
 export const listResolverRuleAssociations: API.PaginatedOperationMethod<
-  ListResolverRuleAssociationsRequest,
+  ListResolverRuleAssociationsRequest & RegionInput,
   ListResolverRuleAssociationsResponse,
   ListResolverRuleAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3395,7 +3396,7 @@ export type ListResolverRulesError =
  * Lists the Resolver rules that were created using the current Amazon Web Services account.
  */
 export const listResolverRules: API.PaginatedOperationMethod<
-  ListResolverRulesRequest,
+  ListResolverRulesRequest & RegionInput,
   ListResolverRulesResponse,
   ListResolverRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3435,7 +3436,7 @@ export type ListTagsForResourceError =
  * Lists the tags that you associated with the specified resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3477,7 +3478,7 @@ export type PutFirewallRuleGroupPolicyError =
  * (RAM).
  */
 export const putFirewallRuleGroupPolicy: API.OperationMethod<
-  PutFirewallRuleGroupPolicyRequest,
+  PutFirewallRuleGroupPolicyRequest & RegionInput,
   PutFirewallRuleGroupPolicyResponse,
   PutFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3511,7 +3512,7 @@ export type PutResolverQueryLogConfigPolicyError =
  * and the operations that you want the account to be able to perform on the configuration.
  */
 export const putResolverQueryLogConfigPolicy: API.OperationMethod<
-  PutResolverQueryLogConfigPolicyRequest,
+  PutResolverQueryLogConfigPolicyRequest & RegionInput,
   PutResolverQueryLogConfigPolicyResponse,
   PutResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3546,7 @@ export type PutResolverRulePolicyError =
  * and the operations that you want the account to be able to perform on the rule.
  */
 export const putResolverRulePolicy: API.OperationMethod<
-  PutResolverRulePolicyRequest,
+  PutResolverRulePolicyRequest & RegionInput,
   PutResolverRulePolicyResponse,
   PutResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3579,7 +3580,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3613,7 +3614,7 @@ export type UntagResourceError =
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3646,7 +3647,7 @@ export type UpdateFirewallConfigError =
  * VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const updateFirewallConfig: API.OperationMethod<
-  UpdateFirewallConfigRequest,
+  UpdateFirewallConfigRequest & RegionInput,
   UpdateFirewallConfigResponse,
   UpdateFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -3680,7 +3681,7 @@ export type UpdateFirewallDomainsError =
  * Updates the firewall domain list from an array of domain specifications.
  */
 export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsRequest,
+  UpdateFirewallDomainsRequest & RegionInput,
   UpdateFirewallDomainsResponse,
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3715,7 +3716,7 @@ export type UpdateFirewallRuleError =
  * Updates the specified firewall rule. The rule's `FirewallRuleType`, `FirewallDomainListId`, and top-level `DnsThreatProtection` match source cannot be changed after creation. Rules whose `Status` is `CREATING` or `CREATION_FAILED` cannot be updated; remove a failed rule with DeleteFirewallRule.
  */
 export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleRequest,
+  UpdateFirewallRuleRequest & RegionInput,
   UpdateFirewallRuleResponse,
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -3749,7 +3750,7 @@ export type UpdateFirewallRuleGroupAssociationError =
  * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
  */
 export const updateFirewallRuleGroupAssociation: API.OperationMethod<
-  UpdateFirewallRuleGroupAssociationRequest,
+  UpdateFirewallRuleGroupAssociationRequest & RegionInput,
   UpdateFirewallRuleGroupAssociationResponse,
   UpdateFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3787,7 +3788,7 @@ export type UpdateOutpostResolverError =
  * is managed automatically by Amazon Web Services and can't be updated directly.
  */
 export const updateOutpostResolver: API.OperationMethod<
-  UpdateOutpostResolverRequest,
+  UpdateOutpostResolverRequest & RegionInput,
   UpdateOutpostResolverResponse,
   UpdateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -3826,7 +3827,7 @@ export type UpdateResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const updateResolverConfig: API.OperationMethod<
-  UpdateResolverConfigRequest,
+  UpdateResolverConfigRequest & RegionInput,
   UpdateResolverConfigResponse,
   UpdateResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -3863,7 +3864,7 @@ export type UpdateResolverDnssecConfigError =
  * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
  */
 export const updateResolverDnssecConfig: API.OperationMethod<
-  UpdateResolverDnssecConfigRequest,
+  UpdateResolverDnssecConfigRequest & RegionInput,
   UpdateResolverDnssecConfigResponse,
   UpdateResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -3898,7 +3899,7 @@ export type UpdateResolverEndpointError =
  * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
  */
 export const updateResolverEndpoint: API.OperationMethod<
-  UpdateResolverEndpointRequest,
+  UpdateResolverEndpointRequest & RegionInput,
   UpdateResolverEndpointResponse,
   UpdateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3935,7 +3936,7 @@ export type UpdateResolverRuleError =
  * If you don't specify a parameter, it retains its current value.
  */
 export const updateResolverRule: API.OperationMethod<
-  UpdateResolverRuleRequest,
+  UpdateResolverRuleRequest & RegionInput,
   UpdateResolverRuleResponse,
   UpdateResolverRuleError,
   Credentials | HttpClient.HttpClient

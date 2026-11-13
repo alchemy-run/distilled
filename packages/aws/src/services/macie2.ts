@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -146,79 +147,79 @@ export class ValidationException
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface AcceptInvitationRequest {
-  administratorAccountId?: string;
-  invitationId?: string;
-  masterAccount?: string;
+  administratorAccountId?: string | undefined;
+  invitationId?: string | undefined;
+  masterAccount?: string | undefined;
 }
 export interface AcceptInvitationResponse {}
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c1, 0);
 export interface BatchGetCustomDataIdentifiersRequest {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface BatchGetCustomDataIdentifierSummary {
-  arn?: string;
-  createdAt?: Date;
-  deleted?: boolean;
-  description?: string;
-  id?: string;
-  name?: string;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type __listOfBatchGetCustomDataIdentifierSummary = BatchGetCustomDataIdentifierSummary[];
 const __listOfBatchGetCustomDataIdentifierSummary = /*@__PURE__*/ __L.at(__c0, 2);
 export interface BatchGetCustomDataIdentifiersResponse {
-  customDataIdentifiers?: BatchGetCustomDataIdentifierSummary[];
-  notFoundIdentifierIds?: string[];
+  customDataIdentifiers?: BatchGetCustomDataIdentifierSummary[] | undefined;
+  notFoundIdentifierIds?: string[] | undefined;
 }
 export type AutomatedDiscoveryAccountStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface AutomatedDiscoveryAccountUpdate {
-  accountId?: string;
-  status?: AutomatedDiscoveryAccountStatus;
+  accountId?: string | undefined;
+  status?: AutomatedDiscoveryAccountStatus | undefined;
 }
 export type __listOfAutomatedDiscoveryAccountUpdate = AutomatedDiscoveryAccountUpdate[];
 const __listOfAutomatedDiscoveryAccountUpdate = /*@__PURE__*/ __L.at(__c3, 1);
 export interface BatchUpdateAutomatedDiscoveryAccountsRequest {
-  accounts?: AutomatedDiscoveryAccountUpdate[];
+  accounts?: AutomatedDiscoveryAccountUpdate[] | undefined;
 }
 export type AutomatedDiscoveryAccountUpdateErrorCode =
   | "ACCOUNT_PAUSED"
   | "ACCOUNT_NOT_FOUND"
   | (string & {});
 export interface AutomatedDiscoveryAccountUpdateError {
-  accountId?: string;
-  errorCode?: AutomatedDiscoveryAccountUpdateErrorCode;
+  accountId?: string | undefined;
+  errorCode?: AutomatedDiscoveryAccountUpdateErrorCode | undefined;
 }
 export type __listOfAutomatedDiscoveryAccountUpdateError = AutomatedDiscoveryAccountUpdateError[];
 const __listOfAutomatedDiscoveryAccountUpdateError = /*@__PURE__*/ __L.at(__c2, 2);
 export interface BatchUpdateAutomatedDiscoveryAccountsResponse {
-  errors?: AutomatedDiscoveryAccountUpdateError[];
+  errors?: AutomatedDiscoveryAccountUpdateError[] | undefined;
 }
 export type __stringMin1Max512PatternSS = string;
 export type __stringMin3Max255PatternAZaZ093255 = string;
 export type __stringMin1Max1024PatternSS = string;
 export interface S3WordsList {
-  bucketName?: string;
-  objectKey?: string;
+  bucketName?: string | undefined;
+  objectKey?: string | undefined;
 }
 export interface AllowListCriteria {
-  regex?: string;
-  s3WordsList?: S3WordsList;
+  regex?: string | undefined;
+  s3WordsList?: S3WordsList | undefined;
 }
 export type __stringMin1Max128Pattern = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAllowListRequest {
-  clientToken?: string;
-  criteria?: AllowListCriteria;
-  description?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  criteria?: AllowListCriteria | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin71Max89PatternArnAwsAwsCnAwsUsGovMacie2AZ19920D12AllowListAZ0922 = string;
 export type __stringMin22Max22PatternAZ0922 = string;
 export interface CreateAllowListResponse {
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export type JobType = "ONE_TIME" | "SCHEDULED" | (string & {});
 export type ManagedDataIdentifierSelector =
@@ -245,36 +246,36 @@ export type SimpleCriterionKeyForJob =
   | "S3_BUCKET_SHARED_ACCESS"
   | (string & {});
 export interface SimpleCriterionForJob {
-  comparator?: JobComparator;
-  key?: SimpleCriterionKeyForJob;
-  values?: string[];
+  comparator?: JobComparator | undefined;
+  key?: SimpleCriterionKeyForJob | undefined;
+  values?: string[] | undefined;
 }
 export interface TagCriterionPairForJob {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type __listOfTagCriterionPairForJob = TagCriterionPairForJob[];
 const __listOfTagCriterionPairForJob = /*@__PURE__*/ __L.at(__c9, 1);
 export interface TagCriterionForJob {
-  comparator?: JobComparator;
-  tagValues?: TagCriterionPairForJob[];
+  comparator?: JobComparator | undefined;
+  tagValues?: TagCriterionPairForJob[] | undefined;
 }
 export interface CriteriaForJob {
-  simpleCriterion?: SimpleCriterionForJob;
-  tagCriterion?: TagCriterionForJob;
+  simpleCriterion?: SimpleCriterionForJob | undefined;
+  tagCriterion?: TagCriterionForJob | undefined;
 }
 export type __listOfCriteriaForJob = CriteriaForJob[];
 const __listOfCriteriaForJob = /*@__PURE__*/ __L.at(__c13, 2);
 export interface CriteriaBlockForJob {
-  and?: CriteriaForJob[];
+  and?: CriteriaForJob[] | undefined;
 }
 export interface S3BucketCriteriaForJob {
-  excludes?: CriteriaBlockForJob;
-  includes?: CriteriaBlockForJob;
+  excludes?: CriteriaBlockForJob | undefined;
+  includes?: CriteriaBlockForJob | undefined;
 }
 export interface S3BucketDefinitionForJob {
-  accountId?: string;
-  buckets?: string[];
+  accountId?: string | undefined;
+  buckets?: string[] | undefined;
 }
 export type __listOfS3BucketDefinitionForJob = S3BucketDefinitionForJob[];
 const __listOfS3BucketDefinitionForJob = /*@__PURE__*/ __L.at(__c12, 1);
@@ -285,45 +286,45 @@ export type ScopeFilterKey =
   | "OBJECT_KEY"
   | (string & {});
 export interface SimpleScopeTerm {
-  comparator?: JobComparator;
-  key?: ScopeFilterKey;
-  values?: string[];
+  comparator?: JobComparator | undefined;
+  key?: ScopeFilterKey | undefined;
+  values?: string[] | undefined;
 }
 export interface TagValuePair {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type __listOfTagValuePair = TagValuePair[];
 const __listOfTagValuePair =
   __listOfTagCriterionPairForJob as any as S.Schema<__listOfTagValuePair>;
 export type TagTarget = "S3_OBJECT" | (string & {});
 export interface TagScopeTerm {
-  comparator?: JobComparator;
-  key?: string;
-  tagValues?: TagValuePair[];
-  target?: TagTarget;
+  comparator?: JobComparator | undefined;
+  key?: string | undefined;
+  tagValues?: TagValuePair[] | undefined;
+  target?: TagTarget | undefined;
 }
 export interface JobScopeTerm {
-  simpleScopeTerm?: SimpleScopeTerm;
-  tagScopeTerm?: TagScopeTerm;
+  simpleScopeTerm?: SimpleScopeTerm | undefined;
+  tagScopeTerm?: TagScopeTerm | undefined;
 }
 export type __listOfJobScopeTerm = JobScopeTerm[];
 const __listOfJobScopeTerm = /*@__PURE__*/ __L.at(__c10, 2);
 export interface JobScopingBlock {
-  and?: JobScopeTerm[];
+  and?: JobScopeTerm[] | undefined;
 }
 export interface Scoping {
-  excludes?: JobScopingBlock;
-  includes?: JobScopingBlock;
+  excludes?: JobScopingBlock | undefined;
+  includes?: JobScopingBlock | undefined;
 }
 export interface S3JobDefinition {
-  bucketCriteria?: S3BucketCriteriaForJob;
-  bucketDefinitions?: S3BucketDefinitionForJob[];
-  scoping?: Scoping;
+  bucketCriteria?: S3BucketCriteriaForJob | undefined;
+  bucketDefinitions?: S3BucketDefinitionForJob[] | undefined;
+  scoping?: Scoping | undefined;
 }
 export interface DailySchedule {}
 export interface MonthlySchedule {
-  dayOfMonth?: number;
+  dayOfMonth?: number | undefined;
 }
 export type DayOfWeek =
   | "SUNDAY"
@@ -335,105 +336,105 @@ export type DayOfWeek =
   | "SATURDAY"
   | (string & {});
 export interface WeeklySchedule {
-  dayOfWeek?: DayOfWeek;
+  dayOfWeek?: DayOfWeek | undefined;
 }
 export interface JobScheduleFrequency {
-  dailySchedule?: DailySchedule;
-  monthlySchedule?: MonthlySchedule;
-  weeklySchedule?: WeeklySchedule;
+  dailySchedule?: DailySchedule | undefined;
+  monthlySchedule?: MonthlySchedule | undefined;
+  weeklySchedule?: WeeklySchedule | undefined;
 }
 export interface CreateClassificationJobRequest {
-  allowListIds?: string[];
-  clientToken?: string;
-  customDataIdentifierIds?: string[];
-  description?: string;
-  initialRun?: boolean;
-  jobType?: JobType;
-  managedDataIdentifierIds?: string[];
-  managedDataIdentifierSelector?: ManagedDataIdentifierSelector;
-  name?: string;
-  s3JobDefinition?: S3JobDefinition;
-  samplingPercentage?: number;
-  scheduleFrequency?: JobScheduleFrequency;
-  tags?: { [key: string]: string | undefined };
+  allowListIds?: string[] | undefined;
+  clientToken?: string | undefined;
+  customDataIdentifierIds?: string[] | undefined;
+  description?: string | undefined;
+  initialRun?: boolean | undefined;
+  jobType?: JobType | undefined;
+  managedDataIdentifierIds?: string[] | undefined;
+  managedDataIdentifierSelector?: ManagedDataIdentifierSelector | undefined;
+  name?: string | undefined;
+  s3JobDefinition?: S3JobDefinition | undefined;
+  samplingPercentage?: number | undefined;
+  scheduleFrequency?: JobScheduleFrequency | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateClassificationJobResponse {
-  jobArn?: string;
-  jobId?: string;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
 }
 export type DataIdentifierSeverity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface SeverityLevel {
-  occurrencesThreshold?: number;
-  severity?: DataIdentifierSeverity;
+  occurrencesThreshold?: number | undefined;
+  severity?: DataIdentifierSeverity | undefined;
 }
 export type SeverityLevelList = SeverityLevel[];
 export interface CreateCustomDataIdentifierRequest {
-  clientToken?: string;
-  description?: string;
-  ignoreWords?: string[];
-  keywords?: string[];
-  maximumMatchDistance?: number;
-  name?: string;
-  regex?: string;
-  severityLevels?: SeverityLevel[];
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  ignoreWords?: string[] | undefined;
+  keywords?: string[] | undefined;
+  maximumMatchDistance?: number | undefined;
+  name?: string | undefined;
+  regex?: string | undefined;
+  severityLevels?: SeverityLevel[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCustomDataIdentifierResponse {
-  customDataIdentifierId?: string;
+  customDataIdentifierId?: string | undefined;
 }
 export type FindingsFilterAction = "ARCHIVE" | "NOOP" | (string & {});
 export interface CriterionAdditionalProperties {
-  eq?: string[];
-  eqExactMatch?: string[];
-  gt?: number;
-  gte?: number;
-  lt?: number;
-  lte?: number;
-  neq?: string[];
+  eq?: string[] | undefined;
+  eqExactMatch?: string[] | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string[] | undefined;
 }
 export type Criterion = { [key: string]: CriterionAdditionalProperties | undefined };
 export interface FindingCriteria {
-  criterion?: { [key: string]: CriterionAdditionalProperties | undefined };
+  criterion?: { [key: string]: CriterionAdditionalProperties | undefined } | undefined;
 }
 export interface CreateFindingsFilterRequest {
-  action?: FindingsFilterAction;
-  clientToken?: string;
-  description?: string;
-  findingCriteria?: FindingCriteria;
-  name?: string;
-  position?: number;
-  tags?: { [key: string]: string | undefined };
+  action?: FindingsFilterAction | undefined;
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  findingCriteria?: FindingCriteria | undefined;
+  name?: string | undefined;
+  position?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFindingsFilterResponse {
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface CreateInvitationsRequest {
-  accountIds?: string[];
-  disableEmailNotification?: boolean;
-  message?: string;
+  accountIds?: string[] | undefined;
+  disableEmailNotification?: boolean | undefined;
+  message?: string | undefined;
 }
 export type ErrorCode = "ClientError" | "InternalError" | (string & {});
 export interface UnprocessedAccount {
-  accountId?: string;
-  errorCode?: ErrorCode;
-  errorMessage?: string;
+  accountId?: string | undefined;
+  errorCode?: ErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type __listOfUnprocessedAccount = UnprocessedAccount[];
 const __listOfUnprocessedAccount = /*@__PURE__*/ __L.at(__c19, 1);
 export interface CreateInvitationsResponse {
-  unprocessedAccounts?: UnprocessedAccount[];
+  unprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface AccountDetail {
-  accountId?: string;
-  email?: string;
+  accountId?: string | undefined;
+  email?: string | undefined;
 }
 export interface CreateMemberRequest {
-  account?: AccountDetail;
-  tags?: { [key: string]: string | undefined };
+  account?: AccountDetail | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMemberResponse {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type FindingType =
   | "SensitiveData:S3Object/Multiple"
@@ -451,18 +452,18 @@ export type FindingType =
 export type __listOfFindingType = FindingType[];
 const __listOfFindingType = /*@__PURE__*/ __L.at(__c22, 0);
 export interface CreateSampleFindingsRequest {
-  findingTypes?: FindingType[];
+  findingTypes?: FindingType[] | undefined;
 }
 export interface CreateSampleFindingsResponse {}
 export interface DeclineInvitationsRequest {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
 }
 export interface DeclineInvitationsResponse {
-  unprocessedAccounts?: UnprocessedAccount[];
+  unprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DeleteAllowListRequest {
   id: string;
-  ignoreJobChecks?: string;
+  ignoreJobChecks?: string | undefined;
 }
 export interface DeleteAllowListResponse {}
 export interface DeleteCustomDataIdentifierRequest {
@@ -474,35 +475,35 @@ export interface DeleteFindingsFilterRequest {
 }
 export interface DeleteFindingsFilterResponse {}
 export interface DeleteInvitationsRequest {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
 }
 export interface DeleteInvitationsResponse {
-  unprocessedAccounts?: UnprocessedAccount[];
+  unprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DeleteMemberRequest {
   id: string;
 }
 export interface DeleteMemberResponse {}
 export interface BucketCriteriaAdditionalProperties {
-  eq?: string[];
-  gt?: number;
-  gte?: number;
-  lt?: number;
-  lte?: number;
-  neq?: string[];
-  prefix?: string;
+  eq?: string[] | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string[] | undefined;
+  prefix?: string | undefined;
 }
 export type BucketCriteria = { [key: string]: BucketCriteriaAdditionalProperties | undefined };
 export type OrderBy = "ASC" | "DESC" | (string & {});
 export interface BucketSortCriteria {
-  attributeName?: string;
-  orderBy?: OrderBy;
+  attributeName?: string | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export interface DescribeBucketsRequest {
-  criteria?: { [key: string]: BucketCriteriaAdditionalProperties | undefined };
-  maxResults?: number;
-  nextToken?: string;
-  sortCriteria?: BucketSortCriteria;
+  criteria?: { [key: string]: BucketCriteriaAdditionalProperties | undefined } | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortCriteria?: BucketSortCriteria | undefined;
 }
 export type AllowsUnencryptedObjectUploads = "TRUE" | "FALSE" | "UNKNOWN" | (string & {});
 export type AutomatedDiscoveryMonitoringStatus = "MONITORED" | "NOT_MONITORED" | (string & {});
@@ -513,106 +514,106 @@ export type BucketMetadataErrorCode =
 export type IsDefinedInJob = "TRUE" | "FALSE" | "UNKNOWN" | (string & {});
 export type IsMonitoredByJob = "TRUE" | "FALSE" | "UNKNOWN" | (string & {});
 export interface JobDetails {
-  isDefinedInJob?: IsDefinedInJob;
-  isMonitoredByJob?: IsMonitoredByJob;
-  lastJobId?: string;
-  lastJobRunTime?: Date;
+  isDefinedInJob?: IsDefinedInJob | undefined;
+  isMonitoredByJob?: IsMonitoredByJob | undefined;
+  lastJobId?: string | undefined;
+  lastJobRunTime?: Date | undefined;
 }
 export interface ObjectCountByEncryptionType {
-  customerManaged?: number;
-  kmsManaged?: number;
-  s3Managed?: number;
-  unencrypted?: number;
-  unknown?: number;
+  customerManaged?: number | undefined;
+  kmsManaged?: number | undefined;
+  s3Managed?: number | undefined;
+  unencrypted?: number | undefined;
+  unknown?: number | undefined;
 }
 export type EffectivePermission = "PUBLIC" | "NOT_PUBLIC" | "UNKNOWN" | (string & {});
 export interface BlockPublicAccess {
-  blockPublicAcls?: boolean;
-  blockPublicPolicy?: boolean;
-  ignorePublicAcls?: boolean;
-  restrictPublicBuckets?: boolean;
+  blockPublicAcls?: boolean | undefined;
+  blockPublicPolicy?: boolean | undefined;
+  ignorePublicAcls?: boolean | undefined;
+  restrictPublicBuckets?: boolean | undefined;
 }
 export interface AccountLevelPermissions {
-  blockPublicAccess?: BlockPublicAccess;
+  blockPublicAccess?: BlockPublicAccess | undefined;
 }
 export interface AccessControlList {
-  allowsPublicReadAccess?: boolean;
-  allowsPublicWriteAccess?: boolean;
+  allowsPublicReadAccess?: boolean | undefined;
+  allowsPublicWriteAccess?: boolean | undefined;
 }
 export interface BucketPolicy {
-  allowsPublicReadAccess?: boolean;
-  allowsPublicWriteAccess?: boolean;
+  allowsPublicReadAccess?: boolean | undefined;
+  allowsPublicWriteAccess?: boolean | undefined;
 }
 export interface BucketLevelPermissions {
-  accessControlList?: AccessControlList;
-  blockPublicAccess?: BlockPublicAccess;
-  bucketPolicy?: BucketPolicy;
+  accessControlList?: AccessControlList | undefined;
+  blockPublicAccess?: BlockPublicAccess | undefined;
+  bucketPolicy?: BucketPolicy | undefined;
 }
 export interface BucketPermissionConfiguration {
-  accountLevelPermissions?: AccountLevelPermissions;
-  bucketLevelPermissions?: BucketLevelPermissions;
+  accountLevelPermissions?: AccountLevelPermissions | undefined;
+  bucketLevelPermissions?: BucketLevelPermissions | undefined;
 }
 export interface BucketPublicAccess {
-  effectivePermission?: EffectivePermission;
-  permissionConfiguration?: BucketPermissionConfiguration;
+  effectivePermission?: EffectivePermission | undefined;
+  permissionConfiguration?: BucketPermissionConfiguration | undefined;
 }
 export interface ReplicationDetails {
-  replicated?: boolean;
-  replicatedExternally?: boolean;
-  replicationAccounts?: string[];
+  replicated?: boolean | undefined;
+  replicatedExternally?: boolean | undefined;
+  replicationAccounts?: string[] | undefined;
 }
 export type Type = "NONE" | "AES256" | "aws:kms" | "aws:kms:dsse" | (string & {});
 export interface BucketServerSideEncryption {
-  kmsMasterKeyId?: string;
-  type?: Type;
+  kmsMasterKeyId?: string | undefined;
+  type?: Type | undefined;
 }
 export type SharedAccess = "EXTERNAL" | "INTERNAL" | "NOT_SHARED" | "UNKNOWN" | (string & {});
 export interface KeyValuePair {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type __listOfKeyValuePair = KeyValuePair[];
 const __listOfKeyValuePair =
   __listOfTagCriterionPairForJob as any as S.Schema<__listOfKeyValuePair>;
 export interface ObjectLevelStatistics {
-  fileType?: number;
-  storageClass?: number;
-  total?: number;
+  fileType?: number | undefined;
+  storageClass?: number | undefined;
+  total?: number | undefined;
 }
 export interface BucketMetadata {
-  accountId?: string;
-  allowsUnencryptedObjectUploads?: AllowsUnencryptedObjectUploads;
-  automatedDiscoveryMonitoringStatus?: AutomatedDiscoveryMonitoringStatus;
-  bucketArn?: string;
-  bucketCreatedAt?: Date;
-  bucketName?: string;
-  classifiableObjectCount?: number;
-  classifiableSizeInBytes?: number;
-  errorCode?: BucketMetadataErrorCode;
-  errorMessage?: string;
-  jobDetails?: JobDetails;
-  lastAutomatedDiscoveryTime?: Date;
-  lastUpdated?: Date;
-  objectCount?: number;
-  objectCountByEncryptionType?: ObjectCountByEncryptionType;
-  publicAccess?: BucketPublicAccess;
-  region?: string;
-  replicationDetails?: ReplicationDetails;
-  sensitivityScore?: number;
-  serverSideEncryption?: BucketServerSideEncryption;
-  sharedAccess?: SharedAccess;
-  sizeInBytes?: number;
-  sizeInBytesCompressed?: number;
-  tags?: KeyValuePair[];
-  unclassifiableObjectCount?: ObjectLevelStatistics;
-  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics;
-  versioning?: boolean;
+  accountId?: string | undefined;
+  allowsUnencryptedObjectUploads?: AllowsUnencryptedObjectUploads | undefined;
+  automatedDiscoveryMonitoringStatus?: AutomatedDiscoveryMonitoringStatus | undefined;
+  bucketArn?: string | undefined;
+  bucketCreatedAt?: Date | undefined;
+  bucketName?: string | undefined;
+  classifiableObjectCount?: number | undefined;
+  classifiableSizeInBytes?: number | undefined;
+  errorCode?: BucketMetadataErrorCode | undefined;
+  errorMessage?: string | undefined;
+  jobDetails?: JobDetails | undefined;
+  lastAutomatedDiscoveryTime?: Date | undefined;
+  lastUpdated?: Date | undefined;
+  objectCount?: number | undefined;
+  objectCountByEncryptionType?: ObjectCountByEncryptionType | undefined;
+  publicAccess?: BucketPublicAccess | undefined;
+  region?: string | undefined;
+  replicationDetails?: ReplicationDetails | undefined;
+  sensitivityScore?: number | undefined;
+  serverSideEncryption?: BucketServerSideEncryption | undefined;
+  sharedAccess?: SharedAccess | undefined;
+  sizeInBytes?: number | undefined;
+  sizeInBytesCompressed?: number | undefined;
+  tags?: KeyValuePair[] | undefined;
+  unclassifiableObjectCount?: ObjectLevelStatistics | undefined;
+  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics | undefined;
+  versioning?: boolean | undefined;
 }
 export type __listOfBucketMetadata = BucketMetadata[];
 const __listOfBucketMetadata = /*@__PURE__*/ __L.at(__c29, 6);
 export interface DescribeBucketsResponse {
-  buckets?: BucketMetadata[];
-  nextToken?: string;
+  buckets?: BucketMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeClassificationJobRequest {
   jobId: string;
@@ -627,54 +628,56 @@ export type JobStatus =
   | (string & {});
 export type LastRunErrorStatusCode = "NONE" | "ERROR" | (string & {});
 export interface LastRunErrorStatus {
-  code?: LastRunErrorStatusCode;
+  code?: LastRunErrorStatusCode | undefined;
 }
 export interface Statistics {
-  approximateNumberOfObjectsToProcess?: number;
-  numberOfRuns?: number;
+  approximateNumberOfObjectsToProcess?: number | undefined;
+  numberOfRuns?: number | undefined;
 }
 export interface UserPausedDetails {
-  jobExpiresAt?: Date;
-  jobImminentExpirationHealthEventArn?: string;
-  jobPausedAt?: Date;
+  jobExpiresAt?: Date | undefined;
+  jobImminentExpirationHealthEventArn?: string | undefined;
+  jobPausedAt?: Date | undefined;
 }
 export interface DescribeClassificationJobResponse {
-  allowListIds?: string[];
-  clientToken?: string;
-  createdAt?: Date;
-  customDataIdentifierIds?: string[];
-  description?: string;
-  initialRun?: boolean;
-  jobArn?: string;
-  jobId?: string;
-  jobStatus?: JobStatus;
-  jobType?: JobType;
-  lastRunErrorStatus?: LastRunErrorStatus;
-  lastRunTime?: Date;
-  managedDataIdentifierIds?: string[];
-  managedDataIdentifierSelector?: ManagedDataIdentifierSelector;
-  name?: string;
-  s3JobDefinition?: S3JobDefinition & {
-    bucketDefinitions: (S3BucketDefinitionForJob & {
-      accountId: string;
-      buckets: __listOf__string;
-    })[];
-  };
-  samplingPercentage?: number;
-  scheduleFrequency?: JobScheduleFrequency;
-  statistics?: Statistics;
-  tags?: { [key: string]: string | undefined };
-  userPausedDetails?: UserPausedDetails;
+  allowListIds?: string[] | undefined;
+  clientToken?: string | undefined;
+  createdAt?: Date | undefined;
+  customDataIdentifierIds?: string[] | undefined;
+  description?: string | undefined;
+  initialRun?: boolean | undefined;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  jobStatus?: JobStatus | undefined;
+  jobType?: JobType | undefined;
+  lastRunErrorStatus?: LastRunErrorStatus | undefined;
+  lastRunTime?: Date | undefined;
+  managedDataIdentifierIds?: string[] | undefined;
+  managedDataIdentifierSelector?: ManagedDataIdentifierSelector | undefined;
+  name?: string | undefined;
+  s3JobDefinition?:
+    | (S3JobDefinition & {
+        bucketDefinitions: (S3BucketDefinitionForJob & {
+          accountId: string;
+          buckets: __listOf__string;
+        })[];
+      })
+    | undefined;
+  samplingPercentage?: number | undefined;
+  scheduleFrequency?: JobScheduleFrequency | undefined;
+  statistics?: Statistics | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  userPausedDetails?: UserPausedDetails | undefined;
 }
 export interface DescribeOrganizationConfigurationRequest {}
 export interface DescribeOrganizationConfigurationResponse {
-  autoEnable?: boolean;
-  maxAccountLimitReached?: boolean;
+  autoEnable?: boolean | undefined;
+  maxAccountLimitReached?: boolean | undefined;
 }
 export interface DisableMacieRequest {}
 export interface DisableMacieResponse {}
 export interface DisableOrganizationAdminAccountRequest {
-  adminAccountId?: string;
+  adminAccountId?: string | undefined;
 }
 export interface DisableOrganizationAdminAccountResponse {}
 export interface DisassociateFromAdministratorAccountRequest {}
@@ -692,14 +695,14 @@ export type FindingPublishingFrequency =
   | (string & {});
 export type MacieStatus = "PAUSED" | "ENABLED" | (string & {});
 export interface EnableMacieRequest {
-  clientToken?: string;
-  findingPublishingFrequency?: FindingPublishingFrequency;
-  status?: MacieStatus;
+  clientToken?: string | undefined;
+  findingPublishingFrequency?: FindingPublishingFrequency | undefined;
+  status?: MacieStatus | undefined;
 }
 export interface EnableMacieResponse {}
 export interface EnableOrganizationAdminAccountRequest {
-  adminAccountId?: string;
-  clientToken?: string;
+  adminAccountId?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface EnableOrganizationAdminAccountResponse {}
 export interface GetAdministratorAccountRequest {}
@@ -716,13 +719,13 @@ export type RelationshipStatus =
   | "AccountSuspended"
   | (string & {});
 export interface Invitation {
-  accountId?: string;
-  invitationId?: string;
-  invitedAt?: Date;
-  relationshipStatus?: RelationshipStatus;
+  accountId?: string | undefined;
+  invitationId?: string | undefined;
+  invitedAt?: Date | undefined;
+  relationshipStatus?: RelationshipStatus | undefined;
 }
 export interface GetAdministratorAccountResponse {
-  administrator?: Invitation;
+  administrator?: Invitation | undefined;
 }
 export interface GetAllowListRequest {
   id: string;
@@ -738,24 +741,26 @@ export type AllowListStatusCode =
   | "UNKNOWN_ERROR"
   | (string & {});
 export interface AllowListStatus {
-  code?: AllowListStatusCode;
-  description?: string;
+  code?: AllowListStatusCode | undefined;
+  description?: string | undefined;
 }
 export interface GetAllowListResponse {
-  arn?: string;
-  createdAt?: Date;
-  criteria?: AllowListCriteria & {
-    s3WordsList: S3WordsList & {
-      bucketName: __stringMin3Max255PatternAZaZ093255;
-      objectKey: __stringMin1Max1024PatternSS;
-    };
-  };
-  description?: string;
-  id?: string;
-  name?: string;
-  status?: AllowListStatus & { code: AllowListStatusCode };
-  tags?: { [key: string]: string | undefined };
-  updatedAt?: Date;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  criteria?:
+    | (AllowListCriteria & {
+        s3WordsList: S3WordsList & {
+          bucketName: __stringMin3Max255PatternAZaZ093255;
+          objectKey: __stringMin1Max1024PatternSS;
+        };
+      })
+    | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: (AllowListStatus & { code: AllowListStatusCode }) | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetAutomatedDiscoveryConfigurationRequest {}
 export type AutoEnableMode = "ALL" | "NEW" | "NONE" | (string & {});
@@ -763,82 +768,86 @@ export type ClassificationScopeId = string;
 export type SensitivityInspectionTemplateId = string;
 export type AutomatedDiscoveryStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface GetAutomatedDiscoveryConfigurationResponse {
-  autoEnableOrganizationMembers?: AutoEnableMode;
-  classificationScopeId?: string;
-  disabledAt?: Date;
-  firstEnabledAt?: Date;
-  lastUpdatedAt?: Date;
-  sensitivityInspectionTemplateId?: string;
-  status?: AutomatedDiscoveryStatus;
+  autoEnableOrganizationMembers?: AutoEnableMode | undefined;
+  classificationScopeId?: string | undefined;
+  disabledAt?: Date | undefined;
+  firstEnabledAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  sensitivityInspectionTemplateId?: string | undefined;
+  status?: AutomatedDiscoveryStatus | undefined;
 }
 export interface GetBucketStatisticsRequest {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface BucketCountByEffectivePermission {
-  publiclyAccessible?: number;
-  publiclyReadable?: number;
-  publiclyWritable?: number;
-  unknown?: number;
+  publiclyAccessible?: number | undefined;
+  publiclyReadable?: number | undefined;
+  publiclyWritable?: number | undefined;
+  unknown?: number | undefined;
 }
 export interface BucketCountByEncryptionType {
-  kmsManaged?: number;
-  s3Managed?: number;
-  unencrypted?: number;
-  unknown?: number;
+  kmsManaged?: number | undefined;
+  s3Managed?: number | undefined;
+  unencrypted?: number | undefined;
+  unknown?: number | undefined;
 }
 export interface BucketCountPolicyAllowsUnencryptedObjectUploads {
-  allowsUnencryptedObjectUploads?: number;
-  deniesUnencryptedObjectUploads?: number;
-  unknown?: number;
+  allowsUnencryptedObjectUploads?: number | undefined;
+  deniesUnencryptedObjectUploads?: number | undefined;
+  unknown?: number | undefined;
 }
 export interface BucketCountBySharedAccessType {
-  external?: number;
-  internal?: number;
-  notShared?: number;
-  unknown?: number;
+  external?: number | undefined;
+  internal?: number | undefined;
+  notShared?: number | undefined;
+  unknown?: number | undefined;
 }
 export interface SensitivityAggregations {
-  classifiableSizeInBytes?: number;
-  publiclyAccessibleCount?: number;
-  totalCount?: number;
-  totalSizeInBytes?: number;
+  classifiableSizeInBytes?: number | undefined;
+  publiclyAccessibleCount?: number | undefined;
+  totalCount?: number | undefined;
+  totalSizeInBytes?: number | undefined;
 }
 export interface BucketStatisticsBySensitivity {
-  classificationError?: SensitivityAggregations;
-  notClassified?: SensitivityAggregations;
-  notSensitive?: SensitivityAggregations;
-  sensitive?: SensitivityAggregations;
+  classificationError?: SensitivityAggregations | undefined;
+  notClassified?: SensitivityAggregations | undefined;
+  notSensitive?: SensitivityAggregations | undefined;
+  sensitive?: SensitivityAggregations | undefined;
 }
 export interface GetBucketStatisticsResponse {
-  bucketCount?: number;
-  bucketCountByEffectivePermission?: BucketCountByEffectivePermission;
-  bucketCountByEncryptionType?: BucketCountByEncryptionType;
-  bucketCountByObjectEncryptionRequirement?: BucketCountPolicyAllowsUnencryptedObjectUploads;
-  bucketCountBySharedAccessType?: BucketCountBySharedAccessType;
-  bucketStatisticsBySensitivity?: BucketStatisticsBySensitivity;
-  classifiableObjectCount?: number;
-  classifiableSizeInBytes?: number;
-  lastUpdated?: Date;
-  objectCount?: number;
-  sizeInBytes?: number;
-  sizeInBytesCompressed?: number;
-  unclassifiableObjectCount?: ObjectLevelStatistics;
-  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics;
+  bucketCount?: number | undefined;
+  bucketCountByEffectivePermission?: BucketCountByEffectivePermission | undefined;
+  bucketCountByEncryptionType?: BucketCountByEncryptionType | undefined;
+  bucketCountByObjectEncryptionRequirement?:
+    | BucketCountPolicyAllowsUnencryptedObjectUploads
+    | undefined;
+  bucketCountBySharedAccessType?: BucketCountBySharedAccessType | undefined;
+  bucketStatisticsBySensitivity?: BucketStatisticsBySensitivity | undefined;
+  classifiableObjectCount?: number | undefined;
+  classifiableSizeInBytes?: number | undefined;
+  lastUpdated?: Date | undefined;
+  objectCount?: number | undefined;
+  sizeInBytes?: number | undefined;
+  sizeInBytesCompressed?: number | undefined;
+  unclassifiableObjectCount?: ObjectLevelStatistics | undefined;
+  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics | undefined;
 }
 export interface GetClassificationExportConfigurationRequest {}
 export interface S3Destination {
-  bucketName?: string;
-  expectedBucketOwner?: string;
-  keyPrefix?: string;
-  kmsKeyArn?: string;
+  bucketName?: string | undefined;
+  expectedBucketOwner?: string | undefined;
+  keyPrefix?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface ClassificationExportConfiguration {
-  s3Destination?: S3Destination;
+  s3Destination?: S3Destination | undefined;
 }
 export interface GetClassificationExportConfigurationResponse {
-  configuration?: ClassificationExportConfiguration & {
-    s3Destination: S3Destination & { bucketName: string; kmsKeyArn: string };
-  };
+  configuration?:
+    | (ClassificationExportConfiguration & {
+        s3Destination: S3Destination & { bucketName: string; kmsKeyArn: string };
+      })
+    | undefined;
 }
 export interface GetClassificationScopeRequest {
   id: string;
@@ -848,45 +857,46 @@ export type S3BucketName = string;
 export type __listOfS3BucketName = string[];
 const __listOfS3BucketName = __listOf__string as any as S.Schema<__listOfS3BucketName>;
 export interface S3ClassificationScopeExclusion {
-  bucketNames?: string[];
+  bucketNames?: string[] | undefined;
 }
 export interface S3ClassificationScope {
-  excludes?: S3ClassificationScopeExclusion;
+  excludes?: S3ClassificationScopeExclusion | undefined;
 }
 export interface GetClassificationScopeResponse {
-  id?: string;
-  name?: string;
-  s3?: S3ClassificationScope & {
-    excludes: S3ClassificationScopeExclusion & { bucketNames: __listOfS3BucketName };
-  };
+  id?: string | undefined;
+  name?: string | undefined;
+  s3?:
+    | (S3ClassificationScope & {
+        excludes: S3ClassificationScopeExclusion & { bucketNames: __listOfS3BucketName };
+      })
+    | undefined;
 }
 export interface GetCustomDataIdentifierRequest {
   id: string;
 }
 export interface GetCustomDataIdentifierResponse {
-  arn?: string;
-  createdAt?: Date;
-  deleted?: boolean;
-  description?: string;
-  id?: string;
-  ignoreWords?: string[];
-  keywords?: string[];
-  maximumMatchDistance?: number;
-  name?: string;
-  regex?: string;
-  severityLevels?: (SeverityLevel & {
-    occurrencesThreshold: number;
-    severity: DataIdentifierSeverity;
-  })[];
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  ignoreWords?: string[] | undefined;
+  keywords?: string[] | undefined;
+  maximumMatchDistance?: number | undefined;
+  name?: string | undefined;
+  regex?: string | undefined;
+  severityLevels?:
+    | (SeverityLevel & { occurrencesThreshold: number; severity: DataIdentifierSeverity })[]
+    | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SortCriteria {
-  attributeName?: string;
-  orderBy?: OrderBy;
+  attributeName?: string | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export interface GetFindingsRequest {
-  findingIds?: string[];
-  sortCriteria?: SortCriteria;
+  findingIds?: string[] | undefined;
+  sortCriteria?: SortCriteria | undefined;
 }
 export type FindingCategory = "CLASSIFICATION" | "POLICY" | (string & {});
 export type OriginType =
@@ -894,46 +904,46 @@ export type OriginType =
   | "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
   | (string & {});
 export interface Cell {
-  cellReference?: string;
-  column?: number;
-  columnName?: string;
-  row?: number;
+  cellReference?: string | undefined;
+  column?: number | undefined;
+  columnName?: string | undefined;
+  row?: number | undefined;
 }
 export type Cells = Cell[];
 export interface Range {
-  end?: number;
-  start?: number;
-  startColumn?: number;
+  end?: number | undefined;
+  start?: number | undefined;
+  startColumn?: number | undefined;
 }
 export type Ranges = Range[];
 export interface Page {
-  lineRange?: Range;
-  offsetRange?: Range;
-  pageNumber?: number;
+  lineRange?: Range | undefined;
+  offsetRange?: Range | undefined;
+  pageNumber?: number | undefined;
 }
 export type Pages = Page[];
 export interface Record {
-  jsonPath?: string;
-  recordIndex?: number;
+  jsonPath?: string | undefined;
+  recordIndex?: number | undefined;
 }
 export type Records = Record[];
 export interface Occurrences {
-  cells?: Cell[];
-  lineRanges?: Range[];
-  offsetRanges?: Range[];
-  pages?: Page[];
-  records?: Record[];
+  cells?: Cell[] | undefined;
+  lineRanges?: Range[] | undefined;
+  offsetRanges?: Range[] | undefined;
+  pages?: Page[] | undefined;
+  records?: Record[] | undefined;
 }
 export interface CustomDetection {
-  arn?: string;
-  count?: number;
-  name?: string;
-  occurrences?: Occurrences;
+  arn?: string | undefined;
+  count?: number | undefined;
+  name?: string | undefined;
+  occurrences?: Occurrences | undefined;
 }
 export type CustomDetections = CustomDetection[];
 export interface CustomDataIdentifiers {
-  detections?: CustomDetection[];
-  totalCount?: number;
+  detections?: CustomDetection[] | undefined;
+  totalCount?: number | undefined;
 }
 export type SensitiveDataItemCategory =
   | "FINANCIAL_INFORMATION"
@@ -942,120 +952,120 @@ export type SensitiveDataItemCategory =
   | "CUSTOM_IDENTIFIER"
   | (string & {});
 export interface DefaultDetection {
-  count?: number;
-  occurrences?: Occurrences;
-  type?: string;
+  count?: number | undefined;
+  occurrences?: Occurrences | undefined;
+  type?: string | undefined;
 }
 export type DefaultDetections = DefaultDetection[];
 export interface SensitiveDataItem {
-  category?: SensitiveDataItemCategory;
-  detections?: DefaultDetection[];
-  totalCount?: number;
+  category?: SensitiveDataItemCategory | undefined;
+  detections?: DefaultDetection[] | undefined;
+  totalCount?: number | undefined;
 }
 export type SensitiveData = SensitiveDataItem[];
 export interface ClassificationResultStatus {
-  code?: string;
-  reason?: string;
+  code?: string | undefined;
+  reason?: string | undefined;
 }
 export interface ClassificationResult {
-  additionalOccurrences?: boolean;
-  customDataIdentifiers?: CustomDataIdentifiers;
-  mimeType?: string;
-  sensitiveData?: SensitiveDataItem[];
-  sizeClassified?: number;
-  status?: ClassificationResultStatus;
+  additionalOccurrences?: boolean | undefined;
+  customDataIdentifiers?: CustomDataIdentifiers | undefined;
+  mimeType?: string | undefined;
+  sensitiveData?: SensitiveDataItem[] | undefined;
+  sizeClassified?: number | undefined;
+  status?: ClassificationResultStatus | undefined;
 }
 export interface ClassificationDetails {
-  detailedResultsLocation?: string;
-  jobArn?: string;
-  jobId?: string;
-  originType?: OriginType;
-  result?: ClassificationResult;
+  detailedResultsLocation?: string | undefined;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  originType?: OriginType | undefined;
+  result?: ClassificationResult | undefined;
 }
 export type FindingActionType = "AWS_API_CALL" | (string & {});
 export interface ApiCallDetails {
-  api?: string;
-  apiServiceName?: string;
-  firstSeen?: Date;
-  lastSeen?: Date;
+  api?: string | undefined;
+  apiServiceName?: string | undefined;
+  firstSeen?: Date | undefined;
+  lastSeen?: Date | undefined;
 }
 export interface FindingAction {
-  actionType?: FindingActionType;
-  apiCallDetails?: ApiCallDetails;
+  actionType?: FindingActionType | undefined;
+  apiCallDetails?: ApiCallDetails | undefined;
 }
 export interface DomainDetails {
-  domainName?: string;
+  domainName?: string | undefined;
 }
 export interface IpCity {
-  name?: string;
+  name?: string | undefined;
 }
 export interface IpCountry {
-  code?: string;
-  name?: string;
+  code?: string | undefined;
+  name?: string | undefined;
 }
 export interface IpGeoLocation {
-  lat?: number;
-  lon?: number;
+  lat?: number | undefined;
+  lon?: number | undefined;
 }
 export interface IpOwner {
-  asn?: string;
-  asnOrg?: string;
-  isp?: string;
-  org?: string;
+  asn?: string | undefined;
+  asnOrg?: string | undefined;
+  isp?: string | undefined;
+  org?: string | undefined;
 }
 export interface IpAddressDetails {
-  ipAddressV4?: string;
-  ipCity?: IpCity;
-  ipCountry?: IpCountry;
-  ipGeoLocation?: IpGeoLocation;
-  ipOwner?: IpOwner;
+  ipAddressV4?: string | undefined;
+  ipCity?: IpCity | undefined;
+  ipCountry?: IpCountry | undefined;
+  ipGeoLocation?: IpGeoLocation | undefined;
+  ipOwner?: IpOwner | undefined;
 }
 export interface SessionContextAttributes {
-  creationDate?: Date;
-  mfaAuthenticated?: boolean;
+  creationDate?: Date | undefined;
+  mfaAuthenticated?: boolean | undefined;
 }
 export interface SessionIssuer {
-  accountId?: string;
-  arn?: string;
-  principalId?: string;
-  type?: string;
-  userName?: string;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  type?: string | undefined;
+  userName?: string | undefined;
 }
 export interface SessionContext {
-  attributes?: SessionContextAttributes;
-  sessionIssuer?: SessionIssuer;
+  attributes?: SessionContextAttributes | undefined;
+  sessionIssuer?: SessionIssuer | undefined;
 }
 export interface AssumedRole {
-  accessKeyId?: string;
-  accountId?: string;
-  arn?: string;
-  principalId?: string;
-  sessionContext?: SessionContext;
+  accessKeyId?: string | undefined;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  sessionContext?: SessionContext | undefined;
 }
 export interface AwsAccount {
-  accountId?: string;
-  principalId?: string;
+  accountId?: string | undefined;
+  principalId?: string | undefined;
 }
 export interface AwsService {
-  invokedBy?: string;
+  invokedBy?: string | undefined;
 }
 export interface FederatedUser {
-  accessKeyId?: string;
-  accountId?: string;
-  arn?: string;
-  principalId?: string;
-  sessionContext?: SessionContext;
+  accessKeyId?: string | undefined;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  sessionContext?: SessionContext | undefined;
 }
 export interface IamUser {
-  accountId?: string;
-  arn?: string;
-  principalId?: string;
-  userName?: string;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  userName?: string | undefined;
 }
 export interface UserIdentityRoot {
-  accountId?: string;
-  arn?: string;
-  principalId?: string;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  principalId?: string | undefined;
 }
 export type UserIdentityType =
   | "AssumedRole"
@@ -1066,22 +1076,22 @@ export type UserIdentityType =
   | "AWSService"
   | (string & {});
 export interface UserIdentity {
-  assumedRole?: AssumedRole;
-  awsAccount?: AwsAccount;
-  awsService?: AwsService;
-  federatedUser?: FederatedUser;
-  iamUser?: IamUser;
-  root?: UserIdentityRoot;
-  type?: UserIdentityType;
+  assumedRole?: AssumedRole | undefined;
+  awsAccount?: AwsAccount | undefined;
+  awsService?: AwsService | undefined;
+  federatedUser?: FederatedUser | undefined;
+  iamUser?: IamUser | undefined;
+  root?: UserIdentityRoot | undefined;
+  type?: UserIdentityType | undefined;
 }
 export interface FindingActor {
-  domainDetails?: DomainDetails;
-  ipAddressDetails?: IpAddressDetails;
-  userIdentity?: UserIdentity;
+  domainDetails?: DomainDetails | undefined;
+  ipAddressDetails?: IpAddressDetails | undefined;
+  userIdentity?: UserIdentity | undefined;
 }
 export interface PolicyDetails {
-  action?: FindingAction;
-  actor?: FindingActor;
+  action?: FindingAction | undefined;
+  actor?: FindingActor | undefined;
 }
 export type EncryptionType =
   | "NONE"
@@ -1091,24 +1101,24 @@ export type EncryptionType =
   | "aws:kms:dsse"
   | (string & {});
 export interface ServerSideEncryption {
-  encryptionType?: EncryptionType;
-  kmsMasterKeyId?: string;
+  encryptionType?: EncryptionType | undefined;
+  kmsMasterKeyId?: string | undefined;
 }
 export interface S3BucketOwner {
-  displayName?: string;
-  id?: string;
+  displayName?: string | undefined;
+  id?: string | undefined;
 }
 export type KeyValuePairList = KeyValuePair[];
 const KeyValuePairList = __listOfTagCriterionPairForJob as any as S.Schema<KeyValuePairList>;
 export interface S3Bucket {
-  allowsUnencryptedObjectUploads?: AllowsUnencryptedObjectUploads;
-  arn?: string;
-  createdAt?: Date;
-  defaultServerSideEncryption?: ServerSideEncryption;
-  name?: string;
-  owner?: S3BucketOwner;
-  publicAccess?: BucketPublicAccess;
-  tags?: KeyValuePair[];
+  allowsUnencryptedObjectUploads?: AllowsUnencryptedObjectUploads | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  defaultServerSideEncryption?: ServerSideEncryption | undefined;
+  name?: string | undefined;
+  owner?: S3BucketOwner | undefined;
+  publicAccess?: BucketPublicAccess | undefined;
+  tags?: KeyValuePair[] | undefined;
 }
 export type StorageClass =
   | "STANDARD"
@@ -1122,76 +1132,78 @@ export type StorageClass =
   | "OUTPOSTS"
   | (string & {});
 export interface S3Object {
-  bucketArn?: string;
-  eTag?: string;
-  extension?: string;
-  key?: string;
-  lastModified?: Date;
-  path?: string;
-  publicAccess?: boolean;
-  serverSideEncryption?: ServerSideEncryption;
-  size?: number;
-  storageClass?: StorageClass;
-  tags?: KeyValuePair[];
-  versionId?: string;
+  bucketArn?: string | undefined;
+  eTag?: string | undefined;
+  extension?: string | undefined;
+  key?: string | undefined;
+  lastModified?: Date | undefined;
+  path?: string | undefined;
+  publicAccess?: boolean | undefined;
+  serverSideEncryption?: ServerSideEncryption | undefined;
+  size?: number | undefined;
+  storageClass?: StorageClass | undefined;
+  tags?: KeyValuePair[] | undefined;
+  versionId?: string | undefined;
 }
 export interface ResourcesAffected {
-  s3Bucket?: S3Bucket;
-  s3Object?: S3Object;
+  s3Bucket?: S3Bucket | undefined;
+  s3Object?: S3Object | undefined;
 }
 export type SeverityDescription = "Low" | "Medium" | "High" | (string & {});
 export interface Severity {
-  description?: SeverityDescription;
-  score?: number;
+  description?: SeverityDescription | undefined;
+  score?: number | undefined;
 }
 export interface Finding {
-  accountId?: string;
-  archived?: boolean;
-  category?: FindingCategory;
-  classificationDetails?: ClassificationDetails;
-  count?: number;
-  createdAt?: Date;
-  description?: string;
-  id?: string;
-  partition?: string;
-  policyDetails?: PolicyDetails;
-  region?: string;
-  resourcesAffected?: ResourcesAffected;
-  sample?: boolean;
-  schemaVersion?: string;
-  severity?: Severity;
-  title?: string;
-  type?: FindingType;
-  updatedAt?: Date;
+  accountId?: string | undefined;
+  archived?: boolean | undefined;
+  category?: FindingCategory | undefined;
+  classificationDetails?: ClassificationDetails | undefined;
+  count?: number | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  partition?: string | undefined;
+  policyDetails?: PolicyDetails | undefined;
+  region?: string | undefined;
+  resourcesAffected?: ResourcesAffected | undefined;
+  sample?: boolean | undefined;
+  schemaVersion?: string | undefined;
+  severity?: Severity | undefined;
+  title?: string | undefined;
+  type?: FindingType | undefined;
+  updatedAt?: Date | undefined;
 }
 export type __listOfFinding = Finding[];
 const __listOfFinding = /*@__PURE__*/ __L.at(__c54, 14);
 export interface GetFindingsResponse {
-  findings?: Finding[];
+  findings?: Finding[] | undefined;
 }
 export interface GetFindingsFilterRequest {
   id: string;
 }
 export interface GetFindingsFilterResponse {
-  action?: FindingsFilterAction;
-  arn?: string;
-  description?: string;
-  findingCriteria?: FindingCriteria;
-  id?: string;
-  name?: string;
-  position?: number;
-  tags?: { [key: string]: string | undefined };
+  action?: FindingsFilterAction | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  findingCriteria?: FindingCriteria | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  position?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFindingsPublicationConfigurationRequest {}
 export interface SecurityHubConfiguration {
-  publishClassificationFindings?: boolean;
-  publishPolicyFindings?: boolean;
+  publishClassificationFindings?: boolean | undefined;
+  publishPolicyFindings?: boolean | undefined;
 }
 export interface GetFindingsPublicationConfigurationResponse {
-  securityHubConfiguration?: SecurityHubConfiguration & {
-    publishClassificationFindings: boolean;
-    publishPolicyFindings: boolean;
-  };
+  securityHubConfiguration?:
+    | (SecurityHubConfiguration & {
+        publishClassificationFindings: boolean;
+        publishPolicyFindings: boolean;
+      })
+    | undefined;
 }
 export type GroupBy =
   | "resourcesAffected.s3Bucket.name"
@@ -1201,109 +1213,109 @@ export type GroupBy =
   | (string & {});
 export type FindingStatisticsSortAttributeName = "groupKey" | "count" | (string & {});
 export interface FindingStatisticsSortCriteria {
-  attributeName?: FindingStatisticsSortAttributeName;
-  orderBy?: OrderBy;
+  attributeName?: FindingStatisticsSortAttributeName | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export interface GetFindingStatisticsRequest {
-  findingCriteria?: FindingCriteria;
-  groupBy?: GroupBy;
-  size?: number;
-  sortCriteria?: FindingStatisticsSortCriteria;
+  findingCriteria?: FindingCriteria | undefined;
+  groupBy?: GroupBy | undefined;
+  size?: number | undefined;
+  sortCriteria?: FindingStatisticsSortCriteria | undefined;
 }
 export interface GroupCount {
-  count?: number;
-  groupKey?: string;
+  count?: number | undefined;
+  groupKey?: string | undefined;
 }
 export type __listOfGroupCount = GroupCount[];
 const __listOfGroupCount = /*@__PURE__*/ __L.at(__c58, 2);
 export interface GetFindingStatisticsResponse {
-  countsByGroup?: GroupCount[];
+  countsByGroup?: GroupCount[] | undefined;
 }
 export interface GetInvitationsCountRequest {}
 export interface GetInvitationsCountResponse {
-  invitationsCount?: number;
+  invitationsCount?: number | undefined;
 }
 export interface GetMacieSessionRequest {}
 export interface GetMacieSessionResponse {
-  createdAt?: Date;
-  findingPublishingFrequency?: FindingPublishingFrequency;
-  serviceRole?: string;
-  status?: MacieStatus;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  findingPublishingFrequency?: FindingPublishingFrequency | undefined;
+  serviceRole?: string | undefined;
+  status?: MacieStatus | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetMasterAccountRequest {}
 export interface GetMasterAccountResponse {
-  master?: Invitation;
+  master?: Invitation | undefined;
 }
 export interface GetMemberRequest {
   id: string;
 }
 export interface GetMemberResponse {
-  accountId?: string;
-  administratorAccountId?: string;
-  arn?: string;
-  email?: string;
-  invitedAt?: Date;
-  masterAccountId?: string;
-  relationshipStatus?: RelationshipStatus;
-  tags?: { [key: string]: string | undefined };
-  updatedAt?: Date;
+  accountId?: string | undefined;
+  administratorAccountId?: string | undefined;
+  arn?: string | undefined;
+  email?: string | undefined;
+  invitedAt?: Date | undefined;
+  masterAccountId?: string | undefined;
+  relationshipStatus?: RelationshipStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetResourceProfileRequest {
-  resourceArn?: string;
+  resourceArn?: string | undefined;
 }
 export interface ResourceStatistics {
-  totalBytesClassified?: number;
-  totalDetections?: number;
-  totalDetectionsSuppressed?: number;
-  totalItemsClassified?: number;
-  totalItemsSensitive?: number;
-  totalItemsSkipped?: number;
-  totalItemsSkippedInvalidEncryption?: number;
-  totalItemsSkippedInvalidKms?: number;
-  totalItemsSkippedPermissionDenied?: number;
+  totalBytesClassified?: number | undefined;
+  totalDetections?: number | undefined;
+  totalDetectionsSuppressed?: number | undefined;
+  totalItemsClassified?: number | undefined;
+  totalItemsSensitive?: number | undefined;
+  totalItemsSkipped?: number | undefined;
+  totalItemsSkippedInvalidEncryption?: number | undefined;
+  totalItemsSkippedInvalidKms?: number | undefined;
+  totalItemsSkippedPermissionDenied?: number | undefined;
 }
 export interface GetResourceProfileResponse {
-  profileUpdatedAt?: Date;
-  sensitivityScore?: number;
-  sensitivityScoreOverridden?: boolean;
-  statistics?: ResourceStatistics;
+  profileUpdatedAt?: Date | undefined;
+  sensitivityScore?: number | undefined;
+  sensitivityScoreOverridden?: boolean | undefined;
+  statistics?: ResourceStatistics | undefined;
 }
 export interface GetRevealConfigurationRequest {}
 export type __stringMin1Max2048 = string;
 export type RevealStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface RevealConfiguration {
-  kmsKeyId?: string;
-  status?: RevealStatus;
+  kmsKeyId?: string | undefined;
+  status?: RevealStatus | undefined;
 }
 export type RetrievalMode = "CALLER_CREDENTIALS" | "ASSUME_ROLE" | (string & {});
 export type __stringMin1Max64PatternW = string;
 export interface RetrievalConfiguration {
-  externalId?: string;
-  retrievalMode?: RetrievalMode;
-  roleName?: string;
+  externalId?: string | undefined;
+  retrievalMode?: RetrievalMode | undefined;
+  roleName?: string | undefined;
 }
 export interface GetRevealConfigurationResponse {
-  configuration?: RevealConfiguration & { status: RevealStatus };
-  retrievalConfiguration?: RetrievalConfiguration & { retrievalMode: RetrievalMode };
+  configuration?: (RevealConfiguration & { status: RevealStatus }) | undefined;
+  retrievalConfiguration?: (RetrievalConfiguration & { retrievalMode: RetrievalMode }) | undefined;
 }
 export interface GetSensitiveDataOccurrencesRequest {
   findingId: string;
 }
 export type __stringMin1Max128 = string;
 export interface DetectedDataDetails {
-  value?: string | redacted.Redacted<string>;
+  value?: string | redacted.Redacted<string> | undefined;
 }
 export type __listOfDetectedDataDetails = DetectedDataDetails[];
 const __listOfDetectedDataDetails = /*@__PURE__*/ __L.at(__c68, 2);
 export type SensitiveDataOccurrences = { [key: string]: DetectedDataDetails[] | undefined };
 export type RevealRequestStatus = "SUCCESS" | "PROCESSING" | "ERROR" | (string & {});
 export interface GetSensitiveDataOccurrencesResponse {
-  error?: string;
-  sensitiveDataOccurrences?: {
-    [key: string]: (DetectedDataDetails & { value: __stringMin1Max128 })[] | undefined;
-  };
-  status?: RevealRequestStatus;
+  error?: string | undefined;
+  sensitiveDataOccurrences?:
+    | { [key: string]: (DetectedDataDetails & { value: __stringMin1Max128 })[] | undefined }
+    | undefined;
+  status?: RevealRequestStatus | undefined;
 }
 export interface GetSensitiveDataOccurrencesAvailabilityRequest {
   findingId: string;
@@ -1326,26 +1338,26 @@ export type __listOfUnavailabilityReasonCode = UnavailabilityReasonCode[];
 const __listOfUnavailabilityReasonCode =
   __listOfFindingType as any as S.Schema<__listOfUnavailabilityReasonCode>;
 export interface GetSensitiveDataOccurrencesAvailabilityResponse {
-  code?: AvailabilityCode;
-  reasons?: UnavailabilityReasonCode[];
+  code?: AvailabilityCode | undefined;
+  reasons?: UnavailabilityReasonCode[] | undefined;
 }
 export interface GetSensitivityInspectionTemplateRequest {
   id: string;
 }
 export interface SensitivityInspectionTemplateExcludes {
-  managedDataIdentifierIds?: string[];
+  managedDataIdentifierIds?: string[] | undefined;
 }
 export interface SensitivityInspectionTemplateIncludes {
-  allowListIds?: string[];
-  customDataIdentifierIds?: string[];
-  managedDataIdentifierIds?: string[];
+  allowListIds?: string[] | undefined;
+  customDataIdentifierIds?: string[] | undefined;
+  managedDataIdentifierIds?: string[] | undefined;
 }
 export interface GetSensitivityInspectionTemplateResponse {
-  description?: string;
-  excludes?: SensitivityInspectionTemplateExcludes;
-  includes?: SensitivityInspectionTemplateIncludes;
-  name?: string;
-  sensitivityInspectionTemplateId?: string;
+  description?: string | undefined;
+  excludes?: SensitivityInspectionTemplateExcludes | undefined;
+  includes?: SensitivityInspectionTemplateIncludes | undefined;
+  name?: string | undefined;
+  sensitivityInspectionTemplateId?: string | undefined;
 }
 export type UsageStatisticsFilterComparator =
   | "GT"
@@ -1363,9 +1375,9 @@ export type UsageStatisticsFilterKey =
   | "total"
   | (string & {});
 export interface UsageStatisticsFilter {
-  comparator?: UsageStatisticsFilterComparator;
-  key?: UsageStatisticsFilterKey;
-  values?: string[];
+  comparator?: UsageStatisticsFilterComparator | undefined;
+  key?: UsageStatisticsFilterKey | undefined;
+  values?: string[] | undefined;
 }
 export type __listOfUsageStatisticsFilter = UsageStatisticsFilter[];
 const __listOfUsageStatisticsFilter = /*@__PURE__*/ __L.at(__c73, 0);
@@ -1376,23 +1388,23 @@ export type UsageStatisticsSortKey =
   | "freeTrialStartDate"
   | (string & {});
 export interface UsageStatisticsSortBy {
-  key?: UsageStatisticsSortKey;
-  orderBy?: OrderBy;
+  key?: UsageStatisticsSortKey | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export type TimeRange = "MONTH_TO_DATE" | "PAST_30_DAYS" | (string & {});
 export interface GetUsageStatisticsRequest {
-  filterBy?: UsageStatisticsFilter[];
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: UsageStatisticsSortBy;
-  timeRange?: TimeRange;
+  filterBy?: UsageStatisticsFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: UsageStatisticsSortBy | undefined;
+  timeRange?: TimeRange | undefined;
 }
 export type Currency = "USD" | (string & {});
 export type Unit = "TERABYTES" | (string & {});
 export interface ServiceLimit {
-  isServiceLimited?: boolean;
-  unit?: Unit;
-  value?: number;
+  isServiceLimited?: boolean | undefined;
+  unit?: Unit | undefined;
+  value?: number | undefined;
 }
 export type UsageType =
   | "DATA_INVENTORY_EVALUATION"
@@ -1401,87 +1413,87 @@ export type UsageType =
   | "AUTOMATED_OBJECT_MONITORING"
   | (string & {});
 export interface UsageByAccount {
-  currency?: Currency;
-  estimatedCost?: string;
-  serviceLimit?: ServiceLimit;
-  type?: UsageType;
+  currency?: Currency | undefined;
+  estimatedCost?: string | undefined;
+  serviceLimit?: ServiceLimit | undefined;
+  type?: UsageType | undefined;
 }
 export type __listOfUsageByAccount = UsageByAccount[];
 const __listOfUsageByAccount = /*@__PURE__*/ __L.at(__c72, 4);
 export interface UsageRecord {
-  accountId?: string;
-  automatedDiscoveryFreeTrialStartDate?: Date;
-  freeTrialStartDate?: Date;
-  usage?: UsageByAccount[];
+  accountId?: string | undefined;
+  automatedDiscoveryFreeTrialStartDate?: Date | undefined;
+  freeTrialStartDate?: Date | undefined;
+  usage?: UsageByAccount[] | undefined;
 }
 export type __listOfUsageRecord = UsageRecord[];
 const __listOfUsageRecord = /*@__PURE__*/ __L.at(__c72, 6);
 export interface GetUsageStatisticsResponse {
-  nextToken?: string;
-  records?: UsageRecord[];
-  timeRange?: TimeRange;
+  nextToken?: string | undefined;
+  records?: UsageRecord[] | undefined;
+  timeRange?: TimeRange | undefined;
 }
 export interface GetUsageTotalsRequest {
-  timeRange?: string;
+  timeRange?: string | undefined;
 }
 export interface UsageTotal {
-  currency?: Currency;
-  estimatedCost?: string;
-  type?: UsageType;
+  currency?: Currency | undefined;
+  estimatedCost?: string | undefined;
+  type?: UsageType | undefined;
 }
 export type __listOfUsageTotal = UsageTotal[];
 const __listOfUsageTotal = /*@__PURE__*/ __L.at(__c74, 2);
 export interface GetUsageTotalsResponse {
-  timeRange?: TimeRange;
-  usageTotals?: UsageTotal[];
+  timeRange?: TimeRange | undefined;
+  usageTotals?: UsageTotal[] | undefined;
 }
 export type MaxResults = number;
 export interface ListAllowListsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AllowListSummary {
-  arn?: string;
-  createdAt?: Date;
-  description?: string;
-  id?: string;
-  name?: string;
-  updatedAt?: Date;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type __listOfAllowListSummary = AllowListSummary[];
 const __listOfAllowListSummary = /*@__PURE__*/ __L.at(__c75, 2);
 export interface ListAllowListsResponse {
-  allowLists?: AllowListSummary[];
-  nextToken?: string;
+  allowLists?: AllowListSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutomatedDiscoveryAccountsRequest {
-  accountIds?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  accountIds?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AutomatedDiscoveryAccount {
-  accountId?: string;
-  status?: AutomatedDiscoveryAccountStatus;
+  accountId?: string | undefined;
+  status?: AutomatedDiscoveryAccountStatus | undefined;
 }
 export type __listOfAutomatedDiscoveryAccount = AutomatedDiscoveryAccount[];
 const __listOfAutomatedDiscoveryAccount =
   __listOfAutomatedDiscoveryAccountUpdate as any as S.Schema<__listOfAutomatedDiscoveryAccount>;
 export interface ListAutomatedDiscoveryAccountsResponse {
-  items?: AutomatedDiscoveryAccount[];
-  nextToken?: string;
+  items?: AutomatedDiscoveryAccount[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListJobsFilterKey = "jobType" | "jobStatus" | "createdAt" | "name" | (string & {});
 export interface ListJobsFilterTerm {
-  comparator?: JobComparator;
-  key?: ListJobsFilterKey;
-  values?: string[];
+  comparator?: JobComparator | undefined;
+  key?: ListJobsFilterKey | undefined;
+  values?: string[] | undefined;
 }
 export type __listOfListJobsFilterTerm = ListJobsFilterTerm[];
 const __listOfListJobsFilterTerm =
   __listOfUsageStatisticsFilter as any as S.Schema<__listOfListJobsFilterTerm>;
 export interface ListJobsFilterCriteria {
-  excludes?: ListJobsFilterTerm[];
-  includes?: ListJobsFilterTerm[];
+  excludes?: ListJobsFilterTerm[] | undefined;
+  includes?: ListJobsFilterTerm[] | undefined;
 }
 export type ListJobsSortAttributeName =
   | "createdAt"
@@ -1490,224 +1502,230 @@ export type ListJobsSortAttributeName =
   | "jobType"
   | (string & {});
 export interface ListJobsSortCriteria {
-  attributeName?: ListJobsSortAttributeName;
-  orderBy?: OrderBy;
+  attributeName?: ListJobsSortAttributeName | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export interface ListClassificationJobsRequest {
-  filterCriteria?: ListJobsFilterCriteria;
-  maxResults?: number;
-  nextToken?: string;
-  sortCriteria?: ListJobsSortCriteria;
+  filterCriteria?: ListJobsFilterCriteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortCriteria?: ListJobsSortCriteria | undefined;
 }
 export interface JobSummary {
-  bucketCriteria?: S3BucketCriteriaForJob;
-  bucketDefinitions?: S3BucketDefinitionForJob[];
-  createdAt?: Date;
-  jobId?: string;
-  jobStatus?: JobStatus;
-  jobType?: JobType;
-  lastRunErrorStatus?: LastRunErrorStatus;
-  name?: string;
-  userPausedDetails?: UserPausedDetails;
+  bucketCriteria?: S3BucketCriteriaForJob | undefined;
+  bucketDefinitions?: S3BucketDefinitionForJob[] | undefined;
+  createdAt?: Date | undefined;
+  jobId?: string | undefined;
+  jobStatus?: JobStatus | undefined;
+  jobType?: JobType | undefined;
+  lastRunErrorStatus?: LastRunErrorStatus | undefined;
+  name?: string | undefined;
+  userPausedDetails?: UserPausedDetails | undefined;
 }
 export type __listOfJobSummary = JobSummary[];
 const __listOfJobSummary = /*@__PURE__*/ __L.at(__c77, 3);
 export interface ListClassificationJobsResponse {
-  items?: (JobSummary & {
-    bucketDefinitions: (S3BucketDefinitionForJob & {
-      accountId: string;
-      buckets: __listOf__string;
-    })[];
-  })[];
-  nextToken?: string;
+  items?:
+    | (JobSummary & {
+        bucketDefinitions: (S3BucketDefinitionForJob & {
+          accountId: string;
+          buckets: __listOf__string;
+        })[];
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListClassificationScopesRequest {
-  name?: string;
-  nextToken?: string;
+  name?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface ClassificationScopeSummary {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type __listOfClassificationScopeSummary = ClassificationScopeSummary[];
 const __listOfClassificationScopeSummary = /*@__PURE__*/ __L.at(__c79, 1);
 export type NextToken = string;
 export interface ListClassificationScopesResponse {
-  classificationScopes?: ClassificationScopeSummary[];
-  nextToken?: string;
+  classificationScopes?: ClassificationScopeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomDataIdentifiersRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface CustomDataIdentifierSummary {
-  arn?: string;
-  createdAt?: Date;
-  description?: string;
-  id?: string;
-  name?: string;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type __listOfCustomDataIdentifierSummary = CustomDataIdentifierSummary[];
 const __listOfCustomDataIdentifierSummary = /*@__PURE__*/ __L.at(__c80, 2);
 export interface ListCustomDataIdentifiersResponse {
-  items?: CustomDataIdentifierSummary[];
-  nextToken?: string;
+  items?: CustomDataIdentifierSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFindingsRequest {
-  findingCriteria?: FindingCriteria;
-  maxResults?: number;
-  nextToken?: string;
-  sortCriteria?: SortCriteria;
+  findingCriteria?: FindingCriteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortCriteria?: SortCriteria | undefined;
 }
 export interface ListFindingsResponse {
-  findingIds?: string[];
-  nextToken?: string;
+  findingIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFindingsFiltersRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FindingsFilterListItem {
-  action?: FindingsFilterAction;
-  arn?: string;
-  id?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  action?: FindingsFilterAction | undefined;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfFindingsFilterListItem = FindingsFilterListItem[];
 const __listOfFindingsFilterListItem = /*@__PURE__*/ __L.at(__c82, 2);
 export interface ListFindingsFiltersResponse {
-  findingsFilterListItems?: FindingsFilterListItem[];
-  nextToken?: string;
+  findingsFilterListItems?: FindingsFilterListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListInvitationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type __listOfInvitation = Invitation[];
 const __listOfInvitation = /*@__PURE__*/ __L.at(__c83, 1);
 export interface ListInvitationsResponse {
-  invitations?: Invitation[];
-  nextToken?: string;
+  invitations?: Invitation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListManagedDataIdentifiersRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ManagedDataIdentifierSummary {
-  category?: SensitiveDataItemCategory;
-  id?: string;
+  category?: SensitiveDataItemCategory | undefined;
+  id?: string | undefined;
 }
 export type __listOfManagedDataIdentifierSummary = ManagedDataIdentifierSummary[];
 const __listOfManagedDataIdentifierSummary = /*@__PURE__*/ __L.at(__c84, 2);
 export interface ListManagedDataIdentifiersResponse {
-  items?: ManagedDataIdentifierSummary[];
-  nextToken?: string;
+  items?: ManagedDataIdentifierSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMembersRequest {
-  maxResults?: number;
-  nextToken?: string;
-  onlyAssociated?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  onlyAssociated?: string | undefined;
 }
 export interface Member {
-  accountId?: string;
-  administratorAccountId?: string;
-  arn?: string;
-  email?: string;
-  invitedAt?: Date;
-  masterAccountId?: string;
-  relationshipStatus?: RelationshipStatus;
-  tags?: { [key: string]: string | undefined };
-  updatedAt?: Date;
+  accountId?: string | undefined;
+  administratorAccountId?: string | undefined;
+  arn?: string | undefined;
+  email?: string | undefined;
+  invitedAt?: Date | undefined;
+  masterAccountId?: string | undefined;
+  relationshipStatus?: RelationshipStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  updatedAt?: Date | undefined;
 }
 export type __listOfMember = Member[];
 const __listOfMember = /*@__PURE__*/ __L.at(__c85, 1);
 export interface ListMembersResponse {
-  members?: Member[];
-  nextToken?: string;
+  members?: Member[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOrganizationAdminAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AdminStatus = "ENABLED" | "DISABLING_IN_PROGRESS" | (string & {});
 export interface AdminAccount {
-  accountId?: string;
-  status?: AdminStatus;
+  accountId?: string | undefined;
+  status?: AdminStatus | undefined;
 }
 export type __listOfAdminAccount = AdminAccount[];
 const __listOfAdminAccount =
   __listOfAutomatedDiscoveryAccountUpdate as any as S.Schema<__listOfAdminAccount>;
 export interface ListOrganizationAdminAccountsResponse {
-  adminAccounts?: AdminAccount[];
-  nextToken?: string;
+  adminAccounts?: AdminAccount[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourceProfileArtifactsRequest {
-  nextToken?: string;
-  resourceArn?: string;
+  nextToken?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export interface ResourceProfileArtifact {
-  arn?: string;
-  classificationResultStatus?: string;
-  sensitive?: boolean;
+  arn?: string | undefined;
+  classificationResultStatus?: string | undefined;
+  sensitive?: boolean | undefined;
 }
 export type __listOfResourceProfileArtifact = ResourceProfileArtifact[];
 const __listOfResourceProfileArtifact = /*@__PURE__*/ __L.at(__c87, 2);
 export interface ListResourceProfileArtifactsResponse {
-  artifacts?: (ResourceProfileArtifact & { arn: string; classificationResultStatus: string })[];
-  nextToken?: string;
+  artifacts?:
+    | (ResourceProfileArtifact & { arn: string; classificationResultStatus: string })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourceProfileDetectionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  resourceArn?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export type DataIdentifierType = "CUSTOM" | "MANAGED" | (string & {});
 export interface Detection {
-  arn?: string;
-  count?: number;
-  id?: string;
-  name?: string;
-  suppressed?: boolean;
-  type?: DataIdentifierType;
+  arn?: string | undefined;
+  count?: number | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  suppressed?: boolean | undefined;
+  type?: DataIdentifierType | undefined;
 }
 export type __listOfDetection = Detection[];
 const __listOfDetection = /*@__PURE__*/ __L.at(__c88, 2);
 export interface ListResourceProfileDetectionsResponse {
-  detections?: Detection[];
-  nextToken?: string;
+  detections?: Detection[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSensitivityInspectionTemplatesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SensitivityInspectionTemplatesEntry {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type __listOfSensitivityInspectionTemplatesEntry = SensitivityInspectionTemplatesEntry[];
 const __listOfSensitivityInspectionTemplatesEntry =
   __listOfClassificationScopeSummary as any as S.Schema<__listOfSensitivityInspectionTemplatesEntry>;
 export interface ListSensitivityInspectionTemplatesResponse {
-  nextToken?: string;
-  sensitivityInspectionTemplates?: SensitivityInspectionTemplatesEntry[];
+  nextToken?: string | undefined;
+  sensitivityInspectionTemplates?: SensitivityInspectionTemplatesEntry[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutClassificationExportConfigurationRequest {
-  configuration?: ClassificationExportConfiguration;
+  configuration?: ClassificationExportConfiguration | undefined;
 }
 export interface PutClassificationExportConfigurationResponse {
-  configuration?: ClassificationExportConfiguration & {
-    s3Destination: S3Destination & { bucketName: string; kmsKeyArn: string };
-  };
+  configuration?:
+    | (ClassificationExportConfiguration & {
+        s3Destination: S3Destination & { bucketName: string; kmsKeyArn: string };
+      })
+    | undefined;
 }
 export interface PutFindingsPublicationConfigurationRequest {
-  clientToken?: string;
-  securityHubConfiguration?: SecurityHubConfiguration;
+  clientToken?: string | undefined;
+  securityHubConfiguration?: SecurityHubConfiguration | undefined;
 }
 export interface PutFindingsPublicationConfigurationResponse {}
 export type SearchResourcesComparator = "EQ" | "NE" | (string & {});
@@ -1719,30 +1737,30 @@ export type SearchResourcesSimpleCriterionKey =
   | "AUTOMATED_DISCOVERY_MONITORING_STATUS"
   | (string & {});
 export interface SearchResourcesSimpleCriterion {
-  comparator?: SearchResourcesComparator;
-  key?: SearchResourcesSimpleCriterionKey;
-  values?: string[];
+  comparator?: SearchResourcesComparator | undefined;
+  key?: SearchResourcesSimpleCriterionKey | undefined;
+  values?: string[] | undefined;
 }
 export interface SearchResourcesTagCriterionPair {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type __listOfSearchResourcesTagCriterionPair = SearchResourcesTagCriterionPair[];
 export interface SearchResourcesTagCriterion {
-  comparator?: SearchResourcesComparator;
-  tagValues?: SearchResourcesTagCriterionPair[];
+  comparator?: SearchResourcesComparator | undefined;
+  tagValues?: SearchResourcesTagCriterionPair[] | undefined;
 }
 export interface SearchResourcesCriteria {
-  simpleCriterion?: SearchResourcesSimpleCriterion;
-  tagCriterion?: SearchResourcesTagCriterion;
+  simpleCriterion?: SearchResourcesSimpleCriterion | undefined;
+  tagCriterion?: SearchResourcesTagCriterion | undefined;
 }
 export type __listOfSearchResourcesCriteria = SearchResourcesCriteria[];
 export interface SearchResourcesCriteriaBlock {
-  and?: SearchResourcesCriteria[];
+  and?: SearchResourcesCriteria[] | undefined;
 }
 export interface SearchResourcesBucketCriteria {
-  excludes?: SearchResourcesCriteriaBlock;
-  includes?: SearchResourcesCriteriaBlock;
+  excludes?: SearchResourcesCriteriaBlock | undefined;
+  includes?: SearchResourcesCriteriaBlock | undefined;
 }
 export type SearchResourcesSortAttributeName =
   | "ACCOUNT_ID"
@@ -1751,155 +1769,155 @@ export type SearchResourcesSortAttributeName =
   | "S3_CLASSIFIABLE_SIZE_IN_BYTES"
   | (string & {});
 export interface SearchResourcesSortCriteria {
-  attributeName?: SearchResourcesSortAttributeName;
-  orderBy?: OrderBy;
+  attributeName?: SearchResourcesSortAttributeName | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export interface SearchResourcesRequest {
-  bucketCriteria?: SearchResourcesBucketCriteria;
-  maxResults?: number;
-  nextToken?: string;
-  sortCriteria?: SearchResourcesSortCriteria;
+  bucketCriteria?: SearchResourcesBucketCriteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortCriteria?: SearchResourcesSortCriteria | undefined;
 }
 export interface MatchingBucket {
-  accountId?: string;
-  automatedDiscoveryMonitoringStatus?: AutomatedDiscoveryMonitoringStatus;
-  bucketName?: string;
-  classifiableObjectCount?: number;
-  classifiableSizeInBytes?: number;
-  errorCode?: BucketMetadataErrorCode;
-  errorMessage?: string;
-  jobDetails?: JobDetails;
-  lastAutomatedDiscoveryTime?: Date;
-  objectCount?: number;
-  objectCountByEncryptionType?: ObjectCountByEncryptionType;
-  sensitivityScore?: number;
-  sizeInBytes?: number;
-  sizeInBytesCompressed?: number;
-  unclassifiableObjectCount?: ObjectLevelStatistics;
-  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics;
+  accountId?: string | undefined;
+  automatedDiscoveryMonitoringStatus?: AutomatedDiscoveryMonitoringStatus | undefined;
+  bucketName?: string | undefined;
+  classifiableObjectCount?: number | undefined;
+  classifiableSizeInBytes?: number | undefined;
+  errorCode?: BucketMetadataErrorCode | undefined;
+  errorMessage?: string | undefined;
+  jobDetails?: JobDetails | undefined;
+  lastAutomatedDiscoveryTime?: Date | undefined;
+  objectCount?: number | undefined;
+  objectCountByEncryptionType?: ObjectCountByEncryptionType | undefined;
+  sensitivityScore?: number | undefined;
+  sizeInBytes?: number | undefined;
+  sizeInBytesCompressed?: number | undefined;
+  unclassifiableObjectCount?: ObjectLevelStatistics | undefined;
+  unclassifiableObjectSizeInBytes?: ObjectLevelStatistics | undefined;
 }
 export interface MatchingResource {
-  matchingBucket?: MatchingBucket;
+  matchingBucket?: MatchingBucket | undefined;
 }
 export type __listOfMatchingResource = MatchingResource[];
 const __listOfMatchingResource = /*@__PURE__*/ __L.at(__c93, 3);
 export interface SearchResourcesResponse {
-  matchingResources?: MatchingResource[];
-  nextToken?: string;
+  matchingResources?: MatchingResource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface TestCustomDataIdentifierRequest {
-  ignoreWords?: string[];
-  keywords?: string[];
-  maximumMatchDistance?: number;
-  regex?: string;
-  sampleText?: string;
+  ignoreWords?: string[] | undefined;
+  keywords?: string[] | undefined;
+  maximumMatchDistance?: number | undefined;
+  regex?: string | undefined;
+  sampleText?: string | undefined;
 }
 export interface TestCustomDataIdentifierResponse {
-  matchCount?: number;
+  matchCount?: number | undefined;
 }
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys?: string[];
+  tagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateAllowListRequest {
-  criteria?: AllowListCriteria;
-  description?: string;
+  criteria?: AllowListCriteria | undefined;
+  description?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateAllowListResponse {
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface UpdateAutomatedDiscoveryConfigurationRequest {
-  autoEnableOrganizationMembers?: AutoEnableMode;
-  status?: AutomatedDiscoveryStatus;
+  autoEnableOrganizationMembers?: AutoEnableMode | undefined;
+  status?: AutomatedDiscoveryStatus | undefined;
 }
 export interface UpdateAutomatedDiscoveryConfigurationResponse {}
 export interface UpdateClassificationJobRequest {
   jobId: string;
-  jobStatus?: JobStatus;
+  jobStatus?: JobStatus | undefined;
 }
 export interface UpdateClassificationJobResponse {}
 export type ClassificationScopeUpdateOperation = "ADD" | "REPLACE" | "REMOVE" | (string & {});
 export interface S3ClassificationScopeExclusionUpdate {
-  bucketNames?: string[];
-  operation?: ClassificationScopeUpdateOperation;
+  bucketNames?: string[] | undefined;
+  operation?: ClassificationScopeUpdateOperation | undefined;
 }
 export interface S3ClassificationScopeUpdate {
-  excludes?: S3ClassificationScopeExclusionUpdate;
+  excludes?: S3ClassificationScopeExclusionUpdate | undefined;
 }
 export interface UpdateClassificationScopeRequest {
   id: string;
-  s3?: S3ClassificationScopeUpdate;
+  s3?: S3ClassificationScopeUpdate | undefined;
 }
 export interface UpdateClassificationScopeResponse {}
 export interface UpdateFindingsFilterRequest {
-  action?: FindingsFilterAction;
-  clientToken?: string;
-  description?: string;
-  findingCriteria?: FindingCriteria;
+  action?: FindingsFilterAction | undefined;
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  findingCriteria?: FindingCriteria | undefined;
   id: string;
-  name?: string;
-  position?: number;
+  name?: string | undefined;
+  position?: number | undefined;
 }
 export interface UpdateFindingsFilterResponse {
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface UpdateMacieSessionRequest {
-  findingPublishingFrequency?: FindingPublishingFrequency;
-  status?: MacieStatus;
+  findingPublishingFrequency?: FindingPublishingFrequency | undefined;
+  status?: MacieStatus | undefined;
 }
 export interface UpdateMacieSessionResponse {}
 export interface UpdateMemberSessionRequest {
   id: string;
-  status?: MacieStatus;
+  status?: MacieStatus | undefined;
 }
 export interface UpdateMemberSessionResponse {}
 export interface UpdateOrganizationConfigurationRequest {
-  autoEnable?: boolean;
+  autoEnable?: boolean | undefined;
 }
 export interface UpdateOrganizationConfigurationResponse {}
 export interface UpdateResourceProfileRequest {
-  resourceArn?: string;
-  sensitivityScoreOverride?: number;
+  resourceArn?: string | undefined;
+  sensitivityScoreOverride?: number | undefined;
 }
 export interface UpdateResourceProfileResponse {}
 export interface SuppressDataIdentifier {
-  id?: string;
-  type?: DataIdentifierType;
+  id?: string | undefined;
+  type?: DataIdentifierType | undefined;
 }
 export type __listOfSuppressDataIdentifier = SuppressDataIdentifier[];
 const __listOfSuppressDataIdentifier = /*@__PURE__*/ __L.at(__c106, 1);
 export interface UpdateResourceProfileDetectionsRequest {
-  resourceArn?: string;
-  suppressDataIdentifiers?: SuppressDataIdentifier[];
+  resourceArn?: string | undefined;
+  suppressDataIdentifiers?: SuppressDataIdentifier[] | undefined;
 }
 export interface UpdateResourceProfileDetectionsResponse {}
 export interface UpdateRetrievalConfiguration {
-  retrievalMode?: RetrievalMode;
-  roleName?: string;
+  retrievalMode?: RetrievalMode | undefined;
+  roleName?: string | undefined;
 }
 export interface UpdateRevealConfigurationRequest {
-  configuration?: RevealConfiguration;
-  retrievalConfiguration?: UpdateRetrievalConfiguration;
+  configuration?: RevealConfiguration | undefined;
+  retrievalConfiguration?: UpdateRetrievalConfiguration | undefined;
 }
 export interface UpdateRevealConfigurationResponse {
-  configuration?: RevealConfiguration & { status: RevealStatus };
-  retrievalConfiguration?: RetrievalConfiguration & { retrievalMode: RetrievalMode };
+  configuration?: (RevealConfiguration & { status: RevealStatus }) | undefined;
+  retrievalConfiguration?: (RetrievalConfiguration & { retrievalMode: RetrievalMode }) | undefined;
 }
 export interface UpdateSensitivityInspectionTemplateRequest {
-  description?: string;
-  excludes?: SensitivityInspectionTemplateExcludes;
+  description?: string | undefined;
+  excludes?: SensitivityInspectionTemplateExcludes | undefined;
   id: string;
-  includes?: SensitivityInspectionTemplateIncludes;
+  includes?: SensitivityInspectionTemplateIncludes | undefined;
 }
 export interface UpdateSensitivityInspectionTemplateResponse {}
 export type AcceptInvitationError =
@@ -1915,7 +1933,7 @@ export type AcceptInvitationError =
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1951,7 +1969,7 @@ export type BatchGetCustomDataIdentifiersError =
  * Retrieves information about one or more custom data identifiers.
  */
 export const batchGetCustomDataIdentifiers: API.OperationMethod<
-  BatchGetCustomDataIdentifiersRequest,
+  BatchGetCustomDataIdentifiersRequest & RegionInput,
   BatchGetCustomDataIdentifiersResponse,
   BatchGetCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient
@@ -1985,7 +2003,7 @@ export type BatchUpdateAutomatedDiscoveryAccountsError =
  * Changes the status of automated sensitive data discovery for one or more accounts.
  */
 export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
-  BatchUpdateAutomatedDiscoveryAccountsRequest,
+  BatchUpdateAutomatedDiscoveryAccountsRequest & RegionInput,
   BatchUpdateAutomatedDiscoveryAccountsResponse,
   BatchUpdateAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2038,7 @@ export type CreateAllowListError =
  * Creates and defines the settings for an allow list.
  */
 export const createAllowList: API.OperationMethod<
-  CreateAllowListRequest,
+  CreateAllowListRequest & RegionInput,
   CreateAllowListResponse,
   CreateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2058,7 +2076,7 @@ export type CreateClassificationJobError =
  * Creates and defines the settings for a classification job.
  */
 export const createClassificationJob: API.OperationMethod<
-  CreateClassificationJobRequest,
+  CreateClassificationJobRequest & RegionInput,
   CreateClassificationJobResponse,
   CreateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2096,7 +2114,7 @@ export type CreateCustomDataIdentifierError =
  * Creates and defines the criteria and other settings for a custom data identifier.
  */
 export const createCustomDataIdentifier: API.OperationMethod<
-  CreateCustomDataIdentifierRequest,
+  CreateCustomDataIdentifierRequest & RegionInput,
   CreateCustomDataIdentifierResponse,
   CreateCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2134,7 +2152,7 @@ export type CreateFindingsFilterError =
  * Creates and defines the criteria and other settings for a findings filter.
  */
 export const createFindingsFilter: API.OperationMethod<
-  CreateFindingsFilterRequest,
+  CreateFindingsFilterRequest & RegionInput,
   CreateFindingsFilterResponse,
   CreateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2171,7 +2189,7 @@ export type CreateInvitationsError =
  * Sends an Amazon Macie membership invitation to one or more accounts.
  */
 export const createInvitations: API.OperationMethod<
-  CreateInvitationsRequest,
+  CreateInvitationsRequest & RegionInput,
   CreateInvitationsResponse,
   CreateInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2207,7 +2225,7 @@ export type CreateMemberError =
  * Associates an account with an Amazon Macie administrator account.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberRequest,
+  CreateMemberRequest & RegionInput,
   CreateMemberResponse,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2243,7 +2261,7 @@ export type CreateSampleFindingsError =
  * Creates sample findings.
  */
 export const createSampleFindings: API.OperationMethod<
-  CreateSampleFindingsRequest,
+  CreateSampleFindingsRequest & RegionInput,
   CreateSampleFindingsResponse,
   CreateSampleFindingsError,
   Credentials | HttpClient.HttpClient
@@ -2279,7 +2297,7 @@ export type DeclineInvitationsError =
  * Declines Amazon Macie membership invitations that were received from specific accounts.
  */
 export const declineInvitations: API.OperationMethod<
-  DeclineInvitationsRequest,
+  DeclineInvitationsRequest & RegionInput,
   DeclineInvitationsResponse,
   DeclineInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2313,7 +2331,7 @@ export type DeleteAllowListError =
  * Deletes an allow list.
  */
 export const deleteAllowList: API.OperationMethod<
-  DeleteAllowListRequest,
+  DeleteAllowListRequest & RegionInput,
   DeleteAllowListResponse,
   DeleteAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2347,7 +2365,7 @@ export type DeleteCustomDataIdentifierError =
  * Soft deletes a custom data identifier.
  */
 export const deleteCustomDataIdentifier: API.OperationMethod<
-  DeleteCustomDataIdentifierRequest,
+  DeleteCustomDataIdentifierRequest & RegionInput,
   DeleteCustomDataIdentifierResponse,
   DeleteCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -2383,7 +2401,7 @@ export type DeleteFindingsFilterError =
  * Deletes a findings filter.
  */
 export const deleteFindingsFilter: API.OperationMethod<
-  DeleteFindingsFilterRequest,
+  DeleteFindingsFilterRequest & RegionInput,
   DeleteFindingsFilterResponse,
   DeleteFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2419,7 +2437,7 @@ export type DeleteInvitationsError =
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
 export const deleteInvitations: API.OperationMethod<
-  DeleteInvitationsRequest,
+  DeleteInvitationsRequest & RegionInput,
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -2455,7 +2473,7 @@ export type DeleteMemberError =
  * Deletes the association between an Amazon Macie administrator account and an account.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberRequest,
+  DeleteMemberRequest & RegionInput,
   DeleteMemberResponse,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -2491,7 +2509,7 @@ export type DescribeBucketsError =
  * Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const describeBuckets: API.PaginatedOperationMethod<
-  DescribeBucketsRequest,
+  DescribeBucketsRequest & RegionInput,
   DescribeBucketsResponse,
   DescribeBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -2534,7 +2552,7 @@ export type DescribeClassificationJobError =
  * Retrieves the status and settings for a classification job.
  */
 export const describeClassificationJob: API.OperationMethod<
-  DescribeClassificationJobRequest,
+  DescribeClassificationJobRequest & RegionInput,
   DescribeClassificationJobResponse,
   DescribeClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2570,7 +2588,7 @@ export type DescribeOrganizationConfigurationError =
  * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2606,7 +2624,7 @@ export type DisableMacieError =
  * Disables Amazon Macie and deletes all settings and resources for a Macie account.
  */
 export const disableMacie: API.OperationMethod<
-  DisableMacieRequest,
+  DisableMacieRequest & RegionInput,
   DisableMacieResponse,
   DisableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2642,7 +2660,7 @@ export type DisableOrganizationAdminAccountError =
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2678,7 +2696,7 @@ export type DisassociateFromAdministratorAccountError =
  * Disassociates a member account from its Amazon Macie administrator account.
  */
 export const disassociateFromAdministratorAccount: API.OperationMethod<
-  DisassociateFromAdministratorAccountRequest,
+  DisassociateFromAdministratorAccountRequest & RegionInput,
   DisassociateFromAdministratorAccountResponse,
   DisassociateFromAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2732,7 @@ export type DisassociateFromMasterAccountError =
  * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
  */
 export const disassociateFromMasterAccount: API.OperationMethod<
-  DisassociateFromMasterAccountRequest,
+  DisassociateFromMasterAccountRequest & RegionInput,
   DisassociateFromMasterAccountResponse,
   DisassociateFromMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -2750,7 +2768,7 @@ export type DisassociateMemberError =
  * Disassociates an Amazon Macie administrator account from a member account.
  */
 export const disassociateMember: API.OperationMethod<
-  DisassociateMemberRequest,
+  DisassociateMemberRequest & RegionInput,
   DisassociateMemberResponse,
   DisassociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -2786,7 +2804,7 @@ export type EnableMacieError =
  * Enables Amazon Macie and specifies the configuration settings for a Macie account.
  */
 export const enableMacie: API.OperationMethod<
-  EnableMacieRequest,
+  EnableMacieRequest & RegionInput,
   EnableMacieResponse,
   EnableMacieError,
   Credentials | HttpClient.HttpClient
@@ -2822,7 +2840,7 @@ export type EnableOrganizationAdminAccountError =
  * Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2858,7 +2876,7 @@ export type GetAdministratorAccountError =
  * Retrieves information about the Amazon Macie administrator account for an account.
  */
 export const getAdministratorAccount: API.OperationMethod<
-  GetAdministratorAccountRequest,
+  GetAdministratorAccountRequest & RegionInput,
   GetAdministratorAccountResponse,
   GetAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2910,7 @@ export type GetAllowListError =
  * Retrieves the settings and status of an allow list.
  */
 export const getAllowList: API.OperationMethod<
-  GetAllowListRequest,
+  GetAllowListRequest & RegionInput,
   GetAllowListResponse,
   GetAllowListError,
   Credentials | HttpClient.HttpClient
@@ -2923,7 +2941,7 @@ export type GetAutomatedDiscoveryConfigurationError =
  * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
-  GetAutomatedDiscoveryConfigurationRequest,
+  GetAutomatedDiscoveryConfigurationRequest & RegionInput,
   GetAutomatedDiscoveryConfigurationResponse,
   GetAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2974,7 @@ export type GetBucketStatisticsError =
  * Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
 export const getBucketStatistics: API.OperationMethod<
-  GetBucketStatisticsRequest,
+  GetBucketStatisticsRequest & RegionInput,
   GetBucketStatisticsResponse,
   GetBucketStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2992,7 +3010,7 @@ export type GetClassificationExportConfigurationError =
  * Retrieves the configuration settings for storing data classification results.
  */
 export const getClassificationExportConfiguration: API.OperationMethod<
-  GetClassificationExportConfigurationRequest,
+  GetClassificationExportConfigurationRequest & RegionInput,
   GetClassificationExportConfigurationResponse,
   GetClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3026,7 +3044,7 @@ export type GetClassificationScopeError =
  * Retrieves the classification scope settings for an account.
  */
 export const getClassificationScope: API.OperationMethod<
-  GetClassificationScopeRequest,
+  GetClassificationScopeRequest & RegionInput,
   GetClassificationScopeResponse,
   GetClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -3060,7 +3078,7 @@ export type GetCustomDataIdentifierError =
  * Retrieves the criteria and other settings for a custom data identifier.
  */
 export const getCustomDataIdentifier: API.OperationMethod<
-  GetCustomDataIdentifierRequest,
+  GetCustomDataIdentifierRequest & RegionInput,
   GetCustomDataIdentifierResponse,
   GetCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -3096,7 +3114,7 @@ export type GetFindingsError =
  * Retrieves the details of one or more findings.
  */
 export const getFindings: API.OperationMethod<
-  GetFindingsRequest,
+  GetFindingsRequest & RegionInput,
   GetFindingsResponse,
   GetFindingsError,
   Credentials | HttpClient.HttpClient
@@ -3132,7 +3150,7 @@ export type GetFindingsFilterError =
  * Retrieves the criteria and other settings for a findings filter.
  */
 export const getFindingsFilter: API.OperationMethod<
-  GetFindingsFilterRequest,
+  GetFindingsFilterRequest & RegionInput,
   GetFindingsFilterResponse,
   GetFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -3168,7 +3186,7 @@ export type GetFindingsPublicationConfigurationError =
  * Retrieves the configuration settings for publishing findings to Security Hub.
  */
 export const getFindingsPublicationConfiguration: API.OperationMethod<
-  GetFindingsPublicationConfigurationRequest,
+  GetFindingsPublicationConfigurationRequest & RegionInput,
   GetFindingsPublicationConfigurationResponse,
   GetFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3204,7 +3222,7 @@ export type GetFindingStatisticsError =
  * Retrieves (queries) aggregated statistical data about findings.
  */
 export const getFindingStatistics: API.OperationMethod<
-  GetFindingStatisticsRequest,
+  GetFindingStatisticsRequest & RegionInput,
   GetFindingStatisticsResponse,
   GetFindingStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3240,7 +3258,7 @@ export type GetInvitationsCountError =
  * Retrieves the count of Amazon Macie membership invitations that were received by an account.
  */
 export const getInvitationsCount: API.OperationMethod<
-  GetInvitationsCountRequest,
+  GetInvitationsCountRequest & RegionInput,
   GetInvitationsCountResponse,
   GetInvitationsCountError,
   Credentials | HttpClient.HttpClient
@@ -3276,7 +3294,7 @@ export type GetMacieSessionError =
  * Retrieves the status and configuration settings for an Amazon Macie account.
  */
 export const getMacieSession: API.OperationMethod<
-  GetMacieSessionRequest,
+  GetMacieSessionRequest & RegionInput,
   GetMacieSessionResponse,
   GetMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -3312,7 +3330,7 @@ export type GetMasterAccountError =
  * (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
  */
 export const getMasterAccount: API.OperationMethod<
-  GetMasterAccountRequest,
+  GetMasterAccountRequest & RegionInput,
   GetMasterAccountResponse,
   GetMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -3348,7 +3366,7 @@ export type GetMemberError =
  * Retrieves information about an account that's associated with an Amazon Macie administrator account.
  */
 export const getMember: API.OperationMethod<
-  GetMemberRequest,
+  GetMemberRequest & RegionInput,
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -3383,7 +3401,7 @@ export type GetResourceProfileError =
  * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
  */
 export const getResourceProfile: API.OperationMethod<
-  GetResourceProfileRequest,
+  GetResourceProfileRequest & RegionInput,
   GetResourceProfileResponse,
   GetResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -3415,7 +3433,7 @@ export type GetRevealConfigurationError =
  * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const getRevealConfiguration: API.OperationMethod<
-  GetRevealConfigurationRequest,
+  GetRevealConfigurationRequest & RegionInput,
   GetRevealConfigurationResponse,
   GetRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3447,7 +3465,7 @@ export type GetSensitiveDataOccurrencesError =
  * Retrieves occurrences of sensitive data reported by a finding.
  */
 export const getSensitiveDataOccurrences: API.OperationMethod<
-  GetSensitiveDataOccurrencesRequest,
+  GetSensitiveDataOccurrencesRequest & RegionInput,
   GetSensitiveDataOccurrencesResponse,
   GetSensitiveDataOccurrencesError,
   Credentials | HttpClient.HttpClient
@@ -3479,7 +3497,7 @@ export type GetSensitiveDataOccurrencesAvailabilityError =
  * Checks whether occurrences of sensitive data can be retrieved for a finding.
  */
 export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
-  GetSensitiveDataOccurrencesAvailabilityRequest,
+  GetSensitiveDataOccurrencesAvailabilityRequest & RegionInput,
   GetSensitiveDataOccurrencesAvailabilityResponse,
   GetSensitiveDataOccurrencesAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -3510,7 +3528,7 @@ export type GetSensitivityInspectionTemplateError =
  * Retrieves the settings for the sensitivity inspection template for an account.
  */
 export const getSensitivityInspectionTemplate: API.OperationMethod<
-  GetSensitivityInspectionTemplateRequest,
+  GetSensitivityInspectionTemplateRequest & RegionInput,
   GetSensitivityInspectionTemplateResponse,
   GetSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3544,7 +3562,7 @@ export type GetUsageStatisticsError =
  * Retrieves (queries) quotas and aggregated usage data for one or more accounts.
  */
 export const getUsageStatistics: API.PaginatedOperationMethod<
-  GetUsageStatisticsRequest,
+  GetUsageStatisticsRequest & RegionInput,
   GetUsageStatisticsResponse,
   GetUsageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -3587,7 +3605,7 @@ export type GetUsageTotalsError =
  * Retrieves (queries) aggregated usage data for an account.
  */
 export const getUsageTotals: API.OperationMethod<
-  GetUsageTotalsRequest,
+  GetUsageTotalsRequest & RegionInput,
   GetUsageTotalsResponse,
   GetUsageTotalsError,
   Credentials | HttpClient.HttpClient
@@ -3620,7 +3638,7 @@ export type ListAllowListsError =
  * Retrieves a subset of information about all the allow lists for an account.
  */
 export const listAllowLists: API.PaginatedOperationMethod<
-  ListAllowListsRequest,
+  ListAllowListsRequest & RegionInput,
   ListAllowListsResponse,
   ListAllowListsError,
   Credentials | HttpClient.HttpClient,
@@ -3658,7 +3676,7 @@ export type ListAutomatedDiscoveryAccountsError =
  * Retrieves the status of automated sensitive data discovery for one or more accounts.
  */
 export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
-  ListAutomatedDiscoveryAccountsRequest,
+  ListAutomatedDiscoveryAccountsRequest & RegionInput,
   ListAutomatedDiscoveryAccountsResponse,
   ListAutomatedDiscoveryAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3699,7 +3717,7 @@ export type ListClassificationJobsError =
  * Retrieves a subset of information about one or more classification jobs.
  */
 export const listClassificationJobs: API.PaginatedOperationMethod<
-  ListClassificationJobsRequest,
+  ListClassificationJobsRequest & RegionInput,
   ListClassificationJobsResponse,
   ListClassificationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3739,7 +3757,7 @@ export type ListClassificationScopesError =
  * Retrieves a subset of information about the classification scope for an account.
  */
 export const listClassificationScopes: API.PaginatedOperationMethod<
-  ListClassificationScopesRequest,
+  ListClassificationScopesRequest & RegionInput,
   ListClassificationScopesResponse,
   ListClassificationScopesError,
   Credentials | HttpClient.HttpClient,
@@ -3778,7 +3796,7 @@ export type ListCustomDataIdentifiersError =
  * Retrieves a subset of information about the custom data identifiers for an account.
  */
 export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
-  ListCustomDataIdentifiersRequest,
+  ListCustomDataIdentifiersRequest & RegionInput,
   ListCustomDataIdentifiersResponse,
   ListCustomDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3821,7 +3839,7 @@ export type ListFindingsError =
  * Retrieves a subset of information about one or more findings.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -3864,7 +3882,7 @@ export type ListFindingsFiltersError =
  * Retrieves a subset of information about all the findings filters for an account.
  */
 export const listFindingsFilters: API.PaginatedOperationMethod<
-  ListFindingsFiltersRequest,
+  ListFindingsFiltersRequest & RegionInput,
   ListFindingsFiltersResponse,
   ListFindingsFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -3907,7 +3925,7 @@ export type ListInvitationsError =
  * Retrieves information about Amazon Macie membership invitations that were received by an account.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -3942,7 +3960,7 @@ export type ListManagedDataIdentifiersError = CommonErrors;
  * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
  */
 export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
-  ListManagedDataIdentifiersRequest,
+  ListManagedDataIdentifiersRequest & RegionInput,
   ListManagedDataIdentifiersResponse,
   ListManagedDataIdentifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3972,7 +3990,7 @@ export type ListMembersError =
  * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -4015,7 +4033,7 @@ export type ListOrganizationAdminAccountsError =
  * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -4056,7 +4074,7 @@ export type ListResourceProfileArtifactsError =
  * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
  */
 export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
-  ListResourceProfileArtifactsRequest,
+  ListResourceProfileArtifactsRequest & RegionInput,
   ListResourceProfileArtifactsResponse,
   ListResourceProfileArtifactsError,
   Credentials | HttpClient.HttpClient,
@@ -4091,7 +4109,7 @@ export type ListResourceProfileDetectionsError =
  * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
 export const listResourceProfileDetections: API.PaginatedOperationMethod<
-  ListResourceProfileDetectionsRequest,
+  ListResourceProfileDetectionsRequest & RegionInput,
   ListResourceProfileDetectionsResponse,
   ListResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4131,7 +4149,7 @@ export type ListSensitivityInspectionTemplatesError =
  * Retrieves a subset of information about the sensitivity inspection template for an account.
  */
 export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
-  ListSensitivityInspectionTemplatesRequest,
+  ListSensitivityInspectionTemplatesRequest & RegionInput,
   ListSensitivityInspectionTemplatesResponse,
   ListSensitivityInspectionTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4164,7 +4182,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4192,7 +4210,7 @@ export type PutClassificationExportConfigurationError =
  * Adds or updates the configuration settings for storing data classification results.
  */
 export const putClassificationExportConfiguration: API.OperationMethod<
-  PutClassificationExportConfigurationRequest,
+  PutClassificationExportConfigurationRequest & RegionInput,
   PutClassificationExportConfigurationResponse,
   PutClassificationExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4228,7 +4246,7 @@ export type PutFindingsPublicationConfigurationError =
  * Updates the configuration settings for publishing findings to Security Hub.
  */
 export const putFindingsPublicationConfiguration: API.OperationMethod<
-  PutFindingsPublicationConfigurationRequest,
+  PutFindingsPublicationConfigurationRequest & RegionInput,
   PutFindingsPublicationConfigurationResponse,
   PutFindingsPublicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4264,7 +4282,7 @@ export type SearchResourcesError =
  * Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesRequest,
+  SearchResourcesRequest & RegionInput,
   SearchResourcesResponse,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4299,7 +4317,7 @@ export type TagResourceError = CommonErrors;
  * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4327,7 +4345,7 @@ export type TestCustomDataIdentifierError =
  * Tests criteria for a custom data identifier.
  */
 export const testCustomDataIdentifier: API.OperationMethod<
-  TestCustomDataIdentifierRequest,
+  TestCustomDataIdentifierRequest & RegionInput,
   TestCustomDataIdentifierResponse,
   TestCustomDataIdentifierError,
   Credentials | HttpClient.HttpClient
@@ -4355,7 +4373,7 @@ export type UntagResourceError = CommonErrors;
  * Removes one or more tags (keys and values) from an Amazon Macie resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4399,7 @@ export type UpdateAllowListError =
  * Updates the settings for an allow list.
  */
 export const updateAllowList: API.OperationMethod<
-  UpdateAllowListRequest,
+  UpdateAllowListRequest & RegionInput,
   UpdateAllowListResponse,
   UpdateAllowListError,
   Credentials | HttpClient.HttpClient
@@ -4412,7 +4430,7 @@ export type UpdateAutomatedDiscoveryConfigurationError =
  * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
 export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
-  UpdateAutomatedDiscoveryConfigurationRequest,
+  UpdateAutomatedDiscoveryConfigurationRequest & RegionInput,
   UpdateAutomatedDiscoveryConfigurationResponse,
   UpdateAutomatedDiscoveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4445,7 +4463,7 @@ export type UpdateClassificationJobError =
  * Changes the status of a classification job.
  */
 export const updateClassificationJob: API.OperationMethod<
-  UpdateClassificationJobRequest,
+  UpdateClassificationJobRequest & RegionInput,
   UpdateClassificationJobResponse,
   UpdateClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -4479,7 +4497,7 @@ export type UpdateClassificationScopeError =
  * Updates the classification scope settings for an account.
  */
 export const updateClassificationScope: API.OperationMethod<
-  UpdateClassificationScopeRequest,
+  UpdateClassificationScopeRequest & RegionInput,
   UpdateClassificationScopeResponse,
   UpdateClassificationScopeError,
   Credentials | HttpClient.HttpClient
@@ -4513,7 +4531,7 @@ export type UpdateFindingsFilterError =
  * Updates the criteria and other settings for a findings filter.
  */
 export const updateFindingsFilter: API.OperationMethod<
-  UpdateFindingsFilterRequest,
+  UpdateFindingsFilterRequest & RegionInput,
   UpdateFindingsFilterResponse,
   UpdateFindingsFilterError,
   Credentials | HttpClient.HttpClient
@@ -4549,7 +4567,7 @@ export type UpdateMacieSessionError =
  * Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
  */
 export const updateMacieSession: API.OperationMethod<
-  UpdateMacieSessionRequest,
+  UpdateMacieSessionRequest & RegionInput,
   UpdateMacieSessionResponse,
   UpdateMacieSessionError,
   Credentials | HttpClient.HttpClient
@@ -4585,7 +4603,7 @@ export type UpdateMemberSessionError =
  * Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
  */
 export const updateMemberSession: API.OperationMethod<
-  UpdateMemberSessionRequest,
+  UpdateMemberSessionRequest & RegionInput,
   UpdateMemberSessionResponse,
   UpdateMemberSessionError,
   Credentials | HttpClient.HttpClient
@@ -4621,7 +4639,7 @@ export type UpdateOrganizationConfigurationError =
  * Updates the Amazon Macie configuration settings for an organization in Organizations.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4656,7 +4674,7 @@ export type UpdateResourceProfileError =
  * Updates the sensitivity score for an S3 bucket.
  */
 export const updateResourceProfile: API.OperationMethod<
-  UpdateResourceProfileRequest,
+  UpdateResourceProfileRequest & RegionInput,
   UpdateResourceProfileResponse,
   UpdateResourceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4690,7 +4708,7 @@ export type UpdateResourceProfileDetectionsError =
  * Updates the sensitivity scoring settings for an S3 bucket.
  */
 export const updateResourceProfileDetections: API.OperationMethod<
-  UpdateResourceProfileDetectionsRequest,
+  UpdateResourceProfileDetectionsRequest & RegionInput,
   UpdateResourceProfileDetectionsResponse,
   UpdateResourceProfileDetectionsError,
   Credentials | HttpClient.HttpClient
@@ -4722,7 +4740,7 @@ export type UpdateRevealConfigurationError =
  * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
 export const updateRevealConfiguration: API.OperationMethod<
-  UpdateRevealConfigurationRequest,
+  UpdateRevealConfigurationRequest & RegionInput,
   UpdateRevealConfigurationResponse,
   UpdateRevealConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4753,7 +4771,7 @@ export type UpdateSensitivityInspectionTemplateError =
  * Updates the settings for the sensitivity inspection template for an account.
  */
 export const updateSensitivityInspectionTemplate: API.OperationMethod<
-  UpdateSensitivityInspectionTemplateRequest,
+  UpdateSensitivityInspectionTemplateRequest & RegionInput,
   UpdateSensitivityInspectionTemplateResponse,
   UpdateSensitivityInspectionTemplateError,
   Credentials | HttpClient.HttpClient

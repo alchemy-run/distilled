@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -128,7 +129,7 @@ export interface AssociateGatewayToServerInput {
   ServerArn: string;
 }
 export interface AssociateGatewayToServerOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export type ActivationKey = string;
 export type Name = string;
@@ -144,28 +145,28 @@ export interface CreateGatewayInput {
   ActivationKey: string;
   GatewayDisplayName: string;
   GatewayType: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateGatewayOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface DeleteGatewayInput {
   GatewayArn: string;
 }
 export interface DeleteGatewayOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface DeleteHypervisorInput {
   HypervisorArn: string;
 }
 export interface DeleteHypervisorOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface DisassociateGatewayFromServerInput {
   GatewayArn: string;
 }
 export interface DisassociateGatewayFromServerOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface GetBandwidthRateLimitScheduleInput {
   GatewayArn: string;
@@ -176,7 +177,7 @@ export type MinuteOfHour = number;
 export type DayOfWeek = number;
 export type DaysOfWeek = number[];
 export interface BandwidthRateLimitInterval {
-  AverageUploadRateLimitInBitsPerSec?: number;
+  AverageUploadRateLimitInBitsPerSec?: number | undefined;
   StartHourOfDay: number;
   EndHourOfDay: number;
   StartMinuteOfHour: number;
@@ -185,8 +186,8 @@ export interface BandwidthRateLimitInterval {
 }
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
 export interface GetBandwidthRateLimitScheduleOutput {
-  GatewayArn?: string;
-  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
+  GatewayArn?: string | undefined;
+  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[] | undefined;
 }
 export interface GetGatewayInput {
   GatewayArn: string;
@@ -194,26 +195,26 @@ export interface GetGatewayInput {
 export type HypervisorId = string;
 export type DayOfMonth = number;
 export interface MaintenanceStartTime {
-  DayOfMonth?: number;
-  DayOfWeek?: number;
+  DayOfMonth?: number | undefined;
+  DayOfWeek?: number | undefined;
   HourOfDay: number;
   MinuteOfHour: number;
 }
 export type VpcEndpoint = string;
 export interface GatewayDetails {
-  GatewayArn?: string;
-  GatewayDisplayName?: string;
-  GatewayType?: string;
-  HypervisorId?: string;
-  LastSeenTime?: Date;
-  MaintenanceStartTime?: MaintenanceStartTime;
-  NextUpdateAvailabilityTime?: Date;
-  VpcEndpoint?: string;
-  DeprecationDate?: Date;
-  SoftwareVersion?: string;
+  GatewayArn?: string | undefined;
+  GatewayDisplayName?: string | undefined;
+  GatewayType?: string | undefined;
+  HypervisorId?: string | undefined;
+  LastSeenTime?: Date | undefined;
+  MaintenanceStartTime?: MaintenanceStartTime | undefined;
+  NextUpdateAvailabilityTime?: Date | undefined;
+  VpcEndpoint?: string | undefined;
+  DeprecationDate?: Date | undefined;
+  SoftwareVersion?: string | undefined;
 }
 export interface GetGatewayOutput {
-  Gateway?: GatewayDetails;
+  Gateway?: GatewayDetails | undefined;
 }
 export interface GetHypervisorInput {
   HypervisorArn: string;
@@ -224,18 +225,18 @@ export type LogGroupArn = string;
 export type HypervisorState = string;
 export type SyncMetadataStatus = string;
 export interface HypervisorDetails {
-  Host?: string;
-  HypervisorArn?: string;
-  KmsKeyArn?: string;
-  Name?: string;
-  LogGroupArn?: string;
-  State?: string;
-  LastSuccessfulMetadataSyncTime?: Date;
-  LatestMetadataSyncStatusMessage?: string;
-  LatestMetadataSyncStatus?: string;
+  Host?: string | undefined;
+  HypervisorArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  Name?: string | undefined;
+  LogGroupArn?: string | undefined;
+  State?: string | undefined;
+  LastSuccessfulMetadataSyncTime?: Date | undefined;
+  LatestMetadataSyncStatusMessage?: string | undefined;
+  LatestMetadataSyncStatus?: string | undefined;
 }
 export interface GetHypervisorOutput {
-  Hypervisor?: HypervisorDetails;
+  Hypervisor?: HypervisorDetails | undefined;
 }
 export interface GetHypervisorPropertyMappingsInput {
   HypervisorArn: string;
@@ -251,9 +252,9 @@ export interface VmwareToAwsTagMapping {
 export type VmwareToAwsTagMappings = VmwareToAwsTagMapping[];
 export type IamRoleArn = string;
 export interface GetHypervisorPropertyMappingsOutput {
-  HypervisorArn?: string;
-  VmwareToAwsTagMappings?: VmwareToAwsTagMapping[];
-  IamRoleArn?: string;
+  HypervisorArn?: string | undefined;
+  VmwareToAwsTagMappings?: VmwareToAwsTagMapping[] | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type ResourceArn = string;
 export interface GetVirtualMachineInput {
@@ -261,101 +262,101 @@ export interface GetVirtualMachineInput {
 }
 export type Path = string;
 export interface VmwareTag {
-  VmwareCategory?: string;
-  VmwareTagName?: string;
-  VmwareTagDescription?: string;
+  VmwareCategory?: string | undefined;
+  VmwareTagName?: string | undefined;
+  VmwareTagDescription?: string | undefined;
 }
 export type VmwareTags = VmwareTag[];
 export interface VirtualMachineDetails {
-  HostName?: string;
-  HypervisorId?: string;
-  Name?: string;
-  Path?: string;
-  ResourceArn?: string;
-  LastBackupDate?: Date;
-  VmwareTags?: VmwareTag[];
+  HostName?: string | undefined;
+  HypervisorId?: string | undefined;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  ResourceArn?: string | undefined;
+  LastBackupDate?: Date | undefined;
+  VmwareTags?: VmwareTag[] | undefined;
 }
 export interface GetVirtualMachineOutput {
-  VirtualMachine?: VirtualMachineDetails;
+  VirtualMachine?: VirtualMachineDetails | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface ImportHypervisorConfigurationInput {
   Name: string;
   Host: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  KmsKeyArn?: string;
-  Tags?: Tag[];
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  KmsKeyArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportHypervisorConfigurationOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListGatewaysInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Gateway {
-  GatewayArn?: string;
-  GatewayDisplayName?: string;
-  GatewayType?: string;
-  HypervisorId?: string;
-  LastSeenTime?: Date;
+  GatewayArn?: string | undefined;
+  GatewayDisplayName?: string | undefined;
+  GatewayType?: string | undefined;
+  HypervisorId?: string | undefined;
+  LastSeenTime?: Date | undefined;
 }
 export type Gateways = Gateway[];
 export interface ListGatewaysOutput {
-  Gateways?: Gateway[];
-  NextToken?: string;
+  Gateways?: Gateway[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHypervisorsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Hypervisor {
-  Host?: string;
-  HypervisorArn?: string;
-  KmsKeyArn?: string;
-  Name?: string;
-  State?: string;
+  Host?: string | undefined;
+  HypervisorArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
 }
 export type Hypervisors = Hypervisor[];
 export interface ListHypervisorsOutput {
-  Hypervisors?: Hypervisor[];
-  NextToken?: string;
+  Hypervisors?: Hypervisor[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListVirtualMachinesInput {
-  HypervisorArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  HypervisorArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface VirtualMachine {
-  HostName?: string;
-  HypervisorId?: string;
-  Name?: string;
-  Path?: string;
-  ResourceArn?: string;
-  LastBackupDate?: Date;
+  HostName?: string | undefined;
+  HypervisorId?: string | undefined;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  ResourceArn?: string | undefined;
+  LastBackupDate?: Date | undefined;
 }
 export type VirtualMachines = VirtualMachine[];
 export interface ListVirtualMachinesOutput {
-  VirtualMachines?: VirtualMachine[];
-  NextToken?: string;
+  VirtualMachines?: VirtualMachine[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutBandwidthRateLimitScheduleInput {
   GatewayArn: string;
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export interface PutBandwidthRateLimitScheduleOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface PutHypervisorPropertyMappingsInput {
   HypervisorArn: string;
@@ -363,36 +364,36 @@ export interface PutHypervisorPropertyMappingsInput {
   IamRoleArn: string;
 }
 export interface PutHypervisorPropertyMappingsOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface PutMaintenanceStartTimeInput {
   GatewayArn: string;
   HourOfDay: number;
   MinuteOfHour: number;
-  DayOfWeek?: number;
-  DayOfMonth?: number;
+  DayOfWeek?: number | undefined;
+  DayOfMonth?: number | undefined;
 }
 export interface PutMaintenanceStartTimeOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface StartVirtualMachinesMetadataSyncInput {
   HypervisorArn: string;
 }
 export interface StartVirtualMachinesMetadataSyncOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface TagResourceInput {
   ResourceARN: string;
   Tags: Tag[];
 }
 export interface TagResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface TestHypervisorConfigurationInput {
   GatewayArn: string;
   Host: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface TestHypervisorConfigurationOutput {}
 export type TagKeys = string[];
@@ -401,38 +402,38 @@ export interface UntagResourceInput {
   TagKeys: string[];
 }
 export interface UntagResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface UpdateGatewayInformationInput {
   GatewayArn: string;
-  GatewayDisplayName?: string;
+  GatewayDisplayName?: string | undefined;
 }
 export interface UpdateGatewayInformationOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface UpdateGatewaySoftwareNowInput {
   GatewayArn: string;
 }
 export interface UpdateGatewaySoftwareNowOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface UpdateHypervisorInput {
   HypervisorArn: string;
-  Host?: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  Name?: string;
-  LogGroupArn?: string;
+  Host?: string | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface UpdateHypervisorOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export type AssociateGatewayToServerError = ConflictException | CommonErrors;
 /**
  * Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
  */
 export const associateGatewayToServer: API.OperationMethod<
-  AssociateGatewayToServerInput,
+  AssociateGatewayToServerInput & RegionInput,
   AssociateGatewayToServerOutput,
   AssociateGatewayToServerError,
   Credentials | HttpClient.HttpClient
@@ -452,7 +453,7 @@ export type CreateGatewayError = CommonErrors;
  * Creates a backup gateway. After you create a gateway, you can associate it with a server using the `AssociateGatewayToServer` operation.
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayInput,
+  CreateGatewayInput & RegionInput,
   CreateGatewayOutput,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -472,7 +473,7 @@ export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
  * Deletes a backup gateway.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -496,7 +497,7 @@ export type DeleteHypervisorError =
  * Deletes a hypervisor.
  */
 export const deleteHypervisor: API.OperationMethod<
-  DeleteHypervisorInput,
+  DeleteHypervisorInput & RegionInput,
   DeleteHypervisorOutput,
   DeleteHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -519,7 +520,7 @@ export type DisassociateGatewayFromServerError =
  * Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
  */
 export const disassociateGatewayFromServer: API.OperationMethod<
-  DisassociateGatewayFromServerInput,
+  DisassociateGatewayFromServerInput & RegionInput,
   DisassociateGatewayFromServerOutput,
   DisassociateGatewayFromServerError,
   Credentials | HttpClient.HttpClient
@@ -539,7 +540,7 @@ export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
  */
 export const getBandwidthRateLimitSchedule: API.OperationMethod<
-  GetBandwidthRateLimitScheduleInput,
+  GetBandwidthRateLimitScheduleInput & RegionInput,
   GetBandwidthRateLimitScheduleOutput,
   GetBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -559,7 +560,7 @@ export type GetGatewayError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the gateway.
  */
 export const getGateway: API.OperationMethod<
-  GetGatewayInput,
+  GetGatewayInput & RegionInput,
   GetGatewayOutput,
   GetGatewayError,
   Credentials | HttpClient.HttpClient
@@ -579,7 +580,7 @@ export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
  * This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
  */
 export const getHypervisor: API.OperationMethod<
-  GetHypervisorInput,
+  GetHypervisorInput & RegionInput,
   GetHypervisorOutput,
   GetHypervisorError,
   Credentials | HttpClient.HttpClient
@@ -599,7 +600,7 @@ export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | Com
  * This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const getHypervisorPropertyMappings: API.OperationMethod<
-  GetHypervisorPropertyMappingsInput,
+  GetHypervisorPropertyMappingsInput & RegionInput,
   GetHypervisorPropertyMappingsOutput,
   GetHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -619,7 +620,7 @@ export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
  * By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
  */
 export const getVirtualMachine: API.OperationMethod<
-  GetVirtualMachineInput,
+  GetVirtualMachineInput & RegionInput,
   GetVirtualMachineOutput,
   GetVirtualMachineError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type ImportHypervisorConfigurationError =
  * Connect to a hypervisor by importing its configuration.
  */
 export const importHypervisorConfiguration: API.OperationMethod<
-  ImportHypervisorConfigurationInput,
+  ImportHypervisorConfigurationInput & RegionInput,
   ImportHypervisorConfigurationOutput,
   ImportHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type ListGatewaysError = CommonErrors;
  * Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -689,7 +690,7 @@ export type ListHypervisorsError = CommonErrors;
  * Lists your hypervisors.
  */
 export const listHypervisors: API.PaginatedOperationMethod<
-  ListHypervisorsInput,
+  ListHypervisorsInput & RegionInput,
   ListHypervisorsOutput,
   ListHypervisorsError,
   Credentials | HttpClient.HttpClient,
@@ -716,7 +717,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type ListVirtualMachinesError = CommonErrors;
  * Lists your virtual machines.
  */
 export const listVirtualMachines: API.PaginatedOperationMethod<
-  ListVirtualMachinesInput,
+  ListVirtualMachinesInput & RegionInput,
   ListVirtualMachinesOutput,
   ListVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -763,7 +764,7 @@ export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | Com
  * This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
  */
 export const putBandwidthRateLimitSchedule: API.OperationMethod<
-  PutBandwidthRateLimitScheduleInput,
+  PutBandwidthRateLimitScheduleInput & RegionInput,
   PutBandwidthRateLimitScheduleOutput,
   PutBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type PutHypervisorPropertyMappingsError =
  * This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const putHypervisorPropertyMappings: API.OperationMethod<
-  PutHypervisorPropertyMappingsInput,
+  PutHypervisorPropertyMappingsInput & RegionInput,
   PutHypervisorPropertyMappingsOutput,
   PutHypervisorPropertyMappingsError,
   Credentials | HttpClient.HttpClient
@@ -810,7 +811,7 @@ export type PutMaintenanceStartTimeError =
  * Set the maintenance start time for a gateway.
  */
 export const putMaintenanceStartTime: API.OperationMethod<
-  PutMaintenanceStartTimeInput,
+  PutMaintenanceStartTimeInput & RegionInput,
   PutMaintenanceStartTimeOutput,
   PutMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -833,7 +834,7 @@ export type StartVirtualMachinesMetadataSyncError =
  * This action sends a request to sync metadata across the specified virtual machines.
  */
 export const startVirtualMachinesMetadataSync: API.OperationMethod<
-  StartVirtualMachinesMetadataSyncInput,
+  StartVirtualMachinesMetadataSyncInput & RegionInput,
   StartVirtualMachinesMetadataSyncOutput,
   StartVirtualMachinesMetadataSyncError,
   Credentials | HttpClient.HttpClient
@@ -853,7 +854,7 @@ export type TagResourceError = ResourceNotFoundException | CommonErrors;
  * Tag the resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -876,7 +877,7 @@ export type TestHypervisorConfigurationError =
  * Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
  */
 export const testHypervisorConfiguration: API.OperationMethod<
-  TestHypervisorConfigurationInput,
+  TestHypervisorConfigurationInput & RegionInput,
   TestHypervisorConfigurationOutput,
   TestHypervisorConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -919,7 +920,7 @@ export type UpdateGatewayInformationError =
  * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -941,7 +942,7 @@ export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonEr
  * When you make this request, you get a `200 OK` success response immediately. However, it might take some time for the update to complete.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -965,7 +966,7 @@ export type UpdateHypervisorError =
  * Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
  */
 export const updateHypervisor: API.OperationMethod<
-  UpdateHypervisorInput,
+  UpdateHypervisorInput & RegionInput,
   UpdateHypervisorOutput,
   UpdateHypervisorError,
   Credentials | HttpClient.HttpClient

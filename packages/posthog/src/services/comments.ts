@@ -92,15 +92,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface CommentSlackThread {
   id: string;
@@ -128,18 +128,18 @@ export type CreateCommentRequestMentionsList = Array<number>;
 export interface CreateCommentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  scope?: string;
+  scope?: string | undefined;
   /** Metadata for the comment target, anchor, thread state, and owning task. */
-  item_context?: unknown;
-  deleted?: boolean | null;
-  mentions?: CreateCommentRequestMentionsList;
-  slug?: string;
+  item_context?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  mentions?: CreateCommentRequestMentionsList | undefined;
+  slug?: string | undefined;
   /** Whether this comment is an actionable task that can be marked complete. Tasks render with a checkbox in the UI and can be filtered as a separate kind. Cannot be set on replies (source_comment) or emoji reactions. Immutable after creation. */
-  is_task?: boolean;
-  content?: string | null;
-  rich_content?: unknown;
-  item_id?: string | null;
-  source_comment?: string | null;
+  is_task?: boolean | undefined;
+  content?: string | null | undefined;
+  rich_content?: unknown | undefined;
+  item_id?: string | null | undefined;
+  source_comment?: string | null | undefined;
 }
 export interface CommentSlackThreadRef {
   /** Slack channel ID this discussion is mirrored to. */
@@ -150,26 +150,26 @@ export interface CommentSlackThreadRef {
   url: string;
 }
 export interface CommentOutput {
-  id?: string;
-  created_by?: UserBasic | null;
-  scope?: string;
+  id?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  scope?: string | undefined;
   /** Metadata for the comment target, anchor, thread state, and owning task. */
-  item_context?: unknown;
-  deleted?: boolean | null;
+  item_context?: unknown | undefined;
+  deleted?: boolean | null | undefined;
   /** Whether this comment is an actionable task that can be marked complete. Tasks render with a checkbox in the UI and can be filtered as a separate kind. Cannot be set on replies (source_comment) or emoji reactions. Immutable after creation. */
-  is_task?: boolean;
+  is_task?: boolean | undefined;
   /** The user who marked this task complete. Null for open tasks and non-task comments. */
-  completed_by?: UserBasic | null;
+  completed_by?: UserBasic | null | undefined;
   /** The Slack thread this comment's discussion is mirrored to, or null. Set only on a tracked thread-root comment; used to surface an 'Open in Slack' link and hide re-sending. */
-  slack_thread?: CommentSlackThreadRef | null;
-  content?: string | null;
-  rich_content?: unknown;
-  version?: number;
-  created_at?: string;
-  item_id?: string | null;
+  slack_thread?: CommentSlackThreadRef | null | undefined;
+  content?: string | null | undefined;
+  rich_content?: unknown | undefined;
+  version?: number | undefined;
+  created_at?: string | undefined;
+  item_id?: string | null | undefined;
   /** ISO timestamp when the task was marked complete. Only meaningful when is_task is true. Read-only -- toggled via the /complete and /reopen actions, not via PATCH. */
-  completed_at?: string | null;
-  source_comment?: string | null;
+  completed_at?: string | null | undefined;
+  source_comment?: string | null | undefined;
 }
 export interface CreateCommentsCompleteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -207,29 +207,30 @@ export interface ListCommentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When kind=task, restrict to open (incomplete) or completed tasks. Ignored when kind is not 'task'. Defaults to 'any' (no filter). * `any` - any * `open` - open * `completed` - completed */
-  completed?: ListCommentsRequestCompleted | (string & {});
+  completed?: ListCommentsRequestCompleted | (string & {}) | undefined;
   /** Filter by the numeric ID of the user who wrote the comment. */
-  created_by?: number;
+  created_by?: number | undefined;
   /** The pagination cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the ID of the resource being commented on. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** Filter by comment kind. 'task' returns only items intentionally created as actionable. 'comment' excludes tasks. Defaults to 'any' (no filter). * `any` - any * `comment` - comment * `task` - task */
-  kind?: ListCommentsRequestKind | (string & {});
+  kind?: ListCommentsRequestKind | (string & {}) | undefined;
   /** Filter by resource type (e.g. Dashboard, FeatureFlag, Insight, Replay). Support-ticket scopes (Ticket, conversations_ticket) additionally require ticket API scope access. */
-  scope?: string;
+  scope?: string | undefined;
   /** Full-text search within comment content. */
-  search?: string;
+  search?: string | undefined;
   /** Filter replies to a specific parent comment. */
-  source_comment?: string;
+  source_comment?: string | undefined;
   /** Owning task for task, task_artifact, task_preview, task_browser, and canvas comment scopes. */
-  task_id?: string;
+  task_id?: string | undefined;
 }
 export type PaginatedCommentListOutputResultsList = Array<CommentOutput>;
 export interface PaginatedCommentListOutput {
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedCommentListOutputResultsList;
+  count: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedCommentListOutputResultsList | undefined;
 }
 export type UpdateCommentRequestMentionsList = Array<number>;
 export interface UpdateCommentRequest {
@@ -237,18 +238,18 @@ export interface UpdateCommentRequest {
   project_id: string;
   /** A UUID string identifying this comment. */
   id: string;
-  scope?: string;
+  scope?: string | undefined;
   /** Metadata for the comment target, anchor, thread state, and owning task. */
-  item_context?: unknown;
-  deleted?: boolean | null;
-  mentions?: UpdateCommentRequestMentionsList;
-  slug?: string;
+  item_context?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  mentions?: UpdateCommentRequestMentionsList | undefined;
+  slug?: string | undefined;
   /** Whether this comment is an actionable task that can be marked complete. Tasks render with a checkbox in the UI and can be filtered as a separate kind. Cannot be set on replies (source_comment) or emoji reactions. Immutable after creation. */
-  is_task?: boolean;
-  content?: string | null;
-  rich_content?: unknown;
-  item_id?: string | null;
-  source_comment?: string | null;
+  is_task?: boolean | undefined;
+  content?: string | null | undefined;
+  rich_content?: unknown | undefined;
+  item_id?: string | null | undefined;
+  source_comment?: string | null | undefined;
 }
 export type UpdateCommentsPartialRequestMentionsList = Array<number>;
 export interface UpdateCommentsPartialRequest {
@@ -256,18 +257,18 @@ export interface UpdateCommentsPartialRequest {
   project_id: string;
   /** A UUID string identifying this comment. */
   id: string;
-  scope?: string;
+  scope?: string | undefined;
   /** Metadata for the comment target, anchor, thread state, and owning task. */
-  item_context?: unknown;
-  deleted?: boolean | null;
-  mentions?: UpdateCommentsPartialRequestMentionsList;
-  slug?: string;
+  item_context?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  mentions?: UpdateCommentsPartialRequestMentionsList | undefined;
+  slug?: string | undefined;
   /** Whether this comment is an actionable task that can be marked complete. Tasks render with a checkbox in the UI and can be filtered as a separate kind. Cannot be set on replies (source_comment) or emoji reactions. Immutable after creation. */
-  is_task?: boolean;
-  content?: string | null;
-  rich_content?: unknown;
-  item_id?: string | null;
-  source_comment?: string | null;
+  is_task?: boolean | undefined;
+  content?: string | null | undefined;
+  rich_content?: unknown | undefined;
+  item_id?: string | null | undefined;
+  source_comment?: string | null | undefined;
 }
 export type CommentsDestroyError = Forbidden | NotFound | PosthogOpError;
 /** Hard delete of this model is not allowed. Use a patch API call to set "deleted" to true */
@@ -287,7 +288,7 @@ export const commentsDestroy: API.OperationMethod<
 }));
 
 export type CommentsSendToSlackCreateError = PosthogOpError;
-/** Mirror this discussion thread to a Slack channel. Posts the comment (and its existing replies) as a new Slack thread; later replies on either side sync across. A discussion mirrors to exactly one Slack thread: re-calling with the same channel returns the existing mirror; a different channel is a 400 naming the existing one. 409 while a concurrent send is in flight. 404 when the feature is not enabled for the team. */
+/** Mirror this discussion thread to a Slack channel. Posts the comment (and its existing replies) as a new Slack thread; later replies on either side sync across. A discussion mirrors to exactly one Slack thread: re-calling with the same channel returns the existing mirror; a different channel is a 400 naming the existing one. 409 while a concurrent send is in flight. 404 when the feature is not enabled for the team. Only the person who started a ticket discussion can send it (403), and it cannot go to a channel shared with another Slack workspace (400). 429 when the Slack integration has made too many channel lookups in the last minute. */
 export const commentsSendToSlackCreate: API.OperationMethod<
   CommentsSendToSlackCreateRequest,
   CommentSlackThread,
@@ -502,6 +503,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           results: S.optional(__S(9, __c2, 1)),

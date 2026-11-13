@@ -77,36 +77,36 @@ export interface CreateTransferRequest {
   /** The amount to move, in the transfer currency. For example 25.00. */
   amount: number;
   /** Currency, such as `usd`. Required for ledger transfers. */
-  currency?: string;
+  currency?: string | undefined;
   /** The recipient. Required for ledger and wallet_send (a user_/biz_/ldgr_ ID, or -- for sends -- an email). Omit for claim_link. */
-  destination_id?: string;
+  destination_id?: string | undefined;
   /** claim_link only. Link expiry as an ISO 8601 timestamp. Defaults to 24 hours from creation. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Ledger transfers only. The feed the transfer was initiated from. Given with `feed_type`, the payment receipt posts into that feed instead of a direct message. */
-  feed_id?: string | null;
+  feed_id?: string | null | undefined;
   /** Ledger transfers only. The type of the feed named by `feed_id`. */
-  feed_type?: CreateTransferRequestFeedType | (string & {}) | null;
+  feed_type?: CreateTransferRequestFeedType | (string & {}) | null | undefined;
   /** Ledger transfers and wallet sends. A unique key that makes retries safe. Retrying with the same key returns the original transfer, or attaches to the original wallet send, instead of moving money twice. */
-  idempotence_key?: string | null;
+  idempotence_key?: string | null | undefined;
   /** Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value. */
-  metadata?: CreateTransferRequestMetadataMap | null;
+  metadata?: CreateTransferRequestMetadataMap | null | undefined;
   /** Ledger transfers only. A short note describing the transfer. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The account sending the funds. A user ID (user_xxx), account ID (biz_xxx), or ledger account ID (ldgr_xxx). */
   origin_id: string;
   /** claim_link only. How many different users can claim the link. Defaults to 1. */
-  redeemable_count?: number;
+  redeemable_count?: number | undefined;
   /** The kind of money movement, which decides what comes back. Defaults to ledger. `ledger` moves credit between two Whop balances and returns a `transfer`; `wallet_send` sends USDT from the origin account's Ethereum wallet and returns a `send`; `claim_link` funds a shareable link anyone with the URL can redeem and returns a `claim_link`. A `ledger` transfer from a stablecoin-rails account settles on-chain when covered, and still returns a `transfer`. */
-  type?: CreateTransferRequestType | (string & {});
+  type?: CreateTransferRequestType | (string & {}) | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable. */
 export interface CreateTransferResponseBodyCase0CreatedByUser {
   /** User ID. */
   id: string;
   /** User display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** User's username. */
   username: string;
 }
@@ -115,9 +115,9 @@ export interface CreateTransferResponseBodyCase0DestinationCase0 {
   /** Account ID. */
   id: string;
   /** Account route. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Account display name. */
-  title?: string | null;
+  title?: string | null | undefined;
   typename: CreateTransferResponseBodyCase0DestinationCase0Typename;
 }
 export type CreateTransferResponseBodyCase0DestinationCase1Typename = "User";
@@ -125,10 +125,10 @@ export interface CreateTransferResponseBodyCase0DestinationCase1 {
   /** User ID. */
   id: string;
   /** User display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   typename: CreateTransferResponseBodyCase0DestinationCase1Typename;
   /** User's username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Account or user receiving funds. */
 export type CreateTransferResponseBodyCase0Destination =
@@ -143,9 +143,9 @@ export interface CreateTransferResponseBodyCase0OriginCase0 {
   /** Account ID. */
   id: string;
   /** Account route. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Account display name. */
-  title?: string | null;
+  title?: string | null | undefined;
   typename: CreateTransferResponseBodyCase0OriginCase0Typename;
 }
 export type CreateTransferResponseBodyCase0OriginCase1Typename = "User";
@@ -153,10 +153,10 @@ export interface CreateTransferResponseBodyCase0OriginCase1 {
   /** User ID. */
   id: string;
   /** User display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   typename: CreateTransferResponseBodyCase0OriginCase1Typename;
   /** User's username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Account or user sending funds. */
 export type CreateTransferResponseBodyCase0Origin =
@@ -179,19 +179,19 @@ export interface CreateTransferResponseBodyCase0 {
   /** Destination ledger account ID. */
   destination_ledger_account_id: string;
   /** When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed. */
-  failed_at?: string | null;
+  failed_at?: string | null | undefined;
   /** Machine-readable code for why the transfer failed. Null unless the transfer has failed. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** Human-readable explanation of why the transfer failed. Null unless the transfer has failed. */
-  failure_reason?: string | null;
+  failure_reason?: string | null | undefined;
   /** Fee charged for the transfer. */
-  fee_amount?: number | null;
+  fee_amount?: number | null | undefined;
   /** Transfer ID. */
   id: string;
   /** Custom metadata attached to the transfer. */
-  metadata?: CreateTransferResponseBodyCase0MetadataMap | null;
+  metadata?: CreateTransferResponseBodyCase0MetadataMap | null | undefined;
   /** Transfer note. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The object type. Discriminates the create response from a send or a claim link. */
   object: CreateTransferResponseBodyCase0Object;
   /** Account or user sending funds. */
@@ -251,9 +251,9 @@ export interface GetTransferResponseDestinationCase0 {
   /** Account ID. */
   id: string;
   /** Account route. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Account display name. */
-  title?: string | null;
+  title?: string | null | undefined;
   typename: GetTransferResponseDestinationCase0Typename;
 }
 export type GetTransferResponseDestinationCase1Typename = "User";
@@ -261,10 +261,10 @@ export interface GetTransferResponseDestinationCase1 {
   /** User ID. */
   id: string;
   /** User display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   typename: GetTransferResponseDestinationCase1Typename;
   /** User's username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Account or user receiving funds. */
 export type GetTransferResponseDestination =
@@ -279,9 +279,9 @@ export interface GetTransferResponseOriginCase0 {
   /** Account ID. */
   id: string;
   /** Account route. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Account display name. */
-  title?: string | null;
+  title?: string | null | undefined;
   typename: GetTransferResponseOriginCase0Typename;
 }
 export type GetTransferResponseOriginCase1Typename = "User";
@@ -289,10 +289,10 @@ export interface GetTransferResponseOriginCase1 {
   /** User ID. */
   id: string;
   /** User display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   typename: GetTransferResponseOriginCase1Typename;
   /** User's username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Account or user sending funds. */
 export type GetTransferResponseOrigin =
@@ -314,19 +314,19 @@ export interface GetTransferResponse {
   /** Destination ledger account ID. */
   destination_ledger_account_id: string;
   /** When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed. */
-  failed_at?: string | null;
+  failed_at?: string | null | undefined;
   /** Machine-readable code for why the transfer failed. Null unless the transfer has failed. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** Human-readable explanation of why the transfer failed. Null unless the transfer has failed. */
-  failure_reason?: string | null;
+  failure_reason?: string | null | undefined;
   /** Fee charged for the transfer. */
-  fee_amount?: number | null;
+  fee_amount?: number | null | undefined;
   /** Transfer ID. */
   id: string;
   /** Custom metadata attached to the transfer. */
-  metadata?: GetTransferResponseMetadataMap | null;
+  metadata?: GetTransferResponseMetadataMap | null | undefined;
   /** Transfer note. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The object type. Discriminates the create response from a send or a claim link. */
   object: GetTransferResponseObject;
   /** Account or user sending funds. */
@@ -340,25 +340,25 @@ export type ListTransferRequestOrder = "created_at" | "amount";
 export type ListTransferRequestDirection = "asc" | "desc";
 export interface ListTransferRequest {
   /** Filter to transfers sent from this account. Provide this or destination_id. */
-  origin_id?: string;
+  origin_id?: string | undefined;
   /** Filter to transfers received by this account. Provide this or origin_id. */
-  destination_id?: string;
+  destination_id?: string | undefined;
   /** Sort column. Defaults to created_at. */
-  order?: ListTransferRequestOrder | (string & {});
+  order?: ListTransferRequestOrder | (string & {}) | undefined;
   /** Sort direction. Defaults to desc. */
-  direction?: ListTransferRequestDirection | (string & {});
+  direction?: ListTransferRequestDirection | (string & {}) | undefined;
   /** Only transfers created strictly before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only transfers created strictly after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable. */
 export type ListTransferResponseDataItemCreatedByUser =
@@ -382,19 +382,19 @@ export interface ListTransferResponseDataItem {
   /** Destination ledger account ID. */
   destination_ledger_account_id: string;
   /** When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed. */
-  failed_at?: string | null;
+  failed_at?: string | null | undefined;
   /** Machine-readable code for why the transfer failed. Null unless the transfer has failed. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** Human-readable explanation of why the transfer failed. Null unless the transfer has failed. */
-  failure_reason?: string | null;
+  failure_reason?: string | null | undefined;
   /** Fee charged for the transfer. */
-  fee_amount?: number | null;
+  fee_amount?: number | null | undefined;
   /** Transfer ID. */
   id: string;
   /** Custom metadata attached to the transfer. */
-  metadata?: ListTransferResponseDataItemMetadataMap | null;
+  metadata?: ListTransferResponseDataItemMetadataMap | null | undefined;
   /** Transfer note. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The object type. */
   object: ListTransferResponseDataItemObject;
   /** Source ledger account ID. */
@@ -417,11 +417,11 @@ export interface ListTransferRecipientsRequest {
   /** The account sending the money: a company account ID (`biz_`), or a user ID (`user_`) for that user's own personal balance. */
   origin_id: string;
   /** Search anyone on Whop by name or username, plus your own accounts by name or ID. An exact business ID (`biz_`) returns that business first. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches. Search results are limited to 20 recipients. */
-  query?: string;
+  query?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListTransferRecipientsResponseDataItemCase0Object = "user";
 export interface ListTransferRecipientsResponseDataItemCase0 {

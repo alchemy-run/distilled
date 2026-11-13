@@ -35,13 +35,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -50,23 +50,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The list of operation ids to cancel operations on */
 export type ScheduledActionsVirtualMachinesCancelOperationsRequestOperationIdsList = Array<string>;
@@ -105,47 +105,47 @@ export interface ResourceOperationError {
 /** The retry policy for the user request */
 export interface RetryPolicy {
   /** Retry count for user request */
-  retryCount?: number;
+  retryCount?: number | undefined;
   /** Retry window in minutes for user request */
-  retryWindowInMinutes?: number;
+  retryWindowInMinutes?: number | undefined;
 }
 /** The details of a response from an operation on a resource */
 export interface ResourceOperationDetails {
   /** Operation identifier for the unique operation */
   operationId: string;
   /** Unique identifier for the resource involved in the operation, eg ArmId */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of operation performed on the resources */
-  opType?: ResourceOperationDetailsOpType;
+  opType?: ResourceOperationDetailsOpType | undefined;
   /** Subscription id attached to the request */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Deadline for the operation */
-  deadline?: string;
+  deadline?: string | undefined;
   /** Type of deadline of the operation */
-  deadlineType?: ResourceOperationDetailsDeadlineType;
+  deadlineType?: ResourceOperationDetailsDeadlineType | undefined;
   /** Current state of the operation */
-  state?: ResourceOperationDetailsState;
+  state?: ResourceOperationDetailsState | undefined;
   /** Timezone for the operation */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Timezone for the operation */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Operation level errors if they exist */
-  resourceOperationError?: ResourceOperationError;
+  resourceOperationError?: ResourceOperationError | undefined;
   /** Time the operation was complete if errors are null */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Retry policy the user can pass */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
 }
 /** High level response from an operation on a resource */
 export interface ResourceOperation {
   /** Unique identifier for the resource involved in the operation, eg ArmId */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Resource level error code if it exists */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Resource level error details if they exist */
-  errorDetails?: string;
+  errorDetails?: string | undefined;
   /** Details of the operation performed on a resource */
-  operation?: ResourceOperationDetails;
+  operation?: ResourceOperationDetails | undefined;
 }
 /** An array of resource operations that were successfully cancelled */
 export type CancelOperationsResponseResultsList = Array<ResourceOperation>;
@@ -165,22 +165,22 @@ export type ResourceProvisionPayloadResourceOverridesList =
 /** Resource creation data model */
 export interface ResourceProvisionPayload {
   /** Virtual machine profile object that contains VM properties that are common across all VMs in this batch (if you want to create 100 VMs in this request, and they all have same vmSize, then include vmSize in baseProfile) */
-  baseProfile?: ResourceProvisionPayloadBaseProfileMap;
+  baseProfile?: ResourceProvisionPayloadBaseProfileMap | undefined;
   /** Virtual machine profile array that contains VM properties that needs to be overridden for each VM in the batch (if you want to create 100 VMs, they all need a distinct computerName property, you pass computerNames for each VM in batch in this array), service will merge baseProfile with VM specific overrides and create a merged VMProfile. */
-  resourceOverrides?: ResourceProvisionPayloadResourceOverridesList;
+  resourceOverrides?: ResourceProvisionPayloadResourceOverridesList | undefined;
   /** Number of VMs to be created */
   resourceCount: number;
   /** if resourceOverrides doesn't contain "name", service will create name based of prefix and ResourceCount e.g. resourceprefix-0,resourceprefix-1.. */
-  resourcePrefix?: string;
+  resourcePrefix?: string | undefined;
 }
 /** The preferences customers can select to optimize their requests to ScheduledActions */
 export type OptimizationPreference = "Cost" | "Availability" | "CostAvailabilityBalanced";
 /** Extra details needed to run the user's request */
 export interface ExecutionParameters {
   /** Details that could optimize the user's request */
-  optimizationPreference?: OptimizationPreference | (string & {});
+  optimizationPreference?: OptimizationPreference | (string & {}) | undefined;
   /** Retry policy the user can pass */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
 }
 export interface ScheduledActionsVirtualMachinesExecuteCreateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -192,7 +192,7 @@ export interface ScheduledActionsVirtualMachinesExecuteCreateRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** CorrelationId item */
-  correlationid?: string;
+  correlationid?: string | undefined;
 }
 /** The results from the start request if no errors exist */
 export type CreateResourceOperationResponseResultsList = Array<ResourceOperation>;
@@ -205,7 +205,7 @@ export interface CreateResourceOperationResponse {
   /** The location of the start request eg westus */
   location: string;
   /** The results from the start request if no errors exist */
-  results?: CreateResourceOperationResponseResultsList;
+  results?: CreateResourceOperationResponseResultsList | undefined;
 }
 /** The resource ids used for the request */
 export type ResourcesIdsList = Array<string>;
@@ -237,7 +237,7 @@ export interface DeallocateResourceOperationResponse {
   /** The location of the deallocate request eg westus */
   location: string;
   /** The results from the deallocate request if no errors exist */
-  results?: DeallocateResourceOperationResponseResultsList;
+  results?: DeallocateResourceOperationResponseResultsList | undefined;
 }
 export interface ScheduledActionsVirtualMachinesExecuteDeleteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -249,9 +249,9 @@ export interface ScheduledActionsVirtualMachinesExecuteDeleteRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid?: string;
+  correlationid?: string | undefined;
   /** Forced delete resource item */
-  forceDeletion?: boolean;
+  forceDeletion?: boolean | undefined;
 }
 /** The results from the start request if no errors exist */
 export type DeleteResourceOperationResponseResultsList = Array<ResourceOperation>;
@@ -264,7 +264,7 @@ export interface DeleteResourceOperationResponse {
   /** The location of the start request eg westus */
   location: string;
   /** The results from the start request if no errors exist */
-  results?: DeleteResourceOperationResponseResultsList;
+  results?: DeleteResourceOperationResponseResultsList | undefined;
 }
 export interface ScheduledActionsVirtualMachinesExecuteHibernateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -289,7 +289,7 @@ export interface HibernateResourceOperationResponse {
   /** The location of the Hibernate request eg westus */
   location: string;
   /** The results from the Hibernate request if no errors exist */
-  results?: HibernateResourceOperationResponseResultsList;
+  results?: HibernateResourceOperationResponseResultsList | undefined;
 }
 export interface ScheduledActionsVirtualMachinesExecuteStartRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -314,7 +314,7 @@ export interface StartResourceOperationResponse {
   /** The location of the start request eg westus */
   location: string;
   /** The results from the start request if no errors exist */
-  results?: StartResourceOperationResponseResultsList;
+  results?: StartResourceOperationResponseResultsList | undefined;
 }
 /** The list of operation ids to query errors of */
 export type ScheduledActionsVirtualMachinesGetOperationErrorsRequestOperationIdsList =
@@ -334,32 +334,32 @@ export interface OperationErrorDetails {
   /** The error details of the operation */
   errorDetails: string;
   /** The timestamp of the error occurence */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The timestamp of the error occurence */
-  timeStamp?: string;
+  timeStamp?: string | undefined;
   /** The compute operationid of the Start/Deallocate/Hibernate request */
-  azureOperationName?: string;
+  azureOperationName?: string | undefined;
   /** The compute operationid of the Start/Deallocate/Hibernate request */
-  crpOperationId?: string;
+  crpOperationId?: string | undefined;
 }
 /** A list of errors associated with the operationid */
 export type OperationErrorsResultOperationErrorsList = Array<OperationErrorDetails>;
 /** This is the first level of operation errors from the request when clients get errors per vm operation */
 export interface OperationErrorsResult {
   /** The operationId identifying a vm operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The creation time of the error result */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The activation time of a vm operation */
-  activationTime?: string;
+  activationTime?: string | undefined;
   /** The completion time of the operation if the operation was completed */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** A list of errors associated with the operationid */
-  operationErrors?: OperationErrorsResultOperationErrorsList;
+  operationErrors?: OperationErrorsResultOperationErrorsList | undefined;
   /** Request level error code */
-  requestErrorCode?: string;
+  requestErrorCode?: string | undefined;
   /** Request level error details */
-  requestErrorDetails?: string;
+  requestErrorDetails?: string | undefined;
 }
 /** An array of operationids and their corresponding errors if any */
 export type GetOperationErrorsResponseResultsList = Array<OperationErrorsResult>;
@@ -393,13 +393,13 @@ export type ScheduleDeadlineType = "Unknown" | "InitiateAt" | "CompleteBy";
 /** The schedule details for the user request */
 export interface Schedule {
   /** The deadline for the operation */
-  deadline?: string;
+  deadline?: string | undefined;
   /** The deadline for the operation */
-  deadLine?: string;
+  deadLine?: string | undefined;
   /** The timezone for the operation */
-  timezone?: string;
+  timezone?: string | undefined;
   /** The timezone for the operation */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The deadlinetype of the operation, this can either be InitiateAt or CompleteBy */
   deadlineType: ScheduleDeadlineType | (string & {});
 }

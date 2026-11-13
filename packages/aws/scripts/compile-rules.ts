@@ -846,16 +846,16 @@ import {
   isVirtualHostableS3Bucket,
   parseArn,
   partition,
+  partitionsData,
   regionDnsSuffix,
-} from "../src/rules-engine/aws-functions.ts";
-import partitionsData from "../src/rules-engine/partitions.json" with { type: "json" };
+} from "@distilled.cloud/s3/rules-engine/aws-functions";
 import {
   getAttr,
   isValidHostLabel,
   parseURL,
   substring,
   uriEncode,
-} from "../src/rules-engine/standard-functions.ts";
+} from "@distilled.cloud/s3/rules-engine/standard-functions";
 
 /**
  * Recursively resolve template values in nested objects/arrays

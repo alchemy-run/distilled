@@ -20,6 +20,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors, Forbidden } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Schema parse error wrapper
@@ -35,6 +36,8 @@ export class CloudflareParseError
  */
 export class UnknownCloudflareError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownCloudflareError>()("UnknownCloudflareError", {
+    ...UnknownErrorFields,
+    /** Cloudflare's numeric envelope error code. */
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
     message: Schema.String,
   }) {}

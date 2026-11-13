@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -200,8 +201,8 @@ export type Description = string;
 export type S3Uri = string;
 export type ParallelDataFormat = "TSV" | "CSV" | "TMX" | (string & {});
 export interface ParallelDataConfig {
-  S3Uri?: string;
-  Format?: ParallelDataFormat;
+  S3Uri?: string | undefined;
+  Format?: ParallelDataFormat | undefined;
 }
 export type EncryptionKeyType = "KMS" | (string & {});
 export type EncryptionKeyID = string;
@@ -219,11 +220,11 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateParallelDataRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
-  EncryptionKey?: EncryptionKey;
+  EncryptionKey?: EncryptionKey | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ParallelDataStatus =
   | "CREATING"
@@ -233,15 +234,15 @@ export type ParallelDataStatus =
   | "FAILED"
   | (string & {});
 export interface CreateParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
 }
 export interface DeleteParallelDataRequest {
   Name: string;
 }
 export interface DeleteParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
 }
 export interface DeleteTerminologyRequest {
   Name: string;
@@ -262,9 +263,9 @@ export type JobStatus =
   | "STOPPED"
   | (string & {});
 export interface JobDetails {
-  TranslatedDocumentsCount?: number;
-  DocumentsWithErrorsCount?: number;
-  InputDocumentsCount?: number;
+  TranslatedDocumentsCount?: number | undefined;
+  DocumentsWithErrorsCount?: number | undefined;
+  InputDocumentsCount?: number | undefined;
 }
 export type LanguageCodeString = string;
 export type TargetLanguageCodeStringList = string[];
@@ -277,36 +278,36 @@ export interface InputDataConfig {
 }
 export interface OutputDataConfig {
   S3Uri: string;
-  EncryptionKey?: EncryptionKey;
+  EncryptionKey?: EncryptionKey | undefined;
 }
 export type IamRoleArn = string;
 export type Formality = "FORMAL" | "INFORMAL" | (string & {});
 export type Profanity = "MASK" | (string & {});
 export type Brevity = "ON" | (string & {});
 export interface TranslationSettings {
-  Formality?: Formality;
-  Profanity?: Profanity;
-  Brevity?: Brevity;
+  Formality?: Formality | undefined;
+  Profanity?: Profanity | undefined;
+  Brevity?: Brevity | undefined;
 }
 export interface TextTranslationJobProperties {
-  JobId?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  JobDetails?: JobDetails;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  TerminologyNames?: string[];
-  ParallelDataNames?: string[];
-  Message?: string;
-  SubmittedTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  Settings?: TranslationSettings;
+  JobId?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  JobDetails?: JobDetails | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  TerminologyNames?: string[] | undefined;
+  ParallelDataNames?: string[] | undefined;
+  Message?: string | undefined;
+  SubmittedTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Settings?: TranslationSettings | undefined;
 }
 export interface DescribeTextTranslationJobResponse {
-  TextTranslationJobProperties?: TextTranslationJobProperties;
+  TextTranslationJobProperties?: TextTranslationJobProperties | undefined;
 }
 export interface GetParallelDataRequest {
   Name: string;
@@ -314,84 +315,84 @@ export interface GetParallelDataRequest {
 export type ParallelDataArn = string;
 export type LanguageCodeStringList = string[];
 export interface ParallelDataProperties {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  Status?: ParallelDataStatus;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  ParallelDataConfig?: ParallelDataConfig;
-  Message?: string;
-  ImportedDataSize?: number;
-  ImportedRecordCount?: number;
-  FailedRecordCount?: number;
-  SkippedRecordCount?: number;
-  EncryptionKey?: EncryptionKey;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  LatestUpdateAttemptStatus?: ParallelDataStatus;
-  LatestUpdateAttemptAt?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  ParallelDataConfig?: ParallelDataConfig | undefined;
+  Message?: string | undefined;
+  ImportedDataSize?: number | undefined;
+  ImportedRecordCount?: number | undefined;
+  FailedRecordCount?: number | undefined;
+  SkippedRecordCount?: number | undefined;
+  EncryptionKey?: EncryptionKey | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  LatestUpdateAttemptStatus?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptAt?: Date | undefined;
 }
 export interface ParallelDataDataLocation {
   RepositoryType: string;
   Location: string;
 }
 export interface GetParallelDataResponse {
-  ParallelDataProperties?: ParallelDataProperties;
-  DataLocation?: ParallelDataDataLocation;
-  AuxiliaryDataLocation?: ParallelDataDataLocation;
-  LatestUpdateAttemptAuxiliaryDataLocation?: ParallelDataDataLocation;
+  ParallelDataProperties?: ParallelDataProperties | undefined;
+  DataLocation?: ParallelDataDataLocation | undefined;
+  AuxiliaryDataLocation?: ParallelDataDataLocation | undefined;
+  LatestUpdateAttemptAuxiliaryDataLocation?: ParallelDataDataLocation | undefined;
 }
 export type TerminologyDataFormat = "CSV" | "TMX" | "TSV" | (string & {});
 export interface GetTerminologyRequest {
   Name: string;
-  TerminologyDataFormat?: TerminologyDataFormat;
+  TerminologyDataFormat?: TerminologyDataFormat | undefined;
 }
 export type TerminologyArn = string;
 export type Directionality = "UNI" | "MULTI" | (string & {});
 export interface TerminologyProperties {
-  Name?: string;
-  Description?: string;
-  Arn?: string;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  EncryptionKey?: EncryptionKey;
-  SizeBytes?: number;
-  TermCount?: number;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Directionality?: Directionality;
-  Message?: string;
-  SkippedTermCount?: number;
-  Format?: TerminologyDataFormat;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  EncryptionKey?: EncryptionKey | undefined;
+  SizeBytes?: number | undefined;
+  TermCount?: number | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Directionality?: Directionality | undefined;
+  Message?: string | undefined;
+  SkippedTermCount?: number | undefined;
+  Format?: TerminologyDataFormat | undefined;
 }
 export interface TerminologyDataLocation {
   RepositoryType: string;
   Location: string;
 }
 export interface GetTerminologyResponse {
-  TerminologyProperties?: TerminologyProperties;
-  TerminologyDataLocation?: TerminologyDataLocation;
-  AuxiliaryDataLocation?: TerminologyDataLocation;
+  TerminologyProperties?: TerminologyProperties | undefined;
+  TerminologyDataLocation?: TerminologyDataLocation | undefined;
+  AuxiliaryDataLocation?: TerminologyDataLocation | undefined;
 }
 export type MergeStrategy = "OVERWRITE" | (string & {});
 export type TerminologyFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TerminologyData {
   File: Uint8Array | redacted.Redacted<Uint8Array>;
   Format: TerminologyDataFormat;
-  Directionality?: Directionality;
+  Directionality?: Directionality | undefined;
 }
 export interface ImportTerminologyRequest {
   Name: string;
   MergeStrategy: MergeStrategy;
-  Description?: string;
+  Description?: string | undefined;
   TerminologyData: TerminologyData;
-  EncryptionKey?: EncryptionKey;
-  Tags?: Tag[];
+  EncryptionKey?: EncryptionKey | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportTerminologyResponse {
-  TerminologyProperties?: TerminologyProperties;
-  AuxiliaryDataLocation?: TerminologyDataLocation;
+  TerminologyProperties?: TerminologyProperties | undefined;
+  AuxiliaryDataLocation?: TerminologyDataLocation | undefined;
 }
 export type DisplayLanguageCode =
   | "de"
@@ -408,9 +409,9 @@ export type DisplayLanguageCode =
 export type NextToken = string;
 export type MaxResultsInteger = number;
 export interface ListLanguagesRequest {
-  DisplayLanguageCode?: DisplayLanguageCode;
-  NextToken?: string;
-  MaxResults?: number;
+  DisplayLanguageCode?: DisplayLanguageCode | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type LocalizedNameString = string;
 export interface Language {
@@ -419,73 +420,73 @@ export interface Language {
 }
 export type LanguagesList = Language[];
 export interface ListLanguagesResponse {
-  Languages?: Language[];
-  DisplayLanguageCode?: DisplayLanguageCode;
-  NextToken?: string;
+  Languages?: Language[] | undefined;
+  DisplayLanguageCode?: DisplayLanguageCode | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListParallelDataRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ParallelDataPropertiesList = ParallelDataProperties[];
 export interface ListParallelDataResponse {
-  ParallelDataPropertiesList?: ParallelDataProperties[];
-  NextToken?: string;
+  ParallelDataPropertiesList?: ParallelDataProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTerminologiesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TerminologyPropertiesList = TerminologyProperties[];
 export interface ListTerminologiesResponse {
-  TerminologyPropertiesList?: TerminologyProperties[];
-  NextToken?: string;
+  TerminologyPropertiesList?: TerminologyProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TextTranslationJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBeforeTime?: Date;
-  SubmittedAfterTime?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBeforeTime?: Date | undefined;
+  SubmittedAfterTime?: Date | undefined;
 }
 export interface ListTextTranslationJobsRequest {
-  Filter?: TextTranslationJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: TextTranslationJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TextTranslationJobPropertiesList = TextTranslationJobProperties[];
 export interface ListTextTranslationJobsResponse {
-  TextTranslationJobPropertiesList?: TextTranslationJobProperties[];
-  NextToken?: string;
+  TextTranslationJobPropertiesList?: TextTranslationJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTextTranslationJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   SourceLanguageCode: string;
   TargetLanguageCodes: string[];
-  TerminologyNames?: string[];
-  ParallelDataNames?: string[];
+  TerminologyNames?: string[] | undefined;
+  ParallelDataNames?: string[] | undefined;
   ClientToken: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export interface StartTextTranslationJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopTextTranslationJobRequest {
   JobId: string;
 }
 export interface StopTextTranslationJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -499,47 +500,47 @@ export interface Document {
 }
 export interface TranslateDocumentRequest {
   Document: Document;
-  TerminologyNames?: string[];
+  TerminologyNames?: string[] | undefined;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export type TranslatedDocumentContent = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TranslatedDocument {
   Content: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface Term {
-  SourceText?: string;
-  TargetText?: string;
+  SourceText?: string | undefined;
+  TargetText?: string | undefined;
 }
 export type TermList = Term[];
 export interface AppliedTerminology {
-  Name?: string;
-  Terms?: Term[];
+  Name?: string | undefined;
+  Terms?: Term[] | undefined;
 }
 export type AppliedTerminologyList = AppliedTerminology[];
 export interface TranslateDocumentResponse {
   TranslatedDocument: TranslatedDocument;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  AppliedTerminologies?: AppliedTerminology[];
-  AppliedSettings?: TranslationSettings;
+  AppliedTerminologies?: AppliedTerminology[] | undefined;
+  AppliedSettings?: TranslationSettings | undefined;
 }
 export type BoundedLengthString = string;
 export interface TranslateTextRequest {
   Text: string;
-  TerminologyNames?: string[];
+  TerminologyNames?: string[] | undefined;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export type TranslatedTextString = string;
 export interface TranslateTextResponse {
   TranslatedText: string;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  AppliedTerminologies?: AppliedTerminology[];
-  AppliedSettings?: TranslationSettings;
+  AppliedTerminologies?: AppliedTerminology[] | undefined;
+  AppliedSettings?: TranslationSettings | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -549,15 +550,15 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateParallelDataRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
   ClientToken: string;
 }
 export interface UpdateParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
-  LatestUpdateAttemptStatus?: ParallelDataStatus;
-  LatestUpdateAttemptAt?: Date;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptStatus?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptAt?: Date | undefined;
 }
 export type CreateParallelDataError =
   | ConcurrentModificationException
@@ -576,7 +577,7 @@ export type CreateParallelDataError =
  * your translation output.
  */
 export const createParallelData: API.OperationMethod<
-  CreateParallelDataRequest,
+  CreateParallelDataRequest & RegionInput,
   CreateParallelDataResponse,
   CreateParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -610,7 +611,7 @@ export type DeleteParallelDataError =
  * Deletes a parallel data resource in Amazon Translate.
  */
 export const deleteParallelData: API.OperationMethod<
-  DeleteParallelDataRequest,
+  DeleteParallelDataRequest & RegionInput,
   DeleteParallelDataResponse,
   DeleteParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -640,7 +641,7 @@ export type DeleteTerminologyError =
  * A synchronous action that deletes a custom terminology.
  */
 export const deleteTerminology: API.OperationMethod<
-  DeleteTerminologyRequest,
+  DeleteTerminologyRequest & RegionInput,
   DeleteTerminologyResponse,
   DeleteTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type DescribeTextTranslationJobError =
  * ID, status, source and target languages, input/output S3 buckets, and so on.
  */
 export const describeTextTranslationJob: API.OperationMethod<
-  DescribeTextTranslationJobRequest,
+  DescribeTextTranslationJobRequest & RegionInput,
   DescribeTextTranslationJobResponse,
   DescribeTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -695,7 +696,7 @@ export type GetParallelDataError =
  * Provides information about a parallel data resource.
  */
 export const getParallelData: API.OperationMethod<
-  GetParallelDataRequest,
+  GetParallelDataRequest & RegionInput,
   GetParallelDataResponse,
   GetParallelDataError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +726,7 @@ export type GetTerminologyError =
  * Retrieves a custom terminology.
  */
 export const getTerminology: API.OperationMethod<
-  GetTerminologyRequest,
+  GetTerminologyRequest & RegionInput,
   GetTerminologyResponse,
   GetTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -765,7 +766,7 @@ export type ImportTerminologyError =
  * terminology.
  */
 export const importTerminology: API.OperationMethod<
-  ImportTerminologyRequest,
+  ImportTerminologyRequest & RegionInput,
   ImportTerminologyResponse,
   ImportTerminologyError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +798,7 @@ export type ListLanguagesError =
  * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
  */
 export const listLanguages: API.PaginatedOperationMethod<
-  ListLanguagesRequest,
+  ListLanguagesRequest & RegionInput,
   ListLanguagesResponse,
   ListLanguagesError,
   Credentials | HttpClient.HttpClient,
@@ -832,7 +833,7 @@ export type ListParallelDataError =
  * Provides a list of your parallel data resources in Amazon Translate.
  */
 export const listParallelData: API.PaginatedOperationMethod<
-  ListParallelDataRequest,
+  ListParallelDataRequest & RegionInput,
   ListParallelDataResponse,
   ListParallelDataError,
   Credentials | HttpClient.HttpClient,
@@ -864,7 +865,7 @@ export type ListTagsForResourceError =
  * Tagging your resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -888,7 +889,7 @@ export type ListTerminologiesError =
  * Provides a list of custom terminologies associated with your account.
  */
 export const listTerminologies: API.PaginatedOperationMethod<
-  ListTerminologiesRequest,
+  ListTerminologiesRequest & RegionInput,
   ListTerminologiesResponse,
   ListTerminologiesError,
   Credentials | HttpClient.HttpClient,
@@ -919,7 +920,7 @@ export type ListTextTranslationJobsError =
  * Gets a list of the batch translation jobs that you have submitted.
  */
 export const listTextTranslationJobs: API.PaginatedOperationMethod<
-  ListTextTranslationJobsRequest,
+  ListTextTranslationJobsRequest & RegionInput,
   ListTextTranslationJobsResponse,
   ListTextTranslationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -965,7 +966,7 @@ export type StartTextTranslationJobError =
  * Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.
  */
 export const startTextTranslationJob: API.OperationMethod<
-  StartTextTranslationJobRequest,
+  StartTextTranslationJobRequest & RegionInput,
   StartTextTranslationJobResponse,
   StartTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1005,7 @@ export type StopTextTranslationJobError =
  * operations to get a batch translation job's `JobId`.
  */
 export const stopTextTranslationJob: API.OperationMethod<
-  StopTextTranslationJobRequest,
+  StopTextTranslationJobRequest & RegionInput,
   StopTextTranslationJobResponse,
   StopTextTranslationJobError,
   Credentials | HttpClient.HttpClient
@@ -1033,7 +1034,7 @@ export type TagResourceError =
  * Tagging your resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type TranslateDocumentError =
  * Setting formality.
  */
 export const translateDocument: API.OperationMethod<
-  TranslateDocumentRequest,
+  TranslateDocumentRequest & RegionInput,
   TranslateDocumentResponse,
   TranslateDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1114,7 +1115,7 @@ export type TranslateTextError =
  * available languages and language codes, see Supported languages.
  */
 export const translateText: API.OperationMethod<
-  TranslateTextRequest,
+  TranslateTextRequest & RegionInput,
   TranslateTextResponse,
   TranslateTextError,
   Credentials | HttpClient.HttpClient
@@ -1150,7 +1151,7 @@ export type UntagResourceError =
  * Tagging your resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1185,7 +1186,7 @@ export type UpdateParallelDataError =
  * Amazon S3.
  */
 export const updateParallelData: API.OperationMethod<
-  UpdateParallelDataRequest,
+  UpdateParallelDataRequest & RegionInput,
   UpdateParallelDataResponse,
   UpdateParallelDataError,
   Credentials | HttpClient.HttpClient

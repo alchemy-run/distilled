@@ -13,14 +13,15 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
-import { getAnn, getProps } from "./annotations.ts";
+import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
-import { debugHttp } from "./debug.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import * as Schema from "./schema-lite-typed.ts";
+import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
+  commaDelimitedSymbol,
   deepQuerySymbol,
   formDataFileSymbol,
   getErrorMatchers,
@@ -42,7 +43,7 @@ import {
 
 //#region AST helpers (survive S.optional / Suspend / transforms)
 
-export { getAnn, getProps } from "./annotations.ts";
+export { getAnn, getProps, resolveNode } from "./annotations.ts";
 
 export const getPropAnn = (prop: AST.PropertySignature, symbol: symbol): unknown =>
   getAnn(prop.type, symbol);
@@ -53,21 +54,6 @@ export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
   return typeof v === "string" ? v : String(prop.name);
 };
 
-/** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
-export const resolveNode = (ast: AST.AST): AST.AST => {
-  if (ast._tag === "Suspend") return resolveNode(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0) return resolveNode(ast.encoding[0]!.to);
-  if (ast._tag === "Union") {
-    const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        t._tag !== "Null" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
-    );
-    if (real.length === 1) return resolveNode(real[0]!);
-  }
-  return ast;
-};
 //#endregion
 
 //#region Response headers on outputs
@@ -444,6 +430,24 @@ export interface BuildRequestOptions {
    * Defaults to the key verbatim.
    */
   readonly unknownKeyToWire?: (key: string) => string;
+  /**
+   * Send `{}` on a method that takes a body even when the input declares no
+   * body members. Connect unary RPCs (E2B's envd) POST JSON for every call,
+   * and refuse a bodyless one with 415.
+   */
+  readonly emptyJsonBody?: boolean;
+  /**
+   * How a query member spells a nested object or an array.
+   *
+   * - `"dotted"` (default): `created.gte=1`; an array repeats the key
+   *   (`expand=a&expand=b`).
+   * - `"brackets"`: `created[gte]=1`; an array indexes the key
+   *   (`expand[0]=a&expand[1]=b`), the same rule as form-urlencoded bodies.
+   *   Stripe needs this: its v2 API refuses `key[]` and repeated keys.
+   *
+   * `T.CommaDelimited` and `T.DeepQuery` members keep their own spelling.
+   */
+  readonly queryStyle?: "dotted" | "brackets";
 }
 
 /**
@@ -499,6 +503,8 @@ interface MemberPlan {
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
   readonly stringEncoded: boolean;
+  /** A list query member sent as one comma-separated parameter. */
+  readonly commaDelimited: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
 }
@@ -515,12 +521,12 @@ interface RequestPlan {
 
 const plans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
 
-const planFor = (inputAst: AST.AST): RequestPlan => {
+const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
   let plan = plans.get(inputAst);
   if (plan !== undefined) return plan;
   const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
   if (!http) {
-    throw new Error("operation input is missing the Http() trait");
+    return new SdkError({ message: "operation input is missing the Http() trait" });
   }
   const rootDict = getAnn(inputAst, keyDictionarySymbol) as KeyDictionaryEntries | undefined;
   const members: MemberPlan[] = [];
@@ -563,6 +569,7 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
+      commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
     });
   }
@@ -638,14 +645,16 @@ export const invalidLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
- * Throws when the input schema is missing the `Http()` trait -- a codegen
- * bug, which the calling protocol's Effect surfaces as a defect.
+ * Fails with {@link SdkError} when the input schema is missing the `Http()`
+ * trait (a codegen bug the generator refuses).
  */
 export const buildRequest = (
   options: BuildRequestOptions,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
   const request = requestOrInvalid(options);
-  return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
+  return request instanceof InvalidInput || request instanceof SdkError
+    ? Effect.fail(request)
+    : Effect.succeed(request);
 };
 
 const requestOrInvalid = ({
@@ -655,9 +664,12 @@ const requestOrInvalid = ({
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
-}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
+  emptyJsonBody,
+  queryStyle,
+}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
+  if (plan instanceof SdkError) return plan;
   const { http, rootDict, members, known } = plan;
   let hasBodyMembers = plan.hasBodyMembers;
 
@@ -701,7 +713,14 @@ const requestOrInvalid = ({
         break;
       }
       case "query":
-        appendQuery((query ??= new URLSearchParams()), m.name, value);
+        if (m.commaDelimited && Array.isArray(value)) {
+          (query ??= new URLSearchParams()).append(m.name, value.map(String).join(","));
+        } else if (queryStyle === "brackets") {
+          query ??= new URLSearchParams();
+          for (const [k, v] of flattenToFormPairs({ [m.name]: value })) query.append(k, v);
+        } else {
+          appendQuery((query ??= new URLSearchParams()), m.name, value);
+        }
         break;
       case "deepQuery": {
         // Deep-object query member (T.DeepQuery): a nested struct expands into
@@ -759,9 +778,6 @@ const requestOrInvalid = ({
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${baseUrl}${uri}?${qs}` : `${baseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(`[distilled] -> ${http.method} ${http.uri}`);
-  }
 
   const request = makeRequest(http.method, url, headers);
   const bodied = !BODYLESS.has(http.method);
@@ -862,7 +878,7 @@ const requestOrInvalid = ({
     // The `{}`-when-empty rule below stays limited to methods that expect a
     // body, so a bodyless method with nothing set still sends nothing.
     bodyKeys > 0 ||
-    (hasBodyMembers && bodied && http.method !== "DELETE")
+    ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
     // some endpoints reject a missing JSON body outright.
