@@ -1,0 +1,37 @@
+{
+  "description": "Type the 400 `fast_mode_not_supported` a prompt gets for `fast: true` on a model without fast mode. The spec documents it on PromptRequest.fast (\"Other models return 400 `fast_mode_not_supported`\"); it generated as a bare BadRequest. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#FastModeNotSupported",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`fast: true` was passed for a model whose `fastMode` is not `true` in `GET /provider-models`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "fast_mode_not_supported"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Prompt/errors/-",
+      "value": {
+        "target": "com.boat.api#FastModeNotSupported"
+      }
+    }
+  ]
+}

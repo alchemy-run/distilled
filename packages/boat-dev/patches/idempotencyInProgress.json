@@ -1,0 +1,45 @@
+{
+  "description": "Type the 409 `idempotency_in_progress` a create or fork gets when a retry with the same Idempotency-Key arrives while the first sandbox is still being minted. The spec documents it on the Idempotency-Key parameter (\"a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key)\"), which POST /sandboxes and POST /sandboxes/{sandboxId}/fork take; it generated as a bare Conflict with `code: 0`. Marked retryable because Boat says to retry shortly with the same key, which is what the SDK's retry does. Source: spec-mirror-boat-dev 71ab00f, components.parameters.IdempotencyKey.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#IdempotencyInProgress",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {},
+          "smithy.api#documentation": "The first request with this Idempotency-Key is still creating its sandbox. Retry shortly with the same key and body.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "idempotency_in_progress"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#IdempotencyInProgress"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#IdempotencyInProgress"
+      }
+    }
+  ]
+}
