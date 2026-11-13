@@ -62,6 +62,13 @@ export interface ProtocolOperationConfig {
    * programs that call none never bundle the framing.
    */
   readonly framing?: unknown;
+  /**
+   * One frame of `.stream()`, for an operation whose plain call has its own
+   * output and streams only when its input asks (see
+   * {@link OperationConfig.streamInput}). Protocols decode each frame
+   * against it instead of an element of the output's `items`.
+   */
+  readonly items?: S.Top;
 }
 
 /**
@@ -270,6 +277,14 @@ export interface OperationConfig<
   span?: Telemetry.SpanConfig | string;
   /** The body framing of a server-streaming operation (see {@link ProtocolOperationConfig.framing}). */
   framing?: unknown;
+  /** One frame of `.stream()` (see {@link ProtocolOperationConfig.items}). */
+  items?: S.Top;
+  /**
+   * Input members `.stream()` sets over the caller's, for an operation that
+   * streams only when its input asks (Boat's `executeSandboxCommand` with
+   * `stream: true`). The plain call sends the caller's input as given.
+   */
+  streamInput?: Readonly<Record<string, unknown>>;
 }
 
 /**
@@ -859,8 +874,10 @@ const streamCall =
       Effect.suspend(() => {
         const prepared = prepareOr(state);
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
+        const fixed = prepared.cfg.streamInput;
+        const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
         const run = (service: ProtocolShape) =>
-          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, input);
+          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
           : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
@@ -901,6 +918,10 @@ const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationPro
  * Like {@link make}, for a server-streaming RPC whose output is `{ items }`:
  * calling it collects the stream, and `.stream(input)` emits each message as
  * the protocol receives it (see {@link ProtocolShape.stream}).
+ *
+ * An operation that streams only when its input asks keeps its own output:
+ * its config sets `items` (one frame) and `streamInput` (what `.stream()`
+ * sends), and the plain call is a normal call.
  */
 export function makeStreaming<
   I extends S.Top,

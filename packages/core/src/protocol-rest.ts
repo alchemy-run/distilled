@@ -656,9 +656,17 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       : Effect.succeed<FramedBody>({
           body: response.stream,
           item: (json, text) => {
+            const headers = response.headers as Record<string, string | undefined>;
+            // A frame schema of its own (an operation that streams only when
+            // its input asks), else one element of the output's `items`.
+            const itemAst = op.config.items?.ast;
+            if (itemAst !== undefined) {
+              const decoded = decodeSuccess(context, headers, text, json, false, itemAst);
+              return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+            }
             const decoded = decodeSuccess(
               context,
-              response.headers as Record<string, string | undefined>,
+              headers,
               text,
               { items: [json] },
               false,
